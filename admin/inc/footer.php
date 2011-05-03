@@ -4,17 +4,13 @@
 	$php = (phpversion() >= 5) ? 'Yes' : 'No';
 
   // Set default values for fallback
-  $upload = 'No';
-  $themes = 'No';
+  $config = is_writable($path . '/config/') ? 'Yes' : 'No';
+  $upload = is_writable($path . '/uploads/') ? 'Yes' : 'No';
+  $themes = file_exists($path . '/themes/default/') ? 'Yes' : 'No';
 ?>
 
 		<div id="right">
 			<h1>System Check</h1>
-			
-			<?php
-				if(is_writable($path . '/uploads/')) { $upload = 'Yes'; }
-				if(file_exists($path . '/themes/default/')) { $themes = 'Yes'; }
-			?>
 						
 			<?php if(($pdo == 'Yes') && ($php == 'Yes') && ($upload == 'Yes') && ($themes == 'Yes')) { ?>
 			<p class="result"><img src="<?php echo $urlpath; ?>core/img/success.gif" /></p>
@@ -25,7 +21,10 @@
 			<?php } else if($php == 'No') { ?>
 			<p class="result"><img src="<?php echo $urlpath; ?>core/img/failure.gif" /></p>
 			<p>You need to run PHP version 5 (or greater) for the best results. PHP 4 has not been tested.</p>			
-			<?php } else if($upload != 'Yes') { ?>
+			<?php }else if($config != 'Yes') { ?>
+			<p class="result"><img src="<?php echo $urlpath; ?>core/img/failure.gif" /></p>
+			<p>I can't write to the <code>config</code> directory!</p>			
+			<?php }else if($upload != 'Yes') { ?>
 			<p class="result"><img src="<?php echo $urlpath; ?>core/img/failure.gif" /></p>
 			<p>I can't write to the <code>uploads</code> directory!</p>			
 			<?php } else if($themes != 'Yes') { ?>
