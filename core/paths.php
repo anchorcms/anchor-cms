@@ -18,5 +18,5 @@
 	
 //	Get the URL path (from http://site.com/ onwards)
 //	__DIR__ - $_SERVER['DOCUMENT_ROOT']
-	$urlpath = str_ireplace($_SERVER['DOCUMENT_ROOT'], '', $path) . '/';
+	$urlpath = '/' . str_ireplace($_SERVER['DOCUMENT_ROOT'], '', $path) . '/';
 ?>

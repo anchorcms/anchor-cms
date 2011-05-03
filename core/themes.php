@@ -48,14 +48,14 @@
 	
 //	Is it the homepage?
 	function is_home() {
-		if(!$_GET['page']) { return true; } else { return false; };
+		if(!isset($_GET['page'])) { return true; } else { return false; };
 	}
 	
 //	Get the header
 //	If it doesn't exist in the current theme, grab the default theme's
 	function get_header() {
 		global $path;
-		if(file_exists($path . '/themes/' . $theme . '/header.php')) {
+		if(isset($theme) && file_exists($path . '/themes/' . $theme . '/header.php')) {
 			include($path . '/themes/' . $theme . '/header.php');
 		} else {
 			include($path . '/themes/default/header.php');
@@ -66,7 +66,7 @@
 //	If it doesn't exist in the current theme, grab the default theme's
 	function get_footer() {
 		global $path;
-		if(file_exists($path . '/themes/' . $theme . '/footer.php')) {
+		if(isset($theme) && file_exists($path . '/themes/' . $theme . '/footer.php')) {
 			include($path . '/themes/' . $theme . '/footer.php');
 		} else {
 			include($path . '/themes/default/footer.php');
@@ -85,7 +85,7 @@
 		include('connect.php');		
 		
 		$get = $db->prepare('SELECT css FROM posts WHERE slug = :slug');
-		$get->execute(array(':slug' => $_GET['page']));
+		$get->execute(array(':slug' => isset($_GET['page']) ? $_GET['page'] : ''));
 		
 		$return = $get->fetch(PDO::FETCH_OBJ);
 		
@@ -98,7 +98,7 @@
 		include('connect.php');		
 		
 		$get = $db->prepare('SELECT js FROM posts WHERE slug = :slug');
-		$get->execute(array(':slug' => $_GET['page']));
+		$get->execute(array(':slug' => isset($_GET['page']) ? $_GET['page'] : ''));
 		
 		$return = $get->fetch(PDO::FETCH_OBJ);
 		

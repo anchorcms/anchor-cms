@@ -27,7 +27,7 @@
 		include('stats.php');
 		
 		//	And decide what page to load
-		if(!$_GET['page']) {
+		if(!isset($_GET['page'])) {
 			$index = $path . '/themes/' . $theme . '/index.php';
 			include($index);
 		} else {
