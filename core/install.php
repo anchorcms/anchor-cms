@@ -13,17 +13,17 @@
 	$step = 'one';
 
 //	Database fields	
-	$i_host = trim($_POST['host']);
-	$i_user = trim($_POST['user']);
-	$i_pass = trim($_POST['pass']);
-	$i_name = trim($_POST['name']);
-	$i_sitename = trim($_POST['sitename']);
-	$i_theme = trim($_POST['theme']);
+	$i_host = isset($_POST['host']) ? trim($_POST['host']) : '';
+	$i_user = isset($_POST['user']) ? trim($_POST['user']) : '';
+	$i_pass = isset($_POST['pass']) ? trim($_POST['pass']) : '';
+	$i_name = isset($_POST['name']) ? trim($_POST['name']) : '';
+	$i_sitename = isset($_POST['sitename']) ? trim($_POST['sitename']) : '';
+	$i_theme = isset($_POST['theme']) ? trim($_POST['theme']) : '';
 	
-	$auser = $_POST['auser'];
-	$apass = $_POST['apass'];
+	$auser = isset($_POST['auser']) ? $_POST['auser'] : '';
+	$apass = isset($_POST['apass']) ? $_POST['apass'] : '';
 	
-	if($_POST['clean'] == 'on') {
+	if(isset($_POST['clean']) && $_POST['clean'] == 'on') {
 		$i_clean = 'true';
 	} else {
 		$i_clean = 'false';

@@ -3,6 +3,9 @@
 	$pdo = defined('PDO::ATTR_DRIVER_NAME') ? 'Yes' : 'No';
 	$php = (phpversion() >= 5) ? 'Yes' : 'No';
 
+  // Set default values for fallback
+  $upload = 'No';
+  $themes = 'No';
 ?>
 
 		<div id="right">
