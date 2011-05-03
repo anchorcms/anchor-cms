@@ -11,6 +11,7 @@
  
 
 //	Check if the user is logged in
+  session_start();
 	function logged_in() {
 		if($_SESSION['username'] || $_COOKIE['username']) {
 			return true;

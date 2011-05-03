@@ -18,8 +18,6 @@
 	include($path . '/core/themes.php');
 
 	$title = 'Log In';
-
-	include('inc/header.php');
 	
 	if(isset($_POST['submit'])) {
 		$find = $db->prepare('select * from users where username = :user and password = :pass');
@@ -42,6 +40,8 @@
 			$error = 'Incorrect username or password.';
 		}
 	}
+	
+	include('inc/header.php');
 
 ?>
 
