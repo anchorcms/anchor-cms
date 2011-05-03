@@ -18,6 +18,5 @@
 	
 //	Get the URL path (from http://site.com/ onwards)
 //	__DIR__ - $_SERVER['DOCUMENT_ROOT']
-	$urlpath = str_replace($_SERVER['DOCUMENT_ROOT'], '', $path) . '/';
-	
+	$urlpath = str_replace('index.php', '', $_SERVER['SCRIPT_NAME']);
 ?>
