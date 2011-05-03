@@ -1,0 +1,21 @@
+If the automatic SQL query didn't work, try copying and pasting (then running) this code:
+
+CREATE TABLE IF NOT EXISTS `posts` (
+	`id` TINYINT NOT NULL AUTO_INCREMENT,
+	`slug` VARCHAR(50) NOT NULL,
+	`title` VARCHAR(256) NOT NULL,
+	`excerpt` TEXT NOT NULL,
+	`content` TEXT NOT NULL,
+	`css` VARCHAR(256) NOT NULL,
+	`javascript` VARCHAR(256) NOT NULL,
+	`date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	PRIMARY KEY (`id`)
+);
+CREATE TABLE IF NOT EXISTS `users` (
+	`id` TINYINT NOT NULL AUTO_INCREMENT,
+	`username` VARCHAR(32) NOT NULL,
+	`password` VARCHAR(32) NOT NULL,
+	`display` VARCHAR(150) NOT NULL,
+	`date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	PRIMARY KEY (`id`)
+);
