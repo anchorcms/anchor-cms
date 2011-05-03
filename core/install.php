@@ -99,6 +99,7 @@
 	
 	if($step == 'two') {
 		include($path . '/config/database.php');
+		$error = '';
 		if($i_sitename) {
 			$settings = file_put_contents($path . '/config/settings.php', '<?php
 
@@ -222,7 +223,7 @@
 				</form>			
 			<?php
 			} else if($step == 'three') {
-			    $message = '<!doctype html>
+			    /*$message = '<!doctype html>
 			<html>
 			<head>
 				<title>Your Anchor CMS install went A-OK!</title>
@@ -248,7 +249,7 @@
 			    $headers .= "Content-type: text/html; charset=iso-8859-1\r\n"; 
 			    $headers .= "From: Anchor CMS <hi@anchorcms.com>\r\n"; 
 			     
-			    mail($email, 'Anchor CMS installed A-OK!', $message, $headers); 
+			    mail($email, 'Anchor CMS installed A-OK!', $message, $headers); */
 
 				mysql_connect($host, $user, $pass);
 				mysql_select_db($name);

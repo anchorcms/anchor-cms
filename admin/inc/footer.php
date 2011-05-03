@@ -6,6 +6,7 @@
   // Set default values for fallback
   $config = is_writable($path . '/config/') ? 'Yes' : 'No';
   $upload = is_writable($path . '/uploads/') ? 'Yes' : 'No';
+  $check  = is_writable($path . '/core/check.php') ? 'Yes' : 'No';
   $themes = file_exists($path . '/themes/default/') ? 'Yes' : 'No';
 ?>
 
@@ -27,6 +28,9 @@
 			<?php }else if($upload != 'Yes') { ?>
 			<p class="result"><img src="<?php echo $urlpath; ?>core/img/failure.gif" /></p>
 			<p>I can't write to the <code>uploads</code> directory!</p>			
+			<?php }else if($check != 'Yes') { ?>
+			<p class="result"><img src="<?php echo $urlpath; ?>core/img/failure.gif" /></p>
+			<p>I can't write to <code>core/check.php</code>!</p>			
 			<?php } else if($themes != 'Yes') { ?>
 			<p class="result"><img src="<?php echo $urlpath; ?>core/img/failure.gif" /></p>
 			<p>You may have accidentally deleted the default theme. Please <a href="http://anchorcms.com/latest/download/zip">download</a> and reinstall it. Thanks!</p>
