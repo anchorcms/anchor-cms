@@ -29,7 +29,7 @@
 
 	<div id="content">
 		<div id="left">
-			<?php if(!$_GET['page']) { ?>
+			<?php if(!isset($_GET['page'])) { ?>
 				<h1>Latest Posts <a href="<?php echo $urlpath; ?>admin/add">+ Add A Post</a></h1>
 				<ul id="list">
 				<?php

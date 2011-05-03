@@ -30,7 +30,7 @@
 
 	<div id="content">
 		<div id="left">
-			<?php if(!$_GET['page']) { ?>
+			<?php if(!isset($_GET['page'])) { ?>
 				<h1>Current users <a href="<?php echo $urlpath; ?>admin/users/add">+ Add A User</a></h1>
 				<ul id="list">
 				<?php

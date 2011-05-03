@@ -107,19 +107,19 @@
 			<form action="" method="post" enctype="multipart/form-data">
 				<p>
 					<label for="posttitle">Post title:</label>
-					<input id="posttitle" name="posttitle" value="<?php echo $obj->title; ?>" />
+					<input id="posttitle" name="posttitle" value="<?php echo isset($obj->title) ? $obj->title : ''; ?>" />
 				</p>
 				<p>
 					<label for="postslug">Post slug:</label>
-					<input id="postslug" class="monospace" name="postslug" value="<?php echo $obj->slug; ?>" />
+					<input id="postslug" class="monospace" name="postslug" value="<?php echo isset($obj->slug) ? $obj->slug : ''; ?>" />
 				</p>
 				<p>
 					<label for="postexcerpt">Post excerpt:</label>
-					<textarea id="postexcerpt" name="postexcerpt"><?php echo $obj->excerpt; ?></textarea>
+					<textarea id="postexcerpt" name="postexcerpt"><?php echo isset($obj->excerpt) ? $obj->excerpt : ''; ?></textarea>
 				</p>
 				<p>
 					<label for="posthtml">Post HTML:</label>
-					<textarea id="posthtml" class="monospace" name="posthtml"><?php echo $obj->content; ?></textarea>
+					<textarea id="posthtml" class="monospace" name="posthtml"><?php echo isset($obj->content) ? $obj->content : ''; ?></textarea>
 				</p>
 				<p>
 					<label for="postcss">Post CSS:</label>

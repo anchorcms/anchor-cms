@@ -32,8 +32,8 @@
 
 	include('inc/header.php');
 	
-	if($_POST['clean'] == 'on') { $url = 'true'; } else { $url = 'false'; }
-	if($_POST['updates'] == 'on') { $et = 'true'; } else { $et = 'false'; }
+	if(isset($_POST['clean']) && $_POST['clean'] == 'on') { $url = 'true'; } else { $url = 'false'; }
+	if(isset($_POST['updates']) && $_POST['updates'] == 'on') { $et = 'true'; } else { $et = 'false'; }
 	
 	if(isset($_POST['submit'])) {
 		$update = file_put_contents($path . '/config/settings.php', '<?php
