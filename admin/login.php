@@ -1,8 +1,10 @@
 <?php
 
 	if(isset($_GET['logout'])) {
+	  include '../core/paths.php';
+	  session_start();
 		unset($_SESSION['username']);
-		setcookie('username', $return->username, time() -3600);
+		setcookie('username', '', time() -3600);
 		unset($_COOKIE['username']);
 		header('location: ' . $urlpath . 'admin/login');
 	}
@@ -28,7 +30,7 @@
 				
 		$return = $find->fetch(PDO::FETCH_OBJ);
 		
-		if($return->username) {
+		if($return !== false) {
 			if($_POST['remember'] == 'on') {
 				setcookie('username', $return->username, time() + (2000 * 2000));
 			} else {
