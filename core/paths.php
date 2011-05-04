@@ -14,9 +14,10 @@
 
 
 //	Return the path of the main directory
-	$path = substr(dirname(__FILE__), 0, -5);
+	$path = substr(dirname(__FILE__), 0, -4);
 	
 //	Get the URL path (from http://site.com/ onwards)
 //	__DIR__ - $_SERVER['DOCUMENT_ROOT']
-	$urlpath = '/' . str_ireplace($_SERVER['DOCUMENT_ROOT'], '', $path) . '/';
+	$urlpath = str_ireplace($_SERVER['DOCUMENT_ROOT'], '', $path);
+	if (substr($urlpath, 0, 1) != '/') { $urlpath = '/' . $urlpath; }
 ?>
