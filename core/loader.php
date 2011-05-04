@@ -15,11 +15,12 @@
 //	Include the paths
 	include('paths.php');
 	include('check.php');
+
+//	Get the user's settings
+	include($path . '/config/settings.php');
+	include($path . '/config/database.php');
 	
-	if($installed === true) {
-		//	Get the user's settings
-		include($path . '/config/settings.php');
-		
+	if(!empty($sitename) && !empty($theme) && !empty($host) && !empty($user) && !empty($pass) && !empty($name)) {	
 		//	Get the theming functions
 		include('themes.php');
 		include('posts.php');
@@ -48,7 +49,9 @@
 		//	And load it all
 		load();
 	} else {
-		include('install.php');
+		//	Do not pass go, do not collect $200.
+		//	include('install.php');
+		echo 'Please fill in the install files, located in the <code>config/</code> directory, and reload this page.';
 	}
 	
 ?>
