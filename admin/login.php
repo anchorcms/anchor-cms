@@ -31,12 +31,12 @@
 		$return = $find->fetch(PDO::FETCH_OBJ);
 		
 		if($return !== false) {
-			if($_POST['remember'] == 'on') {
+			if(isset($_POST['remember']) && $_POST['remember'] == 'on') {
 				setcookie('username', $return->username, time() + (2000 * 2000));
 			} else {
 				$_SESSION['username'] = $return->username;
 			}
-			echo '<meta http-equiv="refresh" content="0;url=' . $urlpath . 'admin">';
+			//echo '<meta http-equiv="refresh" content="0;url=' . $urlpath . 'admin">';
 			$error = 'Logged in!';
 		} else {
 			$error = 'Incorrect username or password.';
