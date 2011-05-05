@@ -9,6 +9,11 @@
  *		Load Anchor up.
  */
  
+//  Ignore this.
+    if(isset($_GET['friday'])) {
+        header('location: http://bit.ly/mvc8G4');
+    }
+ 
 //	Set the version
 	$version = '0.1.3';
  
