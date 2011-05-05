@@ -36,7 +36,7 @@
 			} else {
 				$_SESSION['username'] = $return->username;
 			}
-			//echo '<meta http-equiv="refresh" content="0;url=' . $urlpath . 'admin">';
+			header('Location: '. $urlpath . '/admin/index.php');
 			$error = 'Logged in!';
 		} else {
 			$error = 'Incorrect username or password.';
