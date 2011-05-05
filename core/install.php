@@ -101,7 +101,9 @@
 		include($path . '/config/database.php');
 		$error = '';
 		if($i_sitename) {
-			$settings = file_put_contents($path . '/config/settings.php', '<?php
+            $i_sitename = str_replace('\'', '&rsquo;', $i_sitename);
+            
+            $settings = file_put_contents($path . '/config/settings.php', '<?php
 
 /******************************************************
  *
