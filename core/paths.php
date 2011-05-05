@@ -21,5 +21,5 @@
 	if (substr($urlpath, 0, 1) != '/') { $urlpath = '/' . $urlpath; }
 
 //	Theme path
-	$themepath = $urlpath . 'themes/' . $theme . '/';
+	$themepath = $urlpath . 'themes/' . (isset($theme) ? $theme : 'default') . '/';
 ?>
