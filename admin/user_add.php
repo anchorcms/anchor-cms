@@ -10,7 +10,10 @@
 	include($path . '/core/connect.php');
 	include($path . '/core/themes.php');
 	include($path . '/core/stats.php');
-	include($path . '/core/users.php');
+
+//	Stops the fatal "reinclusion" error.
+//	include($path . '/core/users.php');
+
 	include($path . '/config/settings.php');
 	
 	$title = 'Add a User';
