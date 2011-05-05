@@ -101,7 +101,7 @@
 		include($path . '/config/database.php');
 		$error = '';
 		if($i_sitename) {
-            $i_sitename = str_replace('\'', '&rsquo;', $i_sitename);
+            $i_sitename = htmlentities($i_sitename, ENT_QUOTES);
             
             $settings = file_put_contents($path . '/config/settings.php', '<?php
 

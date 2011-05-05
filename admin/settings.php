@@ -50,7 +50,7 @@
  */
  
 //	Site name                  What\'s your blog called?
-	$sitename = \'' . $_POST['sitename'] .'\';
+	$sitename = \'' . htmlentities($_POST['sitename'], ENT_QUOTES) .'\';
 
 //	Current theme        The name of the theme\'s folder
 	$theme = \'' . $_POST['theme'] .'\';
