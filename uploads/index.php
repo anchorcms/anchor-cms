@@ -3,7 +3,7 @@
 //  SHALL
 //  NOT
 //  PASS!
-    header('location: ' . $path);
+    header('location: ' . $urlpath);
     
 //  Exit this code...
     exit; 
