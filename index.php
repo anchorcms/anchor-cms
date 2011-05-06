@@ -19,16 +19,16 @@ if ($request == '') {
   if (is_callable(($requestFunction = implode('_', $route))) === false) {
     throw404();
   }
-  call_user_func($requestFunction);
+  call_user_func($requestFunction, $match);
 } else {
   foreach ($routes as $routeFrom => $routeTo) {
-    if (preg_match('`' . $routeFrom . '`i', $request, $match) == 1) {
+    if (preg_match('`^' . $routeFrom . '$`i', $request, $match) == 1) {
       $route = explode('#', $routeTo);
       require_once $path . 'controllers/' . $route[0] . '.php';
       if (is_callable(($requestFunction = implode('_', $route))) === false) {
         throw404();
       }
-      call_user_func($requestFunction);
+      call_user_func($requestFunction, $match);
       break;
     }
   }
