@@ -72,8 +72,13 @@ class Post {
   public function find($id) {
     global $db;
     
-    $query = $db->prepare('SELECT * FROM posts WHERE id = ? LIMIT 1');
-    $query->execute(array($id));
+    if (is_int($id) === true) {
+      $query = $db->prepare('SELECT * FROM posts WHERE id = ? LIMIT 1');
+      $query->execute(array($id));
+    } else {
+      $query = $db->prepare('SELECT * FROM posts WHERE slug = ? LIMIT 1');
+      $query->execute(array($id));
+    }
     return ($query->rowCount() == 0) ? false : new Post($query->fetch(PDO::FETCH_ASSOC));
   }
 }
