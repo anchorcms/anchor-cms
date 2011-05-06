@@ -6,28 +6,12 @@
 	include('inc/header.php');
 ?>
 
-	<ul id="nav">
-		<li><a href="<?php echo $urlpath; ?>admin/add">Add A Post</a></li>
-		<li class="active"><a href="<?php echo $urlpath; ?>admin">Edit Posts</a></li>
-		<li><a href="<?php echo $urlpath; ?>admin/metadata">Site Information</a></li>
-		<li><a href="<?php echo $urlpath; ?>admin/users">Users</a></li>
-		
-		<a class="visit" href="<?php echo $urlpath; ?>">Visit Site <span style="padding-left: 12px; font-size: 10px; -webkit-font-smoothing: none;">&rarr;</span></a>
-	</ul>
-
 	<div id="content">
 		<div id="left">
-			<?php if(!isset($_GET['page'])) { ?>
-				<h1>Latest Posts <a href="<?php echo $urlpath; ?>admin/add">+ Add A Post</a></h1>
-				<ul id="list">
-				<?php
-          $posts = Post::listAll();
-					foreach ($posts as $post) {
-						echo '<li><a href="' . $urlpath . 'admin/edit/' . $post['id'] . '" title="' . $post['title'] . '">' . $post['title'] . '<span>' . time_ago(strtotime($post['date'])) . '</span><img src="' . $urlpath . '/core/img/edit_link.png" alt="Edit this post" /></a></li>';
-					}
-			 ?>
-			</ul>
-			<?php } else {
+			<?php
+			if(!isset($_GET['page'])) {
+				include $path . 'views/posts/index.php';
+			} else {
 			  $obj = Post::find($_GET['page']);
 				
 				$error = '';
