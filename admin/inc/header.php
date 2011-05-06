@@ -1,6 +1,5 @@
 <?php
-$user = new User();
-$loggedIn = $user->isLoggedIn();
+$loggedIn = User::isLoggedIn();
 
 if(strpos($_SERVER['REQUEST_URI'], 'login') == -1) {
   if ($loggedIn === false) {
