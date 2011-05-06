@@ -11,10 +11,10 @@
 	<title>Random &middot; Title</title>
 
 	<!-- Styles -->
-	<link rel="stylesheet" href="themes/default/global.css" />
+	<link rel="stylesheet" href="<?php echo $urlpath; ?>themes/default/global.css" />
 
 	<!-- Scripts -->
-	<script src="themes/default/global.js"></script>
+	<script src="<?php echo $urlpath; ?>themes/default/global.js"></script>
 	
 	<meta name="description" content="This is a default Anchor CMS theme.'; ?>">
 
