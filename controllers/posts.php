@@ -1,7 +1,7 @@
 <?php
 function posts_index() {
   global $path, $urlpath;
-  $posts = Post::listAll();
+  $posts = Post::all();
   include $path . 'views/posts/index.php';
 }
 

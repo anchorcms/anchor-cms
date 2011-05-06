@@ -46,7 +46,7 @@ class Post {
    * Functions for finding posts. Access these with Post::function_name
    */
   
-  public function listAll($options = array()) {
+  public function all($options = array()) {
     global $db;
     
     $default = array('order_by' => 'id', 'limit' => 20);

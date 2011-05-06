@@ -17,7 +17,7 @@ class User {
     $this -> password = $password;
   }
 
-  function isLoggedIn() {
+  function is_logged_in() {
     return (isset($_SESSION['username']) || isset($_COOKIE['username']));
   }
 
