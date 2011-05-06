@@ -19,7 +19,7 @@ if ($request == '') {
   if (is_callable(($requestFunction = implode('_', $route))) === false) {
     throw404();
   }
-  call_user_func($requestFunction, $match);
+  call_user_func($requestFunction, (isset($match) ? $match : null));
 } else {
   foreach ($routes as $routeFrom => $routeTo) {
     if (preg_match('`^' . $routeFrom . '$`i', $request, $match) == 1) {
@@ -28,7 +28,7 @@ if ($request == '') {
       if (is_callable(($requestFunction = implode('_', $route))) === false) {
         throw404();
       }
-      call_user_func($requestFunction, $match);
+      call_user_func($requestFunction, (isset($match) ? $match : null));
       break;
     }
   }
