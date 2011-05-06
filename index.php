@@ -6,6 +6,16 @@ require_once 'core/paths.php';
 require_once 'core/class.php';
 require_once 'core/connect.php';
 
+function throw403() {
+  global $path, $urlpath;
+  ob_start();
+  include $path . 'views/layouts/403.php';
+  $content = ob_get_contents();
+  ob_end_clean();
+  include $path . 'views/layouts/application.php';
+  exit;
+}
+
 function throw404() {
   global $path, $urlpath;
   ob_start();
@@ -19,6 +29,7 @@ function throw404() {
 ob_start();
 //include 'loader.php';
 $request = str_replace($urlpath, '', $_SERVER['REQUEST_URI']);
+if (substr($request, -1) == '/') { $request = substr($request, 0, -1); }
 if ($request == '') {
   $route = explode('#', $root);
   require_once $path . 'controllers/' . $route[0] . '.php';
