@@ -16,7 +16,7 @@
 	
 //	Try to connect, but catch the exceptions, and die() with the results.	
 	try {
-		$db = new PDO("mysql:host=$host;dbname=$name", $user, $pass);
+		$db = new PDO("mysql:host=$host;dbname=$name", $user, $pass, array(PDO::ATTR_PERSISTENT => true));
 	} catch(PDOException $e) {
 		die($e->getMessage());
 	}		
