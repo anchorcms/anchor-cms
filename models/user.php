@@ -26,6 +26,6 @@ class User {
     
     $query = $db->prepare('SELECT * FROM users WHERE username = ?');
     $query->execute(array($this->username));
-    return ($query->rowCount() = 0) ? false : true;
+    return ($query->rowCount() == 0) ? false : true;
   }
 }
