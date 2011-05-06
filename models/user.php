@@ -22,12 +22,10 @@ class User {
   }
 
   function exists() {
-    //  I'll rewrite this with PDO at some point.
-    //  For now, though, it's just good old MySQL.
-    include('paths.php');
-    include($path.'/config/database.php');
-    $link = @mysql_connect($host, $user, $pass);
-    @mysql_select_db($name);
-    return @mysql_num_rows(@mysql_query("SELECT * FROM `users` WHERE `username` = '$this->username'", $link));
+    global $db;
+    
+    $query = $db->prepare('SELECT * FROM users WHERE username = ?');
+    $query->execute(array($this->username));
+    return ($query->rowCount() = 0) ? false : true;
   }
 }
