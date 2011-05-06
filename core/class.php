@@ -1,5 +1,5 @@
 <?php
 function __autoload($class) {
   global $path;
-  include($path . 'core/' . strtolower($class) . '.php');
+  include($path . 'models/' . strtolower($class) . '.php');
 }
