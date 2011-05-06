@@ -7,7 +7,13 @@ require_once 'core/class.php';
 require_once 'core/connect.php';
 
 function throw404() {
-  die('KABOOM! Its a 404');
+  global $path, $urlpath;
+  ob_start();
+  include $path . 'views/layouts/404.php';
+  $content = ob_get_contents();
+  ob_end_clean();
+  include $path . 'views/layouts/application.php';
+  exit;
 }
 
 ob_start();
