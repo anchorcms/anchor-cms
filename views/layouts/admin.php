@@ -1,13 +1,13 @@
 <!doctype html>
 <html>
 	<head>
-		<link rel="stylesheet" href="<?php echo $urlpath; ?>admin/css.css" />
-		<title><?php echo $title . ' &middot; ' . $sitename; ?></title>
+		<link rel="stylesheet" href="<?php echo $urlpath; ?>stylesheets/admin.css" />
+		<title>random &middot; random</title>
 	</head>
   <body class="admin">
   	<div id="header">
-  		<h2><?php echo $sitename; ?></h2>
-  		<?php if($loggedIn === true) { ?><a id="logout" href="<?php echo $urlpath; ?>admin/logout">Logout</a><?php } ?>
+  		<h2>random</h2>
+  		<?php if(User::is_logged_in() === true) { ?><a id="logout" href="<?php echo $urlpath; ?>admin/logout">Logout</a><?php } ?>
   	</div>
     <?php include $path . 'views/admin/_menu.php'; ?>
     <div id="content">
