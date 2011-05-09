@@ -1,6 +1,6 @@
 <?php
 class Post {
-  public $id, $slug, $title, $exerpt, $content, $css, $javascript, $date;
+  public $id, $slug, $title, $excerpt, $content, $css, $javascript, $date;
   
   public function __construct($info = null) {
     if (is_array($info) === true) {
@@ -49,10 +49,10 @@ class Post {
   public function all($options = array(), $select = '*') {
     global $db;
     
-    $default = array('order_by' => 'id', 'limit' => 20);
+    $default = array('limit' => 20);
     $options = array_merge($default, $options);
     
-    $query = $db->prepare('SELECT ' . $select . ' FROM posts ORDER BY :order_by LIMIT :limit');
+    $query = $db->prepare('SELECT ' . $select . ' FROM posts ORDER BY id DESC LIMIT :limit');
     
     foreach ($options as $key => &$val) {
       $query->bindParam(':' . $key, $val, (is_integer($val) ? PDO::PARAM_INT : PDO::PARAM_STR));
@@ -80,5 +80,27 @@ class Post {
       $query->execute(array($id));
     }
     return ($query->rowCount() == 0) ? false : new Post($query->fetch(PDO::FETCH_ASSOC));
+  }
+  
+  public function update($data) {
+    global $db;
+    
+    if (isset($this->id) === false) { return false; }
+    
+    foreach ($data as $key => $value) {
+      if ($key != 'id' && isset($this->$key) === true) { $this->$key = $value; }
+    }
+    
+    $query = $db->prepare('UPDATE posts SET slug=?, title=?, excerpt=?, content=?, css=?, javascript=?, date=NOW() WHERE id = ?');
+    return $query->execute(array($this->slug, $this->title, $this->excerpt, $this->content, $this->css, $this->javascript, $this->id));
+  }
+  
+  public function create($data) {
+    global $db;
+    $default = array('slug' => '', 'title' => '', 'excerpt' => '', 'content' => '', 'css' => '', 'javascript' => '');
+    foreach (array_diff_key($data, $default) as $key => $value) { unset($data[$key]); }
+    $data = array_merge($default, $data);
+    $query = $db->prepare('INSERT INTO posts (slug, title, excerpt, content, css, javascript, date) VALUES (?, ?, ?, ?, ?, ?, NOW())');
+    return $query->execute(array_values($data));
   }
 }

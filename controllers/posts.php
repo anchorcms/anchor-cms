@@ -19,7 +19,7 @@ function posts_show($post) {
 
 function posts_latest() {
   global $urlpath;
-  $post = Post::all(array('order_by' => 'id DESC', 'limit' => 1), 'slug');
+  $post = Post::all(array('limit' => 1), 'slug');
   header('Location: ' . $urlpath . $post[0]->slug);
 }
 ?>
