@@ -7,6 +7,7 @@ $routes = array(
   'admin/login' => 'users#login',
   'user/logout' => 'users#logout',
   'admin/logout' => 'users#logout',
+  'latest' => 'posts#latest',
   '.*' => 'posts#show'
 );
 $root = 'posts#index';

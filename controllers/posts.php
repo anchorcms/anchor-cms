@@ -16,4 +16,10 @@ function posts_show($post) {
   if ($post === false) { throw404(); }
   include $path . 'views/posts/show.php';
 }
+
+function posts_latest() {
+  global $urlpath;
+  $post = Post::all(array('order_by' => 'id DESC', 'limit' => 1), 'slug');
+  header('Location: ' . $urlpath . $post[0]->slug);
+}
 ?>
