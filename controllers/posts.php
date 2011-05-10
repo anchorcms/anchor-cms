@@ -19,14 +19,11 @@ function posts_show($post) {
 
 function posts_latest() {
   global $urlpath;
-  $post = Post::all(array('limit' => 1), 'slug');
-  header('Location: ' . $urlpath . $post[0]->slug);
+  header('Location: ' . $urlpath . Post::find(array('select' => 'slug', 'limit' => 1, 'order' => 'id DESC'))->slug);
 }
 
 function posts_random() {
-    global $db, $urlpath;   
-    $query = $db->query('SELECT * from `posts` ORDER BY RAND() LIMIT 1');
-    $fetch = $query->fetch(PDO::FETCH_OBJ);
-    header('location: ' . $urlpath . $fetch->slug);
+    global $urlpath;   
+    header('Location: ' . $urlpath . Post::find(array('select' => 'slug', 'limit' => 1, 'order' => 'RAND()'))->slug);
 }
 ?>
