@@ -10,7 +10,7 @@ function posts_show($post) {
   if (isset($post[1]) === true) {
     $post = Post::find(intval($post[1]));
   } else {
-    $post = Post::find($post[0]);
+    $post = Post::find_by_slug($post[0]);
   }
   
   if ($post === false) { throw404(); }
