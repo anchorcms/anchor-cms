@@ -1,27 +1,17 @@
 <?php
-/******************************************************
- *
- *              users.php
- *
- ******************************************************
- *
- *              Retrieve information about users 
- */
-
-class User {
-  public  $username = '';
-  private $password = '';
-
-  function __construct($username = '', $password = '') {
-    $this -> username = $username;
-    $this -> password = $password;
-  }
-
-  function is_logged_in() {
-    return isset($_SESSION['username']);
+$current_user = null;
+class User extends ActiveRecord\Model {
+  public function is_logged_in() {
+    global $current_user;
+    if (isset($_SESSION['username']) === false) { $current_user = false; }
+    if (isset($current_user) === false) {
+      $current_user = User::find_by_username($_SESSION['username']);
+      if (isset($current_user) === false) { $current_user = false; }
+    }
+    return $current_user !== false;
   }
   
-  function login($username = null, $password = null, $remember_me = null) {
+  public function login($username = null, $password = null, $remember_me = null) {
     if (empty($username) === true && isset($_POST['username']) === true) { $username = $_POST['username']; }
     if (empty($password) === true && isset($_POST['password']) === true) { $password = $_POST['password']; }
     if (empty($username) === true || empty($password) === true) {
@@ -30,12 +20,7 @@ class User {
     
     if (isset($remember_me) === false || isset($_POST['remember_me']) === true) { $remember_me = true; }
     
-    global $db;
-    
-    $query = $db->prepare('SELECT * FROM users WHERE username = ? AND password = ?');
-    $query->execute(array($username, md5($password)));
-    
-    if ($query->rowCount() != 0) {
+    if (User::exists(array('username' => $username, 'password' => md5($password))) === true) {
       if($remember_me === true) {
       	setcookie('username', $username, time() + (86400 * 7));
       }
@@ -43,15 +28,9 @@ class User {
       session_start();
       $_SESSION['username'] = $username;
       return true;
+      
     }
     return false;
   }
-
-  function exists() {
-    global $db;
-    
-    $query = $db->prepare('SELECT * FROM users WHERE username = ?');
-    $query->execute(array($this->username));
-    return ($query->rowCount() == 0) ? false : true;
-  }
 }
+?>
