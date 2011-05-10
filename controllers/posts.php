@@ -8,7 +8,7 @@ function posts_index() {
 function posts_show($post) {
   global $path, $urlpath;
   if (isset($post[1]) === true) {
-    $post = Post::find(intval($post[1]));
+    $post = Post::find($post[1]);
   } else {
     $post = Post::find_by_slug($post[0]);
   }

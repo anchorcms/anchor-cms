@@ -10,9 +10,9 @@ function admin_posts_index() {
 
 function admin_posts_edit($post) {
   global $path, $urlpath;
-  $post = Post::find(intval($post[1]));
+  $post = Post::find($post[1]);
   if (isset($_POST['post']) === true) {
-    if ($post->update($_POST['post']) === true) {
+    if ($post->update_attributes($_POST['post']) === true) {
       echo "<h1>Post updated successfully</h1>";
       return;
     }
@@ -24,7 +24,8 @@ function admin_posts_edit($post) {
 function admin_posts_new() {
   global $path, $urlpath;
   if (isset($_POST['post']) === true) {
-    if (Post::create($_POST['post']) === true) {
+    $post = new Post($_POST['post']);
+    if ($post->save() === true) {
       echo "<h1>Post created successfully</h1>";
       return;
     }
