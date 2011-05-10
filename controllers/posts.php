@@ -26,4 +26,3 @@ function posts_random() {
     global $urlpath;   
     header('Location: ' . $urlpath . Post::find(array('select' => 'slug', 'limit' => 1, 'order' => 'RAND()'))->slug);
 }
-?>

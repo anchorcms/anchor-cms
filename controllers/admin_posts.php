@@ -33,4 +33,3 @@ function admin_posts_new() {
   }
   include $path . 'views/admin_posts/new.php';
 }
-?>

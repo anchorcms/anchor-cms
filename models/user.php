@@ -33,4 +33,3 @@ class User extends ActiveRecord\Model {
     return false;
   }
 }
-?>
