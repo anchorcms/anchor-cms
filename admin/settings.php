@@ -1,4 +1,5 @@
 <?php
+  include('loader.php');
 
 	function is_checked($post, $var) {
 		if(isset($_POST['submit'])) {
@@ -15,18 +16,6 @@
 			}
 		}
 	}
-		
-//	Return the path of the main directory
-	$path = substr(dirname(__FILE__), 0, -5);
-	
-//	Get the URL path (from http://site.com/ onwards)
-//	__DIR__ - $_SERVER['DOCUMENT_ROOT']
-	$urlpath = str_replace($_SERVER['DOCUMENT_ROOT'], '', $path);
-
-	include($path . '/core/connect.php');
-	include($path . '/core/themes.php');
-	include($path . '/core/stats.php');
-	include($path . '/config/settings.php');
 	
 	$title = 'Site Settings';
 

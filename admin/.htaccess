@@ -1,5 +1,7 @@
 RewriteEngine On
 
+RewriteRule ^(.*)$ ../index.php?page=admin/$1 [L,QSA]
+
 #	Edit
 RewriteRule ^edit$ index.php [L,QSA]
 RewriteRule ^edit/([0-9]+)$ index.php?page=$1 [L,QSA]
