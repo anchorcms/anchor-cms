@@ -4,7 +4,6 @@
 session_start();
 require_once 'routes.php';
 require_once 'core/paths.php';
-require_once 'core/class.php';
 require_once 'core/connect.php';
 
 function throw403() {
