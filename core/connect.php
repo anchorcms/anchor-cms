@@ -27,7 +27,7 @@
 		ActiveRecord\Config::initialize(function($cfg) use ($connections)
 		{
 		  global $path;
-	    $cfg->set_model_directory($path . 'models');
+	    $cfg->set_model_directory($path . 'app/models');
 	    $cfg->set_connections($connections);
 		});
 	} catch(PDOException $e) {

@@ -53,7 +53,7 @@ $request = str_replace($urlpath, '', $_SERVER['REQUEST_URI']);
 if (substr($request, -1) == '/') { $request = substr($request, 0, -1); }
 if ($request == '') {
   $route = explode('#', $root);
-  require_once $path . 'controllers/' . $route[0] . '.php';
+  require_once $path . 'app/controllers/' . $route[0] . '.php';
   if (is_callable(($requestFunction = implode('_', $route))) === false) {
     throw404();
   }
@@ -62,7 +62,7 @@ if ($request == '') {
   foreach ($routes as $routeFrom => $routeTo) {
     if (preg_match('`^' . $routeFrom . '$`i', $request, $match) == 1) {
       $route = explode('#', $routeTo);
-      require_once $path . 'controllers/' . $route[0] . '.php';
+      require_once $path . 'app/controllers/' . $route[0] . '.php';
       if (is_callable(($requestFunction = implode('_', $route))) === false) {
         throw404();
       }
