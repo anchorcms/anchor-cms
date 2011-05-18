@@ -15,7 +15,7 @@
     }
  
 //	Set the version
-	$version = '0.2.0';
+	$version = '0.2.1';
  
 //	Include the paths
 	include('paths.php');
