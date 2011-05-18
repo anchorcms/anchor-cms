@@ -1,5 +1,5 @@
 <?php function time_ago($a) { }; ?>
-<h1>Users <a href="<?php echo $urlpath; ?>admin/user/new">+ Add A User</a></h1>
+<h1>Users <a href="<?php echo $urlpath; ?>admin/users/new">+ Add A User</a></h1>
 <ul id="list">
 <?php
 foreach ($users as $user) {

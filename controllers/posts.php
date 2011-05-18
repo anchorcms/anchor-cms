@@ -1,8 +1,7 @@
 <?php
 function posts_index() {
-  global $path, $urlpath;
   $posts = Post::all(array('order' => 'id DESC'));
-  include $path . 'views/posts/index.php';
+  render(array('posts' => $posts));
 }
 
 function posts_show($post) {
@@ -14,7 +13,7 @@ function posts_show($post) {
   }
   
   if ($post === false) { throw404(); }
-  include $path . 'views/posts/show.php';
+  render(array('post' => $post));
 }
 
 function posts_latest() {

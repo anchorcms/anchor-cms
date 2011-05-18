@@ -5,7 +5,7 @@ function users_login() {
   if (User::is_logged_in() === true || User::login() === true) {
     header('Location: ' . $urlpath . 'admin/');
   }
-  include $path . 'views/user/login.php';
+  render();
 }
 
 function users_logout() {
