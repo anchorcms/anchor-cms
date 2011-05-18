@@ -9,7 +9,7 @@
   		<h2>random</h2>
   		<?php if(User::is_logged_in() === true) { ?><a id="logout" href="<?php echo $urlpath; ?>admin/logout">Logout</a><?php } ?>
   	</div>
-    <?php include $path . 'views/admin/_menu.php'; ?>
+    <?php render('admin/_menu'); ?>
     <div id="content">
       <div id="left">
         <?php echo $content; ?>

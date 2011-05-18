@@ -5,7 +5,7 @@ function admin_posts_index() {
   global $path, $urlpath;
   if (User::is_logged_in() === false) { throw403(); }
   $posts = Post::all(array('order' => 'id'));
-  include $path . 'views/admin_posts/index.php';
+  render(array('posts' => $posts));
 }
 
 function admin_posts_edit($post) {
@@ -18,7 +18,7 @@ function admin_posts_edit($post) {
     }
     echo "<h1>Post failed to update</h1>";
   }
-  include $path . 'views/admin_posts/edit.php';
+  render(array('post' => $post));
 }
 
 function admin_posts_new() {
@@ -31,5 +31,5 @@ function admin_posts_new() {
     }
     echo "<h1>Post failed to create</h1>";
   }
-  include $path . 'views/admin_posts/new.php';
+  render();
 }

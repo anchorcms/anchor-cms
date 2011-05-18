@@ -5,7 +5,7 @@ function admin_users_index() {
   global $path, $urlpath;
   if (User::is_logged_in() === false) { throw403(); }
   $users = User::all();
-  include $path . 'views/admin_users/index.php';
+  render(array('users' => $users));
 }
 
 function admin_users_edit($user) {
@@ -18,7 +18,7 @@ function admin_users_edit($user) {
     }
     echo "<h1>User failed to update</h1>";
   }
-  include $path . 'views/admin_users/edit.php';
+  render(array('user' => $user));
 }
 
 function admin_users_new() {
@@ -31,6 +31,6 @@ function admin_users_new() {
     }
     echo "<h1>User failed to create</h1>";
   }
-  include $path . 'views/admin_users/new.php';
+  render();
 }
 ?>
