@@ -22,13 +22,13 @@ $config = array();
 $config['database'] = array(
     
     //  This is localhost 99% of the time (Dreamhost users: this is usually mysql.domain.com)
-    'host' => 'message-server.local',
+    'host' => 'localhost',
     
     //  The username
-    'username' => 'joe',
+    'username' => 'root',
     
     //  The password
-    'password' => 'cheese',
+    'password' => '',
     
     //  The database name
     'name' => 'anchor'
