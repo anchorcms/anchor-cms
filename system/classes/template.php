@@ -23,6 +23,7 @@ class Template {
         //  Set the URL from the request URL
         $this->url = array_slice(explode('/', URL), 1);
         if($this->url[0] == '') $this->url[0] = 'home';
+        if($this->url[0] == 'posts' && !isset($this->url[1])) $this->url[0] = 'home';
         
         return $this;
     }
@@ -48,7 +49,12 @@ class Template {
      */
     public function run() {
         $this->db = new Database($this->config['database']);
-        $this->import(PATH . 'theme/' . $this->get('theme') . '/index.php');
+        
+        if($this->url[0] == 'home') {
+            $this->import(PATH . 'theme/' . $this->get('theme') . '/index.php');
+        } else {
+            $this->import(PATH . 'theme/' . $this->get('theme') . '/' . $this->url[0] . '.php');        
+        }
     }
     
     /**
@@ -60,5 +66,17 @@ class Template {
     
     public function title() {
         return $this->config['metadata']['sitename'];
+    }
+    
+    public function getPosts() {
+        $array = array();
+        
+        if($this->url[0] == 'posts') {
+            $array = array('published' => 1, 'slug' => $this->url[1]);
+        } else {
+            $array = array('published' => 1); 
+        }
+        
+        return $this->db->fetch('', 'posts', $array);
     }
 }

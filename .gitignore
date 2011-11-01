@@ -2,3 +2,4 @@ Thumbs.db
 .DS_Store
 *.esproj
 config/*
+config.php

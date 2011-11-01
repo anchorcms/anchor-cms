@@ -13,7 +13,7 @@
     <body>
         <h1><?php echo $this->title(); ?></h1>
         <ul>
-        <?php foreach($this->db->fetch('', 'posts', array('published' => '1')) as $key => $post): ?>
+        <?php foreach($this->getPosts() as $key => $post): ?>
             <li>
                 <a href="/posts/<?php echo $post->slug; ?>" title="<?php echo $post->title; ?>">
                     <h2><?php echo $post->title; ?></h2>
