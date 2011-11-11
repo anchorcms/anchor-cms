@@ -19,6 +19,8 @@ class Template {
      */
     public function setup($config = '') {
         $this->config = $config;
+        $this->config['base_path'] = str_ireplace('index.php', '', $_SERVER['SCRIPT_NAME']);
+        $this->config['theme_path'] = $this->get('base_path') . 'theme/' . $this->get('theme');
         
         //  Set the URL from the request URL
         $this->url = array_slice(explode('/', URL), 1);
@@ -36,12 +38,25 @@ class Template {
     /**
      *    Import a file
      */
-    public function import($url) {
+    public function import($url, $bool = false) {
         if(file_exists($url)) {
-            include_once $url;
+            $include = include_once $url;
         }
         
-        return $this;
+        return ($bool == true ? !!$include : $this);
+    }
+    
+    /**
+     *    Determine if a file exists. If not, load the index file.
+     */
+    private function _include($theme, $fallback = '') {
+        $import = $this->import(PATH . 'theme/' . $this->get('theme') . '/' . $theme . '.php', true);
+        
+        if(!$import) {
+            return $this->import(PATH . 'theme/' . $this->get('theme') . '/' . ($fallback != '' ? $fallback : 'index') . '.php', true);
+        } else {
+            return $import;
+        }
     }
     
     /**
@@ -50,17 +65,38 @@ class Template {
     public function run() {
         $this->db = new Database($this->config['database']);
         
+        //  Get the header (if it exists)
+        $this->_include('includes/header');
+        
+        //  Work out which body file to fetch
         if($this->url[0] == 'home') {
-            $this->import(PATH . 'theme/' . $this->get('theme') . '/index.php');
+            $this->_include('index');
         } else {
-            $this->import(PATH . 'theme/' . $this->get('theme') . '/' . $this->url[0] . '.php');        
+            if(!$this->db->fetch('slug', 'pages', array('slug' => $this->url[0]))) {
+                $this->_include('404');
+            } else {
+                $this->_include($this->url[0], 'sub');
+            }
         }
+
+        //  And the footer
+        $this->_include('includes/footer');
+        
+        return $this;
     }
     
     /**
      *    Theming functions
      */
     public function get($param) {
+    
+        //  Make sure it isn't trying to get a subparameter
+        if(strpos($param, '/')) {
+            $param = explode('/', $param);
+            
+            return $this->config[$param[0]][$param[1]];
+        }
+    
         return $this->config[$param];
     }
     
@@ -78,5 +114,14 @@ class Template {
         }
         
         return $this->db->fetch('', 'posts', $array);
+    }
+    
+    public function getSlug() {
+        //  Should return "posts", "home" or something like that
+        return $this->url[0];
+    }
+    
+    public function isHome() {
+        return $this->getSlug() == 'home';
     }
 }

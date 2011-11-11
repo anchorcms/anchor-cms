@@ -1,0 +1,138 @@
+/**
+ *    Anchor CMS' default theme
+ *    by @anchorcms and @visualidiot
+ */
+ 
+html {
+    background: #eee url('../img/bg.jpg') fixed;
+    text-align: center;
+}
+body {
+    background: #fff;
+    -webkit-box-shadow: 0 1px 1px #e0e0e0;
+    -moz-box-shadow: 0 1px 1px #e0e0e0;
+    box-shadow: 0 1px 1px #e0e0e0;
+    
+    /* If they've got a Typekit subscription, use the font names they use. */
+    font: 18px/30px "ff-meta-serif-web-pro", "Meta Serif", "MetaSerif-Book", sans-serif;
+    color: #6b7173;
+    
+    width: 900px;
+    margin: 0 auto;
+    text-align: left;
+}
+
+header#top {
+    background-color: #232626;
+    background-image: -webkit-gradient(linear, left top, left bottom, from(#232626), to(#36393a));
+    background-image: -webkit-linear-gradient(top, #232626, #36393a);
+    background-image: -moz-linear-gradient(top, #232626, #36393a);
+    background-image: -o-linear-gradient(top, #232626, #36393a);
+    background-image: -ms-linear-gradient(top, #232626, #36393a);
+    background-image: linear-gradient(top, #232626, #36393a);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorStr='#232626', EndColorStr='#36393a');
+    
+    height: 80px;
+    max-height: 120px;
+    
+    padding: 0 50px;
+}
+    header#top a#logo {
+        float: left;
+        margin-top: 30px;
+        
+        opacity: .8;
+        
+        -webkit-transition: opacity .5s;
+        -moz-transition: opacity .5s;
+        -ms-transition: opacity .5s;
+        -o-transition: opacity .5s;
+        transition: opacity .5s;
+    }
+        header#top a#logo:hover {
+            opacity: 1;
+        }
+            header#top a#logo:active {
+                -webkit-transition: opacity .125s;
+                -moz-transition: opacity .125s;
+                -ms-transition: opacity .125s;
+                -o-transition: opacity .125s;
+                transition: opacity .125s;
+        
+                margin-top: 31px;
+                opacity: .5;
+            }
+        header#top a#logo img {
+            -webkit-user-select: none;
+            -webkit-user-drag: none;
+        }
+    header#top form {
+        float: right;
+        position: relative;
+        padding: 3px;
+        
+        margin-top: 22px;
+        
+        -webkit-box-shadow: inset 0 1px 0 rgba(255,255,255,.1), 0 1px 1px rgba(0,0,0,.5);
+        -moz-box-shadow: inset 0 1px 0 rgba(255,255,255,.1), 0 1px 1px rgba(0,0,0,.5);
+        box-shadow: inset 0 1px 0 rgba(255,255,255,.1), 0 1px 1px rgba(0,0,0,.5);
+        
+        -webkit-border-radius: 3px;
+        -moz-border-radius: 3px;
+        border-radius: 3px;
+        
+        background-color: #888d8f;
+        background-image: -webkit-gradient(linear, left top, left bottom, from(#888d8f), to(#656b6d));
+        background-image: -webkit-linear-gradient(top, #888d8f, #656b6d);
+        background-image: -moz-linear-gradient(top, #888d8f, #656b6d);
+        background-image: -o-linear-gradient(top, #888d8f, #656b6d);
+        background-image: -ms-linear-gradient(top, #888d8f, #656b6d);
+        background-image: linear-gradient(top, #888d8f, #656b6d);
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorStr='#888d8f', EndColorStr='#656b6d');
+    }
+        header#top form input {
+            display: block;
+            
+            background: #e5e9ea;            
+            color: #2f3c42;
+            
+            border: 1px solid #45494b;
+            -webkit-border-radius: 2px;
+            -moz-border-radius: 2px;
+            border-radius: 2px;
+            
+            box-shadow: inset 0 1px 1px rgba(0,0,0,.15), 0 1px 0 rgba(255,255,255,.25);
+            
+            /* Again, Typekit first. */
+            font: bold 12px "gesta", "Gesta", sans-serif;
+            padding: 5px 10px;
+            
+            outline: none; /* We'll get a better focus style, honest. */
+            
+            width: 244px;
+            
+            -webkit-transition: background .25s, width .25s;
+            -moz-transition: background .25s, width .25s;
+            -ms-transition: background .25s, width .25s;
+            -o-transition: background .25s, width .25s;
+            transition: background .25s, width .25s;
+        }
+        header#top form button {
+            background: transparent;
+            border: none;
+           
+            position: absolute;
+            right: 15px;
+            top: 12px;
+            
+            opacity: .7;
+        }
+    header#top form.focus {
+        /*
+            Do nothing. The transitions are now held in the input.
+        */
+    }
+        header#top form.focus input {
+            width: 300px;
+            background: #fff;
+        }
