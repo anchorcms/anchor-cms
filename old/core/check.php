@@ -1,1 +1,0 @@
-<?php $installed = false; ?>
