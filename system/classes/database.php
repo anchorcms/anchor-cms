@@ -4,7 +4,8 @@
 class Database {
     protected $_db,
               $_query,
-              $_query_count = 0;
+              $_query_count = 0,
+              $_info;
 
     public $_statement;
 
@@ -21,7 +22,10 @@ class Database {
     
     //  The _real_ setup file. Used for overwriting shi'.
     public function setup($info) {
+        $this->_info = $info;
         $this->_db = new mysqli($info['host'], $info['username'], $info['password'], $info['name']);
+        
+        return $this;
     }
     
     /**
@@ -154,9 +158,11 @@ class Database {
     public function query($statement) {
         //  Add the count up
         $this->_query_count++;
+        $this->_statement = $statement;
             
         //  And query, but only if we've got a connection.
-        if($this->_db) return $this->_db->query($statement);
+        $query = $this->_db->query($this->_statement);
+        return $query->fetch_object();
     }
 
 
@@ -182,7 +188,7 @@ class Database {
     }
 
     /**
-     *      filter($what)
+     *      filter($what, $type = [$_GET or $_POST])
      *
      *      filter a string for safe database insertion.
      */

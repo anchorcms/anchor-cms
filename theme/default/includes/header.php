@@ -18,8 +18,18 @@
                 <img src="<?php echo $this->get('theme_path'); ?>/img/logo.png" alt="<?php echo $this->get('metadata/sitename'); ?>">
             </a>
             
-            <form id="search" action="/search">
-                <input type="search" id="s" name="s" placeholder="Search&hellip;">
+            <form id="search" action="/search" method="post">
+                <input type="search" name="term" placeholder="Search&hellip;">
                 <button type="submit"><img src="<?php echo $this->get('theme_path'); ?>/img/search.gif"></button>
             </form>
         </header>
+        
+        <nav id="main" role="navigation">
+            <ul>
+                <?php foreach($this->getPages() as $page): ?>
+                <li <?php echo ($page->slug == $this->getSlug() ? 'class="active"' : ''); ?>>
+                    <a href="/<?php echo $page->slug; ?>" title="<?php echo $page->title; ?>"><?php echo $page->name; ?></a>
+                </li>
+                <?php endforeach; ?>
+            </ul>
+        </nav>

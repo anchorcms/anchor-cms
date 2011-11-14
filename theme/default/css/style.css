@@ -22,6 +22,18 @@ body {
     text-align: left;
 }
 
+h1 {
+    color: #313435;
+    
+    font: 40px/38px "gesta", "Gesta", sans-serif;
+    text-align: center;
+    
+    width: 520px;
+    margin: 0 auto;
+    
+    padding-bottom: 20px;
+}
+
 header#top {
     background-color: #232626;
     background-image: -webkit-gradient(linear, left top, left bottom, from(#232626), to(#36393a));
@@ -117,6 +129,10 @@ header#top {
             -o-transition: background .25s, width .25s;
             transition: background .25s, width .25s;
         }
+            header#top form.focus input {
+                width: 300px;
+                background: #fff;
+            }
         header#top form button {
             background: transparent;
             border: none;
@@ -127,12 +143,70 @@ header#top {
             
             opacity: .7;
         }
-    header#top form.focus {
-        /*
-            Do nothing. The transitions are now held in the input.
-        */
+        
+nav#main {
+    /* I know what you're saying. "Why not use a CSS3 gradient?" Because it's about 5 times larger than using the mighty *.gif. And it's so much more crisp. */
+    background: #7c8588 url('../img/nav.gif');
+    
+    height: 50px;
+    padding: 0 30px;
+}
+    nav#main ul {
+        list-style: none;
     }
-        header#top form.focus input {
-            width: 300px;
-            background: #fff;
+    nav#main li {
+        float: left;
+        display: inline;
+    }
+        nav#main li.active {
+            /* background-color: #272c2d; */
+            background-image: -webkit-gradient(linear,left top,left bottom,from(rgba(39,44,45,.7)),to(rgba(63,70,72,.5)));
+            background-image: -webkit-linear-gradient(top,rgba(39,44,45,.7),rgba(63,70,72,.5));
+            background-image: -moz-linear-gradient(top,rgba(39,44,45,.7),rgba(63,70,72,.5));
+            background-image: -o-linear-gradient(top,rgba(39,44,45,.7),rgba(63,70,72,.5));
+            background-image: -ms-linear-gradient(top,rgba(39,44,45,.7),rgba(63,70,72,.5));
+            background-image: linear-gradient(top,rgba(39,44,45,.7),rgba(63,70,72,.5));
+            filter: progid:DXImageTransform.Microsoft.gradient(startColorStr='#272c2d',EndColorStr='#3f4648');
+            
+            -webkit-border-radius: 4px;
+            -moz-border-radius: 4px;
+            border-radius: 4px;
+            
+            height: 34px;
+            margin: 8px 4px;
+            
+            -webkit-box-shadow: inset 0 2px 1px rgba(0,0,0,.2), 0 1px 0 rgba(255,255,255,.15);
+            -moz-box-shadow: inset 0 2px 1px rgba(0,0,0,.2), 0 1px 0 rgba(255,255,255,.15);
+            box-shadow: inset 0 2px 1px rgba(0,0,0,.2), 0 1px 0 rgba(255,255,255,.15);
         }
+            nav#main li.active a {
+                margin-top: -8px;
+                color: #fff;
+            }
+        nav#main li a {
+            color: #dbdfe1;
+            text-shadow: 0 1px 1px rgba(0,0,0,.2);
+            
+            font: bold 13px/48px "gesta", "Gesta", sans-serif;
+            
+            display: block;
+            float: left;
+            
+            padding: 2px 20px 0;
+            
+            text-decoration: none;
+            text-transform: uppercase;
+        }
+            nav#main li a:hover {
+                color: #fff;
+            }
+            nav#main li a:active {
+                text-shadow: 0 -1px 0 rgba(0,0,0,.2);
+                padding-top: 3px;
+                line-height: 47px;
+            }
+            
+section.content {
+    padding: 60px 70px;
+    position: relative;
+}
