@@ -12,7 +12,11 @@ $(function() {
         viewport = $(window),
         search = $('#search'),
         toggleSearch = function() {
-            return search.toggleClass('focus');
+            //  Toggle the search box
+            search.toggleClass('focus');
+            
+            //  And stop it "autofocusing".
+            return false;
         };
         
     body.addClass('js');

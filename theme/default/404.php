@@ -1,22 +1,4 @@
-This is a 404 page.
-
-<pre>
-<?php
-    
-    echo '<br><br>';
-
-    //  Get the file
-    $file = explode("\n", file_get_contents(PATH . 'theme/default/about.txt'));
-    
-    //  Make a return array available
-    $ret = array();
-    
-    //  Loop every newline as a test variable
-    foreach($file as $test) {
-        //  Explode to array
-        $array = explode(':', $test, 2);
-        $ret[strtolower(str_replace(' ', '_', $array[0]))] = trim($array[1]);
-    }
-    
-    var_dump($ret);
-?>
+<section class="main" id="content">
+    <h1>Oh no, this page can&rsquo;t be found.</h1>
+    <p>Unfortunately, the page at <code>/<?php echo implode('/', $this->url); ?></code> can't be found, but don't give up hope yet! You can always try going back to the homepage, or searching.</p>
+</section>

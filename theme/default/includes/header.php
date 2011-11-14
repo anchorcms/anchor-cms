@@ -4,6 +4,8 @@
         <title><?php echo $this->title(); ?></title>
         <meta charset="utf-8">
         
+        <meta name="description" content="<?php echo $this->get('metadata/description'); ?>">
+        
         <link rel="stylesheet" href="<?php echo $this->get('theme_path'); ?>/css/reset.css">
         <link rel="stylesheet" href="<?php echo $this->get('theme_path'); ?>/css/style.css">
         
