@@ -3,7 +3,7 @@
     if(!$direct) die('No direct access allowed.');
     
 //  Grab them config files
-    //include_once PATH . 'config.php';
+    include_once PATH . 'config.php';
     include_once PATH . 'system/messages.php';
 
 //  Check the config's legit

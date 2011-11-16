@@ -151,18 +151,28 @@ class Database {
     }
     
     /**
-     *      query($statement)
+     *      query($statement, $return_a_fetched_object [true/false])
      *
      *      aliases the mysqli query object, and adds a counter.
      */
-    public function query($statement) {
+    public function query($statement, $object = false) {
         //  Add the count up
         $this->_query_count++;
         $this->_statement = $statement;
             
         //  And query, but only if we've got a connection.
         $query = $this->_db->query($this->_statement);
-        return $query->fetch_object();
+        
+        if($object === true) {
+        	$row = array();
+        	while($a = $query->fetch_object()) {
+        		$row[] = $a;
+        	}
+        	
+        	return $row;
+        }
+        
+        return $query;
     }
 
 
@@ -203,7 +213,9 @@ class Database {
     }
 
     
-    //  Get the number of affected rows
+    /**
+     *      Get the number of rows affected
+     */
     public function rows($statement = '') {
         //  return $this->_rows;
         return $this->_query->num_rows;
