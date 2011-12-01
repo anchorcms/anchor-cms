@@ -163,7 +163,7 @@ class Database {
         //  And query, but only if we've got a connection.
         $query = $this->_db->query($this->_statement);
         
-        if($object === true) {
+        if($object === true && !empty($query)) {
         	$row = array();
         	while($a = $query->fetch_object()) {
         		$row[] = $a;
@@ -204,7 +204,7 @@ class Database {
      */
         
     public function filter($what, $type = 'get') {
-        if($this->_db) {
+        if(isset($this->_db)) {
             return htmlentities($this->_db->real_escape_string($what));
         } else {
             $type = ($type == 'get' ? INPUT_GET : INPUT_POST);

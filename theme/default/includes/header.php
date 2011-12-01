@@ -9,10 +9,17 @@
         <link rel="stylesheet" href="<?php echo $this->get('theme_path'); ?>/css/reset.css">
         <link rel="stylesheet" href="<?php echo $this->get('theme_path'); ?>/css/style.css">
         
-        <?php if($this->get('metadata/typekit')) : ?><script src="//use.typekit.com/<?php echo $this->get('metadata/typekit'); ?>.js"></script><?php endif; ?>
-
         <script src="//code.jquery.com/jquery-latest.min.js"></script>
         <script src="<?php echo $this->get('theme_path'); ?>/js/site.js"></script>
+
+		<?php if($this->get('metadata/typekit')): ?>
+		<script src="//use.typekit.com/<?php echo $this->get('metadata/typekit'); ?>.js"></script>
+		<?php endif; ?>
+		
+		<?php if($this->isCustom()): ?>
+			<!-- Link to the custom, HTML and CSS here: -->
+			<?php echo $this->getCustom()->html; ?>
+		<?php endif; ?>
     </head>
     <body class="<?php echo $this->getSlug(); ?>">
         <header id="top">
@@ -21,7 +28,7 @@
             </a>
             
             <form id="search" action="/search" method="post">
-                <input type="search" name="term" placeholder="Search&hellip;">
+                <input type="search" name="term" placeholder="Search&hellip;" value="<?php echo Search::value('term'); ?>">
                 <button type="submit"><img src="<?php echo $this->get('theme_path'); ?>/img/search.gif"></button>
             </form>
         </header>

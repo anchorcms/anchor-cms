@@ -48,5 +48,14 @@ DROP TABLE IF EXISTS `users`;
 
 CREATE TABLE `users` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `username` varchar(100) DEFAULT NULL,
+  `password` varchar(60) DEFAULT NULL,
+  `real_name` varchar(255) DEFAULT NULL,
+  `bio` text,
+  `status` int(2) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+
+INSERT INTO `users` (`id`, `username`, `password`, `real_name`, `bio`, `status`)
+VALUES
+	(1, 'admin', 'password', 'Default Administrator', 'I&rsquo;m the default account for Anchor. If you own the site, make sure to change this!', 2);

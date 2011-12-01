@@ -7,6 +7,8 @@ class Template {
     public $path,
            $config;
            
+    private $_posts;
+           
     /**
      *    Initiate the template class, call the setup() method.
      */
@@ -34,11 +36,6 @@ class Template {
         if($u == 'articles') $this->_alias('posts');
         
         return $this;
-    }
-    
-    public function __autoload($class) {
-        $this->import(PATH . 'classes/' . strtolower($class) . '.php');
-        return new $class;
     }
     
     /**
@@ -141,13 +138,17 @@ class Template {
     public function getPosts() {
         $array = array();
         
-        if($this->url[0] == 'posts') {
-            $array = array('published' => 1, 'slug' => $this->url[1]);
-        } else {
-            $array = array('published' => 1); 
-        }
+        if(!isset($this->_posts)) {
+	        if($this->url[0] == 'posts') {
+	            $array = array('published' => 1, 'slug' => $this->url[1]);
+	        } else {
+	            $array = array('published' => 1); 
+	        }
+	        
+	        $this->_posts = $this->db->fetch('', 'posts', $array);
+	    }
         
-        return $this->db->fetch('', 'posts', $array);
+        return $this->_posts;
     }
     
     //  Get the current URL slug
@@ -162,6 +163,11 @@ class Template {
         //  Show only the visible pgaes
         return $this->db->fetch('', 'pages', array('visible' => (int) !$all));
     }
+    
+    //  Get the current URL string
+  	public function getURL() {
+  		return $this->url;
+  	}
     
     //  Get the content from a single page.
     public function getContent($slug = '', $all = false) {
@@ -183,16 +189,50 @@ class Template {
     }
     
     //  Check if the post has custom styles or not.
-    public function isCustom() {
-        //  Loop through the current posts
-        foreach($this->getPosts() as $post) {
-            $match = array($post->css, $post->js);
-            
-            return in_array($match, $post);
+    public function isCustom($post = '') {
+        
+        //  Set a fallback on our posts
+        if($post === '') {
+        	$post = $this->getPosts();
+        	$post = isset($post[0]) ? $post[0] : '';
+        }
+        
+        //  Check that it's not a homepage, and there's some custom CSS or Javascript
+        if(!$this->getSlug() === 'posts' && (!empty($post->css) || !empty($post->js))) {
+        	return true;
         }
         
         return false;
     }
+    
+    //  And the matching "get" function
+	public function getCustom() {
+		//  Check we're using custom post design
+		if($this->getSlug() == 'posts' && isset($this->_posts)) {
+		
+			//  Set our custom return values up
+			$html = '';
+			$url = array();
+		
+			//   Set the custom CSS
+			if($this->_posts[0]->css) {
+				$url['css'] = $this->_posts[0]->css;
+				$html = '<link rel="stylesheet" href="' . $this->_posts[0]->css . '">';
+			}
+			
+			//  And the Javascript
+			if($this->_posts[0]->js) {
+				$url['js'] = $this->_posts[0]->js;
+				$html .= '<script src="' . $this->_posts[0]->js . '"></script>';
+			}
+		
+		
+			return (object) array(
+				'url' => $url,
+				'html' => $html
+			);
+		}
+	} 
     
     public function shorten($text, $length) {
         $len = strlen($text);

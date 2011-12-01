@@ -23,12 +23,24 @@
             var_dump($str);
         echo '</pre>';
     }
+   
+//  Autoload any classes
+	function __autoload($class) {
+	    $file = PATH . 'system/classes/' . strtolower($class) . '.php';
+	    
+	    if(file_exists($file)) {
+	    	include_once $file;
+	    	return new $class;
+	    } else {
+	    	echo $file;
+	    }
+	    
+	    return false;
+	}
+	
 
 //  If there aren't any missing variables, go ahead and load the CMS
     if($missing == '') {
-    //  By default, we'll need the database and templating classes.
-        include_once PATH . 'system/classes/database.php';
-        include_once PATH . 'system/classes/template.php';
         
         $template = new Template($config);
         $template->run();
