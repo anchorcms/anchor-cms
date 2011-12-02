@@ -5,10 +5,7 @@
         <meta charset="utf-8">
         
         <meta name="description" content="<?php echo $this->get('metadata/description'); ?>">
-        
-        <link rel="stylesheet" href="<?php echo $this->get('theme_path'); ?>/css/reset.css">
-        <link rel="stylesheet" href="<?php echo $this->get('theme_path'); ?>/css/style.css">
-        
+                
         <script src="//code.jquery.com/jquery-latest.min.js"></script>
         <script src="<?php echo $this->get('theme_path'); ?>/js/site.js"></script>
 
@@ -16,9 +13,13 @@
 		<script src="//use.typekit.com/<?php echo $this->get('metadata/typekit'); ?>.js"></script>
 		<?php endif; ?>
 		
+		<!-- This is the main style block -->
 		<?php if($this->isCustom()): ?>
 			<!-- Link to the custom, HTML and CSS here: -->
 			<?php echo $this->getCustom()->html; ?>
+		<?php else: ?>
+			<link rel="stylesheet" href="<?php echo $this->get('theme_path'); ?>/css/reset.css">
+			<link rel="stylesheet" href="<?php echo $this->get('theme_path'); ?>/css/style.css">
 		<?php endif; ?>
     </head>
     <body class="<?php echo $this->getSlug(); ?>">

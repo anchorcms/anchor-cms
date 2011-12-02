@@ -32,6 +32,7 @@ class Template {
         //  If there isn't a folder request (ie: /home), then set it
         //  If we're on the homepage of the posts index
         if(($u == 'posts' && !isset($this->url[1])) || $u == '') $this->_alias('home');
+        
         //  Alias articles to posts
         if($u == 'articles') $this->_alias('posts');
         
@@ -58,7 +59,9 @@ class Template {
         $import = $this->import(PATH . 'theme/' . $this->get('theme') . '/' . $theme . '.php', true);
         
         if(!$import) {
-            return $this->import(PATH . 'theme/' . $this->get('theme') . '/' . ($fallback != '' ? $fallback : 'index') . '.php', true);
+            if($fallback !== false) {
+            	return $this->import(PATH . 'theme/' . $this->get('theme') . '/' . ($fallback != '' ? $fallback : 'index') . '.php', true);
+            }
         } else {
             return $import;
         }
@@ -78,12 +81,13 @@ class Template {
         $this->db = new Database($this->config['database']);
         
         //  Get the header (if it exists)
-        $this->_include('includes/header');
+        $this->_include('includes/header', false);
         
         //  Work out which body file to fetch
         if($this->url[0] == 'home') {
             $this->_include('index');
         } else {
+        	//  Check there's a page set in the database
             if(!$this->db->fetch('slug', 'pages', array('slug' => $this->url[0]))) {
                 $this->_include('404');
             } else {
@@ -92,7 +96,7 @@ class Template {
         }
 
         //  And the footer
-        $this->_include('includes/footer');
+        $this->_include('includes/footer', false);
         
         return $this;
     }
@@ -124,14 +128,15 @@ class Template {
     }
     
     //  Get the page's title
-    public function title() {
+    public function title($divider = '&middot;') {
         $title = $this->getContent($this->getSlug(), true);
+        $return = '';
         
         if(isset($title[0])) {
-            return $title[0]->title;
+            $return = $title[0]->title;
         }
         
-        return $this->config['metadata']['sitename'];
+        return $this->config['metadata']['sitename'] . ' ' . trim($divider) . ' ' . $return;
     }
     
     //  Return all of the posts in an object-array
@@ -154,7 +159,7 @@ class Template {
     //  Get the current URL slug
     public function getSlug() {
         //  Should return "posts", "home" or something like that
-        return ($this->url[0] == 'home' ? 'posts' : $this->url[0]);
+        return $this->url[0];
     }
     
     //  Get all of the pages
@@ -185,7 +190,7 @@ class Template {
     //  Check if this page is currently the homepage. Boolean.
     public function isHome() {
         //  getSlug will return "posts" on a homepage
-        return $this->url[0] == 'home';
+        return $this->url[0] === 'home';
     }
     
     //  Check if the post has custom styles or not.
@@ -194,11 +199,11 @@ class Template {
         //  Set a fallback on our posts
         if($post === '') {
         	$post = $this->getPosts();
-        	$post = isset($post[0]) ? $post[0] : '';
+        	$post = isset($post[0]) ? $post[0] : $post;
         }
-        
+                
         //  Check that it's not a homepage, and there's some custom CSS or Javascript
-        if(!$this->getSlug() === 'posts' && (!empty($post->css) || !empty($post->js))) {
+        if(($this->getSlug() === 'posts' && isset($this->url[1])) && (!empty($post->css) || !empty($post->js))) {
         	return true;
         }
         

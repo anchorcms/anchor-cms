@@ -1,4 +1,4 @@
-<h1><?php echo $this->title(); ?></h1>
+<h1><?php echo $this->title(''); ?></h1>
 
 <?php if($this->get('metadata/description')): ?>
     <p><?php echo $this->get('metadata/description'); ?></p>
@@ -13,10 +13,4 @@
         </a>
     </li>
 <?php endforeach; ?>
-</ul>
-
-<ul class="items">
-    <li>
-        <a></a>
-    </li>
 </ul>

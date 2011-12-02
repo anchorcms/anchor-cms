@@ -1,0 +1,33 @@
+<h1>Theming Anchor</h1>
+<p>Theming Anchor CMS aims to be easy.</p>
+
+<h2>The files</h2>
+<p>A theme for Anchor requires two files:</p>
+<ul>
+	<li>index.php</li>
+	<li>sub.php</li>
+	<li>about.txt</li>
+</ul>
+
+<small>Note: the search.php file is also required if your site uses a search feature.</small>
+
+<p>There are a number of optional files you can also include:</p>
+<ul>
+	<li>includes/header.php</li>
+	<li>includes/footer.php</li>
+	<li>posts.php</li>
+	<li>404.php</li>
+</ul>
+
+<p>So what do all of these files do? As the building blocks of your Anchor site, they do quite a lot.</p>
+
+<dl>
+	<dt id="page-about">about.txt <em>required</em></dt>
+		<dd>The metadata for your theme. It has its <a href="#metadata">own simple syntax</a>, and is required to show as an available theme in the admin panel.</dd>
+
+	<dt id="page-index">index.php <em>required</em></dt>
+		<dd>The source for the homepage/index page of Anchor. Unlike Wordpress, this is not the fallback page (<a href="#page-sub">sub.php</a> is).</dd>
+	
+	<dt>sub.php <em>required</em></dt>
+		<dd>The default page for subpages, and the fallback file for non-included files: if you don't have a <a href="#page-posts">posts.php</a> file, for example, it will try to load the sub.php file instead.</dd>
+</dl>
