@@ -7,6 +7,7 @@
         <meta name="description" content="<?php echo $this->get('metadata/description'); ?>">
                 
         <script src="//code.jquery.com/jquery-latest.min.js"></script>
+        <script>!window.jQuery && document.write('<script src="<?php echo $this->get('theme_path'); ?>/js/jquery.js"><\/script>')</script>
         <script src="<?php echo $this->get('theme_path'); ?>/js/site.js"></script>
 
 		<?php if($this->get('metadata/typekit')): ?>
