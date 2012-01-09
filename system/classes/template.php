@@ -80,11 +80,26 @@ class Template {
     
         $this->db = new Database($this->config['database']);
         
+        
+        if($this->url[0] === 'admin') {
+            //  If it's the admin panel
+            $admin = PATH . '/system/admin/';
+            
+            if(isset($this->url[1])) {
+                $this->import($admin . 'actions/' . $this->url[1] . '.php');
+                $this->import($admin . 'theme/' . $this->url[1] . '.php');
+                exit;
+            } else {
+                $this->import($admin . 'actions/index.php');
+                $this->import($admin . 'theme/index.php');
+            }
+        }
+        
         //  Get the header (if it exists)
         $this->_include('includes/header', false);
         
         //  Work out which body file to fetch
-        if($this->url[0] == 'home') {
+        if($this->url[0] === 'home') {
             $this->_include('index');
         } else {
         	//  Check there's a page set in the database

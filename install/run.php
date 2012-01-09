@@ -15,6 +15,7 @@
     //  Metadata
     $sitename = !empty($g->name) ? $g->name : 'My First Anchor Site';
     $description = !empty($g->description) ? $g->description : 'This is my very cool Anchor CMS site, written in PHP5 and MySQL.';
+    $theme = $g->theme;
     
     $text = "<?php
     /**
@@ -79,11 +80,11 @@
     
     //  Set the current theme
     //  This is a string name of the folder (i.e: \$config['theme'] = 'default').
-    \$config['theme'] = 'default';
+    \$config['theme'] = '$theme';
     
     //  Set debugging options.
     //  Used for development only. I'd turn this off the live site.
-    \$config['debug'] = true;";
+    \$config['debug'] = false;";
     
 
     //  Store the config file's name
