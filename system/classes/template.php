@@ -49,7 +49,7 @@ class Template {
             $include = include_once $url;
         }
         
-        return ($bool == true ? !!$include : $this);
+        return ($bool === true ? !!$include : $this);
     }
     
     /**
@@ -84,15 +84,15 @@ class Template {
         if($this->url[0] === 'admin') {
             //  If it's the admin panel
             $admin = PATH . '/system/admin/';
+            $url = isset($this->url[1]) ? $this->url[1] : 'index';
             
-            if(isset($this->url[1])) {
-                $this->import($admin . 'actions/' . $this->url[1] . '.php');
-                $this->import($admin . 'theme/' . $this->url[1] . '.php');
-                exit;
-            } else {
-                $this->import($admin . 'actions/index.php');
-                $this->import($admin . 'theme/index.php');
-            }
+            $this->import($admin . 'actions/' . $url . '.php')
+                 ->import($admin . 'includes/header.php')
+                 ->import($admin . 'theme/' . $url . '.php')
+                 ->import($admin . 'includes/footer.php');
+            
+            //  Don't run any other code
+            exit;
         }
         
         //  Get the header (if it exists)

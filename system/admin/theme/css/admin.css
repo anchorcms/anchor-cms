@@ -1,0 +1,94 @@
+/* @group */
+
+* {
+    margin: 0;
+    padding: 0;
+    
+    list-style: none;
+}
+
+::selection {
+    color: #fff;
+    background: rgba(57,115,169,.7);
+    
+    text-shadow: 0 1px 1px rgba(0,0,0,.3);
+}
+    ::-webkit-selection {
+        background: rgba(57,115,169,.7);
+        color: #fff;
+        
+        text-shadow: 0 1px 1px rgba(0,0,0,.3);
+    }
+    ::-moz-selection {
+        background: rgba(57,115,169,.7);
+        color: #fff;
+        
+        text-shadow: 0 1px 1px rgba(0,0,0,.3);
+    }
+
+body {
+    background: #e7f0f9 url('../img/bg.gif') repeat-x 0 0;
+    
+    font: 13px/22px "Helvetica Neue", sans-serif;
+    color: #75818c;
+    
+    width: 900px;
+    margin: 0 auto;
+}
+
+    header#top {
+        height: 61px;
+        line-height: 61px;
+    }
+        header#top a#logo {
+            display: block;
+            float: left;
+            
+            margin: 20px 0 0;
+            height: 24px;
+        }
+            header#top a#logo img {
+                display: block;
+            }
+            header#top a#logo:hover {
+                opacity: .8;
+            }
+        header#top nav {
+            float: left;
+            padding-left: 20px;
+        }
+            header#top nav li {
+                display: inline-block;
+                float: left;
+            }
+            header#top nav li a {
+                color: #909eab;
+                
+                font-weight: bold;
+                text-decoration: none;
+                
+                display: block;
+                padding: 0 20px;
+                
+                text-shadow: 0 1px 0 rgba(0,0,0,.3);
+            }
+                header#top nav li a:hover {
+                    color: #b7cbdf;
+                }
+                header#top nav li.active a {
+                    color: #fff;
+                    
+                    background: url('../img/active.png') no-repeat 50% 0;
+                }
+    h1 {
+        height: 86px;
+        line-height: 86px;
+        
+        font-weight: lighter;
+        color: #304355;
+        text-shadow: 0 1px 0 rgba(255,255,255,.25);
+        
+        position: relative;
+    }
+
+/* @end */
