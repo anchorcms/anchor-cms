@@ -1,7 +1,6 @@
 <?php
 
 //  Anchor's user helper.
-
 class User {
     
     /**
@@ -11,7 +10,7 @@ class User {
 
         if(isset($_SESSION[$str])) {
             return $_SESSION[$str];
-        } else if(isset($_COOKIE[$str])) {
+        } else if(isset($_COOKIE[$str]) && !empty($_COOKIE[$str])) {
             return json_decode($_COOKIE[$str]);
         }
         
@@ -27,19 +26,24 @@ class User {
         return $_SESSION[$name] = $value;
     }
     
-    public function logout($name = '_user') {
+    public function logout($str = '_user') {
+    
         if(isset($_SESSION[$str])) unset($_SESSION[$str]);
-        if(isset($_COOKIE[$str])) unset($_COOKIE[$str]);
+       
+        if(isset($_COOKIE[$str])) {
+            unset($_COOKIE[$str]);
+            setcookie($str, null, -1);
+        }
         
-        return isset($_SESSION[$str]);
+        return isset($_COOKIE[$str]) === false;
     }
     
-    public function verify($user, $pass) {
+    public function verify($user, $pass, $cookie = false) {
         $query = $this->db->fetch('', 'users', array('username' => $user, 'password' => $pass));
         
         if(count($query) === 1) {
         
-            self::login('_user', $query);
+            self::login('_user', $query, $cookie);
         
             return $query;
         }

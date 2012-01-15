@@ -80,7 +80,6 @@ class Template {
     
         $this->db = new Database($this->config['database']);
         
-        
         if($this->url[0] === 'admin') {
             //  If it's the admin panel
             $admin = PATH . '/system/admin/';
