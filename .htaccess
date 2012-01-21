@@ -4,6 +4,7 @@ Options -Indexes
 	SetEnv HTTP_MOD_REWRITE On
 	
 	RewriteEngine on 
+	RewriteBase /
 	RewriteCond %{REQUEST_FILENAME} !-d 
 	RewriteCond %{REQUEST_FILENAME} !-f 
 	RewriteRule ^(.*)$ index.php?page=$1 [L,QSA]
