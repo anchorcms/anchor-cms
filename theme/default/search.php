@@ -1,3 +1,5 @@
+<!-- <?php echo basename(__FILE__); ?> -->
+
 <section class="content">
     <h1><?php echo $this->title(); ?></h1>
     
