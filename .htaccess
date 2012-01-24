@@ -1,13 +1,13 @@
-Options -Indexes
-
 <IfModule mod_rewrite.c>
-	SetEnv HTTP_MOD_REWRITE On
-	
-	RewriteEngine on 
+	RewriteEngine On
 	RewriteBase /
-	RewriteCond %{REQUEST_FILENAME} !-d 
-	RewriteCond %{REQUEST_FILENAME} !-f 
-	RewriteRule ^(.*)$ index.php?page=$1 [L,QSA]
+
+	# Allow any files or directories that exist to be displayed directly
+	RewriteCond %{REQUEST_FILENAME} !-f
+	RewriteCond %{REQUEST_FILENAME} !-d
+
+	# Rewrite all other URLs to index.php/URL
+	RewriteRule ^(.*)$ index.php/$1 [L]
 </IfModule>
 
 <IfModule !mod_rewrite.c> 
