@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
     <head>
-        <title><?php echo $this->title(); ?></title>
+        <title><?php echo $this->title('&mdash;'); ?></title>
         <meta charset="utf-8">
         
         <meta name="description" content="<?php echo $this->get('metadata/description'); ?>">

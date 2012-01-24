@@ -210,3 +210,22 @@ section.content {
     padding: 60px 70px;
     position: relative;
 }
+
+	.items {
+		list-style-type: none;
+	}
+
+		.items li {
+			border-bottom: 2px solid #d4d4d4;
+			margin-bottom: 1em;
+			padding-bottom: 1em;
+		}
+		
+		.items li:last-child {
+			border-bottom: none;
+		}
+	
+			.items li a {
+				color: #313435;
+				text-decoration: none;
+			}

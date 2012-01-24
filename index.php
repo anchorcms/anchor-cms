@@ -8,8 +8,7 @@
  */
 
 //  Set the include path
-define('PATH', $_SERVER['DOCUMENT_ROOT'] . '/');
-define('URL', str_replace('?' . $_SERVER['QUERY_STRING'], '', filter_var($_SERVER['REQUEST_URI'], FILTER_SANITIZE_STRING)));
+define('PATH', __DIR__ . '/');
 
 //  Set the current version number
 define('VERSION', '0.3.0a');

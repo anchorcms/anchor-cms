@@ -2,6 +2,9 @@
 //  Stop direct access to the file. That's naughty.
     if(!$direct) die('No direct access allowed.');
     
+// Start session
+	session_start();
+    
 //  Grab them config files
     include_once PATH . 'config.php';
     include_once PATH . 'system/messages.php';
