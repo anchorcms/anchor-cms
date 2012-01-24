@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Anchor CMS &middot; Documentation</title>
+    <title>Anchor CMS</title>
     
     <link rel="stylesheet" href="<?php echo $this->get('base_path'); ?>system/admin/theme/css/admin.css">
 </head>
@@ -28,4 +28,4 @@
         <?php endif; ?>
     </header>
     
-    <h1><?php include_once 'titles.php'; echo $titles[$this->url[1] . '/' . $this->url[2]]; ?></h1>
+    <h1><?php include_once 'titles.php'; echo $titles[$this->url[0] . (isset($this->url[1]) ? '/' . $this->url[1] : '')]; ?></h1>

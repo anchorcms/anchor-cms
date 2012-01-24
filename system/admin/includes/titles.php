@@ -1,9 +1,10 @@
 <?php
 
     $titles = array(
-        'login/' => 'Log in',
-        '/' => 'All posts',
+        'admin/login' => 'Log in',
+        'admin' => 'All posts',
             'posts/add' => 'Add a new post',
             'posts/edit' => 'Editing post',
-        'users' => 'All users',
+        'admin/users' => 'All users',
+        'admin/metadata' => 'All Metadata'
     );
