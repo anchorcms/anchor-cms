@@ -88,7 +88,7 @@
     
 
     //  Store the config file's name
-    $file = $_SERVER['DOCUMENT_ROOT'] . '/config.php';
+    $file = '../config.php';
 
     //  If it doesn't exist, create it.
     if(!file_exists($file)) {

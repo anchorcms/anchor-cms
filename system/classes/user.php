@@ -18,7 +18,7 @@ class User {
     
     public function login($name, $value, $cookie = true) {
         //  Are we setting a cookie?
-        if($cookie === true) {
+        if($cookie) {
             return setcookie($name, json_encode($value), strtotime('+1 year'));
         }
     
@@ -27,7 +27,9 @@ class User {
     
     public function logout($str = '_user') {
     
-        if(isset($_SESSION[$str])) unset($_SESSION[$str]);
+        if(isset($_SESSION[$str])) {
+        	unset($_SESSION[$str]);
+        }
        
         if(isset($_COOKIE[$str])) {
             unset($_COOKIE[$str]);
@@ -38,16 +40,16 @@ class User {
     }
     
     public function verify($user, $pass, $cookie = false) {
-        $query = $this->db->fetch('', 'users', array('username' => $user, 'password' => $pass));
+        $result = $this->db->fetch('', 'users', array('username' => $user, 'password' => $pass));
         
-        if(count($query) === 1) {
-        
-            self::login('_user', $query, $cookie);
-        
-            return $query;
+        if(empty($result)) {
+        	return false;
         }
         
-        return false;
+        // get first object from array
+        $user = current($result);
+        
+        return self::login('_user', $user, $cookie);
     }
     
     public function encrypt($str) {

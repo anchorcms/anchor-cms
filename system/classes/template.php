@@ -27,19 +27,49 @@ class Template {
         $this->config['theme_path'] = $this->get('base_path') . 'theme/' . $this->get('theme');
         
         //  Set the URL from the request URL
-        $this->url = array_slice(explode('/', URL), 1);
+        $this->url = explode('/', $this->get_url());
         
         //  Fallbacks
-        $u = $this->url[0];
-        
+        $u = isset($this->url[0]) ? $this->url[0] : '';
+
         //  If there isn't a folder request (ie: /home), then set it
         //  If we're on the homepage of the posts index
-        if(($u == 'posts' && !isset($this->url[1])) || $u == '') $this->_alias('home');
+        if(($u == 'posts' && !isset($this->url[1])) || $u == '') {
+        	$this->_alias('posts');
+        }
         
         //  Alias articles to posts
-        if($u == 'articles') $this->_alias('posts');
+        if($u == 'articles') {
+        	$this->_alias('posts');
+        }
         
         return $this;
+    }
+    
+    private function _alias($url) {
+        return $this->url = array($url);
+    }
+    
+    /**
+     *    Get requested url
+     */
+    public function get_url() {
+		if(isset($_SERVER['PATH_INFO'])) {
+			$uri = $_SERVER['PATH_INFO'];
+		}
+		// try request uri
+		elseif(isset($_SERVER['REQUEST_URI'])) {
+			// make sure we can parse URI
+			if(($uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH)) === false) {
+				throw new Exception('Malformed request URI');
+			}
+		}
+		// cannot process request
+		else {
+			throw new Exception('Unable to determine the request URI');
+		}
+		
+		return trim($uri, '/');
     }
     
     /**
@@ -101,7 +131,7 @@ class Template {
         $this->_include('includes/header', false);
         
         //  Work out which body file to fetch
-        if($this->url[0] === 'home') {
+        if(in_array($this->url[0], array('home', 'posts')) and empty($this->url[1])) {
             $this->_include('index');
         } else {
         	//  Check there's a page set in the database
@@ -116,10 +146,6 @@ class Template {
         $this->_include('includes/footer', false);
         
         return $this;
-    }
-    
-    private function _alias($url) {
-        return $this->url[0] = $url;
     }
     
     /**
@@ -188,7 +214,10 @@ class Template {
 	            $array = array('published' => 1); 
 	        }
 	        
-	        $this->_posts = $this->db->fetch('', 'posts', $array);
+	        foreach($this->db->fetch('', 'posts', $array) as $post) {
+	        	$post->author = end($this->db->fetch('*', 'users', array('id' => $post->author)));
+	        	$this->_posts[] = $post;
+	        }
 	    }
         
         return $this->_posts;
