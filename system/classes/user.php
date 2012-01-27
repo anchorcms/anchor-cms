@@ -1,6 +1,5 @@
 <?php
 
-//  Anchor's user helper.
 class User {
     
     /**

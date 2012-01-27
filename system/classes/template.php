@@ -7,7 +7,9 @@ class Template {
     public $path,
            $config;
            
-    private $_posts;
+    private $_posts,
+            $_content,
+            $_pages;
            
     /**
      *    Initiate the template class, call the setup() method.
@@ -29,6 +31,7 @@ class Template {
         
         //  Fallbacks
         $u = $this->url[0];
+        
         //  If there isn't a folder request (ie: /home), then set it
         //  If we're on the homepage of the posts index
         if(($u == 'posts' && !isset($this->url[1])) || $u == '') $this->_alias('home');
@@ -122,13 +125,23 @@ class Template {
     /**
      *    Theming functions
      */
+     
+     
+    /**
+     *    Retrieve config files
+     */
     public function get($param) {
     
         //  Firstly, make sure they aren't trying to call the wrong method.
         if($param == 'title') return $this->$param();
-        if($param == 'posts' || $param == 'slug') {
+        
+        //  Make a list of other duplicate methods
+        $methods = array('posts', 'slug', 'url', 'pages', 'content');
+        if(in_array($param, $methods)) {
             $method = 'get' . ucwords($param);
-            return $this->$method();
+            
+            //  Double-check the method exists, just so we don't break anything.
+            return (method_exists($this, $method) ? $this->$method() : false);
         }
     
         //  Make sure it isn't trying to get a subparameter
@@ -141,7 +154,9 @@ class Template {
         return (isset($this->config[$param]) ? $this->config[$param] : false);
     }
     
-    //  Get the page's title
+    /**
+     *    Get the page title
+     */
     public function title($divider = '&middot;') {
         $title = $this->getContent($this->getSlug(), true);
         $return = '';
@@ -150,15 +165,24 @@ class Template {
             $return = $title[0]->title;
         }
         
+        //  Get a post's title
+        if(isset($this->url[1]) && $this->url[0] === 'posts') {
+            $return = $this->getPosts();
+            $return = $return[0]->title;
+        }
+        
         return $this->config['metadata']['sitename'] . ' ' . trim($divider) . ' ' . $return;
     }
     
-    //  Return all of the posts in an object-array
+    /**
+     *    Get all of the posts
+     *    @return Object
+     */
     public function getPosts() {
         $array = array();
         
         if(!isset($this->_posts)) {
-	        if($this->url[0] == 'posts') {
+	        if($this->url[0] === 'posts' && isset($this->url[1])) {
 	            $array = array('published' => 1, 'slug' => $this->url[1]);
 	        } else {
 	            $array = array('published' => 1); 
@@ -170,35 +194,52 @@ class Template {
         return $this->_posts;
     }
     
-    //  Get the current URL slug
+    /**
+     *    Return the current slug
+     *    @return URL array's first parameter
+     */
     public function getSlug() {
         //  Should return "posts", "home" or something like that
-        return $this->url[0];
+        return ($this->url[0] === 'home' ? 'posts' : $this->url[0]);
     }
     
-    //  Get all of the pages
-    //  @param: Show all the pages (even hidden ones)? Boolean.
+    /**
+     *    Get the entire URL string
+     *    @return URL array
+     */
+	public function getURL() {
+		return $this->url;
+	}
+    
+    
+    
+    /**
+     *    Get all of the pages
+     *    @param: Show all the pages (even hidden ones)? Boolean.
+     *    @return Object
+     */
     public function getPages($all = false) {
         //  Show only the visible pgaes
-        return $this->db->fetch('', 'pages', array('visible' => (int) !$all));
-    }
-    
-    //  Get the current URL string
-  	public function getURL() {
-  		return $this->url;
-  	}
-    
-    //  Get the content from a single page.
-    public function getContent($slug = '', $all = false) {
-        $array = array('visible' => (int) !$all);
-        
-        if($slug != '') {
-            $array['slug'] = $slug; 
-        } else {
-            $array['slug'] = $this->getSlug();
+        if(!isset($this->_pages)) {
+            $this->_pages = $this->db->fetch('', 'pages', array('visible' => (int) !$all));
         }
         
-        return $this->db->fetch('', 'pages', $array);
+        return $this->_pages;
+    }
+    
+    /**
+     *
+     */
+    public function getContent($slug = '', $all = false) {
+        //  Set the filter array for the query
+        $array = $all !== false ? array() : array('visible' => 1);
+        $array['slug'] = ($slug !== '' ? $slug : $this->getSlug());
+        
+        if(!isset($this->_content[$array['slug']])) {
+            $this->_content[$array['slug']] = $this->db->fetch('', 'pages', $array);
+        }
+        
+        return $this->_content[$array['slug']];
     }
     
     //  Check if this page is currently the homepage. Boolean.
@@ -251,7 +292,14 @@ class Template {
 				'html' => $html
 			);
 		}
-	} 
+	}
+	
+	/**
+	 *    Get an include part
+	 */
+	public function getInclude($part) {
+	    return $this->_include('includes/' . $part, false);
+	}
     
     public function shorten($text, $length) {
         $len = strlen($text);
