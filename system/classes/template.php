@@ -209,7 +209,7 @@ class Template {
         
         if(!isset($this->_posts)) {
 	        if($this->url[0] === 'posts' && isset($this->url[1])) {
-	            $array = array('published' => 1, 'slug' => $this->url[1]);
+                $array = array('published' => 1, 'slug' => $this->url[1]);
 	        } else {
 	            $array = array('published' => 1); 
 	        }
