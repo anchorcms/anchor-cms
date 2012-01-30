@@ -5,42 +5,33 @@
         <meta charset="utf-8">
         
         <meta name="description" content="<?php echo $this->get('metadata/description'); ?>">
-                
-        <script src="//code.jquery.com/jquery-latest.min.js"></script>
-        <script>!window.jQuery && document.write('<script src="<?php echo $this->get('theme_path'); ?>/js/jquery.js"><\/script>')</script>
-        <script src="<?php echo $this->get('theme_path'); ?>/js/site.js"></script>
-
-		<?php if($this->get('metadata/typekit')): ?>
-		<script src="//use.typekit.com/<?php echo $this->get('metadata/typekit'); ?>.js"></script>
-		<?php endif; ?>
+		
+		<link rel="stylesheet" href="<?php echo $this->get('theme_path'); ?>/css/reset.css">
+		<link rel="stylesheet" href="<?php echo $this->get('theme_path'); ?>/css/style.css">
+		
+		<link rel="stylesheet" media="only screen and (max-width: 1150px)" href="<?php echo $this->get('theme_path'); ?>/css/smaller.css">
 		
 		<!-- This is the main style block -->
-		<?php if($this->isCustom()): ?>
-			<!-- Link to the custom, HTML and CSS here: -->
-			<?php echo $this->getCustom()->html; ?>
-		<?php else: ?>
-			<link rel="stylesheet" href="<?php echo $this->get('theme_path'); ?>/css/reset.css">
-			<link rel="stylesheet" href="<?php echo $this->get('theme_path'); ?>/css/style.css">
-		<?php endif; ?>
+		<?php if($this->isCustom()) echo $this->getCustom()->html; ?>
     </head>
-    <body class="<?php echo $this->getSlug(); ?>">
+    <body class="<?php echo $this->getSlug() . ($this->isCustom() ? ' custom' : '') ?>">
+    
         <header id="top">
             <a id="logo" href="<?php echo $this->get('base_path'); ?>#top">
-                <img src="<?php echo $this->get('theme_path'); ?>/img/logo.png" alt="<?php echo $this->get('metadata/sitename'); ?>">
+                <?php echo $this->get('metadata/sitename'); ?>
             </a>
             
+            <nav id="main" role="navigation">
+                <ul>
+                    <?php foreach($this->getPages() as $page): ?>
+                    <li <?php echo ($page->slug === $this->getSlug() ? 'class="active"' : ''); ?>>
+                        <a href="/<?php echo $page->slug; ?>" title="<?php echo $page->title; ?>"><?php echo $page->name; ?></a>
+                    </li>
+                    <?php endforeach; ?>
+                </ul>
+            </nav>
+            
             <form id="search" action="/search" method="post">
-                <input type="search" name="term" placeholder="Search&hellip;" value="<?php echo Search::value('term'); ?>">
-                <button type="submit"><img src="<?php echo $this->get('theme_path'); ?>/img/search.gif"></button>
+                <input type="search" name="term" placeholder="To search, type and hit enter&hellip;" value="<?php echo Search::value('term'); ?>">
             </form>
         </header>
-        
-        <nav id="main" role="navigation">
-            <ul>
-                <?php foreach($this->getPages() as $page): ?>
-                <li <?php echo ($page->slug == $this->getSlug() ? 'class="active"' : ''); ?>>
-                    <a href="/<?php echo $page->slug; ?>" title="<?php echo $page->title; ?>"><?php echo $page->name; ?></a>
-                </li>
-                <?php endforeach; ?>
-            </ul>
-        </nav>

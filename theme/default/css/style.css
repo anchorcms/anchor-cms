@@ -3,229 +3,213 @@
  *    by @anchorcms and @visualidiot
  */
  
+/* @group HTML element */
+
 html {
-    background: #eee url('../img/bg.jpg') fixed;
-    text-align: center;
+    border-top: 3px solid #f5f5f5;
+    
+    box-shadow: inset 0 1px 0 #eee;
 }
+
 body {
-    background: #fff;
-    -webkit-box-shadow: 0 1px 1px #e0e0e0;
-    -moz-box-shadow: 0 1px 1px #e0e0e0;
-    box-shadow: 0 1px 1px #e0e0e0;
+    width: 60%;
+    margin: 40px auto;
     
-    /* If they've got a Typekit subscription, use the font names they use. */
-    font: 18px/30px "ff-meta-serif-web-pro", "Meta Serif", "MetaSerif-Book", sans-serif;
-    color: #6b7173;
+    font: lighter 18px/30px "Helvetica Neue", sans-serif;
+    color: #555;
     
-    width: 900px;
-    margin: 0 auto;
+    /* Make the text centered, in ol' IE. */
     text-align: left;
+    
+    -webkit-transition: width .25s;
+    -moz-transition: width .25s;
+    -ms-transition: width .25s;
+    -o-transition: width .25s;
+    transition: width .25s;
 }
+    body.custom {
+        margin-top: 105px; /* 75px (custom frame) + 40px (inherited padding) */
+    }
 
-h1 {
-    color: #313435;
+a {
+    color: #333;
     
-    font: 40px/38px "gesta", "Gesta", sans-serif;
-    text-align: center;
-    
-    width: 520px;
-    margin: 0 auto;
-    
-    padding-bottom: 20px;
+    -webkit-transition: color .25s, background .25s, opacity .25s;
+    -moz-transition: color .25s, background .25s, opacity .25s;
+    -ms-transition: color .25s, background .25s, opacity .25s;
+    -o-transition: color .25s, background .25s, opacity .25s;
+    transition: color .25s, background .25s, opacity .25s;
 }
+    a:hover {
+        color: #299adf;
+    }
+    
+input {
+    font: 16px "Helvetica Neue", sans-serif;
+    
+    border: 1px solid #bbb;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    
+    min-width: 280px;
+    padding: 8px 12px;
+    
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.2), 0 1px 1px #f8f8f8;
+    -moz-box-shadow: inset 0 1px 1px rgba(0,0,0,.2), 0 1px 1px #f8f8f8;
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.2), 0 1px 1px #f8f8f8;
+    
+    color: #555;
+    
+    -webkit-transition: color .25s, background .25s;
+    -moz-transition: color .25s, background .25s;
+    -ms-transition: color .25s, background .25s;
+    -o-transition: color .25s, background .25s;
+    transition: color .25s, background .25s;
+}
+    input:focus {
+        outline: none; /* "Remember to redefine these styles!" said Mr. Meyer. "OK," said I. */
+        
+        background: #fafafa;
+        color: #333;
+    }
 
-header#top {
-    background-color: #232626;
-    background-image: -webkit-gradient(linear, left top, left bottom, from(#232626), to(#36393a));
-    background-image: -webkit-linear-gradient(top, #232626, #36393a);
-    background-image: -moz-linear-gradient(top, #232626, #36393a);
-    background-image: -o-linear-gradient(top, #232626, #36393a);
-    background-image: -ms-linear-gradient(top, #232626, #36393a);
-    background-image: linear-gradient(top, #232626, #36393a);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorStr='#232626', EndColorStr='#36393a');
+/* @end */
+
+
+/* @group Header */
+
+a#logo {
+    display: block;
+    float: left;
+    padding: 5px 15px;
+    margin-right: 40px;
+
+    background: #eee;
     
-    height: 80px;
-    max-height: 120px;
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+    text-decoration: none;
     
-    padding: 0 50px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    
+    -webkit-box-shadow: inset 0 -1px 1px rgba(0,0,0,.1), 0 1px 1px rgba(0,0,0,.05);
+    -moz-box-shadow: inset 0 -1px 1px rgba(0,0,0,.1), 0 1px 1px rgba(0,0,0,.05);
+    box-shadow: inset 0 -1px 1px rgba(0,0,0,.1), 0 1px 1px rgba(0,0,0,.05);
 }
-    header#top a#logo {
-        float: left;
-        margin-top: 30px;
-        
-        opacity: .8;
-        
-        -webkit-transition: opacity .5s;
-        -moz-transition: opacity .5s;
-        -ms-transition: opacity .5s;
-        -o-transition: opacity .5s;
-        transition: opacity .5s;
+    a#logo:hover {
+        background: #41a4e1;
+        color: #fff;
     }
-        header#top a#logo:hover {
-            opacity: 1;
-        }
-            header#top a#logo:active {
-                -webkit-transition: opacity .125s;
-                -moz-transition: opacity .125s;
-                -ms-transition: opacity .125s;
-                -o-transition: opacity .125s;
-                transition: opacity .125s;
-        
-                margin-top: 31px;
-                opacity: .5;
-            }
-        header#top a#logo img {
-            -webkit-user-select: none;
-            -webkit-user-drag: none;
-        }
-    header#top form {
-        float: right;
-        position: relative;
-        padding: 3px;
-        
-        margin-top: 22px;
-        
-        -webkit-box-shadow: inset 0 1px 0 rgba(255,255,255,.1), 0 1px 1px rgba(0,0,0,.5);
-        -moz-box-shadow: inset 0 1px 0 rgba(255,255,255,.1), 0 1px 1px rgba(0,0,0,.5);
-        box-shadow: inset 0 1px 0 rgba(255,255,255,.1), 0 1px 1px rgba(0,0,0,.5);
-        
-        -webkit-border-radius: 3px;
-        -moz-border-radius: 3px;
-        border-radius: 3px;
-        
-        background-color: #888d8f;
-        background-image: -webkit-gradient(linear, left top, left bottom, from(#888d8f), to(#656b6d));
-        background-image: -webkit-linear-gradient(top, #888d8f, #656b6d);
-        background-image: -moz-linear-gradient(top, #888d8f, #656b6d);
-        background-image: -o-linear-gradient(top, #888d8f, #656b6d);
-        background-image: -ms-linear-gradient(top, #888d8f, #656b6d);
-        background-image: linear-gradient(top, #888d8f, #656b6d);
-        filter: progid:DXImageTransform.Microsoft.gradient(startColorStr='#888d8f', EndColorStr='#656b6d');
+    a#logo:active {
+        background: #299adf;
+
+        -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.2), inset 0 -1px 1px rgba(0,0,0,.1);
+        -moz-box-shadow: inset 0 1px 1px rgba(0,0,0,.2), inset 0 -1px 1px rgba(0,0,0,.1);
+        box-shadow: inset 0 1px 1px rgba(0,0,0,.2), inset 0 -1px 1px rgba(0,0,0,.1);
     }
-        header#top form input {
-            display: block;
-            
-            background: #e5e9ea;            
-            color: #2f3c42;
-            
-            border: 1px solid #45494b;
-            -webkit-border-radius: 2px;
-            -moz-border-radius: 2px;
-            border-radius: 2px;
-            
-            box-shadow: inset 0 1px 1px rgba(0,0,0,.15), 0 1px 0 rgba(255,255,255,.25);
-            
-            /* Again, Typekit first. */
-            font: bold 12px "gesta", "Gesta", "Helvetica Neue", sans-serif;
-            padding: 5px 10px;
-            
-            outline: none; /* We'll get a better focus style, honest. */
-            
-            width: 244px;
-            
-            -webkit-transition: background .25s, width .25s;
-            -moz-transition: background .25s, width .25s;
-            -ms-transition: background .25s, width .25s;
-            -o-transition: background .25s, width .25s;
-            transition: background .25s, width .25s;
-        }
-            header#top form.focus input {
-                width: 300px;
-                background: #fff;
-            }
-        header#top form button {
-            background: transparent;
-            border: none;
-           
-            position: absolute;
-            right: 15px;
-            top: 12px;
-            
-            opacity: .7;
-        }
-        
-nav#main {
-    /* I know what you're saying. "Why not use a CSS3 gradient?" Because it's about 5 times larger than using the mighty *.gif. And it's so much more crisp. */
-    background: #7c8588 url('../img/nav.gif');
-    
-    height: 50px;
-    padding: 0 30px;
+
+nav#main, nav#main li {
+    float: left;
+    list-style: none;
+    margin-right: 20px;
 }
-    nav#main ul {
-        list-style: none;
-    }
-    nav#main li {
+    nav#main a {
+        display: block;
         float: left;
-        display: inline;
+        
+        padding: 5px 15px;
+        
+        font-size: 16px;
+        line-height: 30px;
+        font-weight: bold;
     }
-        nav#main li.active {
-            /* background-color: #272c2d; */
-            background-image: -webkit-gradient(linear,left top,left bottom,from(rgba(39,44,45,.7)),to(rgba(63,70,72,.5)));
-            background-image: -webkit-linear-gradient(top,rgba(39,44,45,.7),rgba(63,70,72,.5));
-            background-image: -moz-linear-gradient(top,rgba(39,44,45,.7),rgba(63,70,72,.5));
-            background-image: -o-linear-gradient(top,rgba(39,44,45,.7),rgba(63,70,72,.5));
-            background-image: -ms-linear-gradient(top,rgba(39,44,45,.7),rgba(63,70,72,.5));
-            background-image: linear-gradient(top,rgba(39,44,45,.7),rgba(63,70,72,.5));
-            filter: progid:DXImageTransform.Microsoft.gradient(startColorStr='#272c2d',EndColorStr='#3f4648');
+        nav#main .active a {
+            background: #299adf;
+            color: #fff;
             
+            -webkit-box-shadow: inset 0 -1px 1px rgba(0,0,0,.1), 0 1px 1px rgba(0,0,0,.05);
+            -moz-box-shadow: inset 0 -1px 1px rgba(0,0,0,.1), 0 1px 1px rgba(0,0,0,.05);
+            box-shadow: inset 0 -1px 1px rgba(0,0,0,.1), 0 1px 1px rgba(0,0,0,.05);
+                        
             -webkit-border-radius: 4px;
             -moz-border-radius: 4px;
             border-radius: 4px;
-            
-            height: 34px;
-            margin: 8px 0;
-            
-            -webkit-box-shadow: inset 0 2px 1px rgba(0,0,0,.2), 0 1px 0 rgba(255,255,255,.15);
-            -moz-box-shadow: inset 0 2px 1px rgba(0,0,0,.2), 0 1px 0 rgba(255,255,255,.15);
-            box-shadow: inset 0 2px 1px rgba(0,0,0,.2), 0 1px 0 rgba(255,255,255,.15);
         }
-            nav#main li.active a {
-                margin-top: -8px;
-                color: #fff;
-            }
-        nav#main li a {
-            color: #dbdfe1;
-            text-shadow: 0 1px 1px rgba(0,0,0,.2);
-            
-            font: bold 13px/48px "gesta", "Gesta", sans-serif;
-            
+    
+header#top {
+    overflow: hidden;
+    padding-bottom: 40px;
+}
+    .custom header#top {
+        width: 60%;
+        padding: 15px 20%;
+
+        position: absolute;
+        left: 0;
+        top: 4px;
+        
+        background: #fff;
+        
+        -webkit-box-shadow: 0 1px 1px rgba(0,0,0,.1), inset 0 -1px 1px #fbfbfb;
+        -moz-box-shadow: 0 1px 1px rgba(0,0,0,.1), inset 0 -1px 1px #fbfbfb;
+        box-shadow: 0 1px 1px rgba(0,0,0,.1), inset 0 -1px 1px #fbfbfb;
+
+    }
+header#top form {
+    float: right;
+    margin-top: 2px;
+}
+    
+/* @end */
+
+
+
+/* @group Homepage */
+
+ul.items {
+    padding: 0 0 50px;
+    list-style: none;
+}
+    ul.items li {
+        position: relative;
+        overflow: hidden;
+        border-bottom: 1px solid #ddd;
+    }
+        ul.items li:nth-child(2n) {
+            background: #fafafa;
+        }
+        ul.items li h2 {
             display: block;
             float: left;
             
-            padding: 2px 20px 0;
+            width: 20%;
+            padding-right: 5%;
+            padding-left: 1%;
             
-            text-decoration: none;
-            text-transform: uppercase;
+            font-size: 30px;
+            line-height: 36px;
+            
+            text-align: right;
         }
-            nav#main li a:hover {
-                color: #fff;
-            }
-            nav#main li a:active {
-                text-shadow: 0 -1px 0 rgba(0,0,0,.2);
-                padding-top: 3px;
-                line-height: 47px;
-            }
-            
-section.content {
-    padding: 60px 70px;
-    position: relative;
-}
-
-	.items {
-		list-style-type: none;
-	}
-
-		.items li {
-			border-bottom: 2px solid #d4d4d4;
-			margin-bottom: 1em;
-			padding-bottom: 1em;
-		}
-		
-		.items li:last-child {
-			border-bottom: none;
-		}
-	
-			.items li a {
-				color: #313435;
-				text-decoration: none;
-			}
+    ul.items a {
+        display: block;
+        overflow: hidden;
+        
+        padding: 30px 20px;
+        
+        text-decoration: none;
+        color: #555;
+    }
+        ul.items a:hover {
+            color: #222;
+            background: #f4f4f4;
+        }
+        ul.items a p {
+            color: #888;
+            width: 70%;
+            float: left;
+        }
