@@ -1,7 +1,7 @@
 
 <section class="content">
-	<h1><?php echo page()->title; ?></h1>
+	<h1><?php echo page_title(); ?></h1>
 
-	<?php echo page()->content; ?>
+	<?php echo page_content(); ?>
 </section>
 
