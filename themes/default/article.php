@@ -1,13 +1,11 @@
 
 <section class="content">
-	<?php echo article()->html; ?>
+	<p><strong><?php echo article_title(); ?></strong></p>
+	
+	<?php echo article_html(); ?>
 </section>
 
-<section class="stats">
-	<p>This article is my <?php echo numeral(article()->id + 1); ?> oldest. It is <?php echo count_words(article()->html); ?> words long. </p>
-	
-	<p>It was typeset in Freight Sans (via Typekit), Nudista and Avenir, uses Microsoft 
-	for their amazing WordArt, and is powered by my wonderful, custom-built blogging 
-	software, based upon a version of my open-source CMS, Anchor. </p>
+<section class="footnote">
+	<p>This article is my <?php echo numeral(article_id() + 1); ?> oldest. It is <?php echo count_words(article_html()); ?> words long. </p>
 </section>
 
