@@ -71,9 +71,23 @@ class Posts {
 		return static::extend(Db::results($sql, $args));
 	}
 	
+	public static function delete($id) {
+		$sql = "delete from posts where id = ?";
+		Db::query($sql, array($id));
+		
+		Notifications::set('success', 'Your post has been deleted');
+		
+		return true;
+	}
+	
 	public static function update($id) {
-		$post = Input::post(array('title', 'slug', 'description', 'html', 'css', 'js', 'status'));
+		$post = Input::post(array('title', 'slug', 'description', 'html', 'css', 'js', 'status', 'delete'));
 		$errors = array();
+
+		// delete
+		if($post['delete'] !== false) {
+			return static::delete($id);
+		}
 		
 		if(empty($post['title'])) {
 			$errors[] = 'Please enter a title';
@@ -110,6 +124,57 @@ class Posts {
 		Db::query($sql, $args);
 		
 		Notifications::set('success', 'Your post has been updated');
+		
+		return true;
+	}
+	
+	public static function add() {
+		$post = Input::post(array('title', 'slug', 'description', 'html', 'css', 'js', 'status'));
+		$errors = array();
+		
+		if(empty($post['title'])) {
+			$errors[] = 'Please enter a title';
+		}
+		
+		if(empty($post['slug'])) {
+			$errors[] = 'Please enter a slug';
+		}
+		
+		if(empty($post['description'])) {
+			$errors[] = 'Please enter a description';
+		}
+		
+		if(empty($post['html'])) {
+			$errors[] = 'Please enter your html';
+		}
+		
+		if(count($errors)) {
+			Notifications::set('error', $errors);
+			return false;
+		}
+		
+		// set creation date
+		$post['created'] = date("c");
+		
+		// set author
+		$user = Users::authed();
+		$post['author'] = $user->id;
+		
+		$keys = array();
+		$values = array();
+		$args = array();
+		
+		foreach($post as $key => $value) {
+			$keys[] = '`' . $key . '`';
+			$values[] = '?';
+			$args[] = $value;
+		}
+		
+		$sql = "insert into posts (" . implode(', ', $keys) . ") values (" . implode(', ', $values) . ")";	
+		
+		Db::query($sql, $args);
+		
+		Notifications::set('success', 'Your new post has been added');
 		
 		return true;
 	}
