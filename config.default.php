@@ -56,7 +56,7 @@ return array(
 		
 		//  You can use whatever you want here.
 		'twitter' => '',
-		'date_format' => 'g:i:s A D, F jS Y'
+		'date_format' => 'jS M, Y'
 	),
 
 	//  Set the current theme
@@ -65,5 +65,5 @@ return array(
 
 	//  Set debugging options.
 	//  Used for development only. I'd turn this off the live site.
-	'debug' => true
+	'debug' => false
 );
