@@ -10,6 +10,11 @@
 		<link rel="stylesheet" href="<?php echo theme_url('/css/style.css'); ?>">
 
 		<link rel="stylesheet" media="only screen and (max-width: 1150px)" href="<?php echo theme_url('/css/smaller.css'); ?>">
+		
+		<?php if(customised()): ?>
+		<?php echo article_css(); ?>
+		<?php echo article_js(); ?>
+		<?php endif; ?>
 	</head>
 	<body>
 		<header id="top">
