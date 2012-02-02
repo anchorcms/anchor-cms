@@ -43,7 +43,15 @@ a {
     a:hover {
         color: #299adf;
     }
-    
+   
+p {
+	margin-bottom: 1em;
+}
+
+	p:last-child {
+		margin-bottom: none;
+	}
+   
 input {
     font: 16px "Helvetica Neue", sans-serif;
     
