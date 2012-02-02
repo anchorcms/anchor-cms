@@ -16,12 +16,60 @@ function posts($params = array()) {
 	return $posts;
 }
 
-function article($params = array()) {
+/*
+	Article
+*/
+function article_css() {
 	if($itm = IoC::resolve('article')) {
-		return $itm;
+		return $itm->css;
 	}
+	
+	return '';
 }
 
+function article_js() {
+	if($itm = IoC::resolve('article')) {
+		return $itm->js;
+	}
+	
+	return '';
+}
+
+function article_html() {
+	if($itm = IoC::resolve('article')) {
+		return $itm->html;
+	}
+	
+	return '';
+}
+
+function article_title() {
+	if($itm = IoC::resolve('article')) {
+		return $itm->title;
+	}
+	
+	return '';
+}
+
+function article_id() {
+	if($itm = IoC::resolve('article')) {
+		return $itm->id;
+	}
+	
+	return '';
+}
+
+function customised() {
+	if($itm = IoC::resolve('article')) {
+		return strlen($itm->css)  > 0 or strlen($itm->js)> 0;
+	}
+	
+	return false;
+}
+
+/*
+	Page
+*/
 function pages($params = array()) {
 	static $pages;
 	
@@ -40,14 +88,20 @@ function page_title() {
 	if($itm = IoC::resolve('page')) {
 		return $itm->title;
 	}
+	return '';
 }
 
-function page() {
+function page_content() {
 	if($itm = IoC::resolve('page')) {
-		return $itm;
+		return $itm->content;
 	}
+	
+	return '';
 }
 
+/*
+	Typekit
+*/
 function fonts() {
 	return Typekit::fonts();
 }

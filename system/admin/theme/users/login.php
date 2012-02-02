@@ -14,9 +14,7 @@
 			
 			<p><label>Password<br>
 			<input name="pass" type="password"></label></p>
-		
-			<p><label><input type="checkbox" name="remember" value="1"> Remember me?</label></p>
-		   
+
 			<p><button type="submit">Login</button></p>
 		</fieldset>
 	</form>

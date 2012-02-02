@@ -15,10 +15,91 @@ function posts($params = array()) {
 	return $posts;
 }
 
-function article($params = array()) {
+function pagination() {
+	return '';
+}
+
+/*
+	Article
+*/
+function article_id() {
 	if($itm = IoC::resolve('article')) {
-		return $itm;
+		return $itm->id;
 	}
+	
+	return '';
+}
+
+function article_title() {
+	if($itm = IoC::resolve('article')) {
+		return $itm->title;
+	}
+	
+	return '';
+}
+
+function article_slug() {
+	if($itm = IoC::resolve('article')) {
+		return $itm->slug;
+	}
+	
+	return '';
+}
+
+function article_description() {
+	if($itm = IoC::resolve('article')) {
+		return $itm->description;
+	}
+	
+	return '';
+}
+
+function article_html() {
+	if($itm = IoC::resolve('article')) {
+		return $itm->html;
+	}
+	
+	return '';
+}
+
+function article_css() {
+	if($itm = IoC::resolve('article')) {
+		return $itm->css;
+	}
+	
+	return '';
+}
+
+function article_js() {
+	if($itm = IoC::resolve('article')) {
+		return $itm->js;
+	}
+	
+	return '';
+}
+
+function article_created() {
+	if($itm = IoC::resolve('article')) {
+		return $itm->created;
+	}
+	
+	return '';
+}
+
+function article_author() {
+	if($itm = IoC::resolve('article')) {
+		return $itm->author;
+	}
+	
+	return '';
+}
+
+function article_status() {
+	if($itm = IoC::resolve('article')) {
+		return $itm->status;
+	}
+	
+	return '';
 }
 
 /*
@@ -73,17 +154,3 @@ function current_url() {
 	return '/' . Request::uri();
 }
 
-/*
-	All things search
-*/
-function search_term() {
-	return (Request::uri_segment(1) == 'search' ? Request::uri_segment(2) : '');
-}
-
-function search_url() {
-	return '/search';
-}
-
-function search_results() {
-	return IoC::resolve('search');
-}
