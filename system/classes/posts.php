@@ -87,6 +87,9 @@ class Posts {
 		// delete
 		if($post['delete'] !== false) {
 			return static::delete($id);
+		} else {
+			// remove it frm array
+			unset($post['delete']);
 		}
 		
 		if(empty($post['title'])) {
@@ -112,6 +115,8 @@ class Posts {
 		
 		$updates = array();
 		$args = array();
+		
+		
 		
 		foreach($post as $key => $value) {
 			$updates[] = '`' . $key . '` = ?';
