@@ -55,8 +55,8 @@ class Response {
 		509 => 'Bandwidth Limit Exceeded'
 	);
 	
-	public static function header($str) {
-		static::$headers[] = $str;
+	public static function header($name, $value) {
+		static::$headers[$name] = $value;
 	}
 	
 	public static function append($str) {
@@ -96,8 +96,8 @@ class Response {
 	}
 	
 	public static function redirect($url) {
-		static::header('Location: /' . $url);
-		static::$status = 301;
+		static::header('Location', '/' . $url);
+		static::$status = 302;
 		static::$content = '';
 	}
 	
