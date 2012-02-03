@@ -7,7 +7,7 @@ function posts($params = array()) {
 	static $posts;
 	
 	if(is_null($posts)) {
-		$params['sortby'] = 'created';
+		$params['sortby'] = 'id';
 		$params['sortmode'] = 'desc';
 		$posts = Posts::list_all($params);
 	}
