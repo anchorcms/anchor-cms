@@ -92,6 +92,14 @@ function page_title($default = '') {
 	return $default;
 }
 
+function page_id() {
+	if($itm = IoC::resolve('page')) {
+		return $itm->id;
+	}
+	
+	return '';
+}
+
 function page_content() {
 	if($itm = IoC::resolve('page')) {
 		return $itm->content;
@@ -142,6 +150,13 @@ function search_url() {
 
 function search_results() {
 	return IoC::resolve('search');
+}
+
+/*
+	Users
+*/
+function user_authed() {
+	return Users::authed() !== false;
 }
 
 /*

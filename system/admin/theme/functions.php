@@ -123,7 +123,9 @@ function admin_menu() {
 	$pages = array(
 		'Posts' => 'admin/posts', 
 		'Pages' => 'admin/pages', 
-		'Users' => 'admin/users'
+		'Metadata' => 'admin/metadata', 
+		'Users' => 'admin/users',
+		'Logout' => 'admin/logout'
 	);
 	
 	return $pages;
