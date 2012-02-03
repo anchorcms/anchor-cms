@@ -15,7 +15,7 @@ class Posts {
 	
 		if(is_object($post)) {
 			$page = IoC::resolve('postspage');
-			$post->url = '/' . $page->slug . '/' . $post->slug;
+			$post->url = URL_PATH . $page->slug . '/' . $post->slug;
 			return $post;
 		}
 		
