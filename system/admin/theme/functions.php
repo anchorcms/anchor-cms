@@ -9,7 +9,6 @@
 */
 function has_posts() {
 	if(($posts = IoC::resolve('posts')) === false) {
-		$params['status'] = 'published';
 		$params['sortby'] = 'id';
 		$params['sortmode'] = 'desc';
 		
