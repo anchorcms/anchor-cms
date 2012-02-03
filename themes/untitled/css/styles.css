@@ -3,10 +3,6 @@
 	by Joni Korpi
 	License: http://opensource.org/licenses/mit-license.php	*/
 
-/* 
-	Typography 
-*/
-
 body {
 	font: 16px/24px "Asap", sans-serif;
 }
@@ -20,17 +16,6 @@ p:last-child {
 	margin: 0;
 }
 
-/* Selection colours (easy to forget) */
-
-::selection 	 	{background: rgb(255,255,158);}
-::-moz-selection 	{background: rgb(255,255,158);}
-img::selection 		{background: transparent;}
-img::-moz-selection	{background: transparent;}
-body {-webkit-tap-highlight-color: rgb(255,255,158);}
-
-/*
-	Main content styles
-*/
 header {
 	margin-bottom: 1em;
 	overflow: hidden;
@@ -41,16 +26,19 @@ a {
 	text-decoration: none;
 }
 
+.quiet {
+	color: #6B6B6B;
+}
+
 .logo {
-	float: left;
 	color: #494949;
 	text-decoration: none;
-	font-size: 1.275em;
+	float: left;
+	padding-right: 1em;
 }
 
 .menu {
 	float: left;
-	padding-left: 1em;
 }
 
 .menu ul {
@@ -64,7 +52,6 @@ a {
 }
 
 .menu ul li a {
-	font-size: 1.275em;
 	text-decoration: none;
 	padding-right: 1em;
 	color: #4D5A78;
@@ -170,6 +157,13 @@ a {
 	width: 24px;
 }
 
+/* Selection colours (easy to forget) */
+
+::selection 	 	{background: rgb(255,255,158);}
+::-moz-selection 	{background: rgb(255,255,158);}
+img::selection 		{background: transparent;}
+img::-moz-selection	{background: transparent;}
+body {-webkit-tap-highlight-color: rgb(255,255,158);}
 
 /*		Default Layout: 992px. 
 		Gutters: 24px.
