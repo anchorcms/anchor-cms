@@ -81,14 +81,15 @@ function pages($params = array()) {
 	return $pages;
 }
 
-function page_title() {
+function page_title($default = '') {
 	if($itm = IoC::resolve('article')) {
 		return $itm->title;
 	}
 	if($itm = IoC::resolve('page')) {
 		return $itm->title;
 	}
-	return '';
+
+	return $default;
 }
 
 function page_content() {
