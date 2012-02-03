@@ -150,13 +150,6 @@ function page_content() {
 }
 
 /*
-	Typekit
-*/
-function fonts() {
-	return Typekit::fonts();
-}
-
-/*
 	Meta data
 */
 function site_name() {

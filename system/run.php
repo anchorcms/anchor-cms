@@ -15,11 +15,6 @@ if(Config::load() === false) {
 Session::start();
 
 /*
-	Load any typekit fonts
-*/
-Typekit::load();
-
-/*
 	Handle routing
 */
 Anchor::run();

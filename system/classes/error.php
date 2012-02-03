@@ -28,7 +28,7 @@ class Error {
 		// If a fatal error occured that we have not handled yet, we will
 		// create an ErrorException and feed it to the exception handler,
 		// as it will not have been handled by the error handler.
-		if (($error = error_get_last()) !== null) {
+		if(($error = error_get_last()) !== null) {
 			extract($error, EXTR_SKIP);
 			static::exception(new \ErrorException($message, $type, 0, $file, $line));
 		}
@@ -64,7 +64,7 @@ class Error {
 	}
 
 	private static function context($path, $line, $padding = 5) {
-		if (file_exists($path)) {
+		if(file_exists($path)) {
 			$file = file($path, FILE_IGNORE_NEW_LINES);
 
 			array_unshift($file, '');
