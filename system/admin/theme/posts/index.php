@@ -1,8 +1,5 @@
 
-<h1>Posts</h1>
-
-<p><a href="/admin/posts/add">Create a new post</a></p>
-
+<h1>Posts <a href="/admin/posts/add">Create a new post</a></h1>
 <section class="content">
 
 	<?php echo notifications(); ?>

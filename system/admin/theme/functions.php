@@ -377,8 +377,7 @@ function admin_menu() {
 	$pages = array(
 		'Posts' => 'admin/posts', 
 		'Pages' => 'admin/pages',
-		'Users' => 'admin/users',
-		'Logout' => 'admin/logout'
+		'Users' => 'admin/users'
 	);
 	
 	return $pages;

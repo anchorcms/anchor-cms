@@ -78,6 +78,18 @@ body {
                     
                     background: url('../img/active.png') no-repeat 50% 0;
                 }
+        header#top p {
+            color: #91969c;  
+            float: right;          
+        }
+            header#top p a {
+                color: #d7dfe7;
+                padding-left: 15px;
+            }
+            header#top p a:hover {
+                color: #fff;
+            }
+        
     h1 {
         height: 86px;
         line-height: 86px;
@@ -88,6 +100,49 @@ body {
         
         position: relative;
     }
+        h1 a {
+            background-color: #4375a7;
+            background-image: -webkit-gradient(linear, left top, left bottom, from(#5e92be), to(#285890));
+            background-image: -webkit-linear-gradient(top, #5e92be, #285890);
+            background-image: -moz-linear-gradient(top, #5e92be, #285890);
+            background-image: -o-linear-gradient(top, #5e92be, #285890);
+            background-image: -ms-linear-gradient(top, #5e92be, #285890);
+            background-image: linear-gradient(top, #5e92be, #285890);
+            filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,StartColorStr='#5e92be', EndColorStr='#285890');
+            
+            border: 1px solid #164773;
+            
+            border-radius: 4px;
+            
+            -webkit-box-shadow: inset 0 1px 0 rgba(255,255,255,.25), 0 1px 1px rgba(0,0,0,.05), inset 0 -1px 1px rgba(0,0,0,.1);
+            -moz-box-shadow: inset 0 1px 0 rgba(255,255,255,.25), 0 1px 1px rgba(0,0,0,.05), inset 0 -1px 1px rgba(0,0,0,.1);
+            box-shadow: inset 0 1px 0 rgba(255,255,255,.25), 0 1px 1px rgba(0,0,0,.05), inset 0 -1px 1px rgba(0,0,0,.1);
+            
+            font: bold 13px "Helvetica Neue", sans-serif;
+            color: #fff;
+            text-shadow: 0 1px 1px rgba(0,0,0,.3);
+            text-decoration: none;
+            
+            float: right;
+            padding: 8px 14px;
+            margin-top: 28px;
+        }
+            h1 a:active {
+                -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.3), inset 0 -1px 1px rgba(0,0,0,.2), 0 1px 1px rgba(0,0,0,.1);
+                -moz-box-shadow: inset 0 1px 1px rgba(0,0,0,.3), inset 0 -1px 1px rgba(0,0,0,.2), 0 1px 1px rgba(0,0,0,.1);
+                box-shadow: inset 0 1px 1px rgba(0,0,0,.3), inset 0 -1px 1px rgba(0,0,0,.2), 0 1px 1px rgba(0,0,0,.1);
+                
+                background-color: #2d5d8a;
+                background-image: -webkit-gradient(linear, left top, left bottom, from(#386c98), to(#224f7d));
+                background-image: -webkit-linear-gradient(top, #386c98, #224f7d);
+                background-image: -moz-linear-gradient(top, #386c98, #224f7d);
+                background-image: -o-linear-gradient(top, #386c98, #224f7d);
+                background-image: -ms-linear-gradient(top, #386c98, #224f7d);
+                background-image: linear-gradient(top, #386c98, #224f7d);
+                filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,StartColorStr='#386c98', EndColorStr='#224f7d');
+                
+                border: 1px solid #0d3355;
+            }
     
 section#content {
     background: #fff;
