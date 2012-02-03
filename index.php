@@ -10,11 +10,8 @@
 //  Set the include path
 define('PATH', __DIR__ . '/');
 
-//  Set the current version number
-define('VERSION', '0.3.0a');
-
 //  Block direct access to any PHP files
-$direct = strpos(strtolower($_SERVER['SCRIPT_NAME']), strtolower(basename(__FILE__)));
+define('IN_CMS', true);
 
-//  And load the system file
-require_once PATH . 'system/index.php';
+// Lets bootstrap our application and get it ready to run
+require PATH . 'system/bootstrap.php';

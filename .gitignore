@@ -1,6 +1,7 @@
+# ignore os/app generated files
 Thumbs.db
 .DS_Store
 *.esproj
-config/*
-config.php
+
+# ignore generated config
 config.php

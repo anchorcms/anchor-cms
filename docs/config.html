@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>Anchor Cms - Documentation</title>
+		
+		<style>
+			body {
+				font: 16px/24px sans-serif;
+				width: 896px;
+				padding: 72px 48px 84px;
+			}
+			a {
+				color: #6d6d6d;
+				text-decoration: none;
+			}
+		</style>
+	</head>
+	<body>
+
+		<h1>Basic Configuration</h1>
+		<p>Fine turning Anchor.</p>
+
+		<h2><a name="requirements">Database</a></h2>
+		<p>Your database settings are found in the <code>config.php</code> there are required to run Anchor:</p>
+		
+<pre>
+'database' => array(
+	'host' => 'localhost',
+	'username' => 'myusername',
+	'password' => 'mypa33wr0d',
+	'name' => 'anchorcms'
+)
+</pre>
+
+		<small>For most hosting the database host will be localhost.</small>
+
+		<h2><a name="metadata">Metadata</a></h2>
+		<p>By default you will have these setting:</p>
+		
+<pre>
+'metadata' => array(
+	'sitename' => 'My Site Name',
+	'description' => '',
+	'typekit' => '',
+	'twitter' => '',
+	'date_format' => 'jS M, Y'
+)
+</pre>
+
+		<p>Change these to suit your needs.</p>
+		
+		<a href="index.html">&larr; Return to Documentation Index</a>
+	</body>
+</html>
