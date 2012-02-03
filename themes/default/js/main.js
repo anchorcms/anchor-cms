@@ -14,7 +14,7 @@ $(function() {
 	*/
 		
 	//  Hide the search
-	search.css('margin-top', -search.outerHeight());
+	search.css('margin-top', -(search.outerHeight() - 4));
 	
 	//  Append some way of making it come back
 	var clicked = 1,

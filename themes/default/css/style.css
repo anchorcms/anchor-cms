@@ -49,6 +49,9 @@ a, a * {
             width: 900px;
             height: auto;
         }
+        .content p {
+            padding-bottom: 15px;
+        }
 
 form#search {
 	position: relative;
