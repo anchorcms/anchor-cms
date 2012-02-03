@@ -1,223 +1,70 @@
 /**
  *    Anchor CMS' default theme
- *    by @anchorcms and @visualidiot
  */
  
-/* @group HTML element */
-
 html {
-    border-top: 3px solid #f5f5f5;
-    
-    box-shadow: inset 0 1px 0 #eee;
+    min-height: 100%;
 }
 
-body {
-    width: 60%;
-    margin: 40px auto;
-    
-    font: lighter 18px/30px "Helvetica Neue", sans-serif;
-    color: #555;
-    
-    /* Make the text centered, in ol' IE. */
-    text-align: left;
-    
-    -webkit-transition: width .25s;
-    -moz-transition: width .25s;
-    -ms-transition: width .25s;
-    -o-transition: width .25s;
-    transition: width .25s;
-}
-    body.custom {
-        margin-top: 105px; /* 75px (custom frame) + 40px (inherited padding) */
-    }
-
-a {
-    color: #333;
-    
-    -webkit-transition: color .25s, background .25s, opacity .25s;
-    -moz-transition: color .25s, background .25s, opacity .25s;
-    -ms-transition: color .25s, background .25s, opacity .25s;
-    -o-transition: color .25s, background .25s, opacity .25s;
-    transition: color .25s, background .25s, opacity .25s;
-}
-    a:hover {
-        color: #299adf;
-    }
-   
-p {
-	margin-bottom: 1em;
+body, input, textarea {
+	color: #777;
+	font: 16px/26px "Helvetica Neue", sans-serif;
 }
 
-	p:last-child {
-		margin-bottom: none;
+.wrap {
+	width: 900px;
+	margin: 0 auto;
+	
+	text-align: left;
+}
+
+form#search {
+	position: relative;
+	background: #ddd;
+	
+	padding: 10px 0;
+}
+	form#search input {
+		padding: 8px 12px;
+		color: #333;
+		
+		border: none;
+		width: 900px;
 	}
-   
-input {
-    font: 16px "Helvetica Neue", sans-serif;
-    
-    border: 1px solid #bbb;
-    -webkit-border-radius: 4px;
-    -moz-border-radius: 4px;
-    border-radius: 4px;
-    
-    min-width: 280px;
-    padding: 8px 12px;
-    
-    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.2), 0 1px 1px #f8f8f8;
-    -moz-box-shadow: inset 0 1px 1px rgba(0,0,0,.2), 0 1px 1px #f8f8f8;
-    box-shadow: inset 0 1px 1px rgba(0,0,0,.2), 0 1px 1px #f8f8f8;
-    
-    color: #555;
-    
-    -webkit-transition: color .25s, background .25s;
-    -moz-transition: color .25s, background .25s;
-    -ms-transition: color .25s, background .25s;
-    -o-transition: color .25s, background .25s;
-    transition: color .25s, background .25s;
-}
-    input:focus {
-        outline: none; /* "Remember to redefine these styles!" said Mr. Meyer. "OK," said I. */
-        
-        background: #fafafa;
-        color: #333;
-    }
 
-/* @end */
-
-
-/* @group Header */
-
-a#logo {
-    display: block;
-    float: left;
-    padding: 5px 15px;
-    margin-right: 40px;
-
-    background: #eee;
-    
-    font-size: 12px;
-    font-weight: bold;
-    text-transform: uppercase;
-    text-decoration: none;
-    
-    -webkit-border-radius: 4px;
-    -moz-border-radius: 4px;
-    border-radius: 4px;
-    
-    -webkit-box-shadow: inset 0 -1px 1px rgba(0,0,0,.1), 0 1px 1px rgba(0,0,0,.05);
-    -moz-box-shadow: inset 0 -1px 1px rgba(0,0,0,.1), 0 1px 1px rgba(0,0,0,.05);
-    box-shadow: inset 0 -1px 1px rgba(0,0,0,.1), 0 1px 1px rgba(0,0,0,.05);
-}
-    a#logo:hover {
-        background: #41a4e1;
-        color: #fff;
-    }
-    a#logo:active {
-        background: #299adf;
-
-        -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.2), inset 0 -1px 1px rgba(0,0,0,.1);
-        -moz-box-shadow: inset 0 1px 1px rgba(0,0,0,.2), inset 0 -1px 1px rgba(0,0,0,.1);
-        box-shadow: inset 0 1px 1px rgba(0,0,0,.2), inset 0 -1px 1px rgba(0,0,0,.1);
-    }
-
-nav#main, nav#main li {
-    float: left;
-    list-style: none;
-    margin-right: 20px;
-}
-    nav#main a {
-        display: block;
-        float: left;
-        
-        padding: 5px 15px;
-        
-        font-size: 16px;
-        line-height: 30px;
-        font-weight: bold;
-    }
-        nav#main .active a {
-            background: #299adf;
-            color: #fff;
-            
-            -webkit-box-shadow: inset 0 -1px 1px rgba(0,0,0,.1), 0 1px 1px rgba(0,0,0,.05);
-            -moz-box-shadow: inset 0 -1px 1px rgba(0,0,0,.1), 0 1px 1px rgba(0,0,0,.05);
-            box-shadow: inset 0 -1px 1px rgba(0,0,0,.1), 0 1px 1px rgba(0,0,0,.05);
-                        
-            -webkit-border-radius: 4px;
-            -moz-border-radius: 4px;
-            border-radius: 4px;
-        }
-    
 header#top {
-    overflow: hidden;
-    padding-bottom: 40px;
+	background: #f3f3f3;
+	padding: 50px 0 20px;
 }
-    .custom header#top {
-        width: 60%;
-        padding: 15px 20%;
-
-        position: absolute;
-        left: 0;
-        top: 4px;
-        
-        background: #fff;
-        
-        -webkit-box-shadow: 0 1px 1px rgba(0,0,0,.1), inset 0 -1px 1px #fbfbfb;
-        -moz-box-shadow: 0 1px 1px rgba(0,0,0,.1), inset 0 -1px 1px #fbfbfb;
-        box-shadow: 0 1px 1px rgba(0,0,0,.1), inset 0 -1px 1px #fbfbfb;
-
-    }
-header#top form {
-    float: right;
-    margin-top: 2px;
-}
-    
-/* @end */
-
-
-
-/* @group Homepage */
-
-ul.items {
-    padding: 0 0 50px;
-    list-style: none;
-}
-    ul.items li {
-        position: relative;
-        overflow: hidden;
-        border-bottom: 1px solid #ddd;
-    }
-        ul.items li:nth-child(2n) {
-            background: #fafafa;
-        }
-        ul.items li h2 {
-            display: block;
-            float: left;
-            
-            width: 20%;
-            padding-right: 5%;
-            padding-left: 1%;
-            
-            font-size: 30px;
-            line-height: 36px;
-            
-            text-align: right;
-        }
-    ul.items a {
-        display: block;
-        overflow: hidden;
-        
-        padding: 30px 20px;
-        
-        text-decoration: none;
-        color: #555;
-    }
-        ul.items a:hover {
-            color: #222;
-            background: #f4f4f4;
-        }
-        ul.items a p {
-            color: #888;
-            width: 70%;
-            float: left;
-        }
+	header#top div {
+		position: relative;
+	}
+	header#top a#logo {
+		color: #444;
+		font-size: 18px;
+		line-height: 30px;
+		
+		text-decoration: none;
+		
+		display: block;
+		width: 130px;
+	}
+	header#top nav {
+		position: absolute;
+		left: 170px;
+		bottom: 0;
+	}
+		header#top nav li {
+			float: left;
+		}
+		header#top nav li a {
+			color: #888;
+			
+			font-weight: bold;
+			font-size: 14px;
+			
+			text-decoration: none;
+			
+			display: block;
+			padding-right: 50px;
+		}
