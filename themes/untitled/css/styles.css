@@ -55,10 +55,14 @@ a {
 	text-decoration: none;
 	padding-right: 1em;
 	color: #4D5A78;
+	-webkit-transition: color 250ms ease-in;
+	-moz-transition: color 250ms ease-in;
+	-o-transition: color 250ms ease-in;
+	transition: color 250ms ease-in;
 }
 
 .menu ul li a:hover {
-	color: #fff;
+	color: #6D7D9F;
 	-webkit-transition: color 250ms ease-in;
 	-moz-transition: color 250ms ease-in;
 	-o-transition: color 250ms ease-in;
@@ -75,22 +79,10 @@ a {
 	padding: 6px;
 	display: block;
 	width: 240px;
-	-webkit-transition: width 250ms ease-in;
-	-moz-transition: width 250ms ease-in;
-	-o-transition: width 250ms ease-in;
-	transition: width 250ms ease-in;
-	
+
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
 	border-radius: 3px; 
-}
-
-.search input:focus {
-	width: 360px;
-	-webkit-transition: width 250ms ease-in;
-	-moz-transition: width 250ms ease-in;
-	-o-transition: width 250ms ease-in;
-	transition: width 250ms ease-in;
 }
 
 .posts {

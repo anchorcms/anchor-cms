@@ -7,20 +7,20 @@
 	<?php endif; ?>
 </section>
 
-<?php if(count(posts())): ?>
+<?php if(has_posts()): ?>
 <ul class="posts">
-	<?php foreach(posts() as $post): ?>
+	<?php while(posts()): ?>
 	<li>
-		<h3><?php echo $post->title; ?></h3>
-		<p><?php echo $post->description; ?></p>
+		<h3><?php echo post_title(); ?></h3>
+		<p><?php echo post_description(); ?></p>
 		
 		<?php if(user_authed()): ?>
-		<p><a  class="quiet" href="/admin/posts/edit/<?php echo $post->id; ?>">Edit this article</a></p>
+		<p><a  class="quiet" href="/admin/posts/edit/<?php echo post_id(); ?>">Edit this article</a></p>
 		<?php endif; ?>
 		
-		<p><a class="btn" href="<?php echo $post->url; ?>" title="<?php echo $post->title; ?>">Continue Reading</a></p>
+		<p><a class="btn" href="<?php echo post_url(); ?>" title="<?php echo post_title(); ?>">Continue Reading</a></p>
 	</li>
-	<?php endforeach; ?>
+	<?php endwhile; ?>
 </ul>
 <?php else: ?>
 <section class="content">
