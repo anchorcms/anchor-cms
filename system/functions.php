@@ -196,9 +196,17 @@ function article_js() {
 	return '';
 }
 
-function article_date() {
+function article_time() {
 	if($itm = IoC::resolve('article')) {
-		return date(Config::get('metadata.date_format'), $itm->created);
+		return $itm->created;
+	}
+	
+	return '';
+}
+
+function article_date() {
+	if(article_time() !== '') {
+	    return date(Config::get('metadata.date_format'), article_time());
 	}
 	
 	return '';
