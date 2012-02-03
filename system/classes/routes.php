@@ -6,7 +6,7 @@
 class Routes {
 
 	public function posts() {
-		if(($page = Pages::find(array('slug' => 'posts'))) === false) {
+		if(($page = IoC::resolve('postspage')) === false) {
 			return Response::error(404);
 		}
 
@@ -14,11 +14,8 @@ class Routes {
 		Template::render('posts');
 	}
 	
-	public function article($year = 0, $month = 0, $day = 0, $slug = '') {
-		$time = mktime(0, 0, 0, $month, $day, $year);
-		$params = array('slug' => $slug, 'created' => date("Y-m-d", $time));
-		
-		if(($article = Posts::find($params)) === false) {
+	public function article($slug = '') {
+		if(($article = Posts::find(array('slug' => $slug))) === false) {
 			return Response::error(404);
 		}
 		
