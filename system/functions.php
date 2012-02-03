@@ -8,7 +8,7 @@ function posts($params = array()) {
 	
 	if(is_null($posts)) {
 		$params['status'] = 'published';
-		$params['sortby'] = 'created';
+		$params['sortby'] = 'id';
 		$params['sortmode'] = 'desc';
 		$posts = Posts::list_all($params);
 	}
