@@ -96,7 +96,7 @@ class Response {
 	}
 	
 	public static function redirect($url) {
-		static::header('Location', '/' . $url);
+		static::header('Location', URL_PATH . $url);
 		static::$status = 302;
 		static::$content = '';
 	}

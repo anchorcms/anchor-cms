@@ -201,7 +201,12 @@ footer#bottom {
         font-size: 13px;
         color: #999;
     }
-    
+        footer#bottom small a {
+            color: #666;
+        }
+        footer#bottom small a:hover {
+            color: #333;
+        }
     footer#bottom a#attribution {
         display: block;
         

@@ -6,8 +6,8 @@
 
 		<meta name="description" content="<?php echo site_description(); ?>">
 
-		<link rel="stylesheet" href="<?php echo theme_url('/css/normalize.css'); ?>">
-		<link rel="stylesheet" href="<?php echo theme_url('/css/styles.css'); ?>">
+		<link rel="stylesheet" href="<?php echo theme_url('css/normalize.css'); ?>">
+		<link rel="stylesheet" href="<?php echo theme_url('css/styles.css'); ?>">
 		<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Asap">
 		
 		<?php if(customised()): ?>

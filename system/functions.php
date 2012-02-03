@@ -150,7 +150,7 @@ function article_slug() {
 function article_url() {
 	if($itm = IoC::resolve('article')) {
 		$page = IoC::resolve('postspage');
-		return '/' . $page->slug . '/' . $itm->slug;
+		return URL_PATH . $page->slug . '/' . $itm->slug;
 	}
 	
 	return '';
@@ -268,7 +268,7 @@ function site_description() {
 	Url helpers
 */
 function theme_url($file = '') {
-	return '/themes/' . Config::get('metadata.theme') . '/' . ltrim($file, '/');
+	return URL_PATH . 'themes/' . Config::get('metadata.theme') . '/' . ltrim($file, '/');
 }
 
 function current_url() {
@@ -283,7 +283,7 @@ function search_term() {
 }
 
 function search_url() {
-	return '/search';
+	return URL_PATH . 'search';
 }
 
 function search_results() {
@@ -295,6 +295,9 @@ function search_results() {
 */
 function user_authed() {
 	return Users::authed() !== false;
+}
+function admin_url() {
+    return URL_PATH . 'admin';
 }
 
 /**
