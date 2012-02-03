@@ -22,6 +22,13 @@ class Config {
 	}
 	
 	/*
+		Set a config item
+	*/
+	public static function set($key, $value) {
+		static::$items[$key] = $value;
+	}
+	
+	/*
 		Retrive a config param
 	*/
 	public static function get($key, $default = false) {

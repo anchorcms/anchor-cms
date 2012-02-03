@@ -6,7 +6,26 @@
 */
 class Anchor {
 
+	private static function setup() {
+		// Query metadata and store into our config
+		$sql = "select `key`, `value` from meta";
+		$meta = array();
+
+		foreach(Db::results($sql) as $row) {
+			$meta[$row->key] = $row->value;
+		}
+
+		Config::set('metadata', $meta);
+
+		// Store which page will host our posts
+		$page = Pages::find(array('id' => Config::get('metadata.show_posts')));
+		IoC::instance('postspage', $page, true);
+	}
+
 	public static function run() {
+		// run setup and prepare env
+		static::setup();
+		
 		// handle the requested uri
 		$uri = static::parse();
 		$segments = array();
@@ -23,7 +42,7 @@ class Anchor {
 		$reflector = new ReflectionClass($controller);
 		
 		// set the template path
-		$theme = Config::get('theme');
+		$theme = Config::get('metadata.theme');
 		Template::path(PATH . 'themes/' . $theme . '/');
 		
 		// set template theme functions
@@ -54,22 +73,28 @@ class Anchor {
 	private static function parse() {
 		// get uri
 		$uri = Request::uri();
+		
+		// route definitions
+		$routes = array();
+		
+		// posts host page
+		if($page = IoC::resolve('postspage')) {
+			$routes[$page->slug . '/(:any)'] = 'article/$1';
+			$routes[$page->slug] = 'posts';
+		}
 
 		// static routes
-		$routes = array(
+		$routes = array_merge($routes, array(
 			'admin/(:any)/(:any)/(:num)' => 'admin/$1/$2/$3',
 			'admin/(:any)/(:any)' => 'admin/$1/$2',
 			'admin/(:any)' => 'admin/$1',
 			'admin' => 'admin',
-			
-			'posts' => 'posts',
-			
+
 			'search/(:any)' => 'search/$1',
 			'search' => 'search',
-			
-			'(:num)/(:num)/(:num)/(:any)' => 'article/$1/$2/$3/$4',
+
 			'(:any)' => 'page/$1'
-		);
+		));
 		
 		// define wild-cards
 		$search = array(':any', ':num');

@@ -45,19 +45,13 @@ if(empty($errors)) {
 		"'host' => 'localhost'",
 		"'username' => 'root'",
 		"'password' => ''",
-		"'name' => 'anchorcms'",
-		"'sitename' => 'My First Anchor Site'",
-		"'description' => 'This is my very cool Anchor CMS site, written in PHP5 and MySQL.'",
-		"'theme' => 'default'"
+		"'name' => 'anchorcms'"
 	);
 	$replace = array(
 		"'host' => '" . $post['host'] . "'",
 		"'username' => '" . $post['user'] . "'",
 		"'password' => '" . $post['pass'] . "'",
-		"'name' => '" . $post['db'] . "'",
-		"'sitename' => '" . $post['name'] . "'",
-		"'description' => '" . $post['description'] . "'",
-		"'theme' => '" . $post['theme'] . "'"
+		"'name' => '" . $post['db'] . "'"
 	);
 	$config = str_replace($search, $replace, $template);
 
@@ -73,6 +67,11 @@ if(empty($errors)) {
 	try {
 		$dbh->beginTransaction();
 		$dbh->exec($sql);
+		
+		$sql= "INSERT INTO `meta` (`key`, `value`) VALUES ('sitename', ?), ('description', ?), ('theme', ?);";
+		$statement = $dbh->prepare($sql);
+		$statement->execute(array($post['name'], $post['description'], $post['theme']));
+
 		$dbh->commit();
 	} catch(PDOException $e) {
 		$errors[] = $e->getMessage();
