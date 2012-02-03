@@ -1,4 +1,12 @@
 
+<section class="content highlight">
+	<?php echo page_content(); ?>
+	
+	<?php if(user_authed()): ?>
+	<p class="footnote"><a href="/admin/pages/edit/<?php echo page_id(); ?>">&larr; Edit this page</a></p>
+	<?php endif; ?>
+</section>
+
 <?php if(count(posts())): ?>
 <ul class="posts">
 	<?php foreach(posts() as $post): ?>

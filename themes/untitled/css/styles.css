@@ -113,6 +113,10 @@ a {
 	border-bottom: 3px solid #ddd;
 }
 
+.highlight {
+	border-bottom: none;
+}
+
 .content img {
 	width: 100%;
 }
