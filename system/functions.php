@@ -19,6 +19,55 @@ function posts($params = array()) {
 /*
 	Article
 */
+function article_id() {
+	if($itm = IoC::resolve('article')) {
+		return $itm->id;
+	}
+	
+	return '';
+}
+
+function article_title() {
+	if($itm = IoC::resolve('article')) {
+		return $itm->title;
+	}
+	
+	return '';
+}
+
+function article_slug() {
+	if($itm = IoC::resolve('article')) {
+		return $itm->slug;
+	}
+	
+	return '';
+}
+
+function article_url() {
+	if($itm = IoC::resolve('article')) {
+		$time = strtotime($itm->created);
+		return '/' . date('Y-M-d', $time) . '/' . $itm->slug;
+	}
+	
+	return '';
+}
+
+function article_description() {
+	if($itm = IoC::resolve('article')) {
+		return $itm->description;
+	}
+	
+	return '';
+}
+
+function article_html() {
+	if($itm = IoC::resolve('article')) {
+		return $itm->html;
+	}
+	
+	return '';
+}
+
 function article_css() {
 	if($itm = IoC::resolve('article')) {
 		return $itm->css;
@@ -35,25 +84,17 @@ function article_js() {
 	return '';
 }
 
-function article_html() {
+function article_date() {
 	if($itm = IoC::resolve('article')) {
-		return $itm->html;
+		return date(Config::get('metadata.date_format'), strtotime($itm->created));
 	}
 	
 	return '';
 }
 
-function article_title() {
+function article_author() {
 	if($itm = IoC::resolve('article')) {
-		return $itm->title;
-	}
-	
-	return '';
-}
-
-function article_id() {
-	if($itm = IoC::resolve('article')) {
-		return $itm->id;
+		return $itm->author;
 	}
 	
 	return '';

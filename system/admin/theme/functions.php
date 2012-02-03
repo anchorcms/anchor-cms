@@ -103,6 +103,69 @@ function article_status() {
 }
 
 /*
+	Pages
+*/
+function pages($params = array()) {
+	static $posts;
+	
+	if(is_null($posts)) {
+		$params['sortby'] = 'name';
+		$params['sortmode'] = 'asc';
+		$posts = Pages::list_all($params);
+	}
+	
+	return $posts;
+}
+
+function page_id() {
+	if($itm = IoC::resolve('page')) {
+		return $itm->id;
+	}
+	
+	return '';
+}
+
+function page_slug() {
+	if($itm = IoC::resolve('page')) {
+		return $itm->slug;
+	}
+	
+	return '';
+}
+
+function page_name() {
+	if($itm = IoC::resolve('page')) {
+		return $itm->name;
+	}
+	
+	return '';
+}
+
+function page_title() {
+	if($itm = IoC::resolve('page')) {
+		return $itm->title;
+	}
+	
+	return '';
+}
+
+function page_content() {
+	if($itm = IoC::resolve('page')) {
+		return $itm->content;
+	}
+	
+	return '';
+}
+
+function page_status() {
+	if($itm = IoC::resolve('page')) {
+		return $itm->status;
+	}
+	
+	return '';
+}
+
+/*
 	notifications
 */
 function notifications() {
