@@ -68,3 +68,10 @@ header#top {
 			display: block;
 			padding-right: 50px;
 		}
+	header#top img#search {
+		cursor: pointer;
+		
+		position: absolute;
+		right: 0;
+		bottom: 0;
+	}
