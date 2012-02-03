@@ -19,6 +19,7 @@
 					<?php foreach(admin_menu() as $title => $url): ?>
 					<li><a href="/<?php echo $url; ?>"><?php echo $title; ?></a></li>
 					<?php endforeach; ?>
+					<li>Logged in as <strong><?php echo user_authed_realname(); ?></strong></li>
 				</ul>
 			</nav>
 			<?php endif; ?>
