@@ -62,8 +62,46 @@ class Routes_admin {
 		Template::render('posts/edit');
 	}
 	
-	public function pages() {
+	public function pages($action = '', $id = 0) {
+		$reflector = new ReflectionClass(__CLASS__);
+		$action = 'page_' . $action;
+		
+		if($reflector->hasMethod($action)) {
+			return $reflector->getMethod($action)->invokeArgs($this, array($id));
+		}
+
 		Template::render('pages/index');
+	}
+	
+	public function page_add() {
+		if(Input::method() == 'POST') {
+			if(Pages::add()) {
+				return Response::redirect('admin/pages');
+			}
+		}
+		Template::render('pages/add');
+	}
+	
+	public function page_edit($id = 0) {
+	
+		// find article
+		if(($page = Pages::find(array('id' => $id))) === false) {
+			Notifications::set('notice', 'Page not found');
+			return Response::redirect('admin/pages');
+		}
+		
+		// store object for template functions
+		IoC::instance('page', $page, true);
+		
+		// process post request
+		if(Input::method() == 'POST') {
+			if(Pages::update($id)) {
+				// redirect path
+				return Response::redirect('admin/pages');
+			}
+		}
+
+		Template::render('pages/edit');
 	}
 	
 	public function users() {

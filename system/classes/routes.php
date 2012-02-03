@@ -6,7 +6,7 @@
 class Routes {
 
 	public function posts() {
-		if(($page = Pages::find('posts')) === false) {
+		if(($page = Pages::find(array('slug' => 'posts'))) === false) {
 			return Response::error(404);
 		}
 
@@ -27,7 +27,7 @@ class Routes {
 	}
 	
 	public function page($slug = '') {
-		if(($page = Pages::find($slug)) === false) {
+		if(($page = Pages::find(array('slug' => $slug))) === false) {
 			return Response::error(404);
 		}
 
