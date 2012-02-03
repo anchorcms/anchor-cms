@@ -14,7 +14,11 @@
 		<script>var base = '<?php echo theme_url(); ?>';</script>
 		
 		<?php if(customised()): ?>
-		<?php echo article_css() . article_js(); ?>
+		    <!-- Custom CSS -->
+    		<style><?php echo article_css(); ?></style>
+    		
+    		<!--  Custom Javascript -->
+    		<script><?php echo article_js(); ?></script>
 		<?php endif; ?>
 	</head>
 	<body>

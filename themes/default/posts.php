@@ -1,13 +1,13 @@
-<?php if(count(posts())): ?>
+<?php if(has_posts()): ?>
     <ul class="items wrap">
-    	<?php foreach(posts() as $post): ?>
+    	<?php while(posts()): ?>
     	<li>
-    		<a href="<?php echo $post->url; ?>" title="<?php echo $post->title; ?>">
-    		    <time datetime="<?php echo date(DATE_W3C, $post->created); ?>"><?php echo relative_time($post->created); ?></time>
-    		    <h2><?php echo $post->title; ?></h2>
+    		<a href="<?php echo post_url(); ?>" title="<?php echo post_title(); ?>">
+    		    <time datetime="<?php echo date(DATE_W3C, post_time()); ?>"><?php echo relative_time(post_time()); ?></time>
+    		    <h2><?php echo post_title(); ?></h2>
     		</a>
     	</li>
-    	<?php endforeach; ?>
+    	<?php endwhile; ?>
     </ul>
 <?php else: ?>
     <p>Looks like you have some writing to do!</p>

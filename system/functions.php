@@ -104,9 +104,17 @@ function post_js() {
 	return '';
 }
 
-function post_date() {
+function post_time() {
 	if($itm = IoC::resolve('post')) {
-		return date(Config::get('metadata.date_format'), $itm->created);
+		return $itm->created;
+	}
+	
+	return '';
+}
+
+function post_date() {
+	if(post_time() !== '') {
+	    return date(Config::get('metadata.date_format'), post_time());
 	}
 	
 	return '';
