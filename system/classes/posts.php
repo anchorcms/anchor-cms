@@ -96,10 +96,6 @@ class Posts {
 			$errors[] = 'Please enter a title';
 		}
 		
-		if(empty($post['slug'])) {
-			$errors[] = 'Please enter a slug';
-		}
-		
 		if(empty($post['description'])) {
 			$errors[] = 'Please enter a description';
 		}
@@ -113,11 +109,13 @@ class Posts {
 			return false;
 		}
 		
+		if(empty($post['slug'])) {
+			$post['slug'] = preg_replace('/\W+/', '-', trim(strtolower($post['title'])));
+		}
+		
 		$updates = array();
 		$args = array();
-		
-		
-		
+
 		foreach($post as $key => $value) {
 			$updates[] = '`' . $key . '` = ?';
 			$args[] = $value;
@@ -141,10 +139,6 @@ class Posts {
 			$errors[] = 'Please enter a title';
 		}
 		
-		if(empty($post['slug'])) {
-			$errors[] = 'Please enter a slug';
-		}
-		
 		if(empty($post['description'])) {
 			$errors[] = 'Please enter a description';
 		}
@@ -156,6 +150,10 @@ class Posts {
 		if(count($errors)) {
 			Notifications::set('error', $errors);
 			return false;
+		}
+		
+		if(empty($post['slug'])) {
+			$post['slug'] = preg_replace('/\W+/', '-', trim(strtolower($post['title'])));
 		}
 		
 		// set creation date
