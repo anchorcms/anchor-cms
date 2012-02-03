@@ -3,18 +3,128 @@
 /*
 	Theme functions - happy templating!
 */
-function posts($params = array()) {
-	static $posts;
-	
-	if(is_null($posts)) {
+
+/*
+	Posts
+*/
+function has_posts() {
+	if(($posts = IoC::resolve('posts')) === false) {
 		$params['status'] = 'published';
 		$params['sortby'] = 'id';
 		$params['sortmode'] = 'desc';
+		
 		$posts = Posts::list_all($params);
+		IoC::instance('posts', $posts, true);
 	}
 	
-	return $posts;
+	return $posts->length() > 0;
 }
+
+function posts($params = array()) {
+	if(has_posts() === false) {
+		return false;
+	}
+	
+	$posts = IoC::resolve('posts');
+
+	if($result = $posts->valid()) {	
+		// register single post
+		$posts = IoC::resolve('posts');
+		IoC::instance('post', $posts->current(), true);
+		
+		// move to next
+		$posts->next();
+	}
+
+	return $result;
+}
+
+function post_id() {
+	if($itm = IoC::resolve('post')) {
+		return $itm->id;
+	}
+	
+	return '';
+}
+
+function post_title() {
+	if($itm = IoC::resolve('post')) {
+		return $itm->title;
+	}
+	
+	return '';
+}
+
+function post_slug() {
+	if($itm = IoC::resolve('post')) {
+		return $itm->slug;
+	}
+	
+	return '';
+}
+
+function post_url() {
+	if($itm = IoC::resolve('post')) {
+		$page = IoC::resolve('postspage');
+		return '/' . $page->slug . '/' . $itm->slug;
+	}
+	
+	return '';
+}
+
+function post_description() {
+	if($itm = IoC::resolve('post')) {
+		return $itm->description;
+	}
+	
+	return '';
+}
+
+function post_html() {
+	if($itm = IoC::resolve('post')) {
+		return $itm->html;
+	}
+	
+	return '';
+}
+
+function post_css() {
+	if($itm = IoC::resolve('post')) {
+		return $itm->css;
+	}
+	
+	return '';
+}
+
+function post_js() {
+	if($itm = IoC::resolve('post')) {
+		return $itm->js;
+	}
+	
+	return '';
+}
+
+function post_date() {
+	if($itm = IoC::resolve('post')) {
+		return date(Config::get('metadata.date_format'), strtotime($itm->created));
+	}
+	
+	return '';
+}
+
+function post_author() {
+	if($itm = IoC::resolve('post')) {
+		return $itm->author;
+	}
+	
+	return '';
+}
+
+
+
+
+
+
 
 /*
 	Article
@@ -45,8 +155,8 @@ function article_slug() {
 
 function article_url() {
 	if($itm = IoC::resolve('article')) {
-		$time = strtotime($itm->created);
-		return '/' . date('Y-M-d', $time) . '/' . $itm->slug;
+		$page = IoC::resolve('postspage');
+		return '/' . $page->slug . '/' . $itm->slug;
 	}
 	
 	return '';
@@ -160,11 +270,15 @@ function site_description() {
 	return Config::get('metadata.description');
 }
 
+function twitter_account() {
+	return Config::get('metadata.twitter');
+}
+
 /*
 	Url helpers
 */
 function theme_url($file = '') {
-	return '/themes/' . Config::get('theme') . '/' . ltrim($file, '/');
+	return '/themes/' . Config::get('metadata.theme') . '/' . ltrim($file, '/');
 }
 
 function current_url() {

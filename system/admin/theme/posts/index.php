@@ -7,7 +7,7 @@
 
 	<?php echo notifications(); ?>
 	
-	<?php if(count(posts())): ?>
+	<?php if(has_posts()): ?>
 	<table>
 		<thead>
 			<tr>
@@ -22,13 +22,13 @@
 			</tr>
 		</tfoot>
 		<tbody>
-			<?php foreach(posts() as $post): ?>
+			<?php while(posts()): ?>
 			<tr>
-				<td><a href="/admin/posts/edit/<?php echo $post->id ?>"><?php echo $post->title; ?></a></td>
-				<td><?php echo date(Config::get('metadata.date_format'), strtotime($post->created)); ?></td>
-				<td><?php echo ucwords($post->status); ?></td>
+				<td><a href="/admin/posts/edit/<?php echo post_id() ?>"><?php echo post_title(); ?></a></td>
+				<td><?php echo post_date(); ?></td>
+				<td><?php echo ucwords(post_status()); ?></td>
 			</tr>
-			<?php endforeach; ?>
+			<?php endwhile; ?>
 		</tbody>
 	</table>
 	<?php else: ?>

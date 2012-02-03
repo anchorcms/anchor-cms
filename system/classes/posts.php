@@ -14,9 +14,8 @@ class Posts {
 		}
 	
 		if(is_object($post)) {
-			$time = strtotime($post->created);
-			$post->url = '/' . date('Y/m/d', $time) . '/' . $post->slug;
-		
+			$page = IoC::resolve('postspage');
+			$post->url = '/' . $page->slug . '/' . $post->slug;
 			return $post;
 		}
 		
@@ -39,8 +38,14 @@ class Posts {
 				$sql .= " " . $params['sortmode'];
 			}
 		}
+		
+		$results = Db::results($sql, $args);
+		
+		// extend result set with post url
+		$results = static::extend($results);
 
-		return static::extend(Db::results($sql, $args));
+		// return items obj
+		return new Items($results);
 	}
 	
 	public static function find($where = array()) {
