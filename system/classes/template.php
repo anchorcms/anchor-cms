@@ -35,7 +35,7 @@ class Template {
 	
 	public static function render($template) {
 		// get default theme
-		$theme = Config::get('theme');
+		$theme = Config::get('metadata.theme');
 		
 		// load theme functions
 		if(static::$funcs) {
