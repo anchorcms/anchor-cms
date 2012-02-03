@@ -106,7 +106,7 @@ function post_js() {
 
 function post_date() {
 	if($itm = IoC::resolve('post')) {
-		return date(Config::get('metadata.date_format'), $itm->created));
+		return date(Config::get('metadata.date_format'), $itm->created);
 	}
 	
 	return '';
