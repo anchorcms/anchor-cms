@@ -1,6 +1,6 @@
 <?php defined('IN_CMS') or die('No direct access allowed.');
 
-/*
+/**
 	Theme functions - happy templating!
 */
 
@@ -120,13 +120,7 @@ function post_author() {
 	return '';
 }
 
-
-
-
-
-
-
-/*
+/**
 	Article
 */
 function article_id() {
@@ -196,7 +190,7 @@ function article_js() {
 
 function article_date() {
 	if($itm = IoC::resolve('article')) {
-		return date(Config::get('metadata.date_format'), strtotime($itm->created));
+		return date(Config::get('metadata.date_format'), $itm->created);
 	}
 	
 	return '';
@@ -218,7 +212,7 @@ function customised() {
 	return false;
 }
 
-/*
+/**
 	Page
 */
 function pages($params = array()) {
@@ -259,7 +253,7 @@ function page_content() {
 	return '';
 }
 
-/*
+/**
 	Meta data
 */
 function site_name() {
@@ -270,11 +264,7 @@ function site_description() {
 	return Config::get('metadata.description');
 }
 
-function twitter_account() {
-	return Config::get('metadata.twitter');
-}
-
-/*
+/**
 	Url helpers
 */
 function theme_url($file = '') {
@@ -285,7 +275,7 @@ function current_url() {
 	return Request::uri();
 }
 
-/*
+/**
 	All things search
 */
 function search_term() {
@@ -300,16 +290,20 @@ function search_results() {
 	return IoC::resolve('search');
 }
 
-/*
+/**
 	Users
 */
 function user_authed() {
 	return Users::authed() !== false;
 }
 
-/*
+/**
 	Misc helpers
 */
+function twitter_account() {
+	return Config::get('metadata.twitter');
+}
+
 function numeral($number) {
 	$test = abs($number) % 10;
 	$ext = ((abs($number) % 100 < 21 and abs($number) % 100 > 4) ? 'th' : (($test < 4) ? ($test < 3) ? ($test < 2) ? ($test < 1) ? 'th' : 'st' : 'nd' : 'rd' : 'th'));
@@ -318,4 +312,35 @@ function numeral($number) {
 
 function count_words($str) {
 	return count(preg_split('/\s+/', strip_tags($str), null, PREG_SPLIT_NO_EMPTY));
+}
+
+function pluralise($amount, $str, $alt = '') {
+    return $amount === 1 ? $str : $str . ($alt !== '' ? $alt : 's');
+}
+
+function relative_time($date) {
+    $elapsed = time() - $date;
+    
+    if($elapsed <= 1) {
+        return 'Just now';
+    }
+    
+    $times = array(
+        31104000 => 'year',
+        2592000 => 'month',
+        604800 => 'week',
+        86400 => 'day',
+        3600 => 'hour',
+        60 => 'minute',
+        1 => 'second'
+    );
+    
+    foreach($times as $seconds => $title) {
+        $rounded = $elapsed / $seconds;
+        
+        if($rounded > 1) {
+            $rounded = round($rounded);
+            return $rounded . ' ' . pluralise($rounded, $title) . ' ago';
+        }
+    }
 }

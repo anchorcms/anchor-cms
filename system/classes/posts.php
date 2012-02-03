@@ -162,7 +162,7 @@ class Posts {
 		}
 		
 		// set creation date
-		$post['created'] = date("c");
+		$post['created'] = time();
 		
 		// set author
 		$user = Users::authed();

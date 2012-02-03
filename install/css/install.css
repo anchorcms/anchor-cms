@@ -43,10 +43,11 @@ small {
 
 p.error, p.success {
 	color: #fff;
-	text-shadow: 0 1px 1px #600;
+	text-shadow: 0 1px 1px rgba(0,0,0,.3);
 	text-align: center;
-	border-radius: 3px;
 	padding: 10px;
+
+	border-radius: 3px;
 }
 
 p.error {
@@ -54,7 +55,7 @@ p.error {
 }
     
 p.success {
-	background: #BCBC8D;
+	background: #757e0e;
 }
     
     

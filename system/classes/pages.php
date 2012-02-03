@@ -24,7 +24,7 @@ class Pages {
 
 		foreach(Db::results($sql, $args) as $page) {
 			$page->url = '/' . $page->slug;
-			$page->active = (strlen($uri) ? strpos($page->slug, Request::uri()) !== false : ($page->slug == 'posts' ? true : false));
+			$page->active = (strlen($uri) ? strpos($page->slug, Request::uri()) !== false : $page->slug === 'posts');
 			$pages[] = $page;
 		}
 
