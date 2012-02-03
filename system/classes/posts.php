@@ -14,8 +14,7 @@ class Posts {
 		}
 	
 		if(is_object($post)) {
-			$time = strtotime($post->created);
-			$post->url = '/' . date('Y/m/d', $time) . '/' . $post->slug;
+			$post->url = '/' . date('Y/m/d', $post->created) . '/' . $post->slug;
 		
 			return $post;
 		}
@@ -157,7 +156,7 @@ class Posts {
 		}
 		
 		// set creation date
-		$post['created'] = date("c");
+		$post['created'] = time();
 		
 		// set author
 		$user = Users::authed();

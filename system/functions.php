@@ -1,6 +1,6 @@
 <?php defined('IN_CMS') or die('No direct access allowed.');
 
-/*
+/**
 	Theme functions - happy templating!
 */
 function posts($params = array()) {
@@ -16,7 +16,7 @@ function posts($params = array()) {
 	return $posts;
 }
 
-/*
+/**
 	Article
 */
 function article_id() {
@@ -86,7 +86,7 @@ function article_js() {
 
 function article_date() {
 	if($itm = IoC::resolve('article')) {
-		return date(Config::get('metadata.date_format'), strtotime($itm->created));
+		return date(Config::get('metadata.date_format'), $itm->created);
 	}
 	
 	return '';
@@ -108,7 +108,7 @@ function customised() {
 	return false;
 }
 
-/*
+/**
 	Page
 */
 function pages($params = array()) {
@@ -149,7 +149,7 @@ function page_content() {
 	return '';
 }
 
-/*
+/**
 	Meta data
 */
 function site_name() {
@@ -160,7 +160,7 @@ function site_description() {
 	return Config::get('metadata.description');
 }
 
-/*
+/**
 	Url helpers
 */
 function theme_url($file = '') {
@@ -171,7 +171,7 @@ function current_url() {
 	return Request::uri();
 }
 
-/*
+/**
 	All things search
 */
 function search_term() {
@@ -186,14 +186,14 @@ function search_results() {
 	return IoC::resolve('search');
 }
 
-/*
+/**
 	Users
 */
 function user_authed() {
 	return Users::authed() !== false;
 }
 
-/*
+/**
 	Misc helpers
 */
 function numeral($number) {
@@ -204,4 +204,35 @@ function numeral($number) {
 
 function count_words($str) {
 	return count(preg_split('/\s+/', strip_tags($str), null, PREG_SPLIT_NO_EMPTY));
+}
+
+function pluralise($amount, $str, $alt = '') {
+    return $amount === 1 ? $str : $str . ($alt !== '' ? $alt : 's');
+}
+
+function relative_time($date) {
+    $elapsed = time() - $date;
+    
+    if($elapsed <= 1) {
+        return 'Just now';
+    }
+    
+    $times = array(
+        31104000 => 'year',
+        2592000 => 'month',
+        604800 => 'week',
+        86400 => 'day',
+        3600 => 'hour',
+        60 => 'minute',
+        1 => 'second'
+    );
+    
+    foreach($times as $seconds => $title) {
+        $rounded = $elapsed / $seconds;
+        
+        if($rounded > 1) {
+            $rounded = round($rounded);
+            return $rounded . ' ' . pluralise($rounded, $title) . ' ago';
+        }
+    }
 }

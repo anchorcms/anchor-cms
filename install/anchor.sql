@@ -19,7 +19,7 @@ CREATE TABLE `posts` (
   `html` text NOT NULL,
   `css` text NOT NULL,
   `js` text NOT NULL,
-  `created` date NOT NULL,
+  `created` int(11) NOT NULL,
   `author` int(6) NOT NULL,
   `status` enum('draft','published','archived') NOT NULL,
   PRIMARY KEY (`id`),
@@ -43,7 +43,7 @@ INSERT INTO `pages` (`slug`, `name`, `title`, `content`, `status`) VALUES
 ('about', 'About', 'A little bit about me', '<p>This is a little bit of text about me.</p>', 'published');
 
 INSERT INTO `posts` (`title`, `slug`, `description`, `html`, `css`, `js`, `created`, `author`, `status`) VALUES
-('Hellow World', 'hello', 'Hello World.', '<p>My first post.</p>', '', '', '2012-01-03', 1, 'published');
+('Hellow World', 'hello', 'Hello World.', '<p>My first post.</p>', '', '', '[[now]]', 1, 'published');
 
 INSERT INTO `users` (`username`, `password`, `real_name`, `bio`, `status`) VALUES
 ('admin', '$1$zWh0Xu7w$hmt6j9VIwzPvRFwhKXj8G.', 'Administrator', 'Default account for Anchor.', 2);

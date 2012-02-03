@@ -68,7 +68,7 @@ if(empty($errors)) {
 
 // create db
 if(empty($errors)) {
-	$sql = file_get_contents('anchor.sql');
+	$sql = str_replace('[[now]]', time(), file_get_contents('anchor.sql'));
 	
 	try {
 		$dbh->beginTransaction();
