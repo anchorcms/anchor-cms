@@ -21,8 +21,6 @@
 					<?php endforeach; ?>
 				</ul>
 			</nav>
-
-			<a class="logout" href="/admin/logout">Log out</a>
 			<?php endif; ?>
 		</header>
 
