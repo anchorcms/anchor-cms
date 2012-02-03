@@ -4,4 +4,4 @@ Thumbs.db
 *.esproj
 
 # ignore generated config
-config.php
+/config.php
