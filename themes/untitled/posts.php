@@ -12,6 +12,7 @@
 	<?php while(posts()): ?>
 	<li>
 		<h3><?php echo post_title(); ?></h3>
+		<p>Posted on <?php echo post_date(); ?></p>
 		<p><?php echo post_description(); ?></p>
 		
 		<?php if(user_authed()): ?>
