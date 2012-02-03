@@ -344,3 +344,4 @@ function relative_time($date) {
         }
     }
 }
+
