@@ -106,7 +106,7 @@ class Anchor {
 			$route = str_replace($search, $replace, $route);
 
 			// look for matches
-			if(preg_match('#' . $route . '#', $uri, $matches)) {
+			if(preg_match('#^' . $route . '#', $uri, $matches)) {
 				// replace matched values
 				foreach($matches as $k => $match) {
 					$translated = str_replace('$' . $k, $match, $translated);
