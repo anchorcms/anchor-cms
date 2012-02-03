@@ -42,6 +42,18 @@ class Template {
 			require static::$funcs;
 		}
 
+		// if more than one template is specified find the first one that exists
+		if(is_array($template)) {
+			foreach($template as $tpl) {
+				$filepath = static::$path . $tpl . '.php';
+				
+				if(file_exists($filepath)) {
+					$template = $tpl;
+					break;
+				}
+			}
+		}
+
 		// render files
 		foreach(array('includes/header', $template, 'includes/footer') as $file) {
 			$filepath = static::$path . $file . '.php';
