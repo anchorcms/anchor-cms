@@ -1,29 +1,38 @@
-<?php if(file_exists('../config.php')) die('You should really delete this folder now Anchor is installed.'); ?>
+<?php if(file_exists('../config.php')) die('Anchor is already installed.'); ?>
 <!doctype html>
 <html lang="en-gb">
     <head>
         <meta charset="utf-8">
         <title>Install Anchor CMS</title>
         
-        <link rel="stylesheet" href="install.css">
+        <link rel="stylesheet" href="/install/css/install.css">
         
-        <script src="../theme/default/js/jquery.js"></script>
-        <script src="install.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+        <script>window.jQuery || document.write('<script src="/install/js/jquery.js"><\/script>');</script>
+        <script src="/install/js/install.js"></script>
     </head>
     
     <body>
     
-        <p id="error"><span>You will need Javascript enabled for this installation. <em>Sorry :(</em></span></p>
+        <p class="nojs error">You will need Javascript enabled for this installation. <em>Sorry :(</em></p>
     
-        <h1><img src="files/logo.gif" alt="Anchor install logo"></h1>
+        <h1><img src="/install/img/logo.gif" alt="Anchor install logo"></h1>
         
-        <div>
+        <div class="content">
             <h2>Welcome to Anchor.</h2>
-            <p>If you were looking for a truly lightweight blogging experience, you&rsquo;ve found the right place. Simply fill in the details below, and you&rsquo;ll have your new blog set up in no time.</p>
-            <small>If you want a more custom install, feel free to edit <code>config.default.php</code> (before or after this installation, it doesn't really matter, as long as you rename it to <code>config.php</code>).</small>
+
+            <p>If you were looking for a truly lightweight blogging experience, you&rsquo;ve 
+            found the right place. Simply fill in the details below, and you&rsquo;ll have your 
+            new blog set up in no time.</p>
+            
+            <small>If you want a more custom install, feel free to edit <code>config.default.php</code> 
+            (before or after this installation, it doesn't really matter, as long as you rename it to 
+            <code>config.php</code>).</small>
+            
+            <div class="notes"></div>
             
             <form method="get" novalidate>
-                <fieldset>
+                <fieldset id="diagnose">
                     <legend>Your database details</legend>
                     
                     <p>
@@ -43,7 +52,7 @@
                         <input id="db" autocapitalize="off" name="db" placeholder="anchor">
                     </p>
                     
-                    <a href="javascript:''" class="button">Check database details</a>
+                    <a href="#check" class="button">Check database details</a>
                 </fieldset>
                 
                 <fieldset>
@@ -64,8 +73,8 @@
                         <select id="theme" name="theme">
                             <?php
                             
-                            foreach(glob('../theme/*') as $theme) {
-                                $name = str_replace('../theme/', '', $theme);
+                            foreach(glob('../themes/*') as $theme) {
+                                $name = str_replace('../themes/', '', $theme);
                                 
                                 if(file_exists($theme . '/about.txt')) {
                                     echo '<option value="' . $name . '">' . $name . '</option>';
