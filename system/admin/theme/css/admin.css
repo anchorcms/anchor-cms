@@ -425,6 +425,12 @@ footer#bottom {
     
     text-shadow: 0 1px 0 #f7fbff;
 }
+    footer#bottom a {
+        color: #474e56;
+    }
+        footer#bottom a:hover {
+            color: #2d353d;
+        }
     footer#bottom small {
         float: left;
         font-size: 13px;

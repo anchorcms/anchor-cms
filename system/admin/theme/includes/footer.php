@@ -15,7 +15,7 @@
     </aside>
 
     <footer id="bottom">
-        <small>Powered by Anchor, version <?php echo ANCHOR_VERSION; ?>.</small>
+        <small>Powered by Anchor, version <?php echo ANCHOR_VERSION; ?>. <a href="../">Visit your site</a>.</small>
         
         <em>Make blogging beautiful.</em>
     </footer>
