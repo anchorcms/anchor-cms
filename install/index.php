@@ -5,11 +5,11 @@
         <meta charset="utf-8">
         <title>Install Anchor CMS</title>
         
-        <link rel="stylesheet" href="/install/css/install.css">
+        <link rel="stylesheet" href="css/install.css">
         
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
         <script>window.jQuery || document.write('<script src="/install/js/jquery.js"><\/script>');</script>
-        <script src="/install/js/install.js"></script>
+        <script src="js/install.js"></script>
     </head>
     
     <body>
