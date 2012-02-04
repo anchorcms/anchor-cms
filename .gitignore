@@ -5,3 +5,6 @@ Thumbs.db
 
 # ignore generated config
 /config.php
+
+# ignore user mod_rewrite
+.htaccess
