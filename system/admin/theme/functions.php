@@ -409,6 +409,10 @@ function current_url() {
 	return URL_PATH . Request::uri();
 }
 
+function menu_url() {
+    return Request::uri();
+}
+
 /**
 	Pagination
 */
