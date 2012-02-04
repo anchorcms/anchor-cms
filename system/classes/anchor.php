@@ -88,6 +88,8 @@ class Anchor {
 
 			'search/(:any)' => 'search/$1',
 			'search' => 'search',
+			
+			'rss' => 'rss',
 
 			'(:any)' => 'page/$1'
 		));

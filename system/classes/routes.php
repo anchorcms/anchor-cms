@@ -32,8 +32,13 @@ class Routes {
 		Template::render('page');
 	}
 	
+	public function rss() {
+	    IoC::instance('rss', '', true);
+	    Template::render('rss');
+	}
+	
 	public function search($term = '') {
-		if($_SERVER['REQUEST_METHOD'] == 'POST') {
+		if($_SERVER['REQUEST_METHOD'] === 'POST') {
 			if(isset($_POST['term']) and strlen($_POST['term'])) {
 				return Response::redirect('search/' . rawurlencode($_POST['term']));
 			}

@@ -1,7 +1,7 @@
 
 		<footer>
 			<?php if(user_authed()): ?>
-			<a class="anchor" href="/admin" title="Site Admin">Anchor Cms</a>
+			<a class="anchor" href="<?php echo admin_url(); ?>" title="Site Admin">Anchor Cms</a>
 			<?php else: ?>
 			<a class="anchor" href="//anchorcms.com/" title="Anchor Cms">Anchor Cms</a>
 			<?php endif; ?>

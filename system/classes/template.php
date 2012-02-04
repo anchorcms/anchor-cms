@@ -31,6 +31,13 @@ class Template {
 		if(strpos(static::$path, 'system/admin/theme') === false) {
 			require PATH . 'system/functions.php';
 		}
+		
+		//  Handle RSS outside of the templating engine
+		if($template === 'rss') {
+		    static::parse(PATH . 'system/generated/rss.php');
+		    
+		    return;
+		}
 
 		// load theme functions
 		if(file_exists(static::$path . 'functions.php')) {

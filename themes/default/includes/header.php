@@ -8,6 +8,8 @@
 
 		<link rel="stylesheet" href="<?php echo theme_url('/css/reset.css'); ?>">
 		<link rel="stylesheet" href="<?php echo theme_url('/css/style.css'); ?>">
+		
+		<link rel="alternate" type="application/rss+xml" title="RSS" href="<?php echo rss_url(); ?>">
 
 		<script src="//code.jquery.com/jquery-latest.min.js"></script>
 		<script src="<?php echo theme_url('/js/main.js'); ?>"></script>
