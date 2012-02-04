@@ -7,4 +7,4 @@ Thumbs.db
 /config.php
 
 # ignore user mod_rewrite
-.htaccess
+/.htaccess
