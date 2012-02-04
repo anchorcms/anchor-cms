@@ -183,6 +183,17 @@ ul.items {
                 color: #2082ab;
             }
             
+section.footnote {
+    width: 730px;
+    margin: 0 auto 60px;
+    text-align: left;
+
+    font: italic 12px/19px Georgia, serif;
+    color: #aaa;
+    
+    padding-left: 170px;
+}
+            
 footer#bottom {
     width: 130px;
     height: 80px;
@@ -212,7 +223,9 @@ footer#bottom {
         list-style: none;
         
         position: relative;
-        top: -10px;
+        top: -8px;
+        
+        width: 730px;
     }
         footer#bottom ul li {
             display: inline-block;
