@@ -7,7 +7,7 @@
 			<?php endif; ?>
 		
 			<?php if(twitter_account()): ?>
-			<a href="https://twitter.com/<?php echo twitter_account(); ?>" class="twitter-follow-button" data-show-count="false" data-size="large">Follow @<?php echo twitter_account(); ?></a>
+			<a href="<?php echo twitter_url(); ?>" class="twitter-follow-button" data-show-count="false" data-size="large">Follow @<?php echo twitter_account(); ?></a>
 			<script>
 				(function(d, s, id) {
 					var js, fjs = d.getElementsByTagName(s)[0];

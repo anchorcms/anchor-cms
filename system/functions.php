@@ -280,7 +280,11 @@ function site_description() {
 }
 
 function twitter_account() {
-	return 'http://twitter.com/' . Config::get('metadata.twitter');
+	return Config::get('metadata.twitter');
+}
+
+function twitter_url() {
+    return 'http://twitter.com/' . twitter_account();
 }
 
 /**
