@@ -22,4 +22,5 @@ Anchor::run();
 /*
 	Output awesomeness!
 */
+
 Response::send();

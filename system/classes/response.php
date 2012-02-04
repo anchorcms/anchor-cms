@@ -79,9 +79,16 @@ class Response {
 		if(array_key_exists('Content-Type', static::$headers) === false) {
 			static::$headers['Content-Type'] = 'text/html; charset=UTF-8';
 		}
+		
+		// check for RSS
+		if(Request::uri() === 'rss') {
+			//  Set the RSS header
+			header('Content-type: text/xml'); flush();
+		}
 
 		// send headers
 		if(headers_sent() === false) {
+		
 			$protocol = Input::server('server_protocol', 'HTTP/1.1');
 
 			header($protocol . ' ' . static::$status . ' ' . static::$statuses[static::$status]);
