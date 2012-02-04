@@ -1,8 +1,10 @@
-
 <section class="content">
-	<p><strong><?php echo article_title(); ?></strong></p>
+
+    <h1><?php echo article_title(); ?></h1>
 	
-	<?php echo article_html(); ?>
+	<article>
+	    <?php echo article_html(); ?>
+	</article>
 </section>
 
 <section class="footnote">

@@ -12,8 +12,7 @@ define('PATH', __DIR__ . '/');
 
 //  Set a URL path, in case Anchor gets installed on a subpage
 // @todo: move this into the config file
-$url = trim($_SERVER['SCRIPT_NAME'], basename(__FILE__));
-define('URL_PATH', $url);
+define('URL_PATH', trim($_SERVER['SCRIPT_NAME'], basename(__FILE__)));
 
 //  Block direct access to any PHP files
 define('IN_CMS', true);

@@ -1,35 +1,23 @@
-
 <h1>Posts <a href="/admin/posts/add">Create a new post</a></h1>
+
 <section class="content">
 
 	<?php echo notifications(); ?>
 	
 	<?php if(has_posts()): ?>
-	<table>
-		<thead>
-			<tr>
-				<th>Title</th>
-				<th>Created</th>
-				<th>Status</th>
-			</tr>
-		</thead>
-		<tfoot>
-			<tr>
-				<td colspan="2"><?php echo pagination(); ?></td>
-			</tr>
-		</tfoot>
-		<tbody>
-			<?php while(posts()): ?>
-			<tr>
-				<td><a href="/admin/posts/edit/<?php echo post_id() ?>"><?php echo post_title(); ?></a></td>
-				<td><?php echo post_date(); ?></td>
-				<td><?php echo ucwords(post_status()); ?></td>
-			</tr>
-			<?php endwhile; ?>
-		</tbody>
-	</table>
+	<ul class="list">
+	    <?php while(posts()): ?>
+	    <li>
+	        <a href="<?php echo URL_PATH; ?>admin/posts/edit/<?php echo post_id(); ?>">
+	            <strong><?php echo post_title(); ?></strong>
+	            <span>Created <time><?php echo post_date(); ?></time> by <?php echo post_author(); ?></span>
+	            
+	            <i class="status"><?php echo ucwords(post_status()); ?></i>
+	        </a>
+	    </li>
+	    <?php endwhile; ?>
+	</ul>
 	<?php else: ?>
-	<p>No posts just yet</p>
+	<p>No posts just yet. Why not <a href="<?php echo URL_PATH; ?>admin/posts/add">write a new one</a>?</p>
 	<?php endif; ?>
 </section>
-
