@@ -1,38 +1,22 @@
+<h1>Pages <a href="/admin/pages/add">Create a new page</a></h1>
 
-<h1>Pages</h1>
-
-<p><a href="/admin/pages/add">Create a new page</a></p>
-
+<?php echo notifications(); ?>
+	
 <section class="content">
-
-	<?php echo notifications(); ?>
 	
 	<?php if(count(pages())): ?>
-	<table>
-		<thead>
-			<tr>
-				<th>Name</th>
-				<th>Title</th>
-				<th>Status</th>
-			</tr>
-		</thead>
-		<tfoot>
-			<tr>
-				<td colspan="2"><?php echo pagination(); ?></td>
-			</tr>
-		</tfoot>
-		<tbody>
-			<?php foreach(pages() as $page): ?>
-			<tr>
-				<td><a href="/admin/pages/edit/<?php echo $page->id ?>"><?php echo $page->name; ?></a></td>
-				<td><?php echo $page->title; ?></td>
-				<td><?php echo ucwords($page->status); ?></td>
-			</tr>
-			<?php endforeach; ?>
-		</tbody>
-	</table>
+    	<ul class="list">
+    	    <?php foreach(pages() as $page): ?>
+    	    <li>
+    	        <a href="<?php echo URL_PATH; ?>admin/pages/edit/<?php echo $page->id; ?>">
+    	            <strong><?php echo $page->name; ?></strong>
+    	            
+    	            <i class="status"><?php echo ucwords($page->status); ?></i>
+    	        </a>
+    	    </li>
+    	    <?php endforeach; ?>
+    	</ul>
 	<?php else: ?>
-	<p>No pages just yet</p>
+    	<p>No pages just yet. Why not <a href="<?php echo URL_PATH; ?>admin/pages/add">write a new one</a>?</p>
 	<?php endif; ?>
 </section>
-

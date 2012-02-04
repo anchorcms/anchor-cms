@@ -1,35 +1,18 @@
+<h1>Users <a href="/admin/users/add">Create a new user</a></h1>
 
-<h1>Users</h1>
-
-<p><a href="/admin/users/add">Create a new user</a></p>
+<?php echo notifications(); ?>
 
 <section class="content">
-
-	<?php echo notifications(); ?>
-
-	<table>
-		<thead>
-			<tr>
-				<th>Name</th>
-				<th>Username</th>
-				<th>Role</th>
-			</tr>
-		</thead>
-		<tfoot>
-			<tr>
-				<td colspan="2"><?php echo pagination(); ?></td>
-			</tr>
-		</tfoot>
-		<tbody>
-			<?php foreach(users() as $user): ?>
-			<tr>
-				<td><a href="/admin/users/edit/<?php echo $user->id ?>"><?php echo $user->real_name; ?></a></td>
-				<td><?php echo $user->username; ?></td>
-				<td><?php echo ucwords($user->role); ?></td>
-			</tr>
-			<?php endforeach; ?>
-		</tbody>
-	</table>
-
+	<ul class="list">
+	    <?php foreach(users() as $user): ?>
+	    <li>
+	        <a href="<?php echo URL_PATH; ?>admin/users/edit/<?php echo $user->id; ?>">
+	            <strong><?php echo $user->real_name; ?></strong>
+	            <span>Username: <?php echo $user->username; ?></span>
+	            
+	            <i class="role"><?php echo ucwords($user->role); ?></i>
+	        </a>
+	    </li>
+	    <?php endforeach; ?>
+	</ul>
 </section>
-

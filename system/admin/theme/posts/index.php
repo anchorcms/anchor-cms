@@ -1,8 +1,8 @@
 <h1>Posts <a href="/admin/posts/add">Create a new post</a></h1>
 
-<section class="content">
+<?php echo notifications(); ?>
 
-	<?php echo notifications(); ?>
+<section class="content">
 	
 	<?php if(has_posts()): ?>
 	<ul class="list">
