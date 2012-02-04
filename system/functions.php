@@ -280,7 +280,7 @@ function site_description() {
 }
 
 function twitter_account() {
-	return Config::get('metadata.twitter');
+	return 'http://twitter.com/' . Config::get('metadata.twitter');
 }
 
 /**
@@ -361,9 +361,6 @@ function rss_url() {
 /**
 	Misc helpers
 */
-function twitter_account() {
-	return Config::get('metadata.twitter');
-}
 
 function numeral($number) {
 	$test = abs($number) % 10;

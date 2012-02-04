@@ -207,6 +207,27 @@ footer#bottom {
         footer#bottom small a:hover {
             color: #333;
         }
+    footer#bottom ul {
+        clear: both;
+        list-style: none;
+        
+        position: relative;
+        top: -10px;
+    }
+        footer#bottom ul li {
+            display: inline-block;
+            float: left;
+        }
+        footer#bottom ul a {
+            color: #aaa;
+            font-size: 11px;
+            line-height: 11px;
+            
+            padding-right: 15px;
+        }
+            footer#bottom ul a:hover {
+                color: #777;
+            }
     footer#bottom a#attribution {
         display: block;
         
