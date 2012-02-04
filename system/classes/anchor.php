@@ -75,7 +75,7 @@ class Anchor {
 		
 		// posts host page
 		if($page = IoC::resolve('postspage')) {
-			$routes[$page->slug . '(:any)'] = 'article/$1';
+			$routes[$page->slug . '/(:any)'] = 'article/$1';
 			$routes[$page->slug] = 'posts';
 		}
 
