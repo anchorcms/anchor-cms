@@ -33,7 +33,6 @@ class Routes {
 	}
 	
 	public function rss() {
-	    IoC::instance('rss', '', true);
 	    Template::render('rss');
 	}
 	
