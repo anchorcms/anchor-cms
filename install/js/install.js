@@ -19,7 +19,7 @@ $(function() {
     	$('#diagnose').animate({'opacity': 0.5}, 250, function() {
 		    $.ajax({
 		    	'type': 'POST',
-		        'url': '/install/diagnose.php',
+		        'url': 'diagnose.php',
 		        'data': form.serialize(),
 		        'success': check_result
 		    });
@@ -44,7 +44,7 @@ $(function() {
 
 		$.ajax({
 			type: 'POST',
-			url: '/install/installer.php',
+			url: 'installer.php',
 			data: form.serialize(),
 			success: submit_result
 		});

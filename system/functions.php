@@ -291,7 +291,7 @@ function twitter_url() {
 	Url helpers
 */
 function theme_url($file = '') {
-	return URL_PATH . 'themes/' . Config::get('metadata.theme') . '/' . ltrim($file, '/');
+	return str_replace('/index.php', '', URL_PATH) . 'themes/' . Config::get('metadata.theme') . '/' . ltrim($file, '/');
 }
 
 function current_url() {

@@ -402,7 +402,7 @@ function site_name() {
 	Url helpers
 */
 function theme_url($file = '') {
-	return URL_PATH . 'system/admin/theme/' . ltrim($file, '/');
+	return str_replace('/index.php', '', URL_PATH) . 'system/admin/theme/' . ltrim($file, '/');
 }
 
 function current_url() {

@@ -16,7 +16,7 @@
     
         <p class="nojs error">You will need Javascript enabled for this installation. <em>Sorry :(</em></p>
     
-        <h1><img src="/install/img/logo.gif" alt="Anchor install logo"></h1>
+        <h1><img src="img/logo.gif" alt="Anchor install logo"></h1>
         
         <div class="content">
             <h2>Welcome to Anchor.</h2>

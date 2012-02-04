@@ -10,9 +10,15 @@
 //  Set the include path
 define('PATH', __DIR__ . '/');
 
-//  Set a URL path, in case Anchor gets installed on a subpage
-// @todo: move this into the config file
-define('URL_PATH', trim($_SERVER['SCRIPT_NAME'], basename(__FILE__)));
+//  Check if the .htaccess file is present
+if(file_exists('.htaccess')) {
+    //  Set a URL path, in case Anchor gets installed on a subpage
+    // @todo: move this into the config file
+    define('URL_PATH', trim($_SERVER['SCRIPT_NAME'], basename(__FILE__)));
+} else {
+    //  Set a fallback include path
+    define('URL_PATH', $_SERVER['SCRIPT_NAME'] . '/');
+}
 
 //  Block direct access to any PHP files
 define('IN_CMS', true);
