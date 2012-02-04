@@ -3,7 +3,7 @@
 	<?php echo page_content(); ?>
 	
 	<?php if(user_authed()): ?>
-	<p class="footnote"><a href="/admin/pages/edit/<?php echo page_id(); ?>">&larr; Edit this page</a></p>
+	<p class="footnote"><a href="/admin/pages/edit/<?php echo page_id(); ?>">Edit this page</a></p>
 	<?php endif; ?>
 </section>
 
@@ -12,7 +12,7 @@
 	<?php while(posts()): ?>
 	<li>
 		<h3><?php echo post_title(); ?></h3>
-		<p>Posted on <?php echo post_date(); ?></p>
+		<p>Posted <?php echo relative_time(post_time()); ?> by <?php echo post_author(); ?></p>
 		<p><?php echo post_description(); ?></p>
 		
 		<?php if(user_authed()): ?>
