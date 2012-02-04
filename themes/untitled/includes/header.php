@@ -18,7 +18,7 @@
 	<body>
 
 		<header>
-			<a class="logo" href="/"><?php echo site_name(); ?></a>
+			<a class="logo" href="<?php echo site_url(); ?>"><?php echo site_name(); ?></a>
 
 			<nav class="menu" role="navigation">
 				<ul>
