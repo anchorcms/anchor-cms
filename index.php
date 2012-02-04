@@ -11,8 +11,8 @@
 define('PATH', __DIR__ . '/');
 
 //  Set a URL path, in case Anchor gets installed on a subpage
-$url = str_ireplace('index.php', '', $_SERVER['SCRIPT_NAME']);
-if(substr($url, 0, 1) !== '/') $url = '/' . $url;
+// @todo: move this into the config file
+$url = trim($_SERVER['SCRIPT_NAME'], basename(__FILE__));
 define('URL_PATH', $url);
 
 //  Block direct access to any PHP files
