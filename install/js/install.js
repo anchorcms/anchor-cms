@@ -4,9 +4,6 @@ $(function() {
     // Do some fancy fading in, and get rid of that damn error.
     body.hide().fadeIn().children('.nojs').remove();
     
-    // hide error container
-    notes.hide();
-    
 	// remove previous notifications
 	var remove_notes = function() {
     	notes.find('p').remove();

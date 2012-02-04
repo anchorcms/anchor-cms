@@ -27,6 +27,10 @@ if(empty($post['theme'])) {
 	$errors[] = 'Please select a theme';
 }
 
+if(floatval(PHP_VERSION) < 5.3) {
+	$errors[] = 'Anchor requires PHP 5.3 or newer, your current environment is running PHP ' . floatval(PHP_VERSION);
+}
+
 // test database
 if(empty($errors)) {
 	try {
