@@ -2,7 +2,7 @@
 <html lang="en">
 	<head>
 		<meta charset="utf-8">
-		<title><?php echo site_name(); ?></title>
+		<title>Manage <?php echo site_name(); ?></title>
 
 		<link rel="stylesheet" href="<?php echo theme_url('css/admin.css'); ?>">
 	</head>
