@@ -29,7 +29,6 @@ function posts($params = array()) {
 
 	if($result = $posts->valid()) {	
 		// register single post
-		$posts = IoC::resolve('posts');
 		IoC::instance('post', $posts->current(), true);
 		
 		// move to next
@@ -66,7 +65,7 @@ function post_slug() {
 function post_url() {
 	if($itm = IoC::resolve('post')) {
 		$page = IoC::resolve('postspage');
-		return '/' . $page->slug . '/' . $itm->slug;
+		return URL_PATH . $page->slug . '/' . $itm->slug;
 	}
 	
 	return '';
@@ -280,6 +279,10 @@ function site_description() {
 	return Config::get('metadata.description');
 }
 
+function twitter_account() {
+	return Config::get('metadata.twitter');
+}
+
 /**
 	Url helpers
 */
@@ -291,19 +294,53 @@ function current_url() {
 	return Request::uri();
 }
 
-/**
-	All things search
-*/
-function search_term() {
-	return (Request::uri_segment(1) == 'search' ? Request::uri_segment(2) : '');
+function admin_url() {
+    return URL_PATH . 'admin';
 }
 
 function search_url() {
 	return URL_PATH . 'search';
 }
 
+function site_url($url = '') {
+    return URL_PATH . ltrim($url, '/');
+}
+
+/**
+	Search
+*/
+function has_search_results() {
+	if($items = IoC::resolve('search')) {
+		return $items->length() > 0;
+	}
+	
+	return false;
+}
+
+function total_search_results() {
+	if($items = IoC::resolve('search')) {
+		return $items->length();
+	}
+	
+	return 0;
+}
+
 function search_results() {
-	return IoC::resolve('search');
+	$posts = IoC::resolve('search');
+
+	if($result = $posts->valid()) {	
+		// register single post
+		IoC::instance('post', $posts->current(), true);
+		
+		// move to next
+		$posts->next();
+	}
+
+	return $result;
+}
+
+function search_term() {
+	return (Request::uri_segment(1) == 'search' ? Request::uri_segment(2) : '');
 }
 
 /**
@@ -311,56 +348,5 @@ function search_results() {
 */
 function user_authed() {
 	return Users::authed() !== false;
-}
-function admin_url() {
-    return URL_PATH . 'admin';
-}
-
-/**
-	Misc helpers
-*/
-function twitter_account() {
-	return Config::get('metadata.twitter');
-}
-
-function numeral($number) {
-	$test = abs($number) % 10;
-	$ext = ((abs($number) % 100 < 21 and abs($number) % 100 > 4) ? 'th' : (($test < 4) ? ($test < 3) ? ($test < 2) ? ($test < 1) ? 'th' : 'st' : 'nd' : 'rd' : 'th'));
-	return $number . $ext; 
-}
-
-function count_words($str) {
-	return count(preg_split('/\s+/', strip_tags($str), null, PREG_SPLIT_NO_EMPTY));
-}
-
-function pluralise($amount, $str, $alt = '') {
-    return $amount === 1 ? $str : $str . ($alt !== '' ? $alt : 's');
-}
-
-function relative_time($date) {
-    $elapsed = time() - $date;
-    
-    if($elapsed <= 1) {
-        return 'Just now';
-    }
-    
-    $times = array(
-        31104000 => 'year',
-        2592000 => 'month',
-        604800 => 'week',
-        86400 => 'day',
-        3600 => 'hour',
-        60 => 'minute',
-        1 => 'second'
-    );
-    
-    foreach($times as $seconds => $title) {
-        $rounded = $elapsed / $seconds;
-        
-        if($rounded > 1) {
-            $rounded = round($rounded);
-            return $rounded . ' ' . pluralise($rounded, $title) . ' ago';
-        }
-    }
 }
 
