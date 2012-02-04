@@ -5,7 +5,7 @@
 */
 if(Config::load() === false) {
 	// looks like we are missing a config file
-	echo file_get_contents(PATH . 'system/admin/theme/missing.php');
+	echo file_get_contents(PATH . 'system/generated/missing.php');
 	exit(1);
 }
 
