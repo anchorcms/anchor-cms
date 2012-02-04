@@ -25,7 +25,7 @@ class Request {
 		}
 		
 		// remove base url
-		$uri = str_replace(URL_PATH, '', $uri);
+		$uri = preg_replace('#^' . URL_PATH . '#', '', $uri);
 		
 		return trim($uri, '/');
 	}	
