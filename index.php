@@ -17,5 +17,8 @@ define('URL_PATH', trim($_SERVER['SCRIPT_NAME'], basename(__FILE__)));
 //  Block direct access to any PHP files
 define('IN_CMS', true);
 
+//  Anchor version
+define('ANCHOR_VERSION', 0.4);
+
 // Lets bootstrap our application and get it ready to run
 require PATH . 'system/bootstrap.php';

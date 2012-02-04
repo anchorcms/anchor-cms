@@ -17,7 +17,7 @@
 			<nav>
 				<ul>
 					<?php foreach(admin_menu() as $title => $url): ?>
-					<li><a href="<?php echo URL_PATH . $url; ?>"><?php echo $title; ?></a></li>
+					<li <?php if(strpos($_SERVER['REQUEST_URI'], $url) !== false) echo 'class="active"'; ?>><a href="<?php echo URL_PATH . $url; ?>"><?php echo $title; ?></a></li>
 					<?php endforeach; ?>
 				</ul>
 			</nav>

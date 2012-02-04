@@ -197,6 +197,7 @@ section.content {
     padding: 30px 40px;
     
     width: 550px;
+    float: left;
 }
     section.content a {
         color: #527ba5;
@@ -358,6 +359,7 @@ fieldset {
             margin-bottom: -8px;
         }
         
+        
 p.buttons {
     overflow: hidden;
     padding-top: 20px;
@@ -371,4 +373,66 @@ p.buttons {
     p.buttons button {
         margin-top: 0;
         margin-left: 25px;
+    }
+   
+aside#sidebar {
+    float: right;
+    width: 200px;
+    
+    margin-top: 40px;
+    padding: 20px;
+    
+    background: #d6e3f0;
+    color: #667a8e;
+    
+    text-shadow: 0 1px 0 rgba(255,255,255,.3);
+    
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    
+    -webkit-box-shadow: inset 0 -1px 1px rgba(0,0,0,.02), 0 1px 0 #eff6fc;
+    -moz-box-shadow: inset 0 -1px 1px rgba(0,0,0,.02), 0 1px 0 #eff6fc;
+    box-shadow: inset 0 -1px 1px rgba(0,0,0,.02), 0 1px 0 #eff6fc;
+}
+    aside#sidebar h2 {
+        color: #384f66;
+        padding-bottom: 8px;
+    }
+    aside#sidebar ul {
+        margin: 15px 18px -5px;
+    }
+        aside#sidebar li {
+            list-style: square;
+            padding-bottom: 5px;
+            
+            font-size: 12px;
+            line-height: 20px;
+        }
+    aside#sidebar a {
+        color: #244f7c;
+    }
+        aside#sidebar a:hover {
+            color: #102e4d;
+        }
+ 
+footer#bottom {
+    clear: both;
+    padding: 20px 0 60px;
+    margin-top: 20px;
+    
+    border-top: 1px solid #dde7f0;    
+    
+    text-shadow: 0 1px 0 #f7fbff;
+}
+    footer#bottom small {
+        float: left;
+        font-size: 13px;
+    }
+    
+    footer#bottom em {
+        float: right;
+        font-size: 11px;
+        
+        color: #93a8bd;
     }

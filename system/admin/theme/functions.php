@@ -1,10 +1,10 @@
 <?php defined('IN_CMS') or die('No direct access allowed.');
 
-/*
+/**
 	ADMIN Theme functions - happy templating!
 */
 
-/*
+/**
 	Posts
 */
 function has_posts() {
@@ -135,7 +135,7 @@ function post_status() {
 	return '';
 }
 
-/*
+/**
 	Users
 */
 function users($params = array()) {
@@ -218,7 +218,7 @@ function user_authed_realname() {
 	return '';
 }
 
-/*
+/**
 	Article
 */
 function article_id() {
@@ -301,7 +301,7 @@ function article_status() {
 	return '';
 }
 
-/*
+/**
 	Pages
 */
 function pages($params = array()) {
@@ -364,21 +364,21 @@ function page_status() {
 	return '';
 }
 
-/*
+/**
 	notifications
 */
 function notifications() {
 	return Notifications::read();
 }
 
-/*
+/**
 	Post data
 */
 function post_user() {
 	return Input::post('user');
 }
 
-/*
+/**
 	Main menu
 */
 function admin_menu() {
@@ -391,14 +391,14 @@ function admin_menu() {
 	return $pages;
 }
 
-/*
+/**
 	Meta data
 */
 function site_name() {
 	return Config::get('metadata.sitename');
 }
 
-/*
+/**
 	Url helpers
 */
 function theme_url($file = '') {
@@ -409,11 +409,47 @@ function current_url() {
 	return URL_PATH . Request::uri();
 }
 
-/*
+/**
 	Pagination
 */
 function pagination() {
 	return '';
 }
 
+/**
+    Error checking
+*/
 
+function pluralise($amount, $str, $alt = '') {
+    return $amount === 1 ? $str : $str . ($alt !== '' ? $alt : 's');
+}
+
+function latest_version() {
+    return file_get_contents('http://anchorcms.com/version');
+}
+
+function error_check() {
+    $errors = array();
+    
+    //  Make sure there's the right PHP version
+    if(floatval(PHP_VERSION) < 5.3) {
+        $errors[] = 'Your PHP version is out of date. Please upgrade to PHP 5.3.';
+    }
+    
+    //  Check the uploads folder is writable.
+    if(!is_writable(PATH . 'uploads')) {
+        $errors[] = 'The <code>uploads</code> folder is not writable.';
+    }
+    
+    //  Check for older versions
+    if(ANCHOR_VERSION < latest_version()) {
+        $errors[] = 'Your version of Anchor is out of date. Please <a href="http://anchorcms.com">download the latest version</a>.';
+    }
+    
+    //  And I can't think of anything else.
+    if(1 !== 1) {
+        $errors[] = 'PHP can&rsquo;t do math properly. The sky is falling. Get inside, quick!';
+    }
+    
+    return !empty($errors) ? $errors : false;
+}
