@@ -45,24 +45,20 @@ class Anchor {
 		$theme = Config::get('metadata.theme');
 		Template::path(PATH . 'themes/' . $theme . '/');
 		
-		// set template theme functions
-		Template::theme_funcs(PATH . 'system/functions.php');
-		
-		// remove admin as an argument and set the default action
-		// if there isnt one
+		// remove admin as an argument and set the default action if there isnt one
 		if($action == 'admin') {
 			$default = Users::authed() === false ? 'login' : 'posts';
 			$action = count($segments) ? array_shift($segments) : $default;
 			
 			// set template path for admin
 			Template::path(PATH . 'system/admin/theme/');
-			
-			// set template theme functions for the admin
-			Template::theme_funcs(PATH . 'system/admin/theme/functions.php');
 		}
 		
 		// check we can find a action
 		if($reflector->hasMethod($action) === false) {
+			// default back to front end template for 404 page
+			Template::path(PATH . 'themes/' . $theme . '/');
+			
 			// method not found in controller
 			return Response::error(404);
 		}

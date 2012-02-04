@@ -2,17 +2,7 @@
 
 class Template {
 
-	private static $path, $funcs;
-	
-	public static function theme_funcs($file) {
-		// include theming functions
-		if(file_exists($file)) {
-			static::$funcs = $file;
-			return true;
-		}
-		
-		return false;
-	}
+	private static $path;
 
 	public static function path($path = '') {
 		if(empty($path)) {
@@ -37,21 +27,14 @@ class Template {
 		// get default theme
 		$theme = Config::get('metadata.theme');
 		
-		// load theme functions
-		if(static::$funcs) {
-			require static::$funcs;
+		// load global theming functions but not for the admin template
+		if(strpos(static::$path, 'system/admin/theme') === false) {
+			require PATH . 'system/functions.php';
 		}
 
-		// if more than one template is specified find the first one that exists
-		if(is_array($template)) {
-			foreach($template as $tpl) {
-				$filepath = static::$path . $tpl . '.php';
-				
-				if(file_exists($filepath)) {
-					$template = $tpl;
-					break;
-				}
-			}
+		// load theme functions
+		if(file_exists(static::$path . 'functions.php')) {
+			require static::$path . 'functions.php';
 		}
 
 		// render files

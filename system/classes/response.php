@@ -70,7 +70,7 @@ class Response {
 
 		switch($code) {
 			case 404:
-				Template::render(array('404', 'error_404'));
+				Template::render(404);
 		}
 	}
 	
