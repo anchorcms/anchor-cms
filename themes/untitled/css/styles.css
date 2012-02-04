@@ -35,6 +35,7 @@ a {
 	text-decoration: none;
 	float: left;
 	padding-right: 1em;
+	font-weight: bold;
 }
 
 .menu {
@@ -83,6 +84,9 @@ a {
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
 	border-radius: 3px; 
+
+	font-size: 0.875em;
+	font-family: "Asap", sans-serif;
 }
 
 .posts {
@@ -91,22 +95,15 @@ a {
 	margin: 0 0 1em 0;
 }
 
-.posts li {
+.posts li, .content {
 	background: #fff;
 	padding: 1.825em;
 	margin-bottom: 1em;
-	border-bottom: 3px solid #ddd;
-}
-
-.content {
-	background: #fff;
-	padding: 1.825em;
-	margin-bottom: 1em;
-	border-bottom: 3px solid #ddd;
+	border-bottom: 4px solid #ddd;
 }
 
 .highlight {
-	border-bottom: none;
+	text-align: center;
 }
 
 .content img {
