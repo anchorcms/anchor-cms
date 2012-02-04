@@ -24,6 +24,9 @@ class Request {
 			throw new Exception('Unable to determine the request URI');
 		}
 		
+		// remove base url
+		$uri = str_replace(URL_PATH, '', $uri);
+		
 		return trim($uri, '/');
 	}	
 	
