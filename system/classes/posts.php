@@ -23,16 +23,33 @@ class Posts {
 	}
 	
 	public static function list_all($params = array()) {
-		$sql = "select * from posts where 1 = 1";
+		$sql = "
+			select
+
+				posts.id,
+				posts.title,
+				posts.slug,
+				posts.description,
+				posts.html,
+				posts.css,
+				posts.js,
+				posts.created,
+				coalesce(users.real_name, posts.author) as author,
+				posts.status
+
+			from posts 
+			left join users on (users.id = posts.author) 
+			where 1 = 1
+		";
 		$args = array();
 		
 		if(isset($params['status'])) {
-			$sql .= " and status = ?";
+			$sql .= " and posts.status = ?";
 			$args[] = $params['status'];
 		}
 		
 		if(isset($params['sortby'])) {
-			$sql .= " order by " . $params['sortby'];
+			$sql .= " order by posts." . $params['sortby'];
 			
 			if(isset($params['sortmode'])) {
 				$sql .= " " . $params['sortmode'];
@@ -49,13 +66,29 @@ class Posts {
 	}
 	
 	public static function find($where = array()) {
-		$sql = "select * from posts";
+		$sql = "
+			select
+
+				posts.id,
+				posts.title,
+				posts.slug,
+				posts.description,
+				posts.html,
+				posts.css,
+				posts.js,
+				posts.created,
+				coalesce(users.real_name, posts.author) as author,
+				posts.status
+
+			from posts 
+			left join users on (users.id = posts.author) 
+		";
 		$args = array();
 		
 		if(count($where)) {
 			$clause = array();
 			foreach($where as $key => $value) {
-				$clause[] = '`' . $key . '` = ?';
+				$clause[] = 'posts.' . $key . ' = ?';
 				$args[] = $value;
 			}
 			$sql .= " where " . implode(' and ', $clause);
@@ -65,7 +98,25 @@ class Posts {
 	}
 	
 	public static function search($term, $params = array()) {
-		$sql = "select * from posts where (posts.title like :term or posts.description like :term or posts.html like :term)";
+		$sql = "
+			select
+
+				posts.id,
+				posts.title,
+				posts.slug,
+				posts.description,
+				posts.html,
+				posts.css,
+				posts.js,
+				posts.created,
+				coalesce(users.real_name, posts.author) as author,
+				posts.status
+
+			from posts 
+			left join users on (users.id = posts.author) 
+
+			where (posts.title like :term or posts.description like :term or posts.html like :term)
+		";
 		$args = array('term' => '%' . $term . '%');
 		
 		if(isset($params['status'])) {
@@ -73,11 +124,17 @@ class Posts {
 			$args['status'] = $params['status'];
 		}
 
-		return static::extend(Db::results($sql, $args));
+		$results = Db::results($sql, $args);
+		
+		// extend result set with post url
+		$results = static::extend($results);
+
+		// return items obj
+		return new Items($results);
 	}
 	
 	public static function delete($id) {
-		$sql = "delete from posts where id = ?";
+		$sql = "delete from posts where posts.id = ?";
 		Db::query($sql, array($id));
 		
 		Notifications::set('success', 'Your post has been deleted');
@@ -126,7 +183,7 @@ class Posts {
 			$args[] = $value;
 		}
 		
-		$sql = "update posts set " . implode(', ', $updates) . " where id = ?";
+		$sql = "update posts set " . implode(', ', $updates) . " where posts.id = ?";
 		$args[] = $id;		
 		
 		Db::query($sql, $args);
