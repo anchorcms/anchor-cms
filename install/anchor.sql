@@ -61,7 +61,7 @@ INSERT INTO `posts` (`title`, `slug`, `description`, `html`, `css`, `js`, `creat
 ('Hello World', 'hello', 'Hello World.', '<p>My first post.</p>', '', '', '[[now]]', 1, 'published');
 
 INSERT INTO `users` (`username`, `password`, `real_name`, `bio`, `status`, `role`) VALUES
-('admin', '$1$zWh0Xu7w$hmt6j9VIwzPvRFwhKXj8G.', 'Administrator', 'Default account for Anchor.', 'active', 'administrator');
+('admin', '[[password]]', 'Administrator', 'Default account for Anchor.', 'active', 'administrator');
 
 INSERT INTO `meta` (`key`, `value`) VALUES ('show_posts', '1'), ('twitter', ''), ('date_format', 'jS M, Y');
 

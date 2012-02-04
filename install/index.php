@@ -1,4 +1,4 @@
-<?php if(file_exists('../config.php')) die('Anchor is already installed.'); ?>
+<?php if(file_exists('../config.php')) die('Anchor is already installed. <b>You should really delete this folder!</b>'); ?>
 <!doctype html>
 <html lang="en-gb">
     <head>

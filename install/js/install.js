@@ -54,8 +54,8 @@ $(function() {
     
     var submit_result = function(data) {
 		if(data == 'good') {
-			form.fadeOut(500, function() {
-				window.location = '../';
+			form.animate({opacity: 0}, 500, function() {
+				$(this).html('<h2>Thanks for installing!</h2><p>We created an account for you.<br>The username is <b>admin</b>, and the password is <b>password</b>. Make sure you change these!</p>').animate({opacity: 1});;
 			});
 		} else {
 			notes.show().append('<p class="error">' + data + '</p>').fadeIn();
