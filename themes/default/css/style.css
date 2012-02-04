@@ -13,6 +13,7 @@ body, input, textarea {
 
 h1 {
     font-size: 40px;
+    line-height: 48px;
     font-weight: bold;
     
     color: #333;
@@ -265,3 +266,64 @@ footer#bottom {
         footer#bottom a#attribution:hover {
             opacity: 1;
         }
+    
+@media only screen and (max-width: 900px) {
+
+    .wrap, .content {
+        width: 90%;
+        margin: 0 5%;
+    }
+    
+    form#search {
+        padding: 10px 5%;
+    }
+        form#search input {
+            width: 100%;
+        }
+
+    header#top {
+        overflow: hidden;
+        padding-top: 40px;
+    }
+        header#top a#logo {
+            width: 100%;
+            padding-bottom: 15px;
+        }
+        header#top nav {
+            position: static;
+        }
+            header#top nav li {
+                margin-right: 30px;
+            }
+        header#top img#search {
+            bottom: -20px;
+        }
+        
+    ul.items {
+        padding-bottom: 20px;
+    }
+        ul.items li a {
+            overflow: hidden;
+            padding-bottom: 20px;
+        }
+            ul.items li a time, ul.items li a h2 {
+                float: none;
+                clear: both;
+                
+                width: 100%;
+            }
+            ul.items li a time {
+                line-height: 22px;
+                text-align: left;
+            }
+            
+    footer#bottom, footer#bottom small, footer#bottom ul {
+        width: 100%;
+    }
+        footer#bottom a#attribution {
+            left: auto;
+            right: 0;
+            
+            top: 30px;
+        }
+}

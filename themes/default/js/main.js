@@ -8,6 +8,12 @@ $(function() {
 		
 	//  Give a CSS hook
 	body.addClass('js');
+	
+	//  A neat little 
+	if(window.location.pathname === '/') {
+	    body.css({position: 'relative', top: -50, opacity: 0})
+	        .animate({ top: 0, opacity: 1 });
+	}
 		
 	/**
 		Search box
