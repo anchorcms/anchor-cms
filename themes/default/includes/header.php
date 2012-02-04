@@ -32,7 +32,7 @@
 		<header id="top">
 			<div class="wrap">
 				
-				<a id="logo" href="/"><?php echo site_name(); ?></a>
+				<a id="logo" href="<?php echo base_url(); ?>"><?php echo site_name(); ?></a>
 	
 				<nav id="main" role="navigation">
 					<ul>

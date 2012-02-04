@@ -272,7 +272,11 @@ footer#bottom {
     .wrap, .content {
         width: 90%;
         margin: 0 5%;
+        padding-left: 0;
     }
+        .content h1 {
+            padding-top: 50px;
+        }
     
     form#search {
         padding: 10px 5%;
@@ -316,6 +320,13 @@ footer#bottom {
                 line-height: 22px;
                 text-align: left;
             }
+            
+    section.footnote {
+        width: 90%;
+
+        margin: 30px 5%;
+        padding: 0;
+    }
             
     footer#bottom, footer#bottom small, footer#bottom ul {
         width: 100%;

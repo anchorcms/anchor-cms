@@ -290,6 +290,10 @@ function twitter_url() {
 /**
 	Url helpers
 */
+function base_url() {
+    return URL_PATH;
+}
+
 function theme_url($file = '') {
 	return str_replace('/index.php', '', URL_PATH) . 'themes/' . Config::get('metadata.theme') . '/' . ltrim($file, '/');
 }
