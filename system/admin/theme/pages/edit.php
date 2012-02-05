@@ -25,22 +25,6 @@
 			    <input type="url" id="slug" autocomplete="off" name="slug" value="<?php echo Input::post('slug', page_slug()); ?>">
 			    
 			    <em>The slug for your post (<code><?php echo $_SERVER['HTTP_HOST']; ?>/<span id="output">slug</span></code>).</em>
-			    
-			    <script>
-		        var slug = document.getElementById('slug'),
-		            output = document.getElementById('output'),
-		            
-		            fill = function(e) {
-		                var me = (typeof e !== 'undefined' ? this : slug),
-		                    val = me.value.replace(/[^0-9a-z\-]/ig, '');
-
-		                output.innerText = val !== '' ? val : 'slug';
-		            };
-		            
-		        fill();
-		        
-		        slug.onkeyup = fill;
-		    </script>
 			</p>
 			
 			<p>
@@ -72,4 +56,17 @@
 	</form>
 
 </section>
+
+<script>
+	(function() {
+		var slug = document.getElementById('slug'), output = document.getElementById('output');
+
+		// call the function to init the input text
+		formatSlug(slug, output);
+
+		// bind to input
+		addEvent(slug, 'keyup', function() {formatSlug(slug, output)});
+	}());
+</script>
+
 

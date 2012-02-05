@@ -5,6 +5,8 @@
 		<title>Manage <?php echo site_name(); ?></title>
 
 		<link rel="stylesheet" href="<?php echo theme_url('css/admin.css'); ?>">
+		
+		<script src="<?php echo theme_url('js/helpers.js'); ?>"></script>
 	</head>
 	<body>
 
@@ -17,7 +19,9 @@
 			<nav>
 				<ul>
 					<?php foreach(admin_menu() as $title => $url): ?>
-					<li <?php if(strpos(menu_url(), $url) !== false) echo 'class="active"'; ?>><a href="<?php echo base_url($url); ?>"><?php echo $title; ?></a></li>
+					<li <?php if(strpos(menu_url(), $url) !== false) echo 'class="active"'; ?>>
+						<a href="<?php echo base_url($url); ?>"><?php echo $title; ?></a>
+					</li>
 					<?php endforeach; ?>
 				</ul>
 			</nav>
