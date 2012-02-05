@@ -258,6 +258,9 @@ function page_title($default = '') {
 	if($itm = IoC::resolve('page')) {
 		return $itm->title;
 	}
+	if($itm = IoC::resolve('article')) {
+		return $itm->title;
+	}
 
 	return $default;
 }
