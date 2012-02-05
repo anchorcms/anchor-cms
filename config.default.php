@@ -11,6 +11,11 @@ return array(
 		'password' => '',
 		'name' => 'anchorcms'
 	),
+	
+	// Application settings
+	'application' => array(
+		'timezone' => 'UTC'
+	),
 
 	// Set debugging options.
 	// Used for development only. I'd turn this off the live site.
