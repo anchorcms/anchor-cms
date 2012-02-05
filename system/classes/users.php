@@ -23,7 +23,7 @@ class Users {
 			}
 		}
 
-		return Db::results($sql, $args);
+		return new Items(Db::results($sql, $args));
 	}
 	
 	public static function find($where = array()) {
