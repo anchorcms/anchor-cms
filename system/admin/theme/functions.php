@@ -432,11 +432,11 @@ function replace($what) {
 	Url helpers
 */
 function theme_url($file = '') {
-	return str_replace('/index.php', '', URL_PATH) . 'system/admin/theme/' . ltrim($file, '/');
+	return Config::get('application.base_url') . 'system/admin/theme/' . ltrim($file, '/');
 }
 
 function current_url() {
-	return URL_PATH . Request::uri();
+	return Url::current();
 }
 
 function menu_url() {
@@ -444,7 +444,7 @@ function menu_url() {
 }
 
 function base_url($url = '') {
-    return URL_PATH . ltrim($url, '/');
+    return Url::make($url);
 }
 
 /**
