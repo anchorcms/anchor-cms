@@ -33,7 +33,9 @@ class Routes_admin {
 	
     public function metadata() {
     	if(Input::method() == 'POST') {
-    		Metadata::update();
+    		if(Metadata::update()) {
+    			return Response::redirect('admin/metadata');
+    		}
     	}
     	Template::render('metadata/index');
     }
