@@ -4,15 +4,15 @@
 
 <section class="content">
 	<ul class="list">
-	    <?php foreach(users() as $user): ?>
+	    <?php while(users()): ?>
 	    <li>
-	        <a href="<?php echo URL_PATH; ?>admin/users/edit/<?php echo $user->id; ?>">
-	            <strong><?php echo $user->real_name; ?></strong>
-	            <span>Username: <?php echo $user->username; ?></span>
+	        <a href="<?php echo base_url('admin/users/edit/' . user_id()); ?>">
+	            <strong><?php echo user_real_name(); ?></strong>
+	            <span>Username: <?php echo user_name(); ?></span>
 	            
-	            <i class="role"><?php echo ucwords($user->role); ?></i>
+	            <i class="role"><?php echo ucwords(user_role()); ?></i>
 	        </a>
 	    </li>
-	    <?php endforeach; ?>
+	    <?php endwhile; ?>
 	</ul>
 </section>

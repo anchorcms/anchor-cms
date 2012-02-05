@@ -28,7 +28,6 @@ function posts($params = array()) {
 
 	if($result = $posts->valid()) {	
 		// register single post
-		$posts = IoC::resolve('posts');
 		IoC::instance('post', $posts->current(), true);
 		
 		// move to next
@@ -139,15 +138,20 @@ function post_status() {
 	Users
 */
 function users($params = array()) {
-	static $items;
-	
-	if(is_null($items)) {
-		$params['sortby'] = 'id';
-		$params['sortmode'] = 'desc';
-		$items = Users::list_all($params);
+	if(($users = IoC::resolve('users')) === false) {
+		$users = Users::list_all($params);
+		IoC::instance('users', $users, true);
 	}
-	
-	return $items;
+
+	if($result = $users->valid()) {	
+		// register single post
+		IoC::instance('user', $users->current(), true);
+		
+		// move to next
+		$users->next();
+	}
+
+	return $result;
 }
 
 function user_id() {
@@ -198,6 +202,9 @@ function user_role() {
 	return '';
 }
 
+/**
+	Logged in user
+*/
 function user_authed() {
 	return Users::authed() !== false;
 }
@@ -304,16 +311,31 @@ function article_status() {
 /**
 	Pages
 */
-function pages($params = array()) {
-	static $posts;
-	
-	if(is_null($posts)) {
-		$params['sortby'] = 'name';
-		$params['sortmode'] = 'asc';
-		$posts = Pages::list_all($params);
+function has_pages() {
+	if(($pages = IoC::resolve('pages')) === false) {
+		$pages = Pages::list_all();
+		IoC::instance('pages', $pages, true);
 	}
 	
-	return $posts;
+	return $pages->length() > 0;
+}
+
+function pages($params = array()) {
+	if(has_pages() === false) {
+		return false;
+	}
+	
+	$pages = IoC::resolve('pages');
+
+	if($result = $pages->valid()) {	
+		// register single post
+		IoC::instance('page', $pages->current(), true);
+		
+		// move to next
+		$pages->next();
+	}
+
+	return $result;
 }
 
 function page_id() {
