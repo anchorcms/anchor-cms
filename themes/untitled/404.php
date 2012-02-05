@@ -6,6 +6,6 @@
     can't be found, but don't give up hope yet! You can always try going back to 
     the homepage, or searching.</p>
     
-    <p><a href="/">&larr; Return to the home page</a></p>
+    <p><a href="<?php echo base_url(); ?>">Return to the home page</a></p>
 </section>
 

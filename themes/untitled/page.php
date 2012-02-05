@@ -5,7 +5,7 @@
 	<?php echo page_content(); ?>
 	
 	<?php if(user_authed()): ?>
-	<p class="footnote"><a href="/admin/pages/edit/<?php echo page_id(); ?>">Edit this page</a></p>
+	<p class="footnote"><a href="<?php echo base_url('admin/pages/edit/' . page_id()); ?>">Edit this page</a></p>
 	<?php endif; ?>
 </section>
 

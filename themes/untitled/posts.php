@@ -3,7 +3,7 @@
 	<?php echo page_content(); ?>
 	
 	<?php if(user_authed()): ?>
-	<p class="footnote"><a href="/admin/pages/edit/<?php echo page_id(); ?>">Edit this page</a></p>
+	<p class="footnote"><a href="<?php echo base_url('admin/pages/edit/' . page_id()); ?>">Edit this page</a></p>
 	<?php endif; ?>
 </section>
 
@@ -16,7 +16,7 @@
 		<p><?php echo post_description(); ?></p>
 		
 		<?php if(user_authed()): ?>
-		<p><a  class="quiet" href="/admin/posts/edit/<?php echo post_id(); ?>">Edit this article</a></p>
+		<p><a  class="quiet" href="<?php echo base_url('admin/posts/edit/' . post_id()); ?>">Edit this article</a></p>
 		<?php endif; ?>
 		
 		<p><a class="btn" href="<?php echo post_url(); ?>" title="<?php echo post_title(); ?>">Continue Reading</a></p>
