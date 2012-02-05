@@ -314,6 +314,10 @@ function site_url($url = '') {
     return URL_PATH . ltrim($url, '/');
 }
 
+function rss_url() {
+    return URL_PATH . 'rss';
+}
+
 /**
 	Search
 */
@@ -356,14 +360,6 @@ function search_term() {
 */
 function user_authed() {
 	return Users::authed() !== false;
-}
-
-/**
-    RSS
-*/
-
-function rss_url() {
-    return URL_PATH . 'rss';
 }
 
 /**
