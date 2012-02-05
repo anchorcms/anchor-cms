@@ -279,7 +279,7 @@ function page_active() {
 }
 
 /**
-	Page
+	Menu
 */
 function has_menu_items() {
 	if(($pages = IoC::resolve('menu')) === false) {
