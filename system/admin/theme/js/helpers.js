@@ -31,3 +31,13 @@ function formatSlug(slug, output) {
 	output.innerHTML = val.length ? val : 'slug';
 	slug.value = val;
 }
+
+function formatTwitter(tweet, output) {
+	var val = tweet.value;
+
+	// replace crazy characters
+	val = val.replace(/[^0-9a-z]/i, '');
+
+	output.innerHTML = val.length ? val : 'example';
+	tweet.value = val;
+}

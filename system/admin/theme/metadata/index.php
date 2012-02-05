@@ -51,21 +51,13 @@
 
 <script>
 	(function() {
-		var tweet = document.getElementById('twitter'),
-			output = document.getElementById('output'),
-			initial = output.value;
+		var tweet = document.getElementById('twitter'), output = document.getElementById('output');
 
-			fill = function(e) {
-				var me = (typeof e !== 'undefined' ? this : tweet),
-				val = me.value;
+		// call the function to init the input text
+		formatTwitter(tweet, output);
 
-				output.innerText = val !== '' ? val : initial;
-			};
-
-		fill();
-
-		tweet.onkeyup = fill;
+		// bind to input
+		addEvent(tweet, 'keyup', function() {formatTwitter(tweet, output)});
 	}());
 </script>
-
 
