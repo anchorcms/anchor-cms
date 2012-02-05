@@ -1,4 +1,4 @@
-<h1>Users <a href="/admin/users/add">Create a new user</a></h1>
+<h1>Users <a href="<?php echo base_url('admin/users/add'); ?>">Create a new user</a></h1>
 
 <?php echo notifications(); ?>
 
