@@ -71,14 +71,14 @@
 		    
 		    <p>
 		        <label for="css">Custom CSS:</label>
-		        <textarea id="css"><?php echo Input::post('css', article_css()); ?></textarea>
+		        <textarea id="css" name="css"><?php echo Input::post('css', article_css()); ?></textarea>
 		        
 		        <em>Custom CSS. Will be wrapped in a <code>&lt;style&gt;</code> block.</em>
 		    </p>
 
             <p>
                 <label for="js">Custom JS:</label>
-                <textarea id="js"><?php echo Input::post('js', article_js()); ?></textarea>
+                <textarea id="js" name="js"><?php echo Input::post('js', article_js()); ?></textarea>
                 
                 <em>Custom Javascript. Will be wrapped in a <code>&lt;script&gt;</code> block.</em>
             </p>
