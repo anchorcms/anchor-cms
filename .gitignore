@@ -1,0 +1,10 @@
+# ignore os/app generated files
+Thumbs.db
+.DS_Store
+*.esproj
+
+# ignore generated config
+/config.php
+
+# ignore user mod_rewrite
+/.htaccess
