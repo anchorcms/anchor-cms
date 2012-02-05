@@ -33,7 +33,11 @@ class Routes {
 	}
 	
 	public function rss() {
-	    Template::render('rss');
+		// set headers
+		Rss::headers();
+		
+		// set content
+		Rss::generate();
 	}
 	
 	public function search($term = '') {
