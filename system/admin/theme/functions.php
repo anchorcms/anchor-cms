@@ -429,7 +429,8 @@ function pluralise($amount, $str, $alt = '') {
 }
 
 function latest_version() {
-    return file_get_contents('http://anchorcms.com/version');
+	// returns plain text string with version number or FALSE on failure.
+	return Curl::get('http://anchorcms.com/version');
 }
 
 function error_check() {
