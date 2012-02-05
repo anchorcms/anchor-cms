@@ -1,8 +1,11 @@
 $(function() {
     var body = $('body'), form = $('form'), notes = $('.notes');
         
+    // remove no js error
+    body.find('.nojs').remove();
+        
     // Do some fancy fading in, and get rid of that damn error.
-    body.hide().fadeIn().children('.nojs').remove();
+    body.hide().fadeIn()
     
 	// remove previous notifications
 	var remove_notes = function() {
