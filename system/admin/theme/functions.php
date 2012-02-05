@@ -429,18 +429,13 @@ function pluralise($amount, $str, $alt = '') {
 }
 
 function latest_version() {
-	// returns plain text string with version number or FALSE on failure.
-	return Curl::get('http://anchorcms.com/version');
+	// returns plain text string with version number or 0 on failure.
+	return floatval(Curl::get('http://anchorcms.com/version'));
 }
 
 function error_check() {
     $errors = array();
-    
-    //  Make sure there's the right PHP version
-    if(floatval(PHP_VERSION) < 5.3) {
-        $errors[] = 'Your PHP version is out of date. Please upgrade to PHP 5.3.';
-    }
-    
+
     //  Check the uploads folder is writable.
     if(!is_writable(PATH . 'uploads')) {
         $errors[] = 'The <code>uploads</code> folder is not writable.';
@@ -456,5 +451,5 @@ function error_check() {
         $errors[] = 'PHP can&rsquo;t do math properly. The sky is falling. Get inside, quick!';
     }
     
-    return !empty($errors) ? $errors : false;
+    return count($errors) ? $errors : false;
 }
