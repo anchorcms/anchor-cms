@@ -41,8 +41,8 @@
             <code>config.php</code>).</small>
             
             <div class="notes">
-            	<?php if(floatval(PHP_VERSION) < 5.3): ?>
-				<p class="error">Anchor requires PHP 5.3 or newer, your current environment is running PHP <?php echo floatval(PHP_VERSION); ?></p>
+            	<?php if(version_compare(PHP_VERSION, '5.3.0', '<')): ?>
+				<p class="error">Anchor requires PHP 5.3 or newer, your current environment is running PHP <?php echo PHP_VERSION; ?></p>
 				<?php endif; ?>
             </div>
             
