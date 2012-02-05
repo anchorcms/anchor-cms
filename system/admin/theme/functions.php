@@ -385,7 +385,8 @@ function admin_menu() {
 	$pages = array(
 		'Posts' => 'admin/posts', 
 		'Pages' => 'admin/pages',
-		'Users' => 'admin/users'
+		'Users' => 'admin/users',
+		'Metadata' => 'admin/metadata'
 	);
 	
 	return $pages;
@@ -397,6 +398,20 @@ function admin_menu() {
 function site_name() {
 	return Config::get('metadata.sitename');
 }
+function site_description() {
+	return Config::get('metadata.description');
+}
+function twitter_account() {
+	return Config::get('metadata.twitter');
+}
+function current_theme() {
+	return Config::get('metadata.theme');
+}
+
+function replace($what) {
+    return str_replace(PATH . 'themes/', '', $what);
+}
+
 
 /**
 	Url helpers

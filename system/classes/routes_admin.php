@@ -31,6 +31,13 @@ class Routes_admin {
 		Template::render('posts/index');
 	}
 	
+    public function metadata() {
+    	if(Input::method() == 'POST') {
+    		Metadata::update();
+    	}
+    	Template::render('metadata/index');
+    }
+
 	public function post_add() {
 		if(Input::method() == 'POST') {
 			if(Posts::add()) {
