@@ -82,21 +82,15 @@
                         <label for="description">Site description:</label>
                         <textarea id="description" name="description"></textarea>
                     </p>
-                    
+
                     <p>
                         <label for="theme">Theme:</label>
                         <select id="theme" name="theme">
-                            <?php
-                            
-                            foreach(glob('../themes/*') as $theme) {
-                                $name = str_replace('../themes/', '', $theme);
-                                
-                                if(file_exists($theme . '/about.txt')) {
-                                    echo '<option value="' . $name . '">' . $name . '</option>';
-                                }
-                            }
-                            
-                            ?>
+                            <?php foreach(glob('../themes/*') as $theme): $name = basename($theme); ?>
+                            <?php if(file_exists($theme . '/about.txt')): ?>
+                            <option value="<?php echo $name; ?>"><?php echo ucwords($name); ?></option>
+                            <?php endif; ?>
+                            <?php endforeach; ?>
                         </select>
                     </p>
                     
