@@ -381,7 +381,7 @@ function count_words($str) {
 }
 
 function pluralise($amount, $str, $alt = '') {
-    return $amount === 1 ? $str : $str . ($alt !== '' ? $alt : 's');
+    return intval($amount) === 1 ? $str : $str . ($alt !== '' ? $alt : 's');
 }
 
 function relative_time($date) {
