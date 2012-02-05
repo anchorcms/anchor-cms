@@ -26,7 +26,7 @@ class Autoloader {
 	public static function find($file) {
 		// search system and application paths
 		foreach(array(PATH . 'system/classes/') as $path) {
-			if(stream_resolve_include_path($path . $file . '.php')) {
+			if(file_exists($path . $file . '.php')) {
 				return $path . $file . '.php';
 			}
 		}
