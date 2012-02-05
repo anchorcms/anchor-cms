@@ -29,7 +29,8 @@ class Pages {
 			$pages[] = $page;
 		}
 
-		return $pages;
+		// return items obj
+		return new Items($pages);
 	}
 
 	public static function find($where = array()) {
