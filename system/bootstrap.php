@@ -6,26 +6,41 @@
 error_reporting(E_ALL | E_STRICT);
 
 /*
-	Turn off display error as
-	we will manage them manually
+	Show errors that are not caught
 */
 ini_set('display_errors', true);
 
 /*
-	Include files we are going 
-	to need for EVERY request.
+	Check our environment
 */
-
-// @todo list files manually and remove this dirty hack
-foreach(glob(PATH . 'system/classes/*.php') as $file) {
-	require $file;
+if(floatval(PHP_VERSION) < 5.3) {
+	// echo and exit with some usful information
+	echo 'Anchor requires PHP 5.3 or newer, your current environment is running PHP ' . floatval(PHP_VERSION);
+	exit(1);
 }
+
+/*
+	Include files we are going 
+	to need for every request.
+*/
+require PATH . 'system/classes/autoload.php';
+require PATH . 'system/classes/config.php';
+require PATH . 'system/classes/ioc.php';
 
 // register the auto loader
 Autoloader::register();
 
+/*
+	Check our installation
+*/
+if(Config::load() === false) {
+	// looks like we are missing a config file
+	echo file_get_contents(PATH . 'system/admin/theme/error_config.php');
+	exit(1);
+}
+
 // Register the default timezone for the application.
-//date_default_timezone_set(Config::get('application.timezone'));
+date_default_timezone_set(Config::get('application.timezone'));
 
 // Register the PHP exception handler.
 set_exception_handler(function($e) {
@@ -42,5 +57,17 @@ register_shutdown_function(function() {
 	Error::shutdown();
 });
 
-// now we have the basics down let run our application
-require PATH . 'system/run.php';
+/*
+	Start session handler
+*/
+Session::start();
+
+/*
+	Handle routing
+*/
+Anchor::run();
+
+/*
+	Output awesomeness!
+*/
+Response::send();
