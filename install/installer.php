@@ -45,6 +45,8 @@ if(empty($errors)) {
 if(empty($errors)) {
 	$template = file_get_contents('../config.default.php');
 	
+	$path = trim($post['path'], '/');
+
 	$search = array(
 		"'host' => 'localhost'",
 		"'username' => 'root'",
@@ -62,7 +64,7 @@ if(empty($errors)) {
 		"'name' => '" . $post['db'] . "'",
 
 		// apllication paths
-		"'base_url' => '/" . trim($post['path'], '/') . "/'",
+		"'base_url' => '/" . ($path == '/' ? '' : $path  . '/') . "'",
 		"'index_page' => '" . ($post['clean_urls'] === false ? 'index.php' : '') . "'"
 	);
 	$config = str_replace($search, $replace, $template);
