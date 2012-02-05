@@ -73,7 +73,7 @@
 			<button name="delete" type="submit">Delete</button>
 			<?php endif; ?>
 			
-			<a href="/admin/users">Return to users</a>
+			<a href="<?php echo base_url('admin/users'); ?>">Return to users</a>
 		</p>
 	</form>
 

@@ -9,7 +9,7 @@
 			
 			<p>
 			    <label for="user">Username:</label>
-			    <input autocapitalize="off" name="user" id="user" value="<?php echo post_user(); ?>">
+			    <input autocapitalize="off" name="user" id="user" value="<?php echo Input::post('user'); ?>">
 			</p>
 			
 			<p>
@@ -22,7 +22,7 @@
 			<p class="buttons">
 			    <button type="submit">Login</button>
 			    
-			    <a href="../">Back to <?php echo site_name(); ?></a>
+			    <a href="<?php echo base_url(); ?>">Back to <?php echo site_name(); ?></a>
 			</p>
 		</fieldset>
 	</form>
