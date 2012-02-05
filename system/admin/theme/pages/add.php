@@ -67,7 +67,7 @@
 			
 		<p class="buttons">
 			<button type="submit">Create</button>
-			<a href="/admin/pages">Return to pages</a>
+			<a href="<?php echo base_url('admin/pages'); ?>">Return to pages</a>
 		</p>
 	</form>
 

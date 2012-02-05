@@ -9,7 +9,7 @@
 	    <?php while(posts()): ?>
 	    <li>
 	        <a href="<?php echo URL_PATH; ?>admin/posts/edit/<?php echo post_id(); ?>">
-	            <strong><?php echo post_title(); ?></strong>
+	            <strong><?php echo truncate(post_title(), 4); ?></strong>
 	            <span>Created <time><?php echo post_date(); ?></time> by <?php echo post_author(); ?></span>
 	            
 	            <i class="status"><?php echo ucwords(post_status()); ?></i>

@@ -1,5 +1,5 @@
 
-<h1>Editing &ldquo;<?php echo article_title(); ?>&rdquo;</h1>
+<h1>Editing &ldquo;<?php echo truncate(article_title(), 4); ?>&rdquo;</h1>
 
 <?php echo notifications(); ?>
 
@@ -87,7 +87,7 @@
 		<p class="buttons">
 			<button name="save" type="submit">Save</button>
 			<button name="delete" type="submit">Delete</button>
-			<a href="/admin/posts">Return to posts</a>
+			<a href="<?php echo base_url('admin/posts'); ?>">Return to posts</a>
 		</p>
 		
 	</form>

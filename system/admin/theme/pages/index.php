@@ -9,8 +9,7 @@
     	    <?php foreach(pages() as $page): ?>
     	    <li>
     	        <a href="<?php echo URL_PATH; ?>admin/pages/edit/<?php echo $page->id; ?>">
-    	            <strong><?php echo $page->name; ?></strong>
-    	            
+    	            <strong><?php echo truncate($page->name, 4); ?></strong>
     	            <i class="status"><?php echo ucwords($page->status); ?></i>
     	        </a>
     	    </li>

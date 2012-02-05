@@ -9,7 +9,7 @@
 	<body>
 
 		<header id="top">
-			<a id="logo" href="/admin">
+			<a id="logo" href="<?php echo base_url('admin'); ?>">
 				<img src="<?php echo theme_url('img/logo.png'); ?>" alt="Anchor CMS">
 			</a>
 
@@ -17,12 +17,12 @@
 			<nav>
 				<ul>
 					<?php foreach(admin_menu() as $title => $url): ?>
-					<li <?php if(strpos(menu_url(), $url) !== false) echo 'class="active"'; ?>><a href="<?php echo URL_PATH . $url; ?>"><?php echo $title; ?></a></li>
+					<li <?php if(strpos(menu_url(), $url) !== false) echo 'class="active"'; ?>><a href="<?php echo base_url($url); ?>"><?php echo $title; ?></a></li>
 					<?php endforeach; ?>
 				</ul>
 			</nav>
 
-			<p>Logged in as <strong><?php echo user_authed_realname(); ?></strong>. <a href="<?php echo URL_PATH; ?>admin/logout">Logout</a></li>
+			<p>Logged in as <strong><?php echo user_authed_realname(); ?></strong>. <a href="<?php echo base_url('admin/logout'); ?>">Logout</a></li>
 			<?php endif; ?>
 		</header>
 

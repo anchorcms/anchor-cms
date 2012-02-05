@@ -1,4 +1,4 @@
-<h1>Editing &ldquo;<?php echo page_name(); ?>&rdquo;</h1>
+<h1>Editing &ldquo;<?php echo truncate(page_name(), 4); ?>&rdquo;</h1>
 
 <?php echo notifications(); ?>
 
@@ -67,7 +67,7 @@
 		<p class="buttons">
 			<button name="save" type="submit">Save</button>
 			<button name="delete" type="submit">Delete</button>
-			<a href="/admin/pages">Return to pages</a>
+			<a href="<?php echo base_url('admin/pages'); ?>">Return to pages</a>
 		</p>
 	</form>
 
