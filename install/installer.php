@@ -1,6 +1,20 @@
 <?php
 
 /*
+	Helper functions
+*/
+function random($length = 16) {
+	$pool = str_split('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', 1);
+	$value = '';
+
+	for ($i = 0; $i < $length; $i++)  {
+		$value .= $pool[mt_rand(0, 61)];
+	}
+
+	return $value;
+}
+	
+/*
 	Installer
 */
 
@@ -77,8 +91,11 @@ if(empty($errors)) {
 
 // create db
 if(empty($errors)) {
+	// create a unique password for our installation
+	$password = random(8);
+
 	$sql = str_replace('[[now]]', time(), file_get_contents('anchor.sql'));
-	$sql = str_replace('[[password]]', crypt('password'), $sql);
+	$sql = str_replace('[[password]]', crypt($password), $sql);
 	
 	try {
 		$dbh->beginTransaction();
@@ -99,12 +116,19 @@ if(empty($errors)) {
 	}
 }
 
+
+
 // output response
-header('Content-Type: text/plain');
+header('Content-Type: application/json');
 
 if(empty($errors)) {
 	//no errors we're all gooood
-	echo 'good';
+	$response['installed'] = true;
+	$response['password'] = $password;
 } else {
-	echo implode(', ', $errors);
+	$response['installed'] = false;
+	$response['errors'] = $errors;
 }
+
+// output json formatted string
+echo json_encode($response);
