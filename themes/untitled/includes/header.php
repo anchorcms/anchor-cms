@@ -23,15 +23,19 @@
 		<header>
 			<a class="logo" href="<?php echo base_url(); ?>"><?php echo site_name(); ?></a>
 
+			<?php if(has_menu_items()): ?>
 			<nav class="menu" role="navigation">
 				<ul>
-					<?php foreach(pages() as $page): ?>
-					<li <?php echo ($page->active ? 'class="active"' : ''); ?>>
-						<a href="<?php echo $page->url; ?>" title="<?php echo $page->title; ?>"><?php echo $page->name; ?></a>
+					<?php while(menu_items()): ?>
+					<li <?php echo (menu_active() ? 'class="active"' : ''); ?>>
+						<a href="<?php echo menu_url(); ?>" title="<?php echo menu_title(); ?>">
+							<?php echo menu_name(); ?>
+						</a>
 					</li>
-					<?php endforeach; ?>
+					<?php endwhile; ?>
 				</ul>
 			</nav>
+			<?php endif; ?>
 
 			<form class="search" action="<?php echo search_url(); ?>" method="post">
 				<input type="text" name="term" placeholder="To search, type and hit enter" value="<?php echo search_term(); ?>">

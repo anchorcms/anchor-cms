@@ -34,15 +34,18 @@
 				
 				<a id="logo" href="<?php echo base_url(); ?>"><?php echo site_name(); ?></a>
 	
+				<?php if(has_menu_items()): ?>
 				<nav id="main" role="navigation">
 					<ul>
-						<?php foreach(pages() as $page): ?>
-						<li <?php echo ($page->active ? 'class="active"' : ''); ?>>
-							<a href="<?php echo $page->url; ?>" title="<?php echo $page->title; ?>"><?php echo $page->name; ?></a>
+						<?php while(menu_items()): ?>
+						<li <?php echo (menu_active() ? 'class="active"' : ''); ?>>
+							<a href="<?php echo menu_url(); ?>" title="<?php echo menu_title(); ?>">
+								<?php echo menu_name(); ?>
+							</a>
 						</li>
-						<?php endforeach; ?>
+						<?php endwhile; ?>
 					</ul>
 				</nav>
-				
+				<?php endif; ?>
 			</div>
 		</header>
