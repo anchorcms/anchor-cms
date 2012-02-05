@@ -23,10 +23,23 @@ class Request {
 		else {
 			throw new Exception('Unable to determine the request URI');
 		}
-		
+
 		// remove base url
-		$uri = preg_replace('#^' . URL_PATH . '#', '', $uri);
-		
+		$base_url = parse_url(Config::get('application.base_url'), PHP_URL_PATH);
+
+		if(strlen($base_url)) {
+			if(strpos($uri, $base_url) === 0) {
+				$uri = substr($uri, strlen($base_url));
+			}
+		}
+
+		// remove index file
+		$index = '/' . Config::get('application.index_page');
+
+		if(strpos($uri, $index) === 0) {
+			$uri = substr($uri, strlen($index));
+		}
+
 		return trim($uri, '/');
 	}	
 	

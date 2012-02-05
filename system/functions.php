@@ -65,7 +65,7 @@ function post_slug() {
 function post_url() {
 	if($itm = IoC::resolve('post')) {
 		$page = IoC::resolve('postspage');
-		return URL_PATH . $page->slug . '/' . $itm->slug;
+		return Url::make($page->slug . '/' . $itm->slug);
 	}
 	
 	return '';
@@ -372,11 +372,11 @@ function twitter_url() {
 	Url helpers
 */
 function base_url($url = '') {
-    return URL_PATH . ltrim($url, '/');
+    return Url::make($url);
 }
 
 function theme_url($file = '') {
-	return str_replace('/index.php', '', URL_PATH) . 'themes/' . Config::get('metadata.theme') . '/' . ltrim($file, '/');
+	return Config::get('application.base_url') . 'themes/' . Config::get('metadata.theme') . '/' . ltrim($file, '/');
 }
 
 function current_url() {
@@ -384,15 +384,15 @@ function current_url() {
 }
 
 function admin_url() {
-    return URL_PATH . 'admin';
+    return Url::make('admin');
 }
 
 function search_url() {
-	return URL_PATH . 'search';
+	return Url::make('search');
 }
 
 function rss_url() {
-    return URL_PATH . 'rss';
+    return Url::make('rss');
 }
 
 /**
