@@ -290,8 +290,8 @@ function twitter_url() {
 /**
 	Url helpers
 */
-function base_url() {
-    return URL_PATH;
+function base_url($url = '') {
+    return URL_PATH . ltrim($url, '/');
 }
 
 function theme_url($file = '') {
@@ -308,10 +308,6 @@ function admin_url() {
 
 function search_url() {
 	return URL_PATH . 'search';
-}
-
-function site_url($url = '') {
-    return URL_PATH . ltrim($url, '/');
 }
 
 function rss_url() {
