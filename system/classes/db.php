@@ -17,7 +17,7 @@ class Db {
 		$dsn = 'mysql:dbname=' . $params['name'] . ';host=' . $params['host'];
 
 		// try connection
-		static::$dbh = new \PDO($dsn, $params['username'], $params['password']);
+		static::$dbh = new PDO($dsn, $params['username'], $params['password']);
 		
 		// set error handling to exceptions
 		static::$dbh->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
