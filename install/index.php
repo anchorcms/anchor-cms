@@ -100,6 +100,16 @@
                         </select>
                     </p>
                     
+                    <p>
+                        <label for="path">Site path:</label>
+                        <input id="path" name="path" placeholder="<?php echo dirname(dirname($_SERVER['SCRIPT_NAME'])); ?>">
+                    </p>
+                    
+                    <p>
+                        <label><input type="checkbox" name="clean_urls" value="1">
+                        Use clean urls</label> (Apache mod_rewrite is enabled)
+                    </p>
+                    
                 </fieldset>
                 
                 <br style="clear: both;">

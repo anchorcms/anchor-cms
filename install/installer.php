@@ -4,7 +4,7 @@
 	Installer
 */
 
-$fields = array('host', 'user', 'pass', 'db', 'name', 'description', 'theme');
+$fields = array('host', 'user', 'pass', 'db', 'name', 'description', 'theme', 'path', 'clean_urls');
 $post = array();
 
 foreach($fields as $field) {
@@ -49,13 +49,21 @@ if(empty($errors)) {
 		"'host' => 'localhost'",
 		"'username' => 'root'",
 		"'password' => ''",
-		"'name' => 'anchorcms'"
+		"'name' => 'anchorcms'",
+		
+		// apllication paths
+		"'base_url' => '/'",
+		"'index_page' => 'index.php'"
 	);
 	$replace = array(
 		"'host' => '" . $post['host'] . "'",
 		"'username' => '" . $post['user'] . "'",
 		"'password' => '" . $post['pass'] . "'",
-		"'name' => '" . $post['db'] . "'"
+		"'name' => '" . $post['db'] . "'",
+
+		// apllication paths
+		"'base_url' => '/" . trim($post['path'], '/') . "/'",
+		"'index_page' => '" . ($post['clean_urls'] === false ? 'index.php' : '') . "'"
 	);
 	$config = str_replace($search, $replace, $template);
 
