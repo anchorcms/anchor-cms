@@ -9,7 +9,7 @@
 	<body>
 
 		<header id="top">
-			<a id="logo" href="/admin">
+			<a id="logo" href="<?php echo base_url('admin/'); ?>">
 				<img src="<?php echo theme_url('img/logo.png'); ?>" alt="Anchor CMS">
 			</a>
 
