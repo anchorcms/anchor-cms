@@ -1,2 +1,5 @@
-Anchor is a lightweight content management system for art-directed blogs.
-See <a href="http://anchorcms.com">anchorcms.com</a> for more details.
+## Anchor Cms
+
+A lightweight content management system for art-directed blogs.
+
+[Official Website & Documentation](http://anchorcms.com/)
