@@ -59,6 +59,10 @@ class Response {
 		static::$headers[$name] = $value;
 	}
 	
+	public static function content($str) {
+		static::$content = $str;
+	}
+	
 	public static function append($str) {
 		static::$content .= $str;
 	}
@@ -78,12 +82,6 @@ class Response {
 		// set content type
 		if(array_key_exists('Content-Type', static::$headers) === false) {
 			static::$headers['Content-Type'] = 'text/html; charset=UTF-8';
-		}
-		
-		// check for RSS
-		if(Request::uri() === 'rss') {
-			//  Set the RSS header
-			header('Content-type: text/xml'); flush();
 		}
 
 		// send headers
