@@ -46,28 +46,26 @@ $(function() {
     	remove_notes();
 
 		$.ajax({
-			type: 'POST',
-			url: 'installer.php',
-			data: form.serialize(),
-			success: submit_result
+			'type': 'POST',
+			'url': 'installer.php',
+			'data': form.serialize(),
+			'dataType': 'json',
+			'success': submit_result
 		});
 
 		return false;
     };
     
     var submit_result = function(data) {
-		if(data == 'good') {
+		if(data.installed) {
 			var content = $('.content');
 			
 			content.animate({'opacity': 0}, function() {
-				var html = '<h2>Thanks for installing!</h2>';
-				html += '<p>We created an account for you.<br>The username is <b>admin</b>, and the password is <b>password</b>.';
-				html += ' Make sure you change these!</p>';
-			
+				var html = '<h2>Thanks for installing!</h2><p>We created an account for you.<br>The username is <b>admin</b>, and the password is <strong>' + data.password + '</strong>.</p>';
 				content.html(html).animate({'opacity': 1});
 			});
 		} else {
-			notes.show().append('<p class="error">' + data + '</p>').fadeIn();
+			notes.show().append('<p class="error">' + data.errors.join(', ') + '</p>').fadeIn();
 		}
     };
     
