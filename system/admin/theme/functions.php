@@ -441,12 +441,25 @@ function pagination() {
 }
 
 /**
-    Error checking
+	String helpers
 */
 function pluralise($amount, $str, $alt = '') {
     return $amount === 1 ? $str : $str . ($alt !== '' ? $alt : 's');
 }
 
+function truncate($str, $limit = 10, $elipse = ' [...]') {
+	$words = preg_split('/\s+/', $str);
+
+	if(count($words) <= $limit) {
+		return $str;
+	}
+
+	return implode(' ', array_slice($words, 0, $limit)) . $elipse;
+}
+	
+/**
+    Error checking
+*/
 function latest_version() {
 	// returns plain text string with version number or 0 on failure.
 	return floatval(Curl::get('http://anchorcms.com/version'));
