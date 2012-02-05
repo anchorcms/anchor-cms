@@ -1,23 +1,34 @@
-<?php if(file_exists('../config.php')) die('Anchor is already installed. <b>You should really delete this folder!</b>'); ?>
 <!doctype html>
 <html lang="en-gb">
     <head>
         <meta charset="utf-8">
         <title>Install Anchor CMS</title>
+        <mate name="robots" content="noindex, nofollow">
         
         <link rel="stylesheet" href="css/install.css">
         
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-        <script>window.jQuery || document.write('<script src="/install/js/jquery.js"><\/script>');</script>
+        <script>window.jQuery || document.write('<script src="js/jquery.js"><\/script>');</script>
         <script src="js/install.js"></script>
     </head>
-    
     <body>
     
-        <p class="nojs error">You will need Javascript enabled for this installation. <em>Sorry :(</em></p>
+    	<h1><img src="img/logo.gif" alt="Anchor install logo"></h1>
     
-        <h1><img src="img/logo.gif" alt="Anchor install logo"></h1>
-        
+    	<?php if(file_exists('../config.php')): ?>
+    	
+    	<div class="content">
+    		<h2>Woops.</h2>
+    		
+    		<p>Anchor is already installed. You should really delete this folder!</p>
+    		
+    		<p><a href="../" class="button" style="float: none; display: inline-block;">Return to the main site.</a></p>
+    	</div>
+    	
+    	<?php else: ?>
+    
+        <p class="nojs error">You will need Javascript enabled for this installation. <em>Sorry :(</em></p>
+
         <div class="content">
             <h2>Welcome to Anchor.</h2>
 
@@ -95,6 +106,8 @@
                 <button type="submit">Install Anchor</button>
             </form>
         </div>
+        
+        <?php endif; ?>
         
         <p class="footer">Made with love by <a href="//twitter.com/visualidiot">Visual Idiot</a>. If it's not working, send him a message on Twitter. He'll reply.</p>
     </body>
