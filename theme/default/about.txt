@@ -1,5 +1,0 @@
-Theme name:    Default
-Description:   This is the default, shiny theme for Anchor CMS, version 0.3 (Alpha) upwards.
-Author name:   Visual Idiot
-Author site:   http://visualidiot.com
-License:       WTFPL (http://sam.zoy.org/wtfpl/COPYING)

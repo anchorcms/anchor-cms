@@ -1,8 +1,3 @@
-<<<<<<< HEAD
-<?php
-
-    include_once 'functions/files.php';
-=======
 <?php if(file_exists('../config.php')) die('Anchor is already installed. <b>You should really delete this folder!</b>'); ?>
 <!doctype html>
 <html lang="en-gb">
@@ -104,4 +99,3 @@
         <p class="footer">Made with love by <a href="//twitter.com/visualidiot">Visual Idiot</a>. If it's not working, send him a message on Twitter. He'll reply.</p>
     </body>
 </html>
->>>>>>> dev
