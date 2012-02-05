@@ -65,6 +65,60 @@ class Posts {
 		return new Items($results);
 	}
 	
+	public static function total_public() {
+		$sql = "select count(*) from posts where posts.status = ?";
+		$args = array('published');
+
+		// return total
+		return Db::query($sql, $args)->fetchColumn();
+	}
+	
+	public static function list_public($params = array()) {
+		$sql = "
+			select
+
+				posts.id,
+				posts.title,
+				posts.slug,
+				posts.description,
+				posts.html,
+				posts.css,
+				posts.js,
+				posts.created,
+				coalesce(users.real_name, posts.author) as author,
+				posts.status
+
+			from posts 
+			left join users on (users.id = posts.author) 
+			where posts.status = ?
+		";
+		$args = array('published');
+
+		if(isset($params['sortby'])) {
+			$sql .= " order by posts." . $params['sortby'];
+			
+			if(isset($params['sortmode'])) {
+				$sql .= " " . $params['sortmode'];
+			}
+		}
+		
+		if(isset($params['limit'])) {
+			$sql .= " limit " . $params['limit'];
+			
+			if(isset($params['offset'])) {
+				$sql .= " offset " . $params['offset'];
+			}
+		}
+		
+		$results = Db::results($sql, $args);
+		
+		// extend result set with post url
+		$results = static::extend($results);
+
+		// return items obj
+		return new Items($results);
+	}
+	
 	public static function find($where = array()) {
 		$sql = "
 			select
@@ -78,6 +132,7 @@ class Posts {
 				posts.js,
 				posts.created,
 				coalesce(users.real_name, posts.author) as author,
+				coalesce(users.bio, '') as bio,
 				posts.status
 
 			from posts 

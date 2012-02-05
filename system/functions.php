@@ -9,11 +9,7 @@
 */
 function has_posts() {
 	if(($posts = IoC::resolve('posts')) === false) {
-		$params['status'] = 'published';
-		$params['sortby'] = 'id';
-		$params['sortmode'] = 'desc';
-		
-		$posts = Posts::list_all($params);
+		$posts = Posts::list_public(array('sortby' => 'id', 'sortmode' => 'desc'));
 		IoC::instance('posts', $posts, true);
 	}
 	
@@ -214,6 +210,14 @@ function article_date() {
 function article_author() {
 	if($itm = IoC::resolve('article')) {
 		return $itm->author;
+	}
+	
+	return '';
+}
+
+function article_author_bio() {
+	if($itm = IoC::resolve('article')) {
+		return $itm->bio;
 	}
 	
 	return '';
