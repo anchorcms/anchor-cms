@@ -3,7 +3,7 @@
 /*
 	Set the error reporting level.
 */
-error_reporting(E_ALL | E_STRICT);
+error_reporting(E_ALL);
 
 /*
 	Show errors that are not caught
@@ -13,9 +13,9 @@ ini_set('display_errors', true);
 /*
 	Check our environment
 */
-if(floatval(PHP_VERSION) < 5.3) {
+if(version_compare(PHP_VERSION, '5.3.0', '<')) {
 	// echo and exit with some usful information
-	echo 'Anchor requires PHP 5.3 or newer, your current environment is running PHP ' . floatval(PHP_VERSION);
+	echo 'Anchor requires PHP 5.3 or newer, your current environment is running PHP ' . PHP_VERSION;
 	exit(1);
 }
 
