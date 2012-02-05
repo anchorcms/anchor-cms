@@ -1,0 +1,5 @@
+Theme name:    Dark-bar
+Description:   This is a dark-bar theme, adapted from the original theme for those who prefer a darker blog.
+Author name:   Craig Childs
+Author site:   http://bertdasquirt.com
+License:       WTFPL (http://sam.zoy.org/wtfpl/COPYING)
