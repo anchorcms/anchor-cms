@@ -47,9 +47,14 @@ class Anchor {
 		
 		// remove admin as an argument and set the default action if there isnt one
 		if($action == 'admin') {
-			$default = Users::authed() === false ? 'login' : 'posts';
-			$action = count($segments) ? array_shift($segments) : $default;
-			
+			// set action for admin - default posts
+			$action = count($segments) ? array_shift($segments) : 'posts';
+
+			// redirect to login
+			if(Users::authed() === false and $action != 'login') {
+				return Response::redirect('admin/login');
+			}
+
 			// set template path for admin
 			Template::path(PATH . 'system/admin/theme/');
 		}
