@@ -27,6 +27,9 @@ function formatSlug(slug, output) {
 
 	// replace crazy characters
 	val = val.replace(/[^0-9a-z\-]/i, '');
+	
+	// convert to lower case 
+	val = val.toLowerCase();
 
 	output.innerHTML = val.length ? val : 'slug';
 	slug.value = val;
