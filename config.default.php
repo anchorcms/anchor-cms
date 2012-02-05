@@ -14,6 +14,8 @@ return array(
 	
 	// Application settings
 	'application' => array(
+		'base_url' => '/',
+		'index_page' => 'index.php',
 		'timezone' => 'UTC'
 	),
 
