@@ -413,17 +413,21 @@ function menu_url() {
     return Request::uri();
 }
 
+function base_url($url = '') {
+    return URL_PATH . ltrim($url, '/');
+}
+
 /**
 	Pagination
 */
 function pagination() {
+	// @todo: generate pagaination for posts, pages and users
 	return '';
 }
 
 /**
     Error checking
 */
-
 function pluralise($amount, $str, $alt = '') {
     return $amount === 1 ? $str : $str . ($alt !== '' ? $alt : 's');
 }
@@ -434,6 +438,11 @@ function latest_version() {
 }
 
 function error_check() {
+	// only run the check once per session
+	if(($check = Session::get('check', 'not_checked')) !== 'not_checked') {
+		return $check;
+	}
+
     $errors = array();
 
     //  Check the uploads folder is writable.
@@ -451,5 +460,12 @@ function error_check() {
         $errors[] = 'PHP can&rsquo;t do math properly. The sky is falling. Get inside, quick!';
     }
     
-    return count($errors) ? $errors : false;
+    // outcome
+    $result = (count($errors) ? $errors : false);
+    
+    // save to session
+    Session::set('check', $result);
+    
+    // do something useful with it
+    return $result;
 }
