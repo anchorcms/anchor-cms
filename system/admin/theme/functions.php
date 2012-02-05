@@ -394,13 +394,6 @@ function notifications() {
 }
 
 /**
-	Post data
-*/
-function post_user() {
-	return Input::post('user');
-}
-
-/**
 	Main menu
 */
 function admin_menu() {
