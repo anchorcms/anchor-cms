@@ -8,18 +8,7 @@
  */
 
 //  Set the include path
-define('PATH', __DIR__ . '/');
-
-// Set the base url path
-call_user_func(function() {
-	// relative script path
-	$path = $_SERVER['SCRIPT_NAME'];
-	
-	// check if we are using clean urls
-	$url = file_exists(PATH . '.htaccess') ? trim($path, basename(__FILE__)) : $path . '/';
-
-	define('URL_PATH', $url);
-});
+define('PATH', pathinfo(__FILE__, PATHINFO_DIRNAME) . '/');
 
 //  Block direct access to any PHP files
 define('IN_CMS', true);
