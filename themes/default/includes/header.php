@@ -12,8 +12,8 @@
 		<link rel="alternate" type="application/rss+xml" title="RSS" href="<?php echo rss_url(); ?>">
 
 		<script src="//code.jquery.com/jquery-latest.min.js"></script>
-		<script src="<?php echo theme_url('/js/main.js'); ?>"></script>
 		<script>var base = '<?php echo theme_url(); ?>';</script>
+		<script src="<?php echo theme_url('/js/main.js'); ?>"></script>
 		
 		<?php if(customised()): ?>
 		    <!-- Custom CSS -->
