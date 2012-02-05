@@ -11,14 +11,17 @@
 		<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Asap">
 		
 		<?php if(customised()): ?>
-		<?php echo article_css(); ?>
-		<?php echo article_js(); ?>
+		    <!-- Custom CSS -->
+    		<style><?php echo article_css(); ?></style>
+    		
+    		<!--  Custom Javascript -->
+    		<script><?php echo article_js(); ?></script>
 		<?php endif; ?>
 	</head>
 	<body>
 
 		<header>
-			<a class="logo" href="<?php echo site_url(); ?>"><?php echo site_name(); ?></a>
+			<a class="logo" href="<?php echo base_url(); ?>"><?php echo site_name(); ?></a>
 
 			<nav class="menu" role="navigation">
 				<ul>
