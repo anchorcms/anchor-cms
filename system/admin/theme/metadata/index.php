@@ -39,23 +39,6 @@
 				<input id="twitter" name="twitter" value="<?php echo Input::post('twitter', twitter_account()); ?>">
 				
 				<em>Your twitter account. Displayed as @<span id="output"><?php echo twitter_account(); ?></span>.</em>
-							    
-							    <script>
-						        var tweet = document.getElementById('twitter'),
-						            output = document.getElementById('output'),
-						            initial = output.value;
-						            
-						            fill = function(e) {
-						                var me = (typeof e !== 'undefined' ? this : tweet),
-						                    val = me.value;
-				
-						                output.innerText = val !== '' ? val : initial;
-						            };
-						            
-						        fill();
-						        
-						        tweet.onkeyup = fill;
-						    </script>
 			</p>
 		</fieldset>
 			
@@ -65,4 +48,24 @@
 	</form>
 
 </section>
+
+<script>
+	(function() {
+		var tweet = document.getElementById('twitter'),
+			output = document.getElementById('output'),
+			initial = output.value;
+
+			fill = function(e) {
+				var me = (typeof e !== 'undefined' ? this : tweet),
+				val = me.value;
+
+				output.innerText = val !== '' ? val : initial;
+			};
+
+		fill();
+
+		tweet.onkeyup = fill;
+	}());
+</script>
+
 
