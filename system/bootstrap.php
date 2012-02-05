@@ -35,7 +35,7 @@ Autoloader::register();
 */
 if(Config::load() === false) {
 	// looks like we are missing a config file
-	echo file_get_contents(PATH . 'system/admin/theme/error_config.php');
+	echo str_replace('[[base_url]]', URL_PATH, file_get_contents(PATH . 'system/admin/theme/error_config.php'));
 	exit(1);
 }
 
