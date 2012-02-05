@@ -3,19 +3,28 @@
 /**
  *    Anchor CMS
  *
- *    Originally built by @visualidiot, with thanks to @spenserj and a bunch of other contributors.
+ *    Originally built by @visualidiot, with thanks to @kieronwilson, @spenserj and a bunch of other contributors.
  *    You're all great.
  */
 
 //  Set the include path
-define('PATH', $_SERVER['DOCUMENT_ROOT'] . '/');
-define('URL', str_replace('?' . $_SERVER['QUERY_STRING'], '', filter_var($_SERVER['REQUEST_URI'], FILTER_SANITIZE_STRING)));
+define('PATH', __DIR__ . '/');
 
-//  Set the current version number
-define('VERSION', '0.3.0a');
+//  Check if the .htaccess file is present
+if(file_exists('.htaccess')) {
+    //  Set a URL path, in case Anchor gets installed on a subpage
+    // @todo: move this into the config file
+    define('URL_PATH', trim($_SERVER['SCRIPT_NAME'], basename(__FILE__)));
+} else {
+    //  Set a fallback include path
+    define('URL_PATH', $_SERVER['SCRIPT_NAME'] . '/');
+}
 
 //  Block direct access to any PHP files
-$direct = strpos(strtolower($_SERVER['SCRIPT_NAME']), strtolower(basename(__FILE__)));
+define('IN_CMS', true);
 
-//  And load the system file
-require_once PATH . 'system/index.php';
+//  Anchor version
+define('ANCHOR_VERSION', 0.4);
+
+// Lets bootstrap our application and get it ready to run
+require PATH . 'system/bootstrap.php';
