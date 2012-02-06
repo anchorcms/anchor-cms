@@ -26,7 +26,7 @@ if(version_compare(PHP_VERSION, '5.3.0', '<')) {
 */
 require PATH . 'system/classes/autoload.php';
 require PATH . 'system/classes/config.php';
-require PATH . 'system/classes/ioc.php';
+require PATH . 'system/classes/error.php';
 
 // register the auto loader
 Autoloader::register();
