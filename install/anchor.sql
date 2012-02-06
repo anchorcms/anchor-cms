@@ -31,6 +31,7 @@ CREATE TABLE `posts` (
   `html` text NOT NULL,
   `css` text NOT NULL,
   `js` text NOT NULL,
+  `custom_fields` text,
   `created` int(11) NOT NULL,
   `author` int(6) NOT NULL,
   `status` enum('draft','published','archived') NOT NULL,

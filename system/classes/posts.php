@@ -34,6 +34,7 @@ class Posts {
 				posts.css,
 				posts.js,
 				posts.created,
+				posts.custom_fields,
 				coalesce(users.real_name, posts.author) as author,
 				posts.status
 
@@ -85,6 +86,7 @@ class Posts {
 				posts.css,
 				posts.js,
 				posts.created,
+				posts.custom_fields,
 				coalesce(users.real_name, posts.author) as author,
 				posts.status
 
@@ -131,6 +133,7 @@ class Posts {
 				posts.css,
 				posts.js,
 				posts.created,
+				posts.custom_fields,
 				coalesce(users.real_name, posts.author) as author,
 				coalesce(users.bio, '') as bio,
 				posts.status
@@ -164,6 +167,7 @@ class Posts {
 				posts.css,
 				posts.js,
 				posts.created,
+				posts.custom_fields,
 				coalesce(users.real_name, posts.author) as author,
 				posts.status
 
@@ -198,7 +202,7 @@ class Posts {
 	}
 	
 	public static function update($id) {
-		$post = Input::post(array('title', 'slug', 'description', 'html', 'css', 'js', 'status', 'delete'));
+		$post = Input::post(array('title', 'slug', 'description', 'html', 'css', 'js', 'status', 'delete', 'key1', 'value1', 'key2', 'value2', 'key3', 'value3'));
 		$errors = array();
 
 		// delete
@@ -230,6 +234,21 @@ class Posts {
 			$post['slug'] = preg_replace('/\W+/', '-', trim(strtolower($post['title'])));
 		}
 		
+		$custom = array();
+		for($i = 1; $i <= 3; $i++) {
+		    //  If there's a matching key-value pair
+		    if(isset($post['key' . $i]) && isset($post['value' . $i])) {
+		        //  Add the custom fields as a JSON string
+		        $custom[] = array($post['key' . $i] => $post['value' . $i]);
+		        
+		        //  Remove them from the list
+		        unset($post['key' . $i]);
+		        unset($post['value' . $i]);
+		    }
+		}
+		
+		$post['custom_fields'] = json_encode($custom);
+		
 		$updates = array();
 		$args = array();
 
@@ -250,7 +269,7 @@ class Posts {
 	}
 	
 	public static function add() {
-		$post = Input::post(array('title', 'slug', 'description', 'html', 'css', 'js', 'status'));
+		$post = Input::post(array('title', 'slug', 'description', 'html', 'css', 'js', 'status', 'key1', 'value1', 'key2', 'value2', 'key3', 'value3'));
 		$errors = array();
 		
 		if(empty($post['title'])) {
@@ -273,6 +292,21 @@ class Posts {
 		if(empty($post['slug'])) {
 			$post['slug'] = preg_replace('/\W+/', '-', trim(strtolower($post['title'])));
 		}
+		
+		$custom = array();
+		for($i = 1; $i <= 3; $i++) {
+		    //  If there's a matching key-value pair
+		    if(isset($post['key' . $i]) && isset($post['value' . $i])) {
+		        //  Add the custom fields as a JSON string
+		        $custom[] = array($post['key' . $i] => $post['value' . $i]);
+		        
+		        //  Remove them from the list
+		        unset($post['key' . $i]);
+		        unset($post['value' . $i]);
+		    }
+		}
+		
+		$post['custom_fields'] = json_encode($custom);
 		
 		// set creation date
 		$post['created'] = time();

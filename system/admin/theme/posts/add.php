@@ -66,6 +66,22 @@
                 
                 <em>Custom Javascript. Will be wrapped in a <code>&lt;script&gt;</code> block.</em>
             </p>
+            
+            <p>
+                <label for="key1">Custom fields:</label>
+                <input class="key" id="key1" name="key1" placeholder="Key">
+                <input class="value" id="value1" name="value1" placeholder="Value">
+                
+                <label></label>
+                <input class="key" id="key2" name="key2" placeholder="Key">
+                <input class="value" id="value2" name="value2" placeholder="Value">
+                
+                <label></label>
+                <input class="key" id="key3" name="key3" placeholder="Key">
+                <input class="value" id="value3" name="value3" placeholder="Value">
+
+                <em>Custom key-value pairs of arbitrary data that can be used in a theme.</em>
+            </p>
 		</fieldset>
 			
 		<p class="buttons">

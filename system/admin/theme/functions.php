@@ -308,6 +308,23 @@ function article_author() {
 	return '';
 }
 
+
+function article_custom_field($id) {
+    $return = array('key' => '', 'value' => '');
+
+    if($itm = IoC::resolve('article')) {
+    	if(isset($itm->custom_fields)) {
+    	    $json = json_decode($itm->custom_fields);
+    	    
+    	    foreach($json[$id] as $key => $value) {
+    	        $return = array('key' => $key, 'value' => $value);
+    	    }
+    	}
+    }
+    
+    return (object) $return;
+}
+
 function article_status() {
 	if($itm = IoC::resolve('article')) {
 		return $itm->status;

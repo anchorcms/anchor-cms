@@ -16,7 +16,7 @@
 			
 			<p>
 			    <label for="slug">Slug:</label>
-			    <input id="slug" autocomplete="off" name="slug" value="<?php echo Input::post('slug', article_slug()); ?>">
+			    <input type="url" id="slug" autocomplete="off" name="slug" value="<?php echo Input::post('slug', article_slug()); ?>">
 			    
 			    <em>The slug for your post (<code><?php echo $_SERVER['HTTP_HOST']; ?>/posts/<span id="output">slug</span></code>).</em>
 			</p>
@@ -65,6 +65,23 @@
                 <textarea id="js" name="js"><?php echo Input::post('js', article_js()); ?></textarea>
                 
                 <em>Custom Javascript. Will be wrapped in a <code>&lt;script&gt;</code> block.</em>
+            </p>
+            
+            <p>
+            
+                <label for="key1">Custom fields:</label>
+                <input class="key" id="key1" name="key1" placeholder="Key" value="<?php echo Input::post('key1', article_custom_field(0)->key); ?>">
+                <input class="value" id="value1" name="value1" placeholder="Value" value="<?php echo Input::post('value1', article_custom_field(0)->value); ?>">
+                
+                <label></label>
+                <input class="key" id="key2" name="key2" placeholder="Key" value="<?php echo Input::post('key2', article_custom_field(1)->key); ?>">
+                <input class="value" id="value2" name="value2" placeholder="Value" value="<?php echo Input::post('key2', article_custom_field(1)->value); ?>">
+                
+                <label></label>
+                <input class="key" id="key3" name="key3" placeholder="Key" value="<?php echo Input::post('key2', article_custom_field(2)->key); ?>">
+                <input class="value" id="value3" name="value3" placeholder="Value" value="<?php echo Input::post('key2', article_custom_field(2)->value); ?>">
+
+                <em>Custom key-value pairs of arbitrary data that can be used in a theme.</em>
             </p>
 		</fieldset>
 			
