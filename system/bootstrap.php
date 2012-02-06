@@ -7,8 +7,9 @@ error_reporting(E_ALL);
 
 /*
 	Show errors that are not caught
+	note: some hosts disable ini_set for security reasons so we will silence the output of any errors
 */
-ini_set('display_errors', true);
+@ini_set('display_errors', true);
 
 /*
 	Check our environment
@@ -43,19 +44,13 @@ if(Config::load() === false) {
 date_default_timezone_set(Config::get('application.timezone'));
 
 // Register the PHP exception handler.
-set_exception_handler(function($e) {
-	Error::exception($e);
-});
+set_exception_handler(array('Error', 'exception'));
 
 // Register the PHP error handler.
-set_error_handler(function($code, $error, $file, $line) {
-	Error::native($code, $error, $file, $line);
-});
+set_error_handler(array('Error', 'native'));
 
 // Register the shutdown handler.
-register_shutdown_function(function() {
-	Error::shutdown();
-});
+register_shutdown_function(array('Error', 'shutdown'));
 
 /*
 	Start session handler
