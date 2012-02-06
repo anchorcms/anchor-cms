@@ -1,10 +1,6 @@
 
 		<footer>
-			<?php if(user_authed()): ?>
 			<a class="anchor" href="<?php echo admin_url(); ?>" title="Site Admin">Anchor Cms</a>
-			<?php else: ?>
-			<a class="anchor" href="//anchorcms.com/" title="Anchor Cms">Anchor Cms</a>
-			<?php endif; ?>
 		
 			<?php if(twitter_account()): ?>
 			<a href="<?php echo twitter_url(); ?>" class="twitter-follow-button" data-show-count="false" data-size="large">Follow @<?php echo twitter_account(); ?></a>
