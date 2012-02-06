@@ -39,7 +39,7 @@ function formatTwitter(tweet, output) {
 	var val = tweet.value;
 
 	// replace crazy characters
-	val = val.replace(/[^0-9a-z]/i, '');
+	val = val.replace(/[^0-9a-z\_]/i, '');
 
 	output.innerHTML = val.length ? val : 'example';
 	tweet.value = val;
