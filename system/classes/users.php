@@ -57,13 +57,13 @@ class Users {
 
 		if(empty($errors)) {
 			// find user
-			if(($user = Users::find(array('username' => $post['user']))) === false) {
-				$errors[] = 'Incorrect details';
-			} else {
+			if($user = Users::find(array('username' => $post['user']))) {
 				// check password
 				if(crypt($post['pass'], $user->password) != $user->password) {
 					$errors[] = 'Incorrect details';
 				}
+			} else {
+				$errors[] = 'Incorrect details';
 			}
 		}
 		
