@@ -95,6 +95,11 @@
                     </p>
                     
                     <p>
+                        <label for="email">Your Email Address:</label>
+                        <input id="email" name="email">
+                    </p>
+                    
+                    <p>
                         <label for="path">Site path:</label>
                         <input id="path" name="path" value="<?php echo dirname(dirname($_SERVER['SCRIPT_NAME'])); ?>">
                     </p>

@@ -18,7 +18,7 @@ function random($length = 16) {
 	Installer
 */
 
-$fields = array('host', 'user', 'pass', 'db', 'name', 'description', 'theme', 'path', 'clean_urls');
+$fields = array('host', 'user', 'pass', 'db', 'name', 'description', 'theme', 'email', 'path', 'clean_urls');
 $post = array();
 
 foreach($fields as $field) {
@@ -39,6 +39,10 @@ if(empty($post['name'])) {
 
 if(empty($post['theme'])) {
 	$errors[] = 'Please select a theme';
+}
+
+if(filter_var($post['email'], FILTER_VALIDATE_EMAIL) === false) {
+	$errors[] = 'Please enter a valid email address';
 }
 
 if(version_compare(PHP_VERSION, '5.3.0', '<')) {
@@ -88,11 +92,15 @@ if(empty($errors)) {
 		$errors[] = 'Failed to create config file';
 	}
 	
-	$htaccess = file_get_contents('../htaccess.txt');	
-	$htaccess = str_replace('# RewriteBase /', 'RewriteBase /' . $base_url, $htaccess);
+	// if we have clean urls enabled let setup a 
+	// basic htaccess file is there isnt one
+	if($post['clean_urls']) {
+		$htaccess = file_get_contents('../htaccess.txt');	
+		$htaccess = str_replace('# RewriteBase /', 'RewriteBase /' . $base_url, $htaccess);
 	
-	if(file_put_contents('../.htaccess', $htaccess) === false) {
-		$errors[] = 'Unable to create .htaccess file. Please create one and paste the following in: <code>' . $htaccess . '</code>';
+		if(file_put_contents('../.htaccess', $htaccess) === false) {
+			$errors[] = 'Unable to create .htaccess file. Make to create one to enable clean urls.';
+		}
 	}
 }
 
@@ -103,6 +111,7 @@ if(empty($errors)) {
 
 	$sql = str_replace('[[now]]', time(), file_get_contents('anchor.sql'));
 	$sql = str_replace('[[password]]', crypt($password), $sql);
+	$sql = str_replace('[[email]]', strtolower(trim($post['email'])), $sql);
 	
 	try {
 		$dbh->beginTransaction();
@@ -122,8 +131,6 @@ if(empty($errors)) {
 		}
 	}
 }
-
-
 
 // output response
 header('Content-Type: application/json');

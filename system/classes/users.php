@@ -92,7 +92,7 @@ class Users {
 	}
 	
 	public static function update($id) {
-		$post = Input::post(array('username', 'password', 'real_name', 'bio', 'status', 'role', 'delete'));
+		$post = Input::post(array('username', 'password', 'email', 'real_name', 'bio', 'status', 'role', 'delete'));
 		$errors = array();
 
 		// delete
@@ -111,6 +111,10 @@ class Users {
 			}
 		}
 
+		if(filter_var($post['email'], FILTER_VALIDATE_EMAIL) === false) {
+			$errors[] = 'Please enter a valid email address';
+		}
+
 		if(empty($post['real_name'])) {
 			$errors[] = 'Please enter a display name';
 		}
@@ -127,6 +131,9 @@ class Users {
 			Notifications::set('error', $errors);
 			return false;
 		}
+
+		// format email
+		$post['email'] = strtolower(trim($post['email']));
 		
 		$updates = array();
 		$args = array();
@@ -152,7 +159,7 @@ class Users {
 	}
 
 	public static function add() {
-		$post = Input::post(array('username', 'password', 'real_name', 'bio', 'status', 'role'));
+		$post = Input::post(array('username', 'password', 'email', 'real_name', 'bio', 'status', 'role'));
 		$errors = array();
 		
 		if(empty($post['username'])) {
@@ -166,7 +173,11 @@ class Users {
 		if(empty($post['password'])) {
 			$errors[] = 'Please enter a password';
 		}
-		
+
+		if(filter_var($post['email'], FILTER_VALIDATE_EMAIL) === false) {
+			$errors[] = 'Please enter a valid email address';
+		}
+
 		if(empty($post['real_name'])) {
 			$errors[] = 'Please enter a display name';
 		}
@@ -178,6 +189,9 @@ class Users {
 		
 		// encrypt password
 		$post['password'] = crypt($post['password']);
+		
+		// format email
+		$post['email'] = strtolower(trim($post['email']));
 		
 		$keys = array();
 		$values = array();

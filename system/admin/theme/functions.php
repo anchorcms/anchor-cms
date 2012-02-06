@@ -170,6 +170,14 @@ function user_name() {
 	return '';
 }
 
+function user_email() {
+	if($itm = IoC::resolve('user')) {
+		return $itm->email;
+	}
+	
+	return '';
+}
+
 function user_real_name() {
 	if($itm = IoC::resolve('user')) {
 		return $itm->real_name;

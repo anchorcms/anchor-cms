@@ -65,6 +65,11 @@
                 
                 <em>Leave blank for no change.</em>
             </p>
+            
+		    <p>
+		        <label for="email">Email:</label>
+		        <input id="email" name="email" value="<?php echo Input::post('email', user_email()); ?>">
+		    </p>
 		</fieldset>
 			
 		<p class="buttons">
