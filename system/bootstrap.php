@@ -66,3 +66,8 @@ Anchor::run();
 	Output awesomeness!
 */
 Response::send();
+
+/*
+	Close and end session
+*/
+Session::end();
