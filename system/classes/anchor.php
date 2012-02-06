@@ -37,9 +37,8 @@ class Anchor {
 		// default to posts when no action is set
 		$action = count($segments) ? array_shift($segments) : 'posts';
 		
-		// use the admin router
-		$controller = ($action == 'admin') ? 'Routes_admin' : 'Routes';
-		$reflector = new ReflectionClass($controller);
+		// default to our front end router
+		$controller = 'Routes';
 		
 		// set the template path
 		$theme = Config::get('metadata.theme');
@@ -47,12 +46,15 @@ class Anchor {
 		
 		// remove admin as an argument and set the default action if there isnt one
 		if($action == 'admin') {
-			// set action for admin - default posts
-			$action = count($segments) ? array_shift($segments) : 'posts';
+			// set default controller for the admin
+			$controller = (count($segments) ? array_shift($segments) : 'posts') . '_controller';
+			
+			// set default action
+			$action = count($segments) ? array_shift($segments) : 'index';
 
 			// redirect to login
 			if(Users::authed() === false and $action != 'login') {
-				return Response::redirect('admin/login');
+				return Response::redirect('admin/users/login');
 			}
 
 			// set template path for admin
@@ -60,6 +62,8 @@ class Anchor {
 		}
 		
 		// check we can find a action
+		$reflector = new ReflectionClass($controller);
+		
 		if($reflector->hasMethod($action) === false) {
 			// default back to front end template for 404 page
 			Template::path(PATH . 'themes/' . $theme . '/');
