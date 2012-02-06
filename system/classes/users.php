@@ -57,7 +57,9 @@ class Users {
 
 		if(empty($errors)) {
 			// find user
-			if(($user = Users::find(array('username' => $post['user']))) === false) {
+			$user = Users::find(array('username' => $post['user']));
+			
+			if($user === false) {
 				$errors[] = 'Incorrect details';
 			} else {
 				// check password
