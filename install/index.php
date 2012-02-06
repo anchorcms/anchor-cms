@@ -96,7 +96,7 @@
                     
                     <p>
                         <label for="path">Site path:</label>
-                        <input id="path" name="path" placeholder="<?php echo dirname(dirname($_SERVER['SCRIPT_NAME'])); ?>">
+                        <input id="path" name="path" value="<?php echo dirname(dirname($_SERVER['SCRIPT_NAME'])); ?>">
                     </p>
                     
                     <p>
