@@ -22,7 +22,7 @@
 			
 			<p>
 			    <label for="slug">Slug:</label>
-			    <input type="url" id="slug" autocomplete="off" name="slug" value="<?php echo Input::post('slug', page_slug()); ?>">
+			    <input id="slug" autocomplete="off" name="slug" value="<?php echo Input::post('slug', page_slug()); ?>">
 			    
 			    <em>The slug for your post (<code><?php echo $_SERVER['HTTP_HOST']; ?>/<span id="output">slug</span></code>).</em>
 			</p>

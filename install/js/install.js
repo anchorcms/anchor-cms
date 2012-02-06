@@ -42,8 +42,7 @@ $(function() {
 	};
     
     var submit = function() {
-    	// remove previous notifications
-    	remove_notes();
+    	check();
 
 		$.ajax({
 			'type': 'POST',

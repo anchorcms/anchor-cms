@@ -87,6 +87,13 @@ if(empty($errors)) {
 	if(file_put_contents('../config.php', $config) === false) {
 		$errors[] = 'Failed to create config file';
 	}
+	
+	$htaccess = file_get_contents('../htaccess.txt');	
+	$htaccess = str_replace('# RewriteBase /', 'RewriteBase /' . $base_url, $htaccess);
+	
+	if(file_put_contents('../.htaccess', $htaccess) === false) {
+		$errors[] = 'Unable to create .htaccess file. Please create one and paste the following in: <code>' . $htaccess . '</code>';
+	}
 }
 
 // create db

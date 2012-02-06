@@ -52,7 +52,7 @@
                     
                     <p>
                         <label for="host">Your database host:</label>
-                        <input id="host" type="url" name="host" placeholder="localhost">
+                        <input id="host" name="host" placeholder="localhost">
                     </p>
                     <p>
                         <label for="user">Your database username:</label>
