@@ -243,7 +243,8 @@ class Posts {
 		
 		Db::query($sql, $args);
 		
-		Notifications::set('success', 'Your post has been updated');
+		$post = static::extend(static::find(array('id' => $id)));
+		Notifications::set('success', 'Your post has been updated. <a href="' . $post->url . '">View post on your site</a>');
 		
 		return true;
 	}
