@@ -476,25 +476,26 @@ function truncate($str, $limit = 10, $elipse = ' [...]') {
     Error checking
 */
 function latest_version() {
-	// returns plain text string with version number or 0 on failure.
-	return floatval(Curl::get('http://anchorcms.com/version'));
+	// only run the version check once per session
+	if(($version = Session::get('latest_version')) === false) {
+		// returns plain text string with version number or 0 on failure.
+		$version = floatval(Curl::get('http://anchorcms.com/version'));
+		Session::set('latest_version', $version);
+	}
+
+	return $version;
 }
 
 function error_check() {
-	// only run the check once per session
-	if(($check = Session::get('check', 'not_checked')) !== 'not_checked') {
-		return $check;
-	}
-
     $errors = array();
 
     //  Check the uploads folder is writable.
-    if(!is_writable(PATH . 'uploads')) {
+    if(is_writable(PATH . 'uploads') === false) {
         $errors[] = 'The <code>uploads</code> folder is not writable.';
     }
     
     //  Check for older versions
-    if(ANCHOR_VERSION < latest_version()) {
+    if(version_compare(ANCHOR_VERSION, latest_version(), '<')) {
         $errors[] = 'Your version of Anchor is out of date. Please <a href="http://anchorcms.com">download the latest version</a>.';
     }
     
@@ -505,9 +506,6 @@ function error_check() {
     
     // outcome
     $result = (count($errors) ? $errors : false);
-    
-    // save to session
-    Session::set('check', $result);
     
     // do something useful with it
     return $result;
