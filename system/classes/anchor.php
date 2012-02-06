@@ -64,7 +64,7 @@ class Anchor {
 		// check we can find a action
 		$reflector = new ReflectionClass($controller);
 		
-		if($reflector->hasMethod($action) === false) {
+		if($reflector->isInstantiable() === false or $reflector->hasMethod($action) === false) {
 			// default back to front end template for 404 page
 			Template::path(PATH . 'themes/' . $theme . '/');
 			
