@@ -48,12 +48,15 @@ class Anchor {
 		if($action == 'admin') {
 			// set default controller for the admin
 			$controller = (count($segments) ? array_shift($segments) : 'posts') . '_controller';
-			
+
 			// set default action
 			$action = count($segments) ? array_shift($segments) : 'index';
 
+			// public admin actions
+			$public = array('users/login', 'users/amnesia', 'users/reset');
+			
 			// redirect to login
-			if(Users::authed() === false and $action != 'login') {
+			if(Users::authed() === false and in_array(trim($controller, '_controller') . '/' . $action, $public) === false) {
 				return Response::redirect('admin/users/login');
 			}
 
@@ -71,14 +74,14 @@ class Anchor {
 			// method not found in controller
 			return Response::error(404);
 		}
-		
+
 		$reflector->getMethod($action)->invokeArgs(new $controller, $segments);
 	}
 	
 	private static function parse() {
 		// get uri
 		$uri = Request::uri();
-		
+
 		// route definitions
 		$routes = array();
 		
@@ -90,7 +93,7 @@ class Anchor {
 
 		// static routes
 		$routes = array_merge($routes, array(
-			'admin/(:any)/(:any)/(:num)' => 'admin/$1/$2/$3',
+			'admin/(:any)/(:any)/(:any)' => 'admin/$1/$2/$3',
 			'admin/(:any)/(:any)' => 'admin/$1/$2',
 			'admin/(:any)' => 'admin/$1',
 			'admin' => 'admin',
