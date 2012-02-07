@@ -20,6 +20,34 @@ class Users_controller {
 		return Response::redirect('admin/login');
 	}
 	
+	public function amnesia() {
+		if(Input::method() == 'POST') {
+			if(Users::recover_password()) {
+				return Response::redirect('admin/users/login');
+			}
+		}
+		Template::render('users/amnesia');
+	}
+	
+	public function reset($hash) {
+		// find user
+		if(($user = Users::find(array('hash' => $hash))) === false) {
+			Notifications::set('error', 'User not found');
+			return Response::redirect('admin/users');
+		}
+		
+		// store object for template functions
+		IoC::instance('user', $user, true);
+		
+		if(Input::method() == 'POST') {
+			if(Users::reset_password($user->id)) {
+				return Response::redirect('admin');
+			}
+		}
+
+		Template::render('users/reset');
+	}
+	
 	public function add() {
 		if(Input::method() == 'POST') {
 			if(Users::add()) {

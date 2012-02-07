@@ -309,20 +309,20 @@ function article_author() {
 }
 
 
-function article_custom_field($id) {
-    $return = array('key' => '', 'value' => '');
-
+function article_custom_fields() {
     if($itm = IoC::resolve('article')) {
     	if(isset($itm->custom_fields)) {
-    	    $json = json_decode($itm->custom_fields);
-    	    
-    	    foreach($json[$id] as $key => $value) {
-    	        $return = array('key' => $key, 'value' => $value);
-    	    }
+    	    // get associative array
+    	    return json_decode($itm->custom_fields, true);
     	}
     }
     
-    return (object) $return;
+    return array();
+}
+
+function article_custom_field($key, $default = '') {
+    $fields = article_custom_fields();
+    return isset($fields[$key]) ? $fields[$key] : $default;
 }
 
 function article_status() {

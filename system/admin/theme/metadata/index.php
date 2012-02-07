@@ -49,15 +49,20 @@
 
 </section>
 
+<script src="//ajax.googleapis.com/ajax/libs/mootools/1.4.1/mootools-yui-compressed.js"></script>
+<script>window.MooTools || document.write('<script src="<?php echo theme_url('js/mootools.js'); ?>"><\/script>');</script>
+
+<script src="<?php echo theme_url('js/helpers.js'); ?>"></script>
+
 <script>
 	(function() {
-		var tweet = document.getElementById('twitter'), output = document.getElementById('output');
+		var tweet = $('twitter'), output = $('output');
 
 		// call the function to init the input text
 		formatTwitter(tweet, output);
 
 		// bind to input
-		addEvent(tweet, 'keyup', function() {formatTwitter(tweet, output)});
+		tweet.addEvent('keyup', function() {formatTwitter(tweet, output)});
 	}());
 </script>
 

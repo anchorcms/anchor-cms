@@ -2,14 +2,16 @@
 
 /*
 	Set the error reporting level.
+	Turn off error reporting for production setups
 */
-error_reporting(E_ALL);
+error_reporting(0);
 
 /*
-	Show errors that are not caught
-	note: some hosts disable ini_set for security reasons so we will silence the output of any errors
+	Hide errors that are not caught
+	note: some hosts disable ini_set for security 
+	reasons so we will silence the output of any errors
 */
-@ini_set('display_errors', true);
+@ini_set('display_errors', false);
 
 /*
 	Check our environment
@@ -18,6 +20,19 @@ if(version_compare(PHP_VERSION, '5.3.0', '<')) {
 	// echo and exit with some usful information
 	echo 'Anchor requires PHP 5.3 or newer, your current environment is running PHP ' . PHP_VERSION;
 	exit(1);
+}
+
+/*
+	Disable magic quotes
+	note: magic quotes is deprecated in PHP 5.3
+	src: php.net/manual/en/security.magicquotes.disabling.php
+*/
+if(function_exists('get_magic_quotes_gpc')) {
+	if(get_magic_quotes_gpc()) {
+		@ini_set('magic_quotes_gpc', false);
+		@ini_set('magic_quotes_runtime', false);
+		@ini_set('magic_quotes_sybase', false);
+	}
 }
 
 /*
@@ -38,6 +53,18 @@ if(Config::load() === false) {
 	// looks like we are missing a config file
 	echo file_get_contents(PATH . 'system/admin/theme/error_config.php');
 	exit(1);
+}
+
+/*
+	Debug options
+	Running with debug enabled should report all errors
+*/
+if(Config::get('debug')) {
+	// report all errors
+	error_reporting(E_ALL);
+	
+	// show all error uncaught
+	@ini_set('display_errors', true);
 }
 
 // Register the default timezone for the application.
