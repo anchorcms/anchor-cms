@@ -10,7 +10,7 @@
 	<body>
 
 		<header id="top">
-			<a id="logo" href="<?php echo base_url('admin'); ?>">
+			<a id="logo" href="<?php echo base_url(Config::get('application.admin_folder')); ?>">
 				<img src="<?php echo theme_url('img/logo.png'); ?>" alt="Anchor CMS">
 			</a>
 

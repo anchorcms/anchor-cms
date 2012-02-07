@@ -90,13 +90,15 @@ class Anchor {
 			$routes[$page->slug . '/(:any)'] = 'article/$1';
 			$routes[$page->slug] = 'posts';
 		}
+		
+		$admin_folder = Config::get('application.admin_folder');
 
 		// static routes
 		$routes = array_merge($routes, array(
-			'admin/(:any)/(:any)/(:any)' => 'admin/$1/$2/$3',
-			'admin/(:any)/(:any)' => 'admin/$1/$2',
-			'admin/(:any)' => 'admin/$1',
-			'admin' => 'admin',
+			$admin_folder . '/(:any)/(:any)/(:num)' => 'admin/$1/$2/$3',
+			$admin_folder . '/(:any)/(:any)' => 'admin/$1/$2',
+			$admin_folder . '/(:any)' => 'admin/$1',
+			$admin_folder => 'admin',
 
 			'search/(:any)' => 'search/$1',
 			'search' => 'search',

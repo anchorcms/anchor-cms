@@ -422,11 +422,14 @@ function notifications() {
 	Main menu
 */
 function admin_menu() {
+
+    $prefix = Config::get('application.admin_folder');
+
 	$pages = array(
-		'Posts' => 'admin/posts', 
-		'Pages' => 'admin/pages',
-		'Users' => 'admin/users',
-		'Metadata' => 'admin/metadata'
+		'Posts' => $prefix . '/posts', 
+		'Pages' => $prefix . '/pages',
+		'Users' => $prefix . '/users',
+		'Metadata' => $prefix . '/metadata'
 	);
 	
 	return $pages;
