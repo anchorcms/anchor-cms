@@ -23,7 +23,7 @@
     	$compat = array();
     	
     	// php
-    	if(!version_compare(PHP_VERSION, '5.3.0', '<')) {
+    	if(version_compare(PHP_VERSION, '5.3.0', '<')) {
     		$compat[] = 'Anchor requires PHP 5.3 or newer.<br><em>Your current environment is running PHP ' . PHP_VERSION . '</em>';
     	}
     	
