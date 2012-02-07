@@ -57,16 +57,20 @@
 
 </section>
 
+<script src="//ajax.googleapis.com/ajax/libs/mootools/1.4.1/mootools-yui-compressed.js"></script>
+<script>window.MooTools || document.write('<script src="<?php echo theme_url('js/mootools.js'); ?>"><\/script>');</script>
+
+<script src="<?php echo theme_url('js/helpers.js'); ?>"></script>
+
 <script>
 	(function() {
-		var slug = document.getElementById('slug'), output = document.getElementById('output');
+		var slug = $('slug'), output = $('output');
 
 		// call the function to init the input text
 		formatSlug(slug, output);
 
 		// bind to input
-		addEvent(slug, 'keyup', function() {formatSlug(slug, output)});
+		slug.addEvent('keyup', function() {formatSlug(slug, output)});
 	}());
 </script>
-
 

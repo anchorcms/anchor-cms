@@ -226,25 +226,17 @@ function article_author_bio() {
 function article_custom_fields() {
     if($itm = IoC::resolve('article')) {
     	if(isset($itm->custom_fields)) {
-    	    //  You can't use [0] after a function call like Javascript.
-    	    $json = json_decode(str_replace('},{', ',', $itm->custom_fields));
-    	    
-    	    //  So store it as a variable and return that
-    	    return $json[0];
+    	    // get associative array
+    	    return json_decode($itm->custom_fields, true);
     	}
     }
     
-    return false;
+    return array();
 }
 
-function custom_field($key) {
+function article_custom_field($key, $default = '') {
     $fields = article_custom_fields();
-    
-    if(isset($fields->$key)) {
-        return $fields->$key;
-    }
-    
-    return '';
+    return isset($fields[$key]) ? $fields[$key] : $default;
 }
 
 function customised() {

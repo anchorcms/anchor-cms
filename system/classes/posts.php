@@ -202,7 +202,8 @@ class Posts {
 	}
 	
 	public static function update($id) {
-		$post = Input::post(array('title', 'slug', 'description', 'html', 'css', 'js', 'status', 'delete', 'key1', 'value1', 'key2', 'value2', 'key3', 'value3'));
+		$post = Input::post(array('title', 'slug', 'description', 'html', 
+			'css', 'js', 'status', 'delete', 'field'));
 		$errors = array();
 
 		// delete
@@ -235,17 +236,16 @@ class Posts {
 		}
 		
 		$custom = array();
-		for($i = 1; $i <= 3; $i++) {
-		    //  If there's a matching key-value pair
-		    if(isset($post['key' . $i]) && isset($post['value' . $i])) {
-		        //  Add the custom fields as a JSON string
-		        $custom[] = array($post['key' . $i] => $post['value' . $i]);
-		        
-		        //  Remove them from the list
-		        unset($post['key' . $i]);
-		        unset($post['value' . $i]);
-		    }
+		
+		if(is_array($post['field'])) {
+			foreach($post['field'] as $keylabel => $value) {
+				list($key, $label) = explode(':', $keylabel);
+				$custom[$key] = array('label' => $label, 'value' => $value);
+			}
 		}
+		
+		// remove from update
+		unset($post['field']);
 		
 		$post['custom_fields'] = json_encode($custom);
 		
@@ -269,7 +269,8 @@ class Posts {
 	}
 	
 	public static function add() {
-		$post = Input::post(array('title', 'slug', 'description', 'html', 'css', 'js', 'status', 'key1', 'value1', 'key2', 'value2', 'key3', 'value3'));
+		$post = Input::post(array('title', 'slug', 'description', 'html', 
+			'css', 'js', 'status', 'field'));
 		$errors = array();
 		
 		if(empty($post['title'])) {
@@ -294,17 +295,16 @@ class Posts {
 		}
 		
 		$custom = array();
-		for($i = 1; $i <= 3; $i++) {
-		    //  If there's a matching key-value pair
-		    if(isset($post['key' . $i]) && isset($post['value' . $i])) {
-		        //  Add the custom fields as a JSON string
-		        $custom[] = array($post['key' . $i] => $post['value' . $i]);
-		        
-		        //  Remove them from the list
-		        unset($post['key' . $i]);
-		        unset($post['value' . $i]);
-		    }
+		
+		if(is_array($post['field'])) {
+			foreach($post['field'] as $keylabel => $value) {
+				list($key, $label) = explode(':', $keylabel);
+				$custom[$key] = array('label' => $label, 'value' => $value);
+			}
 		}
+		
+		// remove from update
+		unset($post['field']);
 		
 		$post['custom_fields'] = json_encode($custom);
 		

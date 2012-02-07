@@ -5,8 +5,7 @@
 		<title>Manage <?php echo site_name(); ?></title>
 
 		<link rel="stylesheet" href="<?php echo theme_url('css/admin.css'); ?>">
-		
-		<script src="<?php echo theme_url('js/helpers.js'); ?>"></script>
+		<link rel="stylesheet" href="<?php echo theme_url('css/popup.css'); ?>">
 	</head>
 	<body>
 

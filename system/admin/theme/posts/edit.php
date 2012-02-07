@@ -66,27 +66,34 @@
                 
                 <em>Custom Javascript. Will be wrapped in a <code>&lt;script&gt;</code> block.</em>
             </p>
-            
-            <p>
-            
-                <label for="key1">Custom fields:</label>
-                <input class="key" id="key1" name="key1" placeholder="Key" value="<?php echo Input::post('key1', article_custom_field(0)->key); ?>">
-                <input class="value" id="value1" name="value1" placeholder="Value" value="<?php echo Input::post('value1', article_custom_field(0)->value); ?>">
-                
-                <label></label>
-                <input class="key" id="key2" name="key2" placeholder="Key" value="<?php echo Input::post('key2', article_custom_field(1)->key); ?>">
-                <input class="value" id="value2" name="value2" placeholder="Value" value="<?php echo Input::post('key2', article_custom_field(1)->value); ?>">
-                
-                <label></label>
-                <input class="key" id="key3" name="key3" placeholder="Key" value="<?php echo Input::post('key2', article_custom_field(2)->key); ?>">
-                <input class="value" id="value3" name="value3" placeholder="Value" value="<?php echo Input::post('key2', article_custom_field(2)->value); ?>">
+		</fieldset>
+		
+		<fieldset>
+		    <legend>Custom fields</legend>
+		    <em>Create custom fields here.</em>
 
-                <em>Custom key-value pairs of arbitrary data that can be used in a theme.</em>
-            </p>
+			<div id="fields">
+				<!-- Re-Populate data -->
+				<?php foreach(article_custom_fields() as $key => $data): ?>
+				<p>
+					<label><?php echo $data['label']; ?></label>
+					<input name="field[<?php echo $key; ?>:<?php echo $data['label']; ?>]" value="<?php echo $data['value']; ?>">
+				</p>
+				<?php endforeach; ?>
+				<!-- Re-Populate post data -->
+				<?php foreach(Input::post('field', array()) as $data => $value): ?>
+				<?php list($key, $label) = explode(':', $data); ?>
+				<p>
+					<label><?php echo $label; ?></label>
+					<input name="field[<?php echo $key; ?>:<?php echo $label; ?>]" value="<?php echo $value; ?>">
+				</p>
+				<?php endforeach; ?>
+			</div>
 		</fieldset>
 			
 		<p class="buttons">
 			<button name="save" type="submit">Save</button>
+			<button id="create" type="button">Create a custom field</button>
 			<button name="delete" type="submit">Delete</button>
 			<a href="<?php echo base_url('admin/posts'); ?>">Return to posts</a>
 		</p>
@@ -94,15 +101,21 @@
 	</form>
 </section>
 
+<script src="//ajax.googleapis.com/ajax/libs/mootools/1.4.1/mootools-yui-compressed.js"></script>
+<script>window.MooTools || document.write('<script src="<?php echo theme_url('js/mootools.js'); ?>"><\/script>');</script>
+
+<script src="<?php echo theme_url('js/helpers.js'); ?>"></script>
+<script src="<?php echo theme_url('js/popup.js'); ?>"></script>
+<script src="<?php echo theme_url('js/custom_fields.js'); ?>"></script>
+
 <script>
 	(function() {
-		var slug = document.getElementById('slug'), output = document.getElementById('output');
+		var slug = $('slug'), output = $('output');
 
 		// call the function to init the input text
 		formatSlug(slug, output);
 
 		// bind to input
-		addEvent(slug, 'keyup', function() {formatSlug(slug, output)});
+		slug.addEvent('keyup', function() {formatSlug(slug, output)});
 	}());
 </script>
-
