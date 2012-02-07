@@ -14,8 +14,52 @@
     <body>
     
     	<h1><img src="img/logo.gif" alt="Anchor install logo"></h1>
+    	
+    	<?php
+    	
+    	/*
+    		Compatibility checks
+    	*/
+    	$compat = array();
+    	
+    	// php
+    	if(!version_compare(PHP_VERSION, '5.3.0', '<')) {
+    		$compat[] = 'Anchor requires PHP 5.3 or newer.<br><em>Your current environment is running PHP ' . PHP_VERSION . '</em>';
+    	}
+    	
+    	// curl
+    	if(function_exists('curl_init') === false) {
+    		$compat[] = 'Anchor requires PHP cURL to be installed and enabled';
+    	}
+    	
+    	// PDO
+    	if(class_exists('PDO') === false) {
+    		$compat[] = 'Anchor requires PDO (PHP Data Objects)';
+    	} else {
+    		if(in_array('mysql', PDO::getAvailableDrivers()) === false) {
+    			$compat[] = 'Anchor requires the MySQL PDO Driver';
+    		}
+    	}
+
+    	?>
+    	
+    	<?php if(count($compat)): ?>
     
-    	<?php if(file_exists('../config.php')): ?>
+    	<div class="content">
+    		<h2>Woops.</h2>
+    		
+    		<p>Anchor is missing some requirements:</p>
+    		
+    		<ul style="padding-bottom: 1em;">
+    			<?php foreach($compat as $item): ?>
+    			<li><?php echo $item; ?></li>
+    			<?php endforeach; ?>
+    		</ul>
+    		
+    		<p><a href="." class="button" style="float: none; display: inline-block;">Ok, I've fixed these, run the installer.</a></p>
+    	</div>
+    
+    	<?php elseif(file_exists('../config.php')): ?>
     	
     	<div class="content">
     		<h2>Woops.</h2>
@@ -41,9 +85,37 @@
             <code>config.php</code>).</small>
             
             <div class="notes">
-            	<?php if(version_compare(PHP_VERSION, '5.3.0', '<')): ?>
-				<p class="error">Anchor requires PHP 5.3 or newer, your current environment is running PHP <?php echo PHP_VERSION; ?></p>
-				<?php endif; ?>
+            	<?php
+            	
+            	/*
+            		Compatibility checks
+            	*/
+            	$errors = array();
+            	
+            	// php
+            	if(version_compare(PHP_VERSION, '5.3.0', '<')) {
+            		$errors[] = 'Anchor requires PHP 5.3 or newer, your current environment is running PHP ' . PHP_VERSION;
+            	}
+            	
+            	// curl
+            	if(function_exists('curl_init') === false) {
+            		$errors[] = 'Anchor requires PHP cURL to be installed and enabled';
+            	}
+            	
+            	// PDO
+            	if(class_exists('PDO') === false) {
+            		$errors[] = 'Anchor requires PDO (PHP Data Objects)';
+            	} else {
+            		if(in_array('mysql', PDO::getAvailableDrivers()) === false) {
+            			$errors[] = 'Anchor requires the MySQL PDO Driver';
+            		}
+            	}
+            	
+            	if(count($errors)) {
+            		echo '<p class="error">' . implode('<br>', $errors) . '</p>';
+            	}
+            	
+            	?>
             </div>
             
             <form method="get" novalidate>
