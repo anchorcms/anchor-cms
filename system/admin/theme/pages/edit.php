@@ -49,8 +49,14 @@
 		</fieldset>
 			
 		<p class="buttons">
+		    
+		    <input type="hidden" name="id" value="<?php echo page_id(); ?>">
+		
 			<button name="save" type="submit">Save</button>
+			<?php if(page_id() != Config::get('metadata.show_posts')): ?>
 			<button name="delete" type="submit">Delete</button>
+			<?php endif; ?>
+			
 			<a href="<?php echo base_url('admin/pages'); ?>">Return to pages</a>
 		</p>
 	</form>
