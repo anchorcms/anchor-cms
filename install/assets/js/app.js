@@ -42,8 +42,6 @@ $(function() {
 	};
     
     var submit = function() {
-    	check();
-
 		$.ajax({
 			'type': 'POST',
 			'url': 'installer.php',
@@ -56,6 +54,9 @@ $(function() {
     };
     
     var submit_result = function(data) {
+    	// remove previous notifications
+    	remove_notes();
+
 		if(data.installed) {
 			var content = $('.content');
 			
