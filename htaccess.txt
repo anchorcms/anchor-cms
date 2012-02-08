@@ -2,6 +2,9 @@
 	RewriteEngine On
 	# RewriteBase /
 
+	# ignore system files and directories
+	RewriteCond %{REQUEST_URI} !^/(install|system|themes)/
+
 	# Allow any files or directories that exist to be displayed directly
 	RewriteCond %{REQUEST_FILENAME} !-f
 	RewriteCond %{REQUEST_FILENAME} !-d
