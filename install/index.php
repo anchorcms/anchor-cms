@@ -29,15 +29,21 @@
     	
     	// curl
     	if(function_exists('curl_init') === false) {
-    		$compat[] = 'Anchor requires PHP cURL to be installed and enabled';
+    		$compat[] = 'Anchor requires PHP cURL to be installed and enabled.<br>
+    			<em>You can find more about <a href="//php.net/manual/en/book.curl.php">installing and setting up cURL</a> 
+    			on the php.net website</em>';
     	}
     	
     	// PDO
     	if(class_exists('PDO') === false) {
-    		$compat[] = 'Anchor requires PDO (PHP Data Objects)';
+    		$compat[] = 'Anchor requires PDO (PHP Data Objects)<br>
+    		<em>You can find more about <a href="//php.net/manual/en/book.pdo.php">installing and setting up PHP Data Objects</a> 
+    		on the php.net website</em>';
     	} else {
     		if(in_array('mysql', PDO::getAvailableDrivers()) === false) {
-    			$compat[] = 'Anchor requires the MySQL PDO Driver';
+    			$compat[] = 'Anchor requires the MySQL PDO Driver<br>
+    				<em>You can find more about <a href="//php.net/manual/en/ref.pdo-mysql.php">installing and setting up MySQL PDO Driver</a> 
+    				on the php.net website</em>';
     		}
     	}
 
@@ -158,6 +164,7 @@
         
         <?php endif; ?>
         
-        <p class="footer">Made with love by <a href="//twitter.com/visualidiot">Visual Idiot</a>. If it's not working, send him a message on Twitter. He'll reply.</p>
+        <p class="footer">Made with love by <a href="//twitter.com/visualidiot">Visual Idiot</a>. 
+        If it's not working, send him a message on Twitter. He'll reply.</p>
     </body>
 </html>
