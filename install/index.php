@@ -84,39 +84,7 @@
             (before or after this installation, it doesn't really matter, as long as you rename it to 
             <code>config.php</code>).</small>
             
-            <div class="notes">
-            	<?php
-            	
-            	/*
-            		Compatibility checks
-            	*/
-            	$errors = array();
-            	
-            	// php
-            	if(version_compare(PHP_VERSION, '5.3.0', '<')) {
-            		$errors[] = 'Anchor requires PHP 5.3 or newer, your current environment is running PHP ' . PHP_VERSION;
-            	}
-            	
-            	// curl
-            	if(function_exists('curl_init') === false) {
-            		$errors[] = 'Anchor requires PHP cURL to be installed and enabled';
-            	}
-            	
-            	// PDO
-            	if(class_exists('PDO') === false) {
-            		$errors[] = 'Anchor requires PDO (PHP Data Objects)';
-            	} else {
-            		if(in_array('mysql', PDO::getAvailableDrivers()) === false) {
-            			$errors[] = 'Anchor requires the MySQL PDO Driver';
-            		}
-            	}
-            	
-            	if(count($errors)) {
-            		echo '<p class="error">' . implode('<br>', $errors) . '</p>';
-            	}
-            	
-            	?>
-            </div>
+            <div class="notes"></div>
             
             <form method="get" novalidate>
                 <fieldset id="diagnose">
