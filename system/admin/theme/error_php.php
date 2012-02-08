@@ -4,7 +4,7 @@
 		<meta charset="utf-8">
 		<title>Error</title>
 
-		<style type="text/css">
+		<style>
 			body {
 				background: #fff;
 				font-family: sans-serif;
@@ -32,7 +32,7 @@
 
 		<div class="content">
 			<h3>Message:</h3>
-			<?php echo $message; ?> in <strong><?php echo basename($file); ?></strong> on line <strong><?php echo $line; ?></strong>.
+			<?php echo $message; ?> in <strong><?php echo str_replace(PATH, '', $file); ?></strong> on line <strong><?php echo $line; ?></strong>.
 		</div>
 
 		<div class="content">
@@ -51,6 +51,18 @@
 			<?php else: ?>
 				Context unavailable.
 			<?php endif; ?>
+		</div>
+		
+		<div class="content">
+			<h3>Additional information</h3>
+			
+			<ul>
+				<li>PHP Version: <?php echo phpversion(); ?></li>
+				<li>Operating System: <?php echo php_uname(); ?></li>
+				<li>Server Software: <?php echo $_SERVER['SERVER_SOFTWARE']; ?></li>
+				<li>User Agent: <?php echo $_SERVER['HTTP_USER_AGENT']; ?></li>
+				<li>Request Uri: <?php echo $_SERVER['REQUEST_URI']; ?></li>
+			</ul>
 		</div>
 	</body>
 </html>

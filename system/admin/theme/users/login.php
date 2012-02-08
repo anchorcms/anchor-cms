@@ -21,7 +21,7 @@
 
 			<p class="buttons">
 			    <button type="submit">Login</button>
-			    <a href="<?php echo base_url('admin/users/amnesia'); ?>">Help, I've forgotten my password.</a>
+			    <a href="<?php echo base_url('admin/users/amnesia'); ?>">Help, I've forgotten my password.</a><br>
 			    <a href="<?php echo base_url(); ?>">Back to <?php echo site_name(); ?></a>
 			</p>
 		</fieldset>

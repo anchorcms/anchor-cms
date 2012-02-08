@@ -4,7 +4,7 @@
 		<meta charset="utf-8">
 		<title>500 - Internal Server Error</title>
 
-		<style type="text/css">
+		<style>
 			body {
 				background: #fff;
 				font-family: sans-serif;

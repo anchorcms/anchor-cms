@@ -1,4 +1,19 @@
 
+DROP TABLE IF EXISTS `comments`;
+
+CREATE TABLE IF NOT EXISTS `comments` (
+  `id` int(6) NOT NULL AUTO_INCREMENT,
+  `post` int(6) NOT NULL,
+  `status` enum('pending','published','spam') NOT NULL,
+  `date` int(11) NOT NULL,
+  `name` varchar(140) NOT NULL,
+  `email` varchar(140) NOT NULL,
+  `text` text NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `post` (`post`),
+  KEY `status` (`status`)
+) ENGINE=MyISAM CHARSET=utf8 COLLATE=utf8_general_ci;
+
 DROP TABLE IF EXISTS `meta`;
 
 CREATE TABLE `meta` (
@@ -35,6 +50,7 @@ CREATE TABLE `posts` (
   `created` int(11) NOT NULL,
   `author` int(6) NOT NULL,
   `status` enum('draft','published','archived') NOT NULL,
+  `comments` TINYINT( 1 ) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `status` (`status`),
   KEY `slug` (`slug`),

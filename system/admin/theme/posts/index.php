@@ -8,11 +8,11 @@
 	<ul class="list">
 	    <?php while(posts()): ?>
 	    <li>
-	        <a href="<?php echo base_url('admin/posts/edit/' . post_id()); ?>">
-	            <strong><?php echo truncate(post_title(), 4); ?></strong>
-	            <span>Created <time><?php echo post_date(); ?></time> by <?php echo post_author(); ?></span>
+	        <a href="<?php echo base_url('admin/posts/edit/' . article_id()); ?>">
+	            <strong><?php echo truncate(article_title(), 4); ?></strong>
+	            <span>Created <time><?php echo article_date(); ?></time> by <?php echo article_author(); ?></span>
 	            
-	            <i class="status"><?php echo ucwords(post_status()); ?></i>
+	            <i class="status"><?php echo ucwords(article_status()); ?></i>
 	        </a>
 	    </li>
 	    <?php endwhile; ?>

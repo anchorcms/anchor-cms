@@ -5,15 +5,15 @@
         <title>Install Anchor CMS</title>
         <mate name="robots" content="noindex, nofollow">
         
-        <link rel="stylesheet" href="css/install.css">
+        <link rel="stylesheet" href="assets/css/app.css">
         
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-        <script>window.jQuery || document.write('<script src="js/jquery.js"><\/script>');</script>
-        <script src="js/install.js"></script>
+        <script>window.jQuery || document.write('<script src="assets/js/jquery.js"><\/script>');</script>
+        <script src="assets/js/app.js"></script>
     </head>
     <body>
     
-    	<h1><img src="img/logo.gif" alt="Anchor install logo"></h1>
+    	<h1><img src="assets/img/logo.gif" alt="Anchor install logo"></h1>
     	
     	<?php
     	
@@ -84,39 +84,7 @@
             (before or after this installation, it doesn't really matter, as long as you rename it to 
             <code>config.php</code>).</small>
             
-            <div class="notes">
-            	<?php
-            	
-            	/*
-            		Compatibility checks
-            	*/
-            	$errors = array();
-            	
-            	// php
-            	if(version_compare(PHP_VERSION, '5.3.0', '<')) {
-            		$errors[] = 'Anchor requires PHP 5.3 or newer, your current environment is running PHP ' . PHP_VERSION;
-            	}
-            	
-            	// curl
-            	if(function_exists('curl_init') === false) {
-            		$errors[] = 'Anchor requires PHP cURL to be installed and enabled';
-            	}
-            	
-            	// PDO
-            	if(class_exists('PDO') === false) {
-            		$errors[] = 'Anchor requires PDO (PHP Data Objects)';
-            	} else {
-            		if(in_array('mysql', PDO::getAvailableDrivers()) === false) {
-            			$errors[] = 'Anchor requires the MySQL PDO Driver';
-            		}
-            	}
-            	
-            	if(count($errors)) {
-            		echo '<p class="error">' . implode('<br>', $errors) . '</p>';
-            	}
-            	
-            	?>
-            </div>
+            <div class="notes"></div>
             
             <form method="get" novalidate>
                 <fieldset id="diagnose">

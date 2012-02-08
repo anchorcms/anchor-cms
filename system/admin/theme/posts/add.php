@@ -47,6 +47,12 @@
     			
     			<em>Statuses: live (published), pending (draft), or hidden (archived).</em>
 			</p>
+			
+			<p>
+			    <label for="comments">Allow Comments:</label>
+			    <input id="comments" name="comments" type="checkbox" value="1"<?php if(Input::post('comments')) echo ' checked'; ?>>
+			    <em>This will allow users to comment on your posts.</em>
+			</p>
 		</fieldset>
 		
 		<fieldset>
@@ -94,11 +100,11 @@
 </section>
 
 <script src="//ajax.googleapis.com/ajax/libs/mootools/1.4.1/mootools-yui-compressed.js"></script>
-<script>window.MooTools || document.write('<script src="<?php echo theme_url('js/mootools.js'); ?>"><\/script>');</script>
+<script>window.MooTools || document.write('<script src="<?php echo theme_url('assets/js/mootools.js'); ?>"><\/script>');</script>
 
-<script src="<?php echo theme_url('js/helpers.js'); ?>"></script>
-<script src="<?php echo theme_url('js/popup.js'); ?>"></script>
-<script src="<?php echo theme_url('js/custom_fields.js'); ?>"></script>
+<script src="<?php echo theme_url('assets/js/helpers.js'); ?>"></script>
+<script src="<?php echo theme_url('assets/js/popup.js'); ?>"></script>
+<script src="<?php echo theme_url('assets/js/custom_fields.js'); ?>"></script>
 
 <script>
 	(function() {
