@@ -2,6 +2,27 @@
 
 class Pages {
 
+	public static function extend($page) {
+		if(is_array($page)) {
+			$pages = array();
+
+			foreach($page as $itm) {
+				$pages[] = static::extend($itm);
+			}
+			
+			return $pages;
+		}
+	
+		if(is_object($page)) {
+			$uri = Request::uri();
+			$page->url = Url::make($page->slug);
+			$page->active = (strlen($uri) ? strpos($uri, $page->slug) !== false : $page->slug === 'posts');
+			return $page;
+		}
+		
+		return false;
+	}
+
 	public static function list_all($params = array()) {
 		$sql = "select * from pages where 1 = 1";
 		$args = array();
@@ -18,16 +39,9 @@ class Pages {
 				$sql .= " " . $params['sortmode'];
 			}
 		}
-		
-		$uri = Request::uri();
-		$pages = array();
 
-		foreach(Db::results($sql, $args) as $page) {
-			$page->url = Url::make($page->slug);
-			$page->active = (strlen($uri) ? strpos($uri, $page->slug) !== false : $page->slug === 'posts');
-			
-			$pages[] = $page;
-		}
+		// extend data set
+		$pages = static::extend(Db::results($sql, $args));
 
 		// return items obj
 		return new Items($pages);
@@ -46,7 +60,7 @@ class Pages {
 			$sql .= " where " . implode(' and ', $clause);
 		}
 
-		return Db::row($sql, $args);
+		return static::extend(Db::row($sql, $args));
 	}
 	
 	public static function delete($id) {
