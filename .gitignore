@@ -8,3 +8,8 @@ Thumbs.db
 
 # ignore user mod_rewrite
 /.htaccess
+
+# ignore debug and custom themes
+/themes/*
+!/themes/default
+!/themes/untitled
