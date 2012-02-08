@@ -6,7 +6,7 @@ body {
     text-shadow: 0 1px 0 #fff;
     
     width: 720px;
-    margin: 100px auto 40px;
+    margin: 50px auto 40px;
 }
 
 h1 {
@@ -18,6 +18,10 @@ h2 {
     font-size: 32px;
     font-weight: 300;
     color: #57829e;
+}
+
+a {
+	color: #57829e;
 }
 
 .content {
