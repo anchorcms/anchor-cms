@@ -10,13 +10,8 @@
 	<body>
 
 		<header id="top">
-<<<<<<< HEAD
 			<a id="logo" href="<?php echo base_url(Config::get('application.admin_folder')); ?>">
-				<img src="<?php echo theme_url('img/logo.png'); ?>" alt="Anchor CMS">
-=======
-			<a id="logo" href="<?php echo base_url('admin'); ?>">
 				<img src="<?php echo theme_url('assets/img/logo.png'); ?>" alt="Anchor CMS">
->>>>>>> exp
 			</a>
 
 			<?php if(user_authed() !== false): ?>
@@ -30,7 +25,8 @@
 				</ul>
 			</nav>
 
-			<p>Logged in as <strong><?php echo user_authed_realname(); ?></strong>. <a href="<?php echo base_url('admin/users/logout'); ?>">Logout</a></li>
+			<p>Logged in as <strong><?php echo user_authed_realname(); ?></strong>. 
+			<a href="<?php echo base_url('admin/users/logout'); ?>">Logout</a></li>
 			<?php endif; ?>
 		</header>
 

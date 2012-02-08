@@ -429,17 +429,10 @@ function admin_menu() {
     $prefix = Config::get('application.admin_folder');
 
 	$pages = array(
-<<<<<<< HEAD
 		'Posts' => $prefix . '/posts', 
 		'Pages' => $prefix . '/pages',
 		'Users' => $prefix . '/users',
 		'Metadata' => $prefix . '/metadata'
-=======
-		'Posts' => 'admin/posts',
-		'Pages' => 'admin/pages',
-		'Users' => 'admin/users',
-		'Metadata' => 'admin/metadata'
->>>>>>> exp
 	);
 	
 	return $pages;
