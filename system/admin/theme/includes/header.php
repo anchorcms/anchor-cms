@@ -5,13 +5,12 @@
 		<title>Manage <?php echo site_name(); ?></title>
 
 		<link rel="stylesheet" href="<?php echo theme_url('css/admin.css'); ?>">
-		
-		<script src="<?php echo theme_url('js/helpers.js'); ?>"></script>
+		<link rel="stylesheet" href="<?php echo theme_url('css/popup.css'); ?>">
 	</head>
 	<body>
 
 		<header id="top">
-			<a id="logo" href="<?php echo base_url('admin'); ?>">
+			<a id="logo" href="<?php echo base_url(Config::get('application.admin_folder')); ?>">
 				<img src="<?php echo theme_url('img/logo.png'); ?>" alt="Anchor CMS">
 			</a>
 
@@ -26,7 +25,7 @@
 				</ul>
 			</nav>
 
-			<p>Logged in as <strong><?php echo user_authed_realname(); ?></strong>. <a href="<?php echo base_url('admin/logout'); ?>">Logout</a></li>
+			<p>Logged in as <strong><?php echo user_authed_realname(); ?></strong>. <a href="<?php echo base_url('admin/users/logout'); ?>">Logout</a></li>
 			<?php endif; ?>
 		</header>
 

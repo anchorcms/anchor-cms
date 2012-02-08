@@ -59,11 +59,11 @@ class Pages {
 	}
 	
 	public static function update($id) {
-		$post = Input::post(array('slug', 'name', 'title', 'content', 'status', 'delete'));
+		$post = Input::post(array('id', 'slug', 'name', 'title', 'content', 'status', 'delete'));
 		$errors = array();
 
 		// delete
-		if($post['delete'] !== false) {
+		if($post['delete'] !== false && $post['id'] != Config::get('metadata.show_posts')) {
 			return static::delete($id);
 		} else {
 			// remove it frm array

@@ -30,6 +30,14 @@ class Users {
 		$sql = "select * from users";
 		$args = array();
 		
+		if(isset($where['hash'])) {
+			$sql .= " where md5(concat(`id`, `email`, `password`)) = ? limit 1";
+			$args[] = $where['hash'];
+			
+			// reset clause
+			$where = array();
+		}
+		
 		if(count($where)) {
 			$clause = array();
 			foreach($where as $key => $value) {
@@ -82,6 +90,62 @@ class Users {
 		Session::forget('user');
 	}
 	
+	public static function recover_password() {
+		$post = Input::post(array('email'));
+		$errors = array();
+
+		if(filter_var($post['email'], FILTER_VALIDATE_EMAIL) === false) {
+			$errors[] = 'Please enter a valid email address';
+		} else {
+			if(($user = static::find(array('email' => $post['email']))) === false) {
+				$errors[] = 'Account not found';
+			}
+		}
+		
+		if(count($errors)) {
+			Notifications::set('error', $errors);
+			return false;
+		}
+		
+		$hash = hash('md5', $user->id . $user->email . $user->password);
+		$link = Url::build(array(
+			'path' => Url::make('admin/users/reset/' . $hash)
+		));
+		
+		$subject = '[' . Config::get('metadata.sitename') . '] Password Reset';
+		$plain = 'You have requested to reset your password. To continue follow the link below. ' . $link;
+		$headers = array('From' => 'no-reply@' . Input::server('http_host'));
+		
+		Email::send($user->email, $subject, $plain, $headers);
+		
+		Notifications::set('notice', 'We have sent you an email to confirm your password change.');
+		
+		return true;
+	}
+	
+	public static function reset_password($id) {
+		$post = Input::post(array('password'));
+		$errors = array();
+
+		if(empty($post['password'])) {
+			$errors[] = 'Please enter a password';
+		}
+		
+		if(count($errors)) {
+			Notifications::set('error', $errors);
+			return false;
+		}
+		
+		$password = crypt($post['password']);
+		
+		$sql = "update users set `password` = ? where id = ?";
+		Db::query($sql, array($password, $id));
+		
+		Notifications::set('success', 'Your new password has been set');
+		
+		return true;
+	}
+	
 	public static function delete($id) {
 		$sql = "delete from users where id = ?";
 		Db::query($sql, array($id));
@@ -92,7 +156,7 @@ class Users {
 	}
 	
 	public static function update($id) {
-		$post = Input::post(array('username', 'password', 'real_name', 'bio', 'status', 'role', 'delete'));
+		$post = Input::post(array('username', 'password', 'email', 'real_name', 'bio', 'status', 'role', 'delete'));
 		$errors = array();
 
 		// delete
@@ -111,6 +175,10 @@ class Users {
 			}
 		}
 
+		if(filter_var($post['email'], FILTER_VALIDATE_EMAIL) === false) {
+			$errors[] = 'Please enter a valid email address';
+		}
+
 		if(empty($post['real_name'])) {
 			$errors[] = 'Please enter a display name';
 		}
@@ -127,6 +195,9 @@ class Users {
 			Notifications::set('error', $errors);
 			return false;
 		}
+
+		// format email
+		$post['email'] = strtolower(trim($post['email']));
 		
 		$updates = array();
 		$args = array();
@@ -152,7 +223,7 @@ class Users {
 	}
 
 	public static function add() {
-		$post = Input::post(array('username', 'password', 'real_name', 'bio', 'status', 'role'));
+		$post = Input::post(array('username', 'password', 'email', 'real_name', 'bio', 'status', 'role'));
 		$errors = array();
 		
 		if(empty($post['username'])) {
@@ -166,7 +237,11 @@ class Users {
 		if(empty($post['password'])) {
 			$errors[] = 'Please enter a password';
 		}
-		
+
+		if(filter_var($post['email'], FILTER_VALIDATE_EMAIL) === false) {
+			$errors[] = 'Please enter a valid email address';
+		}
+
 		if(empty($post['real_name'])) {
 			$errors[] = 'Please enter a display name';
 		}
@@ -178,6 +253,9 @@ class Users {
 		
 		// encrypt password
 		$post['password'] = crypt($post['password']);
+		
+		// format email
+		$post['email'] = strtolower(trim($post['email']));
 		
 		$keys = array();
 		$values = array();

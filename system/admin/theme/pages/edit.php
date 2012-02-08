@@ -22,7 +22,7 @@
 			
 			<p>
 			    <label for="slug">Slug:</label>
-			    <input type="url" id="slug" autocomplete="off" name="slug" value="<?php echo Input::post('slug', page_slug()); ?>">
+			    <input id="slug" autocomplete="off" name="slug" value="<?php echo Input::post('slug', page_slug()); ?>">
 			    
 			    <em>The slug for your post (<code><?php echo $_SERVER['HTTP_HOST']; ?>/<span id="output">slug</span></code>).</em>
 			</p>
@@ -49,24 +49,34 @@
 		</fieldset>
 			
 		<p class="buttons">
+		    
+		    <input type="hidden" name="id" value="<?php echo page_id(); ?>">
+		
 			<button name="save" type="submit">Save</button>
+			<?php if(page_id() != Config::get('metadata.show_posts')): ?>
 			<button name="delete" type="submit">Delete</button>
+			<?php endif; ?>
+			
 			<a href="<?php echo base_url('admin/pages'); ?>">Return to pages</a>
 		</p>
 	</form>
 
 </section>
 
+<script src="//ajax.googleapis.com/ajax/libs/mootools/1.4.1/mootools-yui-compressed.js"></script>
+<script>window.MooTools || document.write('<script src="<?php echo theme_url('js/mootools.js'); ?>"><\/script>');</script>
+
+<script src="<?php echo theme_url('js/helpers.js'); ?>"></script>
+
 <script>
 	(function() {
-		var slug = document.getElementById('slug'), output = document.getElementById('output');
+		var slug = $('slug'), output = $('output');
 
 		// call the function to init the input text
 		formatSlug(slug, output);
 
 		// bind to input
-		addEvent(slug, 'keyup', function() {formatSlug(slug, output)});
+		slug.addEvent('keyup', function() {formatSlug(slug, output)});
 	}());
 </script>
-
 

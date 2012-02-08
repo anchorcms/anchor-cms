@@ -42,8 +42,7 @@ $(function() {
 	};
     
     var submit = function() {
-    	// remove previous notifications
-    	remove_notes();
+    	check();
 
 		$.ajax({
 			'type': 'POST',
@@ -62,6 +61,7 @@ $(function() {
 			
 			content.animate({'opacity': 0}, function() {
 				var html = '<h2>Thanks for installing!</h2><p>We created an account for you.<br>The username is <b>admin</b>, and the password is <strong>' + data.password + '</strong>.</p>';
+				html += '<p><a href="../" class="button" style="float: none; display: inline-block;">Continue to your site.</a></p>';
 				content.html(html).animate({'opacity': 1});
 			});
 		} else {

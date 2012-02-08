@@ -37,9 +37,8 @@ class Anchor {
 		// default to posts when no action is set
 		$action = count($segments) ? array_shift($segments) : 'posts';
 		
-		// use the admin router
-		$controller = ($action == 'admin') ? 'Routes_admin' : 'Routes';
-		$reflector = new ReflectionClass($controller);
+		// default to our front end router
+		$controller = 'Routes';
 		
 		// set the template path
 		$theme = Config::get('metadata.theme');
@@ -47,12 +46,18 @@ class Anchor {
 		
 		// remove admin as an argument and set the default action if there isnt one
 		if($action == 'admin') {
-			// set action for admin - default posts
-			$action = count($segments) ? array_shift($segments) : 'posts';
+			// set default controller for the admin
+			$controller = (count($segments) ? array_shift($segments) : 'posts') . '_controller';
 
+			// set default action
+			$action = count($segments) ? array_shift($segments) : 'index';
+
+			// public admin actions
+			$public = array('users/login', 'users/amnesia', 'users/reset');
+			
 			// redirect to login
-			if(Users::authed() === false and $action != 'login') {
-				return Response::redirect('admin/login');
+			if(Users::authed() === false and in_array(trim($controller, '_controller') . '/' . $action, $public) === false) {
+				return Response::redirect('admin/users/login');
 			}
 
 			// set template path for admin
@@ -60,21 +65,23 @@ class Anchor {
 		}
 		
 		// check we can find a action
-		if($reflector->hasMethod($action) === false) {
+		$reflector = new ReflectionClass($controller);
+		
+		if($reflector->isInstantiable() === false or $reflector->hasMethod($action) === false) {
 			// default back to front end template for 404 page
 			Template::path(PATH . 'themes/' . $theme . '/');
 			
 			// method not found in controller
 			return Response::error(404);
 		}
-		
+
 		$reflector->getMethod($action)->invokeArgs(new $controller, $segments);
 	}
 	
 	private static function parse() {
 		// get uri
 		$uri = Request::uri();
-		
+
 		// route definitions
 		$routes = array();
 		
@@ -83,13 +90,15 @@ class Anchor {
 			$routes[$page->slug . '/(:any)'] = 'article/$1';
 			$routes[$page->slug] = 'posts';
 		}
+		
+		$admin_folder = Config::get('application.admin_folder');
 
 		// static routes
 		$routes = array_merge($routes, array(
-			'admin/(:any)/(:any)/(:num)' => 'admin/$1/$2/$3',
-			'admin/(:any)/(:any)' => 'admin/$1/$2',
-			'admin/(:any)' => 'admin/$1',
-			'admin' => 'admin',
+			$admin_folder . '/(:any)/(:any)/(:num)' => 'admin/$1/$2/$3',
+			$admin_folder . '/(:any)/(:any)' => 'admin/$1/$2',
+			$admin_folder . '/(:any)' => 'admin/$1',
+			$admin_folder => 'admin',
 
 			'search/(:any)' => 'search/$1',
 			'search' => 'search',

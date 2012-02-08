@@ -223,9 +223,25 @@ function article_author_bio() {
 	return '';
 }
 
+function article_custom_fields() {
+    if($itm = IoC::resolve('article')) {
+    	if(isset($itm->custom_fields)) {
+    	    // get associative array
+    	    return json_decode($itm->custom_fields, true);
+    	}
+    }
+    
+    return array();
+}
+
+function article_custom_field($key, $default = '') {
+    $fields = article_custom_fields();
+    return isset($fields[$key]) ? $fields[$key] : $default;
+}
+
 function customised() {
 	if($itm = IoC::resolve('article')) {
-		return strlen($itm->css)  > 0 or strlen($itm->js)> 0;
+		return strlen($itm->css) > 0 or strlen($itm->js) > 0;
 	}
 	
 	return false;
@@ -391,7 +407,7 @@ function current_url() {
 }
 
 function admin_url() {
-    return Url::make('admin');
+    return Url::make(Config::get('application.admin_folder'));
 }
 
 function search_url() {

@@ -170,6 +170,14 @@ function user_name() {
 	return '';
 }
 
+function user_email() {
+	if($itm = IoC::resolve('user')) {
+		return $itm->email;
+	}
+	
+	return '';
+}
+
 function user_real_name() {
 	if($itm = IoC::resolve('user')) {
 		return $itm->real_name;
@@ -300,6 +308,23 @@ function article_author() {
 	return '';
 }
 
+
+function article_custom_fields() {
+    if($itm = IoC::resolve('article')) {
+    	if(isset($itm->custom_fields)) {
+    	    // get associative array
+    	    return json_decode($itm->custom_fields, true);
+    	}
+    }
+    
+    return array();
+}
+
+function article_custom_field($key, $default = '') {
+    $fields = article_custom_fields();
+    return isset($fields[$key]) ? $fields[$key] : $default;
+}
+
 function article_status() {
 	if($itm = IoC::resolve('article')) {
 		return $itm->status;
@@ -397,11 +422,14 @@ function notifications() {
 	Main menu
 */
 function admin_menu() {
+
+    $prefix = Config::get('application.admin_folder');
+
 	$pages = array(
-		'Posts' => 'admin/posts', 
-		'Pages' => 'admin/pages',
-		'Users' => 'admin/users',
-		'Metadata' => 'admin/metadata'
+		'Posts' => $prefix . '/posts', 
+		'Pages' => $prefix . '/pages',
+		'Users' => $prefix . '/users',
+		'Metadata' => $prefix . '/metadata'
 	);
 	
 	return $pages;
@@ -476,25 +504,26 @@ function truncate($str, $limit = 10, $elipse = ' [...]') {
     Error checking
 */
 function latest_version() {
-	// returns plain text string with version number or 0 on failure.
-	return floatval(Curl::get('http://anchorcms.com/version'));
+	// only run the version check once per session
+	if(($version = Session::get('latest_version')) === false) {
+		// returns plain text string with version number or 0 on failure.
+		$version = floatval(Curl::get('http://anchorcms.com/version'));
+		Session::set('latest_version', $version);
+	}
+
+	return $version;
 }
 
 function error_check() {
-	// only run the check once per session
-	if(($check = Session::get('check', 'not_checked')) !== 'not_checked') {
-		return $check;
-	}
-
     $errors = array();
 
     //  Check the uploads folder is writable.
-    if(!is_writable(PATH . 'uploads')) {
+    if(is_writable(PATH . 'uploads') === false) {
         $errors[] = 'The <code>uploads</code> folder is not writable.';
     }
     
     //  Check for older versions
-    if(ANCHOR_VERSION < latest_version()) {
+    if(version_compare(ANCHOR_VERSION, latest_version(), '<')) {
         $errors[] = 'Your version of Anchor is out of date. Please <a href="http://anchorcms.com">download the latest version</a>.';
     }
     
@@ -505,9 +534,6 @@ function error_check() {
     
     // outcome
     $result = (count($errors) ? $errors : false);
-    
-    // save to session
-    Session::set('check', $result);
     
     // do something useful with it
     return $result;

@@ -13,6 +13,10 @@ class Session {
 		session_start();
 	}
 	
+	public static function end() {
+		session_write_close();
+	}
+	
 	public static function get($key, $default = false) {
 		return isset($_SESSION[$key]) ? $_SESSION[$key] : $default;
 	}

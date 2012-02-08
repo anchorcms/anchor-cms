@@ -34,6 +34,7 @@ class Posts {
 				posts.css,
 				posts.js,
 				posts.created,
+				posts.custom_fields,
 				coalesce(users.real_name, posts.author) as author,
 				posts.status
 
@@ -85,6 +86,7 @@ class Posts {
 				posts.css,
 				posts.js,
 				posts.created,
+				posts.custom_fields,
 				coalesce(users.real_name, posts.author) as author,
 				posts.status
 
@@ -131,6 +133,7 @@ class Posts {
 				posts.css,
 				posts.js,
 				posts.created,
+				posts.custom_fields,
 				coalesce(users.real_name, posts.author) as author,
 				coalesce(users.bio, '') as bio,
 				posts.status
@@ -164,6 +167,7 @@ class Posts {
 				posts.css,
 				posts.js,
 				posts.created,
+				posts.custom_fields,
 				coalesce(users.real_name, posts.author) as author,
 				posts.status
 
@@ -198,7 +202,8 @@ class Posts {
 	}
 	
 	public static function update($id) {
-		$post = Input::post(array('title', 'slug', 'description', 'html', 'css', 'js', 'status', 'delete'));
+		$post = Input::post(array('title', 'slug', 'description', 'html', 
+			'css', 'js', 'status', 'delete', 'field'));
 		$errors = array();
 
 		// delete
@@ -230,6 +235,20 @@ class Posts {
 			$post['slug'] = preg_replace('/\W+/', '-', trim(strtolower($post['title'])));
 		}
 		
+		$custom = array();
+		
+		if(is_array($post['field'])) {
+			foreach($post['field'] as $keylabel => $value) {
+				list($key, $label) = explode(':', $keylabel);
+				$custom[$key] = array('label' => $label, 'value' => $value);
+			}
+		}
+		
+		// remove from update
+		unset($post['field']);
+		
+		$post['custom_fields'] = json_encode($custom);
+		
 		$updates = array();
 		$args = array();
 
@@ -243,13 +262,15 @@ class Posts {
 		
 		Db::query($sql, $args);
 		
-		Notifications::set('success', 'Your post has been updated');
+		$post = static::extend(static::find(array('id' => $id)));
+		Notifications::set('success', 'Your post has been updated. <a href="' . $post->url . '">View post on your site</a>');
 		
 		return true;
 	}
 	
 	public static function add() {
-		$post = Input::post(array('title', 'slug', 'description', 'html', 'css', 'js', 'status'));
+		$post = Input::post(array('title', 'slug', 'description', 'html', 
+			'css', 'js', 'status', 'field'));
 		$errors = array();
 		
 		if(empty($post['title'])) {
@@ -272,6 +293,20 @@ class Posts {
 		if(empty($post['slug'])) {
 			$post['slug'] = preg_replace('/\W+/', '-', trim(strtolower($post['title'])));
 		}
+		
+		$custom = array();
+		
+		if(is_array($post['field'])) {
+			foreach($post['field'] as $keylabel => $value) {
+				list($key, $label) = explode(':', $keylabel);
+				$custom[$key] = array('label' => $label, 'value' => $value);
+			}
+		}
+		
+		// remove from update
+		unset($post['field']);
+		
+		$post['custom_fields'] = json_encode($custom);
 		
 		// set creation date
 		$post['created'] = time();

@@ -65,6 +65,13 @@
                 
                 <em>And the matching password. Can be changed later.</em>
             </p>
+            
+		    <p>
+		        <label for="email">Email:</label>
+		        <input id="email" name="email" value="<?php echo Input::post('email'); ?>">
+		        
+		        <em>The user&rsquo;s email address. Needed if the user forgets their password.</em>
+		    </p>
 		</fieldset>
 			
 		<p class="buttons">

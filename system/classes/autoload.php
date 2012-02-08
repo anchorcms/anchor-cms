@@ -24,11 +24,21 @@ class Autoloader {
 	}
 	
 	public static function find($file) {
-		// search system and application paths
-		foreach(array(PATH . 'system/classes/') as $path) {
-			if(file_exists($path . $file . '.php')) {
-				return $path . $file . '.php';
+		// search controllers
+		if(strpos($file, '_controller') !== false) {	
+			$path = PATH . 'system/admin/controllers/';
+			$controller = rtrim($file, '_controller');
+			
+			if(file_exists($path . $controller . '.php')) {
+				return $path . $controller . '.php';
 			}
+		}
+		
+		// search application classes
+		$path = PATH . 'system/classes/';
+		
+		if(file_exists($path . $file . '.php')) {
+			return $path . $file . '.php';
 		}
 		
 		return false;

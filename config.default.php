@@ -17,6 +17,7 @@ return array(
 		'base_url' => '/',
 		'index_page' => 'index.php',
 		'timezone' => 'UTC'
+		'admin_folder' => 'admin'
 	),
 
 	// Set debugging options.

@@ -31,6 +31,7 @@ CREATE TABLE `posts` (
   `html` text NOT NULL,
   `css` text NOT NULL,
   `js` text NOT NULL,
+  `custom_fields` text,
   `created` int(11) NOT NULL,
   `author` int(6) NOT NULL,
   `status` enum('draft','published','archived') NOT NULL,
@@ -46,6 +47,7 @@ CREATE TABLE `users` (
   `id` int(6) NOT NULL AUTO_INCREMENT,
   `username` varchar(100) NOT NULL,
   `password` varchar(60) NOT NULL,
+  'email' varchar(140) NOT NULL,
   `real_name` varchar(140) NOT NULL,
   `bio` text NOT NULL,
   `status` enum('inactive','active') NOT NULL,
@@ -60,8 +62,8 @@ INSERT INTO `pages` (`slug`, `name`, `title`, `content`, `status`) VALUES
 INSERT INTO `posts` (`title`, `slug`, `description`, `html`, `css`, `js`, `created`, `author`, `status`) VALUES
 ('Hello World', 'hello', 'Hello World.', '<p>My first post.</p>', '', '', '[[now]]', 1, 'published');
 
-INSERT INTO `users` (`username`, `password`, `real_name`, `bio`, `status`, `role`) VALUES
-('admin', '[[password]]', 'Administrator', 'Default account for Anchor.', 'active', 'administrator');
+INSERT INTO `users` (`username`, `password`, 'email', `real_name`, `bio`, `status`, `role`) VALUES
+('admin', '[[password]]', '[[email]]', 'Administrator', 'Default account for Anchor.', 'active', 'administrator');
 
 INSERT INTO `meta` (`key`, `value`) VALUES ('show_posts', '1'), ('twitter', ''), ('date_format', 'jS M, Y');
 

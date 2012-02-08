@@ -334,6 +334,16 @@ fieldset {
         font: 13px "Helvetica Neue", sans-serif;
         color: #50575d;
     }
+        fieldset .key {
+            width: 128px;
+            margin-right: -1px;
+            
+            margin-bottom: 10px;
+        }
+        fieldset .value {
+            width: 250px;
+            margin-bottom: 10px;
+        }
         fieldset textarea, input[type=url] {
             font: 13px/16px "Anonymous Pro", monospace;
         }
