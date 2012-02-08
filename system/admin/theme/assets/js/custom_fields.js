@@ -53,7 +53,10 @@
 		html += '</fieldset>';
 		html +='<p class="buttons"><button name="create" type="button">Create</button> <a href="#close">Close</a></p>';
 		
-		var box = new Element('div', {'class': 'popup_wrapper', 'html': html});
+		var box = new Element('div', {
+			'class': 'popup_wrapper', 
+			'html': html
+		});
 		
 		p.open({
 			'content': box
@@ -63,6 +66,7 @@
 		$$('button[name=create]').addEvent('click', add_field);
 		$$('a[href$=#close]').addEvent('click', function() {
 			p.close();
+			return false;
 		});
 		
 		return false;

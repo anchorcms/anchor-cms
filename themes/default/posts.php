@@ -2,9 +2,9 @@
     <ul class="items wrap">
     	<?php while(posts()): ?>
     	<li>
-    		<a href="<?php echo post_url(); ?>" title="<?php echo post_title(); ?>">
-    		    <time datetime="<?php echo date(DATE_W3C, post_time()); ?>"><?php echo relative_time(post_time()); ?></time>
-    		    <h2><?php echo post_title(); ?></h2>
+    		<a href="<?php echo article_url(); ?>" title="<?php echo article_title(); ?>">
+    		    <time datetime="<?php echo date(DATE_W3C, article_time()); ?>"><?php echo relative_time(article_time()); ?></time>
+    		    <h2><?php echo article_title(); ?></h2>
     		</a>
     	</li>
     	<?php endwhile; ?>

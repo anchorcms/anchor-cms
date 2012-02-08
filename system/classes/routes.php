@@ -15,11 +15,22 @@ class Routes {
 	}
 	
 	public function article($slug = '') {
+		// find article
 		if(($article = Posts::find(array('slug' => $slug))) === false) {
 			return Response::error(404);
 		}
 		
+		// add comment
+		if(Input::method() == 'POST') {
+			if(Comments::add($article->id)) {
+				$page = IoC::resolve('postspage');
+				return Response::redirect($page->slug . '/' . $article->slug);
+			}
+		}
+		
+		// register single item for templating functions
 		IoC::instance('article', $article, true);
+
 		Template::render('article');
 	}
 	
@@ -41,9 +52,9 @@ class Routes {
 	}
 	
 	public function search($term = '') {
-		if($_SERVER['REQUEST_METHOD'] === 'POST') {
-			if(isset($_POST['term']) and strlen($_POST['term'])) {
-				return Response::redirect('search/' . rawurlencode($_POST['term']));
+		if(Input::method() == 'POST') {
+			if(Input::post('term') !== false) {
+				return Response::redirect('search/' . rawurlencode(Input::post('term')));
 			}
 		}
 		

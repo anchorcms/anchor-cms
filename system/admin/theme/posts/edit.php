@@ -47,6 +47,12 @@
     			
     			<em>Statuses: live (published), pending (draft), or hidden (archived).</em>
 			</p>
+			
+			<p>
+			    <label for="comments">Allow Comments:</label>
+			    <input id="comments" name="comments" type="checkbox" value="1"<?php if(Input::post('comments', article_comments())) echo ' checked'; ?>>
+			    <em>This will allow users to comment on your posts.</em>
+			</p>
 		</fieldset>
 		
 		<fieldset>
@@ -90,6 +96,31 @@
 				<?php endforeach; ?>
 			</div>
 		</fieldset>
+		
+		<fieldset>
+		    <legend>Comments</legend>
+		    <em>Here, you can moderate your comments.</em>
+
+		    <?php if(has_comments()): ?>
+		    <ul id="comments">
+		    <?php while(comments()):?>
+		    <li data-id="<?php echo comment_id(); ?>">
+		    	<p><strong><?php echo comment_name(); ?></strong> posted on <?php echo comment_date(); ?><br>
+		    	<em>Status: <span data-status="<?php echo comment_id(); ?>"><?php echo comment_status(); ?></span></em></p>
+		    	<p data-text="<?php echo comment_id(); ?>"><?php echo comment_text(); ?></p>
+		    	
+		    	<ul>
+		    		<li><a href="#publish">Publish</a></li>
+		    		<li><a href="#edit">Edit</a></li>
+		    		<li><a href="#delete">Delete</a></li>
+	    		</ul>
+		    </li>
+		    <?php endwhile; ?>
+		    </ul>
+		    <?php else: ?>
+		    <p>No comments yet.</p>
+		    <?php endif; ?>
+		</fieldset>
 			
 		<p class="buttons">
 			<button name="save" type="submit">Save</button>
@@ -104,9 +135,10 @@
 <script src="//ajax.googleapis.com/ajax/libs/mootools/1.4.1/mootools-yui-compressed.js"></script>
 <script>window.MooTools || document.write('<script src="<?php echo theme_url('js/mootools.js'); ?>"><\/script>');</script>
 
-<script src="<?php echo theme_url('js/helpers.js'); ?>"></script>
-<script src="<?php echo theme_url('js/popup.js'); ?>"></script>
-<script src="<?php echo theme_url('js/custom_fields.js'); ?>"></script>
+<script src="<?php echo theme_url('assets/js/helpers.js'); ?>"></script>
+<script src="<?php echo theme_url('assets/js/popup.js'); ?>"></script>
+<script src="<?php echo theme_url('assets/js/custom_fields.js'); ?>"></script>
+<script src="<?php echo theme_url('assets/js/comments.js'); ?>"></script>
 
 <script>
 	(function() {

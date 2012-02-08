@@ -136,7 +136,8 @@ class Posts {
 				posts.custom_fields,
 				coalesce(users.real_name, posts.author) as author,
 				coalesce(users.bio, '') as bio,
-				posts.status
+				posts.status,
+				posts.comments
 
 			from posts 
 			left join users on (users.id = posts.author) 
@@ -203,7 +204,7 @@ class Posts {
 	
 	public static function update($id) {
 		$post = Input::post(array('title', 'slug', 'description', 'html', 
-			'css', 'js', 'status', 'delete', 'field'));
+			'css', 'js', 'status', 'delete', 'field', 'comments'));
 		$errors = array();
 
 		// delete
@@ -270,7 +271,7 @@ class Posts {
 	
 	public static function add() {
 		$post = Input::post(array('title', 'slug', 'description', 'html', 
-			'css', 'js', 'status', 'field'));
+			'css', 'js', 'status', 'field', 'comments'));
 		$errors = array();
 		
 		if(empty($post['title'])) {

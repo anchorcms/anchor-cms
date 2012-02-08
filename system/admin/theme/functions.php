@@ -28,7 +28,7 @@ function posts($params = array()) {
 
 	if($result = $posts->valid()) {	
 		// register single post
-		IoC::instance('post', $posts->current(), true);
+		IoC::instance('article', $posts->current(), true);
 		
 		// move to next
 		$posts->next();
@@ -37,100 +37,203 @@ function posts($params = array()) {
 	return $result;
 }
 
-function post_id() {
-	if($itm = IoC::resolve('post')) {
+/**
+	Article
+*/
+function article_id() {
+	if($itm = IoC::resolve('article')) {
 		return $itm->id;
 	}
 	
 	return '';
 }
 
-function post_title() {
-	if($itm = IoC::resolve('post')) {
+function article_title() {
+	if($itm = IoC::resolve('article')) {
 		return $itm->title;
 	}
 	
 	return '';
 }
 
-function post_slug() {
-	if($itm = IoC::resolve('post')) {
+function article_slug() {
+	if($itm = IoC::resolve('article')) {
 		return $itm->slug;
 	}
 	
 	return '';
 }
 
-function post_url() {
-	if($itm = IoC::resolve('post')) {
-		$page = IoC::resolve('postspage');
-		return '/' . $page->slug . '/' . $itm->slug;
-	}
-	
-	return '';
-}
-
-function post_description() {
-	if($itm = IoC::resolve('post')) {
+function article_description() {
+	if($itm = IoC::resolve('article')) {
 		return $itm->description;
 	}
 	
 	return '';
 }
 
-function post_html() {
-	if($itm = IoC::resolve('post')) {
+function article_html() {
+	if($itm = IoC::resolve('article')) {
 		return $itm->html;
 	}
 	
 	return '';
 }
 
-function post_css() {
-	if($itm = IoC::resolve('post')) {
+function article_css() {
+	if($itm = IoC::resolve('article')) {
 		return $itm->css;
 	}
 	
 	return '';
 }
 
-function post_js() {
-	if($itm = IoC::resolve('post')) {
+function article_js() {
+	if($itm = IoC::resolve('article')) {
 		return $itm->js;
 	}
 	
 	return '';
 }
 
-function post_date() {
-	if($itm = IoC::resolve('post')) {
-		return date(Config::get('metadata.date_format'), $itm->created);
-	}
-	
-	return '';
-}
-
-function post_time() {
-	if($itm = IoC::resolve('post')) {
+function article_created() {
+	if($itm = IoC::resolve('article')) {
 		return $itm->created;
 	}
 	
 	return '';
 }
 
-function post_author() {
-	if($itm = IoC::resolve('post')) {
+function article_date() {
+	if($itm = IoC::resolve('article')) {
+		return date(COnfig::get('metadata.date_format'), $itm->created);
+	}
+	
+	return '';
+}
+
+function article_author() {
+	if($itm = IoC::resolve('article')) {
 		return $itm->author;
 	}
 	
 	return '';
 }
 
-function post_status() {
-	if($itm = IoC::resolve('post')) {
+
+function article_custom_fields() {
+    if($itm = IoC::resolve('article')) {
+    	if(isset($itm->custom_fields)) {
+    	    // get associative array
+    	    $data = json_decode($itm->custom_fields, true);
+    	    return is_array($data) ? $data : array();
+    	}
+    }
+    
+    return array();
+}
+
+function article_custom_field($key, $default = '') {
+    $fields = article_custom_fields();
+    return isset($fields[$key]) ? $fields[$key] : $default;
+}
+
+function article_status() {
+	if($itm = IoC::resolve('article')) {
 		return $itm->status;
 	}
+	
+	return '';
+}
 
+function article_comments() {
+	if($itm = IoC::resolve('article')) {
+		return $itm->comments ? true : false;
+	}
+	
+	return false;
+}
+
+/**
+	Comments
+*/
+function has_comments() {
+	if(($itm = IoC::resolve('article')) === false) {
+		return false;
+	}
+		
+	if(($items = IoC::resolve('comments')) === false) {
+		$items = Comments::list_all(array('post' => $itm->id));
+		IoC::instance('comments', $items, true);
+	}
+	
+	return $items->length() > 0;
+}
+
+function comments() {
+	if(has_comments() === false) {
+		return false;
+	}
+
+	$items = IoC::resolve('comments');
+
+	if($result = $items->valid()) {	
+		// register single comment
+		IoC::instance('comment', $items->current(), true);
+		
+		// move to next
+		$items->next();
+	}
+
+	return $result;
+}
+
+// single comments
+function comment_id() {
+	if($itm = IoC::resolve('comment')) {
+		return $itm->id;
+	}
+	
+	return '';
+}
+
+function comment_time() {
+	if($itm = IoC::resolve('comment')) {
+		return $itm->date;
+	}
+	
+	return '';
+}
+
+function comment_date() {
+	if($itm = IoC::resolve('comment')) {
+		return date(Config::get('metadata.date_format'), $itm->date);
+	}
+	
+	return '';
+}
+
+function comment_name() {
+	if($itm = IoC::resolve('comment')) {
+		return $itm->name;
+	}
+	
+	return '';
+}
+
+function comment_text() {
+	if($itm = IoC::resolve('comment')) {
+		return $itm->text;
+	}
+	
+	return '';
+}
+
+function comment_status() {
+	if($itm = IoC::resolve('comment')) {
+		return $itm->status;
+	}
+	
 	return '';
 }
 
@@ -234,106 +337,6 @@ function user_authed_realname() {
 }
 
 /**
-	Article
-*/
-function article_id() {
-	if($itm = IoC::resolve('article')) {
-		return $itm->id;
-	}
-	
-	return '';
-}
-
-function article_title() {
-	if($itm = IoC::resolve('article')) {
-		return $itm->title;
-	}
-	
-	return '';
-}
-
-function article_slug() {
-	if($itm = IoC::resolve('article')) {
-		return $itm->slug;
-	}
-	
-	return '';
-}
-
-function article_description() {
-	if($itm = IoC::resolve('article')) {
-		return $itm->description;
-	}
-	
-	return '';
-}
-
-function article_html() {
-	if($itm = IoC::resolve('article')) {
-		return $itm->html;
-	}
-	
-	return '';
-}
-
-function article_css() {
-	if($itm = IoC::resolve('article')) {
-		return $itm->css;
-	}
-	
-	return '';
-}
-
-function article_js() {
-	if($itm = IoC::resolve('article')) {
-		return $itm->js;
-	}
-	
-	return '';
-}
-
-function article_created() {
-	if($itm = IoC::resolve('article')) {
-		return $itm->created;
-	}
-	
-	return '';
-}
-
-function article_author() {
-	if($itm = IoC::resolve('article')) {
-		return $itm->author;
-	}
-	
-	return '';
-}
-
-
-function article_custom_fields() {
-    if($itm = IoC::resolve('article')) {
-    	if(isset($itm->custom_fields)) {
-    	    // get associative array
-    	    return json_decode($itm->custom_fields, true);
-    	}
-    }
-    
-    return array();
-}
-
-function article_custom_field($key, $default = '') {
-    $fields = article_custom_fields();
-    return isset($fields[$key]) ? $fields[$key] : $default;
-}
-
-function article_status() {
-	if($itm = IoC::resolve('article')) {
-		return $itm->status;
-	}
-	
-	return '';
-}
-
-/**
 	Pages
 */
 function has_pages() {
@@ -426,10 +429,17 @@ function admin_menu() {
     $prefix = Config::get('application.admin_folder');
 
 	$pages = array(
+<<<<<<< HEAD
 		'Posts' => $prefix . '/posts', 
 		'Pages' => $prefix . '/pages',
 		'Users' => $prefix . '/users',
 		'Metadata' => $prefix . '/metadata'
+=======
+		'Posts' => 'admin/posts',
+		'Pages' => 'admin/pages',
+		'Users' => 'admin/users',
+		'Metadata' => 'admin/metadata'
+>>>>>>> exp
 	);
 	
 	return $pages;

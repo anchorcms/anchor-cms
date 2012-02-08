@@ -7,14 +7,14 @@
 <ul class="posts">
 	<?php while(search_results()): ?>
 	<li>
-		<h3><?php echo post_title(); ?></h3>
-		<p><?php echo post_description(); ?></p>
+		<h3><?php echo article_title(); ?></h3>
+		<p><?php echo article_description(); ?></p>
 		
 		<?php if(user_authed()): ?>
-		<p><a  class="quiet" href="<?php echo base_url('admin/posts/edit/' . post_id()); ?>">Edit this article</a></p>
+		<p><a  class="quiet" href="<?php echo base_url('admin/posts/edit/' . article_id()); ?>">Edit this article</a></p>
 		<?php endif; ?>
 		
-		<p><a class="btn" href="<?php echo post_url(); ?>" title="<?php echo post_title(); ?>">Continue Reading</a></p>
+		<p><a class="btn" href="<?php echo article_url(); ?>" title="<?php echo article_title(); ?>">Continue Reading</a></p>
 	</li>
 	<?php endwhile; ?>
 </ul>

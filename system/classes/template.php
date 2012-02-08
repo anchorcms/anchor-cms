@@ -29,7 +29,15 @@ class Template {
 		
 		// load global theming functions but not for the admin template
 		if(strpos(static::$path, 'system/admin/theme') === false) {
-			require PATH . 'system/functions.php';
+			require PATH . 'system/functions/articles.php';
+			require PATH . 'system/functions/comments.php';
+			require PATH . 'system/functions/helpers.php';
+			require PATH . 'system/functions/menus.php';
+			require PATH . 'system/functions/metadata.php';
+			require PATH . 'system/functions/pages.php';
+			require PATH . 'system/functions/posts.php';
+			require PATH . 'system/functions/search.php';
+			require PATH . 'system/functions/users.php';
 		}
 
 		// load theme functions

@@ -4,14 +4,19 @@
 		<meta charset="utf-8">
 		<title>Manage <?php echo site_name(); ?></title>
 
-		<link rel="stylesheet" href="<?php echo theme_url('css/admin.css'); ?>">
-		<link rel="stylesheet" href="<?php echo theme_url('css/popup.css'); ?>">
+		<link rel="stylesheet" href="<?php echo theme_url('assets/css/admin.css'); ?>">
+		<link rel="stylesheet" href="<?php echo theme_url('assets/css/popup.css'); ?>">
 	</head>
 	<body>
 
 		<header id="top">
+<<<<<<< HEAD
 			<a id="logo" href="<?php echo base_url(Config::get('application.admin_folder')); ?>">
 				<img src="<?php echo theme_url('img/logo.png'); ?>" alt="Anchor CMS">
+=======
+			<a id="logo" href="<?php echo base_url('admin'); ?>">
+				<img src="<?php echo theme_url('assets/img/logo.png'); ?>" alt="Anchor CMS">
+>>>>>>> exp
 			</a>
 
 			<?php if(user_authed() !== false): ?>
