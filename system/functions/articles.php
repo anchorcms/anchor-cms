@@ -114,7 +114,7 @@ function article_custom_fields() {
 
 function article_custom_field($key, $default = '') {
     $fields = article_custom_fields();
-    return isset($fields[$key]) ? $fields[$key] : $default;
+    return isset($fields[$key]) ? $fields[$key]['value'] : $default;
 }
 
 function customised() {
