@@ -16,7 +16,7 @@ return array(
 	'application' => array(
 		'base_url' => '/',
 		'index_page' => 'index.php',
-		'timezone' => 'UTC'
+		'timezone' => 'UTC',
 		'admin_folder' => 'admin'
 	),
 
