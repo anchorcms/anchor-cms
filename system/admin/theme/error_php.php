@@ -20,6 +20,9 @@
 				margin: 0;
 				padding: 0;
 			}
+			a {
+				color: #57829e;
+			}
 			.content {
 				padding: 10px;
 				background: #eee;
