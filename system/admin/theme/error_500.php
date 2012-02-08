@@ -17,7 +17,7 @@
 				margin: 0;
 			}
 			a {
-				color: #444;
+				color: #57829e;
 			}
 		</style>
 	</head>
