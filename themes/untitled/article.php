@@ -9,7 +9,7 @@
 	It is <?php echo count_words(article_html()); ?> words long. </p>
 
 	<?php if(user_authed()): ?>
-	<p class="footnote"><a href="<?php echo base_url('admin/posts/edit/' . article_id()); ?>">Edit this article</a></p>
+	<p class="footnote"><a href="<?php echo admin_url('posts/edit/' . article_id()); ?>">Edit this article</a></p>
 	<?php endif; ?>
 </section>
 

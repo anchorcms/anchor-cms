@@ -52,7 +52,9 @@
 		<p class="buttons">
 
 			<button name="save" type="submit">Save</button>
-			<?php if($page->id != Config::get('metadata.posts_page')): ?>
+			<?php 
+			// Dont delete our posts page or home page
+			if(in_array($page->id, array(Config::get('metadata.home_page'), Config::get('metadata.posts_page'))) === false): ?>
 			<button name="delete" type="submit">Delete</button>
 			<?php endif; ?>
 			

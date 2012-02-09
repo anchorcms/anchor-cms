@@ -80,5 +80,5 @@ INSERT INTO `posts` (`title`, `slug`, `description`, `html`, `css`, `js`, `creat
 INSERT INTO `users` (`username`, `password`, `email`, `real_name`, `bio`, `status`, `role`) VALUES
 ('admin', '[[password]]', '[[email]]', 'Administrator', 'Default account for Anchor.', 'active', 'administrator');
 
-INSERT INTO `meta` (`key`, `value`) VALUES ('show_posts', '1'), ('twitter', ''), ('date_format', 'jS M, Y');
+INSERT INTO `meta` (`key`, `value`) VALUES ('posts_page', '1'), ('home_page', '1'), ('twitter', ''), ('date_format', 'jS M, Y');
 

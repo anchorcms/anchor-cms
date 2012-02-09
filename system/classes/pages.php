@@ -77,9 +77,12 @@ class Pages {
 
 		// delete
 		if($post['delete'] !== false) {
-			// prevent the deletion of the posts page
-			if(Config::get('metadata.show_posts') != $id) {
+			// prevent the deletion of the posts page and home page
+			if(in_array($id, array(Config::get('metadata.home_page'), Config::get('metadata.posts_page'))) === false) {
 				return static::delete($id);
+			} else {
+				Notifications::set('error', 'Sorry, you can not delete you home page or posts page.');
+				return false;
 			}
 		} else {
 			// remove it frm array

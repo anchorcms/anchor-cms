@@ -11,7 +11,7 @@
 		<p><?php echo article_description(); ?></p>
 		
 		<?php if(user_authed()): ?>
-		<p><a  class="quiet" href="<?php echo base_url('admin/posts/edit/' . article_id()); ?>">Edit this article</a></p>
+		<p><a  class="quiet" href="<?php echo admin_url('posts/edit/' . article_id()); ?>">Edit this article</a></p>
 		<?php endif; ?>
 		
 		<p><a class="btn" href="<?php echo article_url(); ?>" title="<?php echo article_title(); ?>">Continue Reading</a></p>

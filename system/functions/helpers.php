@@ -18,8 +18,8 @@ function current_url() {
 	return Url::make(Request::uri());
 }
 
-function admin_url() {
-    return Url::make(Config::get('application.admin_folder'));
+function admin_url($url = '') {
+    return Url::make(Config::get('application.admin_folder') . '/' . ltrim($url, '/'));
 }
 
 function search_url() {
