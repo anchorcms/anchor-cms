@@ -64,8 +64,7 @@ class Pages {
 	}
 	
 	public static function delete($id) {
-		$sql = "delete from pages where id = ?";
-		Db::query($sql, array($id));
+		Db::delete('pages', array('id' => $id));
 		
 		Notifications::set('success', 'Your page has been deleted');
 		
@@ -73,12 +72,15 @@ class Pages {
 	}
 	
 	public static function update($id) {
-		$post = Input::post(array('id', 'slug', 'name', 'title', 'content', 'status', 'delete'));
+		$post = Input::post(array('slug', 'name', 'title', 'content', 'status', 'delete'));
 		$errors = array();
 
 		// delete
-		if($post['delete'] !== false && $post['id'] != Config::get('metadata.show_posts')) {
-			return static::delete($id);
+		if($post['delete'] !== false) {
+			// prevent the deletion of the posts page
+			if(Config::get('metadata.show_posts') != $id) {
+				return static::delete($id);
+			}
 		} else {
 			// remove it frm array
 			unset($post['delete']);
@@ -101,18 +103,7 @@ class Pages {
 			$post['slug'] = preg_replace('/\W+/', '-', trim(strtolower($post['name'])));
 		}
 		
-		$updates = array();
-		$args = array();
-
-		foreach($post as $key => $value) {
-			$updates[] = '`' . $key . '` = ?';
-			$args[] = $value;
-		}
-		
-		$sql = "update pages set " . implode(', ', $updates) . " where id = ?";
-		$args[] = $id;		
-		
-		Db::query($sql, $args);
+		Db::update('pages', $post, array('id' => $id));
 		
 		Notifications::set('success', 'Your page has been updated');
 		
@@ -140,19 +131,7 @@ class Pages {
 			$post['slug'] = preg_replace('/\W+/', '-', trim(strtolower($post['name'])));
 		}
 
-		$keys = array();
-		$values = array();
-		$args = array();
-		
-		foreach($post as $key => $value) {
-			$keys[] = '`' . $key . '`';
-			$values[] = '?';
-			$args[] = $value;
-		}
-		
-		$sql = "insert into pages (" . implode(', ', $keys) . ") values (" . implode(', ', $values) . ")";	
-		
-		Db::query($sql, $args);
+		Db::insert('pages', $post);
 		
 		Notifications::set('success', 'Your new page has been added');
 		

@@ -14,7 +14,7 @@ class Posts {
 		}
 	
 		if(is_object($post)) {
-			$page = Pages::find(array('id' => Config::get('show_posts')));
+			$page = IoC::resolve('posts_page');
 			$post->url = Url::make($page->slug . '/' . $post->slug);
 			return $post;
 		}
@@ -194,8 +194,7 @@ class Posts {
 	}
 	
 	public static function delete($id) {
-		$sql = "delete from posts where posts.id = ?";
-		Db::query($sql, array($id));
+		Db::delete('posts', array('id' => $id));
 		
 		Notifications::set('success', 'Your post has been deleted');
 		
@@ -249,21 +248,9 @@ class Posts {
 		unset($post['field']);
 		
 		$post['custom_fields'] = json_encode($custom);
-		
-		$updates = array();
-		$args = array();
 
-		foreach($post as $key => $value) {
-			$updates[] = '`' . $key . '` = ?';
-			$args[] = $value;
-		}
-		
-		$sql = "update posts set " . implode(', ', $updates) . " where posts.id = ?";
-		$args[] = $id;		
-		
-		Db::query($sql, $args);
-		
-		$post = static::extend(static::find(array('id' => $id)));
+		Db::update('posts', $post, array('id' => $id));
+
 		Notifications::set('success', 'Your post has been updated.');
 		
 		return true;
@@ -315,20 +302,8 @@ class Posts {
 		// set author
 		$user = Users::authed();
 		$post['author'] = $user->id;
-		
-		$keys = array();
-		$values = array();
-		$args = array();
-		
-		foreach($post as $key => $value) {
-			$keys[] = '`' . $key . '`';
-			$values[] = '?';
-			$args[] = $value;
-		}
-		
-		$sql = "insert into posts (" . implode(', ', $keys) . ") values (" . implode(', ', $values) . ")";	
-		
-		Db::query($sql, $args);
+
+		Db::insert('posts', $post);
 		
 		Notifications::set('success', 'Your new post has been added');
 		

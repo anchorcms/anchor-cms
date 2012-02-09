@@ -25,16 +25,14 @@ class Metadata {
 		
 		$post['sitename'] = htmlentities($post['sitename']);
 		$post['description'] = htmlentities($post['description']);
-		
-		$updates = array();
-		$args = array();
 
 		foreach($post as $key => $value) {
-		    DB::query("update meta set `value` = ? where `key` = ?", array($value, $key));
+		    Db::update('meta', array('value' => $value), array('key' => $key));
 		}
 				
 		Notifications::set('success', 'Your metadata has been updated');
 		
 		return true;
 	}
+
 }

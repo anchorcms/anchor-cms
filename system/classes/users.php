@@ -147,8 +147,7 @@ class Users {
 	}
 	
 	public static function delete($id) {
-		$sql = "delete from users where id = ?";
-		Db::query($sql, array($id));
+		Db::delete('users', array('id' => $id));
 		
 		Notifications::set('success', 'User has been deleted');
 		
@@ -199,18 +198,8 @@ class Users {
 		// format email
 		$post['email'] = strtolower(trim($post['email']));
 		
-		$updates = array();
-		$args = array();
-
-		foreach($post as $key => $value) {
-			$updates[] = '`' . $key . '` = ?';
-			$args[] = $value;
-		}
-		
-		$sql = "update users set " . implode(', ', $updates) . " where id = ?";
-		$args[] = $id;		
-		
-		Db::query($sql, $args);
+		// update record
+		Db::update('users', $post, array('id' => $id));
 		
 		// update user session?
 		if(Users::authed()->id == $id) {
@@ -257,19 +246,8 @@ class Users {
 		// format email
 		$post['email'] = strtolower(trim($post['email']));
 		
-		$keys = array();
-		$values = array();
-		$args = array();
-		
-		foreach($post as $key => $value) {
-			$keys[] = '`' . $key . '`';
-			$values[] = '?';
-			$args[] = $value;
-		}
-		
-		$sql = "insert into users (" . implode(', ', $keys) . ") values (" . implode(', ', $values) . ")";	
-		
-		Db::query($sql, $args);
+		// add record
+		Db::insert('users', $post);
 		
 		Notifications::set('success', 'A new user has been added');
 		
