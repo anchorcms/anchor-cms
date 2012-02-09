@@ -2,10 +2,14 @@
 
 class Metadata_controller {
 
+    public function __construct() {
+        $this->admin_url = Config::get('application.admin_folder');
+    }
+
 	public function index() {
     	if(Input::method() == 'POST') {
     		if(Metadata::update()) {
-    			return Response::redirect('admin/metadata');
+    			return Response::redirect($this->admin_url . '/metadata');
     		}
     	}
 

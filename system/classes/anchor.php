@@ -57,7 +57,7 @@ class Anchor {
 			
 			// redirect to login
 			if(Users::authed() === false and in_array(trim($controller, '_controller') . '/' . $action, $public) === false) {
-				return Response::redirect('admin/users/login');
+				return Response::redirect(Config::get('application.admin_folder') . '/users/login');
 			}
 
 			// set template path for admin

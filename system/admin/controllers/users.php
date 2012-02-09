@@ -2,6 +2,10 @@
 
 class Users_controller {
 
+	public function __construct() {
+		$this->admin_url = Config::get('application.admin_folder');
+	}
+
 	public function index() {
 		$users = Users::list_all();
 		Template::render('users/index', array('users' => $users));
@@ -10,7 +14,7 @@ class Users_controller {
 	public function login() {
 		if(Input::method() == 'POST') {
 			if(Users::login()) {
-				return Response::redirect('admin/posts');
+				return Response::redirect($this->admin_url . '/posts');
 			}
 		}
 		Template::render('users/login');
@@ -18,13 +22,13 @@ class Users_controller {
 	
 	public function logout() {
 		Users::logout();
-		return Response::redirect('admin/login');
+		return Response::redirect($this->admin_url . '/login');
 	}
 	
 	public function amnesia() {
 		if(Input::method() == 'POST') {
 			if(Users::recover_password()) {
-				return Response::redirect('admin/users/login');
+				return Response::redirect($this->admin_url . '/users/login');
 			}
 		}
 		Template::render('users/amnesia');
@@ -34,12 +38,12 @@ class Users_controller {
 		// find user
 		if(($user = Users::find(array('hash' => $hash))) === false) {
 			Notifications::set('error', 'User not found');
-			return Response::redirect('admin/users');
+			return Response::redirect($this->admin_url . '/users');
 		}
 
 		if(Input::method() == 'POST') {
 			if(Users::reset_password($user->id)) {
-				return Response::redirect('admin');
+				return Response::redirect($this->admin_url);
 			}
 		}
 
@@ -49,7 +53,7 @@ class Users_controller {
 	public function add() {
 		if(Input::method() == 'POST') {
 			if(Users::add()) {
-				return Response::redirect('admin/users');
+				return Response::redirect($this->admin_url . '/users');
 			}
 		}
 		Template::render('users/add');
@@ -59,14 +63,14 @@ class Users_controller {
 		// find user
 		if(($user = Users::find(array('id' => $id))) === false) {
 			Notifications::set('notice', 'User not found');
-			return Response::redirect('admin/users');
+			return Response::redirect($this->admin_url . '/users');
 		}
 
 		// process post request
 		if(Input::method() == 'POST') {
 			if(Users::update($id)) {
 				// redirect path
-				return Response::redirect('admin/users');
+				return Response::redirect($this->admin_url . '/users');
 			}
 		}
 

@@ -2,6 +2,10 @@
 
 class Pages_controller {
 
+	public function __construct() {
+		$this->admin_url = Config::get('application.admin_folder');
+	}
+
 	public function index() {
 		$pages = Pages::list_all();
 		Template::render('pages/index', array('pages' => $pages));
@@ -10,7 +14,7 @@ class Pages_controller {
 	public function add() {
 		if(Input::method() == 'POST') {
 			if(Pages::add()) {
-				return Response::redirect('admin/pages');
+				return Response::redirect($this->admin_url . '/pages');
 			}
 		}
 		Template::render('pages/add');
@@ -20,14 +24,14 @@ class Pages_controller {
 		// find page
 		if(($page = Pages::find(array('id' => $id))) === false) {
 			Notifications::set('notice', 'Page not found');
-			return Response::redirect('admin/pages');
+			return Response::redirect($this->admin_url . '/pages');
 		}
 
 		// process post request
 		if(Input::method() == 'POST') {
 			if(Pages::update($id)) {
 				// redirect path
-				return Response::redirect('admin/pages');
+				return Response::redirect($this->admin_url . '/pages');
 			}
 		}
 

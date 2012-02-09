@@ -26,7 +26,7 @@
 			</nav>
 
 			<p>Logged in as <strong><?php echo $user->real_name; ?></strong>. 
-			<a href="<?php echo Url::make('admin/users/logout'); ?>">Logout</a></li>
+			<a href="<?php echo admin_url('users/logout'); ?>">Logout</a></li>
 			<?php endif; ?>
 		</header>
 

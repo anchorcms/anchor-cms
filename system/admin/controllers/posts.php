@@ -2,6 +2,10 @@
 
 class Posts_controller {
 
+	public function __construct() {
+		$this->admin_url = Config::get('application.admin_folder');
+	}
+
 	public function index() {
 		$data['posts'] = Posts::list_all(array('sortby' => 'id', 'sortmode' => 'desc'));
 		Template::render('posts/index', $data);
@@ -10,7 +14,7 @@ class Posts_controller {
 	public function add() {
 		if(Input::method() == 'POST') {
 			if(Posts::add()) {
-				return Response::redirect('admin/posts');
+				return Response::redirect($this->admin_url . '/posts');
 			}
 		}
 
@@ -21,14 +25,14 @@ class Posts_controller {
 		// find article
 		if(($article = Posts::find(array('id' => $id))) === false) {
 			Notifications::set('notice', 'Post not found');
-			return Response::redirect('admin/posts');
+			return Response::redirect($this->admin_url . '/posts');
 		}
 
 		// process post request
 		if(Input::method() == 'POST') {
 			if(Posts::update($id)) {
 				// redirect path
-				return Response::redirect('admin/posts');
+				return Response::redirect($this->admin_url . '/posts');
 			}
 		}
 		
