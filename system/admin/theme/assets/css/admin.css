@@ -269,6 +269,9 @@ p.notification {
     p.notification.success {
     	background-color: #757e0e;
     }
+    p.notification.notice {
+        background-color: #FFC800;
+    }
     
 fieldset {
     position: relative;

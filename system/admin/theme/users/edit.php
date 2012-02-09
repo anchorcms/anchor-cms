@@ -82,7 +82,7 @@
 			<button name="delete" type="submit">Delete</button>
 			<?php endif; ?>
 			
-			<a href="<?php echo Url::make('admin/users'); ?>">Return to users</a>
+			<a href="<?php echo admin_url('users'); ?>">Return to users</a>
 		</p>
 	</form>
 

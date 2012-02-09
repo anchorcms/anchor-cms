@@ -1,4 +1,4 @@
-<h1>Users <a href="<?php echo Url::make('admin/users/add'); ?>">Create a new user</a></h1>
+<h1>Users <a href="<?php echo admin_url('users/add'); ?>">Create a new user</a></h1>
 
 <?php echo Notifications::read(); ?>
 
@@ -6,7 +6,7 @@
 	<ul class="list">
 	    <?php foreach($users as $user): ?>
 	    <li>
-	        <a href="<?php echo Url::make('admin/users/edit/' . $user->id); ?>">
+	        <a href="<?php echo admin_url('users/edit/' . $user->id); ?>">
 	            <strong><?php echo $user->real_name; ?></strong>
 	            <span>Username: <?php echo $user->username; ?></span>
 	            

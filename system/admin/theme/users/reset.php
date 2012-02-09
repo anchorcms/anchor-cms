@@ -1,12 +1,12 @@
 <h1>Reset Password</h1>
 
-<?php echo notifications(); ?>
+<?php echo Notifications::read(); ?>
 
 <section class="content">
 
-	<form method="post" action="<?php echo current_url(); ?>" >
+	<form method="post" action="<?php echo Url::current(); ?>" >
 		<fieldset>
-			<legend>Password reset for <?php echo user_real_name(); ?></legend>
+			<legend>Password reset for <?php echo $user->real_name; ?></legend>
 			<em>Please enter a new password that you wont forget this time.</em>
 			
 			<p>
@@ -16,10 +16,9 @@
 
 			<p class="buttons">
 			    <button type="submit">Submit</button>
-			    <a href="<?php echo base_url(); ?>">Back to <?php echo site_name(); ?></a>
+			    <a href="<?php echo Url::make(); ?>">Back to <?php echo Config::get('metadata.sitename'); ?></a>
 			</p>
 		</fieldset>
 	</form>
 
 </section>
-

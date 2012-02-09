@@ -81,9 +81,7 @@
 
 <script src="//ajax.googleapis.com/ajax/libs/mootools/1.4.1/mootools-yui-compressed.js"></script>
 <script>window.MooTools || document.write('<script src="<?php echo theme_url('assets/js/mootools.js'); ?>"><\/script>');</script>
-
 <script src="<?php echo theme_url('assets/js/helpers.js'); ?>"></script>
-
 <script>
 	(function() {
 		var tweet = $('twitter'), output = $('output');

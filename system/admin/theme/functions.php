@@ -32,6 +32,10 @@ function theme_url($file = '') {
 	return Config::get('application.base_url') . 'system/admin/theme/' . ltrim($file, '/');
 }
 
+function admin_url($url = '') {
+	return Url::make(Config::get('application.admin_folder') . '/' . ltrim($url, '/'));
+}
+
 /**
 	String helpers
 */

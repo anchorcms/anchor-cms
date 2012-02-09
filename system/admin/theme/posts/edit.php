@@ -129,7 +129,7 @@
 			<button name="save" type="submit">Save</button>
 			<button id="create" type="button">Create a custom field</button>
 			<button name="delete" type="submit">Delete</button>
-			<a href="<?php echo Url::make('admin/posts'); ?>">Return to posts</a>
+			<a href="<?php echo admin_url('posts'); ?>">Return to posts</a>
 		</p>
 		
 	</form>
@@ -137,12 +137,10 @@
 
 <script src="//ajax.googleapis.com/ajax/libs/mootools/1.4.1/mootools-yui-compressed.js"></script>
 <script>window.MooTools || document.write('<script src="<?php echo theme_url('assets/js/mootools.js'); ?>"><\/script>');</script>
-
 <script src="<?php echo theme_url('assets/js/helpers.js'); ?>"></script>
 <script src="<?php echo theme_url('assets/js/popup.js'); ?>"></script>
 <script src="<?php echo theme_url('assets/js/custom_fields.js'); ?>"></script>
 <script src="<?php echo theme_url('assets/js/comments.js'); ?>"></script>
-
 <script>
 	(function() {
 		var slug = $('slug'), output = $('output');

@@ -19,7 +19,7 @@
 
     <footer id="bottom">
         <small>Powered by Anchor, version <?php echo ANCHOR_VERSION; ?>. 
-        <a href="<?php echo Url::make('/'); ?>">Visit your site</a>.</small>
+        <a href="<?php echo Url::make(); ?>">Visit your site</a>.</small>
         
         <em>Make blogging beautiful.</em>
     </footer>

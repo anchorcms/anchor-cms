@@ -52,11 +52,11 @@
 		<p class="buttons">
 
 			<button name="save" type="submit">Save</button>
-			<?php if($page->id != Config::get('metadata.show_posts')): ?>
+			<?php if($page->id != Config::get('metadata.posts_page')): ?>
 			<button name="delete" type="submit">Delete</button>
 			<?php endif; ?>
 			
-			<a href="<?php echo Url::make('admin/pages'); ?>">Return to pages</a>
+			<a href="<?php echo admin_url('pages'); ?>">Return to pages</a>
 		</p>
 	</form>
 

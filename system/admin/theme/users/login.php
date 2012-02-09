@@ -16,15 +16,14 @@
     			<label for="pass">Password:</label>
     			<input type="password" name="pass" id="pass">
     			
-    			<em><a href="<?php echo base_url('admin/users/amnesia'); ?>">Forgotten your password?</a></em>
+    			<em><a href="<?php echo admin_url('users/amnesia'); ?>">Forgotten your password?</a></em>
 			</p>
 
 			<p class="buttons">
 			    <button type="submit">Login</button>
-			    <a href="<?php echo base_url(); ?>">Back to <?php echo site_name(); ?></a>
+			    <a href="<?php echo Url::make(); ?>">Back to <?php echo Config::get('metadata.sitename'); ?></a>
 			</p>
 		</fieldset>
 	</form>
 
 </section>
-

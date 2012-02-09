@@ -51,7 +51,7 @@
 			
 		<p class="buttons">
 			<button type="submit">Create</button>
-			<a href="<?php echo Url::make('admin/pages'); ?>">Return to pages</a>
+			<a href="<?php echo admin_url('pages'); ?>">Return to pages</a>
 		</p>
 	</form>
 
