@@ -1,18 +1,18 @@
-<h1>Users <a href="<?php echo base_url('admin/users/add'); ?>">Create a new user</a></h1>
+<h1>Users <a href="<?php echo Url::make('admin/users/add'); ?>">Create a new user</a></h1>
 
-<?php echo notifications(); ?>
+<?php echo Notifications::read(); ?>
 
 <section class="content">
 	<ul class="list">
-	    <?php while(users()): ?>
+	    <?php foreach($users as $user): ?>
 	    <li>
-	        <a href="<?php echo base_url('admin/users/edit/' . user_id()); ?>">
-	            <strong><?php echo user_real_name(); ?></strong>
-	            <span>Username: <?php echo user_name(); ?></span>
+	        <a href="<?php echo Url::make('admin/users/edit/' . $user->id); ?>">
+	            <strong><?php echo $user->real_name; ?></strong>
+	            <span>Username: <?php echo $user->username; ?></span>
 	            
-	            <i class="role"><?php echo ucwords(user_role()); ?></i>
+	            <i class="role"><?php echo ucwords($user->role); ?></i>
 	        </a>
 	    </li>
-	    <?php endwhile; ?>
+	    <?php endforeach; ?>
 	</ul>
 </section>

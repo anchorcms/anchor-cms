@@ -3,7 +3,8 @@
 class Users_controller {
 
 	public function index() {
-		Template::render('users/index');
+		$users = Users::list_all();
+		Template::render('users/index', array('users' => $users));
 	}
 	
 	public function login() {
@@ -63,10 +64,7 @@ class Users_controller {
 			Notifications::set('notice', 'User not found');
 			return Response::redirect('admin/users');
 		}
-		
-		// store object for template functions
-		IoC::instance('user', $user, true);
-		
+
 		// process post request
 		if(Input::method() == 'POST') {
 			if(Users::update($id)) {
@@ -75,7 +73,7 @@ class Users_controller {
 			}
 		}
 
-		Template::render('users/edit');
+		Template::render('users/edit', array('user' => $user));
 	}
 	
 }

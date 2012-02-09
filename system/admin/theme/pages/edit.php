@@ -1,35 +1,35 @@
-<h1>Editing &ldquo;<?php echo truncate(page_name(), 4); ?>&rdquo;</h1>
+<h1>Editing &ldquo;<?php echo truncate($page->name, 4); ?>&rdquo;</h1>
 
-<?php echo notifications(); ?>
+<?php echo Notifications::read(); ?>
 
 <section class="content">
 
-	<form method="post" action="<?php echo current_url(); ?>" novalidate>
+	<form method="post" action="<?php echo Url::current(); ?>" novalidate>
 		<fieldset>
 			<p>
     			<label for="name">Name:</label>
-    			<input id="name" name="name" value="<?php echo Input::post('name', page_name()); ?>">
+    			<input id="name" name="name" value="<?php echo Input::post('name', $page->name); ?>">
     			
     			<em>The name of your page. This gets shown in the navigation.</em>
     		</p>
 			
 			<p>
 			    <label>Title:</label>
-			    <input id="title" name="title" value="<?php echo Input::post('title', page_title()); ?>">
+			    <input id="title" name="title" value="<?php echo Input::post('title', $page->title); ?>">
 			    
 			    <em>The title of your page, which gets shown in the <code>&lt;title&gt;</code>.</em>
 			</p>
 			
 			<p>
 			    <label for="slug">Slug:</label>
-			    <input id="slug" autocomplete="off" name="slug" value="<?php echo Input::post('slug', page_slug()); ?>">
+			    <input id="slug" autocomplete="off" name="slug" value="<?php echo Input::post('slug', $page->slug); ?>">
 			    
 			    <em>The slug for your post (<code><?php echo $_SERVER['HTTP_HOST']; ?>/<span id="output">slug</span></code>).</em>
 			</p>
 			
 			<p>
 			    <label for="content">Content:</label>
-			    <textarea id="content" name="content"><?php echo Input::post('content', page_content()); ?></textarea>
+			    <textarea id="content" name="content"><?php echo Input::post('content', $page->content); ?></textarea>
 			    
 			    <em>Your page's content. Accepts valid HTML.</em>
 			</p>
@@ -38,7 +38,8 @@
 			    <label>Status:</label>
     			<select id="status" name="status">
     				<?php foreach(array('draft', 'archived', 'published') as $status): ?>
-    				<option value="<?php echo $status; ?>"<?php if(Input::post('status', page_status()) == $status) echo 'selected'; ?>>
+    				<?php $selected = (Input::post('status', $page->status) == $status) ? 'selected' : ''; ?>
+    				<option value="<?php echo $status; ?>"<?php echo $selected; ?>>
     					<?php echo ucwords($status); ?>
     				</option>
     				<?php endforeach; ?>
@@ -49,15 +50,13 @@
 		</fieldset>
 			
 		<p class="buttons">
-		    
-		    <input type="hidden" name="id" value="<?php echo page_id(); ?>">
-		
+
 			<button name="save" type="submit">Save</button>
-			<?php if(page_id() != Config::get('metadata.show_posts')): ?>
+			<?php if($page->id != Config::get('metadata.show_posts')): ?>
 			<button name="delete" type="submit">Delete</button>
 			<?php endif; ?>
 			
-			<a href="<?php echo base_url('admin/pages'); ?>">Return to pages</a>
+			<a href="<?php echo Url::make('admin/pages'); ?>">Return to pages</a>
 		</p>
 	</form>
 

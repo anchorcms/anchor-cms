@@ -1,11 +1,11 @@
 
 <h1>Add a Post</h1>
 
-<?php echo notifications(); ?>
+<?php echo Notifications::read(); ?>
 
 <section class="content">
 
-	<form method="post" action="<?php echo current_url(); ?>" novalidate>
+	<form method="post" action="<?php echo Url::current(); ?>" novalidate>
 		<fieldset>
 			<p>
     			<label for="title">Title:</label>
@@ -39,7 +39,8 @@
 			    <label>Status:</label>
     			<select id="status" name="status">
     				<?php foreach(array('draft', 'archived', 'published') as $status): ?>
-    				<option value="<?php echo $status; ?>" <?php if(Input::post('status') == $status) echo 'selected'; ?>>
+    				<?php $selected = (Input::post('status') == $status) ? ' selected' : ''; ?>
+    				<option value="<?php echo $status; ?>"<?php echo $selected; ?>>
     					<?php echo ucwords($status); ?>
     				</option>
     				<?php endforeach; ?>
@@ -93,7 +94,7 @@
 		<p class="buttons">
 			<button type="submit">Create</button>
 			<button id="create" type="button">Create a custom field</button>
-			<a href="<?php echo base_url('admin/posts'); ?>">Return to posts</a>
+			<a href="<?php echo Url::make('admin/posts'); ?>">Return to posts</a>
 		</p>
 	</form>
 

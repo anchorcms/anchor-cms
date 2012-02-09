@@ -8,7 +8,7 @@ class Metadata_controller {
     			return Response::redirect('admin/metadata');
     		}
     	}
-    	Template::render('metadata/index');
+    	Template::render('metadata/index', array('metadata' => (object) Config::get('metadata')));
 	}
 	
 }

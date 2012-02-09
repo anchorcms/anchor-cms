@@ -1,5 +1,5 @@
 
-	<?php if(user_authed()): ?>
+	<?php if(($user = Users::authed()) !== false): ?>
 	<aside id="sidebar">
 		<h2>Status check</h2>
 		
@@ -18,7 +18,8 @@
 	<?php endif; ?>
 
     <footer id="bottom">
-        <small>Powered by Anchor, version <?php echo ANCHOR_VERSION; ?>. <a href="<?php echo base_url(); ?>">Visit your site</a>.</small>
+        <small>Powered by Anchor, version <?php echo ANCHOR_VERSION; ?>. 
+        <a href="<?php echo Url::make('/'); ?>">Visit your site</a>.</small>
         
         <em>Make blogging beautiful.</em>
     </footer>

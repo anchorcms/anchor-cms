@@ -1,11 +1,11 @@
 
 <h1>Add a Page</h1>
 
-<?php echo notifications(); ?>
+<?php echo Notifications::read(); ?>
 
 <section class="content">
 
-	<form method="post" action="<?php echo current_url(); ?>" novalidate>
+	<form method="post" action="<?php echo Url::current(); ?>" novalidate>
 		<fieldset>
 			<p>
     			<label for="name">Name:</label>
@@ -51,7 +51,7 @@
 			
 		<p class="buttons">
 			<button type="submit">Create</button>
-			<a href="<?php echo base_url('admin/pages'); ?>">Return to pages</a>
+			<a href="<?php echo Url::make('admin/pages'); ?>">Return to pages</a>
 		</p>
 	</form>
 

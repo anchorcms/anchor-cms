@@ -1,14 +1,14 @@
 <h1>Add a new user</h1>
 
-<?php echo notifications(); ?>
+<?php echo Notifications::read(); ?>
 
 <section class="content">
 
-	<form method="post" action="<?php echo current_url(); ?>" novalidate autocomplete="off">
+	<form method="post" action="<?php echo Url::current(); ?>" novalidate autocomplete="off">
 		<fieldset>
 			<p>
     			<label for="real_name">Real name:</label>
-    			<input id="real_name" name="real_name" value="<?php echo Input::post('name'); ?>">
+    			<input id="real_name" name="real_name" value="<?php echo Input::post('real_name'); ?>">
     			
     			<em>The user&rsquo;s real name. Used in author bylines (visible to public).</em>
     		</p>
@@ -24,7 +24,8 @@
 			    <label for="status">Status:</label>
     			<select id="status" name="status">
     				<?php foreach(array('inactive','active') as $status): ?>
-    				<option value="<?php echo $status; ?>"<?php if(Input::post('status') == $status) echo 'selected'; ?>>
+    				<?php $selected = (Input::post('status') == $status) ? ' selected' : ''; ?>
+    				<option value="<?php echo $status; ?>"<?php echo $selected; ?>>
     					<?php echo ucwords($status); ?>
     				</option>
     				<?php endforeach; ?>
@@ -37,7 +38,8 @@
 			    <label for="role">Role:</label>
     			<select id="role" name="role">
     				<?php foreach(array('administrator', 'editor', 'user') as $role): ?>
-    				<option value="<?php echo $role; ?>"<?php if(Input::post('role') == $role) echo 'selected'; ?>>
+    				<?php $selected = (Input::post('role') == $role) ? ' selected' : ''; ?>
+    				<option value="<?php echo $role; ?>"<?php echo $selected; ?>>
     					<?php echo ucwords($role); ?>
     				</option>
     				<?php endforeach; ?>
@@ -76,7 +78,7 @@
 			
 		<p class="buttons">
 			<button type="submit">Create</button>
-			<a href="<?php echo base_url('admin/users'); ?>">Return to users</a>
+			<a href="<?php echo Url::make('admin/users'); ?>">Return to users</a>
 		</p>
 	</form>
 

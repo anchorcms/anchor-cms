@@ -3,7 +3,8 @@
 class Posts_controller {
 
 	public function index() {
-		Template::render('posts/index');
+		$data['posts'] = Posts::list_all(array('sortby' => 'id', 'sortmode' => 'desc'));
+		Template::render('posts/index', $data);
 	}
 	
 	public function add() {
@@ -12,6 +13,7 @@ class Posts_controller {
 				return Response::redirect('admin/posts');
 			}
 		}
+
 		Template::render('posts/add');
 	}
 	
@@ -21,10 +23,7 @@ class Posts_controller {
 			Notifications::set('notice', 'Post not found');
 			return Response::redirect('admin/posts');
 		}
-		
-		// store object for template functions
-		IoC::instance('article', $article, true);
-		
+
 		// process post request
 		if(Input::method() == 'POST') {
 			if(Posts::update($id)) {
@@ -32,8 +31,11 @@ class Posts_controller {
 				return Response::redirect('admin/posts');
 			}
 		}
+		
+		// get comments
+		$comments = Comments::list_all(array('post' => $id));
 
-		Template::render('posts/edit');
+		Template::render('posts/edit', array('article' => $article, 'comments' => $comments));
 	}
 	
 }

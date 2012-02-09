@@ -1,14 +1,14 @@
 <h1>Site metadata</h1>
 
-<?php echo notifications(); ?>
+<?php echo Notifications::read(); ?>
 
 <section class="content">
 
-	<form method="post" action="<?php echo current_url(); ?>" novalidate>
+	<form method="post" action="<?php echo Url::current(); ?>" novalidate>
 		<fieldset>
 			<p>
     			<label for="sitename">Site name:</label>
-    			<input id="sitename" name="sitename" value="<?php echo Input::post('name', site_name()); ?>">
+    			<input id="sitename" name="sitename" value="<?php echo Input::post('name', $metadata->sitename); ?>">
     			
     			<em>Your site&rsquo;s name.</em>
     		</p>
@@ -16,7 +16,7 @@
 			
 			<p>
 			    <label for="description">Site description:</label>
-			    <textarea id="description" name="description"><?php echo Input::post('description', site_description()); ?></textarea>
+			    <textarea id="description" name="description"><?php echo Input::post('description', $metadata->description); ?></textarea>
 			    
 			    <em>A short paragraph to describe your site.</em>
 			</p>
@@ -25,8 +25,10 @@
 			    <label>Current theme:</label>
     			<select id="theme" name="theme">
     				<?php foreach(glob(PATH . 'themes/*') as $theme): ?>
-    				<option value="<?php echo replace($theme); ?>"<?php if(Input::post('theme', current_theme()) == replace($theme)) echo 'selected'; ?>>
-    					<?php echo ucwords(replace($theme)); ?>
+    				<?php $theme = basename($theme); ?>
+    				<?php $selected = (Input::post('theme', $metadata->theme) == $theme) ? ' selected' : ''; ?>
+    				<option value="<?php echo $theme; ?>"<?php echo $selected; ?>>
+    					<?php echo ucwords($theme); ?>
     				</option>
     				<?php endforeach; ?>
     			</select>
@@ -36,9 +38,9 @@
 			
 			<p>
 				<label for="twitter">Twitter:</label>
-				<input id="twitter" name="twitter" value="<?php echo Input::post('twitter', twitter_account()); ?>">
+				<input id="twitter" name="twitter" value="<?php echo Input::post('twitter', $metadata->twitter); ?>">
 				
-				<em>Your twitter account. Displayed as @<span id="output"><?php echo twitter_account(); ?></span>.</em>
+				<em>Your twitter account. Displayed as @<span id="output"><?php echo $metadata->twitter; ?></span>.</em>
 			</p>
 		</fieldset>
 			

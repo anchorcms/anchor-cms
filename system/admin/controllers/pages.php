@@ -3,7 +3,8 @@
 class Pages_controller {
 
 	public function index() {
-		Template::render('pages/index');
+		$pages = Pages::list_all();
+		Template::render('pages/index', array('pages' => $pages));
 	}
 	
 	public function add() {
@@ -21,10 +22,7 @@ class Pages_controller {
 			Notifications::set('notice', 'Page not found');
 			return Response::redirect('admin/pages');
 		}
-		
-		// store object for template functions
-		IoC::instance('page', $page, true);
-		
+
 		// process post request
 		if(Input::method() == 'POST') {
 			if(Pages::update($id)) {
@@ -33,7 +31,7 @@ class Pages_controller {
 			}
 		}
 
-		Template::render('pages/edit');
+		Template::render('pages/edit', array('page' => $page));
 	}
 	
 }

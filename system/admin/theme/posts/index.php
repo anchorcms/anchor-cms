@@ -1,23 +1,23 @@
-<h1>Posts <a href="<?php echo base_url('admin/posts/add'); ?>">Create a new post</a></h1>
+<h1>Posts <a href="<?php echo Url::make('admin/posts/add'); ?>">Create a new post</a></h1>
 
-<?php echo notifications(); ?>
+<?php echo Notifications::read(); ?>
 
 <section class="content">
-	
-	<?php if(has_posts()): ?>
+	<?php if(count($posts)): ?>
 	<ul class="list">
-	    <?php while(posts()): ?>
+	    <?php foreach($posts as $article): ?>
 	    <li>
-	        <a href="<?php echo base_url('admin/posts/edit/' . article_id()); ?>">
-	            <strong><?php echo truncate(article_title(), 4); ?></strong>
-	            <span>Created <time><?php echo article_date(); ?></time> by <?php echo article_author(); ?></span>
+	        <a href="<?php echo Url::make('admin/posts/edit/' . $article->id); ?>">
+	            <strong><?php echo truncate($article->title, 4); ?></strong>
+	            <span>Created <time><?php echo date(Config::get('metadata.date_format'), $article->created); ?></time> 
+	            by <?php echo $article->author; ?></span>
 	            
-	            <i class="status"><?php echo ucwords(article_status()); ?></i>
+	            <i class="status"><?php echo $article->status; ?></i>
 	        </a>
 	    </li>
-	    <?php endwhile; ?>
+	    <?php endforeach; ?>
 	</ul>
 	<?php else: ?>
-	<p>No posts just yet. Why not <a href="<?php echo base_url('admin/posts/add'); ?>">write a new one</a>?</p>
+	<p>No posts just yet. Why not <a href="<?php echo Url::make('admin/posts/add'); ?>">write a new one</a>?</p>
 	<?php endif; ?>
 </section>
