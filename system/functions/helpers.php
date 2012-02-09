@@ -35,6 +35,6 @@ function bind($page, $fn, $area = 'main') {
 	Events::bind($page, $fn, $area);
 }
 
-function recieve($area) {
+function recieve($area = '') {
 	return Events::call($area);
 }

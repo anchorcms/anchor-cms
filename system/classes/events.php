@@ -4,7 +4,7 @@ class Events {
 
 	private static $stack = array();
 
-	private static function parse($str) {
+	private static function parse($page) {
 		$name = 'main';
 
 		if(strpos($page, '.') !== false) {
@@ -25,7 +25,7 @@ class Events {
 	}
 
 	public static function call($name = 'main') {
-		$page = base_name(Request::uri());
+		$page = basename(Request::uri());
 		return isset(static::$stack[$page][$name]) and is_callable(static::$stack[$page][$name]) ? static::$stack[$page][$name]() : '';
 	}
 
