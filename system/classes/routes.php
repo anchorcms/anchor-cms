@@ -5,15 +5,6 @@
 */
 class Routes {
 
-	public function posts() {
-		if(($page = IoC::resolve('postspage')) === false) {
-			return Response::error(404);
-		}
-
-		IoC::instance('page', $page, true);
-		Template::render('posts');
-	}
-	
 	public function article($slug = '') {
 		// find article
 		if(($article = Posts::find(array('slug' => $slug))) === false) {
@@ -23,7 +14,7 @@ class Routes {
 		// add comment
 		if(Input::method() == 'POST') {
 			if(Comments::add($article->id)) {
-				$page = IoC::resolve('postspage');
+				$page = IoC::resolve('posts_page');
 				return Response::redirect($page->slug . '/' . $article->slug);
 			}
 		}
@@ -35,11 +26,28 @@ class Routes {
 	}
 	
 	public function page($slug = '') {
-		if(($page = Pages::find(array('slug' => $slug))) === false) {
+		// if no slug is set we will use our default page
+		if(empty($slug)) {
+			$page = Pages::find(array('id' => Config::get('metadata.home_page')));
+		} else {
+			$page = Pages::find(array('slug' => $slug));
+		}
+
+		// if we cant find either it looks like we're barney rubble (in trouble)
+		if($page === false) {
 			return Response::error(404);
 		}
 
+		// store our page for template functions
 		IoC::instance('page', $page, true);
+
+		// does the current page host our posts?
+		if($page->id == Config::get('metadata.posts_page')) {
+			// render our posts template
+			return Template::render('posts');
+		}
+
+		// render our page template
 		Template::render('page');
 	}
 	
