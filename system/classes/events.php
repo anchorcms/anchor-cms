@@ -4,16 +4,29 @@ class Events {
 
 	private static $stack = array();
 
-	public static function bind($page, $fn, $area = 'main') {
+	private static function parse($str) {
+		$name = 'main';
+
+		if(strpos($page, '.') !== false) {
+			list($page, $name) = explode('.', $page);
+		}
+
+		return array($page, $name);
+	}
+
+	public static function bind($page, $fn) {
+		list($page, $name) = static::parse($page);
+
 		if(!isset(static::$stack[$page])) {
 			static::$stack[$page] = array();
 		}
-		static::$stack[$page][$area] = $fn;
+
+		static::$stack[$page][$name] = $fn;
 	}
 
-	public static function call($area, $default = '') {
+	public static function call($name = 'main') {
 		$page = base_name(Request::uri());
-		return isset(static::$stack[$page][$area]) and is_callable(static::$stack[$page][$area]) ? static::$stack[$page][$area]() : $default;
+		return isset(static::$stack[$page][$name]) and is_callable(static::$stack[$page][$name]) ? static::$stack[$page][$name]() : '';
 	}
 
 }
