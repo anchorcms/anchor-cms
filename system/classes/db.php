@@ -86,6 +86,64 @@ class Db {
 	/*
 	 * Shortcuts
 	 */
+	public static function update($table, $columns = array(), $condition = array()) {
+		$updates = array();
+		$args = array();
+
+		foreach($columns as $key => $value) {
+			$updates[] = '`' . $key . '` = ?';
+			$args[] = $value;
+		}
+		
+		$sql = "update `" . $table . "` set " . implode(', ', $updates);
+		
+		if(count($condition)) {
+			$where = array();
+
+			foreach($condition as $key => $value) {
+				$where[] = '`' . $key . '` = ?';
+				$args[] = $value;
+			}
+
+			$sql .= " where " . implode(' and ', $where);
+		}	
+		
+		return Db::exec($sql, $args);
+	}
+
+	public static function insert($table, $row = array()) {
+		$keys = array();
+		$values = array();
+		$args = array();
+		
+		foreach($row as $key => $value) {
+			$keys[] = '`' . $key . '`';
+			$values[] = '?';
+			$args[] = $value;
+		}
+		
+		$sql = "insert into `" . $table . "` (" . implode(', ', $keys) . ") values (" . implode(', ', $values) . ")";	
+
+		return Db::exec($sql, $args);
+	}
+
+	public static function delete($table, $condition = array()) {
+		$sql = "delete from `" . $table . "`";
+		
+		if(count($condition)) {
+			$where = array();
+
+			foreach($condition as $key => $value) {
+				$where[] = '`' . $key . '` = ?';
+				$args[] = $value;
+			}
+
+			$sql .= " where " . implode(' and ', $where);
+		}	
+		
+		return Db::exec($sql, $args);
+	}
+
 	public static function row($sql, $binds = array(), $fetch_style = \PDO::FETCH_OBJ) {
 		// get statement
 		$stm = static::query($sql, $binds);
