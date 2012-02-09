@@ -14,10 +14,18 @@ return array(
 	
 	// Application settings
 	'application' => array(
+		// url paths
 		'base_url' => '/',
 		'index_page' => 'index.php',
+
+		// your time zone
 		'timezone' => 'UTC',
-		'admin_folder' => 'admin'
+
+		// access to admin
+		'admin_folder' => 'admin',
+
+		// your unique application key used for signing passwords
+		'key' => ''
 	),
 
 	// Set debugging options.
