@@ -30,3 +30,28 @@ function rss_url() {
     return Url::make('rss');
 }
 
+//  Custom function helpers
+$return = array();
+function bind($page, $fn, $area = '') {
+
+	global $return;
+	
+	$url = explode('/', current_url());
+	
+	if($url[1] === $page && is_callable($fn)) {
+		$return[$area] = $fn();		
+	}
+	
+	return false;
+}
+
+function recieve($area) {
+
+	global $return;
+
+	if(isset($return[$area])) {
+		return $return[$area];
+	}
+	
+	return '';
+}
