@@ -20,6 +20,34 @@
 			    
 			    <em>A short paragraph to describe your site.</em>
 			</p>
+
+			<p>
+			    <label>Home Page:</label>
+    			<select id="home_page" name="home_page">
+    				<?php foreach($pages as $page): ?>
+    				<?php $selected = (Input::post('home_page', $metadata->home_page) == $page->id) ? ' selected' : ''; ?>
+    				<option value="<?php echo $page->id; ?>"<?php echo $selected; ?>>
+    					<?php echo $page->name; ?>
+    				</option>
+    				<?php endforeach; ?>
+    			</select>
+    			
+    			<em>Your current home page.</em>
+			</p>
+
+			<p>
+			    <label>Posts Page:</label>
+    			<select id="posts_page" name="posts_page">
+    				<?php foreach($pages as $page): ?>
+    				<?php $selected = (Input::post('posts_page', $metadata->posts_page) == $page->id) ? ' selected' : ''; ?>
+    				<option value="<?php echo $page->id; ?>"<?php echo $selected; ?>>
+    					<?php echo $page->name; ?>
+    				</option>
+    				<?php endforeach; ?>
+    			</select>
+    			
+    			<em>Your page that will show your posts.</em>
+			</p>
 			
 			<p>
 			    <label>Current theme:</label>

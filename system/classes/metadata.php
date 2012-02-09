@@ -3,7 +3,7 @@
 class Metadata {
 
 	public static function update() {
-		$post = Input::post(array('sitename', 'description', 'theme', 'twitter'));
+		$post = Input::post(array('sitename', 'description', 'theme', 'twitter', 'home_page', 'posts_page'));
 		$errors = array();
 		
 		if(empty($post['sitename'])) {

@@ -8,7 +8,11 @@ class Metadata_controller {
     			return Response::redirect('admin/metadata');
     		}
     	}
-    	Template::render('metadata/index', array('metadata' => (object) Config::get('metadata')));
+
+    	// provide a list to set for our home page and posts page
+    	$pages = Pages::list_all(array('status' => 'published'));
+
+    	Template::render('metadata/index', array('pages' => $pages, 'metadata' => (object) Config::get('metadata')));
 	}
 	
 }
