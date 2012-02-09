@@ -7,11 +7,26 @@
 error_reporting(0);
 
 /*
-	Hide errors that are not caught
-	note: some hosts disable ini_set for security 
-	reasons so we will silence the output of any errors
+	Helper for setting php settings
 */
-@ini_set('display_errors', false);
+function ini_safe_set($key, $value) {
+	// some hosts disable ini_set for security 
+	// lets check so see if its disabled
+	if(($disable_functions = ini_get('disable_functions')) !== false) {
+		// if it is disabled then return as there is nothing we can do
+		if(strpos($disable_functions, 'ini_set') !== false) {
+			return false;
+		}
+	}
+
+	// lets set it because we can!
+	return ini_set($key, $value);
+}
+
+/*
+	Hide errors that are not caught
+*/
+ini_safe_set('display_errors', false);
 
 /*
 	Check our environment
@@ -29,9 +44,9 @@ if(version_compare(PHP_VERSION, '5.3.0', '<')) {
 */
 if(function_exists('get_magic_quotes_gpc')) {
 	if(get_magic_quotes_gpc()) {
-		@ini_set('magic_quotes_gpc', false);
-		@ini_set('magic_quotes_runtime', false);
-		@ini_set('magic_quotes_sybase', false);
+		ini_safe_set('magic_quotes_gpc', false);
+		ini_safe_set('magic_quotes_runtime', false);
+		ini_safe_set('magic_quotes_sybase', false);
 	}
 }
 
@@ -64,7 +79,7 @@ if(Config::get('debug')) {
 	error_reporting(E_ALL);
 	
 	// show all error uncaught
-	@ini_set('display_errors', true);
+	ini_safe_set('display_errors', true);
 }
 
 // Register the default timezone for the application.
