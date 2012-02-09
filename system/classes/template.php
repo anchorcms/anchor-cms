@@ -12,9 +12,12 @@ class Template {
 		static::$path = $path;
 	}
 
-	private static function parse($file) {
+	private static function parse($file, $data) {
 		// render content into response
 		ob_start();
+		
+		// extract vars
+		extract($data, EXTR_SKIP);
 		
 		require $file;
 		
@@ -23,7 +26,7 @@ class Template {
 		ob_end_clean();
 	}
 	
-	public static function render($template) {
+	public static function render($template, $data = array()) {
 		// get default theme
 		$theme = Config::get('metadata.theme');
 		
@@ -39,7 +42,7 @@ class Template {
 			require PATH . 'system/functions/search.php';
 			require PATH . 'system/functions/users.php';
 		}
-
+		
 		// load theme functions
 		if(file_exists(static::$path . 'functions.php')) {
 			require static::$path . 'functions.php';
@@ -53,7 +56,7 @@ class Template {
 				throw new ErrorException('Theme file <strong>themes/' . $theme . '/' . $file . '.php</strong> not found.');
 			}
 			
-			static::parse($filepath);
+			static::parse($filepath, $data);
 		}
 	}
 	
