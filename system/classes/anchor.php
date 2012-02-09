@@ -95,7 +95,7 @@ class Anchor {
 
 		// static routes
 		$routes = array_merge($routes, array(
-			$admin_folder . '/(:any)/(:any)/(:num)' => 'admin/$1/$2/$3',
+			$admin_folder . '/(:any)/(:any)/(:any)' => 'admin/$1/$2/$3',
 			$admin_folder . '/(:any)/(:any)' => 'admin/$1/$2',
 			$admin_folder . '/(:any)' => 'admin/$1',
 			$admin_folder => 'admin',
