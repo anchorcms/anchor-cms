@@ -39,7 +39,7 @@ function bind($page, $fn, $area = '') {
 	$url = explode('/', current_url());
 	
 	if($url[1] === $page && is_callable($fn)) {
-		$return[($area != '' $area ? $page)] = $fn();		
+		$return[($area != '' ? $area : $page)] = $fn();		
 	}
 	
 	return false;
