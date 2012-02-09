@@ -14,7 +14,7 @@ class Posts {
 		}
 	
 		if(is_object($post)) {
-			$page = IoC::resolve('postspage');
+			$page = Pages::find(array('id' => Config::get('show_posts')));
 			$post->url = Url::make($page->slug . '/' . $post->slug);
 			return $post;
 		}
@@ -264,7 +264,7 @@ class Posts {
 		Db::query($sql, $args);
 		
 		$post = static::extend(static::find(array('id' => $id)));
-		Notifications::set('success', 'Your post has been updated. <a href="' . $post->url . '">View post on your site</a>');
+		Notifications::set('success', 'Your post has been updated.');
 		
 		return true;
 	}
