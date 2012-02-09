@@ -36,17 +36,14 @@ class Users_controller {
 			Notifications::set('error', 'User not found');
 			return Response::redirect('admin/users');
 		}
-		
-		// store object for template functions
-		IoC::instance('user', $user, true);
-		
+
 		if(Input::method() == 'POST') {
 			if(Users::reset_password($user->id)) {
 				return Response::redirect('admin');
 			}
 		}
 
-		Template::render('users/reset');
+		Template::render('users/reset', array('user' => $user));
 	}
 	
 	public function add() {
