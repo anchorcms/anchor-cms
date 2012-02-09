@@ -16,12 +16,11 @@
     			<label for="pass">Password:</label>
     			<input type="password" name="pass" id="pass">
     			
-    			<em>If you&rsquo;ve forgotten your password, contact the site admin.</em>
+    			<em><a href="<?php echo base_url('admin/users/amnesia'); ?>">Forgotten your password?</a></em>
 			</p>
 
 			<p class="buttons">
 			    <button type="submit">Login</button>
-			    <a href="<?php echo base_url('admin/users/amnesia'); ?>">Help, I've forgotten my password.</a><br>
 			    <a href="<?php echo base_url(); ?>">Back to <?php echo site_name(); ?></a>
 			</p>
 		</fieldset>
