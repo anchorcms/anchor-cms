@@ -17,9 +17,9 @@ class Anchor {
 
 		Config::set('metadata', $meta);
 
-		// Store which page will host our posts
-		$page = Pages::find(array('id' => Config::get('metadata.show_posts')));
-		IoC::instance('postspage', $page, true);
+		// look up which page has our posts
+		$page = Pages::find(array('id' => Config::get('metadata.posts_page')));
+		IoC::instance('posts_page', $page, true);
 	}
 
 	public static function run() {
@@ -34,8 +34,8 @@ class Anchor {
 			$segments = explode('/', $uri);
 		}
 
-		// default to posts when no action is set
-		$action = count($segments) ? array_shift($segments) : 'posts';
+		// set our action or our default if none is set
+		$action = count($segments) ? array_shift($segments) : 'page';
 		
 		// default to our front end router
 		$controller = 'Routes';
@@ -86,12 +86,12 @@ class Anchor {
 		$routes = array();
 		
 		// posts host page
-		if($page = IoC::resolve('postspage')) {
+		if($page = IoC::resolve('posts_page')) {
 			$routes[$page->slug . '/(:any)'] = 'article/$1';
-			$routes[$page->slug] = 'posts';
 		}
 		
-		$admin_folder = Config::get('application.admin_folder');
+		// fallback to 'admin'
+		$admin_folder = Config::get('application.admin_folder', 'admin');
 
 		// static routes
 		$routes = array_merge($routes, array(
