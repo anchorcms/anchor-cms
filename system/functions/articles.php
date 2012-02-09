@@ -29,7 +29,7 @@ function article_slug() {
 
 function article_url() {
 	if($itm = IoC::resolve('article')) {
-		$page = IoC::resolve('postspage');
+		$page = IoC::resolve('posts_page');
 		return Url::make($page->slug . '/' . $itm->slug);
 	}
 	
