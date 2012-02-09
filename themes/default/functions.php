@@ -55,4 +55,4 @@ function relative_time($date) {
  */
 bind('about', function() {
 	return 'about page';
-}, 'about');
+});
