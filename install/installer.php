@@ -74,7 +74,8 @@ if(empty($errors)) {
 		
 		// apllication paths
 		"'base_url' => '/'",
-		"'index_page' => 'index.php'"
+		"'index_page' => 'index.php'",
+		"'key' => ''"
 	);
 	$replace = array(
 		"'host' => '" . $post['host'] . "'",
@@ -84,7 +85,8 @@ if(empty($errors)) {
 
 		// apllication paths
 		"'base_url' => '/" . $base_url . "'",
-		"'index_page' => '" . $index_page . "'"
+		"'index_page' => '" . $index_page . "'",
+		"'key' => '" . random(32) . "'"
 	);
 	$config = str_replace($search, $replace, $template);
 
