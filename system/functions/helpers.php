@@ -31,27 +31,10 @@ function rss_url() {
 }
 
 //  Custom function helpers
-$return = array();
-function bind($page, $fn, $area = '') {
-
-	global $return;
-	
-	$url = explode('/', current_url());
-	
-	if($url[1] === $page && is_callable($fn)) {
-		$return[$area] = $fn();		
-	}
-	
-	return false;
+function bind($page, $fn, $area = 'main') {
+	Events::bind($page, $fn, $area);
 }
 
 function recieve($area) {
-
-	global $return;
-
-	if(isset($return[$area])) {
-		return $return[$area];
-	}
-	
-	return '';
+	return Events::call($area);
 }
