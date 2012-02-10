@@ -53,7 +53,7 @@ class Users_controller {
 	public function add() {
 		if(Input::method() == 'POST') {
 			if(Users::add()) {
-				return Response::redirect($this->admin_url . '/users');
+				return Response::redirect($this->admin_url . '/users/edit/' . Db::insert_id());
 			}
 		}
 		Template::render('users/add');
@@ -62,7 +62,6 @@ class Users_controller {
 	public function edit($id) {
 		// find user
 		if(($user = Users::find(array('id' => $id))) === false) {
-			Notifications::set('notice', 'User not found');
 			return Response::redirect($this->admin_url . '/users');
 		}
 
@@ -70,7 +69,7 @@ class Users_controller {
 		if(Input::method() == 'POST') {
 			if(Users::update($id)) {
 				// redirect path
-				return Response::redirect($this->admin_url . '/users');
+				return Response::redirect($this->admin_url . '/users/edit/' . $id);
 			}
 		}
 
