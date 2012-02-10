@@ -14,7 +14,7 @@ class Pages_controller {
 	public function add() {
 		if(Input::method() == 'POST') {
 			if(Pages::add()) {
-				return Response::redirect($this->admin_url . '/pages');
+				return Response::redirect($this->admin_url . '/pages/edit/' . Db::insert_id());
 			}
 		}
 		Template::render('pages/add');
@@ -23,7 +23,6 @@ class Pages_controller {
 	public function edit($id) {
 		// find page
 		if(($page = Pages::find(array('id' => $id))) === false) {
-			Notifications::set('notice', 'Page not found');
 			return Response::redirect($this->admin_url . '/pages');
 		}
 
@@ -31,7 +30,7 @@ class Pages_controller {
 		if(Input::method() == 'POST') {
 			if(Pages::update($id)) {
 				// redirect path
-				return Response::redirect($this->admin_url . '/pages');
+				return Response::redirect($this->admin_url . '/pages/edit/' . $id);
 			}
 		}
 
