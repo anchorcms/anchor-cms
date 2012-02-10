@@ -5,6 +5,7 @@
 
 body {
 	font: 16px/24px "Asap", sans-serif;
+	margin: 0px auto;
 }
 
 h1, h2, h3, h4, h5, h6, p {
@@ -21,9 +22,18 @@ header {
 	overflow: hidden;
 }
 
-a {
-	color: #3D3D3D;
-	text-decoration: none;
+a, a:link, a:active, a:hover, a:visited {
+	color: #778A9F;
+}
+
+code {
+	display: block;
+	background: #FEFBF4;
+	color: #7C6B46;
+	padding: 10px;
+	margin-bottom: 1em;
+	white-space: pre;
+	overflow: auto;
 }
 
 .quiet {
@@ -102,12 +112,12 @@ a {
 	border-bottom: 4px solid #ddd;
 }
 
-.highlight {
-	text-align: center;
-}
-
 .content img {
 	width: 100%;
+}
+
+.edit {
+	font-style: italic;
 }
 
 .footnote {

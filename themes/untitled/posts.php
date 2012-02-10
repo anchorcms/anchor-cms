@@ -1,12 +1,4 @@
 
-<section class="content highlight">
-	<?php echo page_content(); ?>
-	
-	<?php if(user_authed()): ?>
-	<p class="footnote"><a href="<?php echo admin_url('pages/edit/' . page_id()); ?>">Edit this page</a></p>
-	<?php endif; ?>
-</section>
-
 <?php if(has_posts()): ?>
 <ul class="posts">
 	<?php while(posts()): ?>
@@ -16,7 +8,7 @@
 		<p><?php echo article_description(); ?></p>
 		
 		<?php if(user_authed()): ?>
-		<p><a  class="quiet" href="<?php echo admin_url('posts/edit/' . article_id()); ?>">Edit this article</a></p>
+		<p class="edit"><a class="quiet" href="<?php echo admin_url('posts/edit/' . article_id()); ?>">Edit this article</a></p>
 		<?php endif; ?>
 		
 		<p><a class="btn" href="<?php echo article_url(); ?>" title="<?php echo article_title(); ?>">Continue Reading</a></p>
@@ -28,4 +20,3 @@
 	<p>Looks like you have some writing to do!</p>
 </section>
 <?php endif; ?>
-

@@ -26,7 +26,7 @@
 			<?php if(has_menu_items()): ?>
 			<nav class="menu" role="navigation">
 				<ul>
-					<?php while(menu_items()): ?>
+					<?php while(menu_items(array('sortby' => 'name'))): ?>
 					<li <?php echo (menu_active() ? 'class="active"' : ''); ?>>
 						<a href="<?php echo menu_url(); ?>" title="<?php echo menu_title(); ?>">
 							<?php echo menu_name(); ?>

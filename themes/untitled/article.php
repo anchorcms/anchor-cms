@@ -4,13 +4,16 @@
 	<p>Posted <?php echo relative_time(article_time()); ?> by <?php echo article_author(); ?></p>
 	
 	<?php echo article_html(); ?>
-	
-	<p class="footnote">This article is my <?php echo numeral(article_id() + 1); ?> oldest. 
-	It is <?php echo count_words(article_html()); ?> words long. </p>
 
 	<?php if(user_authed()): ?>
-	<p class="footnote"><a href="<?php echo admin_url('posts/edit/' . article_id()); ?>">Edit this article</a></p>
+	<p class="edit">
+		<a href="<?php echo admin_url('posts/edit/' . article_id()); ?>">Edit this article</a>
+		<?php if(page_status() != 'published'): ?>
+		<br>Your curretly viewing this post as <strong><?php echo article_status(); ?></strong>
+		<?php endif; ?>
+	</p>
 	<?php endif; ?>
+
 </section>
 
 <section class="content">
@@ -23,6 +26,10 @@
 <?php if(has_comments()): ?>
 <section class="content">
 	<p><strong>Comments</strong></p>
+
+	<?php if(user_authed()): ?>
+	<p class="edit"><a href="<?php echo admin_url('posts/edit/' . article_id() . '#comments'); ?>">Moderate comments</a></p>
+	<?php endif; ?>
 	
 	<?php while(comments()): ?>
 	<p><strong><?php echo comment_name(); ?> posted <?php echo relative_time(comment_time()); ?></strong></p>
