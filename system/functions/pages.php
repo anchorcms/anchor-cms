@@ -46,9 +46,18 @@ function page_content() {
 	return '';
 }
 
+
 function page_active() {
 	if($itm = IoC::resolve('page')) {
 		return $itm->active;
+	}
+	
+	return '';
+}
+
+function page_status() {
+	if($itm = IoC::resolve('page')) {
+		return $itm->status;
 	}
 	
 	return '';
