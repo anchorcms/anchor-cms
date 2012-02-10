@@ -14,7 +14,7 @@ class Posts_controller {
 	public function add() {
 		if(Input::method() == 'POST') {
 			if(Posts::add()) {
-				return Response::redirect($this->admin_url . '/posts');
+				return Response::redirect($this->admin_url . '/posts/edit/' . Db::insert_id());
 			}
 		}
 
@@ -24,7 +24,6 @@ class Posts_controller {
 	public function edit($id) {
 		// find article
 		if(($article = Posts::find(array('id' => $id))) === false) {
-			Notifications::set('notice', 'Post not found');
 			return Response::redirect($this->admin_url . '/posts');
 		}
 
@@ -32,14 +31,17 @@ class Posts_controller {
 		if(Input::method() == 'POST') {
 			if(Posts::update($id)) {
 				// redirect path
-				return Response::redirect($this->admin_url . '/posts');
+				return Response::redirect($this->admin_url . '/posts/edit/' . $id);
 			}
 		}
 		
 		// get comments
 		$comments = Comments::list_all(array('post' => $id));
 
-		Template::render('posts/edit', array('article' => $article, 'comments' => $comments));
+		// get posts page
+		$page = Pages::find(array('id' => Config::get('metadata.posts_page')));
+
+		Template::render('posts/edit', array('article' => $article, 'comments' => $comments, 'page' => $page));
 	}
 	
 }
