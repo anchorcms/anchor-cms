@@ -109,7 +109,7 @@ class Comments {
 	}
 	
 	public static function update() {
-		$post = Input::post(array('id', 'text'));
+		$post = Input::post(array('id', 'text', 'status'));
 		$errors = array();
 		
 		if(empty($post['text'])) {
