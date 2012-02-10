@@ -66,9 +66,14 @@ class Posts {
 		return new Items($results);
 	}
 	
-	public static function total_public() {
-		$sql = "select count(*) from posts where posts.status = ?";
-		$args = array('published');
+	public static function count($params = array()) {
+		$sql = "select count(*) from posts where 1 = 1";
+		$args = array();
+
+		if(isset($params['status'])) {
+			$sql .= " and posts.status = ?";
+			$args[] = $params['status'];
+		}
 
 		// return total
 		return Db::query($sql, $args)->fetchColumn();
@@ -195,6 +200,7 @@ class Posts {
 	
 	public static function delete($id) {
 		Db::delete('posts', array('id' => $id));
+		Db::delete('comments', array('post' => $id));
 		
 		Notifications::set('success', 'Your post has been deleted');
 		
