@@ -47,6 +47,19 @@ class Pages {
 		return new Items($pages);
 	}
 
+	public static function count($params = array()) {
+		$sql = "select count(*) from pages where 1 = 1";
+		$args = array();
+
+		if(isset($params['status'])) {
+			$sql .= " and pages.status = ?";
+			$args[] = $params['status'];
+		}
+
+		// return total
+		return Db::query($sql, $args)->fetchColumn();
+	}
+
 	public static function find($where = array()) {
 		$sql = "select * from pages";
 		$args = array();
