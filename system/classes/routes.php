@@ -7,7 +7,14 @@ class Routes {
 
 	public function article($slug = '') {
 		// find article
-		if(($article = Posts::find(array('slug' => $slug))) === false) {
+		$params = array('slug' => $slug);
+
+		// allow admin to view unpublished posts
+		if(Users::authed() === false) {
+			$params['status'] = 'published';
+		}
+
+		if(($article = Posts::find($params)) === false) {
 			return Response::error(404);
 		}
 		
@@ -26,15 +33,20 @@ class Routes {
 	}
 	
 	public function page($slug = '') {
+		// allow admin to view unpublished posts
+		if(Users::authed() === false) {
+			$params['status'] = 'published';
+		}
+
 		// if no slug is set we will use our default page
 		if(empty($slug)) {
-			$page = Pages::find(array('id' => Config::get('metadata.home_page')));
+			$params['id'] = Config::get('metadata.home_page');
 		} else {
-			$page = Pages::find(array('slug' => $slug));
+			$params['slug'] = $slug;
 		}
 
 		// if we cant find either it looks like we're barney rubble (in trouble)
-		if($page === false) {
+		if(($page = Pages::find($params)) === false) {
 			return Response::error(404);
 		}
 
