@@ -199,6 +199,29 @@ section.content {
     width: 550px;
     float: left;
 }
+
+    section.content nav.tabs {
+        margin-bottom: 2em;
+    }
+        section.content nav.tabs ul {
+            margin: 0;
+            padding: 0 0 1em 0;
+            border-bottom: 1px solid #F5F7F8;
+        }
+            section.content nav.tabs ul li {
+                display: inline-block;
+            }
+                section.content nav.tabs ul li a {
+                    display: inline-block;
+                    padding: 2px 16px;
+                }
+                    section.content nav.tabs ul li a.active {
+                        background: #70A6C1;
+                        color: #fff;
+                        border-radius: 4px;
+                        text-decoration: none;
+                    }
+
     section.content a {
         color: #527ba5;
     }
