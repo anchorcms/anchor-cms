@@ -7,7 +7,7 @@
 	<form method="post" action="<?php echo Url::current(); ?>" >
 		<fieldset>
 			<legend>Password reset for <?php echo $user->real_name; ?></legend>
-			<em>Please enter a new password that you wont forget this time.</em>
+			<em>Please enter a new password that you won&rsquo;t forget this time.</em>
 			
 			<p>
 			    <label for="password">Password:</label>

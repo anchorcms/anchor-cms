@@ -113,6 +113,9 @@
 					</p>
 					<?php endforeach; ?>
 				</div>
+				
+				
+				<button id="create" type="button">Create a custom field</button>
 			</fieldset>
 		
 		</div>
@@ -150,7 +153,6 @@
 
 		<p class="buttons">
 			<button name="save" type="submit">Save</button>
-			<button id="create" type="button">Create a custom field</button>
 			<button name="delete" type="submit">Delete</button>
 			<a href="<?php echo admin_url('posts'); ?>">Return to posts</a>
 		</p>

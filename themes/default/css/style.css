@@ -2,6 +2,19 @@
  *    Anchor CMS' default theme
  */
  
+::-webkit-selection {
+	background: #ffc;
+	color: #222;
+}
+::-moz-selection {
+	background: #ffc;
+	color: #222;
+}
+::selection {
+	background: #ffc;
+	color: #222;
+}
+
 html {
     min-height: 100%;
 }
