@@ -24,7 +24,7 @@
 			    <label for="slug">Slug:</label>
 			    <input id="slug" autocomplete="off" name="slug" value="<?php echo Input::post('slug', $page->slug); ?>">
 			    
-			    <em>The slug for your post (<code><?php echo $_SERVER['HTTP_HOST']; ?>/<span id="output">slug</span></code>).</em>
+			    <em>The slug for your page (<code id="output">slug</code>).</em>
 			</p>
 			
 			<p>
@@ -64,11 +64,17 @@
 
 </section>
 
+<aside id="sidebar">
+	<h2>Editing</h2>
+	<em>Some useful links.</em>
+	<ul>
+		<li><a href="<?php echo Url::make($page->slug); ?>">View this page on your site</a></li>
+	</ul>
+</aside>
+
 <script src="//ajax.googleapis.com/ajax/libs/mootools/1.4.1/mootools-yui-compressed.js"></script>
 <script>window.MooTools || document.write('<script src="<?php echo theme_url('assets/js/mootools.js'); ?>"><\/script>');</script>
-
 <script src="<?php echo theme_url('assets/js/helpers.js'); ?>"></script>
-
 <script>
 	(function() {
 		var slug = $('slug'), output = $('output');
