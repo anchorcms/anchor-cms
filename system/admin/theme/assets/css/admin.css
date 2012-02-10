@@ -141,7 +141,7 @@ h1 {
         
         cursor: pointer;
     }
-        h1 a:active, button:active {
+        h1 a:active, button:active, section.content nav.tabs ul li a.active {
             -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.3), inset 0 -1px 1px rgba(0,0,0,.2),0 1px 1px rgba(0,0,0,.1);
             -moz-box-shadow: inset 0 1px 1px rgba(0,0,0,.3), inset 0 -1px 1px rgba(0,0,0,.2),0 1px 1px rgba(0,0,0,.1);
             box-shadow: inset 0 1px 1px rgba(0,0,0,.3), inset 0 -1px 1px rgba(0,0,0,.2),0 1px 1px rgba(0,0,0,.1);
@@ -181,6 +181,12 @@ h1 {
             background-image: linear-gradient(top, #984447, #69171a);
             filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,StartColorStr='#984447', EndColorStr='#69171a');
         }
+        
+button#create {
+	float: left;
+	margin-bottom: 30px;
+	margin-left: 120px;
+}
     
 section.content {
     background: #fff;
@@ -210,22 +216,25 @@ section.content {
         }
             section.content nav.tabs ul li {
                 display: inline-block;
+                margin-right: 15px;
             }
                 section.content nav.tabs ul li a {
                     display: inline-block;
-                    padding: 2px 16px;
+                    padding: 5px 12px;
                 }
                     section.content nav.tabs ul li a.active {
-                        background: #70A6C1;
                         color: #fff;
-                        border-radius: 4px;
                         text-decoration: none;
+
+                        -webkit-border-radius: 4px;
+                        -moz-border-radius: 4px;
+                        border-radius: 4px;
                     }
 
-    section.content a {
+    section.content a, .popup_wrapper a {
         color: #527ba5;
     }
-        section.content a:hover {
+        section.content a:hover, .popup_wrapper a:hover {
             color: #3b444d;
         }
         
