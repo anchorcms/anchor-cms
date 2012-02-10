@@ -47,6 +47,15 @@
     		}
     	}
 
+        // can we write a config file?
+        // note: on win the only way to really test is to try and write a new file to disk.
+        if(@file_put_contents('../test.php', '<?php //test') === false) {
+            $compat[] = 'It looks like the root directory is not writable, we may not be able to automatically create your config.php file. 
+                Please make the root directory writable until the installation is complete.';
+        } else {
+            unlink('../test.php');
+        }
+
     	?>
     	
     	<?php if(count($compat)): ?>
