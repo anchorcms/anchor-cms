@@ -4,21 +4,19 @@
 	Theme functions for menus
 */
 function has_menu_items() {
+	return Pages::count(array('status' => 'published'));
+}
+
+function menu_items($params = array()) {
+	if(!has_menu_items()) {
+		return false;
+	}
+
 	if(($pages = IoC::resolve('menu')) === false) {
 		$params['status'] = 'published';
 		$pages = Pages::list_all($params);
 		IoC::instance('menu', $pages, true);
 	}
-	
-	return $pages->length() > 0;
-}
-
-function menu_items($params = array()) {
-	if(has_menu_items() === false) {
-		return false;
-	}
-	
-	$pages = IoC::resolve('menu');
 
 	if($result = $pages->valid()) {	
 		// register single post
