@@ -84,6 +84,14 @@ function article_date() {
 	return '';
 }
 
+function article_status() {
+	if($itm = IoC::resolve('article')) {
+		return $itm->status;
+	}
+	
+	return '';
+}
+
 function article_author() {
 	if($itm = IoC::resolve('article')) {
 		return $itm->author;
