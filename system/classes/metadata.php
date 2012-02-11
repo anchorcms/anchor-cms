@@ -22,9 +22,6 @@ class Metadata {
 			Notifications::set('error', $errors);
 			return false;
 		}
-		
-		$post['sitename'] = htmlentities($post['sitename']);
-		$post['description'] = htmlentities($post['description']);
 
 		foreach($post as $key => $value) {
 		    Db::update('meta', array('value' => $value), array('key' => $key));

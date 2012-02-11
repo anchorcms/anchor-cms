@@ -89,6 +89,9 @@ class Comments {
 		$post['status'] = 'pending';
 		$post['post'] = $post_id;
 
+		// encode any html
+		$post['text'] = Html::encode($post['text']);
+
 		$keys = array();
 		$values = array();
 		$args = array();

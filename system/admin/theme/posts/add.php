@@ -106,11 +106,11 @@
 				</div>
 			</fieldset>
 
+			<button id="create" type="button">Create a custom field</button>
 		</div>
 			
 		<p class="buttons">
 			<button type="submit">Create</button>
-			<button id="create" type="button">Create a custom field</button>
 			<a href="<?php echo admin_url('posts'); ?>">Return to posts</a>
 		</p>
 	</form>

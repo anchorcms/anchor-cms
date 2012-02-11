@@ -3,7 +3,7 @@
 <?php echo Notifications::read(); ?>
 
 <section class="content">
-	<?php if(count($posts)): ?>
+	<?php if($posts->length()): ?>
 	<ul class="list">
 	    <?php foreach($posts as $article): ?>
 	    <li>

@@ -240,7 +240,7 @@ class Posts {
 		if(empty($post['slug'])) {
 			$post['slug'] = preg_replace('/\W+/', '-', trim(strtolower($post['title'])));
 		}
-		
+
 		$custom = array();
 		
 		if(is_array($post['field'])) {
@@ -255,6 +255,7 @@ class Posts {
 		
 		$post['custom_fields'] = json_encode($custom);
 
+		// update row
 		Db::update('posts', $post, array('id' => $id));
 
 		Notifications::set('success', 'Your post has been updated.');
@@ -287,7 +288,7 @@ class Posts {
 		if(empty($post['slug'])) {
 			$post['slug'] = preg_replace('/\W+/', '-', trim(strtolower($post['title'])));
 		}
-		
+
 		$custom = array();
 		
 		if(is_array($post['field'])) {

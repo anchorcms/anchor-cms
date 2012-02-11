@@ -3,8 +3,7 @@
 <?php echo Notifications::read(); ?>
 	
 <section class="content">
-	
-	<?php if(count($pages)): ?>
+	<?php if($pages->length()): ?>
     	<ul class="list">
     	    <?php foreach($pages as $page): ?>
     	    <li>
