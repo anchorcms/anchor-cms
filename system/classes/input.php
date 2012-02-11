@@ -2,6 +2,17 @@
 
 class Input {
 
+	private static function clean($str) {
+		// handle magic quotes for people who cant turn it off
+		if(function_exists('get_magic_quotes_gpc')) {
+			if(get_magic_quotes_gpc()) {
+				return stripslashes($str);
+			}
+		}
+
+		return $str;
+	}
+
 	private static function fetch_array($array, $key, $default = false) {
 		if(is_array($key)) {
 			$data = array();
@@ -14,7 +25,7 @@ class Input {
 		}
 		
 		if(array_key_exists($key, $array)) {
-			return $array[$key];
+			return static::clean($array[$key]);
 		}
 
 		return ($default instanceof \Closure) ? call_user_func($default) : $default;
