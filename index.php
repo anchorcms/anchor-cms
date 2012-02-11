@@ -14,7 +14,7 @@ define('PATH', pathinfo(__FILE__, PATHINFO_DIRNAME) . '/');
 define('IN_CMS', true);
 
 //  Anchor version
-define('ANCHOR_VERSION', 0.4);
+define('ANCHOR_VERSION', 0.5);
 
 // Lets bootstrap our application and get it ready to run
 require PATH . 'system/bootstrap.php';
