@@ -31,7 +31,7 @@ class Events {
 			$name = 'main';
 		}
 
-		if($func = isset(static::$stack[$page][$name]) ? static::$stack[$page][$name] : fasle) {
+		if($func = isset(static::$stack[$page][$name]) ? static::$stack[$page][$name] : false) {
 			return is_callable($func) ? $func() : '';
 		}
 
