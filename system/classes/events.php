@@ -24,9 +24,18 @@ class Events {
 		static::$stack[$page][$name] = $fn;
 	}
 
-	public static function call($name = 'main') {
+	public static function call($name = '') {
 		$page = basename(Request::uri());
-		return isset(static::$stack[$page][$name]) and is_callable(static::$stack[$page][$name]) ? static::$stack[$page][$name]() : '';
+
+		if(empty($name)) {
+			$name = 'main';
+		}
+
+		if($func = isset(static::$stack[$page][$name]) ? static::$stack[$page][$name] : fasle) {
+			return is_callable($func) ? $func() : '';
+		}
+
+		return '';
 	}
 
 }

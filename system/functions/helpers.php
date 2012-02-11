@@ -31,10 +31,10 @@ function rss_url() {
 }
 
 //  Custom function helpers
-function bind($page, $fn, $area = 'main') {
-	Events::bind($page, $fn, $area);
+function bind($page, $fn) {
+	Events::bind($page, $fn);
 }
 
-function recieve($area = '') {
-	return Events::call($area);
+function recieve($name = '') {
+	return Events::call($name);
 }
