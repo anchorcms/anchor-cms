@@ -15,6 +15,8 @@
 		<script>var base = '<?php echo theme_url(); ?>';</script>
 		<script src="<?php echo theme_url('/js/main.js'); ?>"></script>
 		
+	    <meta name="viewport" content="width=device-width">
+		
 		<?php if(customised()): ?>
 		    <!-- Custom CSS -->
     		<style><?php echo article_css(); ?></style>
