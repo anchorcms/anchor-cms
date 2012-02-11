@@ -12,7 +12,7 @@ function has_posts() {
 	return $posts->length() > 0;
 }
 
-function posts($params = array()) {
+function posts() {
 	if(has_posts() === false) {
 		return false;
 	}

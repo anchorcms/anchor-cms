@@ -53,7 +53,7 @@ function menu_name() {
 	return '';
 }
 
-function menu_title($default = '') {
+function menu_title() {
 	if($itm = IoC::resolve('menu_item')) {
 		return $itm->title;
 	}
