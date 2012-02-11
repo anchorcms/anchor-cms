@@ -94,6 +94,9 @@ set_error_handler(array('Error', 'native'));
 // Register the shutdown handler.
 register_shutdown_function(array('Error', 'shutdown'));
 
+// lets being our application log
+Log::info('Anchor has initialised!');
+
 /*
 	Start session handler
 */

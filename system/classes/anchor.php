@@ -34,6 +34,9 @@ class Anchor {
 			$segments = explode('/', $uri);
 		}
 
+		// lets log our translated uri
+		Log::info('Translated URI: ' . $uri);
+
 		// set our action or our default if none is set
 		$action = count($segments) ? array_shift($segments) : 'page';
 		
@@ -63,14 +66,20 @@ class Anchor {
 			// set template path for admin
 			Template::path(PATH . 'system/admin/theme/');
 		}
+
+		// log the controller we are going to use and the action
+		Log::info('Controller action: ' . $controller . '/' . $action);
 		
 		// check we can find a action
 		$reflector = new ReflectionClass($controller);
-		
+
 		if($reflector->isInstantiable() === false or $reflector->hasMethod($action) === false) {
 			// default back to front end template for 404 page
 			Template::path(PATH . 'themes/' . $theme . '/');
 			
+			// report error
+			Log::warning(($reflector->isInstantiable() === false ? 'Controller was not Instantiable' : 'Action does not exist'));
+
 			// method not found in controller
 			return Response::error(404);
 		}
@@ -81,6 +90,9 @@ class Anchor {
 	private static function parse() {
 		// get uri
 		$uri = Request::uri();
+
+		// lets log our initial uri
+		Log::info('Requested URI: ' . $uri);
 
 		// if htaccess is not enabled and the file exists ignore the request
 		if(file_exists($uri)) {
