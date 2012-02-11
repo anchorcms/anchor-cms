@@ -1,3 +1,39 @@
 /**
  *    Default theme, dark variant.
  */
+ 
+body {
+    background: #222;
+    color: #aaa;
+}
+
+h1 {
+    color: #fff;
+}
+
+header#top {
+    background: #333;
+}
+    header#top a#logo {
+        color: #fff;
+    }
+    header#top nav li.active a {
+        color: #ccc;
+    }
+        header#top nav li.active:after {
+            border-bottom-color: #222;
+        }
+
+footer#bottom {
+    border-top-color: #444;
+    color: #bbb;
+}
+    footer#bottom a#attribution {
+        background-image: url('../img/dark/attribution.gif');
+    }
+    footer#bottom ul a {
+        color: #777;
+    }
+        footer#bottom ul a:hover {
+            color: #aaa;
+        }
