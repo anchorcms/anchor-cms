@@ -8,9 +8,6 @@
 
 		<link rel="stylesheet" href="<?php echo theme_url('/css/reset.css'); ?>">
 		<link rel="stylesheet" href="<?php echo theme_url('/css/style.css'); ?>">
-		<?php if(isset($_GET['dark'])): ?>
-		    <link rel="stylesheet" href="<?php echo theme_url('/css/dark.css'); ?>">
-		<?php endif; ?>
 		
 		<link rel="alternate" type="application/rss+xml" title="RSS" href="<?php echo rss_url(); ?>">
 
