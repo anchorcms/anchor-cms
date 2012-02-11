@@ -482,6 +482,56 @@ footer#bottom {
                 text-align: left;
             }
             
+    section.comments {
+        margin-top: 40px;
+        width: auto;
+    }
+    section.comments h1 {
+        padding: 0 20px;
+        line-height: 20px;
+    }
+    section.comments ul {
+        padding: 0;
+    }
+        section.comments ul li {
+            width: 90%;
+            padding: 20px 5%;
+            margin-bottom: 0;
+            border-bottom: 1px solid #ddd;
+            
+            position: relative;
+        }
+            section.comments ul li:last-child {
+                border-bottom: none;
+            }
+            section.comments ul li time {
+                position: absolute;
+                right: 20px;
+                top: 20px;
+            }
+        section.comments div.content {
+            width: auto;
+            padding-top: 0;
+        }
+    section.comments form.commentform {
+        padding: 20px 20px;
+        position: relative;
+    }
+        section.comments form.commentform legend {
+            margin-left: 0;
+        }
+        section.comments form.commentform p, section.comments form.commentform p.textarea {
+            float: none;            
+            width: 100%;
+        }
+            section.comments form.commentform p.email {
+                right: 0;
+            }
+            
+        section.comments form.commentform input, section.comments form.commentform textarea {
+            width: 93%;
+        }
+            
     section.footnote {
         width: 90%;
 
