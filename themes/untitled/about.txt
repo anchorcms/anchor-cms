@@ -1,5 +1,0 @@
-Theme name:    Untitled
-Description:   This is a theme made by a developer, dont judge me.
-Author name:   Kieron
-Author site:   http://kieronwilson.co.uk/
-License:       Unlicense (http://unlicense.org/)
