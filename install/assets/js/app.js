@@ -62,7 +62,7 @@ $(function() {
 			
 			content.animate({'opacity': 0}, function() {
 				var html = '<h2>Thanks for installing!</h2><p>We created an account for you.<br>The username is <b>admin</b>, and the password is <strong>' + data.password + '</strong>.</p>';
-				html += '<p><a href="../" class="button" style="float: none; display: inline-block;">Continue to your site.</a></p>';
+				html += '<p><a href="../" class="button" style="float: none; display: inline-block;">Continue to your site.</a> <a href="../admin">Continue to admin area</a></p>';
 				content.html(html).animate({'opacity': 1});
 			});
 		} else {

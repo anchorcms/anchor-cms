@@ -37,11 +37,20 @@ class Posts_controller {
 		
 		// get comments
 		$comments = Comments::list_all(array('post' => $id));
+		$pending = array();
+		
+		foreach($comments as $comment) {
+		    if($comment->status == 'pending') {
+		        $pending[] = $comment->id;
+		    }
+		}
+		
+		$pending = count($pending);
 
 		// get posts page
 		$page = Pages::find(array('id' => Config::get('metadata.posts_page')));
 
-		Template::render('posts/edit', array('article' => $article, 'comments' => $comments, 'page' => $page));
+		Template::render('posts/edit', array('article' => $article, 'comments' => $comments, 'page' => $page, 'pending' => $pending));
 	}
 	
 }

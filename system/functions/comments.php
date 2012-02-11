@@ -3,6 +3,17 @@
 /**
 	Theme functions for comments
 */
+
+function include_comments() {
+    $url = PATH . 'themes/' . Config::get('metadata.theme') . '/includes/comment_form.php';
+    
+    if(file_exists($url)) {
+        require $url;
+    } else {
+        require PATH . 'system/includes/comment_form.php';
+    }
+}
+
 function has_comments() {
 	if(($itm = IoC::resolve('article')) === false) {
 		return false;
@@ -99,15 +110,15 @@ function comment_form_notifications() {
 }
 
 function comment_form_input_name($extra = '') {
-	return '<input name="name" type="text" ' . $extra . '>';
+	return '<input name="name" id="name" type="text" ' . $extra . '>';
 }
 
 function comment_form_input_email($extra = '') {
-	return '<input name="email" type="text" ' . $extra . '>';
+	return '<input name="email" id="email" type="email" ' . $extra . '>';
 }
 
 function comment_form_input_text($extra = '') {
-	return '<textarea name="text" ' . $extra . '></textarea>';
+	return '<textarea name="text" id="text" ' . $extra . '></textarea>';
 }
 
 function comment_form_button($text = 'Post Comment', $extra = '') {

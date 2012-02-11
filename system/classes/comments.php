@@ -69,7 +69,7 @@ class Comments {
 		$errors = array();
 
 		if(empty($post['name'])) {
-			$errors[] = 'Please enter ayour name';
+			$errors[] = 'Please enter your name';
 		}
 		
 		if(filter_var($post['email'], FILTER_VALIDATE_EMAIL) === false) {

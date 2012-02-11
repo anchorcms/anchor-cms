@@ -9,7 +9,13 @@
 			<li><a href="#post">Post</a></li>
 			<li><a href="#customise">Customise</a></li>
 			<li><a href="#fields">Custom Fields</a></li>
-			<li><a href="#comments">Comments</a></li>
+			<li>
+			    <a href="#comments">Comments			    
+			    <?php if($pending > 0): ?>
+			        <span title="You have <?php echo $pending; ?> comments"><?php echo $pending; ?></span>
+			    <?php endif; ?>
+	            </a>
+	        </li>
 		</ul>
 	</nav>
 	<form method="post" action="<?php echo Url::current(); ?>" novalidate>
@@ -129,12 +135,15 @@
 			    <ul id="comments">
 			    <?php foreach($comments as $comment):?>
 			    <li data-id="<?php echo $comment->id; ?>">
-			    	<p><strong><?php echo $comment->name; ?></strong> 
-			    	posted on <?php echo date(Config::get('metadata.date_format'), $comment->date); ?><br>
-			    	<em>Status: <span data-status="<?php echo $comment->id; ?>"><?php echo $comment->status; ?></span></em></p>
-			    	<p data-text="<?php echo $comment->id; ?>"><?php echo $comment->text; ?></p>
+			    	<header>
+    			    	<p><strong><?php echo $comment->name; ?></strong> 
+    			    	<?php echo date(Config::get('metadata.date_format'), $comment->date); ?><br>
+    			    	<em>Status: <span data-status="<?php echo $comment->id; ?>"><?php echo $comment->status; ?></span></em></p>
+    			    </header>
+    			    
+			    	<p class="comment" data-text="<?php echo $comment->id; ?>"><?php echo $comment->text; ?></p>
 			    	
-			    	<ul>
+			    	<ul class="options">
 			    		<?php if($comment->status == 'pending'): ?>
 			    		<li><a href="#publish">Publish</a></li>
 			    		<?php endif; ?>

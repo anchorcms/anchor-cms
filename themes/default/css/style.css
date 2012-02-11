@@ -19,7 +19,7 @@ html {
     min-height: 100%;
 }
 
-body, input, textarea {
+body, input, textarea, button {
 	color: #777;
 	font: 16px/26px "Helvetica Neue", sans-serif;
 }
@@ -43,6 +43,13 @@ a, a * {
 }
     a:active {
         -webkit-transform: translateY(1px);
+    }
+    
+.content a, .comments a {
+    color: #2082ab;
+}
+    .content a:hover, .comments a:hover {
+        color: #222;
     }
 
 .wrap, .content {
@@ -80,6 +87,21 @@ form#search {
 		border: none;
 		width: 900px;
 	}
+	
+button {
+    background: #2082ab;
+
+    color: #fff;
+    font-weight: bold;
+
+    border: none;
+    
+    padding: 8px 15px;
+    
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+}
 
 header#top {
 	background: #f3f3f3;
@@ -197,14 +219,140 @@ ul.items {
                 color: #2082ab;
             }
             
-section.footnote {
-    width: 730px;
-    margin: 0 auto 60px;
+section.comments {
+    width: 900px;
+    margin: 0 auto 50px;
+    padding-top: 30px;
+    
     text-align: left;
+    
+    border-top: 1px solid #eee;
+}
+    section.comments h1, section.comments form.commentform legend {
+        font-weight: bold;
+        font-size: 22px;
+        
+        color: #555;
+    }
+        section.comments h1 a {
+            float: right;
+            font-size: 15px;
+        }
+    section.comments ul {
+        list-style: none;
+        overflow: hidden;
+        
+        padding-left: 170px;
+        padding-bottom: 30px;
+    }
+        section.comments ul li {
+            float: left;
+            width: 670px;
+            
+            margin-bottom: 30px;
+            padding: 30px;
+            
+            background: #fafafa;
+        }
+        section.comments h2 {
+            color: #555;
+            font-size: 18px;
+            line-height: 30px;
+            
+            float: left;
+            width: 250px;
+        }
+        section.comments time {
+            float: right;
+            
+            font: italic 13px/30px Georgia, serif;
+        }
+        section.comments div.content {
+            clear: both;
+            width: auto;
+
+            margin: 0;
+            padding: 20px 0 0;
+            
+            font-size: 15px;
+            line-height: 25px;
+        }
+        
+    section.comments form.commentform {
+        clear: both;
+        padding-left: 170px;
+        padding-top: 40px;
+        
+        border-top: 1px solid #eee;
+    }
+        section.comments form.commentform p.notification {
+            clear: both;
+            float: none;
+            padding-bottom: 25px;
+            
+            font-weight: bold;            
+        }
+            section.comments form.commentform p.notification.error {
+                color: #c22a0a;
+            }
+        section.comments form.commentform legend {
+            margin-left: -170px;
+            margin-bottom: 20px;
+        }
+        section.comments form.commentform p {
+            float: left;
+            width: 365px;
+            
+            position: relative;
+        }
+            section.comments form.commentform p.email {
+                position: relative;
+                right: -15px;
+            }
+            section.comments form.commentform p.textarea {
+                width: 630px;
+            }
+            section.comments form.commentform p em {
+                font: italic 13px Georgia, serif;
+                
+                position: absolute;
+                top: 5px;
+                right: 15px;
+                
+                color: #aaa;
+            }
+        section.comments form.commentform label {
+            display: block;
+            font-size: 15px;
+            
+            padding-bottom: 8px;
+        }
+        section.comments form.commentform input, section.comments form.commentform textarea {
+            width: 320px;
+            padding: 8px 14px;
+            margin-bottom: 20px;
+            
+            border: 1px solid #bbb;
+        }
+            section.comments form.commentform textarea {
+                width: 700px;
+                min-height: 150px;
+                max-height: 400px;
+                resize: vertical;
+            }
+        section.comments form.commentform button {
+            margin-bottom: 50px;
+        }
+            
+section.footnote {
+    clear: both;
+    width: 730px;
 
     font: italic 12px/19px Georgia, serif;
+    text-align: left;
     color: #aaa;
     
+    margin: 0 auto 60px;
     padding-left: 170px;
 }
             
