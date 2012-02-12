@@ -22,6 +22,20 @@ if(strpos($index, "0.5") !== false) {
 }
 
 /*
+	Helper functions
+*/
+function random($length = 16) {
+	$pool = str_split('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', 1);
+	$value = '';
+
+	for ($i = 0; $i < $length; $i++)  {
+		$value .= $pool[mt_rand(0, 61)];
+	}
+
+	return $value;
+}
+
+/*
 	Include files we are going 
 	to need for every request.
 */
@@ -40,6 +54,16 @@ if(Config::load() === false) {
 	echo file_get_contents(PATH . 'system/admin/theme/error_config.php');
 	exit(1);
 }
+
+// Query metadata and store into our config
+$sql = "select `key`, `value` from meta";
+$meta = array();
+
+foreach(Db::results($sql) as $row) {
+	$meta[$row->key] = $row->value;
+}
+
+Config::set('metadata', $meta);
 
 // make database changes
 $sql = "ALTER TABLE `users` ADD `email` VARCHAR( 140 ) NOT NULL AFTER `password`";
@@ -63,16 +87,45 @@ CREATE TABLE IF NOT EXISTS `comments` (
 ) ENGINE=MyISAM CHARSET=utf8 COLLATE=utf8_general_ci";
 Db::query($sql);
 
+// rename show_posts
 Db::update('meta', array('value' => 'posts_page'), array('value' => 'show_posts'));
 
 // make posts_page the home page
-$sql = "select `key` from `meta` where `value` = 'posts_page'";
-$row = Db::row($sql);
-
-Db::insert('meta', array('key' => 'home_page', 'value' => $row->key));
+Db::insert('meta', array('key' => 'home_page', 'value' => Config::get('metadata.show_posts')));
 
 // add current version
 Db::insert('meta', array('key' => 'version', 'value' => '0.5'));
+
+// create new config file
+$template = file_get_contents('../config.default.php');
+
+$search = array(
+	"'host' => 'localhost'",
+	"'username' => 'root'",
+	"'password' => ''",
+	"'name' => 'anchorcms'",
+	
+	// apllication paths
+	"'base_url' => '/'",
+	"'index_page' => 'index.php'",
+	"'key' => ''"
+);
+$replace = array(
+	"'host' => '" . Config::get('database.host') . "'",
+	"'username' => '" . Config::get('database.username') . "'",
+	"'password' => '" . Config::get('database.password') . "'",
+	"'name' => '" . Config::get('database.name') . "'",
+
+	// apllication paths
+	"'base_url' => '" . Config::get('application.base_url') . "'",
+	"'index_page' => '" . Config::get('application.index_page') . "'",
+	"'key' => '" . radnom() . "'"
+);
+$config = str_replace($search, $replace, $template);
+
+if(file_put_contents('../config.php', $config) === false) {
+	$errors[] = 'Failed to create config file';
+}
 
 // database update are done lets redirect to the complete page
 header('Location: complete.php');
