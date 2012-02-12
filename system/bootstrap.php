@@ -57,6 +57,15 @@ if(function_exists('get_magic_quotes_gpc')) {
 require PATH . 'system/classes/autoload.php';
 require PATH . 'system/classes/config.php';
 require PATH . 'system/classes/error.php';
+require PATH . 'system/classes/session.php';
+require PATH . 'system/classes/anchor.php';
+require PATH . 'system/classes/template.php';
+require PATH . 'system/classes/request.php';
+require PATH . 'system/classes/response.php';
+require PATH . 'system/classes/log.php';
+require PATH . 'system/classes/db.php';
+require PATH . 'system/classes/ioc.php';
+require PATH . 'system/classes/url.php';
 
 // register the auto loader
 Autoloader::register();
