@@ -25,6 +25,13 @@
 		    } else {
 		        unlink('../test.php');
 		    }
+		    
+			// check version
+			$index = file_get_contents('../index.php');
+
+			if(strpos($index, "('ANCHOR_VERSION', 0.5)") !== false) {
+				$errors[] = 'This upgrade is for 0.4 -> 0.5 only';
+			}
     	}
     	
     	?>
@@ -54,7 +61,7 @@
 			To get you up and running we need to make a few database changes to bring you up to date.</p>
 
             <form action="run.php" method="post">
-                <button type="submit">Start mirgation</button>
+                <button type="submit">Start migration</button>
             </form>
         </div>
         

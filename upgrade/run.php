@@ -1,15 +1,23 @@
 <?php
 
+// report all errors
+error_reporting(E_ALL);
+
+// show all error uncaught
+ini_set('display_errors', true);
+
 /*
 	Define some paths and get current config
 */
-define('PATH', pathinfo(dirname(__FILE__), PATHINFO_DIRNAME));
 
-// check version
+define('IN_CMS', true);
+define('PATH', pathinfo(dirname(__FILE__), PATHINFO_DIRNAME) . '/');
+
+// check we 0.5 downloaded 
 $index = file_get_contents(PATH . 'index.php');
 
-if(strpos("('ANCHOR_VERSION', 0.4)", $index) !== false) {
-	// this upgrade is for 0.4 only
+if(strpos($index, "0.5") !== false) {
+	// this upgrade is for 0.4 -> 0.5 only
 	header('Location: index.php');
 }
 
@@ -58,7 +66,13 @@ Db::query($sql);
 Db::update('meta', array('value' => 'posts_page'), array('value' => 'show_posts'));
 
 // make posts_page the home page
-Db::insert('meta', array('key' => 'home_page', 'value' => Config::get('show_posts')));
+$sql = "select `key` from `meta` where `value` = 'posts_page'";
+$row = Db::row($sql);
+
+Db::insert('meta', array('key' => 'home_page', 'value' => $row->key));
+
+// add current version
+Db::insert('meta', array('key' => 'version', 'value' => '0.5'));
 
 // database update are done lets redirect to the complete page
-header('complete.php');
+header('Location: complete.php');
