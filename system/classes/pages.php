@@ -16,7 +16,15 @@ class Pages {
 		if(is_object($page)) {
 			$uri = Request::uri();
 			$page->url = Url::make($page->slug);
-			$page->active = (strlen($uri) ? strpos($uri, $page->slug) !== false : $page->slug === 'posts');
+
+			$page->active = false;
+			
+			if($current = IoC::resolve('page')) {
+				if($current->id == $page->id) {
+					$page->active = true;
+				}
+			}
+
 			return $page;
 		}
 		
