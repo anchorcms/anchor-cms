@@ -17,19 +17,18 @@
     	if(file_exists('../config.php') === false) {
     		$errors[] = 'Please run the install';
     	} else {
-		    // can we write a zip file?
-		    // note: on win the only way to really test is to try and write a new file to disk.
-		    if(@file_put_contents('../test.php', '<?php //test') === false) {
-		        $errors[] = 'It looks like the root directory is not writable, we may not be able to automatically create a backup file. 
-		            Please make the root directory writable until the upgrade is complete.';
-		    } else {
-		        unlink('../test.php');
-		    }
-		    
+			// note: on win the only way to really test is to try and write a new file to disk.
+			if(@file_put_contents('../test.php', '<?php //test') === false) {
+				$errors[] = 'It looks like the root directory is not writable, we may not be able to automatically create a backup file. 
+					Please make the root directory writable until the upgrade is complete.';
+			} else {
+				unlink('../test.php');
+			}
+
 			// check version
 			$index = file_get_contents('../index.php');
 
-			if(strpos($index, "('ANCHOR_VERSION', 0.5)") !== false) {
+			if(strpos($index, "0.5") !== false) {
 				$errors[] = 'This upgrade is for 0.4 -> 0.5 only';
 			}
     	}
