@@ -96,6 +96,10 @@ Db::insert('meta', array('key' => 'home_page', 'value' => Config::get('metadata.
 // add current version
 Db::insert('meta', array('key' => 'version', 'value' => '0.5'));
 
+// make sure the password field is big enough
+$sql = "ALTER TABLE `users` CHANGE `password` `password` VARCHAR( 140 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL;";
+$db::query($sql);
+
 // create new config file
 $template = file_get_contents('../config.default.php');
 
