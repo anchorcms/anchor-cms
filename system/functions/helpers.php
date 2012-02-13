@@ -38,3 +38,20 @@ function bind($page, $fn) {
 function recieve($name = '') {
 	return Events::call($name);
 }
+
+// page type helpers
+function is_homepage() {
+	if($itm = IoC::resolve('page')) {
+		return $itm->id == Config::get('metadata.home_page');
+	}
+
+	return false;
+}
+
+function is_postspage() {
+	if($itm = IoC::resolve('page')) {
+		return $itm->id == Config::get('metadata.posts_page');
+	}
+
+	return false;
+}
