@@ -54,6 +54,9 @@ class Users {
 		// get posted data
 		$post = Input::post(array('user', 'pass', 'remember'));
 		$errors = array();
+
+		// remove white space
+		$post = array_map('trim', $post);
 		
 		if(empty($post['user'])) {
 			$errors[] = 'Please enter your username';
