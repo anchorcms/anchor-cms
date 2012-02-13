@@ -61,7 +61,7 @@ DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users` (
   `id` int(6) NOT NULL AUTO_INCREMENT,
   `username` varchar(100) NOT NULL,
-  `password` varchar(60) NOT NULL,
+  `password` varchar(140) NOT NULL,
   `email` varchar(140) NOT NULL,
   `real_name` varchar(140) NOT NULL,
   `bio` text NOT NULL,
