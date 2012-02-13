@@ -4,16 +4,6 @@
 	Theme functions for comments
 */
 
-function include_comments() {
-    $url = PATH . 'themes/' . Config::get('metadata.theme') . '/includes/comment_form.php';
-    
-    if(file_exists($url)) {
-        require $url;
-    } else {
-        require PATH . 'system/includes/comment_form.php';
-    }
-}
-
 function has_comments() {
 	if(($itm = IoC::resolve('article')) === false) {
 		return false;

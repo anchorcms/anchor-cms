@@ -28,7 +28,7 @@
 			// check version
 			$index = file_get_contents('../index.php');
 
-			if(strpos($index, "0.5") !== false) {
+			if(strpos($index, "0.5") === false) {
 				$errors[] = 'This upgrade is for 0.4 -> 0.5 only';
 			}
     	}

@@ -16,7 +16,7 @@ define('PATH', pathinfo(dirname(__FILE__), PATHINFO_DIRNAME) . '/');
 // check we 0.5 downloaded 
 $index = file_get_contents(PATH . 'index.php');
 
-if(strpos($index, "0.5") !== false) {
+if(strpos($index, "0.5") === false) {
 	// this upgrade is for 0.4 -> 0.5 only
 	header('Location: index.php');
 }
@@ -119,12 +119,33 @@ $replace = array(
 	// apllication paths
 	"'base_url' => '" . Config::get('application.base_url') . "'",
 	"'index_page' => '" . Config::get('application.index_page') . "'",
-	"'key' => '" . radnom() . "'"
+	"'key' => '" . random() . "'"
 );
 $config = str_replace($search, $replace, $template);
 
 if(file_put_contents('../config.php', $config) === false) {
 	$errors[] = 'Failed to create config file';
+}
+
+// clean up files and folders
+$files = array(
+	'uploads/index.php',
+	'uploads',
+	'install/css/install.css',
+	'install/css',
+	'install/js/install.js',
+	'install/js',
+	'install/img/logo.gif',
+	'install/img',
+	'system/functions.php'
+);
+
+foreach($files as $file) {
+	if(is_dir(PATH . $file)) {
+		@rmdir(PATH . $file);
+	} else {
+		@unlink(PATH . $file);
+	}
 }
 
 // database update are done lets redirect to the complete page
