@@ -57,6 +57,11 @@ function truncate($str, $limit = 10, $elipse = ' [...]') {
     Error checking
 */
 function latest_version() {
+	// check we have curl support
+	if(Curl::support() === false) {
+		return 0;
+	}
+
 	// only run the version check once per session
 	if(($version = Session::get('latest_version')) === false) {
 		// returns plain text string with version number or 0 on failure.

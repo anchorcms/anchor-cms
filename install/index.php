@@ -27,13 +27,6 @@
     		$compat[] = 'Anchor requires PHP 5.3 or newer.<br><em>Your current environment is running PHP ' . PHP_VERSION . '</em>';
     	}
     	
-    	// curl
-    	if(function_exists('curl_init') === false) {
-    		$compat[] = 'Anchor requires PHP cURL to be installed and enabled.<br>
-    			<em>You can find more about <a href="//php.net/manual/en/book.curl.php">installing and setting up cURL</a> 
-    			on the php.net website</em>';
-    	}
-    	
     	// PDO
     	if(class_exists('PDO') === false) {
     		$compat[] = 'Anchor requires PDO (PHP Data Objects)<br>

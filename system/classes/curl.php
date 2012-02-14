@@ -8,6 +8,10 @@ class Curl {
 		$this->session = curl_init();
 	}
 	
+	public static function support() {
+		return function_exists('curl_init');
+	}
+
 	public function set_options($options) {
 		curl_setopt_array($this->session, $options);
 	}
