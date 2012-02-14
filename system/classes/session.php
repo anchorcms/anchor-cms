@@ -9,25 +9,87 @@
 
 class Session {
 	
+	private static $id, $data = array();
+	
+	private static function generate($length = 32) {
+		$pool = str_split('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', 1);
+		$value = '';
+
+		for ($i = 0; $i < $length; $i++)  {
+			$value .= $pool[mt_rand(0, 61)];
+		}
+
+		return $value;
+	}
+
+	private static function gc() {
+		$sql = 'delete from sessions where date < ?';
+		$expire = time() - Config::get('session.expire', 86400);
+
+		Db::query($sql, array(date(DATE_ISO8601, $expire)));
+	}
+
 	public static function start() {
-		session_start();
+		// run gc
+		static::gc();
+		
+		// get session id
+		$name = Config::get('session.name', 'anchorcms');
+		static::$id = Cookie::get($name);
+
+		if(static::$id === false) {
+			Log::info('Session cookie not found: ' . $name);
+			static::$id = static::generate();
+		}
+		
+		// load session data
+		$sql = "select data from sessions where id = ? and ip = ? and ua = ? limit 1";
+		$args = array(static::$id, Input::ip_address(), Input::user_agent());
+		
+		if($session = Db::row($sql, $args)) {
+			static::$data = unserialize($session->data);
+		} else {
+			Db::insert('sessions', array(
+				'id' => static::$id,
+				'date' => date(DATE_ISO8601),
+				'ip' => Input::ip_address(),
+				'ua' => Input::user_agent(),
+				'data' => serialize(static::$data)
+			));
+		}
 	}
 	
 	public static function end() {
-		session_write_close();
+		// cookie details
+		$name = Config::get('session.name', 'anchorcms');
+		$expire = time() + Config::get('session.expire', 86400);
+		$path = Config::get('session.path', '/');
+		$domain = Config::get('session.domain', '');
+
+		// set cookie
+		Cookie::write($name, static::$id, $expire, $path, $domain);
+
+		return Db::update('sessions', array(
+			'date' => date(DATE_ISO8601),
+			'ip' => Input::ip_address(),
+			'ua' => Input::user_agent(),
+			'data' => serialize(static::$data)
+		), array(
+			'id' => static::$id
+		));
 	}
 	
 	public static function get($key, $default = false) {
-		return isset($_SESSION[$key]) ? $_SESSION[$key] : $default;
+		return isset(static::$data[$key]) ? static::$data[$key] : $default;
 	}
 	
 	public static function set($key, $value) {
-		$_SESSION[$key] = $value;
+		static::$data[$key] = $value;
 	}
 	
 	public static function forget($key) {
-		if(isset($_SESSION[$key])) {
-			unset($_SESSION[$key]);
+		if(isset(static::$data[$key])) {
+			unset(static::$data[$key]);
 		}
 	}
 	

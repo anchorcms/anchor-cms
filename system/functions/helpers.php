@@ -55,3 +55,18 @@ function is_postspage() {
 
 	return false;
 }
+
+function is_debug() {
+	return Config::get('debug', false);
+}
+
+// benchmarking
+function execution_time() {
+	$miliseconds = microtime(true) - ANCHOR_START;
+	return round($miliseconds, 2);
+}
+
+// return in mb
+function memory_usage() {
+	return memory_get_peak_usage(true) / 1024 / 1024;
+}

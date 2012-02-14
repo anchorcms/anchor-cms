@@ -22,6 +22,8 @@ CREATE TABLE `meta` (
   PRIMARY KEY (`key`)
 ) ENGINE=MyISAM CHARSET=utf8 COLLATE=utf8_general_ci;
 
+INSERT INTO `meta` (`key`, `value`) VALUES ('posts_page', '1'), ('home_page', '1'), ('twitter', ''), ('date_format', 'jS M, Y');
+
 DROP TABLE IF EXISTS `pages`;
 
 CREATE TABLE `pages` (
@@ -35,6 +37,10 @@ CREATE TABLE `pages` (
   KEY `status` (`status`),
   KEY `slug` (`slug`)
 ) ENGINE=MyISAM CHARSET=utf8 COLLATE=utf8_general_ci;
+
+INSERT INTO `pages` (`slug`, `name`, `title`, `content`, `status`) VALUES
+('posts', 'Posts', 'My posts and thoughts', '<p>Welcome!</p>', 'published'),
+('about', 'About', 'A little bit about me', '<p>This is a little bit of text about me.</p>', 'published');
 
 DROP TABLE IF EXISTS `posts`;
 
@@ -56,6 +62,9 @@ CREATE TABLE `posts` (
   KEY `slug` (`slug`)
 ) ENGINE=MyISAM CHARSET=utf8 COLLATE=utf8_general_ci;
 
+INSERT INTO `posts` (`title`, `slug`, `description`, `html`, `css`, `js`, `created`, `author`, `status`) VALUES
+('Hello World', 'hello', 'Hello World.', '<p>My first post.</p>', '', '', '[[now]]', 1, 'published');
+
 DROP TABLE IF EXISTS `users`;
 
 CREATE TABLE `users` (
@@ -70,15 +79,15 @@ CREATE TABLE `users` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM CHARSET=utf8 COLLATE=utf8_general_ci;
 
-INSERT INTO `pages` (`slug`, `name`, `title`, `content`, `status`) VALUES
-('posts', 'Posts', 'My posts and thoughts', '<p>Welcome!</p>', 'published'),
-('about', 'About', 'A little bit about me', '<p>This is a little bit of text about me.</p>', 'published');
-
-INSERT INTO `posts` (`title`, `slug`, `description`, `html`, `css`, `js`, `created`, `author`, `status`) VALUES
-('Hello World', 'hello', 'Hello World.', '<p>My first post.</p>', '', '', '[[now]]', 1, 'published');
-
 INSERT INTO `users` (`username`, `password`, `email`, `real_name`, `bio`, `status`, `role`) VALUES
 ('admin', '[[password]]', '[[email]]', 'Administrator', 'Default account for Anchor.', 'active', 'administrator');
 
-INSERT INTO `meta` (`key`, `value`) VALUES ('posts_page', '1'), ('home_page', '1'), ('twitter', ''), ('date_format', 'jS M, Y');
+DROP TABLE IF EXISTS `sessions`;
 
+CREATE TABLE IF NOT EXISTS `sessions` (
+`id` CHAR( 32 ) NOT NULL ,
+`date` DATETIME NOT NULL ,
+`ip` VARCHAR( 15 ) NOT NULL ,
+`ua` TEXT NOT NULL ,
+`data` TEXT NOT NULL
+) ENGINE = InnoDB CHARSET=utf8 COLLATE=utf8_general_ci;
