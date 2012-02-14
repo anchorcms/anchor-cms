@@ -28,6 +28,14 @@ return array(
 		'key' => ''
 	),
 
+	// Session details
+	'session' => array(
+		'name' => 'anchorcms',
+		'expire' => 86400, // 24 hours
+		'path' => '/',
+		'domain' => ''
+	),
+
 	// Set debugging options.
 	// Used for development only. I'd turn this off the live site.
 	'debug' => false
