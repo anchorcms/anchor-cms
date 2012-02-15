@@ -11,6 +11,10 @@
 		
 		<link rel="alternate" type="application/rss+xml" title="RSS" href="<?php echo rss_url(); ?>">
 
+		<!--[if lt IE 9]>
+			<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+		<![endif]-->
+
 		<script src="//code.jquery.com/jquery-latest.min.js"></script>
 		<script>var base = '<?php echo theme_url(); ?>';</script>
 		<script src="<?php echo theme_url('/js/main.js'); ?>"></script>
