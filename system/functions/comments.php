@@ -80,7 +80,7 @@ function comment_name() {
 
 function comment_text() {
 	if($itm = IoC::resolve('comment')) {
-		return $itm->text;
+		return nl2br($itm->text);
 	}
 	
 	return '';
