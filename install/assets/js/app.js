@@ -61,8 +61,26 @@ $(function() {
 			var content = $('.content');
 			
 			content.animate({'opacity': 0}, function() {
-				var html = '<h2>Thanks for installing!</h2><p>We created an account for you.<br>The username is <b>admin</b>, and the password is <strong>' + data.password + '</strong>.</p>';
-				html += '<p><a href="../" class="button" style="float: none; display: inline-block;">Continue to your site.</a></p>';
+				var btn_text = 'Continue to your site.';
+
+				var html = '<h2>Thanks for installing!</h2>';
+				html += '<p>We created an account for you.<br>The username is <b>admin</b>, and the password is <strong>' + data.password + '</strong>.</p>';
+
+				if(data.warnings.length) {
+					btn_text = 'OK, I understand, Continue to your site.';
+
+					html += '<ul style="padding-bottom: 1em;">';
+
+					for(var i = 0; i < data.warnings.length; i++) {
+						var warn = data.warnings[i];
+						html += '<li>' + warn + '</li>';
+					}
+
+					html += '</ul>';
+				}
+
+				html += '<p><a href="../" class="button" style="float: none; display: inline-block;">' + btn_text + '</a></p>';
+
 				content.html(html).animate({'opacity': 1});
 			});
 		} else {
