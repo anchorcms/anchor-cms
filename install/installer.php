@@ -97,11 +97,14 @@ if(empty($errors)) {
 	// if we have clean urls enabled let setup a 
 	// basic htaccess file is there isnt one
 	if($post['clean_urls']) {
-		$htaccess = file_get_contents('../htaccess.txt');	
-		$htaccess = str_replace('# RewriteBase /', 'RewriteBase /' . $base_url, $htaccess);
+		// dont overwrite existing htaccess file
+		if(file_exists('../.htaccess') === false) {
+			$htaccess = file_get_contents('../htaccess.txt');	
+			$htaccess = str_replace('# RewriteBase /', 'RewriteBase /' . $base_url, $htaccess);
 	
-		if(file_put_contents('../.htaccess', $htaccess) === false) {
-			$errors[] = 'Unable to create .htaccess file. Make to create one to enable clean urls.';
+			if(file_put_contents('../.htaccess', $htaccess) === false) {
+				$errors[] = 'Unable to create .htaccess file. Make to create one to enable clean urls.';
+			}
 		}
 	}
 }
