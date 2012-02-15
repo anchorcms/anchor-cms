@@ -2,11 +2,11 @@
 
 class Input {
 
-	private static function clean($str) {
+	public static function clean($str) {
 		// handle magic quotes for people who cant turn it off
 		if(function_exists('get_magic_quotes_gpc')) {
 			if(get_magic_quotes_gpc()) {
-				return stripslashes($str);
+				return is_array($str) ? array_map(array('Input', 'clean'), $str) : stripslashes($str);
 			}
 		}
 
