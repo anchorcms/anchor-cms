@@ -63,36 +63,45 @@ function is_debug() {
 // benchmarking
 function execution_time() {
 	$miliseconds = microtime(true) - ANCHOR_START;
-	return round($miliseconds, 2);
+	return round($miliseconds, 4);
 }
 
 // return in mb
 function memory_usage() {
-	return memory_get_peak_usage(true) / 1024 / 1024;
+	return memory_get_peak_usage(true) / 1024;
 }
 
 // database profile information
 function db_profile() {
-	$html = '
-	<style>
-	.debug {margin-bottom: 1em;}
-	.debug td, .debug th {padding: 4px 6px; border-bottom: 1px solid #ddd;}
-	.debug tr:last-child td:first-child {text-align: right;}
-	.debug th {font-weight: bold; text-align: center;}
-	</style>';
+	// total query time
+	$total = 0;
+
+	$html = '<style>';
+	$html .= '.debug {font-size: 13px; margin-bottom: 1em;}';
+	$html .= '.debug td, .debug th {padding: 4px 6px; border-bottom: 1px solid #ddd;}';
+	$html .= '.debug th {font-weight: bold; text-align: center;}';
+	$html .= '.debug tfoot td:first-child {text-align: right;}';
+	$html .= '</style>';
 
 	$html .= '<table class="debug">';
-	$html .= '<thead><tr><th>SQL</th><th>Binds</th><th>Rows</th><th>Time</th></th></thead><tbody>';
-	$total = 0;
+	$html .= '<thead><tr><th>SQL</th><th>Bindings</th><th>Rows</th><th>Time</th></th></thead>';
+
+	$html .= '<tbody>';
 
 	foreach(Db::profile() as $row) {
 		$html .= '<tr><td>' . $row['sql'] . '</td><td>' . implode(', ', $row['binds']) . '</td><td>' . $row['rows'] . '</td><td>' . $row['time'] . '</td></tr>';
 		$total += $row['time'];
 	}
 
-	$html .= '<tr><td colspan="2">Total time</td><td>' . round($total, 4) . '</td></tr>';
+	$html .= '</tbody>';
 
-	$html .= '</tbody></table>';
+	$html .= '<tfoot>';
+	$html .= '<tr><td colspan="3"><strong>Query Time</strong></td><td>' . round($total, 4) . '</td></tr>';
+	$html .= '<tr><td colspan="3"><strong>Execution Time</strong></td><td>' . execution_time() . '</td></tr>';
+	$html .= '<tr><td colspan="3"><strong>Memory Usage</strong></td><td>' . memory_usage() . 'Kb</td></tr>';
+	$html .= '</tfoot>';
+
+	$html .= '</table>';
 
 	return $html;
 }

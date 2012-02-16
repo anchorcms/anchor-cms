@@ -1,14 +1,6 @@
         <div class="wrap">
-
-            <?php if(is_debug()): echo db_profile(); endif; ?>
-
             <footer id="bottom">
-                <small>
-                    &copy; <?php echo date('Y'); ?> <?php echo site_name(); ?>. All rights reserved.
-                    <?php if(is_debug()): ?>
-                    <br><em>Anchor took <?php echo execution_time(); ?> Secs to run and used <?php echo memory_usage(); ?>Mib of your memory.</em>
-                    <?php endif; ?>
-                </small>
+                <small>&copy; <?php echo date('Y'); ?> <?php echo site_name(); ?>. All rights reserved.</small>
                     
                 <ul role="navigation">
                     <li><a href="<?php echo rss_url(); ?>">RSS</a></li>
@@ -23,6 +15,8 @@
                 
                 <a id="attribution" title="Powered by Anchor CMS" href="//anchorcms.com">Powered by Anchor CMS</a>
             </footer>
+
+            <?php if(is_debug()): echo db_profile(); endif; ?>
         </div>
     </body>
 </html>
