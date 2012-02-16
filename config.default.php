@@ -31,7 +31,7 @@ return array(
 	// Session details
 	'session' => array(
 		'name' => 'anchorcms',
-		'expire' => 86400, // 24 hours
+		'expire' => 3600, // 1 hour
 		'path' => '/',
 		'domain' => ''
 	),
