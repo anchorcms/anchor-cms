@@ -40,6 +40,9 @@ class Autoloader {
 		if(file_exists($path . $file . '.php')) {
 			return $path . $file . '.php';
 		}
+
+		// log missing class
+		Log::error('Can not load class: ' . str_replace(PATH, '', $path . $file . '.php'));
 		
 		return false;
 	}
