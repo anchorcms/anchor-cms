@@ -66,10 +66,8 @@ class Session {
 		$path = Config::get('session.path', '/');
 		$domain = Config::get('session.domain', '');
 
-		// set cookie
-		Cookie::write($name, static::$id, $expire, $path, $domain);
-
-		return Db::update('sessions', array(
+		// update db session
+		Db::update('sessions', array(
 			'date' => date(DATE_ISO8601),
 			'ip' => Input::ip_address(),
 			'ua' => Input::user_agent(),
@@ -77,6 +75,11 @@ class Session {
 		), array(
 			'id' => static::$id
 		));
+
+		// create cookie with ID
+		if(!Cookie::write($name, static::$id, $expire, $path, $domain)) {
+			Log::error('Cound not write session cookie: ' . static::$id);
+		}
 	}
 	
 	public static function get($key, $default = false) {
