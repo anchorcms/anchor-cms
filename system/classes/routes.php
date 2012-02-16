@@ -84,6 +84,7 @@ class Routes {
 		IoC::instance('search', $search, true);
 		
 		$page = new StdClass;
+		$page->id = -1;
 		$page->title = 'Search';
 		IoC::instance('page', $page, true);
 		Template::render('search');
