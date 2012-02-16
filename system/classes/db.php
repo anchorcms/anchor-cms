@@ -69,8 +69,17 @@ class Db {
 		// prepare
 		$sth = static::$dbh->prepare($sql);
 
+		// bind params
+		$reflector = new ReflectionMethod('PDOStatement', 'bindValue');
+
+		foreach($binds as $index => $value) {
+			$key = is_int($index) ? $index + 1 : $index;
+			$type = is_bool($value) ? PDO::PARAM_BOOL : (is_int($value) ? PDO::PARAM_INT : PDO::PARAM_STR);
+			$reflector->invokeArgs($sth, array($key, $value, $type));
+		}
+
 		// get results
-		$sth->execute($binds);
+		$sth->execute();
 
 		// profile in debug mode
 		if(static::$debug) {
@@ -106,8 +115,17 @@ class Db {
 		// prepare
 		$sth = static::$dbh->prepare($sql);
 
+		// bind params
+		$reflector = new ReflectionMethod('PDOStatement', 'bindValue');
+
+		foreach($binds as $index => $value) {
+			$key = is_int($index) ? $index + 1 : $index;
+			$type = is_bool($value) ? PDO::PARAM_BOOL : (is_int($value) ? PDO::PARAM_INT : PDO::PARAM_STR);
+			$reflector->invokeArgs($sth, array($key, $value, $type));
+		}
+
 		// get results
-		$result = $sth->execute($binds);
+		$result = $sth->execute();
 
 		// profile in debug mode
 		if(static::$debug) {
