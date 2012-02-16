@@ -1,4 +1,7 @@
         <div class="wrap">
+
+            <?php if(is_debug()): echo db_profile(); endif; ?>
+
             <footer id="bottom">
                 <small>
                     &copy; <?php echo date('Y'); ?> <?php echo site_name(); ?>. All rights reserved.

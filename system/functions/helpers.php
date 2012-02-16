@@ -70,3 +70,29 @@ function execution_time() {
 function memory_usage() {
 	return memory_get_peak_usage(true) / 1024 / 1024;
 }
+
+// database profile information
+function db_profile() {
+	$html = '
+	<style>
+	.debug {margin-bottom: 1em;}
+	.debug td, .debug th {padding: 4px 6px; border-bottom: 1px solid #ddd;}
+	.debug tr:last-child td:first-child {text-align: right;}
+	.debug th {font-weight: bold; text-align: center;}
+	</style>';
+
+	$html .= '<table class="debug">';
+	$html .= '<thead><tr><th>SQL</th><th>Binds</th><th>Rows</th><th>Time</th></th></thead><tbody>';
+	$total = 0;
+
+	foreach(Db::profile() as $row) {
+		$html .= '<tr><td>' . $row['sql'] . '</td><td>' . implode(', ', $row['binds']) . '</td><td>' . $row['rows'] . '</td><td>' . $row['time'] . '</td></tr>';
+		$total += $row['time'];
+	}
+
+	$html .= '<tr><td colspan="2">Total time</td><td>' . round($total, 4) . '</td></tr>';
+
+	$html .= '</tbody></table>';
+
+	return $html;
+}

@@ -7,11 +7,16 @@ class Db {
 	private static $driver_options = array();
 
 	private static $dbh = null;
+	private static $debug = false;
 	private static $affected_rows = 0;
+	private static $profile = array();
 
 	public static function connect() {
 		// config
 		$params = Config::get('database');
+
+		// set debug mode
+		static::$debug = Config::get('debug', false);
 		
 		// build dns string
 		$dsn = 'mysql:dbname=' . $params['name'] . ';host=' . $params['host'];
@@ -20,13 +25,26 @@ class Db {
 		static::$dbh = new PDO($dsn, $params['username'], $params['password']);
 		
 		// set error handling to exceptions
-		static::$dbh->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+		static::$dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 		return true;
 	}
 
 	public static function close() {
 		static::$dbh = null;
+	}
+
+	private static function profiling($statement, $binds, $start) {
+		static::$profile[] = array(
+			'sql' => $statement->queryString,
+			'binds' => $binds,
+			'time' => round(microtime(true) - $start, 4),
+			'rows' => $statement->rowCount()
+		);
+	}
+
+	public static function profile() {
+		return static::$profile;
 	}
 
 	/*
@@ -43,11 +61,21 @@ class Db {
 			$binds = array($binds);
 		}
 
+		// profile in debug mode
+		if(static::$debug) {
+			$start = microtime(true);
+		}
+
 		// prepare
 		$sth = static::$dbh->prepare($sql);
 
 		// get results
 		$sth->execute($binds);
+
+		// profile in debug mode
+		if(static::$debug) {
+			static::profiling($sth, $binds, $start);
+		}
 
 		// update affected rows
 		static::$affected_rows = $sth->rowCount();
@@ -70,11 +98,21 @@ class Db {
 			$binds = array($binds);
 		}
 
+		// profile in debug mode
+		if(static::$debug) {
+			$start = microtime(true);
+		}
+
 		// prepare
 		$sth = static::$dbh->prepare($sql);
 
 		// get results
 		$result = $sth->execute($binds);
+
+		// profile in debug mode
+		if(static::$debug) {
+			static::profiling($sth, $binds, $start);
+		}
 
 		// update affected rows
 		static::$affected_rows = $sth->rowCount();
