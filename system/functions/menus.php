@@ -4,7 +4,11 @@
 	Theme functions for menus
 */
 function has_menu_items() {
-	return Pages::count(array('status' => 'published'));
+	if(($total = IoC::resolve('total_menu_items')) === false) {
+		$total = Pages::count(array('status' => 'published'));
+		IoC::instance('total_menu_items', $total, true);
+	}
+	return $total;
 }
 
 function menu_items($params = array()) {
