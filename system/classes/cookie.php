@@ -16,8 +16,10 @@ class Cookie {
 	
 	public static function write($name, $data, $expire, $path, $domain) {
 		if(headers_sent() === false) {
-			setcookie($name, $data, $expire, $path, $domain, false);
+			return setcookie($name, $data, $expire, $path, $domain, false);
 		}
+
+		return false;
 	}
 
 }
