@@ -1,7 +1,7 @@
 
 ## Migrating to the latest version of Anchor
 
-1.	**Backup you database and files!**
+1.	**Backup your database and files!**
 
 	Here is an example for backup up on most servers via ssh using mysql dump:
 
