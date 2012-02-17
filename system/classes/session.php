@@ -23,10 +23,13 @@ class Session {
 	}
 
 	private static function gc() {
-		$sql = 'delete from sessions where date < ?';
-		$expire = time() - Config::get('session.expire', 86400);
+		// dont run gc on every request
+		if(mt_rand(1, 100) <= 10) {
+			$sql = 'delete from sessions where date < ?';
+			$expire = time() - Config::get('session.expire', 86400);
 
-		Db::query($sql, array(date(DATE_ISO8601, $expire)));
+			Db::query($sql, array(date(DATE_ISO8601, $expire)));
+		}
 	}
 
 	public static function start() {
