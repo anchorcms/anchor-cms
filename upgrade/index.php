@@ -19,17 +19,9 @@
     	} else {
 			// note: on win the only way to really test is to try and write a new file to disk.
 			if(@file_put_contents('../test.php', '<?php //test') === false) {
-				$errors[] = 'It looks like the root directory is not writable, we may not be able to automatically create a backup file. 
-					Please make the root directory writable until the upgrade is complete.';
+				$errors[] = 'It looks like the root directory is not writable, Please make the root directory writable until the upgrade is complete.';
 			} else {
 				unlink('../test.php');
-			}
-
-			// check version
-			$index = file_get_contents('../index.php');
-
-			if(strpos($index, "0.5") === false) {
-				$errors[] = 'This upgrade is for 0.4 -> 0.5 only';
 			}
     	}
     	
@@ -57,7 +49,7 @@
             <h2>Upgrading Anchor.</h2>
 
 			<p>Thank you for downloading the latest version of Anchor. 
-			To get you up and running we need to make a few database changes to bring you up to date.</p>
+			To get you up and running we need to make a few changes to bring you up to date.</p>
 
             <form action="run.php" method="post">
                 <button type="submit">Start migration</button>
