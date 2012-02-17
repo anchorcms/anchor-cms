@@ -3,7 +3,7 @@
 /*
 	0.4 --> 0.5
 */
-$migration = new Migration;
+$migration = new Migrations;
 
 if(Schema::has('users', 'email') === false) {
 	$sql = "alter table `users` add `email` varchar( 140 ) not null after `password`";
@@ -12,6 +12,11 @@ if(Schema::has('users', 'email') === false) {
 
 if(Schema::has('posts', 'comments') === false) {
 	$sql = "alter table `posts` add `comments` tinyint( 1 ) not null";
+	$migration->query($sql);
+}
+
+if(Schema::has('posts', 'custom_fields') === false) {
+	$sql = "alter table `posts` add `custom_fields` text not null after `js`";
 	$migration->query($sql);
 }
 
@@ -34,24 +39,28 @@ $sql = "update `meta` set `value` = 'posts_page' where `value` = 'show_posts'";
 $migration->query($sql);
 
 // make posts_page the home page
-$sql = "insert into `meta` (`key`, `value`) values ('home_page', '" . Config::get('metadata.show_posts') . "')";
-$migration->query($sql);
+if(Schema::has('meta', 'key', 'home_page') === false) {
+	$posts_page = Db::query("select `value` from meta where `key` = 'show_posts'")->fetchColumn();
 
-// add current version
-$sql = "insert into `meta` (`key`, `value`) values ('version', '0.5')";
-$migration->query($sql);
+	$sql = "insert into `meta` (`key`, `value`) values ('home_page', '" . $posts_page . "')";
+	$migration->query($sql);
+}
 
 // [BUGFIX] make sure the password field is big enough
-$sql = "alter table `users` change `password` `password` varchar( 140 ) character set utf8 COLLATE utf8_general_ci not null";
+$sql = "alter table `users` change `password` `password` text character set utf8 COLLATE utf8_general_ci not null";
 $migration->query($sql);
 
 // apply changes
 $migration->apply();
 
+// update config
+Config::set('application.admin_folder', 'admin');
+Config::set('application.key', random(32));
+
 /*
 	0.5 --> 0.6
 */
-$migration = new Migration;
+$migration = new Migrations;
 
 $sql = "create table if not exists `sessions` (
 	`id` char( 32 ) not null ,
@@ -62,17 +71,21 @@ $sql = "create table if not exists `sessions` (
 ) engine=innodb charset=utf8 collate=utf8_general_ci;";
 $migration->query($sql);
 
-$sq = "create table if not exists `tags` (
-	`post` int( 6 ) not null ,
-	`tag` varchar( 140 ) not null ,
-	key `post` (`post`),
-	key `tag` (`tag`)
-) engine=myisam charset=utf8 collate=utf8_general_ci;";
-$migration->query($sql);
-
 // comments auto published option
-$sql = "insert into `meta` (`key`, `value`) values ('auto_published_comments', '0')";
-$migration->query($sql);
+if(Schema::has('meta', 'key', 'auto_published_comments') === false) {
+	$sql = "insert into `meta` (`key`, `value`) values ('auto_published_comments', '0')";
+	$migration->query($sql);
+}
 
 // apply changes
 $migration->apply();
+
+// update config
+Config::set('session.name', 'anchorcms');
+Config::set('session.expire', 3600);
+Config::set('session.path', '/');
+Config::set('session.domain', '');
+
+Config::set('error.ignore', array(E_NOTICE, E_USER_NOTICE, E_DEPRECATED, E_USER_DEPRECATED));
+Config::set('error.detail', true);
+Config::set('error.log', false);
