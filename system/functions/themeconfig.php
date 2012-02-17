@@ -3,7 +3,10 @@
 /*
   Functions for theme configuration
 */
-function set_theme_options(array $options) {
+function set_theme_options($options, $value = null) {
+
+  if( !is_array($options) )
+    $options = array($options => $value);
   
   foreach( $options as $option => $value )
     ThemeConfig::set($option, $value);
