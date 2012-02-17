@@ -34,4 +34,13 @@ class Items implements Iterator {
 		return count($this->items);
 	}
 
+	public function first() {
+		return isset($this->items[0]) ? $this->items[0] : false;
+	}
+
+	public function last() {
+		$index = count($this->items) - 1;
+		return isset($this->items[$index]) ? $this->items[$index] : false;
+	}
+
 }
