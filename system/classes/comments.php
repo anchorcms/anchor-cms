@@ -86,7 +86,7 @@ class Comments {
 		}
 		
 		$post['date'] = time();
-		$post['status'] = 'pending';
+		$post['status'] = Config::get('metadata.auto_published_comments', 0) ? 'published' : 'pending';
 		$post['post'] = $post_id;
 
 		// encode any html

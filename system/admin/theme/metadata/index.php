@@ -50,20 +50,25 @@
 			</p>
 			
 			<p>
-			    <label>Current theme:</label>
-    			<select id="theme" name="theme">
-    				<?php foreach(glob(PATH . 'themes/*') as $theme): ?>
-    				<?php $theme = basename($theme); ?>
-    				<?php $selected = (Input::post('theme', $metadata->theme) == $theme) ? ' selected' : ''; ?>
-    				<option value="<?php echo $theme; ?>"<?php echo $selected; ?>>
-    					<?php echo ucwords($theme); ?>
-    				</option>
-    				<?php endforeach; ?>
-    			</select>
-    			
-    			<em>Your current theme.</em>
+				<label>Current theme:</label>
+				<select id="theme" name="theme">
+					<?php foreach(glob(PATH . 'themes/*') as $theme): ?>
+					<?php $theme = basename($theme); ?>
+					<?php $selected = (Input::post('theme', $metadata->theme) == $theme) ? ' selected' : ''; ?>
+					<option value="<?php echo $theme; ?>"<?php echo $selected; ?>>
+						<?php echo ucwords($theme); ?>
+					</option>
+					<?php endforeach; ?>
+				</select>
+
+				<em>Your current theme.</em>
 			</p>
-			
+
+			<p>
+				<label>Auto publish comments:</label>
+				<input name="auto_published_comments" type="checkbox" value="1"<?php if(Input::post('auto_published_comments', $metadata->auto_published_comments)) echo ' checked'; ?>>
+			</p>
+
 			<p>
 				<label for="twitter">Twitter:</label>
 				<input id="twitter" name="twitter" value="<?php echo Input::post('twitter', $metadata->twitter); ?>">
