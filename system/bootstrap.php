@@ -4,7 +4,7 @@
 	Set the error reporting level.
 	Turn off error reporting for production setups
 */
-error_reporting(0);
+error_reporting(-1);
 
 /*
 	Helper for setting php settings
@@ -24,9 +24,9 @@ function ini_safe_set($key, $value) {
 }
 
 /*
-	Hide errors that are not caught
+	Show errors until we have booted and can detect users config
 */
-ini_safe_set('display_errors', false);
+ini_safe_set('display_errors', true);
 
 /*
 	Check our environment
@@ -50,22 +50,28 @@ if(function_exists('get_magic_quotes_gpc')) {
 	}
 }
 
-/*
-	Include files we are going 
-	to need for every request.
-*/
+// get our autoloader
 require PATH . 'system/classes/autoload.php';
-require PATH . 'system/classes/config.php';
-require PATH . 'system/classes/error.php';
-require PATH . 'system/classes/session.php';
-require PATH . 'system/classes/anchor.php';
-require PATH . 'system/classes/template.php';
-require PATH . 'system/classes/request.php';
-require PATH . 'system/classes/response.php';
-require PATH . 'system/classes/log.php';
-require PATH . 'system/classes/db.php';
-require PATH . 'system/classes/ioc.php';
-require PATH . 'system/classes/url.php';
+
+// directly map classes for super fast loading
+Autoloader::map(array(
+	'Config' => PATH . 'system/classes/config.php',
+	'Error' => PATH . 'system/classes/error.php',
+	'Session' => PATH . 'system/classes/session.php',
+	'Anchor' => PATH . 'system/classes/anchor.php',
+	'Template' => PATH . 'system/classes/template.php',
+	'Request' => PATH . 'system/classes/request.php',
+	'Response' => PATH . 'system/classes/response.php',
+	'Log' => PATH . 'system/classes/log.php',
+	'Db' => PATH . 'system/classes/db.php',
+	'IoC' => PATH . 'system/classes/ioc.php',
+	'Url' => PATH . 'system/classes/url.php'
+));
+
+// tell the autoloader where to find classes
+Autoloader::directory(array(
+	PATH . 'system/classes/'
+));
 
 // register the auto loader
 Autoloader::register();
@@ -80,15 +86,14 @@ if(Config::load() === false) {
 }
 
 /*
-	Debug options
-	Running with debug enabled should report all errors
+	Hide all errors in production mode
 */
-if(Config::get('debug')) {
+if(!Config::get('debug')) {
 	// report all errors
-	error_reporting(E_ALL);
+	error_reporting(0);
 	
 	// show all error uncaught
-	ini_safe_set('display_errors', true);
+	ini_safe_set('display_errors', false);
 }
 
 // Register the default timezone for the application.
