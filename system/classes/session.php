@@ -52,6 +52,9 @@ class Session {
 		if($session = Db::row($sql, $args)) {
 			static::$data = unserialize($session->data);
 		} else {
+			// reset ID
+			static::$id = static::generate();
+			
 			Db::insert('sessions', array(
 				'id' => static::$id,
 				'date' => date(DATE_ISO8601),
