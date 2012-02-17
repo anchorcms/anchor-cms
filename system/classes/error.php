@@ -14,7 +14,7 @@ class Error {
 		// PHP for converting native errors to Exceptions.
 		$exception = new ErrorException($error, $code, 0, $file, $line);
 
-		if(in_array($code, Config::get('error.ignore'))) {
+		if(in_array($code, Config::get('error.ignore', array()))) {
 			return static::log($exception);
 		}
 
@@ -33,12 +33,12 @@ class Error {
 
 	public static function exception($e) {
 		// log exception
-		static::log($exception);
+		static::log($e);
 
 		// Display error
-		if (Config::get('error.detail')) {
+		if(Config::get('error.detail', true)) {
 			// Get the error severity.
-			$severity = (array_key_exists($e->getCode(), static::$levels)) ? static::$levels[$e->getCode()] : $e->getCode();
+			$severity = $e->getCode();
 
 			// Get the error file.
 			$file = $e->getFile();
@@ -84,9 +84,9 @@ class Error {
 		return array();
 	}
 
-	public static function log($exception) {
-		if (Config::get('error.log')) {
-			call_user_func(Config::get('error.logger'), $exception);
+	public static function log($e) {
+		if(Config::get('error.log')) {
+			Log::exception($e);
 		}
 	}
 
