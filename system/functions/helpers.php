@@ -77,13 +77,13 @@ function db_profile() {
 	$total = 0;
 
 	$html = '<style>';
-	$html .= '.debug {font-size: 13px; margin-bottom: 1em;}';
+	$html .= '.debug {display: none;font-size: 13px; margin-bottom: 1em;}';
 	$html .= '.debug td, .debug th {padding: 4px 6px; border-bottom: 1px solid #ddd;}';
 	$html .= '.debug th {font-weight: bold; text-align: center;}';
 	$html .= '.debug tfoot td:first-child {text-align: right;}';
 	$html .= '</style>';
 
-	$html .= '<table class="debug">';
+	$html .= '<table id="debug_table" class="debug">';
 	$html .= '<thead><tr><th>SQL</th><th>Bindings</th><th>Rows</th><th>Time</th></th></thead>';
 
 	$html .= '<tbody>';

@@ -83,3 +83,45 @@ function error_check() {
     // do something useful with it
     return count($errors) ? $errors : false;
 }
+
+/**
+	Benchmarking
+*/
+function execution_time() {
+	$miliseconds = microtime(true) - ANCHOR_START;
+	return round($miliseconds, 4);
+}
+
+// return in mb
+function memory_usage() {
+	return memory_get_peak_usage(true) / 1024;
+}
+
+// database profile information
+function db_profile() {
+	// total query time
+	$total = 0;
+
+	$html = '';
+	$html .= '<table id="debug_table" class="debug">';
+	$html .= '<thead><tr><th>SQL</th><th>Bindings</th><th>Rows</th><th>Time</th></th></thead>';
+
+	$html .= '<tbody>';
+
+	foreach(Db::profile() as $row) {
+		$html .= '<tr><td>' . $row['sql'] . '</td><td>' . implode(', ', $row['binds']) . '</td><td>' . $row['rows'] . '</td><td>' . $row['time'] . '</td></tr>';
+		$total += $row['time'];
+	}
+
+	$html .= '</tbody>';
+
+	$html .= '<tfoot>';
+	$html .= '<tr><td colspan="3"><strong>Query Time</strong></td><td>' . round($total, 4) . '</td></tr>';
+	$html .= '<tr><td colspan="3"><strong>Execution Time</strong></td><td>' . execution_time() . '</td></tr>';
+	$html .= '<tr><td colspan="3"><strong>Memory Usage</strong></td><td>' . memory_usage() . 'Kb</td></tr>';
+	$html .= '</tfoot>';
+
+	$html .= '</table>';
+
+	return $html;
+}
