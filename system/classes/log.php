@@ -3,8 +3,9 @@
 class Log {
 
 	public static function write($severity, $message) {
-		// skip logging for production mode
-		if(!Config::get('debug')) return;
+		if(Config::get('error.log') === false) {
+			return;
+		}
 
 		$line = '[' . $severity . '] --> ' . $message . PHP_EOL;
 
@@ -15,7 +16,15 @@ class Log {
 	}
 
 	public static function __callStatic($severity, $parameters) {
-		static::write($severity, current($parameters));
+		static::write($severity, $parameters[0]);
+	}
+
+	public static function exception($e) {
+		static::write('error', static::format($e));
+	}
+
+	private static function format($e) {
+		return $e->getMessage().' in '.$e->getFile().' on line '.$e->getLine();
 	}
 
 }

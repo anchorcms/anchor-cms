@@ -2,55 +2,50 @@
 
 class Error {
 
-	public static $levels = array(
-		0 => 'Error',
-		E_ERROR => 'Error',
-		E_WARNING => 'Warning',
-		E_PARSE => 'Parsing Error',
-		E_NOTICE => 'Notice',
-		E_CORE_ERROR => 'Core Error',
-		E_CORE_WARNING => 'Core Warning',
-		E_COMPILE_ERROR => 'Compile Error',
-		E_COMPILE_WARNING => 'Compile Warning',
-		E_USER_ERROR => 'User Error',
-		E_USER_WARNING => 'User Warning',
-		E_USER_NOTICE => 'User Notice',
-		E_STRICT => 'Runtime Notice'
-	);
-
 	public static function native($code, $error, $file, $line) {
-		if(($code & error_reporting()) === $code) {
-			static::exception(new \ErrorException($error, $code, 0, $file, $line));
+		// no error reporting nothing to do
+		if(error_reporting() === 0) {
+			return;
 		}
+
+		// For a PHP error, we'll create an ErrorExcepetion and then feed that
+		// exception to the exception method, which will create a simple view
+		// of the exception details. The ErrorException class is built-in to
+		// PHP for converting native errors to Exceptions.
+		$exception = new ErrorException($error, $code, 0, $file, $line);
+
+		if(in_array($code, Config::get('error.ignore'))) {
+			return static::log($exception);
+		}
+
+		static::exception($exception);
 	}
 	
 	public static function shutdown() {
 		// If a fatal error occured that we have not handled yet, we will
 		// create an ErrorException and feed it to the exception handler,
 		// as it will not have been handled by the error handler.
-		if(($error = error_get_last()) !== null) {
+		if (!is_null($error = error_get_last())) {
 			extract($error, EXTR_SKIP);
-			static::exception(new \ErrorException($message, $type, 0, $file, $line));
+			static::exception(new ErrorException($message, $type, 0, $file, $line));
 		}
 	}
 
 	public static function exception($e) {
-		// Clean the output buffer.
-		if(ob_get_level() > 0) {
-			ob_clean();
-		}
+		// log exception
+		static::log($exception);
 
-		// Get the error severity.
-		$severity = (array_key_exists($e->getCode(), static::$levels)) ? static::$levels[$e->getCode()] : $e->getCode();
+		// Display error
+		if (Config::get('error.detail')) {
+			// Get the error severity.
+			$severity = (array_key_exists($e->getCode(), static::$levels)) ? static::$levels[$e->getCode()] : $e->getCode();
 
-		// Get the error file.
-		$file = $e->getFile();
+			// Get the error file.
+			$file = $e->getFile();
 
-		// Trim the period off of the error message.
-		$message = rtrim($e->getMessage(), '.');
+			// Trim the period off of the error message.
+			$message = rtrim($e->getMessage(), '.');
 
-		// Log the error.
-		if(Config::get('debug')) {
 			$line = $e->getLine();
 			$trace = $e->getTraceAsString();
 			$contexts = static::context($file, $e->getLine());
@@ -88,4 +83,11 @@ class Error {
 
 		return array();
 	}
+
+	public static function log($exception) {
+		if (Config::get('error.log')) {
+			call_user_func(Config::get('error.logger'), $exception);
+		}
+	}
+
 }
