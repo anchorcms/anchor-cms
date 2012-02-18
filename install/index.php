@@ -100,7 +100,7 @@
                     
                     <p>
                         <label for="host">Your database host:</label>
-                        <input id="host" name="host" placeholder="localhost">
+                        <input id="host" name="host" value="localhost">
                     </p>
                     <p>
                         <label for="user">Your database username:</label>
