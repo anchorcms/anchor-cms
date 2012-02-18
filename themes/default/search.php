@@ -14,6 +14,9 @@
 			</li>
 			<?php endwhile; ?>
         </ul>
+
+        <p><?php echo search_prev(); ?> <?php echo search_next(); ?></p>
+
     <?php else: ?>
         <p>Unfortunately, there's no results for &ldquo;<?php echo search_term(); ?>&rdquo;. Did you spell everything correctly?</p>
     <?php endif; ?>

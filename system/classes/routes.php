@@ -80,8 +80,17 @@ class Routes {
 			}
 		}
 		
-		$search = Posts::search($term, array('status' => 'published'));
+		$search = Posts::search($term, array(
+			'status' => 'published', 
+			'limit' => Config::get('metadata.posts_per_page', 10),
+			'offset' => Input::get('offset', 0)
+		));
 		IoC::instance('search', $search, true);
+
+		$total = Posts::search_count($term, array(
+			'status' => 'published'
+		));
+		IoC::instance('total_search', $total, true);
 		
 		$page = new StdClass;
 		$page->id = -1;

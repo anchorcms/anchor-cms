@@ -150,6 +150,14 @@ class Posts {
 			$args['status'] = $params['status'];
 		}
 
+		if(isset($params['limit'])) {
+			$sql .= " limit " . $params['limit'];
+			
+			if(isset($params['offset'])) {
+				$sql .= " offset " . $params['offset'];
+			}
+		}
+
 		$results = Db::results($sql, $args);
 		
 		// extend result set with post url
@@ -157,6 +165,22 @@ class Posts {
 
 		// return items obj
 		return new Items($results);
+	}
+
+	public static function search_count($term, $params = array()) {
+		$sql = "
+			select count(*) from posts 
+			where (posts.title like :term or posts.description like :term or posts.html like :term)
+		";
+		$args = array('term' => '%' . $term . '%');
+
+		if(isset($params['status'])) {
+			$sql .= " and posts.status = :status";
+			$args['status'] = $params['status'];
+		}
+
+		// return total
+		return Db::query($sql, $args)->fetchColumn();
 	}
 	
 	public static function delete($id) {
