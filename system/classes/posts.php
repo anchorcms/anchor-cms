@@ -232,13 +232,19 @@ class Posts {
 			$errors[] = 'Please enter your html';
 		}
 		
+		if(empty($post['slug'])) {
+			$post['slug'] = preg_replace('/\W+/', '-', trim(strtolower($post['title'])));
+		}
+
+		// check for duplicate slug
+		$sql = "select id from posts where slug = ? and id <> ?";
+		if(Db::row($sql, array($post['slug'], $id))) {
+			$errors[] = 'A post with the same slug already exists, please change your post slug.';
+		}
+
 		if(count($errors)) {
 			Notifications::set('error', $errors);
 			return false;
-		}
-		
-		if(empty($post['slug'])) {
-			$post['slug'] = preg_replace('/\W+/', '-', trim(strtolower($post['title'])));
 		}
 
 		$custom = array();
@@ -280,13 +286,19 @@ class Posts {
 			$errors[] = 'Please enter your html';
 		}
 		
+		if(empty($post['slug'])) {
+			$post['slug'] = preg_replace('/\W+/', '-', trim(strtolower($post['title'])));
+		}
+
+		// check for duplicate slug
+		$sql = "select id from posts where slug = ?";
+		if(Db::row($sql, array($post['slug']))) {
+			$errors[] = 'A post with the same slug already exists, please change your post slug.';
+		}
+
 		if(count($errors)) {
 			Notifications::set('error', $errors);
 			return false;
-		}
-		
-		if(empty($post['slug'])) {
-			$post['slug'] = preg_replace('/\W+/', '-', trim(strtolower($post['title'])));
 		}
 
 		$custom = array();
