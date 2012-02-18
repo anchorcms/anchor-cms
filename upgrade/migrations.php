@@ -77,6 +77,12 @@ if(Schema::has('meta', 'key', 'auto_published_comments') === false) {
 	$migration->query($sql);
 }
 
+// pagination
+if(Schema::has('meta', 'key', 'posts_per_page') === false) {
+	$sql = "insert into `meta` (`key`, `value`) values ('posts_per_page', '10')";
+	$migration->query($sql);
+}
+
 // apply changes
 $migration->apply();
 

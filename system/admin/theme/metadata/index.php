@@ -47,6 +47,13 @@
     			
     			<em>Your page that will show your posts.</em>
 			</p>
+
+			<p>
+				<label for="posts_per_page">Posts per page:</label>
+				<input id="posts_per_page" name="posts_per_page" value="<?php echo Input::post('posts_per_page', $metadata->posts_per_page); ?>">
+				
+				<em>The number of posts to display per page.</em>
+			</p>
 			
 			<p>
 				<label>Current theme:</label>
