@@ -17,6 +17,9 @@ class Metadata {
 		if(empty($post['theme'])) {
 			$errors[] = 'You need a theme';
 		}
+
+		// auto publish comments
+		$post['auto_published_comments'] = $post['auto_published_comments'] ? 1 : 0;
 		
 		if(count($errors)) {
 			Notifications::set('error', $errors);
