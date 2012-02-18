@@ -12,8 +12,7 @@
     			
     			<em>Your site&rsquo;s name.</em>
     		</p>
-			
-			
+
 			<p>
 			    <label for="description">Site description:</label>
 			    <textarea id="description" name="description"><?php echo Input::post('description', $metadata->description); ?></textarea>
@@ -52,11 +51,10 @@
 			<p>
 				<label>Current theme:</label>
 				<select id="theme" name="theme">
-					<?php foreach(glob(PATH . 'themes/*') as $theme): ?>
-					<?php $theme = basename($theme); ?>
+					<?php foreach($themes as $theme => $about): ?>
 					<?php $selected = (Input::post('theme', $metadata->theme) == $theme) ? ' selected' : ''; ?>
 					<option value="<?php echo $theme; ?>"<?php echo $selected; ?>>
-						<?php echo ucwords($theme); ?>
+						<?php echo $about['name']; ?> by <?php echo $about['author']; ?>
 					</option>
 					<?php endforeach; ?>
 				</select>
@@ -65,8 +63,9 @@
 			</p>
 
 			<p>
-				<label>Auto publish comments:</label>
-				<input name="auto_published_comments" type="checkbox" value="1"<?php if(Input::post('auto_published_comments', $metadata->auto_published_comments)) echo ' checked'; ?>>
+				<label for="auto_published_comments">Auto publish comments:</label>
+				<?php $checked = Input::post('auto_published_comments', $metadata->auto_published_comments) ? ' checked' : ''; ?>
+				<input name="auto_published_comments" type="checkbox" value="1"<?php echo $checked; ?>>
 			</p>
 
 			<p>
