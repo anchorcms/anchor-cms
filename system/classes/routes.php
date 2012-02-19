@@ -67,10 +67,16 @@ class Routes {
 	
 	public function rss() {
 		// set headers
-		Rss::headers();
+		Response::header('Content-Type', 'application/xml');
 		
 		// set content
-		Rss::generate();
+		$xml = Rss::generate();
+
+		// unknown bug white space is outputted from any method call in posts.php
+		ob_get_clean();
+
+		// dump xml tree
+		Response::content($xml);
 	}
 	
 	public function search($term = '') {
