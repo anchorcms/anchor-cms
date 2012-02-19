@@ -18,41 +18,42 @@ function count_words($str) {
 }
 
 function pluralise($amount, $str, $alt = '') {
-    return intval($amount) === 1 ? $str : $str . ($alt !== '' ? $alt : 's');
+	return intval($amount) === 1 ? $str : $str . ($alt !== '' ? $alt : 's');
 }
 
 function relative_time($date) {
-    $elapsed = time() - $date;
-    
-    if($elapsed <= 1) {
-        return 'Just now';
-    }
-    
-    $times = array(
-        31104000 => 'year',
-        2592000 => 'month',
-        604800 => 'week',
-        86400 => 'day',
-        3600 => 'hour',
-        60 => 'minute',
-        1 => 'second'
-    );
-    
-    foreach($times as $seconds => $title) {
-        $rounded = $elapsed / $seconds;
-        
-        if($rounded > 1) {
-            $rounded = round($rounded);
-            return $rounded . ' ' . pluralise($rounded, $title) . ' ago';
-        }
-    }
+	$elapsed = time() - $date;
+	
+	if($elapsed <= 1) {
+		return 'Just now';
+	}
+	
+	$times = array(
+		31104000 => 'year',
+		2592000 => 'month',
+		604800 => 'week',
+		86400 => 'day',
+		3600 => 'hour',
+		60 => 'minute',
+		1 => 'second'
+	);
+	
+	foreach($times as $seconds => $title) {
+		$rounded = $elapsed / $seconds;
+		
+		if($rounded > 1) {
+			$rounded = round($rounded);
+			return $rounded . ' ' . pluralise($rounded, $title) . ' ago';
+		}
+	}
 }
 
 
 /**
- *	 Binding custom functions
- *	 This is just an example of what can be done
- */
-bind('about', function() {
-	return 'about page';
-});
+	Binding custom functions
+	This is just an example of what can be done
+
+	bind('about', function() {
+		return 'about page';
+	});
+*/
