@@ -2,8 +2,6 @@
 
 class Comments {
 
-	public static function find() {}
-	
 	public static function list_all($params = array()) {
 		$sql = "select * from comments where 1 = 1";
 		$args = array();
@@ -29,36 +27,6 @@ class Comments {
 			}
 		}
 
-		$result = Db::results($sql, $args);
-		
-		return new Items($result);
-	}
-	
-	public static function list_published($params = array()) {
-		$sql = "select * from comments where status = ?";
-		$args = array('published');
-		
-		if(isset($params['post'])) {
-			$sql .= " and post = ?";
-			$args[] = $params['post'];
-		}
-		
-		if(isset($params['sortby'])) {
-			$sql .= " order by " . $params['sortby'];
-			
-			if(isset($params['sortmode'])) {
-				$sql .= " " . $params['sortmode'];
-			}
-		}
-		
-		if(isset($params['limit'])) {
-			$sql .= " limit " . $params['limit'];
-			
-			if(isset($params['offset'])) {
-				$sql .= " offset " . $params['offset'];
-			}
-		}
-		
 		$result = Db::results($sql, $args);
 		
 		return new Items($result);
