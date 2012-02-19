@@ -9,7 +9,7 @@ function has_posts() {
 			'status' => 'published', 
 			'sortby' => 'id', 
 			'sortmode' => 'desc', 
-			'limit' => Config::get('metadata.posts_per_page'), 
+			'limit' => Config::get('metadata.posts_per_page', 10), 
 			'offset' => Input::get('offset', 0)
 		);
 		$posts = Posts::list_all($params);
