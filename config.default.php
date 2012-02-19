@@ -27,8 +27,22 @@ return array(
 		// your unique application key used for signing passwords
 		'key' => ''
 	),
+	
+	// Session details
+	'session' => array(
+		'name' => 'anchorcms',
+		'expire' => 3600,
+		'path' => '/',
+		'domain' => ''
+	),
 
-	// Set debugging options.
-	// Used for development only. I'd turn this off the live site.
+	// Error handling
+	'error' => array(
+		'ignore' => array(E_NOTICE, E_USER_NOTICE, E_DEPRECATED, E_USER_DEPRECATED),
+		'detail' => false,
+		'log' => false
+	),
+
+	// Show database profile
 	'debug' => false
 );

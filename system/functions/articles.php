@@ -92,6 +92,14 @@ function article_status() {
 	return '';
 }
 
+function article_total_comments() {
+	if($itm = IoC::resolve('article')) {
+		return $itm->total_comments;
+	}
+	
+	return 0;
+}
+
 function article_author() {
 	if($itm = IoC::resolve('article')) {
 		return $itm->author;

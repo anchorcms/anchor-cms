@@ -16,7 +16,14 @@ class Metadata_controller {
     	// provide a list to set for our home page and posts page
     	$pages = Pages::list_all(array('status' => 'published'));
 
-    	Template::render('metadata/index', array('pages' => $pages, 'metadata' => (object) Config::get('metadata')));
+        // list valid themes
+        $themes = Themes::list_all();
+
+    	Template::render('metadata/index', array(
+            'pages' => $pages, 
+            'themes' => $themes,
+            'metadata' => (object) Config::get('metadata')
+        ));
 	}
 	
 }

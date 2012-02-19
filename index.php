@@ -7,6 +7,9 @@
  *    You're all great.
  */
 
+// benchmark
+define('ANCHOR_START', microtime(true));
+
 //  Set the include path
 define('PATH', pathinfo(__FILE__, PATHINFO_DIRNAME) . '/');
 
@@ -14,7 +17,7 @@ define('PATH', pathinfo(__FILE__, PATHINFO_DIRNAME) . '/');
 define('IN_CMS', true);
 
 //  Anchor version
-define('ANCHOR_VERSION', 0.5);
+define('ANCHOR_VERSION', 0.6);
 
 // Lets bootstrap our application and get it ready to run
 require PATH . 'system/bootstrap.php';

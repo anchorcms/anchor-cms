@@ -31,7 +31,7 @@
 		</style>
 	</head>
 	<body>
-		<h1><?php echo $severity; ?></h1>
+		<h1>Unhandled Exception</h1>
 
 		<div class="content">
 			<h3>Message:</h3>

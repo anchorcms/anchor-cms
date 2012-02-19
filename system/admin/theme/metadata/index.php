@@ -12,8 +12,7 @@
     			
     			<em>Your site&rsquo;s name.</em>
     		</p>
-			
-			
+
 			<p>
 			    <label for="description">Site description:</label>
 			    <textarea id="description" name="description"><?php echo Input::post('description', $metadata->description); ?></textarea>
@@ -48,22 +47,34 @@
     			
     			<em>Your page that will show your posts.</em>
 			</p>
-			
+
 			<p>
-			    <label>Current theme:</label>
-    			<select id="theme" name="theme">
-    				<?php foreach(glob(PATH . 'themes/*') as $theme): ?>
-    				<?php $theme = basename($theme); ?>
-    				<?php $selected = (Input::post('theme', $metadata->theme) == $theme) ? ' selected' : ''; ?>
-    				<option value="<?php echo $theme; ?>"<?php echo $selected; ?>>
-    					<?php echo ucwords($theme); ?>
-    				</option>
-    				<?php endforeach; ?>
-    			</select>
-    			
-    			<em>Your current theme.</em>
+				<label for="posts_per_page">Posts per page:</label>
+				<input id="posts_per_page" name="posts_per_page" value="<?php echo Input::post('posts_per_page', $metadata->posts_per_page); ?>">
+				
+				<em>The number of posts to display per page.</em>
 			</p>
 			
+			<p>
+				<label>Current theme:</label>
+				<select id="theme" name="theme">
+					<?php foreach($themes as $theme => $about): ?>
+					<?php $selected = (Input::post('theme', $metadata->theme) == $theme) ? ' selected' : ''; ?>
+					<option value="<?php echo $theme; ?>"<?php echo $selected; ?>>
+						<?php echo $about['name']; ?> by <?php echo $about['author']; ?>
+					</option>
+					<?php endforeach; ?>
+				</select>
+
+				<em>Your current theme.</em>
+			</p>
+
+			<p>
+				<label for="auto_published_comments">Auto publish comments:</label>
+				<?php $checked = Input::post('auto_published_comments', $metadata->auto_published_comments) ? ' checked' : ''; ?>
+				<input name="auto_published_comments" type="checkbox" value="1"<?php echo $checked; ?>>
+			</p>
+
 			<p>
 				<label for="twitter">Twitter:</label>
 				<input id="twitter" name="twitter" value="<?php echo Input::post('twitter', $metadata->twitter); ?>">

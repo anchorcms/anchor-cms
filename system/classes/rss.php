@@ -61,7 +61,7 @@ class Rss {
 				$item->appendChild($title);
 		
 				// link
-				$url = 'http://' . $_SERVER['HTTP_HOST'] . '/' . IoC::resolve('posts_page')->slug . '/' . $post->slug;
+				$url = 'http://' . $_SERVER['HTTP_HOST'] . Url::make(IoC::resolve('posts_page')->slug . '/' . $post->slug);
 				$link = static::element('link', $url);
 				$item->appendChild($link);
 			

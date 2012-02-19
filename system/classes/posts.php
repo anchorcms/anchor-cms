@@ -1,3 +1,4 @@
+
 <?php defined('IN_CMS') or die('No direct access allowed.');
 
 class Posts {
@@ -36,10 +37,18 @@ class Posts {
 				posts.created,
 				posts.custom_fields,
 				coalesce(users.real_name, posts.author) as author,
+				coalesce(comments.total, 0) as total_comments,
 				posts.status
 
 			from posts 
 			left join users on (users.id = posts.author) 
+			left join (
+				select 
+					count(comments.id) as total, comments.post 
+				from comments 
+				where status = 'published' 
+				group by comments.post
+			) as comments on (posts.id = comments.post)
 			where 1 = 1
 		";
 		$args = array();
@@ -57,6 +66,14 @@ class Posts {
 			}
 		}
 		
+		if(isset($params['limit'])) {
+			$sql .= " limit " . $params['limit'];
+			
+			if(isset($params['offset'])) {
+				$sql .= " offset " . $params['offset'];
+			}
+		}
+
 		$results = Db::results($sql, $args);
 		
 		// extend result set with post url
@@ -77,53 +94,6 @@ class Posts {
 
 		// return total
 		return Db::query($sql, $args)->fetchColumn();
-	}
-	
-	public static function list_public($params = array()) {
-		$sql = "
-			select
-
-				posts.id,
-				posts.title,
-				posts.slug,
-				posts.description,
-				posts.html,
-				posts.css,
-				posts.js,
-				posts.created,
-				posts.custom_fields,
-				coalesce(users.real_name, posts.author) as author,
-				posts.status
-
-			from posts 
-			left join users on (users.id = posts.author) 
-			where posts.status = ?
-		";
-		$args = array('published');
-
-		if(isset($params['sortby'])) {
-			$sql .= " order by posts." . $params['sortby'];
-			
-			if(isset($params['sortmode'])) {
-				$sql .= " " . $params['sortmode'];
-			}
-		}
-		
-		if(isset($params['limit'])) {
-			$sql .= " limit " . $params['limit'];
-			
-			if(isset($params['offset'])) {
-				$sql .= " offset " . $params['offset'];
-			}
-		}
-		
-		$results = Db::results($sql, $args);
-		
-		// extend result set with post url
-		$results = static::extend($results);
-
-		// return items obj
-		return new Items($results);
 	}
 	
 	public static function find($where = array()) {
@@ -189,6 +159,14 @@ class Posts {
 			$args['status'] = $params['status'];
 		}
 
+		if(isset($params['limit'])) {
+			$sql .= " limit " . $params['limit'];
+			
+			if(isset($params['offset'])) {
+				$sql .= " offset " . $params['offset'];
+			}
+		}
+
 		$results = Db::results($sql, $args);
 		
 		// extend result set with post url
@@ -196,6 +174,22 @@ class Posts {
 
 		// return items obj
 		return new Items($results);
+	}
+
+	public static function search_count($term, $params = array()) {
+		$sql = "
+			select count(*) from posts 
+			where (posts.title like :term or posts.description like :term or posts.html like :term)
+		";
+		$args = array('term' => '%' . $term . '%');
+
+		if(isset($params['status'])) {
+			$sql .= " and posts.status = :status";
+			$args['status'] = $params['status'];
+		}
+
+		// return total
+		return Db::query($sql, $args)->fetchColumn();
 	}
 	
 	public static function delete($id) {
@@ -232,13 +226,19 @@ class Posts {
 			$errors[] = 'Please enter your html';
 		}
 		
+		if(empty($post['slug'])) {
+			$post['slug'] = preg_replace('/\W+/', '-', trim(strtolower($post['title'])));
+		}
+
+		// check for duplicate slug
+		$sql = "select id from posts where slug = ? and id <> ?";
+		if(Db::row($sql, array($post['slug'], $id))) {
+			$errors[] = 'A post with the same slug already exists, please change your post slug.';
+		}
+
 		if(count($errors)) {
 			Notifications::set('error', $errors);
 			return false;
-		}
-		
-		if(empty($post['slug'])) {
-			$post['slug'] = preg_replace('/\W+/', '-', trim(strtolower($post['title'])));
 		}
 
 		$custom = array();
@@ -280,13 +280,19 @@ class Posts {
 			$errors[] = 'Please enter your html';
 		}
 		
+		if(empty($post['slug'])) {
+			$post['slug'] = preg_replace('/\W+/', '-', trim(strtolower($post['title'])));
+		}
+
+		// check for duplicate slug
+		$sql = "select id from posts where slug = ?";
+		if(Db::row($sql, array($post['slug']))) {
+			$errors[] = 'A post with the same slug already exists, please change your post slug.';
+		}
+
 		if(count($errors)) {
 			Notifications::set('error', $errors);
 			return false;
-		}
-		
-		if(empty($post['slug'])) {
-			$post['slug'] = preg_replace('/\W+/', '-', trim(strtolower($post['title'])));
 		}
 
 		$custom = array();

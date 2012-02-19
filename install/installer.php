@@ -20,6 +20,8 @@ function random($length = 16) {
 
 $fields = array('host', 'user', 'pass', 'db', 'name', 'description', 'theme', 'email', 'path', 'clean_urls');
 $post = array();
+$warnings = array();
+$errors = array();
 
 foreach($fields as $field) {
 	$post[$field] = isset($_POST[$field]) ? $_POST[$field] : false;
@@ -97,11 +99,16 @@ if(empty($errors)) {
 	// if we have clean urls enabled let setup a 
 	// basic htaccess file is there isnt one
 	if($post['clean_urls']) {
-		$htaccess = file_get_contents('../htaccess.txt');	
-		$htaccess = str_replace('# RewriteBase /', 'RewriteBase /' . $base_url, $htaccess);
+		// dont overwrite existing htaccess file
+		if(file_exists('../.htaccess') === false) {
+			$htaccess = file_get_contents('../htaccess.txt');	
+			$htaccess = str_replace('# RewriteBase /', 'RewriteBase /' . $base_url, $htaccess);
 	
-		if(file_put_contents('../.htaccess', $htaccess) === false) {
-			$errors[] = 'Unable to create .htaccess file. Make to create one to enable clean urls.';
+			if(file_put_contents('../.htaccess', $htaccess) === false) {
+				$errors[] = 'Unable to create .htaccess file. Make to create one to enable clean urls.';
+			}
+		} else {
+			$warnings[] = 'It looks like you already have a htaccess file in place, to use clean URLs please copy and paste our sample htaccess.txt file, remember to update the RewriteBase option if you have installed Anchor in a subfolder.';
 		}
 	}
 }
@@ -141,9 +148,11 @@ if(empty($errors)) {
 	//no errors we're all gooood
 	$response['installed'] = true;
 	$response['password'] = $password;
+	$response['warnings'] = $warnings;
 } else {
 	$response['installed'] = false;
 	$response['errors'] = $errors;
+	$response['warnings'] = $warnings;
 }
 
 // output json formatted string

@@ -2,6 +2,9 @@
 
 class Autoloader {
 
+	private static $mappings = array();
+	private static $directories = array();
+
 	public static function register() {
 		spl_autoload_register(array('Autoloader', 'load'));
 	}
@@ -9,8 +12,25 @@ class Autoloader {
 	public static function unregister() {
 		spl_autoload_unregister(array('Autoloader', 'load'));
 	}
+
+	public static function map($map) {
+		static::$mappings = array_merge(static::$mappings, $map);
+	}
+
+	public static function directory($dir) {
+		static::$directories = array_merge(static::$directories, $dir);
+	}
 	
 	public static function load($class) {
+		// does the class have a direct map
+		if(isset(static::$mappings[$class])) {
+			// load class
+			require static::$mappings[$class];
+
+			return true;
+		}
+
+		// search directories
 		$file = str_replace(array('//', '\\'), '/', trim(strtolower($class), '/'));
 
 		// get file path
@@ -25,20 +45,20 @@ class Autoloader {
 	
 	public static function find($file) {
 		// search controllers
-		if(strpos($file, '_controller') !== false) {	
+		if(strpos($file, '_controller') !== false) {
+			$file = rtrim($file, '_controller');
 			$path = PATH . 'system/admin/controllers/';
-			$controller = rtrim($file, '_controller');
-			
-			if(file_exists($path . $controller . '.php')) {
-				return $path . $controller . '.php';
+
+			if(file_exists($path . $file . '.php')) {
+				return $path . $file . '.php';
 			}
 		}
-		
+
 		// search application classes
-		$path = PATH . 'system/classes/';
-		
-		if(file_exists($path . $file . '.php')) {
-			return $path . $file . '.php';
+		foreach(static::$directories as $path) {
+			if(file_exists($path . $file . '.php')) {
+				return $path . $file . '.php';
+			}
 		}
 		
 		return false;

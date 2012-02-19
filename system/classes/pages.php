@@ -16,7 +16,15 @@ class Pages {
 		if(is_object($page)) {
 			$uri = Request::uri();
 			$page->url = Url::make($page->slug);
-			$page->active = (strlen($uri) ? strpos($uri, $page->slug) !== false : $page->slug === 'posts');
+
+			$page->active = false;
+			
+			if($current = IoC::resolve('page')) {
+				if($current->id == $page->id) {
+					$page->active = true;
+				}
+			}
+
 			return $page;
 		}
 		
@@ -43,7 +51,7 @@ class Pages {
 		// extend data set
 		$pages = static::extend(Db::results($sql, $args));
 
-		// return items obj
+		// create iterable object
 		return new Items($pages);
 	}
 
@@ -56,7 +64,7 @@ class Pages {
 			$args[] = $params['status'];
 		}
 
-		// return total
+		// get total
 		return Db::query($sql, $args)->fetchColumn();
 	}
 
@@ -73,6 +81,7 @@ class Pages {
 			$sql .= " where " . implode(' and ', $clause);
 		}
 
+		// extend page object
 		return static::extend(Db::row($sql, $args));
 	}
 	
