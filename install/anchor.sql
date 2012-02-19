@@ -22,7 +22,7 @@ CREATE TABLE `meta` (
 	PRIMARY KEY (`key`)
 ) ENGINE=MyISAM CHARSET=utf8 COLLATE=utf8_general_ci;
 
-INSERT INTO `meta` (`key`, `value`) VALUES ('posts_page', '1'), ('home_page', '1'), ('twitter', ''), ('date_format', 'jS M, Y');
+INSERT INTO `meta` (`key`, `value`) VALUES ('posts_page', '1'), ('home_page', '1'), ('twitter', ''), ('date_format', 'jS M, Y'), ('auto_published_comments', '0'), ('posts_per_page', '10');
 
 DROP TABLE IF EXISTS `pages`;
 
