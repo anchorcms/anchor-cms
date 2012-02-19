@@ -19,6 +19,14 @@ function page_url() {
 	return '';
 }
 
+function page_slug() {
+	if($itm = IoC::resolve('page')) {
+		return $itm->slug;
+	}
+	
+	return '';
+}
+
 function page_name() {
 	if($itm = IoC::resolve('page')) {
 		return $itm->name;
