@@ -49,12 +49,11 @@ class Posts {
 				where status = 'published' 
 				group by comments.post
 			) as comments on (posts.id = comments.post)
-			where 1 = 1
 		";
 		$args = array();
 		
 		if(isset($params['status'])) {
-			$sql .= " and posts.status = ?";
+			$sql .= " where posts.status = ?";
 			$args[] = $params['status'];
 		}
 		
