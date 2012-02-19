@@ -2,12 +2,16 @@
 	RewriteEngine On
 	# RewriteBase /
 
+	# Allow urls to be the same as folders but not file
+	RewriteCond %{REQUEST_URI} !(themes|system).*\.[a-zA-Z0-9]+
+	RewriteRule ^(.*)$ index.php?/$1 [L]
+
 	# Allow any files or directories that exist to be displayed directly
 	RewriteCond %{REQUEST_FILENAME} !-f
 	RewriteCond %{REQUEST_FILENAME} !-d
 
 	# Rewrite all other URLs to index.php/URL
-	RewriteRule ^(.*)$ index.php?/$1
+	RewriteRule ^(.*)$ index.php?/$1 [L]
 </IfModule>
 
 <IfModule !mod_rewrite.c> 
