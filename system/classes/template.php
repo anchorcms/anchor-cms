@@ -29,6 +29,11 @@ class Template {
 	public static function render($template, $data = array()) {
 		// get default theme
 		$theme = Config::get('metadata.theme');
+
+    /*
+      Load Theme Config
+    */
+    ThemeConfig::load();
 		
 		// load global theming functions but not for the admin template
 		if(strpos(static::$path, 'system/admin/theme') === false) {
@@ -41,6 +46,7 @@ class Template {
 			require PATH . 'system/functions/posts.php';
 			require PATH . 'system/functions/search.php';
 			require PATH . 'system/functions/users.php';
+			require PATH . 'system/functions/themeconfig.php';
 		}
 		
 		// load theme functions
