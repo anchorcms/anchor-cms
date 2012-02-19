@@ -125,6 +125,11 @@ function comment_form_button($text = 'Post Comment', $extra = '') {
 	return '<button class="btn" type="submit" ' . $extra . '>' . $text . '</button>';
 }
 
+function number_of_comments($pst_id){
+	$items = Comments::list_published(array('post' => $pst_id));
+	return $items->length();
+}
+
 
 
 
