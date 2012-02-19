@@ -4,6 +4,16 @@
 	Theme functions for comments
 */
 
+function include_comments() {
+    $url = PATH . 'themes/' . Config::get('metadata.theme') . '/includes/comment_form.php';
+    
+    if(file_exists($url)) {
+        require $url;
+    } else {
+        require PATH . 'system/includes/comment_form.php';
+    }
+}
+
 function has_comments() {
 	if(($itm = IoC::resolve('article')) === false) {
 		return false;
@@ -80,7 +90,7 @@ function comment_name() {
 
 function comment_text() {
 	if($itm = IoC::resolve('comment')) {
-		return nl2br($itm->text);
+		return $itm->text;
 	}
 	
 	return '';
@@ -115,25 +125,7 @@ function comment_form_button($text = 'Post Comment', $extra = '') {
 	return '<button class="btn" type="submit" ' . $extra . '>' . $text . '</button>';
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+function number_of_comments($pst_id){
+	$items = Comments::list_published(array('post' => $pst_id));
+	return $items->length();
+}
