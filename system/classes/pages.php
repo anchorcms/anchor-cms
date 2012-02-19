@@ -32,11 +32,11 @@ class Pages {
 	}
 
 	public static function list_all($params = array()) {
-		$sql = "select * from pages where 1 = 1";
+		$sql = "select * from pages";
 		$args = array();
 		
 		if(isset($params['status'])) {
-			$sql .= " and status = ?";
+			$sql .= " where status = ?";
 			$args[] = $params['status'];
 		}
 		
@@ -56,11 +56,11 @@ class Pages {
 	}
 
 	public static function count($params = array()) {
-		$sql = "select count(*) from pages where 1 = 1";
+		$sql = "select count(*) from pages";
 		$args = array();
 
 		if(isset($params['status'])) {
-			$sql .= " and pages.status = ?";
+			$sql .= " where pages.status = ?";
 			$args[] = $params['status'];
 		}
 
