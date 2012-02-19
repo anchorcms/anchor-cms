@@ -1,3 +1,4 @@
+
 <?php defined('IN_CMS') or die('No direct access allowed.');
 
 class Posts {
@@ -36,10 +37,18 @@ class Posts {
 				posts.created,
 				posts.custom_fields,
 				coalesce(users.real_name, posts.author) as author,
+				coalesce(comments.total, 0) as total_comments,
 				posts.status
 
 			from posts 
 			left join users on (users.id = posts.author) 
+			left join (
+				select 
+					count(comments.id) as total, comments.post 
+				from comments 
+				where status = 'published' 
+				group by comments.post
+			) as comments on (posts.id = comments.post)
 			where 1 = 1
 		";
 		$args = array();
