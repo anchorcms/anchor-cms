@@ -8,10 +8,6 @@ class Error {
 			return;
 		}
 
-		// For a PHP error, we'll create an ErrorExcepetion and then feed that
-		// exception to the exception method, which will create a simple view
-		// of the exception details. The ErrorException class is built-in to
-		// PHP for converting native errors to Exceptions.
 		$exception = new ErrorException($error, $code, 0, $file, $line);
 
 		if(in_array($code, Config::get('error.ignore', array()))) {
@@ -22,24 +18,23 @@ class Error {
 	}
 	
 	public static function shutdown() {
-		// If a fatal error occured that we have not handled yet, we will
-		// create an ErrorException and feed it to the exception handler,
-		// as it will not have been handled by the error handler.
-		if (!is_null($error = error_get_last())) {
+		if(!is_null($error = error_get_last())) {
 			extract($error, EXTR_SKIP);
 			static::exception(new ErrorException($message, $type, 0, $file, $line));
 		}
 	}
 
 	public static function exception($e) {
+		// Clean the output buffer.
+		if(ob_get_level() > 0) {
+			ob_clean();
+		}
+
 		// log exception
 		static::log($e);
 
 		// Display error
 		if(Config::get('error.detail', true)) {
-			// Get the error severity.
-			$severity = $e->getCode();
-
 			// Get the error file.
 			$file = $e->getFile();
 
