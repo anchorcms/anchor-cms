@@ -1,7 +1,7 @@
 <?php defined('IN_CMS') or die('No direct access allowed.');
 
 /*
-	Helper for setting php settings
+	Compatibility helpers for various hosts
 */
 function ini_safe_set($key, $value) {
 	// some hosts disable ini_set for security 
@@ -15,4 +15,16 @@ function ini_safe_set($key, $value) {
 
 	// lets set it because we can!
 	return ini_set($key, $value);
+}
+
+function file_safe_exists($path) {
+	// When open_basedir restriction are in effect
+	// check the file is in the same path.
+	if(ini_get('open_basedir')) {
+		if(strpos($path, PATH) !== 0) {
+			return false;
+		}
+	}
+
+	return file_exists($path);
 }
