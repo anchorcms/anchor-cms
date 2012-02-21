@@ -1,4 +1,5 @@
-<h1>Users <a href="<?php echo admin_url('users/add'); ?>">Create a new user</a></h1>
+<h1><?php echo __('users.users', 'Users'); ?> 
+<a href="<?php echo admin_url('users/add'); ?>"><?php echo __('users.create_user', 'Create a new user'); ?></a></h1>
 
 <?php echo Notifications::read(); ?>
 
@@ -10,7 +11,7 @@
 	            <strong><?php echo $user->real_name; ?></strong>
 	            <span>Username: <?php echo $user->username; ?></span>
 	            
-	            <i class="role"><?php echo ucwords($user->role); ?></i>
+	            <i class="role"><?php echo __('users.' . $user->role); ?></i>
 	        </a>
 	    </li>
 	    <?php endforeach; ?>

@@ -31,17 +31,18 @@
 		var text = $$('[data-text=' + id + ']').get('html');
 		var status = $$('[data-status=' + id + ']').get('html');
 
-		var html = '<fieldset><legend>Edit Comment</legend><em>Update the comment text here.</em>';
+		var html = '<fieldset><legend>' + Lang.get('edit_comment') + '</legend><em>' + Lang.get('edit_comment_explain') + '</em>';
 		html +='<p><label>Text</label><textarea name="comment_text">' + text + '</textarea></p>';
 		html +='<p><label>Status</label><select name="comment_status">';
 
-			html += '<option value="published"' + (status == 'published' ? ' selected' : '') + '>Published</option>';
-			html += '<option value="pending"' + (status == 'pending' ? ' selected' : '') + '>Pending</option>';
-			html += '<option value="spam"' + (status == 'spam' ? ' selected' : '') + '>Spam</option>';
+			html += '<option value="published"' + (status == 'published' ? ' selected' : '') + '>' + Lang.get('published') + '</option>';
+			html += '<option value="pending"' + (status == 'pending' ? ' selected' : '') + '>' + Lang.get('pending') + '</option>';
+			html += '<option value="spam"' + (status == 'spam' ? ' selected' : '') + '>' + Lang.get('spam') + '</option>';
 
 		html += '</select></p>';
 		html += '</fieldset>';
-		html +='<p class="buttons"><button name="update" type="button">Update</button> <a href="#close">Close</a></p>';
+		html +='<p class="buttons"><button name="update" type="button">' + Lang.get('update') + '</button> ';
+		html +='<a href="#close">' + Lang.get('close') + '</a></p>';
 		
 		var content = new Element('div', {
 			'class': 'popup_wrapper',
@@ -88,7 +89,7 @@
 			'onSuccess': function() {
 				li.setStyle('opacity', 1);
 				comment_text_output.set('html', text);
-				comment_status_output.set('html', status);
+				comment_status_output.set('html', Lang.get(status));
 
 				// get publish button if it exists
 				var btn = li.getElement('a[href$=#publish]');
@@ -103,7 +104,7 @@
 						var ul = li.getElement('ul');
 						btn = new Element('li');
 						btn.grab(new Element('a', {
-							'html': 'Publish',
+							'html': Lang.get('publish'),
 							'href': '#publish',
 							'events': {
 								'click': publish

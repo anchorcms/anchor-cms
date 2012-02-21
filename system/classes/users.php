@@ -59,11 +59,11 @@ class Users {
 		$post = array_map('trim', $post);
 		
 		if(empty($post['user'])) {
-			$errors[] = 'Please enter your username';
+			$errors[] = Lang::line('users.missing_login_username', 'Please enter your username');
 		}
 		
 		if(empty($post['pass'])) {
-			$errors[] = 'Please enter your password';
+			$errors[] = Lang::line('users.missing_login_password', 'Please enter your password');
 		}
 
 		if(empty($errors)) {
@@ -98,10 +98,10 @@ class Users {
 		$errors = array();
 
 		if(filter_var($post['email'], FILTER_VALIDATE_EMAIL) === false) {
-			$errors[] = 'Please enter a valid email address';
+			$errors[] = Lang::line('users.invalid_email', 'Please enter a valid email address');
 		} else {
 			if(($user = static::find(array('email' => $post['email']))) === false) {
-				$errors[] = 'Account not found';
+				$errors[] = Lang::line('users.invalid_account', 'Account not found');
 			}
 		}
 		
@@ -115,13 +115,13 @@ class Users {
 			'path' => Url::make('admin/users/reset/' . $hash)
 		));
 		
-		$subject = '[' . Config::get('metadata.sitename') . '] Password Reset';
-		$plain = 'You have requested to reset your password. To continue follow the link below. ' . $link;
+		$subject = '[' . Config::get('metadata.sitename') . '] ' . Lang::line('users.user_subject_recover', 'Password Reset');
+		$plain = Lang::line('users.user_email_recover', 'You have requested to reset your password. To continue follow the link below.') . $link;
 		$headers = array('From' => 'no-reply@' . Input::server('http_host'));
 		
 		Email::send($user->email, $subject, $plain, $headers);
 		
-		Notifications::set('notice', 'We have sent you an email to confirm your password change.');
+		Notifications::set('notice', Lang::line('users.user_notice_recover', 'We have sent you an email to confirm your password change.'));
 		
 		return true;
 	}
@@ -131,7 +131,7 @@ class Users {
 		$errors = array();
 
 		if(empty($post['password'])) {
-			$errors[] = 'Please enter a password';
+			$errors[] = Lang::line('users.missing_password', 'Please enter a password');
 		}
 		
 		if(count($errors)) {
@@ -144,7 +144,7 @@ class Users {
 		$sql = "update users set `password` = ? where id = ?";
 		Db::query($sql, array($password, $id));
 		
-		Notifications::set('success', 'Your new password has been set');
+		Notifications::set('success', Lang::line('users.user_success_password', 'Your new password has been set'));
 		
 		return true;
 	}
@@ -152,7 +152,7 @@ class Users {
 	public static function delete($id) {
 		Db::delete('users', array('id' => $id));
 		
-		Notifications::set('success', 'User has been deleted');
+		Notifications::set('success', Lang::line('users.user_success_deleted', 'User has been deleted'));
 		
 		return true;
 	}
@@ -170,19 +170,19 @@ class Users {
 		}
 		
 		if(empty($post['username'])) {
-			$errors[] = 'Please enter a username';
+			$errors[] = Lang::line('users.missing_username', 'Please enter a username');
 		} else {
 			if(($user = static::find(array('username' => $post['username']))) and $user->id != $id) {
-				$errors[] = 'Username is already being used';
+				$errors[] = Lang::line('users.username_exists', 'Username is already being used');
 			}
 		}
 
 		if(filter_var($post['email'], FILTER_VALIDATE_EMAIL) === false) {
-			$errors[] = 'Please enter a valid email address';
+			$errors[] = Lang::line('users.invalid_email', 'Please enter a valid email address');
 		}
 
 		if(empty($post['real_name'])) {
-			$errors[] = 'Please enter a display name';
+			$errors[] = Lang::line('users.missing_name', 'Please enter a display name');
 		}
 		
 		if(strlen($post['password'])) {
@@ -209,7 +209,7 @@ class Users {
 			Session::set('user', static::find(array('id' => $id)));
 		}
 		
-		Notifications::set('success', 'User has been updated');
+		Notifications::set('success', Lang::line('users.user_success_updated', 'User has been updated'));
 		
 		return true;
 	}
@@ -219,23 +219,23 @@ class Users {
 		$errors = array();
 		
 		if(empty($post['username'])) {
-			$errors[] = 'Please enter a username';
+			$errors[] = Lang::line('users.missing_username', 'Please enter a username');
 		} else {
 			if(static::find(array('username' => $post['username']))) {
-				$errors[] = 'Username is already being used';
+				$errors[] = Lang::line('users.username_exists', 'Username is already being used');
 			}
 		}
 		
 		if(empty($post['password'])) {
-			$errors[] = 'Please enter a password';
+			$errors[] = Lang::line('users.missing_password', 'Please enter a password');
 		}
 
 		if(filter_var($post['email'], FILTER_VALIDATE_EMAIL) === false) {
-			$errors[] = 'Please enter a valid email address';
+			$errors[] = Lang::line('users.invalid_email', 'Please enter a valid email address');
 		}
 
 		if(empty($post['real_name'])) {
-			$errors[] = 'Please enter a display name';
+			$errors[] = Lang::line('users.missing_name', 'Please enter a display name');
 		}
 		
 		if(count($errors)) {
@@ -252,7 +252,7 @@ class Users {
 		// add record
 		Db::insert('users', $post);
 		
-		Notifications::set('success', 'A new user has been added');
+		Notifications::set('success', Lang::line('users.user_success_created', 'A new user has been added'));
 		
 		return true;
 	}
