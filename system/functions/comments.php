@@ -78,6 +78,14 @@ function comment_name() {
 	return '';
 }
 
+function comment_email() {
+	if($itm = IoC::resolve('comment')) {
+		return $itm->email;
+	}
+	
+	return '';
+}
+
 function comment_text() {
 	if($itm = IoC::resolve('comment')) {
 		return $itm->text;
