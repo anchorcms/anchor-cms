@@ -34,11 +34,11 @@ class Config {
 			if(is_array($value)) {
 				$php .= 'array(' . PHP_EOL;
 				foreach($value as $k => $v) {
-					$php .= "\t\t'" . $k . "' => " . static::format($v) . "," .PHP_EOL;
+					$php .= "\t\t'" . $k . "' => " . static::export($v) . "," .PHP_EOL;
 				}
 				$php .= "\t)," . PHP_EOL;
 			} else {
-				$php .= static::format($value) . ',' .PHP_EOL;
+				$php .= static::export($value) . ',' .PHP_EOL;
 			}
 		}
 
@@ -47,13 +47,16 @@ class Config {
 		return file_put_contents(PATH . 'config.php', $php);
 	}
 
-	public static function format($value) {
+	public static function export($value) {
+		// export value
 		if(is_int($value)) {
 			return $value;
 		}
+
 		if(is_bool($value)) {
 			return $value ? 'true' : 'false';
 		}
+
 		if(is_array($value)) {
 			$var = array_map(function($itm) {
 				return Config::format($itm);
@@ -61,6 +64,7 @@ class Config {
 
 			return "array("  . implode(",", $var) . ")";
 		}
+		
 		return "'" . (string) $value . "'";
 	}
 	
@@ -91,19 +95,29 @@ class Config {
 	*/
 	public static function get($key = null, $default = false) {
 		// return all items
-		if(is_null($key)) return static::$items;
+		if(is_null($key)) {
+			return static::$items;
+		}
+
+		// return cached
+		if(isset(static::$cache[$key])) {
+			return static::$cache[$key];
+		}
 
 		// copy array for search
 		$array = static::$items;
 
 		// search array
 		foreach(explode('.', $key) as $segment) {
-			if (!is_array($array) or array_key_exists($segment, $array) === false) {
+			if(!is_array($array) or array_key_exists($segment, $array) === false) {
 				return $default;
 			}
 
 			$array = $array[$segment];
 		}
+
+		// cache it for faster lookups
+		static::$cache[$key] = $array;
 
 		return $array;
 	}

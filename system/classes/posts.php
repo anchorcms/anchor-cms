@@ -15,12 +15,32 @@ class Posts {
 		}
 	
 		if(is_object($post)) {
+			// build full url
 			$page = IoC::resolve('posts_page');
 			$post->url = Url::make($page->slug . '/' . $post->slug);
+
+			// process pseudo tags
+			$post->html = static::parse($post->html);
+
 			return $post;
 		}
 		
 		return false;
+	}
+
+	public static function parse($str) {
+		// process pseudo tags
+		if(preg_match_all('/\{\{([a-z]+)\}\}/i', $str, $matches)) {
+			list($search, $replace) = $matches;
+
+			foreach($replace as $index => $key) {
+				$replace[$index] = Config::get('metadata.' . $key);
+			}
+
+			$str = str_replace($search, $replace, $str);
+		}
+
+		return $str;
 	}
 	
 	public static function list_all($params = array()) {
