@@ -6,6 +6,11 @@ class Comments {
 		$sql = "select * from comments where 1 = 1";
 		$args = array();
 		
+		if(isset($params['status'])) {
+			$sql .= " and status = ?";
+			$args[] = $params['status'];
+		}
+
 		if(isset($params['post'])) {
 			$sql .= " and post = ?";
 			$args[] = $params['post'];
@@ -52,7 +57,7 @@ class Comments {
 			Notifications::set('error', $errors);
 			return false;
 		}
-		
+
 		$post['date'] = time();
 		$post['status'] = Config::get('metadata.auto_published_comments', 0) ? 'published' : 'pending';
 		$post['post'] = $post_id;
@@ -60,19 +65,7 @@ class Comments {
 		// encode any html
 		$post['text'] = Html::encode($post['text']);
 
-		$keys = array();
-		$values = array();
-		$args = array();
-		
-		foreach($post as $key => $value) {
-			$keys[] = '`' . $key . '`';
-			$values[] = '?';
-			$args[] = $value;
-		}
-		
-		$sql = "insert into comments (" . implode(', ', $keys) . ") values (" . implode(', ', $values) . ")";	
-		
-		Db::query($sql, $args);
+		Db::insert('comments', $post);
 		
 		Notifications::set('success', 'Your comment has been sent');
 		
@@ -95,19 +88,8 @@ class Comments {
 		
 		$id = $post['id'];
 		unset($post['id']);
-		
-		$updates = array();
-		$args = array();
 
-		foreach($post as $key => $value) {
-			$updates[] = '`' . $key . '` = ?';
-			$args[] = $value;
-		}
-		
-		$sql = "update comments set " . implode(', ', $updates) . " where id = ?";
-		$args[] = $id;		
-		
-		Db::query($sql, $args);
+		Db::update('comments', $post, array('id' => $id));
 
 		$output = json_encode(array('result' => true));
 		Response::content($output);
@@ -130,18 +112,7 @@ class Comments {
 		$id = $post['id'];
 		unset($post['id']);
 		
-		$updates = array();
-		$args = array();
-
-		foreach($post as $key => $value) {
-			$updates[] = '`' . $key . '` = ?';
-			$args[] = $value;
-		}
-		
-		$sql = "update comments set " . implode(', ', $updates) . " where id = ?";
-		$args[] = $id;		
-		
-		Db::query($sql, $args);
+		Db::update('comments', $post, array('id' => $id));
 
 		$output = json_encode(array('result' => true));
 		Response::content($output);
@@ -150,10 +121,7 @@ class Comments {
 	public static function remove() {
 		$id = Input::post('id');
 
-		$sql = "delete from comments where id = ?";
-		$args = array($id);
-		
-		Db::query($sql, $args);
+		Db::delete('comments', array('id' => $id));
 
 		$output = json_encode(array('result' => true));
 		Response::content($output);
