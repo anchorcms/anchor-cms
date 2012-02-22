@@ -29,11 +29,6 @@ class Template {
 	public static function render($template, $data = array()) {
 		// get default theme
 		$theme = Config::get('metadata.theme');
-
-    /*
-      Load Theme Config
-    */
-    ThemeConfig::load();
 		
 		// load global theming functions but not for the admin template
 		if(strpos(static::$path, 'system/admin/theme') === false) {
