@@ -29,11 +29,6 @@ class Template {
 	public static function render($template, $data = array()) {
 		// get default theme
 		$theme = Config::get('metadata.theme');
-
-    /*
-      Load Theme Config
-    */
-    ThemeConfig::load();
 		
 		// load global theming functions but not for the admin template
 		if(strpos(static::$path, 'system/admin/theme') === false) {
@@ -46,12 +41,17 @@ class Template {
 			require PATH . 'system/functions/posts.php';
 			require PATH . 'system/functions/search.php';
 			require PATH . 'system/functions/users.php';
-			require PATH . 'system/functions/themeconfig.php';
+			require PATH . 'system/functions/config.php';
 		}
 		
 		// load theme functions
 		if(file_exists(static::$path . 'functions.php')) {
 			require static::$path . 'functions.php';
+		}
+
+		// load theme config
+		if(file_exists(static::$path . 'config.php')) {
+			Config::set('theme', require static::$path . 'config.php');
 		}
 
 		// render files
