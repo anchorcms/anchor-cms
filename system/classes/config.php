@@ -59,7 +59,7 @@ class Config {
 
 		if(is_array($value)) {
 			$var = array_map(function($itm) {
-				return Config::format($itm);
+				return Config::export($itm);
 			}, $value);
 
 			return "array("  . implode(",", $var) . ")";
