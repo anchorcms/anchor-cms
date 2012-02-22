@@ -72,9 +72,6 @@ class Routes {
 		// set content
 		$xml = Rss::generate();
 
-		// unknown bug white space is outputted from any method call in posts.php
-		ob_get_clean();
-
 		// dump xml tree
 		Response::content($xml);
 	}
