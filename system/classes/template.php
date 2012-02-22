@@ -49,11 +49,6 @@ class Template {
 			require static::$path . 'functions.php';
 		}
 
-		// load theme config
-		if(file_exists(static::$path . 'config.php')) {
-			Config::set('theme', require static::$path . 'config.php');
-		}
-
 		// render files
 		foreach(array('includes/header', $template, 'includes/footer') as $file) {
 			$filepath = static::$path . $file . '.php';
