@@ -18,6 +18,8 @@ return array(
 	'slug_explain' => 'The slug for your post (<code>' . $_SERVER['HTTP_HOST'] . '/<span id="output">slug</span></code>).',
 	'content' => 'Content',
 	'content_explain' => 'Your page\'s content. Accepts valid HTML.',
+	'redirect_option' => 'This page triggers a redirect to another url',
+	'redirect_url' => 'Redirect Url',
 	'status' => 'Status',
 	'status_explain' => 'Do you want your page to be live (published), pending (draft), or hidden (archived)?',
 

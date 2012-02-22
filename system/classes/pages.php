@@ -94,7 +94,7 @@ class Pages {
 	}
 	
 	public static function update($id) {
-		$post = Input::post(array('slug', 'name', 'title', 'content', 'status', 'delete'));
+		$post = Input::post(array('slug', 'name', 'title', 'content', 'redirect', 'status', 'delete'));
 		$errors = array();
 
 		// delete
@@ -142,7 +142,7 @@ class Pages {
 	}
 	
 	public static function add() {
-		$post = Input::post(array('slug', 'name', 'title', 'content', 'status'));
+		$post = Input::post(array('slug', 'name', 'title', 'content', 'redirect', 'status'));
 		$errors = array();
 		
 		if(empty($post['name'])) {

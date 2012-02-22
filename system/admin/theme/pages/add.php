@@ -34,6 +34,17 @@
 				
 				<em><?php echo __('pages.content_explain', 'Your page\'s content. Accepts valid HTML.'); ?></em>
 			</p>
+
+			<p>
+				<label for="redirect"><?php echo __('pages.redirect_option', 'This page triggers a redirect to another url'); ?>:</label>
+				<?php $checked = Input::post('redirect_url') ? ' checked' : ''; ?>
+				<input id="redirect" type="checkbox"<?php echo $checked; ?>>
+			</p>
+
+			<p>
+				<label for="redirect_url"><?php echo __('pages.redirect_url', 'Redirect Url'); ?></label>
+				<input id="redirect_url" name="redirect" value="<?php echo Input::post('redirect_url'); ?>">
+			</p>
 			
 			<p>
 				<label><?php echo __('pages.status', 'Status'); ?>:</label>
@@ -64,8 +75,34 @@
 
 <script src="//ajax.googleapis.com/ajax/libs/mootools/1.4.1/mootools-yui-compressed.js"></script>
 <script>window.MooTools || document.write('<script src="<?php echo theme_url('assets/js/mootools.js'); ?>"><\/script>');</script>
-
 <script src="<?php echo theme_url('assets/js/helpers.js'); ?>"></script>
+
+<script>
+	(function() {
+		var checkbox = $('redirect'), 
+			redirect = $('redirect_url').getParent(),
+			content = $('content').getParent();
+
+		var set = function() {
+			var display = checkbox.get('checked') ? 'block' : 'none';
+			redirect.setStyle('display', display);
+
+			display = checkbox.get('checked') ? 'none' : 'block';
+			content.setStyle('display', display);
+
+			if(!checkbox.get('checked')) {
+				$('redirect_url').set('value', '');
+			}
+
+			return false;
+		};
+
+		// bind to input
+		checkbox.addEvent('change', set);
+
+		set();
+	}());
+</script>
 
 <script>
 	(function() {
