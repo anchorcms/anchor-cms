@@ -25,7 +25,10 @@ return array(
 		'admin_folder' => 'admin',
 
 		// your unique application key used for signing passwords
-		'key' => ''
+		'key' => '',
+
+		// Default application language
+		'language' => 'en'
 	),
 	
 	// Session details

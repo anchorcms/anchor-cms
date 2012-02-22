@@ -25,13 +25,13 @@ class Events {
 	}
 
 	public static function call($name = '') {
-		$page = basename(Request::uri());
+		$page = IoC::resolve('page');
 
 		if(empty($name)) {
 			$name = 'main';
 		}
 
-		if($func = isset(static::$stack[$page][$name]) ? static::$stack[$page][$name] : false) {
+		if($func = isset(static::$stack[$page->slug][$name]) ? static::$stack[$page->slug][$name] : false) {
 			return is_callable($func) ? $func() : '';
 		}
 

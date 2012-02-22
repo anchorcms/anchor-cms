@@ -84,7 +84,7 @@ class Session {
 
 		// create cookie with ID
 		if(!Cookie::write($name, static::$id, $expire, $path, $domain)) {
-			Log::error('Cound not write session cookie: ' . static::$id);
+			Log::error('Could not write session cookie: ' . static::$id);
 		}
 	}
 	

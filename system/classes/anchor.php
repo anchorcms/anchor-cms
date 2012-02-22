@@ -94,11 +94,6 @@ class Anchor {
 		// lets log our initial uri
 		Log::info('Requested URI: ' . $uri);
 
-		// if htaccess is not enabled and the file exists ignore the request
-		if(file_exists($uri)) {
-			return '';
-		}
-
 		// route definitions
 		$routes = array();
 		

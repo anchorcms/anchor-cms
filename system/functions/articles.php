@@ -46,7 +46,7 @@ function article_description() {
 
 function article_html() {
 	if($itm = IoC::resolve('article')) {
-		return $itm->html;
+		return Posts::parse($itm->html);
 	}
 	
 	return '';

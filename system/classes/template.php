@@ -41,7 +41,7 @@ class Template {
 			require PATH . 'system/functions/posts.php';
 			require PATH . 'system/functions/search.php';
 			require PATH . 'system/functions/users.php';
-			require PATH . 'system/functions/themeconfig.php';
+			require PATH . 'system/functions/config.php';
 		}
 		
 		// load theme functions

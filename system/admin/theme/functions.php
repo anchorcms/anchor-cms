@@ -8,10 +8,10 @@ function admin_menu() {
     $prefix = Config::get('application.admin_folder');
 
 	$pages = array(
-		'Posts' => $prefix . '/posts',
-		'Pages' => $prefix . '/pages',
-		'Users' => $prefix . '/users',
-		'Metadata' => $prefix . '/metadata'
+		'posts' => $prefix . '/posts',
+		'pages' => $prefix . '/pages',
+		'users' => $prefix . '/users',
+		'metadata' => $prefix . '/metadata'
 	);
 
 	return $pages;
@@ -124,4 +124,11 @@ function db_profile() {
 	$html .= '</table>';
 
 	return $html;
+}
+
+/**
+	Lang helper
+*/
+function __($line, $default = 'No language replacement found: ') {
+	return Lang::line($line, $default. $line);
 }

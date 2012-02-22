@@ -10,13 +10,13 @@
 // benchmark
 define('ANCHOR_START', microtime(true));
 
-//  Set the include path
+// Define application paths
 define('PATH', pathinfo(__FILE__, PATHINFO_DIRNAME) . '/');
 
-//  Block direct access to any PHP files
+// Block direct access to any PHP files
 define('IN_CMS', true);
 
-//  Anchor version
+// Anchor version
 define('ANCHOR_VERSION', 0.6);
 
 // Lets bootstrap our application and get it ready to run

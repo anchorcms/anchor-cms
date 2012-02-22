@@ -15,12 +15,29 @@ class Posts {
 		}
 	
 		if(is_object($post)) {
+			// build full url
 			$page = IoC::resolve('posts_page');
 			$post->url = Url::make($page->slug . '/' . $post->slug);
+
 			return $post;
 		}
 		
 		return false;
+	}
+
+	public static function parse($str) {
+		// process pseudo tags
+		if(preg_match_all('/\{\{([a-z]+)\}\}/i', $str, $matches)) {
+			list($search, $replace) = $matches;
+
+			foreach($replace as $index => $key) {
+				$replace[$index] = Config::get('metadata.' . $key);
+			}
+
+			$str = str_replace($search, $replace, $str);
+		}
+
+		return $str;
 	}
 	
 	public static function list_all($params = array()) {
@@ -195,7 +212,7 @@ class Posts {
 		Db::delete('posts', array('id' => $id));
 		Db::delete('comments', array('post' => $id));
 		
-		Notifications::set('success', 'Your post has been deleted');
+		Notifications::set('success', Lang::line('posts.post_success_deleted', 'Your post has been deleted'));
 		
 		return true;
 	}
@@ -214,15 +231,15 @@ class Posts {
 		}
 		
 		if(empty($post['title'])) {
-			$errors[] = 'Please enter a title';
+			$errors[] = Lang::line('posts.missing_title', 'Please enter a title');
 		}
 		
 		if(empty($post['description'])) {
-			$errors[] = 'Please enter a description';
+			$errors[] = Lang::line('posts.missing_description', 'Please enter a description');
 		}
 		
 		if(empty($post['html'])) {
-			$errors[] = 'Please enter your html';
+			$errors[] = Lang::line('posts.missing_html', 'Please enter your html');
 		}
 		
 		if(empty($post['slug'])) {
@@ -232,7 +249,7 @@ class Posts {
 		// check for duplicate slug
 		$sql = "select id from posts where slug = ? and id <> ?";
 		if(Db::row($sql, array($post['slug'], $id))) {
-			$errors[] = 'A post with the same slug already exists, please change your post slug.';
+			$errors[] = Lang::line('posts.duplicate_slug', 'A post with the same slug already exists, please change your post slug.');
 		}
 
 		if(count($errors)) {
@@ -257,7 +274,7 @@ class Posts {
 		// update row
 		Db::update('posts', $post, array('id' => $id));
 
-		Notifications::set('success', 'Your post has been updated.');
+		Notifications::set('success', Lang::line('posts.post_success_updated', 'Your post has been updated.'));
 		
 		return true;
 	}
@@ -268,15 +285,15 @@ class Posts {
 		$errors = array();
 		
 		if(empty($post['title'])) {
-			$errors[] = 'Please enter a title';
+			$errors[] = Lang::line('posts.missing_title', 'Please enter a title');
 		}
 		
 		if(empty($post['description'])) {
-			$errors[] = 'Please enter a description';
+			$errors[] = Lang::line('posts.missing_description', 'Please enter a description');
 		}
 		
 		if(empty($post['html'])) {
-			$errors[] = 'Please enter your html';
+			$errors[] = Lang::line('posts.missing_html', 'Please enter your html');
 		}
 		
 		if(empty($post['slug'])) {
@@ -286,7 +303,7 @@ class Posts {
 		// check for duplicate slug
 		$sql = "select id from posts where slug = ?";
 		if(Db::row($sql, array($post['slug']))) {
-			$errors[] = 'A post with the same slug already exists, please change your post slug.';
+			$errors[] = Lang::line('posts.duplicate_slug', 'A post with the same slug already exists, please change your post slug.');
 		}
 
 		if(count($errors)) {
@@ -317,7 +334,7 @@ class Posts {
 
 		Db::insert('posts', $post);
 		
-		Notifications::set('success', 'Your new post has been added');
+		Notifications::set('success', Lang::line('posts.post_success_created', 'Your new post has been added'));
 		
 		return true;
 	}
