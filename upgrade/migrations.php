@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
 	0.4 --> 0.5
 */
 $migration = new Migrations;
@@ -57,7 +57,7 @@ $migration->apply();
 Config::set('application.admin_folder', 'admin');
 Config::set('application.key', random(32));
 
-/*
+/**
 	0.5 --> 0.6
 */
 $migration = new Migrations;
@@ -95,3 +95,16 @@ Config::set('session.domain', '');
 Config::set('error.ignore', array(E_NOTICE, E_USER_NOTICE, E_DEPRECATED, E_USER_DEPRECATED));
 Config::set('error.detail', true);
 Config::set('error.log', false);
+
+/**
+	0.6 --> 0.7
+*/
+$migration = new Migrations;
+
+if(Schema::has('pages', 'redirect') === false) {
+	$sql = "alter table `pages` add `redirect` varchar( 150 ) not null";
+	$migration->query($sql);
+}
+
+// apply changes
+$migration->apply();

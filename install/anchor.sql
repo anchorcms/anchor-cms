@@ -33,6 +33,7 @@ CREATE TABLE `pages` (
 	`title` varchar(150) NOT NULL,
 	`content` text NOT NULL,
 	`status` enum('draft','published','archived') NOT NULL,
+	`redirect` varchar(150) NOT NULL,
 	PRIMARY KEY (`id`),
 	KEY `status` (`status`),
 	KEY `slug` (`slug`)
