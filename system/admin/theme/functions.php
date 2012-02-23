@@ -5,7 +5,7 @@
 */
 function admin_menu() {
 
-    $prefix = Config::get('application.admin_folder');
+	$prefix = Config::get('application.admin_folder');
 
 	$pages = array(
 		'posts' => $prefix . '/posts',
@@ -40,7 +40,7 @@ function admin_url($url = '') {
 	String helpers
 */
 function pluralise($amount, $str, $alt = '') {
-    return $amount === 1 ? $str : $str . ($alt !== '' ? $alt : 's');
+	return $amount === 1 ? $str : $str . ($alt !== '' ? $alt : 's');
 }
 
 function truncate($str, $limit = 10, $elipse = ' [...]') {
@@ -54,7 +54,7 @@ function truncate($str, $limit = 10, $elipse = ' [...]') {
 }
 	
 /**
-    Error checking
+	Error checking
 */
 function latest_version() {
 	// check we have curl support
@@ -73,15 +73,20 @@ function latest_version() {
 }
 
 function error_check() {
-    $errors = array();
+	$errors = array();
 
-    //  Check for older versions
-    if(version_compare(ANCHOR_VERSION, ($version = latest_version()), '<')) {
-        $errors[] = 'Your version of Anchor is out of date. Please <a href="http://anchorcms.com">download the latest version</a>.';
-    }
+	//  Check for older versions
+	if(version_compare(ANCHOR_VERSION, ($version = latest_version()), '<')) {
+		$errors[] = 'Your version of Anchor is out of date. Please <a href="http://anchorcms.com">download the latest version</a>.';
+	}
 
-    // do something useful with it
-    return count($errors) ? $errors : false;
+	// Check if the install directory is still present
+	if (file_exists(PATH . 'install')) {
+		$errors[] = 'Please delete the install directory or rename it.';
+	}
+
+	// do something useful with it
+	return count($errors) ? $errors : false;
 }
 
 /**
@@ -130,5 +135,5 @@ function db_profile() {
 	Lang helper
 */
 function __($line, $default = 'No language replacement found: ') {
-	return Lang::line($line, $default. $line);
+	return Lang::line($line, $default . $line);
 }

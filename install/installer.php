@@ -96,6 +96,9 @@ if(empty($errors)) {
 		$errors[] = 'Failed to create config file';
 	}
 	
+	// chmod config file to 0640 to be sure
+	@chmod('../config.php', 0640);
+
 	// if we have clean urls enabled let setup a 
 	// basic htaccess file is there isnt one
 	if($post['clean_urls']) {
