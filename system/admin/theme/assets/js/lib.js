@@ -44,8 +44,6 @@ Object.prototype.each = function(func) {
 Element.prototype.append = function(node) {
 	var position = arguments[1] || 'bottom';
 
-	console.log(position);
-
 	if(position == 'top' && this.hasChildNodes()) {
 		var child = this.childNodes[0];
 		return this.insertBefore(node, child);
