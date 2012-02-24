@@ -1,23 +1,35 @@
+
 (function() {
+	var tabs = $$('.tab'), 
+		a = $$('.tabs a');
+
 	var hide = function() {
-		$$('.tab').setStyles({
-			'display': 'none'
+		tabs.each(function(itm) {
+			itm.css('display', 'none');
 		});
 
-		$$('.tabs a').removeClass('active');
+		a.each(function(itm) {
+			itm.removeClass('active');
+		});
 	};
 
 	var show = function(id) {
-		$$('[data-tab=' + id + ']').setStyles({
-			'display': 'block'
-		});
-
-		$$('a[href$=#' + id + ']').addClass('active');
+		$('div[data-tab=' + id + ']').css('display', 'block');
+		$('a[href$=' + id + ']').addClass('active');
 	};
 
-	var tab = function() {
-		var id = this.get('href').split('#').pop();
+	var has = function(id) {
+		var arr = [];
 
+		tabs.each(function(tab) {
+			arr.push(tab.get('data-tab'));
+		});
+
+		return arr.indexOf(id) != -1;
+	};
+
+	var tab = function(event) {
+		var id = this.get('href').split('#').pop();
 		hide();
 		show(id);
 	};
@@ -26,9 +38,23 @@
 	hide();
 
 	// show first
-	var hash = window.location.hash, first = hash.length ? hash.split('#').pop() : 'post';
-	show(first);
+	var hash = window.location.hash, def = 'post';
+
+	if(hash.length) {
+		var t = hash.split('#').pop();
+
+		if(has(t)) {
+			show(t);
+		} else {
+			show(def);
+		}
+	} else {
+		show(def);
+	}
 
 	// bind to menu
-	$$('.tabs a').addEvent('click', tab);
+	a.each(function(itm) {
+		itm.bind('click', tab);
+	});
+	
 }());

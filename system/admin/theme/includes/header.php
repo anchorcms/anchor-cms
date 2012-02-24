@@ -6,6 +6,11 @@
 
 		<link rel="stylesheet" href="<?php echo theme_url('assets/css/admin.css'); ?>">
 		<link rel="stylesheet" href="<?php echo theme_url('assets/css/popup.css'); ?>">
+
+		<script src="<?php echo theme_url('assets/js/lib.js'); ?>"></script>
+		<script src="<?php echo theme_url('assets/js/helpers.js'); ?>"></script>
+		<script src="<?php echo theme_url('assets/js/popup.js'); ?>"></script>
+		<script src="<?php echo theme_url('assets/js/lang.js'); ?>"></script>
 	</head>
 	<body>
 

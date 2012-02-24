@@ -73,47 +73,34 @@
 
 </section>
 
-<script src="//ajax.googleapis.com/ajax/libs/mootools/1.4.1/mootools-yui-compressed.js"></script>
-<script>window.MooTools || document.write('<script src="<?php echo theme_url('assets/js/mootools.js'); ?>"><\/script>');</script>
-<script src="<?php echo theme_url('assets/js/helpers.js'); ?>"></script>
-
+<script>
+	// define global js translations
+	// for our popups
+	Lang.load('pages');
+</script>
 <script>
 	(function() {
-		var checkbox = $('redirect'), 
-			redirect = $('redirect_url').getParent(),
-			content = $('content').getParent();
+		var checkbox = $('#redirect'), 
+			redirect = $('#redirect_url').parent(),
+			content = $('#content').parent();
 
 		var set = function() {
+			console.log(checkbox.get('checked'));
+
 			var display = checkbox.get('checked') ? 'block' : 'none';
-			redirect.setStyle('display', display);
+			redirect.css('display', display);
 
 			display = checkbox.get('checked') ? 'none' : 'block';
-			content.setStyle('display', display);
+			content.css('display', display);
 
 			if(!checkbox.get('checked')) {
-				$('redirect_url').set('value', '');
+				$('#redirect_url').val('');
 			}
-
-			return false;
 		};
 
 		// bind to input
-		checkbox.addEvent('change', set);
+		checkbox.bind('change', set);
 
 		set();
 	}());
 </script>
-
-<script>
-	(function() {
-		var slug = $('slug'), output = $('output');
-
-		// call the function to init the input text
-		formatSlug(slug, output);
-
-		// bind to input
-		slug.addEvent('keyup', function() {formatSlug(slug, output)});
-	}());
-</script>
-
-

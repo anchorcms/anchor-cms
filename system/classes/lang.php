@@ -39,4 +39,15 @@ class Lang {
 		return $default;
 	}
 
+	public static function get($file, $default = false) {
+		// set language
+		$language = Config::get('application.language');
+
+		if(static::load($file, $language) === false) {
+			return $default;
+		}
+
+		return static::$lines[$language][$file];
+	}
+
 }

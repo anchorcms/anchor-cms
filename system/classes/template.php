@@ -32,7 +32,7 @@ class Template {
 		
 		// load global theming functions but not for the admin template
 		if(strpos(static::$path, 'system/admin/theme') === false) {
-			$includes = array('articles', 'comments', 'helpers', 'menus', 'metadata', 'pages', 'posts', 'search', 'users');
+			$includes = array('articles', 'comments', 'config', 'helpers', 'menus', 'metadata', 'pages', 'posts', 'search', 'users');
 
 			foreach($includes as $file) {
 			    require PATH . 'system/functions/' . $file . '.php';

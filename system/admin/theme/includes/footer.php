@@ -37,28 +37,13 @@
 	<?php echo db_profile(); ?>
 	<script>
 		(function() {
-			var g = function(i) {
-				var e = document.getElementById(i);
-				e.s = function(p, v) {
-					this.style[p] = v;
-				};
-				e.g = function(p) {
-					return this.style[p];
-				};
+			var a = $('#debug_toggle'), t = $('#debug_table');
 
-				return e;
-			};
-
-			var a = g('debug_toggle'), t = g('debug_table');
-
-			var b = function(e) {
-				var d = (t.g('display') == '' || t.g('display') == 'none') ? 'block' : 'none';
-				t.s('display', d);
-				e.preventDefault();
-				e.stopPropagation();
-			};
-
-			a.addEventListener('click', b, false);
+			a.bind('click', function(e) {
+				var d = (t.css('display') == '' || t.css('display') == 'none') ? 'block' : 'none';
+				t.css('display', d);
+				e.end();
+			});
 		}());
 	</script>
 	<?php endif; ?>

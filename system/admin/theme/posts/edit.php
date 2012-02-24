@@ -138,7 +138,7 @@
 				<?php if(count($comments)): ?>
 				<ul id="comments">
 				<?php foreach($comments as $comment):?>
-				<li data-id="<?php echo $comment->id; ?>">
+				<li id="c<?php echo $comment->id; ?>">
 					<header>
 						<p><strong><?php echo $comment->name; ?></strong> 
 						<?php echo date(Config::get('metadata.date_format'), $comment->date); ?><br>
@@ -147,11 +147,15 @@
 							'published' => __('posts.published', 'Published'),
 							'spam' => __('posts.spam', 'Spam')
 						); ?>
-						<em><?php echo __('posts.status', 'Status'); ?>: <span data-status="<?php echo $comment->id; ?>">
-						<?php echo $statuses[$comment->status]; ?></span></em></p>
+						<em>
+							<?php echo __('posts.status', 'Status'); ?>: 
+							<span class="status">
+								<?php echo $statuses[$comment->status]; ?>
+							</span>
+						</em></p>
 					</header>
 					
-					<p class="comment" data-text="<?php echo $comment->id; ?>"><?php echo $comment->text; ?></p>
+					<p class="comment"><?php echo $comment->text; ?></p>
 					
 					<ul class="options">
 						<?php if($comment->status == 'pending'): ?>
@@ -186,44 +190,11 @@
 	</ul>
 </aside>
 
-<script src="<?php echo theme_url('assets/js/lang.js'); ?>"></script>
-<script>
-	// define global js translations
-	// for our popups
-	Lang.load(<?php echo json_encode(array(
-		'pending' => __('posts.pending', 'Pending'),
-		'published' => __('posts.published', 'Published'),
-		'publish' => __('posts.publish', 'Publish'),
-		'spam' => __('posts.spam', 'Spam'),
-		'update' => __('posts.update', 'Update'),
-		'close' => __('posts.close', 'Close'),
-		'create' => __('posts.create', 'Create'),
-		'label' => __('posts.label', 'Label'),
-		'key' => __('posts.key', 'Key'),
-		'edit_comment' => __('posts.edit_comment', 'Edit Comment'),
-		'edit_comment_explain' => __('posts.edit_comment_explain', 'Update the comment text here.'),
-		'custom_field' => __('posts.custom_field', 'Custom Field'),
-		'custom_field_explain' => __('posts.custom_field_explain', 'Please enter the label and the key for your field.'),
-		'missing_label' => __('posts.missing_label', 'Please enter a field label'),
-		'missing_key' => __('posts.missing_key', 'Please enter a field key')
-	)); ?>);
-</script>
-
-<script src="//ajax.googleapis.com/ajax/libs/mootools/1.4.1/mootools-yui-compressed.js"></script>
-<script>window.MooTools || document.write('<script src="<?php echo theme_url('assets/js/mootools.js'); ?>"><\/script>');</script>
-<script src="<?php echo theme_url('assets/js/helpers.js'); ?>"></script>
-<script src="<?php echo theme_url('assets/js/popup.js'); ?>"></script>
 <script src="<?php echo theme_url('assets/js/custom_fields.js'); ?>"></script>
 <script src="<?php echo theme_url('assets/js/comments.js'); ?>"></script>
 <script src="<?php echo theme_url('assets/js/tabs.js'); ?>"></script>
 <script>
-	(function() {
-		var slug = $('slug'), output = $('output');
-
-		// call the function to init the input text
-		formatSlug(slug, output);
-
-		// bind to input
-		slug.addEvent('keyup', function() {formatSlug(slug, output)});
-	}());
+	// define global js translations
+	// for our popups
+	Lang.load('posts');
 </script>

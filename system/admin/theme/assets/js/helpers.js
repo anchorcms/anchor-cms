@@ -1,25 +1,27 @@
-function formatSlug(slug, output) {
-	var val = slug.get('value');
 
-	// replace spaces
-	val = val.replace(/\s+/, '-');
+/**
+	String filter
+*/
+function filter(type, str) {
 
-	// replace crazy characters
-	val = val.replace(/[^0-9a-z\-]/i, '');
-	
-	// convert to lower case 
-	val = val.toLowerCase();
+	if(type == 'slug') {
+		// replace spaces
+		str = str.replace(/\s+/, '-');
 
-	output.set('html', (val.length ? val : 'slug'));
-	slug.set('value', val);
-}
+		// replace crazy characters
+		str = str.replace(/[^0-9a-z\-]/i, '');
+		
+		// convert to lower case 
+		str = str.toLowerCase();
+	}
 
-function formatTwitter(tweet, output) {
-	var val = tweet.get('value');
+	if(type == 'twitter') {
+		// replace crazy characters
+		str = str.replace(/[^0-9a-z\_]/i, '');
 
-	// replace crazy characters
-	val = val.replace(/[^0-9a-z\_]/i, '');
+		// convert to lower case 
+		str = str.toLowerCase();
+	}
 
-	output.set('html', (val.length ? val : 'example'));
-	tweet.set('value', val);
+	return str;
 }

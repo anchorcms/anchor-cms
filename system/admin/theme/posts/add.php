@@ -92,7 +92,6 @@
 		
 		</div>
 		<div data-tab="fields" class="tab">
-
 			<fieldset>
 				<legend><?php echo __('posts.custom_fields', 'Custom Fields'); ?></legend>
 				<em><?php echo __('posts.custom_fields_explain', 'Create custom fields here.'); ?></em>
@@ -107,9 +106,9 @@
 					</p>
 					<?php endforeach; ?>
 				</div>
-			</fieldset>
 
-			<button id="create" type="button"><?php echo __('posts.create_custom_field', 'Create a custom field'); ?></button>
+				<button id="create" type="button"><?php echo __('posts.create_custom_field', 'Create a custom field'); ?></button>
+			</fieldset>
 		</div>
 			
 		<p class="buttons">
@@ -120,20 +119,10 @@
 
 </section>
 
-<script src="//ajax.googleapis.com/ajax/libs/mootools/1.4.1/mootools-yui-compressed.js"></script>
-<script>window.MooTools || document.write('<script src="<?php echo theme_url('assets/js/mootools.js'); ?>"><\/script>');</script>
-<script src="<?php echo theme_url('assets/js/helpers.js'); ?>"></script>
-<script src="<?php echo theme_url('assets/js/popup.js'); ?>"></script>
 <script src="<?php echo theme_url('assets/js/custom_fields.js'); ?>"></script>
 <script src="<?php echo theme_url('assets/js/tabs.js'); ?>"></script>
 <script>
-	(function() {
-		var slug = $('slug'), output = $('output');
-
-		// call the function to init the input text
-		formatSlug(slug, output);
-
-		// bind to input
-		slug.addEvent('keyup', function() {formatSlug(slug, output)});
-	}());
+	// define global js translations
+	// for our popups
+	Lang.load('posts');
 </script>

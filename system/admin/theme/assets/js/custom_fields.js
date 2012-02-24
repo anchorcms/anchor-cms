@@ -1,6 +1,7 @@
 
 (function() {
-	var a = $('create'), fields = $('fields');
+
+	var a = $('#create'), fields = $('#fields');
 	
 	var p = new Popup();
 	
@@ -8,42 +9,45 @@
 		var p = new Element('p', {
 				'id': 'field_' + key
 			}), 
-			l = new Element('label', {
-				'html': label + ':'
-			}), 
+			l = new Element('label'), 
 			i = new Element('input', {
 				'name': 'field[' + key + ':' + label + ']',
 				'type': 'text'
 			});
 
-		p.grab(l);
-		p.grab(i);
+		l.html(label + ':');
+
+		p.append(l);
+		p.append(i);
 		
-		fields.grab(p);
+		fields.append(p);
 	};
 	
-	var add_field = function() {
+	var add_field = function(event) {
 		// get data
-		var label = $$('input[name=field_label]').pop().get('value'),
-			key = $$('input[name=field_key]').pop().get('value'),
+		var label = $('input[name=field_label]'),
+			key = $('input[name=field_key]'),
 			errors = [];
-			
-		if(label.length == 0) {
+
+		if(!label.val()) {
 			errors.push(Lang.get('missing_label'));
 		}
 		
-		if(key.length == 0) {
+		if(!key.val()) {
 			errors.push(Lang.get('missing_key'));
 		}
 		
 		if(errors.length) {
 			// show errors
-			return false;
+			alert(errors.join("\n"));
+			return;
 		}
 		
-		create_field(key, label);
+		create_field(key.val(), label.val());
 		
 		p.close();
+
+		event.end();
 	};
 
 	var show_add_field = function() {
@@ -53,26 +57,24 @@
 		html += '</fieldset>';
 		html +='<p class="buttons"><button name="create" type="button">' + Lang.get('create') + '</button> <a href="#close">' + Lang.get('close') + '</a></p>';
 		
-		var box = new Element('div', {
-			'class': 'popup_wrapper', 
-			'html': html
-		});
+		var box = new Element('div');
+		box.addClass('popup_wrapper');
+		box.html(html);
 		
 		p.open({
 			'content': box
 		});
 		
 		// bind popup events
-		$$('button[name=create]').addEvent('click', add_field);
-		$$('a[href$=#close]').addEvent('click', function() {
+		$('button[name=create]').bind('click', add_field);
+		$('a[href$=close]').bind('click', function(event) {
 			p.close();
-			return false;
+			event.end();
 		});
-		
-		return false;
 	};
 
 	// bind create method
-	a.addEvent('click', show_add_field);
+	a.bind('click', show_add_field);
+
 }());
 
