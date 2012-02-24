@@ -23,7 +23,8 @@ class Lang {
 
 	public static function line($key, $default = null) {
 		// set language, if not set choose 'en'
-		if (!($language = Config::get('application.language'))) $language = 'en'; // TODO: Remove this at some point, just for 0.6--> 0.7 upgrading without errors.
+		// TODO: Remove this at some point, just for 0.6--> 0.7 upgrading without errors.
+		$language = Config::get('application.language', 'en');
 
 		// parse
 		list($file, $line) = explode('.', $key);
