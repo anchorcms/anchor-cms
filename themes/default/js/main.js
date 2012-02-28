@@ -1,52 +1,59 @@
-$(function() {
-
-	var viewport = $(window),
-		body = $('body'),
-		
-		header = $('#top div.wrap'),
-		search = $('#search');
-		
-	//  Give a CSS hook
-	body.addClass('js');
-	
-	//  A neat little 
-	if(window.location.pathname === '/') {
-	    body.css({position: 'relative', top: -50, opacity: 0})
-	        .animate({ top: 0, opacity: 1 });
-	}
-		
-	/**
-		Search box
-	*/
-		
-	//  Hide the search
-	search.css('margin-top', -(search.outerHeight() - 4));
-	
-	//  Append some way of making it come back
-	var clicked = 1,
-		marginTop = search.css('margin-top');
-	
-	header.append('<img src="' + base + 'img/search.gif" id="search">').children('#search').click(function() {
-		
-		//  Move the 
-		search.animate({marginTop: clicked % 2 === 0 ? marginTop : 0});
-		
-		if(clicked % 2 === 0) {
-			$(this).animate({opacity: 0}, 200, function() {
-				$(this).attr('src', base + 'img/search.gif').animate({opacity: 1}, 200);
-			});
-			
-			search.animate({marginTop: marginTop});
-		} else {
-		
-			$(this).animate({opacity: 0}, 200, function() {
-				$(this).attr('src', base + 'img/close.gif').animate({opacity: 1}, 200);
-			});
-		
-			search.animate({marginTop: 0});
-		}
-		
-		//  Increment counter
-		clicked++;
-	});
-});
+(function(d,w) {
+    
+    var load = function(callback) {
+            if(w.addEventListener) {
+                w.addEventListener('DOMContentLoaded', callback);
+            } else if(w.attachEvent) {
+                w.attachEvent('onload', callback);
+            }
+        };
+        
+    load(function() {
+    
+        var body = document.body,
+            search = document.getElementById('search'),
+            header = document.getElementById('top').childNodes[1],
+            props = {
+                webkitTransition: 'margin .4s',
+                mozTransition: 'margin .4s',
+                msTransition: 'margin .4s',
+                oTransition: 'margin .4s',
+                transition: 'margin .4s',
+            };
+        
+        body.className += 'js';
+        
+        header.innerHTML += '<img src="' + base + 'img/search.gif" id="label">';
+        
+        setTimeout(function() {
+            for(var i in props) {
+                search.style[i] = props[i];
+            }
+        }, 1);
+        
+        var label = document.getElementById('label'),
+            goodToGo = true,
+            count = 0;
+        
+        if(goodToGo) {
+            label.onclick = function() {
+                var opened = count % 2 == 1;
+                goodToGo = false;
+                
+                label.className = 'invisible';
+                search.className = !opened ? 'opened' : '';
+                
+                setTimeout(function() {
+                
+                    label.src = base + 'img/' + (opened ? 'search' : 'close') + '.gif';
+                    label.className = '';
+                
+                    goodToGo = true;
+                }, 250);
+                
+                count++;
+            };
+        }
+    });
+    
+})(document,window);

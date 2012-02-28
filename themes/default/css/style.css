@@ -80,6 +80,12 @@ form#search {
 	
 	padding: 10px 0;
 }
+    .js form#search {
+        margin-top: -58px;
+    }
+        .js form#search.opened {
+            margin-top: 0;
+        }
 	form#search input {
 		padding: 8px 12px;
 		color: #333;
@@ -166,13 +172,24 @@ header#top {
 		    header#top nav li a:hover {
 		        color: #444;
 		    }
-	header#top img#search {
+	header#top img#label {
 		cursor: pointer;
 		
 		position: absolute;
 		right: 0;
 		bottom: 0;
+		
+		-webkit-transition: opacity .2s;
+		-moz-transition: opacity .2s;
+		-ms-transition: opacity .2s;
+		-o-transition: opacity .2s;
+		transition: opacity .2s;
+		
+		opacity: 1;
 	}
+	    header#top img#label.invisible {
+	        opacity: 0;
+	    }
 	
 ul.items {
     list-style: none;

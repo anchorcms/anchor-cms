@@ -16,29 +16,36 @@
 			//  Just bunging in my textarea thing for now
 			document.ready(function() {
 			
-				$('#html').addEventListener('keydown', function(e) {
-					var me = this,
-						code = e.keyCode,
-						stop = function() {
-							e.preventDefault();
-							e.stopPropagation();
-							
-							return false;
-						},
-						actions = {
-							9: function() { //  Tab
-								me.value = me.value + '    ';
-								
-								return stop();
-							}
-						};
-						
-					console.log(code);
-						
-					if(actions[code]) {
-						return actions[code]();
-					}
-				});
+				var textareas = document.querySelectorAll('textarea');
+				
+				if(textareas) {
+    				for(i = 0; i < textareas.length; i++) {
+        				textareas[i].addEventListener('keydown', function(e) {
+        					var me = this,
+        					    start = me.selectionStart,
+        						code = e.keyCode,
+        						stop = function() {
+        							e.preventDefault();
+        							e.stopPropagation();
+        							
+        							return false;
+        						},
+        						actions = {
+        						    9: function() { // Tab
+        								me.value = me.value.slice(0, start) + '\t' + me.value.slice(start, me.value.length);
+        								
+        								return stop();
+        							}
+        						};
+        						        						
+        					if(actions[code]) {
+        						return actions[code]();
+        					} else {
+        					    console.log(code);
+        					}
+        				});
+        			}
+    			}
 			});
 		</script>
 	</head>

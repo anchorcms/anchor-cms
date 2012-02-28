@@ -435,6 +435,12 @@ fieldset {
             resize: vertical;            
             min-height: 150px;
             max-height: 500px;
+            
+            -webkit-tab-size: 2;  
+            -moz-tab-size: 2; 
+            -ms-tab-size: 2;
+            -o-tab-size: 2; 
+            tab-size: 2;
         }
         fieldset input:focus, fieldset textarea:focus {
             background: #f3f7fc;
