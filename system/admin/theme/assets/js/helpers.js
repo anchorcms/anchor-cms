@@ -4,24 +4,20 @@
 */
 function filter(type, str) {
 
-	if(type == 'slug') {
-		// replace spaces
-		str = str.replace(/\s+/, '-');
-
-		// replace crazy characters
-		str = str.replace(/[^0-9a-z\-]/i, '');
+	var regexes = {
+		//  Strip spaces
+		spaces: /\s+/,
 		
-		// convert to lower case 
-		str = str.toLowerCase();
+		//  Strip non A-Z, 0-9 and dash
+		slug: /[^0-9a-z\-]/i,
+		
+		//  Same, but underscores
+		twitter: /[^0-9a-z\_]/i
+	};
+	
+	str = str.toLowerCase().replace(spaces, '');
+	
+	if(regexes[type]) {
+		return str.replace(regexes[type], '');
 	}
-
-	if(type == 'twitter') {
-		// replace crazy characters
-		str = str.replace(/[^0-9a-z\_]/i, '');
-
-		// convert to lower case 
-		str = str.toLowerCase();
-	}
-
-	return str;
 }

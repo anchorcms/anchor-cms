@@ -11,6 +11,36 @@
 		<script src="<?php echo theme_url('assets/js/helpers.js'); ?>"></script>
 		<script src="<?php echo theme_url('assets/js/popup.js'); ?>"></script>
 		<script src="<?php echo theme_url('assets/js/lang.js'); ?>"></script>
+		
+		<script>
+			//  Just bunging in my textarea thing for now
+			document.ready(function() {
+			
+				$('#html').addEventListener('keydown', function(e) {
+					var me = this,
+						code = e.keyCode,
+						stop = function() {
+							e.preventDefault();
+							e.stopPropagation();
+							
+							return false;
+						},
+						actions = {
+							9: function() { //  Tab
+								me.value = me.value + '    ';
+								
+								return stop();
+							}
+						};
+						
+					console.log(code);
+						
+					if(actions[code]) {
+						return actions[code]();
+					}
+				});
+			});
+		</script>
 	</head>
 	<body>
 
