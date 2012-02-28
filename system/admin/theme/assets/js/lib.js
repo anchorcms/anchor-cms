@@ -12,7 +12,7 @@ Object.prototype.extend = function(extended) {
 Object.prototype.each = function(func) {
 	for(var key in this) {
 		if(this.hasOwnProperty(key)) {
-			func(this[key], key);
+			func.call(this[key], key);
 		}
 	}
 };
@@ -30,8 +30,8 @@ Object.prototype.each = function(func) {
 	global.Element = function(tag) {
 		var props = arguments[1] || {};
 		var el = document.createElement(tag);
-		props.each(function(val, key) {
-			el.set(key, val);
+		props.each(function(key) {
+			el.set(key, this);
 		});
 		return el;
 	};
@@ -96,8 +96,8 @@ Element.prototype.addClass = function(name) {
 Element.prototype.removeClass = function(name) {
 	if(this.className.length) {
 		var grp = [];
-		this.className.split(' ').each(function(itm) {
-			if(itm != name) grp.push(itm);
+		this.className.split(' ').each(function() {
+			if(this != name) grp.push(this);
 		});
 		this.className = grp.join(' ');
 	}
@@ -148,7 +148,7 @@ Element.prototype.size = function() {
 
 Array.prototype.each = function(func) {
 	for(var i = 0; i < this.length; i++) {
-		func(this[i], i);
+		func.call(this[i], i);
 	}
 };
 
@@ -201,8 +201,8 @@ var Request = (function() {
 	var parse = function(item) {
 		var query = [];
 
-		item.each(function(itm, key) {
-			query.push(key + '=' + itm);
+		item.each(function(key) {
+			query.push(key + '=' + this);
 		});
 
 		return query.join('&');

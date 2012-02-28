@@ -4,12 +4,12 @@
 		a = $$('.tabs a');
 
 	var hide = function() {
-		tabs.each(function(itm) {
-			itm.css('display', 'none');
+		tabs.each(function() {
+			this.css('display', 'none');
 		});
 
-		a.each(function(itm) {
-			itm.removeClass('active');
+		a.each(function() {
+			this.removeClass('active');
 		});
 	};
 
@@ -21,8 +21,8 @@
 	var has = function(id) {
 		var arr = [];
 
-		tabs.each(function(tab) {
-			arr.push(tab.get('data-tab'));
+		tabs.each(function() {
+			this.push(this.get('data-tab'));
 		});
 
 		return arr.indexOf(id) != -1;
@@ -53,8 +53,8 @@
 	}
 
 	// bind to menu
-	a.each(function(itm) {
-		itm.bind('click', tab);
+	a.each(function() {
+		this.bind('click', tab);
 	});
 	
 }());

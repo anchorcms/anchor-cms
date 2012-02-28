@@ -120,14 +120,14 @@
 	};
 
 	// bindings
-	$$('#comments a[href$=publish]').each(function(itm) {
-		itm.bind('click', publish);
+	$$('#comments a[href$=publish]').each(function() {
+		return this.bind('click', publish);
 	});
-	$$('#comments a[href$=edit]').each(function(itm) {
-		itm.bind('click', edit);
+	$$('#comments a[href$=edit]').each(function() {
+		return this.bind('click', edit);
 	});
-	$$('#comments a[href$=delete]').each(function(itm) {
-		itm.bind('click', remove);
+	$$('#comments a[href$=delete]').each(function() {
+		return this.bind('click', remove);
 	});
 
 }('../../'));
