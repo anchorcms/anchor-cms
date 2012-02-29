@@ -201,6 +201,9 @@ class Users {
 		// format email
 		$post['email'] = strtolower(trim($post['email']));
 		
+		// strip tags on real_name (http://osvdb.org/show/osvdb/79659)
+		$post['real_name'] = strip_tags($post['real_name']);
+		
 		// update record
 		Db::update('users', $post, array('id' => $id));
 		
