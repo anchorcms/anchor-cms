@@ -477,12 +477,15 @@ footer#bottom {
             header#top nav li {
                 margin-right: 30px;
             }
-        header#top img#search {
+        header#top img#label {
             bottom: -20px;
         }
         
-    ul.items {
+    .content ul.items, .content img {
         padding-bottom: 20px;
+        margin-left: 0;
+        
+        width: 100%;
     }
         ul.items li a {
             overflow: hidden;
