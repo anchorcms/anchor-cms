@@ -13,12 +13,11 @@
         
     load(function() {
     
-        var body = d.body,
-            search = $('search'),
+        var search = $('search'),
             header = $('top').childNodes[1],
             props = ['webkitTransition', 'mozTransition', 'msTransition', 'oTransition', 'transition'];
         
-        body.className += 'js';
+        d.body.className += 'js';
         
         header.innerHTML += '<img src="' + base + 'img/search.gif" id="label">';
         
@@ -29,28 +28,20 @@
         }, 1);
         
         var label = $('label'),
-            goodToGo = true,
             count = 0;
         
-        if(goodToGo) {
-            label.onclick = function() {
-                var opened = count % 2 == 1;
-                goodToGo = false;
-                
-                label.className = 'invisible';
-                search.className = !opened ? 'opened' : '';
-                
-                setTimeout(function() {
-                
-                    label.src = base + 'img/' + (opened ? 'search' : 'close') + '.gif';
-                    label.className = '';
-                
-                    goodToGo = true;
-                }, 250);
-                
-                count++;
-            };
-        }
+        label.onclick = function() {
+            var opened = count % 2 == 1;
+            label.className = 'invisible';
+            search.className = !opened ? 'opened' : '';
+            
+            setTimeout(function() {
+                label.src = base + 'img/' + (opened ? 'search' : 'close') + '.gif';
+                label.className = '';
+            }, 250);
+            
+            count++;
+        };
     });
     
 })(document, window);
