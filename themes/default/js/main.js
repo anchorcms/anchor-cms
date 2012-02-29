@@ -6,32 +6,29 @@
             } else if(w.attachEvent) {
                 w.attachEvent('onload', callback);
             }
+        },
+        $ = function(el) {
+        	return d.getElementById(el);
         };
         
     load(function() {
     
-        var body = document.body,
-            search = document.getElementById('search'),
-            header = document.getElementById('top').childNodes[1],
-            props = {
-                webkitTransition: 'margin .4s',
-                mozTransition: 'margin .4s',
-                msTransition: 'margin .4s',
-                oTransition: 'margin .4s',
-                transition: 'margin .4s',
-            };
+        var body = d.body,
+            search = $('search'),
+            header = $('top').childNodes[1],
+            props = ['webkitTransition', 'mozTransition', 'msTransition', 'oTransition', 'transition'];
         
         body.className += 'js';
         
         header.innerHTML += '<img src="' + base + 'img/search.gif" id="label">';
         
         setTimeout(function() {
-            for(var i in props) {
-                search.style[i] = props[i];
+            for(var i = 0; i < props.length; i++) {
+            	search.style[props[i]] = 'margin .25s linear';
             }
         }, 1);
         
-        var label = document.getElementById('label'),
+        var label = $('label'),
             goodToGo = true,
             count = 0;
         
@@ -56,4 +53,4 @@
         }
     });
     
-})(document,window);
+})(document, window);
