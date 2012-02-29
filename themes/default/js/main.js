@@ -15,7 +15,7 @@
     
         var search = $('search'),
             header = $('top').childNodes[1],
-            props = ['webkitTransition', 'MozTransition', 'MsTransition', 'oTransition', 'transition'];
+            props = ['webkitTransition', 'MozTransition', 'MsTransition', 'OTransition', 'transition'];
         
         d.body.className += 'js';
         
