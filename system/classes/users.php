@@ -97,7 +97,7 @@ class Users {
 		$post = Input::post(array('email'));
 		$errors = array();
 
-		if(filter_var($post['email'], FILTER_VALIDATE_EMAIL) === false) {
+		if(Validator::validate_email($post['email']) === false) {
 			$errors[] = Lang::line('users.invalid_email', 'Please enter a valid email address');
 		} else {
 			if(($user = static::find(array('email' => $post['email']))) === false) {
@@ -177,7 +177,7 @@ class Users {
 			}
 		}
 
-		if(filter_var($post['email'], FILTER_VALIDATE_EMAIL) === false) {
+		if(Validator::validate_email($post['email']) === false) {
 			$errors[] = Lang::line('users.invalid_email', 'Please enter a valid email address');
 		}
 
@@ -251,6 +251,9 @@ class Users {
 		
 		// format email
 		$post['email'] = strtolower(trim($post['email']));
+		
+		// strip tags on real_name (http://osvdb.org/show/osvdb/79659)
+		$post['real_name'] = strip_tags($post['real_name']);
 		
 		// add record
 		Db::insert('users', $post);
