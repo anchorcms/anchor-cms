@@ -104,7 +104,7 @@ function comments_open() {
 
 // form elements
 function comment_form_notifications() {
-	return Notifications::read();
+	return Notifications::read('comments');
 }
 
 function comment_form_input_name($extra = '') {

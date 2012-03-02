@@ -54,7 +54,7 @@ class Comments {
 		}
 		
 		if(count($errors)) {
-			Notifications::set('error', $errors);
+			Notifications::set('error', $errors, 'comments');
 			return false;
 		}
 
@@ -67,7 +67,7 @@ class Comments {
 
 		Db::insert('comments', $post);
 		
-		Notifications::set('success', 'Your comment has been sent');
+		Notifications::set('success', 'Your comment has been sent', 'comments');
 		
 		return true;
 	}
