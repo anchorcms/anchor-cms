@@ -32,6 +32,10 @@ return array(
 	'save' => 'Save',
 	'return_pages' => 'Return to pages',
 
+	'delete_confirm' => 'Are you sure you would like to delete this page?', 
+	'delete_confirm_submit' => 'Yes, I understand this will be permanently deleted', 
+	'delete_confirm_cancel' => 'No, keep this page',
+
 	'missing_name' => 'Please enter a name',
 	'missing_title' => 'Please enter a title',
 	'duplicate_slug' => 'A pages with the same slug already exists, please change your page slug.',

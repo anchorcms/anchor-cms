@@ -1,11 +1,12 @@
-(function(base_url) {
+
+var Comments = (function() {
 
 	var p = new Popup();
 
 	var publish = function(event) {
 		var a = this, 
 			li = a.parent(),
-			url = base_url + 'comments/status',
+			url = Base_url + 'comments/status',
 			parent = li.parent().parent(),
 			id = parent.get('id').split('c').pop(),
 			span = parent.find('.status');
@@ -26,7 +27,7 @@
 			text = li.find('.comment').html(),
 			status = li.find('.status').html();
 
-		var url = base_url + 'comments/update';
+		var url = Base_url + 'comments/update';
 
 		var html = '<fieldset><legend>' + Lang.get('edit_comment') + '</legend><em>' + Lang.get('edit_comment_explain') + '</em>';
 		html +='<p><label>Text</label><textarea name="comment_text">' + text + '</textarea></p>';
@@ -64,7 +65,7 @@
 	};
 
 	var update = function(id) {
-		var url = base_url + 'comments/update',
+		var url = Base_url + 'comments/update',
 			li = $('#c' + id),
 			comment_text_input = $('textarea[name=comment_text]'),
 			comment_status_input = $('select[name=comment_status]');
@@ -109,7 +110,7 @@
 	
 	var remove = function() {
 		var a = this, li = a.parent().parent().parent();
-		var url = base_url + 'comments/remove';
+		var url = Base_url + 'comments/remove';
 		var id = li.get('id').split('c').pop();
 		
 		new Request.post(url, {'id': id}, function() {
@@ -119,15 +120,19 @@
 		return false;
 	};
 
-	// bindings
-	$$('#comments a[href$=publish]').each(function(itm) {
-		itm.bind('click', publish);
-	});
-	$$('#comments a[href$=edit]').each(function(itm) {
-		itm.bind('click', edit);
-	});
-	$$('#comments a[href$=delete]').each(function(itm) {
-		itm.bind('click', remove);
-	});
+	return {
+		'init': function() {
+			// bindings
+			$$('#comments a[href$=publish]').each(function(itm) {
+				itm.bind('click', publish);
+			});
+			$$('#comments a[href$=edit]').each(function(itm) {
+				itm.bind('click', edit);
+			});
+			$$('#comments a[href$=delete]').each(function(itm) {
+				itm.bind('click', remove);
+			});
+		}
+	};
 
-}('../../'));
+}());

@@ -63,6 +63,10 @@ return array(
 	'custom_js' => 'Custom JS',
 	'custom_js_explain' => 'Custom Javascript. Will be wrapped in a <code>&lt;script&gt;</code> block.',
 
+	'delete_confirm' => 'Are you sure you would like to delete this post?', 
+	'delete_confirm_submit' => 'Yes, I understand this will be permanently deleted', 
+	'delete_confirm_cancel' => 'No, keep this post',
+
 	'missing_title' => 'Please enter a title',
 	'missing_description' => 'Please enter a description',
 	'missing_html' => 'Please enter your html',

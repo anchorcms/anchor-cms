@@ -68,9 +68,7 @@
 		<p class="buttons">
 
 			<button name="save" type="submit"><?php echo __('pages.save', 'Save'); ?></button>
-			<?php 
-			// Dont delete our posts page or home page
-			if(in_array($page->id, array(Config::get('metadata.home_page'), Config::get('metadata.posts_page'))) === false): ?>
+			<?php if(in_array($page->id, array(Config::get('metadata.home_page'), Config::get('metadata.posts_page'))) === false): ?>
 			<button name="delete" type="submit"><?php echo __('pages.delete', 'Delete'); ?></button>
 			<?php endif; ?>
 			
@@ -88,34 +86,27 @@
 	</ul>
 </aside>
 
+<script src="<?php echo theme_url('assets/js/lang.js'); ?>"></script>
 <script>
 	// define global js translations
 	// for our popups
 	Lang.load('pages');
 </script>
+
+<script src="<?php echo theme_url('assets/js/textareas.js'); ?>"></script>
+<script src="<?php echo theme_url('assets/js/redirect.js'); ?>"></script>
+
+<?php if(in_array($page->id, array(Config::get('metadata.home_page'), Config::get('metadata.posts_page'))) === false): ?>
+<script src="<?php echo theme_url('assets/js/confirm.js'); ?>"></script>
 <script>
-	(function() {
-		var checkbox = $('#redirect'), 
-			redirect = $('#redirect_url').parent(),
-			content = $('#content').parent();
-
-		var set = function() {
-			console.log(checkbox.get('checked'));
-
-			var display = checkbox.get('checked') ? 'block' : 'none';
-			redirect.css('display', display);
-
-			display = checkbox.get('checked') ? 'none' : 'block';
-			content.css('display', display);
-
-			if(!checkbox.get('checked')) {
-				$('#redirect_url').val('');
-			}
-		};
-
-		// bind to input
-		checkbox.bind('change', set);
-
-		set();
-	}());
+	// confirm for deletions
+	$('button[name=delete]').bind('click', function(event) {
+		Confirm.open(function() {
+			var form = $('form'), input = new Element('input', {'type': 'hidden', 'name': 'delete'});
+			form.append(input);
+			form.submit();
+		});
+		event.end();
+	});
 </script>
+<?php endif; ?>

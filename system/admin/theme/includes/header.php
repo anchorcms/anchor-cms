@@ -10,44 +10,7 @@
 		<script src="<?php echo theme_url('assets/js/lib.js'); ?>"></script>
 		<script src="<?php echo theme_url('assets/js/helpers.js'); ?>"></script>
 		<script src="<?php echo theme_url('assets/js/popup.js'); ?>"></script>
-		<script src="<?php echo theme_url('assets/js/lang.js'); ?>"></script>
-		
-		<script>
-			//  Just bunging in my textarea thing for now
-			document.ready(function() {
-			
-				var textareas = document.querySelectorAll('textarea');
-				
-				if(textareas) {
-    				for(i = 0; i < textareas.length; i++) {
-        				textareas[i].addEventListener('keydown', function(e) {
-        					var me = this,
-        					    start = me.selectionStart,
-        						code = e.keyCode,
-        						stop = function() {
-        							e.preventDefault();
-        							e.stopPropagation();
-        							
-        							return false;
-        						},
-        						actions = {
-        						    9: function() { // Tab
-        								me.value = me.value.slice(0, start) + '\t' + me.value.slice(start, me.value.length);
-        								
-        								return stop();
-        							}
-        						};
-        						        						
-        					if(actions[code]) {
-        						return actions[code]();
-        					} else {
-        					    console.log(code);
-        					}
-        				});
-        			}
-    			}
-			});
-		</script>
+		<script>var Base_url = '<?php echo admin_url(); ?>';</script>
 	</head>
 	<body>
 

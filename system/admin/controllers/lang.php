@@ -2,13 +2,9 @@
 
 class lang_controller {
 
-	public function build() {
-		Response::header('Content-Type', 'application/json');
-
-		if(Input::method() == 'POST') {
-			$file = Input::post('file');
-			Response::content(json_encode(Lang::get($file)));
-		}
+	public function build($file) {
+		Response::header('Content-Type', 'application/json; charset=utf-8');
+		Response::content(json_encode(Lang::get($file)));
 	}
 	
 }

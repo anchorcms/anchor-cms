@@ -34,6 +34,7 @@
 		show(id);
 	};
 
+
 	// hide all
 	hide();
 
@@ -56,5 +57,5 @@
 	a.each(function(itm) {
 		itm.bind('click', tab);
 	});
-	
+
 }());

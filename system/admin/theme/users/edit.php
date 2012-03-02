@@ -94,3 +94,25 @@
 	</form>
 
 </section>
+
+<?php if(Users::authed()->id !== $user->id): ?>
+<script src="<?php echo theme_url('assets/js/lang.js'); ?>"></script>
+<script>
+	// define global js translations
+	// for our popups
+	Lang.load('users');
+</script>
+
+<script src="<?php echo theme_url('assets/js/confirm.js'); ?>"></script>
+<script>
+	// confirm for deletions
+	$('button[name=delete]').bind('click', function(event) {
+		Confirm.open(function() {
+			var form = $('form'), input = new Element('input', {'type': 'hidden', 'name': 'delete'});
+			form.append(input);
+			form.submit();
+		});
+		event.end();
+	});
+</script>
+<?php endif; ?>

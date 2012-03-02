@@ -50,6 +50,10 @@ return array(
 	'submit' => 'Submit',
 	'return_users' => 'Return to Users',
 
+	'delete_confirm' => 'Are you sure you would like to delete this user?', 
+	'delete_confirm_submit' => 'Yes, I understand this will be permanently deleted', 
+	'delete_confirm_cancel' => 'No, keep this user',
+
 	'username_exists' => 'Username is already being used',
 	'missing_password' => 'Please enter a password',
 	'invalid_email' => 'Please enter a valid email address',

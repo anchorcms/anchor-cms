@@ -119,10 +119,14 @@
 
 </section>
 
-<script src="<?php echo theme_url('assets/js/custom_fields.js'); ?>"></script>
-<script src="<?php echo theme_url('assets/js/tabs.js'); ?>"></script>
+<script src="<?php echo theme_url('assets/js/lang.js'); ?>"></script>
 <script>
 	// define global js translations
 	// for our popups
 	Lang.load('posts');
 </script>
+
+<script src="<?php echo theme_url('assets/js/textareas.js'); ?>"></script>
+<script src="<?php echo theme_url('assets/js/tabs.js'); ?>"></script>
+<script src="<?php echo theme_url('assets/js/custom_fields.js'); ?>"></script>
+

@@ -73,8 +73,8 @@
 		});
 	};
 
+
 	// bind create method
 	a.bind('click', show_add_field);
 
 }());
-

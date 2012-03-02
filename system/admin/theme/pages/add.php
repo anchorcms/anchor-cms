@@ -73,34 +73,12 @@
 
 </section>
 
+<script src="<?php echo theme_url('assets/js/lang.js'); ?>"></script>
 <script>
 	// define global js translations
 	// for our popups
 	Lang.load('pages');
 </script>
-<script>
-	(function() {
-		var checkbox = $('#redirect'), 
-			redirect = $('#redirect_url').parent(),
-			content = $('#content').parent();
 
-		var set = function() {
-			console.log(checkbox.get('checked'));
-
-			var display = checkbox.get('checked') ? 'block' : 'none';
-			redirect.css('display', display);
-
-			display = checkbox.get('checked') ? 'none' : 'block';
-			content.css('display', display);
-
-			if(!checkbox.get('checked')) {
-				$('#redirect_url').val('');
-			}
-		};
-
-		// bind to input
-		checkbox.bind('change', set);
-
-		set();
-	}());
-</script>
+<script src="<?php echo theme_url('assets/js/textareas.js'); ?>"></script>
+<script src="<?php echo theme_url('assets/js/redirect.js'); ?>"></script>

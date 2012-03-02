@@ -20,4 +20,6 @@ function filter(type, str) {
 	if(regexes[type]) {
 		return str.replace(regexes[type], '');
 	}
+
+	return str;
 }

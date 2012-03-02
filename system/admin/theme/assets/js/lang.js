@@ -4,8 +4,11 @@ var Lang = {
 	'lines': {},
 
 	'load': function(file) {
-		Request.post('../../lang/build', {'file': file}, function(text) {
+		var url = Base_url + 'lang/build/' + file, callback = arguments[1] || function() {};
+
+		Request.get(url, function(text) {
 			Lang.populate(JSON.decode(text));
+			callback();
 		});
 	},
 

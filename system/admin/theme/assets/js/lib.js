@@ -193,7 +193,7 @@ var Request = (function() {
 			if(this.status === 200) {
 				this.callback(this.responseText);
 			} else if(console.log) {
-				console.log("Error", this.statusText);  
+				console.log(this.status, this.statusText, this.url);  
 			} 
 		}
 	};
@@ -211,6 +211,7 @@ var Request = (function() {
 	return {
 		post: function(url, data, func) {
 			var request = xhr();
+			request.url = url;
 			request.open('POST', url, true);
 			request.setRequestHeader('Content-type','application/x-www-form-urlencoded');
 			request.callback = func;
@@ -218,7 +219,8 @@ var Request = (function() {
 			request.send(parse(data));
 		},
 		get: function(url, func) {
-			var request = session();
+			var request = xhr();
+			request.url = url;
 			request.open('GET', url, true);
 			request.callback = func;
 			request.onreadystatechange = state;
