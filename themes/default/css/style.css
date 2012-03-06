@@ -2,18 +2,9 @@
  *    Anchor CMS' default theme
  */
  
-::-webkit-selection {
-	background: #ffc;
-	color: #222;
-}
-::-moz-selection {
-	background: #ffc;
-	color: #222;
-}
-::selection {
-	background: #ffc;
-	color: #222;
-}
+::-webkit-selection { background: #ffc; color: #222; }
+::-moz-selection { background: #ffc; color: #222; }
+::selection { background: #ffc; color: #222; }
 
 html {
     min-height: 100%;
@@ -44,6 +35,14 @@ a, a * {
     a:active {
         -webkit-transform: translateY(1px);
     }
+    
+#label, #attribution {
+	-webkit-transition: opacity .2s;
+	-moz-transition: opacity .2s;
+	-ms-transition: opacity .2s;
+	-o-transition: opacity .2s;
+	transition: opacity .2s;
+}
     
 .content a, .comments a {
     color: #2082ab;
@@ -100,8 +99,6 @@ button {
     color: #fff;
     font-weight: bold;
 
-    border: none;
-    
     padding: 8px 15px;
     
     -webkit-border-radius: 3px;
@@ -178,12 +175,6 @@ header#top {
 		position: absolute;
 		right: 0;
 		bottom: 0;
-		
-		-webkit-transition: opacity .2s;
-		-moz-transition: opacity .2s;
-		-ms-transition: opacity .2s;
-		-o-transition: opacity .2s;
-		transition: opacity .2s;
 		
 		opacity: 1;
 	}
@@ -434,12 +425,6 @@ footer#bottom {
         text-indent: -999em;
     
         opacity: .5;
-        
-        -webkit-transition: opacity .25s;
-        -moz-transition: opacity .25s;
-        -ms-transition: opacity .25s;
-        -o-transition: opacity .25s;
-        transition: opacity .25s;
     }
         footer#bottom a#attribution:hover {
             opacity: 1;
