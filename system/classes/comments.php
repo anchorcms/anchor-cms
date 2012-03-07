@@ -63,7 +63,7 @@ class Comments {
 		$post['post'] = $post_id;
 
 		// encode any html
-		$post['text'] = Html::encode($post['text']);
+		$post['text'] = strip_tags($post['text'], '<a>,<b>,<blockquote>,<code>,<em>,<i>,<p>,<pre>');
 
 		Db::insert('comments', $post);
 		

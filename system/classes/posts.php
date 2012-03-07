@@ -25,6 +25,18 @@ class Posts {
 	}
 
 	public static function parse($str) {
+	
+		//  allow [[encoded]]
+		if(preg_match_all('/\[\[(.*)\]\]/', $str, $matches)) {
+			list($s, $r) = $matches;
+
+			foreach($r as $index => $text) {
+				$r[$index] = '<code>' . htmlentities($text) . '</code>';
+			}
+
+			$str = str_replace($s, $r, $str);
+		}
+	
 		// process pseudo tags
 		if(preg_match_all('/\{\{([a-z]+)\}\}/i', $str, $matches)) {
 			list($search, $replace) = $matches;
