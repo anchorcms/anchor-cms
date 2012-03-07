@@ -318,8 +318,11 @@ section.comments {
                 right: -15px;
             }
             section.comments form.commentform p.textarea {
-                width: 630px;
+                width: 100%;
             }
+            	section.comments form.commentform p.textarea em {
+            		right: 0;
+            	}
             section.comments form.commentform p em {
                 font: italic 13px Georgia, serif;
                 
@@ -532,6 +535,15 @@ footer#bottom {
             section.comments form.commentform p.email {
                 right: 0;
             }
+            
+			section.comments form.commentform p.textarea em {
+				position: relative;
+				line-height: 18px;
+				
+				display: block;
+				top: -5px;
+				margin-bottom: 10px;
+			}
             
         section.comments form.commentform input, section.comments form.commentform textarea {
             width: 93%;
