@@ -7,8 +7,7 @@
 
 // Url helpers
 function absolute_url($suffix = '') {
-	$protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? 'https://' : 'http://';
-	return $protocol . $_SERVER['HTTP_HOST'] . base_url() . ltrim($suffix, '/');
+	return Url::build(array('path' => base_url() . ltrim($suffix, '/')));
 }
 
 function base_url($url = '') {
