@@ -438,6 +438,9 @@ footer#bottom {
         .content h1 {
             padding-top: 50px;
         }
+        .content img, .content .items {
+            margin-left: 0px;
+        }
     
     form#search {
         padding: 10px 5%;
