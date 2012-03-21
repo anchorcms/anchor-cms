@@ -48,6 +48,11 @@ class Template {
 		foreach(array('includes/header', $template, 'includes/footer') as $file) {
 			$filepath = static::$path . $file . '.php';
 
+			//  Nasty hack, but hey, we've got custom pages now.
+			if($file === 'page' and file_exists(static::$path . Request::uri() . '.php') !== false) {
+				$filepath = static::$path . Request::uri() . '.php';
+			}
+			
 			if(file_exists($filepath) === false) {
 				throw new ErrorException('Theme file <strong>themes/' . $theme . '/' . $file . '.php</strong> not found.');
 			}
