@@ -34,10 +34,12 @@ class Request {
 		}
 
 		// remove index file
-		$index = '/' . Config::get('application.index_page');
+		$index = Config::get('application.index_page');
 
-		if(strpos($uri, $index) === 0) {
-			$uri = substr($uri, strlen($index));
+		if(strlen($index)) {
+			if(strpos($uri, $index) === 0) {
+				$uri = substr($uri, strlen($index));
+			}
 		}
 
 		return trim($uri, '/');

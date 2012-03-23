@@ -48,7 +48,6 @@ function relative_time($date) {
 	}
 }
 
-
 /**
 	Binding custom functions
 	This is just an example of what can be done

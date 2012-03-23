@@ -31,6 +31,13 @@
 				</p>
 				
 				<p>
+					<label for="created"><?php echo __('posts.date', 'Date'); ?>:</label>
+					<input type="date" id="created" autocomplete="off" name="created" value="<?php echo date('jS M Y, h:i', strtotime(Input::post('created', $article->created))); ?>">
+					
+					<em><?php echo __('posts.date_explain', 'The date your post will be published. Uses <code><a href="http://php.net/manual/en/function.strtotime.php">strtotime()</a></code>.'); ?></em>
+				</p>
+
+				<p>
 					<label for="slug"><?php echo __('posts.slug', 'Slug'); ?>:</label>
 					<input type="url" id="slug" autocomplete="off" name="slug" value="<?php echo Input::post('slug', $article->slug); ?>">
 					

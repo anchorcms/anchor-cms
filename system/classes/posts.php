@@ -85,12 +85,14 @@ class Posts {
 			$args[] = $params['status'];
 		}
 		
-		if(isset($params['sortby'])) {
-			$sql .= " order by posts." . $params['sortby'];
-			
-			if(isset($params['sortmode'])) {
-				$sql .= " " . $params['sortmode'];
-			}
+		if(!isset($params['sortby'])) {
+			$params['sortby'] = 'created';
+		}
+		
+		$sql .= " order by posts." . $params['sortby'];
+		
+		if(isset($params['sortmode'])) {
+			$sql .= " " . $params['sortmode'];
 		}
 		
 		if(isset($params['limit'])) {
@@ -229,9 +231,15 @@ class Posts {
 	}
 	
 	public static function update($id) {
-		$post = Input::post(array('title', 'slug', 'description', 'html', 
+		$post = Input::post(array('title', 'slug', 'created', 'description', 'html', 
 			'css', 'js', 'status', 'delete', 'field', 'comments'));
 		$errors = array();
+		
+		$post['created'] = strtotime($post['created']);
+		
+		if($post['created'] === false) {
+			$errors[] = Lang::line('posts.invalid_date', 'Please enter a valid date');
+		}
 
 		// delete
 		if($post['delete'] !== false) {
@@ -256,7 +264,7 @@ class Posts {
 		if(empty($post['slug'])) {
 			$post['slug'] = preg_replace('/\W+/', '-', trim(strtolower($post['title'])));
 		}
-
+		
 		// check for duplicate slug
 		$sql = "select id from posts where slug = ? and id <> ?";
 		if(Db::row($sql, array($post['slug'], $id))) {
