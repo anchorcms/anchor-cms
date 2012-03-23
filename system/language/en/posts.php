@@ -48,6 +48,8 @@ return array(
 
 	'title' => 'Title',
 	'title_explain' => 'Your post&rsquo;s title.',
+	'date' => 'Date',
+	'date_explain' => 'The &ldquo;published&rdquo; date for your post. Uses <code><a href="http://php.net/manual/en/function.strtotime.php">strtotime()</a></code>.',
 	'slug' => 'Slug',
 	'slug_explain' => 'The slug for your post (<code id="output">slug</code>).',
 	'description' => 'Description',
@@ -63,12 +65,13 @@ return array(
 	'custom_js' => 'Custom JS',
 	'custom_js_explain' => 'Custom Javascript. Will be wrapped in a <code>&lt;script&gt;</code> block.',
 
-	'missing_title' => 'Please enter a title',
-	'missing_description' => 'Please enter a description',
-	'missing_html' => 'Please enter your html',
+	'invalid_date' => 'Please enter a valid date.',
+	'missing_title' => 'Please enter a title.',
+	'missing_description' => 'Please enter a description.',
+	'missing_html' => 'Please enter your post&rsquo;s HTML.',
 	'duplicate_slug' => 'A post with the same slug already exists, please change your post slug.',
-	'post_success_created' => 'Your new post has been added',
+	'post_success_created' => 'Your new post has been added.',
 	'post_success_updated' => 'Your post has been updated.',
-	'post_success_deleted' => 'Your post has been deleted'
+	'post_success_deleted' => 'Your post has been deleted.'
 
 );
