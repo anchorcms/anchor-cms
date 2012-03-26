@@ -31,10 +31,10 @@
 			<input name="email" value="<?php echo post('email'); ?>"></label></p>
 
 			<p><label>Password<br>
-			<input name="password" value="<?php echo post('password'); ?>"></label></p>
+			<input name="password" type="password" value="<?php echo post('password'); ?>"></label></p>
 
 			<p><label>Confirm Password<br>
-			<input name="confirm_password" value="<?php echo post('confirm_password'); ?>"></label></p>
+			<input name="confirm_password" type="password" value="<?php echo post('confirm_password'); ?>"></label></p>
 		</fieldset>
 
 		<p><button type="submit">Continue</button></p>

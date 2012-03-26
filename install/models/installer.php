@@ -79,6 +79,7 @@ class Installer {
 
 		$search = array(
 			"'host' => 'localhost'",
+			"'port' => '3306'",
 			"'username' => 'root'",
 			"'password' => ''",
 			"'name' => 'anchorcms'",
@@ -93,6 +94,7 @@ class Installer {
 		);
 		$replace = array(
 			"'host' => '" . $data['db']['host'] . "'",
+			"'port' => '" . $data['db']['port'] . "'",
 			"'username' => '" . $data['db']['user'] . "'",
 			"'password' => '" . $data['db']['pass'] . "'",
 			"'name' => '" . $data['db']['name'] . "'",
@@ -151,7 +153,7 @@ class Installer {
 	}
 
 	public static function stage2() {
-		$post = post(array('host', 'user', 'pass', 'name'));
+		$post = post(array('host', 'user', 'pass', 'name', 'port'));
 
 		if(empty($post['host'])) {
 			$errors[] = 'Please specify a database host';
@@ -161,10 +163,14 @@ class Installer {
 			$errors[] = 'Please specify a database name';
 		}
 
+		if(empty($post['port'])) {
+			$post['port'] = 3306;
+		}
+
 		// test connection
 		if(empty($errors)) {
 			try {
-				$dsn = 'mysql:dbname=' . $post['name'] . ';host=' . $post['host'];
+				$dsn = 'mysql:dbname=' . $post['name'] . ';host=' . $post['host'] . ';port=' . $post['port'];
 				new PDO($dsn, $post['user'], $post['pass']);
 			} catch(PDOException $e) {
 				$errors[] = $e->getMessage();

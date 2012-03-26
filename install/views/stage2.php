@@ -13,6 +13,9 @@
 			<p><label>Host<br>
 			<input name="host" value="<?php echo post('host', 'localhost'); ?>"></label></p>
 
+			<p><label>Port<br>
+			<input name="port" value="<?php echo post('port', '3306'); ?>"></label></p>
+
 			<p><label>Username<br>
 			<input name="user" value="<?php echo post('user', 'anchor'); ?>"></label></p>
 

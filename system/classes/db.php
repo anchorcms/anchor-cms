@@ -15,11 +15,16 @@ class Db {
 		// config
 		$params = Config::get('database');
 
+		// set default mysql port number
+		if(empty($params['port'])) {
+			$params['port'] = 3306;
+		}
+
 		// set debug mode
 		static::$debug = Config::get('debug', false);
 		
 		// build dns string
-		$dsn = 'mysql:dbname=' . $params['name'] . ';host=' . $params['host'];
+		$dsn = 'mysql:dbname=' . $params['name'] . ';host=' . $params['host'] . ';port=' . $params['port'];
 
 		// try connection
 		static::$dbh = new PDO($dsn, $params['username'], $params['password']);
