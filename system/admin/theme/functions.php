@@ -134,6 +134,6 @@ function db_profile() {
 /**
 	Lang helper
 */
-function __($line, $default = 'No language replacement found: ') {
-	return Lang::line($line, $default . $line);
+function __($line, $default = 'No language replacement') {
+	return Lang::line($line, $default);
 }

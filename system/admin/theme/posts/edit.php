@@ -32,7 +32,7 @@
 				
 				<p>
 					<label for="created"><?php echo __('posts.date', 'Date'); ?>:</label>
-					<input type="date" id="created" autocomplete="off" name="created" value="<?php echo date('jS M Y, h:i', strtotime(Input::post('created', $article->created))); ?>">
+					<input type="date" id="created" autocomplete="off" name="created" value="<?php echo Input::post('created', date('jS M Y, h:i', $article->created)); ?>">
 					
 					<em><?php echo __('posts.date_explain', 'The date your post will be published. Uses <code><a href="http://php.net/manual/en/function.strtotime.php">strtotime()</a></code>.'); ?></em>
 				</p>
