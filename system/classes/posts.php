@@ -131,13 +131,17 @@ class Posts {
 		return new Items($results);
 	}
 	
-	public static function count($params = array()) {
-		$sql = "select count(*) from posts where 1 = 1";
+	public static function count($where = array()) {
+		$sql = "select count(*) from posts";
 		$args = array();
 
-		if(isset($params['status'])) {
-			$sql .= " and posts.status = ?";
-			$args[] = $params['status'];
+		if(count($where)) {
+			$clause = array();
+			foreach($where as $key => $value) {
+				$clause[] = 'posts.' . $key . ' = ?';
+				$args[] = $value;
+			}
+			$sql .= " where " . implode(' and ', $clause);
 		}
 
 		// return total
@@ -253,8 +257,13 @@ class Posts {
 		$post = Input::post(array('title', 'slug', 'created', 'description', 'html', 
 			'css', 'js', 'status', 'delete', 'field', 'comments'));
 		$errors = array();
+
+		var_dump($post['created']);
 		
 		$post['created'] = strtotime($post['created']);
+
+		var_dump($post['created']);
+		exit;
 		
 		if($post['created'] === false) {
 			$errors[] = Lang::line('posts.invalid_date', 'Please enter a valid date');
@@ -322,10 +331,16 @@ class Posts {
 	}
 	
 	public static function add() {
-		$post = Input::post(array('title', 'slug', 'description', 'html', 
+		$post = Input::post(array('title', 'slug', 'created', 'description', 'html', 
 			'css', 'js', 'status', 'field', 'comments'));
 		$errors = array();
 		
+		$post['created'] = strtotime($post['created']);
+		
+		if($post['created'] === false) {
+			$errors[] = Lang::line('posts.invalid_date', 'Please enter a valid date');
+		}
+
 		if(empty($post['title'])) {
 			$errors[] = Lang::line('posts.missing_title', 'Please enter a title');
 		}
@@ -370,9 +385,6 @@ class Posts {
 		unset($post['field']);
 		
 		$post['custom_fields'] = json_encode($custom);
-		
-		// set creation date
-		$post['created'] = time();
 		
 		// set author
 		$user = Users::authed();
