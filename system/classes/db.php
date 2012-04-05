@@ -26,8 +26,11 @@ class Db {
 		// build dns string
 		$dsn = 'mysql:dbname=' . $params['name'] . ';host=' . $params['host'] . ';port=' . $params['port'];
 
+		// mysql driver options
+		$options = array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\'');
+
 		// try connection
-		static::$dbh = new PDO($dsn, $params['username'], $params['password']);
+		static::$dbh = new PDO($dsn, $params['username'], $params['password'], $options);
 		
 		// set error handling to exceptions
 		static::$dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
