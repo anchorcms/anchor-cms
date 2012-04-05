@@ -32,6 +32,12 @@ class Session {
 		}
 	}
 
+	public static function regenerate() {
+		$new = static::generate();
+		Db::update('sessions', array('id' => $new), array('id' => static::$id));
+		static::$id = $new;
+	}
+
 	public static function start() {
 		// run gc
 		static::gc();
@@ -52,7 +58,7 @@ class Session {
 		if($session = Db::row($sql, $args)) {
 			static::$data = unserialize($session->data);
 		} else {
-			// reset ID
+			// Session not found regenerate ID
 			static::$id = static::generate();
 			
 			Db::insert('sessions', array(

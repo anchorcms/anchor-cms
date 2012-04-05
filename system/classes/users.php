@@ -85,6 +85,10 @@ class Users {
 		
 		// if we made it this far that means we have a winner
 		Session::set('user', $user);
+
+		// avoid session fixation vulnerability
+		// https://www.owasp.org/index.php/Session_fixation
+		Session::regenerate();
 		
 		return true;
 	}
