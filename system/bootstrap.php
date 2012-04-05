@@ -105,6 +105,11 @@ if(Config::load(PATH . 'config.php') === false) {
 // Register the default timezone for the application.
 date_default_timezone_set(Config::get('application.timezone'));
 
+// set locale
+if(setlocale(LC_ALL, Config::get('application.language') . '.utf8') === false) {
+	Log::warning('setlocate failed, please check your system has ' . Config::get('application.language') . ' installed.');
+}
+
 // Register the PHP exception handler.
 set_exception_handler(array('Error', 'exception'));
 

@@ -29,7 +29,7 @@ return array(
 		'key' => '',
 
 		// Default application language
-		'language' => 'en'
+		'language' => 'en_GB'
 	),
 	
 	// Session details

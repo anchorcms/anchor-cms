@@ -2,6 +2,25 @@
 
 class Posts {
 
+	private static function slug($str) {
+		// current locale
+		$locale = setlocale(LC_ALL, 0);
+
+		// switch to en
+		setlocale(LC_ALL, 'en_GB.utf8');
+
+		// convert to 7-bit ASCII
+		$str = iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $str);
+
+		// script none word characters, lower case and trim short back and sides
+		$str = preg_replace('/\W+/', '-', trim(strtolower($str)));
+
+		// revert locale
+		setlocale(LC_ALL, $locale);
+
+		return $str;
+	}
+
 	public static function extend($post) {
 		if(is_array($post)) {
 			$posts = array();
@@ -261,9 +280,13 @@ class Posts {
 			$errors[] = Lang::line('posts.missing_html', 'Please enter your html');
 		}
 		
+		// use title as fallback
 		if(empty($post['slug'])) {
-			$post['slug'] = preg_replace('/\W+/', '-', trim(strtolower($post['title'])));
+			$post['slug'] = $post['title'];
 		}
+
+		// format slug
+		$post['slug'] = static::slug($post['slug']);
 		
 		// check for duplicate slug
 		$sql = "select id from posts where slug = ? and id <> ?";
@@ -315,9 +338,13 @@ class Posts {
 			$errors[] = Lang::line('posts.missing_html', 'Please enter your html');
 		}
 		
+		// use title as fallback
 		if(empty($post['slug'])) {
-			$post['slug'] = preg_replace('/\W+/', '-', trim(strtolower($post['title'])));
+			$post['slug'] = $post['title'];
 		}
+
+		// format slug
+		$post['slug'] = static::slug($post['slug']);
 
 		// check for duplicate slug
 		$sql = "select id from posts where slug = ?";
