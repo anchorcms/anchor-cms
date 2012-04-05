@@ -51,7 +51,7 @@ return array(
 	'date' => 'Date',
 	'date_explain' => 'The &ldquo;published&rdquo; date for your post. Uses <code><a href="http://php.net/manual/en/function.strtotime.php">strtotime()</a></code>.',
 	'slug' => 'Slug',
-	'slug_explain' => 'The slug for your post (<code id="output">slug</code>).',
+	'slug_explain' => 'The slug for your post.',
 	'description' => 'Description',
 	'description_explain' => 'A brief outline of what your post is about. Used in the RSS feed.',
 	'content' => 'Content',
