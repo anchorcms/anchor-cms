@@ -37,7 +37,7 @@ class Session {
 
 		if(static::$id === false) {
 			Log::info('Session cookie not found: ' . $name);
-			static::$id = static::generate();
+			static::$id = Str::random(32);
 		}
 		
 		// load session data
