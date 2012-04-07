@@ -39,7 +39,7 @@
 
 				<p>
 					<label for="slug"><?php echo __('posts.slug', 'Slug'); ?>:</label>
-					<input type="text" id="slug" autocomplete="off" name="slug" value="<?php echo Input::post('slug', $article->slug); ?>">
+					<input id="slug" autocomplete="off" name="slug" value="<?php echo Input::post('slug', $article->slug); ?>">
 					
 					<em><?php echo __('posts.slug_explain', 'The slug for your post.'); ?></em>
 				</p>

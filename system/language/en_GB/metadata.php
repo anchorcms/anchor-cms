@@ -18,7 +18,7 @@ return array(
 	'current_theme_explain' => 'Your current theme.',
 	'auto_publish_comments' => 'Auto publish comments',
 	'twitter' => 'Twitter',
-	'twitter_explain' => 'Your twitter account. Displayed as @<span id="output"></span>.',
+	'twitter_explain' => 'Your twitter account.',
 	'save' => 'Save changes',
 
 	'missing_sitename' => 'You need a site sitename',

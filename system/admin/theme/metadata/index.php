@@ -80,7 +80,7 @@
 				<label for="twitter"><?php echo __('metadata.twitter', 'Twitter'); ?>:</label>
 				<input id="twitter" name="twitter" value="<?php echo Input::post('twitter', $metadata->twitter); ?>">
 				
-				<em><?php echo __('metadata.twitter_explain', 'Your twitter account. Displayed as @<span id="output"></span>.'); ?></em>
+				<em><?php echo __('metadata.twitter_explain', 'Your twitter account.'); ?></em>
 			</p>
 		</fieldset>
 			
