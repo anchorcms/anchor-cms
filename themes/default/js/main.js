@@ -35,6 +35,8 @@
             label.className = 'invisible';
             search.className = !opened ? 'opened' : '';
             
+            search.childNodes[1][opened ? 'blur' : 'focus']();
+            
             setTimeout(function() {
                 label.src = base + 'img/' + (opened ? 'search' : 'close') + '.gif';
                 label.className = '';
