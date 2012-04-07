@@ -29,7 +29,7 @@ class Messages {
 			return '';
 		}
 
-		$html = '<p>' . implode('<br>', $messages) . '</p>';
+		$html = '<p class="message">' . implode('<br>', $messages) . '</p>';
 
 		unset($_SESSION['messages']);
 

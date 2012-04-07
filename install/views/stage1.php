@@ -1,24 +1,43 @@
 <?php render('layout/header'); ?>
 
-<div class="content">
-	<h2>Welcome to Anchor.</h2>
+<section class="content">
+	<nav>
+		<div class="logo">
+			<img src="assets/img/logo.png">
+		</div>
 
-	<p>If you were looking for a truly lightweight blogging experience, you&rsquo;ve 
-	found the right place. Simply fill in the details below, and you&rsquo;ll have your 
-	new blog set up in no time.</p>
+		<ul>
+			<li class="selected"><i class="icon-home"></i>Welcome</li>
+			<li><i class="icon-spanner"></i>Database information</li>
+			<li><i class="icon-pencil"></i>Site metadata</li>
+			<li><i class="icon-user"></i>Your first account</li>
+		</ul>
 
-	<form method="post" action="index.php">
+		<p>You're installing Anchor. Hooray!</p>
+	</nav>
 
+	<article>
+		<h1>Welcome</h1>
+
+		<p>If you were looking for a truly lightweight blogging experience, you&rsquo;ve 
+		found the right place. Simply fill in the details below, and you&rsquo;ll have your 
+		new blog set up in no time.</p>
+	</article>
+
+	<form method="post" action="index.php" autocomplete="off">
 		<fieldset>
-			<p><label>Language<br>
+			<p><label><strong>Language</strong><br>
+			<span class="info">Anchor's language.</span></label>
 			<select name="language">
-				<option value="en" selected>English</option>
-			</select></label></p>
+				<option value="en_GB" selected>English</option>
+			</select></p>
 		</fieldset>
 
-		<p><button type="submit">Continue</button></p>
-
+		<section class="options">
+			<button type="submit">Next Step &raquo;</button>
+			<div class="test"></div>
+		</section>
 	</form>
-</div>
+</section>
 
 <?php render('layout/footer'); ?>

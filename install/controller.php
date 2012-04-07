@@ -25,11 +25,21 @@ class Installation_controller {
 	public function stage3() {
 		if(is_post()) {
 			if(Installer::stage3()) {
-				return redirect('complete');
+				return redirect('stage4');
 			}
 		}
 
 		render('stage3');
+	}
+
+	public function stage4() {
+		if(is_post()) {
+			if(Installer::stage4()) {
+				return redirect('complete');
+			}
+		}
+
+		render('stage4');
 	}
 
 	public function download() {

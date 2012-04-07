@@ -1,45 +1,52 @@
 <?php render('layout/header'); ?>
 
-<div class="content">
-	<h2>About your site</h2>
+<section class="content">
+	<nav>
+		<div class="logo">
+			<img src="assets/img/logo.png">
+		</div>
 
-	<form method="post" action="index.php?action=stage3">
+		<ul>
+			<li><i class="icon-home"></i>Welcome</li>
+			<li><i class="icon-spanner"></i>Database information</li>
+			<li class="selected"><i class="icon-pencil"></i>Site metadata</li>
+			<li><i class="icon-user"></i>Your first account</li>
+		</ul>
 
-		<?php echo Messages::read(); ?>
+		<p>You're installing Anchor. Hooray!</p>
+	</nav>
 
+	<article>
+		<h1>Site metadata</h1>
+
+		<p>Some text</p>
+	</article>
+
+	<form method="post" action="index.php?action=stage3" autocomplete="off">
 		<fieldset>
-			<p><label>Site Name<br>
-			<input name="site_name" value="<?php echo post('site_name', 'My First Anchor Blog'); ?>"></label></p>
 
-			<p><label>Site Description<br>
-			<textarea name="site_description"><?php echo post('site_description', 'Welcome to my first Anchor blog'); ?></textarea></label></p>
+			<?php echo Messages::read(); ?>
 
-			<p><label>Site Path<br>
-			<input name="site_path" value="<?php echo post('site_path', dirname(dirname($_SERVER['REQUEST_URI']))); ?>"></label></p>
+			<p><label><strong>Site Name</strong></label>
+			<input name="site_name" value="<?php echo post('site_name', 'My First Anchor Blog'); ?>"></p>
 
-			<p><label>Theme<br>
+			<p><label><strong>Site Description</strong></label>
+			<textarea name="site_description"><?php echo post('site_description', 'Welcome to my first Anchor blog'); ?></textarea></p>
+
+			<p><label><strong>Site Path</strong></label>
+			<input name="site_path" value="<?php echo post('site_path', dirname(dirname($_SERVER['REQUEST_URI']))); ?>"></p>
+
+			<p><label><strong>Theme</strong></label>
 			<select name="theme">
 				<option value="default">Default</option>
-			</select></label></p>
+			</select></p>
 		</fieldset>
 
-		<fieldset>
-			<p><label>Username<br>
-			<input name="username" value="<?php echo post('username', 'admin'); ?>"></label></p>
-
-			<p><label>Email address<br>
-			<input name="email" value="<?php echo post('email'); ?>"></label></p>
-
-			<p><label>Password<br>
-			<input name="password" type="password" value="<?php echo post('password'); ?>"></label></p>
-
-			<p><label>Confirm Password<br>
-			<input name="confirm_password" type="password" value="<?php echo post('confirm_password'); ?>"></label></p>
-		</fieldset>
-
-		<p><button type="submit">Continue</button></p>
-
+		<section class="options">
+			<button type="submit">Next Step &raquo;</button>
+			<div class="test"></div>
+		</section>
 	</form>
-</div>
+</section>
 
 <?php render('layout/footer'); ?>

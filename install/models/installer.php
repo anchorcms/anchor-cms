@@ -38,7 +38,8 @@ class Installer {
 		$data = $_SESSION;
 
 		$sql = str_replace('[[now]]', time(), file_get_contents('assets/sql/anchor.sql'));
-		$dsn = 'mysql:dbname=' . $data['db']['name'] . ';host=' . $data['db']['host'];
+
+		$dsn = 'mysql:dbname=' . $data['db']['name'] . ';host=' . $data['db']['host'] . ';port=' . $data['db']['port'];
 		$dbh = new PDO($dsn, $data['db']['user'], $data['db']['pass']);
 		
 		try {
@@ -53,7 +54,7 @@ class Installer {
 			// create user account
 			$sql= "INSERT INTO `users` (`username`, `password`, `email`, `real_name`, `bio`, `status`, `role`) VALUES (?, ?, ?, 'Administrator', 'Default account for Anchor.', 'active', 'administrator');";
 			$statement = $dbh->prepare($sql);
-			$statement->execute(array($data['site']['username'], crypt($data['site']['password'], $_SESSION['key']), $data['site']['email']));
+			$statement->execute(array($data['user']['username'], crypt($data['user']['password'], $_SESSION['key']), $data['user']['email']));
 
 			$dbh->commit();
 		} catch(PDOException $e) {
@@ -148,7 +149,7 @@ class Installer {
 		Collect and validate
 	*/
 	public static function stage1() {
-		$_SESSION = array('lang' => post('language', 'en'));
+		$_SESSION = array('lang' => post('language'));
 		return true;
 	}
 
@@ -189,8 +190,7 @@ class Installer {
 	}
 
 	public static function stage3() {
-		$post = post(array('site_name', 'site_description', 'site_path', 'theme',
-			'username', 'email', 'password', 'confirm_password'));
+		$post = post(array('site_name', 'site_description', 'site_path', 'theme'));
 
 		if(empty($post['site_name'])) {
 			$errors[] = 'Please enter a site name';
@@ -199,6 +199,20 @@ class Installer {
 		if(empty($post['site_path'])) {
 			$errors[] = 'Please specify your site path';
 		}
+
+		if(count($errors)) {
+			Messages::add($errors);
+			return false;
+		}
+
+		// save and continue
+		$_SESSION['site'] = $post;
+
+		return static::run();
+	}
+
+	public static function stage4() {
+		$post = post(array('username', 'email', 'password', 'confirm_password'));
 
 		if(empty($post['username'])) {
 			$errors[] = 'Please enter a username';
@@ -220,7 +234,7 @@ class Installer {
 		}
 
 		// save and continue
-		$_SESSION['site'] = $post;
+		$_SESSION['user'] = $post;
 
 		return static::run();
 	}
