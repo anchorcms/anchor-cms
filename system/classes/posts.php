@@ -1,50 +1,7 @@
 <?php defined('IN_CMS') or die('No direct access allowed.');
 
 class Posts {
-
-	private static function slug($str) {
-
-		$foreign_chars = Config::get('foreign_characters');
-		
-	    $trans = array(
-	        '#&\#\d+?;#i'			=> '',
-	        '#&\S+?;#i'				=> '',
-	        '#\s+#i'				=> '-',
-	        '#[^a-z0-9\-\._]#i'		=> '',
-	        '#-+#i'					=> '-',
-	        '#^-#i'					=> '-',
-	        '#\.+$#i'				=> '',
-	        '#_#i'					=> '-'
-	    );
-
-    	// Merging both arrays with characters.
-    	$foreign_chars = array_merge($foreign_chars, $trans);
-
-    	// Replaceing foreign characters		
-		$str = preg_replace(array_keys($foreign_chars), array_values($foreign_chars),$str);
-		
-		return trim(stripcslashes(strtolower($str)));
-	}
 	
-	/*private static function slug($str) {
-		// current locale
-		$locale = setlocale(LC_ALL, 0);
-
-		// switch to en
-		setlocale(LC_ALL, 'en_GB.utf8');
-
-		// convert to 7-bit ASCII
-		$str = iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $str);
-
-		// script none word characters, lower case and trim short back and sides
-		$str = preg_replace('/\W+/', '-', trim(strtolower($str)));
-
-		// revert locale
-		setlocale(LC_ALL, $locale);
-
-		return $str;
-	}*/
-
 	public static function extend($post) {
 		if(is_array($post)) {
 			$posts = array();
@@ -316,7 +273,7 @@ class Posts {
 		}
 
 		// format slug
-		$post['slug'] = static::slug($post['slug']);
+		$post['slug'] = Str::slug($post['slug']);
 		
 		// check for duplicate slug
 		$sql = "select id from posts where slug = ? and id <> ?";
@@ -380,7 +337,7 @@ class Posts {
 		}
 
 		// format slug
-		$post['slug'] = static::slug($post['slug']);
+		$post['slug'] = Str::slug($post['slug']);
 
 		// check for duplicate slug
 		$sql = "select id from posts where slug = ?";

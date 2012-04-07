@@ -10,17 +10,6 @@
 class Session {
 	
 	private static $id, $data = array();
-	
-	private static function generate($length = 32) {
-		$pool = str_split('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', 1);
-		$value = '';
-
-		for ($i = 0; $i < $length; $i++)  {
-			$value .= $pool[mt_rand(0, 61)];
-		}
-
-		return $value;
-	}
 
 	private static function gc() {
 		// dont run gc on every request
@@ -33,7 +22,7 @@ class Session {
 	}
 
 	public static function regenerate() {
-		$new = static::generate();
+		$new = Str::random(32);
 		Db::update('sessions', array('id' => $new), array('id' => static::$id));
 		static::$id = $new;
 	}
@@ -59,7 +48,7 @@ class Session {
 			static::$data = unserialize($session->data);
 		} else {
 			// Session not found regenerate ID
-			static::$id = static::generate();
+			static::$id = Str::random(32);
 			
 			Db::insert('sessions', array(
 				'id' => static::$id,

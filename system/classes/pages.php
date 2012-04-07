@@ -131,8 +131,10 @@ class Pages {
 		}
 		
 		if(empty($post['slug'])) {
-			$post['slug'] = preg_replace('/\W+/', '-', trim(strtolower($post['name'])));
+			$post['slug'] = $post['name'];
 		}
+
+		$post['slug'] = Str::slug($post['slug']);
 		
 		Db::update('pages', $post, array('id' => $id));
 		
@@ -165,8 +167,10 @@ class Pages {
 		}
 		
 		if(empty($post['slug'])) {
-			$post['slug'] = preg_replace('/\W+/', '-', trim(strtolower($post['name'])));
+			$post['slug'] = $post['name'];
 		}
+
+		$post['slug'] = Str::slug($post['slug']);
 
 		Db::insert('pages', $post);
 		
