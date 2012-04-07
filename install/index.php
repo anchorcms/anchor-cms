@@ -8,6 +8,8 @@ require PATH . 'models/messages.php';
 require PATH . 'models/installer.php';
 require PATH . 'controller.php';
 
+include '../index.php';
+
 // start native session
 session_start();
 

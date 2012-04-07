@@ -7,17 +7,16 @@
 		</div>
 
 		<ul>
-			<li class="selected"><i class="icon-home"></i>Welcome</li>
 			<li><i class="icon-spanner"></i>Database information</li>
 			<li><i class="icon-pencil"></i>Site metadata</li>
 			<li><i class="icon-user"></i>Your first account</li>
 		</ul>
 
-		<p>You're installing Anchor. Hooray!</p>
+		<p>You're installing Anchor <?php echo ANCHOR_VERSION; ?>. Hooray!</p>
 	</nav>
 
 	<article>
-		<h1>Welcome</h1>
+		<h1>Hello. Willkommen. Bonjour. Croeso.</h1>
 
 		<p>If you were looking for a truly lightweight blogging experience, you&rsquo;ve 
 		found the right place. Simply fill in the details below, and you&rsquo;ll have your 
@@ -26,12 +25,22 @@
 
 	<form method="post" action="index.php" autocomplete="off">
 		<fieldset>
-			<p><label><strong>Language</strong><br>
-			<span class="info">Anchor's language.</span></label>
-			<select name="language">
-				<option value="en_GB" selected>English</option>
-			</select></p>
+			<p>
+				<label for="lang">
+					<strong>Language</strong>
+					<span class="info">Anchor's language.</span>
+				</label>
+				<select id="lang" name="language">
+				<?php foreach(glob('../system/language/*/') as $file): ?>
+					<option value="<?php echo rtrim(str_replace('../system/language/', '', $file), '/'); ?>" selected><?php echo rtrim(str_replace('../system/language/', '', $file), '/'); ?></option>
+				<?php endforeach; ?>
+				</select>
+			</p>
 		</fieldset>
+		
+		<p>
+			<small>You can get more languages by downloading them from <a href="https://github.com/anchorcms/anchor-translations">the Anchor translations repository</a>, and placing in the <code>/system/languages</code> folder.</small>
+		</p>
 
 		<section class="options">
 			<button type="submit">Next Step &raquo;</button>

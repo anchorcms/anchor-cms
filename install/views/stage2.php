@@ -7,13 +7,12 @@
 		</div>
 
 		<ul>
-			<li><i class="icon-home"></i>Welcome</li>
 			<li class="selected"><i class="icon-spanner"></i>Database information</li>
 			<li><i class="icon-pencil"></i>Site metadata</li>
 			<li><i class="icon-user"></i>Your first account</li>
 		</ul>
 
-		<p>You're installing Anchor. Hooray!</p>
+		<p>You're installing Anchor <?php echo ANCHOR_VERSION; ?>. Hooray!</p>
 	</nav>
 
 	<article>
@@ -29,23 +28,23 @@
 		<fieldset>
 			<?php echo Messages::read(); ?>
 
-			<p><label><strong>Host</strong><br>
+			<p><label><strong>Database Host</strong>
 			<span class="info">Probably <code>localhost</code>.</span></label>
 			<input name="host" value="<?php echo post('host', 'localhost'); ?>"></p>
 
-			<p><label><strong>Port</strong><br>
+			<p><label><strong>Database Port</strong>
 			<span class="info">Probably <code>3306</code>.</span></label>
 			<input name="port" value="<?php echo post('port', '3306'); ?>"></p>
 
-			<p><label><strong>Username</strong><br>
+			<p><label><strong>Username</strong>
 			<span class="info">Self-explanatory.</span></label>
 			<input name="user" value="<?php echo post('user', 'anchor'); ?>"></p>
 
-			<p><label><strong>Password</strong><br>
+			<p><label><strong>Password</strong>
 			<span class="info">Hangs out with "username".</span></label>
 			<input name="pass" value="<?php echo post('pass'); ?>"></p>
 
-			<p><label><strong>Name</strong><br>
+			<p><label><strong>Database Name</strong>
 			<span class="info">Also self-explanatory.</span></label>
 			<input name="name" value="<?php echo post('name', 'anchorcms'); ?>"></p>
 		</fieldset>

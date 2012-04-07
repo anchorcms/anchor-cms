@@ -7,13 +7,12 @@
 		</div>
 
 		<ul>
-			<li><i class="icon-home"></i>Welcome</li>
 			<li><i class="icon-spanner"></i>Database information</li>
 			<li class="selected"><i class="icon-pencil"></i>Site metadata</li>
 			<li><i class="icon-user"></i>Your first account</li>
 		</ul>
 
-		<p>You're installing Anchor. Hooray!</p>
+		<p>You're installing Anchor <?php echo ANCHOR_VERSION; ?>. Hooray!</p>
 	</nav>
 
 	<article>
