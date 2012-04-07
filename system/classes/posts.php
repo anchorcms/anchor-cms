@@ -3,6 +3,30 @@
 class Posts {
 
 	private static function slug($str) {
+
+		$foreign_chars = Config::get('foreign_characters');
+		
+	    $trans = array(
+	        '#&\#\d+?;#i'			=> '',
+	        '#&\S+?;#i'				=> '',
+	        '#\s+#i'				=> '-',
+	        '#[^a-z0-9\-\._]#i'		=> '',
+	        '#-+#i'					=> '-',
+	        '#^-#i'					=> '-',
+	        '#\.+$#i'				=> '',
+	        '#_#i'					=> '-'
+	    );
+
+    	// Merging both arrays with characters.
+    	$foreign_chars = array_merge($foreign_chars, $trans);
+
+    	// Replaceing foreign characters		
+		$str = preg_replace(array_keys($foreign_chars), array_values($foreign_chars),$str);
+		
+		return trim(stripcslashes(strtolower($str)));
+	}
+	
+	/*private static function slug($str) {
 		// current locale
 		$locale = setlocale(LC_ALL, 0);
 
@@ -19,7 +43,7 @@ class Posts {
 		setlocale(LC_ALL, $locale);
 
 		return $str;
-	}
+	}*/
 
 	public static function extend($post) {
 		if(is_array($post)) {
@@ -261,9 +285,6 @@ class Posts {
 		var_dump($post['created']);
 		
 		$post['created'] = strtotime($post['created']);
-
-		var_dump($post['created']);
-		exit;
 		
 		if($post['created'] === false) {
 			$errors[] = Lang::line('posts.invalid_date', 'Please enter a valid date');
