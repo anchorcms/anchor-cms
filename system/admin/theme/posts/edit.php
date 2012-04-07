@@ -32,14 +32,14 @@
 				
 				<p>
 					<label for="created"><?php echo __('posts.date', 'Date'); ?>:</label>
-					<input type="date" id="created" autocomplete="off" name="created" value="<?php echo Input::post('created', date('jS M Y, h:i', strtotime($article->created))); ?>">
+					<input type="date" id="created" autocomplete="off" name="created" value="<?php echo Input::post('created', date('jS M Y, h:i', $article->created)); ?>">
 					
 					<em><?php echo __('posts.date_explain', 'The date your post will be published. Uses <code><a href="http://php.net/manual/en/function.strtotime.php">strtotime()</a></code>.'); ?></em>
 				</p>
 
 				<p>
 					<label for="slug"><?php echo __('posts.slug', 'Slug'); ?>:</label>
-					<input type="url" id="slug" autocomplete="off" name="slug" value="<?php echo Input::post('slug', $article->slug); ?>">
+					<input type="text" id="slug" autocomplete="off" name="slug" value="<?php echo Input::post('slug', $article->slug); ?>">
 					
 					<em><?php echo __('posts.slug_explain', 'The slug for your post.'); ?></em>
 				</p>
@@ -67,7 +67,7 @@
 							'published' => __('posts.published', 'published')
 						) as $value => $status): ?>
 						<?php $selected = (Input::post('status', $article->status) == $value) ? ' selected' : ''; ?>
-						<option value="<?php echo $status; ?>"<?php echo $selected; ?>>
+						<option value="<?php echo $value; ?>"<?php echo $selected; ?>>
 							<?php echo $status; ?>
 						</option>
 						<?php endforeach; ?>
