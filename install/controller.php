@@ -9,7 +9,13 @@ class Installation_controller {
 			}
 		}
 
-		render('stage1');
+		$langs = array();
+
+		foreach(glob('../system/language/*/') as $file) {
+			$langs[] = basename($file);
+		}
+
+		render('stage1', array('languages' => $langs));
 	}
 
 	public function stage2() {

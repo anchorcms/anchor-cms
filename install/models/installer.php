@@ -208,7 +208,7 @@ class Installer {
 		// save and continue
 		$_SESSION['site'] = $post;
 
-		return static::run();
+		return true;
 	}
 
 	public static function stage4() {

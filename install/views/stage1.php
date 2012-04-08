@@ -31,8 +31,8 @@
 					<span class="info">Anchor's language.</span>
 				</label>
 				<select id="lang" name="language">
-				<?php foreach(glob('../system/language/*/') as $file): ?>
-					<option value="<?php echo rtrim(str_replace('../system/language/', '', $file), '/'); ?>" selected><?php echo rtrim(str_replace('../system/language/', '', $file), '/'); ?></option>
+				<?php foreach($languages as $lang): ?>
+					<option><?php echo $lang; ?></option>
 				<?php endforeach; ?>
 				</select>
 			</p>
