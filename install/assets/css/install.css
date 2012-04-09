@@ -44,6 +44,10 @@ h1 {
 	padding: 10px 0 20px;
 }
 
+em {
+	font: italic .85em/1.6 Georgia, serif;
+}
+
 p {
 	padding-bottom: 15px;
 }
@@ -60,7 +64,7 @@ p {
 		
 p.message {
 	padding: 10px 16px 10px 50px;
-	margin-bottom: 15px;
+	margin-bottom: 25px;
 	
 	background: #f4f0db url('../img/error.png') no-repeat 15px 12px;
 	border: 1px solid #d7d4bf;
@@ -73,7 +77,7 @@ p.message {
 	-moz-box-shadow: inset 0 1px 1px rgba(0,0,0,.05);
 	box-shadow: inset 0 1px 1px rgba(0,0,0,.05);
 	
-	font: 13px/21px "Helvetica Neue", sans-serif;
+	font: 12px/21px "Helvetica Neue", sans-serif;
 	color: #716e5e;
 	text-shadow: 0 1px 0 rgba(255,255,255,.25);
 }
@@ -111,14 +115,48 @@ fieldset {
 			
 			display: block;
 		}
+input, textarea {	
+	font: 13px "Helvetica Neue", sans-serif;
+	color: #6e818c;
+
+	border: 1px solid #b0bdc4;
+	
+	padding: 9px 15px;
+	
+	width: 362px;
+	
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	
+	-webkit-box-shadow: inset 0 1px 1px #e6ebee;
+	-moz-box-shadow: inset 0 1px 1px #e6ebee;
+	box-shadow: inset 0 1px 1px #e6ebee;
+}
+	textarea {
+		min-height: 90px;
+		max-height: 400px;
+		
+		resize: vertical;
+	}
+	input:focus, textarea:focus {
+		color: #4c616b;
+		background: #f7fbfd;
+		
+		border: 1px solid #93a0a7;
+		outline: none;
+	}
 		
 select {
 	min-width: 150px;
 }
 
-button {
+button, .button {
 	width: 102px;
 	height: 37px;
+	
+	display: block;
+	text-align: center;
 	
 	border: none;
 	
@@ -129,8 +167,8 @@ button {
 	text-shadow: 0 -1px 1px rgba(0,0,0,.3);
 	font: bold 13px/35px "Helvetica Neue", sans-serif;
 }
-	button:hover { background-position: 0 -37px; }
-	button:active { background-position: 0 -74px; text-shadow: 0 1px 1px rgba(0,0,0,.2); }
+	button:hover, .button:hover { background-position: 0 -37px; color: #fff; border: none; }
+	button:active, .button:active { background-position: 0 -74px; text-shadow: 0 1px 1px rgba(0,0,0,.2); }
 		
 section.options {
 	background: #f8fbfc;
@@ -164,6 +202,24 @@ section.content {
 
 	-webkit-box-reflect: below -1px -webkit-gradient(linear, left top, left bottom, from(transparent), color-stop(.9, transparent), to(rgba(255,255,255,.3)));
 }
+	section.content ul {
+		margin: 5px 20px 30px;
+	}
+		section.content.small ul li {
+			line-height: 18px;
+		}
+		section.content ul li strong {
+			color: #47626f;
+		}
+			section.content ul li em {
+				color: #8c9fa8;
+			}
+	section.content.small {
+		padding: 35px 50px 35px 100px;
+		min-height: 1px;
+		
+		background: #fff url('../img/logo.png') no-repeat 40px 48px;
+	}
 	section.content nav {
 		position: absolute;
 		left: 0;
@@ -206,7 +262,40 @@ section.content {
 				line-height: 39px;
 				
 				padding-left: 20px;
+				
+				position: relative;
 			}
+				section.content nav li.selected {
+					border-top: 1px solid #b9c8cf;
+					border-bottom: 1px solid #aebdc4;
+					
+					margin-top: -1px;
+					
+					color: #3c6174;
+					font-weight: bold;
+					
+					background-color: #e9f1f4;
+					background-image: -webkit-gradient(linear, left top, left bottom, from(#f4f8fa), to(#deeaef));
+					background-image: -webkit-linear-gradient(top, #f4f8fa, #deeaef);
+					background-image: -moz-linear-gradient(top, #f4f8fa, #deeaef);
+					background-image: -o-linear-gradient(top, #f4f8fa, #deeaef);
+					background-image: -ms-linear-gradient(top, #f4f8fa, #deeaef);
+					background-image: linear-gradient(top, #f4f8fa, #deeaef);
+					filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,StartColorStr='#f4f8fa', EndColorStr='#deeaef');
+					
+					box-shadow: inset 0 1px 0 rgba(255,255,255,.25), inset 0 -1px 1px rgba(0,0,0,.02);
+				}
+					section.content nav li.selected:after {
+						content: '';					
+						position: absolute;
+						top: -1px;
+						right: -14px;
+						
+						width: 14px;
+						height: 41px;
+						
+						background: url('../img/pointer.png');
+					}
 				section.content nav li i {
 					display: inline-block;
 					width: 16px;
@@ -254,4 +343,14 @@ section.content {
 		border-radius: 5px 0 0 0;
 		
 		pointer-events: none;
+	}
+	
+p.options {
+	margin: 20px 0 30px;
+}
+	p.options a {
+		float: right;
+	}
+	p.options a.button {
+		float: left;
 	}

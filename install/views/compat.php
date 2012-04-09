@@ -1,9 +1,9 @@
 <?php render('layout/header'); ?>
 
-<div class="content">
-	<h2>Woops</h2>
+<section class="content small">
+	<h1>Oh, no!</h1>
 	
-	<p>Looks like Anchor is missing some requirements:</p>
+	<p>Unfortunately, it looks like this vessel can't handle Anchor. Here's the missing requirements:</p>
 	
 	<ul>
 		<?php foreach($compat as $item): ?>
@@ -11,7 +11,7 @@
 		<?php endforeach; ?>
 	</ul>
 	
-	<p><a href="./index.php">Continue</a></p>
-</div>
+	<p><a class="button" href="./index.php">Continue</a></p>
+</section>
 
 <?php render('layout/footer'); ?>

@@ -222,10 +222,15 @@ class Installer {
 			$errors[] = 'Please enter a valid email address';
 		}
 
-		if(strlen($post['password']) < 6) {
-			$errors[] = 'Please enter a password, must be at least 6 characters long';
-		} elseif($post['password'] != $post['confirm_password']) {
-			$errors[] = 'Passwords do not match, please confirm your password';
+		$bad_passwords = array('password', 123456, 12345678, 'qwerty', 'abc123', 'monkey', 1234567, 'letmein', 'trustno1', 'dragon', 'baseball', 111111, 'iloveyou', 'master', 'sunshine', 'ashley', 'bailey', 'passw0rd', 'shadow', 123123, 654321, 'superman', 'qazwsx', 'michael', 'Football');
+		
+		if(in_array($post['password'], $bad_passwords)) {
+			$errors[] = 'Come on, you can pick a better password than that.';
+		}
+		
+		//  hunter2
+		if($post['password'] == 'hunter2') {
+			$errors[] = '&ldquo;See, when YOU type hunter2, it shows to us as *******&rdquo;';
 		}
 
 		if(count($errors)) {

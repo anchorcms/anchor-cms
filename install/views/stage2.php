@@ -38,7 +38,7 @@
 
 			<p><label><strong>Username</strong>
 			<span class="info">Self-explanatory.</span></label>
-			<input name="user" value="<?php echo post('user', 'anchor'); ?>"></p>
+			<input name="user" value="<?php echo post('user', 'root'); ?>"></p>
 
 			<p><label><strong>Password</strong>
 			<span class="info">Hangs out with "username".</span></label>
@@ -46,7 +46,7 @@
 
 			<p><label><strong>Database Name</strong>
 			<span class="info">Also self-explanatory.</span></label>
-			<input name="name" value="<?php echo post('name', 'anchorcms'); ?>"></p>
+			<input name="name" value="<?php echo post('name', 'anchor'); ?>"></p>
 		</fieldset>
 
 		<section class="options">
