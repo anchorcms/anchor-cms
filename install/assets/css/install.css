@@ -202,7 +202,7 @@ section.content {
 
 	-webkit-box-reflect: below -1px -webkit-gradient(linear, left top, left bottom, from(transparent), color-stop(.9, transparent), to(rgba(255,255,255,.3)));
 }
-	section.content ul {
+	section.content.small ul {
 		margin: 5px 20px 30px;
 	}
 		section.content.small ul li {
