@@ -85,6 +85,11 @@ function error_check() {
 		$errors[] = 'Please delete the install directory or rename it.';
 	}
 
+	// Check if the upgrade directory is still present
+	if (file_exists(PATH . 'upgrade')) {
+		$errors[] = 'Please delete the upgrade directory or rename it.';
+	}
+
 	// do something useful with it
 	return count($errors) ? $errors : false;
 }
