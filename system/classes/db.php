@@ -213,7 +213,7 @@ class Db {
 		return Db::exec($sql, $args);
 	}
 
-	public static function row($sql, $binds = array(), $fetch_style = \PDO::FETCH_OBJ) {
+	public static function row($sql, $binds = array(), $fetch_style = PDO::FETCH_OBJ) {
 		// get statement
 		$stm = static::query($sql, $binds);
 
@@ -221,12 +221,46 @@ class Db {
 		return $stm->fetch($fetch_style);
 	}
 
-	public static function results($sql, $binds = array(), $fetch_style = \PDO::FETCH_OBJ) {
+	public static function results($sql, $binds = array(), $fetch_style = PDO::FETCH_OBJ) {
 		// get statement
 		$stm = static::query($sql, $binds);
 
 		// return data array
 		return $stm->fetchAll($fetch_style);
+	}
+
+	public static function column($sql, $binds = array(), $column_number = 0) {
+		// get statement
+		$stm = static::query($sql, $binds);
+
+		// return data
+		return $stm->fetchColumn($column_number);
+	}
+
+	public static function pairs($sql, $binds = array()) {
+		// get result set
+		$results = static::results($sql, $binds, PDO::FETCH_NUM);
+
+		if(is_array($results) === false) {
+			return false;
+		}
+
+		// pair them up
+		$pairs = array();
+
+		foreach($results as $row) {
+			foreach(array_chunk($row, 2) as $pair) {
+				if(count($pair) != 2) {
+					continue;
+				}
+
+				list($key, $value) = $pair;
+				$pairs[$key] = $value;
+			}
+		}
+
+		// return pairs
+		return $pairs;
 	}
 
 	public static function insert_id() {
