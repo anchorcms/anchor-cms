@@ -84,6 +84,7 @@ class Installer {
 			"'username' => 'root'",
 			"'password' => ''",
 			"'name' => 'anchorcms'",
+			"'collation' => 'utf8_bin'",
 			
 			// apllication paths
 			"'base_url' => '/'",
@@ -99,6 +100,7 @@ class Installer {
 			"'username' => '" . $data['db']['user'] . "'",
 			"'password' => '" . $data['db']['pass'] . "'",
 			"'name' => '" . $data['db']['name'] . "'",
+			"'collation' => '" . $data['db']['collation'] . "'",
 
 			// apllication paths
 			"'base_url' => '/" . $base_url . "'",
@@ -154,7 +156,7 @@ class Installer {
 	}
 
 	public static function stage2() {
-		$post = post(array('host', 'user', 'pass', 'name', 'port'));
+		$post = post(array('host', 'user', 'pass', 'name', 'port', 'collation'));
 
 		if(empty($post['host'])) {
 			$errors[] = 'Please specify a database host';

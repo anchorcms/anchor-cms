@@ -47,6 +47,16 @@
 			<p><label><strong>Database Name</strong>
 			<span class="info">Also self-explanatory.</span></label>
 			<input name="name" value="<?php echo post('name', 'anchor'); ?>"></p>
+
+			<p><label><strong>Database Collation</strong>
+			<span class="info">Character set for comparisons.</span></label>
+			<select name="collation">
+				<?php foreach($collations as $code => $collation): ?>
+				<option value="<?php echo $code; ?>" title="<?php echo $collation; ?>"<?php if($code == 'utf8_general_ci') echo ' selected'; ?>>
+					<?php echo $code; ?>
+				</option>
+				<?php endforeach; ?>
+			</select></p>
 		</fieldset>
 
 		<section class="options">

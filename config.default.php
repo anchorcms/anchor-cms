@@ -10,7 +10,8 @@ return array(
 		'port' => '3306',
 		'username' => 'root',
 		'password' => '',
-		'name' => 'anchorcms'
+		'name' => 'anchorcms',
+		'collation' => 'utf8_bin'
 	),
 	
 	// Application settings

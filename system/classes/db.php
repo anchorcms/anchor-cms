@@ -20,6 +20,11 @@ class Db {
 			$params['port'] = 3306;
 		}
 
+		// set default collation
+		if(empty($params['collation'])) {
+			$params['collation'] = 'utf8_bin';
+		}
+
 		// set debug mode
 		static::$debug = Config::get('debug', false);
 		
@@ -27,7 +32,7 @@ class Db {
 		$dsn = 'mysql:dbname=' . $params['name'] . ';host=' . $params['host'] . ';port=' . $params['port'];
 
 		// mysql driver options
-		$options = array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\' COLLATE utf8_general_ci');
+		$options = array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\' COLLATE ' . $params['collation']);
 
 		// try connection
 		static::$dbh = new PDO($dsn, $params['username'], $params['password'], $options);
