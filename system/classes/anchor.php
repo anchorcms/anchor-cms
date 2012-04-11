@@ -9,13 +9,7 @@ class Anchor {
 	private static function setup() {
 		// Query metadata and store into our config
 		$sql = "select `key`, `value` from meta";
-		$meta = array();
-
-		foreach(Db::results($sql) as $row) {
-			$meta[$row->key] = $row->value;
-		}
-
-		Config::set('metadata', $meta);
+		Config::set('metadata', Db::pairs($sql));
 
 		// look up which page has our posts
 		$page = Pages::find(array('id' => Config::get('metadata.posts_page')));
