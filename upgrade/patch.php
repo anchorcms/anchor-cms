@@ -177,3 +177,7 @@ Config::set('foreign_characters', array(
 if(Config::get('debug', null) === null) {
 	Config::set('debug', false);
 }
+
+if(Config::get('database.collation', null) === null) {
+	Config::set('database.collation', 'utf8_bin');
+}
