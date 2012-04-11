@@ -10,18 +10,13 @@
 // Anchor version
 define('ANCHOR_VERSION', 0.7);
 
-// Make sure the only included file is the current file
-// Since we want to grab this file from the installer
-if(count(get_included_files()) <= 1) {
+// benchmark
+define('ANCHOR_START', microtime(true));
 
-	// benchmark
-	define('ANCHOR_START', microtime(true));
-	
-	// Define base path
-	define('PATH', pathinfo(__FILE__, PATHINFO_DIRNAME) . '/');
-	
-	// Block direct access to any PHP files
-	define('IN_CMS', true);
+// Define base path
+define('PATH', pathinfo(__FILE__, PATHINFO_DIRNAME) . '/');
 
-	require PATH . 'system/bootstrap.php';
-}
+// Block direct access to any PHP files
+define('IN_CMS', true);
+
+require PATH . 'system/bootstrap.php';
