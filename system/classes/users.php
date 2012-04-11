@@ -70,7 +70,7 @@ class Users {
 			// find user
 			if($user = Users::find(array('username' => $post['user']))) {
 				// check password
-				if(crypt($post['pass'], $user->password) != $user->password) {
+				if(Hash::check($post['pass'], $user->password) === false) {
 					$errors[] = 'Incorrect details';
 				}
 			} else {
@@ -115,6 +115,7 @@ class Users {
 		}
 		
 		$hash = hash('md5', $user->id . $user->email . $user->password);
+
 		$link = Url::build(array(
 			'path' => Url::make('admin/users/reset/' . $hash)
 		));
@@ -143,7 +144,7 @@ class Users {
 			return false;
 		}
 		
-		$password = crypt($post['password']);
+		$password = Hash::make($post['password']);
 		
 		$sql = "update users set `password` = ? where id = ?";
 		Db::query($sql, array($password, $id));
@@ -191,7 +192,7 @@ class Users {
 		
 		if(strlen($post['password'])) {
 			// encrypt new password
-			$post['password'] = crypt($post['password']);
+			$post['password'] = Hash::make($post['password']);
 		} else {
 			// remove it and leave it unchanged
 			unset($post['password']);
@@ -251,7 +252,7 @@ class Users {
 		}
 		
 		// encrypt password
-		$post['password'] = crypt($post['password']);
+		$post['password'] = Hash::make($post['password']);
 		
 		// format email
 		$post['email'] = strtolower(trim($post['email']));
