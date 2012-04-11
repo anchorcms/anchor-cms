@@ -2,20 +2,20 @@
 
 class Migrations {
 
-	private $queries = array();
+	private static $queries = array();
 	
 	/*
 		Database changes
 	*/
-	public function query($sql) {
-		$this->queries[] = $sql;
+	public static function query($sql) {
+		static::$queries[] = $sql;
 	}
 
 	/*
 		Execute
 	*/
-	public function apply() {
-		foreach($this->queries as $sql) {
+	public static function apply() {
+		foreach(static::$queries as $sql) {
 			Db::query($sql);
 		}
 	}
