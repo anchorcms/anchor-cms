@@ -1,9 +1,14 @@
 <?php defined('IN_CMS') or die('No direct access allowed.');
 
 /**
-	Check our environment
+	Include application helpers
 */
-if(version_compare(PHP_VERSION, '5.3.0', '<')) {
+require PATH . 'system/classes/helpers.php';
+
+/**
+ *	Check our environment
+ */
+if(has_php(5.3) === false) {
 	// echo and exit with some usful information
 	echo 'Anchor requires PHP 5.3 or newer, your current environment is running PHP ' . PHP_VERSION;
 	exit(1);
@@ -27,37 +32,15 @@ if(ini_get('register_globals')) {
 	note: magic quotes is deprecated in PHP 5.3
 	src: php.net/manual/en/security.magicquotes.disabling.php
 */
-$magic_quotes = function_exists('get_magic_quotes_gpc') and get_magic_quotes_gpc();
-$magic_quotes_sybase = ini_get('magic_quotes_sybase') and strtolower(ini_get('magic_quotes_sybase')) != 'off';
+if(magic_quotes()) {
+	$magics = array(&$_GET, &$_POST, &$_COOKIE, &$_REQUEST);
 
-if($magic_quotes or $magic_quotes_sybase) {
-	function strip_slashes_recursive($data) {
-		if(is_array($data)) {
-			foreach ($data as $key => $value) {
-				$data[strip_slashes_recursive($key)] = strip_slashes_recursive($value);
-			}
-		} else {
-			$data = stripslashes($data);
-		}
-		return $data;
+	foreach($magics as &$magic) {
+		$magic = array_strip_slashes($magic);
 	}
-	$_GET = strip_slashes_recursive($_GET);
-	$_POST = strip_slashes_recursive($_POST);
-	$_COOKIE = strip_slashes_recursive($_COOKIE);
-	$_REQUEST = strip_slashes_recursive($_REQUEST);
-}
-
-// Windows IIS Compatibility  
-if(!isset($_SERVER['REQUEST_URI'])) { 
-	$_SERVER['REQUEST_URI'] = substr($_SERVER['PHP_SELF'], 1); 
-	
-	if(isset($_SERVER['QUERY_STRING'])) { 
-		$_SERVER['REQUEST_URI'] .= '?' . $_SERVER['QUERY_STRING']; 
-	} 
 }
 
 // get our autoloader
-require PATH . 'system/classes/helpers.php';
 require PATH . 'system/classes/autoload.php';
 
 // directly map classes for super fast loading

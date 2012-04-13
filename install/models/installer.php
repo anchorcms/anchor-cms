@@ -75,7 +75,7 @@ class Installer {
 		$data = $_SESSION;
 		$template = file_get_contents('../config.default.php');
 		
-		$base_url = ($path = trim($data['site']['path'], '/')) == '' ? '' : $path . '/';
+		$base_url = trim($data['site']['path'], '/') . '/';
 		$index_page = 'index.php';
 
 		$search = array(
