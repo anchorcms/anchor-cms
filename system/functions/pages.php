@@ -54,7 +54,6 @@ function page_content() {
 	return '';
 }
 
-
 function page_active() {
 	if($itm = IoC::resolve('page')) {
 		return $itm->active;

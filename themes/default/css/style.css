@@ -2,18 +2,9 @@
  *    Anchor CMS' default theme
  */
  
-::-webkit-selection {
-	background: #ffc;
-	color: #222;
-}
-::-moz-selection {
-	background: #ffc;
-	color: #222;
-}
-::selection {
-	background: #ffc;
-	color: #222;
-}
+::-webkit-selection { background: #ffc; color: #222; }
+::-moz-selection { background: #ffc; color: #222; }
+::selection { background: #ffc; color: #222; }
 
 html {
     min-height: 100%;
@@ -44,6 +35,14 @@ a, a * {
     a:active {
         -webkit-transform: translateY(1px);
     }
+    
+#label, #attribution {
+	-webkit-transition: opacity .2s;
+	-moz-transition: opacity .2s;
+	-ms-transition: opacity .2s;
+	-o-transition: opacity .2s;
+	transition: opacity .2s;
+}
     
 .content a, .comments a {
     color: #2082ab;
@@ -80,6 +79,12 @@ form#search {
 	
 	padding: 10px 0;
 }
+    .js form#search {
+        margin-top: -58px;
+    }
+        .js form#search.opened {
+            margin-top: 0;
+        }
 	form#search input {
 		padding: 8px 12px;
 		color: #333;
@@ -94,8 +99,6 @@ button {
     color: #fff;
     font-weight: bold;
 
-    border: none;
-    
     padding: 8px 15px;
     
     -webkit-border-radius: 3px;
@@ -166,13 +169,18 @@ header#top {
 		    header#top nav li a:hover {
 		        color: #444;
 		    }
-	header#top img#search {
+	header#top img#label {
 		cursor: pointer;
 		
 		position: absolute;
 		right: 0;
 		bottom: 0;
+		
+		opacity: 1;
 	}
+	    header#top img#label.invisible {
+	        opacity: 0;
+	    }
 	
 ul.items {
     list-style: none;
@@ -310,8 +318,11 @@ section.comments {
                 right: -15px;
             }
             section.comments form.commentform p.textarea {
-                width: 630px;
+                width: 100%;
             }
+            	section.comments form.commentform p.textarea em {
+            		right: 0;
+            	}
             section.comments form.commentform p em {
                 font: italic 13px Georgia, serif;
                 
@@ -417,12 +428,6 @@ footer#bottom {
         text-indent: -999em;
     
         opacity: .5;
-        
-        -webkit-transition: opacity .25s;
-        -moz-transition: opacity .25s;
-        -ms-transition: opacity .25s;
-        -o-transition: opacity .25s;
-        transition: opacity .25s;
     }
         footer#bottom a#attribution:hover {
             opacity: 1;
@@ -460,12 +465,15 @@ footer#bottom {
             header#top nav li {
                 margin-right: 30px;
             }
-        header#top img#search {
+        header#top img#label {
             bottom: -20px;
         }
         
-    ul.items {
+    .content ul.items, .content img {
         padding-bottom: 20px;
+        margin-left: 0;
+        
+        width: 100%;
     }
         ul.items li a {
             overflow: hidden;
@@ -527,6 +535,15 @@ footer#bottom {
             section.comments form.commentform p.email {
                 right: 0;
             }
+            
+			section.comments form.commentform p.textarea em {
+				position: relative;
+				line-height: 18px;
+				
+				display: block;
+				top: -5px;
+				margin-bottom: 10px;
+			}
             
         section.comments form.commentform input, section.comments form.commentform textarea {
             width: 93%;

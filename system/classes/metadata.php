@@ -7,15 +7,15 @@ class Metadata {
 		$errors = array();
 		
 		if(empty($post['sitename'])) {
-			$errors[] = 'You need a site sitename';
+			$errors[] = Lang::line('metadata.missing_sitename', 'You need a site sitename');
 		}
 		
 		if(empty($post['description'])) {
-			$errors[] = 'You need a site description';
+			$errors[] = Lang::line('metadata.missing_sitedescription', 'You need a site description');
 		}
 		
 		if(empty($post['theme'])) {
-			$errors[] = 'You need a theme';
+			$errors[] = Lang::line('metadata.missing_theme', 'You need a theme');
 		}
 
 		// auto publish comments
@@ -33,7 +33,7 @@ class Metadata {
 		    Db::update('meta', array('value' => $value), array('key' => $key));
 		}
 				
-		Notifications::set('success', 'Your metadata has been updated');
+		Notifications::set('success', Lang::line('metadata.meta_success_updated', 'Your metadata has been updated'));
 		
 		return true;
 	}

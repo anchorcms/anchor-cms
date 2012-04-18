@@ -54,7 +54,7 @@ class Comments {
 		}
 		
 		if(count($errors)) {
-			Notifications::set('error', $errors);
+			Notifications::set('error', $errors, 'comments');
 			return false;
 		}
 
@@ -63,11 +63,11 @@ class Comments {
 		$post['post'] = $post_id;
 
 		// encode any html
-		$post['text'] = Html::encode($post['text']);
+		$post['text'] = strip_tags($post['text'], '<a>,<b>,<blockquote>,<code>,<em>,<i>,<p>,<pre>');
 
 		Db::insert('comments', $post);
 		
-		Notifications::set('success', 'Your comment has been sent');
+		Notifications::set('success', 'Your comment has been sent', 'comments');
 		
 		return true;
 	}

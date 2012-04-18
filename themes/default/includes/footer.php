@@ -10,7 +10,7 @@
                     
                     <li><a href="<?php echo admin_url(); ?>" title="Administer your site!">Admin area</a></li>
                    
-                    <li><a href="/" title="Return to my website.">Home</a></li>
+                    <li><a href="<?php echo base_url(); ?>" title="Return to my website.">Home</a></li>
 
                     <?php if(is_debug()): ?><a id="debug_toggle" href="#debug">Show database profile</a><?php endif; ?>
                 </ul>

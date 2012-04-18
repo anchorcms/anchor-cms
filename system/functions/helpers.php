@@ -6,6 +6,10 @@
 
 
 // Url helpers
+function absolute_url($suffix = '') {
+	return Url::build(array('path' => base_url() . ltrim($suffix, '/')));
+}
+
 function base_url($url = '') {
     return Url::make($url);
 }
@@ -35,8 +39,14 @@ function bind($page, $fn) {
 	Events::bind($page, $fn);
 }
 
-function recieve($name = '') {
+function receive($name = '') {
 	return Events::call($name);
+}
+
+// create a alias for typo in 0.6 and below so we dont break themes
+function recieve() {
+	$args = func_get_args(); 
+	return call_user_func_array('receive', $args);
 }
 
 // page type helpers

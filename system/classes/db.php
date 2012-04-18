@@ -15,14 +15,27 @@ class Db {
 		// config
 		$params = Config::get('database');
 
+		// set default mysql port number
+		if(empty($params['port'])) {
+			$params['port'] = 3306;
+		}
+
+		// set default collation
+		if(empty($params['collation'])) {
+			$params['collation'] = 'utf8_bin';
+		}
+
 		// set debug mode
 		static::$debug = Config::get('debug', false);
 		
 		// build dns string
-		$dsn = 'mysql:dbname=' . $params['name'] . ';host=' . $params['host'];
+		$dsn = 'mysql:dbname=' . $params['name'] . ';host=' . $params['host'] . ';port=' . $params['port'];
+
+		// mysql driver options
+		$options = array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\' COLLATE ' . $params['collation']);
 
 		// try connection
-		static::$dbh = new PDO($dsn, $params['username'], $params['password']);
+		static::$dbh = new PDO($dsn, $params['username'], $params['password'], $options);
 		
 		// set error handling to exceptions
 		static::$dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -200,7 +213,7 @@ class Db {
 		return Db::exec($sql, $args);
 	}
 
-	public static function row($sql, $binds = array(), $fetch_style = \PDO::FETCH_OBJ) {
+	public static function row($sql, $binds = array(), $fetch_style = PDO::FETCH_OBJ) {
 		// get statement
 		$stm = static::query($sql, $binds);
 
@@ -208,12 +221,46 @@ class Db {
 		return $stm->fetch($fetch_style);
 	}
 
-	public static function results($sql, $binds = array(), $fetch_style = \PDO::FETCH_OBJ) {
+	public static function results($sql, $binds = array(), $fetch_style = PDO::FETCH_OBJ) {
 		// get statement
 		$stm = static::query($sql, $binds);
 
 		// return data array
 		return $stm->fetchAll($fetch_style);
+	}
+
+	public static function column($sql, $binds = array(), $column_number = 0) {
+		// get statement
+		$stm = static::query($sql, $binds);
+
+		// return data
+		return $stm->fetchColumn($column_number);
+	}
+
+	public static function pairs($sql, $binds = array()) {
+		// get result set
+		$results = static::results($sql, $binds, PDO::FETCH_NUM);
+
+		if(is_array($results) === false) {
+			return false;
+		}
+
+		// pair them up
+		$pairs = array();
+
+		foreach($results as $row) {
+			foreach(array_chunk($row, 2) as $pair) {
+				if(count($pair) != 2) {
+					continue;
+				}
+
+				list($key, $value) = $pair;
+				$pairs[$key] = $value;
+			}
+		}
+
+		// return pairs
+		return $pairs;
 	}
 
 	public static function insert_id() {

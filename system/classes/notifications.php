@@ -5,31 +5,43 @@
 */
 class Notifications {
 
-	public static function set($type, $message) {
+	public static function set($type, $message, $group = 'default') {
 		$data = Session::get('notifications', array());
+
+		if(!isset($data[$group])) {
+			$data[$group] = array();
+		}
 		
-		if(!isset($data[$type])) {
-			$data[$type] = array();
+		if(!isset($data[$group][$type])) {
+			$data[$group][$type] = array();
 		}
 		
 		if(!is_array($message)) {
 			$message = array($message);
 		}
 		
-		$data[$type] = array_merge($data[$type], $message);
+		$data[$group][$type] = array_merge($data[$group][$type], $message);
 		
 		Session::set('notifications', $data);
 	}
 
-	public static function read() {
+	public static function read($group = 'default') {
 		$data = Session::get('notifications', array());
 		$html = '';
 		
-		foreach($data as $type => $messages) {
-			$html .= '<p class="notification ' . $type . '">' . implode('<br>', $messages) . '</p>';
+		if(isset($data[$group])) {
+			foreach($data[$group] as $type => $messages) {
+				$html .= '<p class="notification ' . $type . '">' . implode('<br>', $messages) . '</p>';
+			}
+
+			unset($data[$group]);
 		}
-		
-		Session::forget('notifications');
+
+		if(empty($data)) {
+			Session::forget('notifications');
+		} else {
+			Session::set('notifications', $data);
+		}
 		
 		return $html;
 	}

@@ -10,17 +10,6 @@
 class Session {
 	
 	private static $id, $data = array();
-	
-	private static function generate($length = 32) {
-		$pool = str_split('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', 1);
-		$value = '';
-
-		for ($i = 0; $i < $length; $i++)  {
-			$value .= $pool[mt_rand(0, 61)];
-		}
-
-		return $value;
-	}
 
 	private static function gc() {
 		// dont run gc on every request
@@ -30,6 +19,12 @@ class Session {
 
 			Db::query($sql, array(date(DATE_ISO8601, $expire)));
 		}
+	}
+
+	public static function regenerate() {
+		$new = Str::random(32);
+		Db::update('sessions', array('id' => $new), array('id' => static::$id));
+		static::$id = $new;
 	}
 
 	public static function start() {
@@ -42,7 +37,7 @@ class Session {
 
 		if(static::$id === false) {
 			Log::info('Session cookie not found: ' . $name);
-			static::$id = static::generate();
+			static::$id = Str::random(32);
 		}
 		
 		// load session data
@@ -52,8 +47,8 @@ class Session {
 		if($session = Db::row($sql, $args)) {
 			static::$data = unserialize($session->data);
 		} else {
-			// reset ID
-			static::$id = static::generate();
+			// Session not found regenerate ID
+			static::$id = Str::random(32);
 			
 			Db::insert('sessions', array(
 				'id' => static::$id,
@@ -84,7 +79,7 @@ class Session {
 
 		// create cookie with ID
 		if(!Cookie::write($name, static::$id, $expire, $path, $domain)) {
-			Log::error('Cound not write session cookie: ' . static::$id);
+			Log::error('Could not write session cookie: ' . static::$id);
 		}
 	}
 	

@@ -78,6 +78,14 @@ function comment_name() {
 	return '';
 }
 
+function comment_email() {
+	if($itm = IoC::resolve('comment')) {
+		return $itm->email;
+	}
+	
+	return '';
+}
+
 function comment_text() {
 	if($itm = IoC::resolve('comment')) {
 		return $itm->text;
@@ -96,7 +104,7 @@ function comments_open() {
 
 // form elements
 function comment_form_notifications() {
-	return Notifications::read();
+	return Notifications::read('comments');
 }
 
 function comment_form_input_name($extra = '') {

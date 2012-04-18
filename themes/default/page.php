@@ -9,4 +9,3 @@
 		Then, if you want to echo out your custom function, you just add a recieve() function. Here's an example: "<?php echo recieve(); ?>".
 	 -->
 </section>
-

@@ -2,10 +2,15 @@
 <html lang="en">
 	<head>
 		<meta charset="utf-8">
-		<title>Manage <?php echo Config::get('metadata.sitename'); ?></title>
+		<title><?php echo __('common.manage', 'Manage'); ?> <?php echo Config::get('metadata.sitename'); ?></title>
 
 		<link rel="stylesheet" href="<?php echo theme_url('assets/css/admin.css'); ?>">
 		<link rel="stylesheet" href="<?php echo theme_url('assets/css/popup.css'); ?>">
+
+		<script src="<?php echo theme_url('assets/js/lib.js'); ?>"></script>
+		<script src="<?php echo theme_url('assets/js/helpers.js'); ?>"></script>
+		<script src="<?php echo theme_url('assets/js/popup.js'); ?>"></script>
+		<script>var Base_url = '<?php echo admin_url(); ?>';</script>
 	</head>
 	<body>
 
@@ -19,14 +24,14 @@
 				<ul>
 					<?php foreach(admin_menu() as $title => $url): ?>
 					<li <?php if(strpos(Url::current(), $url) !== false) echo 'class="active"'; ?>>
-						<a href="<?php echo Url::make($url); ?>"><?php echo $title; ?></a>
+						<a href="<?php echo Url::make($url); ?>"><?php echo __('common.' . $title); ?></a>
 					</li>
 					<?php endforeach; ?>
 				</ul>
 			</nav>
 
-			<p>Logged in as <strong><?php echo $user->real_name; ?></strong>. 
-			<a href="<?php echo admin_url('users/logout'); ?>">Logout</a></li>
+			<p><?php echo __('common.logged_in_as', 'Logged in as'); ?> <strong><?php echo $user->real_name; ?></strong>. 
+			<a href="<?php echo admin_url('users/logout'); ?>"><?php echo __('common.logout', 'Logout'); ?></a></li>
 			<?php endif; ?>
 		</header>
 

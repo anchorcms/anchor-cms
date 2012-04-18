@@ -1,7 +1,7 @@
 <?php defined('IN_CMS') or die('No direct access allowed.');
 
 class Posts {
-
+	
 	public static function extend($post) {
 		if(is_array($post)) {
 			$posts = array();
@@ -14,12 +14,41 @@ class Posts {
 		}
 	
 		if(is_object($post)) {
+			// build full url
 			$page = IoC::resolve('posts_page');
 			$post->url = Url::make($page->slug . '/' . $post->slug);
+
 			return $post;
 		}
 		
 		return false;
+	}
+
+	public static function parse($str) {
+	
+		//  allow [[encoded]]
+		if(preg_match_all('/\[\[(.*)\]\]/', $str, $matches)) {
+			list($s, $r) = $matches;
+
+			foreach($r as $index => $text) {
+				$r[$index] = '<code>' . htmlentities($text) . '</code>';
+			}
+
+			$str = str_replace($s, $r, $str);
+		}
+	
+		// process pseudo tags
+		if(preg_match_all('/\{\{([a-z]+)\}\}/i', $str, $matches)) {
+			list($search, $replace) = $matches;
+
+			foreach($replace as $index => $key) {
+				$replace[$index] = Config::get('metadata.' . $key);
+			}
+
+			$str = str_replace($search, $replace, $str);
+		}
+
+		return $str;
 	}
 	
 	public static function list_all($params = array()) {
@@ -56,12 +85,14 @@ class Posts {
 			$args[] = $params['status'];
 		}
 		
-		if(isset($params['sortby'])) {
-			$sql .= " order by posts." . $params['sortby'];
-			
-			if(isset($params['sortmode'])) {
-				$sql .= " " . $params['sortmode'];
-			}
+		if(!isset($params['sortby'])) {
+			$params['sortby'] = 'created';
+		}
+		
+		$sql .= " order by posts." . $params['sortby'];
+		
+		if(isset($params['sortmode'])) {
+			$sql .= " " . $params['sortmode'];
 		}
 		
 		if(isset($params['limit'])) {
@@ -81,13 +112,17 @@ class Posts {
 		return new Items($results);
 	}
 	
-	public static function count($params = array()) {
-		$sql = "select count(*) from posts where 1 = 1";
+	public static function count($where = array()) {
+		$sql = "select count(*) from posts";
 		$args = array();
 
-		if(isset($params['status'])) {
-			$sql .= " and posts.status = ?";
-			$args[] = $params['status'];
+		if(count($where)) {
+			$clause = array();
+			foreach($where as $key => $value) {
+				$clause[] = 'posts.' . $key . ' = ?';
+				$args[] = $value;
+			}
+			$sql .= " where " . implode(' and ', $clause);
 		}
 
 		// return total
@@ -194,15 +229,23 @@ class Posts {
 		Db::delete('posts', array('id' => $id));
 		Db::delete('comments', array('post' => $id));
 		
-		Notifications::set('success', 'Your post has been deleted');
+		Notifications::set('success', Lang::line('posts.post_success_deleted', 'Your post has been deleted'));
 		
 		return true;
 	}
 	
 	public static function update($id) {
-		$post = Input::post(array('title', 'slug', 'description', 'html', 
+		$post = Input::post(array('title', 'slug', 'created', 'description', 'html', 
 			'css', 'js', 'status', 'delete', 'field', 'comments'));
 		$errors = array();
+
+		var_dump($post['created']);
+		
+		$post['created'] = strtotime($post['created']);
+		
+		if($post['created'] === false) {
+			$errors[] = Lang::line('posts.invalid_date', 'Please enter a valid date');
+		}
 
 		// delete
 		if($post['delete'] !== false) {
@@ -213,25 +256,29 @@ class Posts {
 		}
 		
 		if(empty($post['title'])) {
-			$errors[] = 'Please enter a title';
+			$errors[] = Lang::line('posts.missing_title', 'Please enter a title');
 		}
 		
 		if(empty($post['description'])) {
-			$errors[] = 'Please enter a description';
+			$errors[] = Lang::line('posts.missing_description', 'Please enter a description');
 		}
 		
 		if(empty($post['html'])) {
-			$errors[] = 'Please enter your html';
+			$errors[] = Lang::line('posts.missing_html', 'Please enter your html');
 		}
 		
+		// use title as fallback
 		if(empty($post['slug'])) {
-			$post['slug'] = preg_replace('/\W+/', '-', trim(strtolower($post['title'])));
+			$post['slug'] = $post['title'];
 		}
 
+		// format slug
+		$post['slug'] = Str::slug($post['slug']);
+		
 		// check for duplicate slug
 		$sql = "select id from posts where slug = ? and id <> ?";
 		if(Db::row($sql, array($post['slug'], $id))) {
-			$errors[] = 'A post with the same slug already exists, please change your post slug.';
+			$errors[] = Lang::line('posts.duplicate_slug', 'A post with the same slug already exists, please change your post slug.');
 		}
 
 		if(count($errors)) {
@@ -256,36 +303,46 @@ class Posts {
 		// update row
 		Db::update('posts', $post, array('id' => $id));
 
-		Notifications::set('success', 'Your post has been updated.');
+		Notifications::set('success', Lang::line('posts.post_success_updated', 'Your post has been updated.'));
 		
 		return true;
 	}
 	
 	public static function add() {
-		$post = Input::post(array('title', 'slug', 'description', 'html', 
+		$post = Input::post(array('title', 'slug', 'created', 'description', 'html', 
 			'css', 'js', 'status', 'field', 'comments'));
 		$errors = array();
 		
+		$post['created'] = strtotime($post['created']);
+		
+		if($post['created'] === false) {
+			$errors[] = Lang::line('posts.invalid_date', 'Please enter a valid date');
+		}
+
 		if(empty($post['title'])) {
-			$errors[] = 'Please enter a title';
+			$errors[] = Lang::line('posts.missing_title', 'Please enter a title');
 		}
 		
 		if(empty($post['description'])) {
-			$errors[] = 'Please enter a description';
+			$errors[] = Lang::line('posts.missing_description', 'Please enter a description');
 		}
 		
 		if(empty($post['html'])) {
-			$errors[] = 'Please enter your html';
+			$errors[] = Lang::line('posts.missing_html', 'Please enter your html');
 		}
 		
+		// use title as fallback
 		if(empty($post['slug'])) {
-			$post['slug'] = preg_replace('/\W+/', '-', trim(strtolower($post['title'])));
+			$post['slug'] = $post['title'];
 		}
+
+		// format slug
+		$post['slug'] = Str::slug($post['slug']);
 
 		// check for duplicate slug
 		$sql = "select id from posts where slug = ?";
 		if(Db::row($sql, array($post['slug']))) {
-			$errors[] = 'A post with the same slug already exists, please change your post slug.';
+			$errors[] = Lang::line('posts.duplicate_slug', 'A post with the same slug already exists, please change your post slug.');
 		}
 
 		if(count($errors)) {
@@ -307,16 +364,13 @@ class Posts {
 		
 		$post['custom_fields'] = json_encode($custom);
 		
-		// set creation date
-		$post['created'] = time();
-		
 		// set author
 		$user = Users::authed();
 		$post['author'] = $user->id;
 
 		Db::insert('posts', $post);
 		
-		Notifications::set('success', 'Your new post has been added');
+		Notifications::set('success', Lang::line('posts.post_success_created', 'Your new post has been added'));
 		
 		return true;
 	}

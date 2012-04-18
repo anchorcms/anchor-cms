@@ -52,6 +52,12 @@ class Routes {
 			return Response::error(404);
 		}
 
+		// does the page redirect
+		if($page->redirect) {
+			// set redirect and exit the building
+			return Response::redirect($page->redirect);
+		}
+
 		// store our page for template functions
 		IoC::instance('page', $page, true);
 

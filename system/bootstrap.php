@@ -1,16 +1,46 @@
 <?php defined('IN_CMS') or die('No direct access allowed.');
 
 /**
-	Check our environment
+	Include application helpers
 */
-if(version_compare(PHP_VERSION, '5.3.0', '<')) {
+require PATH . 'system/classes/helpers.php';
+
+/**
+ *	Check our environment
+ */
+if(has_php(5.3) === false) {
 	// echo and exit with some usful information
 	echo 'Anchor requires PHP 5.3 or newer, your current environment is running PHP ' . PHP_VERSION;
 	exit(1);
 }
 
+/**
+	Register Globals Fix
+*/
+if(ini_get('register_globals')) {
+	$globals = array($_REQUEST, $_SESSION, $_SERVER, $_FILES);
+
+	foreach($globals as $global) {
+		foreach(array_keys($global) as $key) {
+			unset(${$key}); 
+		}
+	}
+}
+
+/**
+	Magic Quotes Fix
+	note: magic quotes is deprecated in PHP 5.3
+	src: php.net/manual/en/security.magicquotes.disabling.php
+*/
+if(magic_quotes()) {
+	$magics = array(&$_GET, &$_POST, &$_COOKIE, &$_REQUEST);
+
+	foreach($magics as &$magic) {
+		$magic = array_strip_slashes($magic);
+	}
+}
+
 // get our autoloader
-require PATH . 'system/classes/helpers.php';
 require PATH . 'system/classes/autoload.php';
 
 // directly map classes for super fast loading
@@ -47,19 +77,6 @@ error_reporting(-1);
 ini_safe_set('display_errors', false);
 
 /**
-	Disable magic quotes
-	note: magic quotes is deprecated in PHP 5.3
-	src: php.net/manual/en/security.magicquotes.disabling.php
-*/
-if(function_exists('get_magic_quotes_gpc')) {
-	if(get_magic_quotes_gpc()) {
-		ini_safe_set('magic_quotes_gpc', false);
-		ini_safe_set('magic_quotes_runtime', false);
-		ini_safe_set('magic_quotes_sybase', false);
-	}
-}
-
-/**
 	Check our installation
 */
 if(Config::load(PATH . 'config.php') === false) {
@@ -70,6 +87,11 @@ if(Config::load(PATH . 'config.php') === false) {
 
 // Register the default timezone for the application.
 date_default_timezone_set(Config::get('application.timezone'));
+
+// set locale
+if(setlocale(LC_ALL, Config::get('application.language') . '.utf8') === false) {
+	Log::warning('setlocate failed, please check your system has ' . Config::get('application.language') . ' installed.');
+}
 
 // Register the PHP exception handler.
 set_exception_handler(array('Error', 'exception'));

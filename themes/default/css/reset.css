@@ -8,7 +8,7 @@ img { border: none; -ms-interpolation-mode: bicubic; image-rendering: optimizeQu
 table { border-collapse: separate; border-spacing: 0; vertical-align: top; }
 caption, th, td { text-align: left; font-weight: normal; vertical-align: top; }
 
-fieldset { border: none; }
+fieldset, button { border: none; }
 textarea { resize: vertical; }
 label[for] { font-weight: bold; cursor: pointer; }
 button { cursor: pointer; }

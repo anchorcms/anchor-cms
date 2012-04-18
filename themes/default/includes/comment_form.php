@@ -36,6 +36,7 @@
             
             <p class="textarea">
                 <label for="text">Your comment:</label>
+                <em>Allowed HTML: <code>&lt;a&gt;</code>, <code>&lt;b&gt;</code>, <code>&lt;blockquote&gt;</code>, <code>&lt;code&gt;</code>, <code>&lt;em&gt;</code>, <code>&lt;i&gt;</code>, <code>&lt;p&gt;</code> and <code>&lt;pre&gt;</code>.</em>
                 <?php echo comment_form_input_text(); ?>
             </p>
             

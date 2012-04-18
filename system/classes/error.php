@@ -54,7 +54,7 @@ class Error {
 	}
 
 	private static function context($path, $line, $padding = 5) {
-		if(file_exists($path)) {
+		if(file_safe_exists($path)) {
 			$file = file($path, FILE_IGNORE_NEW_LINES);
 
 			array_unshift($file, '');

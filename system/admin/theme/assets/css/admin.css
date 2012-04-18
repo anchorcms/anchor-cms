@@ -435,6 +435,12 @@ fieldset {
             resize: vertical;            
             min-height: 150px;
             max-height: 500px;
+            
+            -webkit-tab-size: 2;  
+            -moz-tab-size: 2; 
+            -ms-tab-size: 2;
+            -o-tab-size: 2; 
+            tab-size: 2;
         }
         fieldset input:focus, fieldset textarea:focus {
             background: #f3f7fc;
@@ -583,3 +589,23 @@ footer#bottom {
 .debug td, .debug th {padding: 4px 6px; border-bottom: 1px solid #ddd;}
 .debug th {font-weight: bold; text-align: center;}
 .debug tfoot td:first-child {text-align: right;}
+
+/*!
+ * print.css v1.0.0
+ * http://printstylesheet.com/
+ *
+ * Copyright (c) 2011 David Bushell
+ * Dual licensed under the BSD or MIT licenses: http://printstylesheet.com/license.txt
+ 
+ * Author: David Bushell
+ * http://dbushell.com/
+ */
+
+/* use a media query to limit the CSS to only print devices, like a printer */
+@media only print
+{
+    /* hide every element within the body */
+    body * { display: none !important; }
+    /* add a friendy reminder not to waste paper after the body */
+    body:after { content: "Don't waste paper!"; }
+}

@@ -88,13 +88,13 @@ class Pages {
 	public static function delete($id) {
 		Db::delete('pages', array('id' => $id));
 		
-		Notifications::set('success', 'Your page has been deleted');
+		Notifications::set('success', Lang::line('pages.page_success_delete', 'Your page has been deleted'));
 		
 		return true;
 	}
 	
 	public static function update($id) {
-		$post = Input::post(array('slug', 'name', 'title', 'content', 'status', 'delete'));
+		$post = Input::post(array('slug', 'name', 'title', 'content', 'redirect', 'status', 'delete'));
 		$errors = array();
 
 		// delete
@@ -103,7 +103,7 @@ class Pages {
 			if(in_array($id, array(Config::get('metadata.home_page'), Config::get('metadata.posts_page'))) === false) {
 				return static::delete($id);
 			} else {
-				Notifications::set('error', 'Sorry, you can not delete you home page or posts page.');
+				Notifications::set('error', Lang::line('pages.page_error_delete', 'Sorry, your can not delete you home page or posts page.'));
 				return false;
 			}
 		} else {
@@ -112,11 +112,17 @@ class Pages {
 		}
 		
 		if(empty($post['name'])) {
-			$errors[] = 'Please enter a name';
+			$errors[] = Lang::line('pages.missing_name', 'Please enter a name');
 		}
 		
 		if(empty($post['title'])) {
-			$errors[] = 'Please enter a title';
+			$errors[] = Lang::line('pages.missing_title', 'Please enter a title');
+		}
+
+		// check for duplicate slug
+		$sql = "select id from pages where slug = ? and id <> ?";
+		if(Db::row($sql, array($post['slug'], $id))) {
+			$errors[] = Lang::line('pages.duplicate_slug', 'A pages with the same slug already exists, please change your page slug.');
 		}
 		
 		if(count($errors)) {
@@ -125,26 +131,34 @@ class Pages {
 		}
 		
 		if(empty($post['slug'])) {
-			$post['slug'] = preg_replace('/\W+/', '-', trim(strtolower($post['name'])));
+			$post['slug'] = $post['name'];
 		}
+
+		$post['slug'] = Str::slug($post['slug']);
 		
 		Db::update('pages', $post, array('id' => $id));
 		
-		Notifications::set('success', 'Your page has been updated');
+		Notifications::set('success', Lang::line('pages.page_success_updated', 'Your page has been updated'));
 		
 		return true;
 	}
 	
 	public static function add() {
-		$post = Input::post(array('slug', 'name', 'title', 'content', 'status'));
+		$post = Input::post(array('slug', 'name', 'title', 'content', 'redirect', 'status'));
 		$errors = array();
 		
 		if(empty($post['name'])) {
-			$errors[] = 'Please enter a name';
+			$errors[] = Lang::line('pages.missing_name', 'Please enter a name');
 		}
 		
 		if(empty($post['title'])) {
-			$errors[] = 'Please enter a title';
+			$errors[] = Lang::line('pages.missing_title', 'Please enter a title');
+		}
+
+		// check for duplicate slug
+		$sql = "select id from pages where slug = ?";
+		if(Db::row($sql, array($post['slug']))) {
+			$errors[] = Lang::line('pages.duplicate_slug', 'A pages with the same slug already exists, please change your page slug.');
 		}
 		
 		if(count($errors)) {
@@ -153,12 +167,14 @@ class Pages {
 		}
 		
 		if(empty($post['slug'])) {
-			$post['slug'] = preg_replace('/\W+/', '-', trim(strtolower($post['name'])));
+			$post['slug'] = $post['name'];
 		}
+
+		$post['slug'] = Str::slug($post['slug']);
 
 		Db::insert('pages', $post);
 		
-		Notifications::set('success', 'Your new page has been added');
+		Notifications::set('success', Lang::line('pages.page_success_created', 'Your new page has been added'));
 		
 		return true;
 	}

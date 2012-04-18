@@ -1,35 +1,14 @@
 
 var Popup = function() {
 
-	var $id = Number.random(100, 1000);
-	
-	var overlay = new Element('div', {
-		'id': 'popup_overlay_' + $id,
-		'class': 'popup_overlay'
-	});
-	
-	var box = new Element('div', {
-		'id': 'popup_box_' + $id,
-		'class': 'popup_box',
-		'styles': {
-			'opacity': 0
-		}
-	});
-	
-	var position = function() {
-		var body = $$('body').pop(), 
-			offset = body.getScroll(), 
-			screen = body.getScrollSize(), 
-			size = box.getSize();
-	
-		return {
-			'left': (screen.x / 2) - (size.x / 2),
-			'top': offset.y + 50
-		};
-	};
-	
+	var overlay = new Element('div');
+	overlay.addClass('popup_overlay');
+
+	var box = new Element('div');
+	box.addClass('popup_box');
+
 	var open = function() {
-		var body = $$('body'), options = arguments[0] || {};
+		var body = $('body'), options = arguments[0] || {};
 		
 		// default options
 		var defaults = {
@@ -43,41 +22,30 @@ var Popup = function() {
 		}
 		
 		// append overlay
-		body.grab(overlay);
+		body.append(overlay);
 		
 		// apply box styles
-		box.setStyles({
-			'width': options.width
-		});
+		box.css('width', options.width + 'px');
 		
 		// append box
-		body.grab(box);
+		body.append(box);
 		
 		// add content
 		box.empty();
-		box.grab(options.content);
-
-		// position box and show
-		var pos = position();
-
-		box.setStyles({
-			'top': pos.top,
-			'left': pos.left
-		});
-		
-		box.fade('in');
+		box.append(options.content);
+		box.css('left', ((window.innerWidth / 2) - (parseInt(box.css('width'), 10) / 2)) + 'px')
 		
 		// bind events
-		overlay.addEvent('click', close);
+		overlay.bind('click', close);
 		
-		if(options.handle.addEvent) {
-			options.handle.addEvent('click', close);
+		if(options.handle.bind) {
+			options.handle.bind('click', close);
 		}
 	};
 	
 	var close = function() {
-		overlay.dispose();
-		box.dispose();
+		overlay.remove();
+		box.remove();
 		return false;
 	};
 	

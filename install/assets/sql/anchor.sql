@@ -33,6 +33,7 @@ CREATE TABLE `pages` (
 	`title` varchar(150) NOT NULL,
 	`content` text NOT NULL,
 	`status` enum('draft','published','archived') NOT NULL,
+	`redirect` varchar(150) NOT NULL,
 	PRIMARY KEY (`id`),
 	KEY `status` (`status`),
 	KEY `slug` (`slug`)
@@ -79,9 +80,6 @@ CREATE TABLE `users` (
 	PRIMARY KEY (`id`)
 ) ENGINE=MyISAM CHARSET=utf8 COLLATE=utf8_general_ci;
 
-INSERT INTO `users` (`username`, `password`, `email`, `real_name`, `bio`, `status`, `role`) VALUES
-('admin', '[[password]]', '[[email]]', 'Administrator', 'Default account for Anchor.', 'active', 'administrator');
-
 DROP TABLE IF EXISTS `sessions`;
 
 CREATE TABLE IF NOT EXISTS `sessions` (
@@ -89,5 +87,6 @@ CREATE TABLE IF NOT EXISTS `sessions` (
 	`date` DATETIME NOT NULL ,
 	`ip` VARCHAR( 15 ) NOT NULL ,
 	`ua` TEXT NOT NULL ,
-	`data` TEXT NOT NULL
+	`data` TEXT NOT NULL,
+	PRIMARY KEY (`id`)
 ) ENGINE=InnoDB CHARSET=utf8 COLLATE=utf8_general_ci;

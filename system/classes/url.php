@@ -5,6 +5,10 @@ class Url {
 	private static $base_url, $index_page;
 
 	public static function make($uri = '') {
+		if(strpos($uri, '://') !== false) {
+			return $uri;
+		}
+
 		if(empty(static::$base_url)) {
 			static::$base_url = Config::get('application.base_url');
 		}

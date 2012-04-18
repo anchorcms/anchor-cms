@@ -15,7 +15,10 @@
 
 .popup_box {
 	background: #fff;
-	position: absolute;
+	position: fixed;
+	top: 15%;
+	left: 25%;
+	right: 25%;
 	z-index: 1001;
 	
 	-webkit-border-radius: 3px;
