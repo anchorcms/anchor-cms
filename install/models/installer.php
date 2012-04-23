@@ -75,8 +75,14 @@ class Installer {
 		$data = $_SESSION;
 		$template = file_get_contents('../config.default.php');
 		
-		$base_url = trim($data['site']['path'], '/') . '/';
 		$index_page = 'index.php';
+		$base_url = trim($data['site']['path'], '/');
+
+		if(empty($base_url)) {
+			$base_url = '/';
+		} else {
+			$base_url = '/' . $base_url . '/';
+		}
 
 		$search = array(
 			"'host' => 'localhost'",
