@@ -103,7 +103,7 @@ class Installer {
 			"'collation' => '" . $data['db']['collation'] . "'",
 
 			// apllication paths
-			"'base_url' => '/" . $base_url . "'",
+			"'base_url' => '" . $base_url . "'",
 			"'index_page' => '" . $index_page . "'",
 			"'key' => '" . $_SESSION['key'] . "'",
 
