@@ -220,6 +220,8 @@ class Installer {
 	}
 
 	public static function stage4() {
+		$errors = array();
+
 		$post = post(array('username', 'email', 'password', 'confirm_password'));
 
 		if(empty($post['username'])) {
