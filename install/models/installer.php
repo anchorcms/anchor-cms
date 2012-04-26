@@ -76,7 +76,8 @@ class Installer {
 		$template = file_get_contents('../config.default.php');
 		
 		$index_page = 'index.php';
-		$base_url = trim($data['site']['path'], '/');
+		$base_url = trim($data['site']['site_path'], '/');
+		$path_url = '/' . $base_url;
 
 		if(empty($base_url)) {
 			$base_url = '/';
@@ -96,6 +97,9 @@ class Installer {
 			"'base_url' => '/'",
 			"'index_page' => 'index.php'",
 			"'key' => ''",
+			
+			//session details
+			"'path' => '/'",
 
 			// language
 			"'language' => 'en'"
@@ -112,6 +116,9 @@ class Installer {
 			"'base_url' => '" . $base_url . "'",
 			"'index_page' => '" . $index_page . "'",
 			"'key' => '" . $_SESSION['key'] . "'",
+			
+			//session details
+			"'path' => '" . $path_url . "'",
 
 			// language
 			"'language' => '" . $data['lang'] . "'"
