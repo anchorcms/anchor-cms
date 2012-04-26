@@ -75,7 +75,7 @@ class Installer {
 		$data = $_SESSION;
 		$template = file_get_contents('../config.default.php');
 		
-		$index_page = 'index.php';
+		$index_page = '';
 		$base_url = trim($data['site']['site_path'], '/');
 		$path_url = '/' . $base_url;
 
