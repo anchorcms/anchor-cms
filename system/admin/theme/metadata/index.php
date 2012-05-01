@@ -6,6 +6,9 @@
 <section class="content">
 
 	<form method="post" action="<?php echo Url::current(); ?>" novalidate>
+
+		<input name="token" type="hidden" value="<?php echo Csrf::token(); ?>">
+		
 		<fieldset>
 			<p>
 				<label for="sitename"><?php echo __('metadata.sitename', 'Site name'); ?>:</label>

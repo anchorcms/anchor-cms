@@ -3,6 +3,12 @@
 class Metadata {
 
 	public static function update() {
+		// verify Csrf token
+		if(Csrf::verify(Input::post('token')) === false) {
+			Notifications::set('error', 'Invalid token');
+			return false;
+		}
+		
 		$post = Input::post(array('sitename', 'description', 'theme', 'twitter', 'home_page', 'posts_page', 'auto_published_comments', 'posts_per_page'));
 		$errors = array();
 		

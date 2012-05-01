@@ -3,7 +3,7 @@
 /**
 	Include application helpers
 */
-require PATH . 'system/classes/helpers.php';
+require PATH . 'system/core/helpers.php';
 
 /**
  *	Check our environment
@@ -41,26 +41,12 @@ if(magic_quotes()) {
 }
 
 // get our autoloader
-require PATH . 'system/classes/autoload.php';
-
-// directly map classes for super fast loading
-Autoloader::map(array(
-	'Config' => PATH . 'system/classes/config.php',
-	'Error' => PATH . 'system/classes/error.php',
-	'Session' => PATH . 'system/classes/session.php',
-	'Anchor' => PATH . 'system/classes/anchor.php',
-	'Template' => PATH . 'system/classes/template.php',
-	'Request' => PATH . 'system/classes/request.php',
-	'Response' => PATH . 'system/classes/response.php',
-	'Log' => PATH . 'system/classes/log.php',
-	'Db' => PATH . 'system/classes/db.php',
-	'IoC' => PATH . 'system/classes/ioc.php',
-	'Url' => PATH . 'system/classes/url.php'
-));
+require PATH . 'system/core/autoload.php';
 
 // tell the autoloader where to find classes
 Autoloader::directory(array(
-	PATH . 'system/classes/'
+	PATH . 'system/core/',
+	PATH . 'system/library/'
 ));
 
 // register the auto loader

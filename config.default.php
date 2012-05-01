@@ -47,6 +47,9 @@ return array(
 		'detail' => false,
 		'log' => false
 	),
+
+	// Show database profile
+	'debug' => false,
 	
 	// Foreign characters
 	'foreign_characters' => array(
@@ -117,8 +120,5 @@ return array(
 		'/щ/' => 'shch',
 		'/Ж/' => 'Zh',
 		'/ж/' => 'zh',
-	),
-
-	// Show database profile
-	'debug' => false
+	)
 );

@@ -12,6 +12,9 @@
 		</ul>
 	</nav>
 	<form method="post" action="<?php echo Url::current(); ?>" novalidate>
+
+		<input name="token" type="hidden" value="<?php echo Csrf::token(); ?>">
+
 		<div data-tab="post" class="tab">
 
 			<fieldset>

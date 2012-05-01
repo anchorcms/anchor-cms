@@ -5,6 +5,9 @@
 <section class="content">
 
 	<form method="post" action="<?php echo Url::current(); ?>" novalidate autocomplete="off">
+
+		<input name="token" type="hidden" value="<?php echo Csrf::token(); ?>">
+		
 		<fieldset>
 			<p>
 				<label for="real_name"><?php echo __('users.real_name', 'Real name'); ?>:</label>

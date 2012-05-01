@@ -51,6 +51,12 @@ class Users {
 	}
 
 	public static function login() {
+		// verify Csrf token
+		if(Csrf::verify(Input::post('token')) === false) {
+			Notifications::set('error', 'Invalid token');
+			return false;
+		}
+
 		// get posted data
 		$post = Input::post(array('user', 'pass', 'remember'));
 		$errors = array();
@@ -98,6 +104,12 @@ class Users {
 	}
 	
 	public static function recover_password() {
+		// verify Csrf token
+		if(Csrf::verify(Input::post('token')) === false) {
+			Notifications::set('error', 'Invalid token');
+			return false;
+		}
+
 		$post = Input::post(array('email'));
 		$errors = array();
 
@@ -132,6 +144,12 @@ class Users {
 	}
 	
 	public static function reset_password($id) {
+		// verify Csrf token
+		if(Csrf::verify(Input::post('token')) === false) {
+			Notifications::set('error', 'Invalid token');
+			return false;
+		}
+
 		$post = Input::post(array('password'));
 		$errors = array();
 
@@ -155,6 +173,12 @@ class Users {
 	}
 	
 	public static function delete($id) {
+		// verify Csrf token
+		if(Csrf::verify(Input::post('token')) === false) {
+			Notifications::set('error', 'Invalid token');
+			return false;
+		}
+
 		Db::delete('users', array('id' => $id));
 		
 		Notifications::set('success', Lang::line('users.user_success_deleted', 'User has been deleted'));
@@ -163,6 +187,12 @@ class Users {
 	}
 	
 	public static function update($id) {
+		// verify Csrf token
+		if(Csrf::verify(Input::post('token')) === false) {
+			Notifications::set('error', 'Invalid token');
+			return false;
+		}
+
 		$post = Input::post(array('username', 'password', 'email', 'real_name', 'bio', 'status', 'role', 'delete'));
 		$errors = array();
 
@@ -223,6 +253,12 @@ class Users {
 	}
 
 	public static function add() {
+		// verify Csrf token
+		if(Csrf::verify(Input::post('token')) === false) {
+			Notifications::set('error', 'Invalid token');
+			return false;
+		}
+		
 		$post = Input::post(array('username', 'password', 'email', 'real_name', 'bio', 'status', 'role'));
 		$errors = array();
 		

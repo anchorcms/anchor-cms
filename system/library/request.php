@@ -9,7 +9,7 @@ class Request {
 	}
 	
 	public static function uri() {
-		if(isset($_SERVER['PATH_INFO'])) {
+		if(isset($_SERVER['PATH_INFO']) and ($_SERVER['PATH_INFO'] !== '')) {
 			$uri = $_SERVER['PATH_INFO'];
 		}
 		// try request uri

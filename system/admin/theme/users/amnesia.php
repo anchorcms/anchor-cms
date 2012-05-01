@@ -4,7 +4,10 @@
 
 <section class="content">
 
-	<form method="post" action="<?php echo Url::current(); ?>" >
+	<form method="post" action="<?php echo Url::current(); ?>">
+
+		<input name="token" type="hidden" value="<?php echo Csrf::token(); ?>">
+
 		<fieldset>
 			
 			<p>

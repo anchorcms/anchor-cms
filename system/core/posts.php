@@ -235,6 +235,12 @@ class Posts {
 	}
 	
 	public static function update($id) {
+		// verify Csrf token
+		if(Csrf::verify(Input::post('token')) === false) {
+			Notifications::set('error', 'Invalid token');
+			return false;
+		}
+		
 		$post = Input::post(array('title', 'slug', 'created', 'description', 'html', 
 			'css', 'js', 'status', 'delete', 'field', 'comments'));
 		$errors = array();
@@ -309,6 +315,12 @@ class Posts {
 	}
 	
 	public static function add() {
+		// verify Csrf token
+		if(Csrf::verify(Input::post('token')) === false) {
+			Notifications::set('error', 'Invalid token');
+			return false;
+		}
+
 		$post = Input::post(array('title', 'slug', 'created', 'description', 'html', 
 			'css', 'js', 'status', 'field', 'comments'));
 		$errors = array();

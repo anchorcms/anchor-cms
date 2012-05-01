@@ -86,6 +86,12 @@ class Pages {
 	}
 	
 	public static function delete($id) {
+		// verify Csrf token
+		if(Csrf::verify(Input::post('token')) === false) {
+			Notifications::set('error', 'Invalid token');
+			return false;
+		}
+		
 		Db::delete('pages', array('id' => $id));
 		
 		Notifications::set('success', Lang::line('pages.page_success_delete', 'Your page has been deleted'));
@@ -94,6 +100,12 @@ class Pages {
 	}
 	
 	public static function update($id) {
+		// verify Csrf token
+		if(Csrf::verify(Input::post('token')) === false) {
+			Notifications::set('error', 'Invalid token');
+			return false;
+		}
+
 		$post = Input::post(array('slug', 'name', 'title', 'content', 'redirect', 'status', 'delete'));
 		$errors = array();
 
@@ -144,6 +156,12 @@ class Pages {
 	}
 	
 	public static function add() {
+		// verify Csrf token
+		if(Csrf::verify(Input::post('token')) === false) {
+			Notifications::set('error', 'Invalid token');
+			return false;
+		}
+
 		$post = Input::post(array('slug', 'name', 'title', 'content', 'redirect', 'status'));
 		$errors = array();
 		

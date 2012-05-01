@@ -4,7 +4,10 @@
 
 <section class="content">
 
-	<form method="post" action="<?php echo Url::current(); ?>" >
+	<form method="post" action="<?php echo Url::current(); ?>">
+
+		<input name="token" type="hidden" value="<?php echo Csrf::token(); ?>">
+		
 		<fieldset>
 			<legend><?php echo __('users.reset_password_for', 'Password reset for '); ?> <?php echo $user->real_name; ?></legend>
 			<em><?php echo __('users.reset_password_explain', 'Please enter a new password that you won&rsquo;t forget this time.'); ?></em>
