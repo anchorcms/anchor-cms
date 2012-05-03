@@ -245,8 +245,6 @@ class Posts {
 			'css', 'js', 'status', 'delete', 'field', 'comments'));
 		$errors = array();
 
-		var_dump($post['created']);
-		
 		$post['created'] = strtotime($post['created']);
 		
 		if($post['created'] === false) {
