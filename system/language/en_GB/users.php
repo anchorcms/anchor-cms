@@ -33,7 +33,7 @@ return array(
 	'administrator' => 'Administrator',
 	'editor' => 'Editor',
 	'user' => 'User',
-	'role_explain' => 'The user&rsquo;s role. See <a href="//anchorcms.com/docs/roles">here</a> for more info.',
+	'role_explain' => 'The user&rsquo;s role. See <a href="http://anchorcms.com/docs/roles">here</a> for more info.',
 	'user_details' => 'User details',
 	'user_details_explain' => 'Create the details for your new user to log in to Anchor.',
 	'username' => 'Username',
