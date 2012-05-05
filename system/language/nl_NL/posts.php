@@ -1,0 +1,82 @@
+<?php defined('IN_CMS') or die('No direct access allowed.');
+
+return array(
+
+	'posts' => 'Berichten',
+	'create_post' => 'Maak een nieuw bericht',
+	'created' => 'Succesvol aangemaakt',
+	'create' => 'Aanmaken',
+	'by' => 'door',
+	'noposts' => 'Er zijn geen berichten, wil je een bericht aanmaken?',
+	'return_posts' => 'Terug naar berichten',
+
+	'add_post' => 'Maak een nieuw bericht',
+	'post' => 'Bericht',
+	'customise' => 'Aan te passen',
+	'customise_explain' => 'Hier kun je je berichten aanpassen (optioneel)',
+	'custom_fields' => 'Eigen velden',
+	'custom_fields_explain' => 'Maak je eigen velden',
+	'create_custom_field' => 'Maak een eigen veld',
+	'comments' => 'Reactie\'s',
+	'comments_explain' => 'Hier kun je je reactie\'s beheren',
+	'no_comments' => 'Geen reactie\'s toegevoegd.',
+	'edit_comment' => 'Wijzig reactie',
+	'edit_comment_explain' => 'Verander de inhoud van de reactie',
+
+	'publish' => 'Publiceren',
+	'edit' => 'Wijzig',
+	'delete' => 'Verwijder',
+	'save' => 'Opslaan',
+	'label' => 'Label',
+	'key' => 'Key',
+	'editing' => 'Het bewerken van',
+	'editing_explain' => 'Een aantal handige links.',
+	'view_post' => 'Bekijk dit bericht op jouw site',
+
+	'draft' => 'Ontwerp',
+	'archived' => 'Gearchiveerd',
+	'published' => 'Gepubliseerd',
+	'pending' => 'In afwachting',
+	'spam' => 'Spam',
+	'update' => 'Bij te werken',
+	'close' => 'Gesloten',
+
+	'custom_field' => 'Aangepast veld',
+	'custom_field_explain' => 'Please enter the label and the key for your field.',
+	'missing_label' => 'Je bent vergeten \'label\' in te vullen',
+	'missing_key' => 'Je bent vergeten \'key\' in te vullen',
+
+	'title' => 'Titel',
+	'title_explain' => 'De titel van je bericht',
+	'date' => 'Datum',
+	'date_explain' => 'De publicatie datum van je bericht. Gebruikt <code><a href="http://php.net/manual/en/function.strtotime.php">strtotime()</a></code>.',
+	'slug' => 'Url',
+	'slug_explain' => 'De url naar je bericht',
+	'description' => 'Beschrijving',
+	'description_explain' => 'Een kleine beschrijving waar je bericht over gaat. (Wordt gebruikt voor de RSS feed)',
+	'content' => 'Inhoud',
+	'content_explain' => 'De inhoud van je bericht. Accepteert valide HTML',
+	'status' => 'Status',
+	'status_explain' => 'De status van je bericht: live (gepubliceerd), in afwachting (ontwerp), of verborgen (gearchiveerd).',
+	'allow_comments' => 'Reactie\'s toegestaan',
+	'allow_comments_explain' => 'Dit geeft gebruikers toestemming om een reactie achter te laten',
+	'custom_css' => 'Eigen CSS',
+	'custom_css_explain' => 'Eigen gemaakte CSS, geeft een extra dimensie aan je bericht',
+	'custom_js' => 'Eigen JS',
+	'custom_js_explain' => 'Eigen gemaakte Javascript, geeft een extra dimensie aan je bericht',
+
+	'delete_confirm' => 'Weet je zeker dat je dit bericht wilt verwijderen?', 
+	'delete_confirm_submit' => 'Ja, ik wil dit bericht permanent verwijderen', 
+	'delete_confirm_cancel' => 'Nee, behoud dit bericht',
+
+	'invalid_date' => 'Vul een valide datum in.',
+	'missing_title' => 'Vul een titel in',
+	'missing_description' => 'Je bent de omschrijving vergeten',
+	'missing_html' => 'Je bent je HTML vergeten',
+
+	'duplicate_slug' => 'Er bestaat al een bericht met deze url, verzin een nieuwe.',
+	'post_success_created' => 'Jouw nieuwe bericht is succesvol toegevoegd.',
+	'post_success_updated' => 'Je bericht is succesvol veranderd.',
+	'post_success_deleted' => 'Je bericht is succesvol verwijderd.'
+
+);
