@@ -7,7 +7,7 @@ class Posts_controller {
 	}
 
 	public function index() {
-		$data['posts'] = Posts::list_all(array('sortby' => 'id', 'sortmode' => 'desc'));
+		$data['posts'] = Posts::list_all(array('sortby' => 'created', 'sortmode' => 'desc'));
 		Template::render('posts/index', $data);
 	}
 	

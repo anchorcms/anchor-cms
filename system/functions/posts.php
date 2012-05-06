@@ -7,7 +7,7 @@ function has_posts() {
 	if(($posts = IoC::resolve('posts')) === false) {
 		$params = array(
 			'status' => 'published', 
-			'sortby' => 'id', 
+			'sortby' => 'created', 
 			'sortmode' => 'desc', 
 			'limit' => Config::get('metadata.posts_per_page', 10), 
 			'offset' => Input::get('offset', 0)
