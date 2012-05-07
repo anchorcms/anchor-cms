@@ -14,6 +14,8 @@ class Posts {
 		}
 	
 		if(is_object($post)) {
+			$post = self::plugin_hook_retrieve_post($post);
+			$post = self::plugin_hook_retrieve_post_not_in_admin($post);
 			// build full url
 			$page = IoC::resolve('posts_page');
 			$post->url = Url::make($page->slug . '/' . $post->slug);
@@ -24,8 +26,18 @@ class Posts {
 		return false;
 	}
 
+	public static function plugin_hook_retrieve_post($post) {
+		$newpost = Plugins::call_hooks('retrieve_post', $post);
+		return $newpost ? $newpost : $post;
+	}
+
+	public static function plugin_hook_retrieve_post_not_in_admin($post) {
+		if (defined('IN_ADMIN') && IN_ADMIN) return $post;
+		$newpost = Plugins::call_hooks('retrieve_post_not_in_admin', $post);
+		return $newpost ? $newpost : $post;
+	}
+
 	public static function parse($str) {
-	
 		//  allow [[encoded]]
 		if(preg_match_all('/\[\[(.*)\]\]/', $str, $matches)) {
 			list($s, $r) = $matches;

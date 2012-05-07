@@ -43,6 +43,9 @@ class Anchor {
 		
 		// remove admin as an argument and set the default action if there isnt one
 		if($action == 'admin') {
+			// set in admin constant
+			define('IN_ADMIN', true);
+			
 			// set default controller for the admin
 			$controller = (count($segments) ? array_shift($segments) : 'posts') . '_controller';
 
