@@ -68,7 +68,7 @@ class Rss {
 			$channel->appendChild($atom);
 
 		// articles
-		$params = array('status' => 'published', 'sortby' => 'id', 'sortmode' => 'desc');
+		$params = array('status' => 'published', 'sortby' => 'created', 'sortmode' => 'desc');
 
 		foreach(Posts::list_all($params) as $post) {
 			$item = static::element('item');
