@@ -193,7 +193,7 @@ class Installer {
 			}
 		}
 
-		if(count($errors)) {
+		if(isset($errors) && count($errors)) {
 			Messages::add($errors);
 			return false;
 		}
@@ -215,7 +215,7 @@ class Installer {
 			$errors[] = 'Please specify your site path';
 		}
 
-		if(count($errors)) {
+		if(isset($errors) && count($errors)) {
 			Messages::add($errors);
 			return false;
 		}
@@ -250,7 +250,7 @@ class Installer {
 			$errors[] = '&ldquo;See, when YOU type hunter2, it shows to us as *******&rdquo;';
 		}
 
-		if(count($errors)) {
+		if(isset($errors) && count($errors)) {
 			Messages::add($errors);
 			return false;
 		}
