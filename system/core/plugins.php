@@ -3,8 +3,9 @@ class Plugins {
 	public static $hooks = array();
 	public static $plugins = array();
 
-	public static function load() {
-		foreach (glob(PATH . "plugins/*") as $file) {
+	public static function load($directory=false) {
+		if (!$directory) $directory = PATH . "plugins/*";
+		foreach (glob($directory) as $file) {
 			self::$plugins[] = $file;
 			include $file;
 		}

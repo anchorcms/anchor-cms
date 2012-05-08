@@ -40,6 +40,9 @@ class Anchor {
 		// set the template path
 		$theme = Config::get('metadata.theme');
 		Template::path(PATH . 'themes/' . $theme . '/');
+
+		// load theme specific plugins
+		Plugins::load(Template::path()."plugins/*");
 		
 		// remove admin as an argument and set the default action if there isnt one
 		if($action == 'admin') {
