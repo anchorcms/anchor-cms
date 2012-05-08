@@ -10,6 +10,7 @@ return array(
 	'pages' => 'Pages',
 	'users' => 'Users',
 	'metadata' => 'Metadata',
+	'plugins' => 'Plugins',
 
 	'status_check' => 'Status check',
 	'found_a_problem' => 'Oh no, we found a problem',

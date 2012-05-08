@@ -44,6 +44,12 @@ class Template {
 			require static::$path . 'functions.php';
 		}
 
+		// before_header plugin hook
+		ob_start();
+		Plugins::plugin_hook_before_header();
+		Response::append(ob_get_contents());
+		ob_end_clean();
+
 		// render files
 		foreach(array('includes/header', $template, 'includes/footer') as $file) {
 			$filepath = static::$path . $file . '.php';
@@ -59,6 +65,11 @@ class Template {
 			
 			static::parse($filepath, $data);
 		}
+
+		// after_footer plugin hook
+		ob_start();
+		Plugins::plugin_hook_after_footer();
+		Response::append(ob_get_contents());
+		ob_end_clean();
 	}
-	
 }

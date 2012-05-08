@@ -206,6 +206,10 @@ section.content {
     float: left;
 }
 
+    section.content h2, section.content ul.list, section.content h3:only-of-type {
+        margin-bottom: .8em;
+    }
+
     section.content nav.tabs {
         margin-bottom: 2em;
     }

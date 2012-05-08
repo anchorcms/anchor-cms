@@ -40,9 +40,6 @@ class Anchor {
 		// set the template path
 		$theme = Config::get('metadata.theme');
 		Template::path(PATH . 'themes/' . $theme . '/');
-
-		// load theme specific plugins
-		Plugins::load(Template::path() . "plugins", Template::path());
 		
 		// remove admin as an argument and set the default action if there isnt one
 		if($action == 'admin') {
@@ -65,6 +62,11 @@ class Anchor {
 
 			// set template path for admin
 			Template::path(PATH . 'system/admin/theme/');
+		}
+
+		// load theme specific Plugins
+		if (!defined('IN_ADMIN') || !IN_ADMIN) {
+			Plugins::load(Template::path() . "plugins", Template::path());
 		}
 
 		// log the controller we are going to use and the action

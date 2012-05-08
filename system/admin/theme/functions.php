@@ -11,7 +11,8 @@ function admin_menu() {
 		'posts' => $prefix . '/posts',
 		'pages' => $prefix . '/pages',
 		'users' => $prefix . '/users',
-		'metadata' => $prefix . '/metadata'
+		'metadata' => $prefix . '/metadata',
+		'plugins' => $prefix . '/plugins'
 	);
 
 	return $pages;
@@ -88,6 +89,11 @@ function error_check() {
 	// Check if the upgrade directory is still present
 	if (file_exists(PATH . 'upgrade')) {
 		$errors[] = 'Please delete the upgrade directory or rename it.';
+	}
+
+	// Check if example plugin is still present
+	if (file_exists(PATH . 'plugins/example_plugin.php')) {
+		$errors[] = 'Please delete the example plugin.';
 	}
 
 	// do something useful with it
