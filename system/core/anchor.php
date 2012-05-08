@@ -42,7 +42,7 @@ class Anchor {
 		Template::path(PATH . 'themes/' . $theme . '/');
 
 		// load theme specific plugins
-		Plugins::load(Template::path()."plugins/*");
+		Plugins::load(Template::path() . "plugins", Template::path());
 		
 		// remove admin as an argument and set the default action if there isnt one
 		if($action == 'admin') {

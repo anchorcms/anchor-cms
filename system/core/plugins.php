@@ -1,14 +1,22 @@
-<?php
+<?php defined('IN_CMS') or die('No direct access allowed.');
+
+/**
+	Plugin API
+*/
 class Plugins {
 	public static $hooks = array();
 	public static $plugins = array();
 
-	public static function load($directory=false) {
-		if (!$directory) $directory = PATH . "plugins/*";
-		foreach (glob($directory) as $file) {
+	public static function load($directory=false, $incdir=false) {
+		if (!$directory) $directory = PATH . "plugins";
+		if (!$incdir) $incdir = $directory;
+		$cwd = getcwd();
+		chdir($incdir);
+		foreach (glob($directory . "/*") as $file) {
 			self::$plugins[] = $file;
 			include $file;
 		}
+		chdir($cwd);
 	}
 
 	public static function add_hook($name, $type, $hook) {
