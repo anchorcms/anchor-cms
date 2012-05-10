@@ -24,7 +24,7 @@
 				<ul>
 					<?php foreach(admin_menu() as $title => $url): ?>
 					<li <?php if(strpos(Url::current(), $url) !== false) echo 'class="active"'; ?>>
-						<a href="<?php echo Url::make($url); ?>"><?php echo __('common.' . $title, $title); ?></a>
+						<a href="<?php echo Url::make($url); ?>"><?php echo ucfirst(__('common.' . $title, $title)); ?></a>
 					</li>
 					<?php endforeach; ?>
 				</ul>

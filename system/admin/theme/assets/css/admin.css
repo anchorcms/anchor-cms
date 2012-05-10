@@ -416,6 +416,13 @@ fieldset {
         font: 13px "Helvetica Neue", sans-serif;
         color: #50575d;
     }
+    	fieldset input[type=checkbox], fieldset input[type=textarea] {
+    		position: relative;
+    		top: 12px;
+    	}
+    		fieldset input[type=checkbox] + em, fieldset input[type=textarea] + em {
+    			margin-top: -8px;
+    		}
         fieldset .key {
             width: 128px;
             margin-right: -1px;

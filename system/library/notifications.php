@@ -31,7 +31,7 @@ class Notifications {
 		
 		if(isset($data[$group])) {
 			foreach($data[$group] as $type => $messages) {
-				$html .= '<p class="notification ' . $type . '">' . implode('<br>', $messages) . '</p>';
+				$html .= '<p class="notification ' . $type . '">' . implode('.<br>', $messages) . '</p>';
 			}
 
 			unset($data[$group]);

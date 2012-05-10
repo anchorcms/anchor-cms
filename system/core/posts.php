@@ -65,11 +65,13 @@ class Posts {
 				posts.created,
 				posts.custom_fields,
 				coalesce(users.real_name, posts.author) as author,
+				coalesce(categories.title, posts.category) as category,
 				coalesce(comments.total, 0) as total_comments,
 				posts.status
 
 			from posts 
 			left join users on (users.id = posts.author) 
+			left join categories on (categories.id = posts.category) 
 			left join (
 				select 
 					count(comments.id) as total, comments.post 
@@ -143,12 +145,14 @@ class Posts {
 				posts.created,
 				posts.custom_fields,
 				coalesce(users.real_name, posts.author) as author,
+				coalesce(categories.title, posts.category) as category,
 				coalesce(users.bio, '') as bio,
 				posts.status,
 				posts.comments
 
 			from posts 
 			left join users on (users.id = posts.author) 
+			left join categories on (categories.id = posts.category) 
 		";
 		$args = array();
 		
@@ -178,10 +182,12 @@ class Posts {
 				posts.created,
 				posts.custom_fields,
 				coalesce(users.real_name, posts.author) as author,
+				coalesce(categories.title, posts.category) as category,
 				posts.status
 
 			from posts 
 			left join users on (users.id = posts.author) 
+			left join categories on (categories.id = posts.category) 
 
 			where (posts.title like :term or posts.description like :term or posts.html like :term)
 		";

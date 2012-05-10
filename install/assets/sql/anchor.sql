@@ -56,6 +56,7 @@ CREATE TABLE `posts` (
 	`custom_fields` text,
 	`created` int(11) NOT NULL,
 	`author` int(6) NOT NULL,
+	`category` INT(6) NULL DEFAULT '1',
 	`status` enum('draft','published','archived') NOT NULL,
 	`comments` TINYINT( 1 ) NOT NULL,
 	PRIMARY KEY (`id`),
@@ -90,3 +91,17 @@ CREATE TABLE IF NOT EXISTS `sessions` (
 	`data` TEXT NOT NULL,
 	PRIMARY KEY (`id`)
 ) ENGINE=InnoDB CHARSET=utf8 COLLATE=utf8_general_ci;
+
+DROP TABLE IF EXISTS `categories`;
+
+CREATE TABLE `categories` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `title` varchar(150) DEFAULT NULL,
+  `slug` varchar(40) DEFAULT NULL,
+  `description` text,
+  `visible` tinyint(1) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+INSERT INTO `categories` (`id`, `title`, `slug`, `description`, `visible`)
+VALUES (1, 'Uncategorised', 'uncategorised', 'Ain\'t no category here.', 1);

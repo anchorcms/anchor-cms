@@ -10,6 +10,7 @@ function admin_menu() {
 	$pages = array(
 		'posts' => $prefix . '/posts',
 		'pages' => $prefix . '/pages',
+		'categories' => $prefix . '/categories',
 		'users' => $prefix . '/users',
 		'metadata' => $prefix . '/metadata'
 	);

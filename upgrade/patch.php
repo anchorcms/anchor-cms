@@ -181,3 +181,22 @@ if(Config::get('debug', null) === null) {
 if(Config::get('database.collation', null) === null) {
 	Config::set('database.collation', 'utf8_bin');
 }
+
+if(Schema::has('categories') === false) {
+	$sql = 'CREATE TABLE `categories` (
+	  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+	  `title` varchar(150) DEFAULT NULL,
+	  `slug` varchar(40) DEFAULT NULL,
+	  `description` text,
+	  `visible` tinyint(1) DEFAULT NULL,
+	  PRIMARY KEY (`id`)
+	) ENGINE=InnoDB DEFAULT CHARSET=latin1;';
+	Migrations::query($sql);
+	
+	$sql = "INSERT INTO `categories` (`id`, `title`, `slug`, `description`, `visible`)
+	VALUES (1, 'Uncategorised', 'uncategorised', 'Ain\'t no category here.', 1);";
+	Migrations::query($sql);
+	
+	$sql = 'ALTER TABLE `posts` ADD `category` INT(6)  NULL  DEFAULT 1  AFTER `comments`;';
+	Migrations::query($sql);
+}

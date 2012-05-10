@@ -13,7 +13,7 @@ class Items implements Iterator {
 	public function rewind() {
 		$this->position = 0;
 	}
-
+	
 	public function current() {
 		return $this->items[$this->position];
 	}
