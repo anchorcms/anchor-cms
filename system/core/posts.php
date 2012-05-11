@@ -384,6 +384,8 @@ class Posts {
 		
 		Notifications::set('success', Lang::line('posts.post_success_created', 'Your new post has been added'));
 		
+		Plugins::plugin_hook_add_post($post);
+
 		return true;
 	}
 	

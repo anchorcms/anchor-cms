@@ -109,4 +109,8 @@ class Plugins {
 		$newpost = self::call_hooks('retrieve_post_in_admin', $post);
 		return $newpost ? $newpost : $post;
 	}
+
+	public static function plugin_hook_add_post($post) {
+		return self::call_hooks('add_post', $post);
+	}
 }
