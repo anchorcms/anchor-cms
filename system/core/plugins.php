@@ -14,6 +14,7 @@ class Plugins {
 		if (!$directory) $directory = PATH . "plugins";
 		if (!$incdir) $incdir = $directory;
 		$cwd = getcwd();
+		if (!file_exists($directory) || !file_exists(!$incdir)) return false;
 		chdir($incdir);
 		foreach (glob($directory . "/*") as $file) {
 			self::$currentFile = $file;
