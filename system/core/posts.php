@@ -14,6 +14,9 @@ class Posts {
 		}
 	
 		if(is_object($post)) {
+			$post = Plugins::plugin_hook_retrieve_post($post);
+			$post = Plugins::plugin_hook_retrieve_post_not_in_admin($post);
+			$post = Plugins::plugin_hook_retrieve_post_in_admin($post);
 			// build full url
 			$page = IoC::resolve('posts_page');
 			$post->url = Url::make($page->slug . '/' . $post->slug);
@@ -25,7 +28,6 @@ class Posts {
 	}
 
 	public static function parse($str) {
-	
 		//  allow [[encoded]]
 		if(preg_match_all('/\[\[(.*)\]\]/', $str, $matches)) {
 			list($s, $r) = $matches;
@@ -388,6 +390,8 @@ class Posts {
 		
 		Notifications::set('success', Lang::line('posts.post_success_created', 'Your new post has been added'));
 		
+		Plugins::plugin_hook_add_post($post);
+
 		return true;
 	}
 	

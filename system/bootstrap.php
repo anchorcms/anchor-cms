@@ -94,6 +94,10 @@ register_shutdown_function(array('Error', 'shutdown'));
 Session::start();
 
 /**
+	Load Plugins
+*/
+Plugins::load();
+/**
 	Handle routing
 */
 Anchor::run();
