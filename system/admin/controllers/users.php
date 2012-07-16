@@ -14,7 +14,7 @@ class Users_controller {
 	public function login() {
 		if(Input::method() == 'POST') {
 			if(Users::login()) {
-				return Response::redirect($this->admin_url . '/posts');
+				return Response::redirect($this->admin_url . '/posts/add');
 			}
 		}
 		Template::render('users/login');

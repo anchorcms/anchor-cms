@@ -198,28 +198,3 @@
 		<li><a href="<?php echo Url::make($page->slug . '/' . $article->slug); ?>"><?php echo __('posts.view_post', 'View this post on your site'); ?></a></li>
 	</ul>
 </aside>
-
-<script src="<?php echo theme_url('assets/js/lang.js'); ?>"></script>
-<script>
-	// define global js translations
-	// for our popups
-	Lang.load('posts');
-</script>
-
-<script src="<?php echo theme_url('assets/js/textareas.js'); ?>"></script>
-<script src="<?php echo theme_url('assets/js/custom_fields.js'); ?>"></script>
-<script src="<?php echo theme_url('assets/js/comments.js'); ?>"></script>
-<script src="<?php echo theme_url('assets/js/tabs.js'); ?>"></script>
-
-<script src="<?php echo theme_url('assets/js/confirm.js'); ?>"></script>
-<script>
-	// confirm for deletions
-	$('button[name=delete]').bind('click', function(event) {
-		Confirm.open(function() {
-			var form = $('form'), input = new Element('input', {'type': 'hidden', 'name': 'delete'});
-			form.append(input);
-			form.submit();
-		});
-		event.end();
-	});
-</script>

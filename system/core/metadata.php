@@ -9,7 +9,7 @@ class Metadata {
 			return false;
 		}
 		
-		$post = Input::post(array('sitename', 'description', 'theme', 'twitter', 'home_page', 'posts_page', 'auto_published_comments', 'posts_per_page'));
+		$post = Input::post(array('sitename', 'description', 'theme', 'twitter', 'gosquared', 'home_page', 'posts_page', 'auto_published_comments', 'posts_per_page'));
 		$errors = array();
 		
 		if(empty($post['sitename'])) {
@@ -23,6 +23,8 @@ class Metadata {
 		if(empty($post['theme'])) {
 			$errors[] = Lang::line('metadata.missing_theme', 'You need a theme');
 		}
+		
+		$post['gosquared'] = strtoupper($post['gosquared']);
 
 		// auto publish comments
 		$post['auto_published_comments'] = $post['auto_published_comments'] ? 1 : 0;

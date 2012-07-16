@@ -8,7 +8,7 @@
  */
 
 // Anchor version
-define('ANCHOR_VERSION', 0.7);
+define('ANCHOR_VERSION', 0.8);
 
 // benchmark
 define('ANCHOR_START', microtime(true));

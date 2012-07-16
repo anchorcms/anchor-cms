@@ -1,4 +1,18 @@
-        <div class="wrap">
+<div class="wrap">
+        
+        	<nav class="categories">
+        		<h3>All categories:</h3>
+        		
+        		<ul>
+        		<?php while(categories()): ?>
+        			<li>
+        				<a href="<?php echo category_url(); ?>" title="<?php echo category_title(); ?>">
+        					<?php echo category_title(); ?> <span title="Amount of posts in <?php echo category_title(); ?>">(<?php echo category_count(); ?>)</span>
+        				</a>
+        			</li>
+        		<?php endwhile; ?>
+        		</ul>
+        
             <footer id="bottom">
                 <small>&copy; <?php echo date('Y'); ?> <?php echo site_name(); ?>. All rights reserved.</small>
                     
@@ -18,35 +32,7 @@
                 <a id="attribution" title="Powered by Anchor CMS" href="//anchorcms.com">Powered by Anchor CMS</a>
             </footer>
 
-            <?php if(is_debug()): ?>
-            <?php echo db_profile(); ?>
-            <script>
-                (function() {
-                    var g = function(i) {
-                        var e = document.getElementById(i);
-                        e.s = function(p, v) {
-                            this.style[p] = v;
-                        };
-                        e.g = function(p) {
-                            return this.style[p];
-                        };
-
-                        return e;
-                    };
-
-                    var a = g('debug_toggle'), t = g('debug_table');
-
-                    var b = function(e) {
-                        var d = (t.g('display') == '' || t.g('display') == 'none') ? 'block' : 'none';
-                        t.s('display', d);
-                        e.preventDefault();
-                        e.stopPropagation();
-                    };
-
-                    a.addEventListener('click', b, false);
-                }());
-            </script>
-            <?php endif; ?>
+            <?php if(is_debug()) echo db_profile(); ?>
         </div>
     </body>
 </html>

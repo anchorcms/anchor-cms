@@ -5,23 +5,18 @@
 		<title><?php echo __('common.manage', 'Manage'); ?> <?php echo Config::get('metadata.sitename'); ?></title>
 
 		<link rel="stylesheet" href="<?php echo theme_url('assets/css/admin.css'); ?>">
-		<link rel="stylesheet" href="<?php echo theme_url('assets/css/popup.css'); ?>">
-
-		<script src="<?php echo theme_url('assets/js/lib.js'); ?>"></script>
-		<script src="<?php echo theme_url('assets/js/helpers.js'); ?>"></script>
-		<script src="<?php echo theme_url('assets/js/popup.js'); ?>"></script>
-		<script>var Base_url = '<?php echo admin_url(); ?>';</script>
 	</head>
 	<body>
 
 		<header id="top">
-			<a id="logo" href="<?php echo Url::make(Config::get('application.admin_folder')); ?>">
-				<img src="<?php echo theme_url('assets/img/logo.png'); ?>" alt="Anchor CMS">
-			</a>
-
 			<?php if(($user = Users::authed()) !== false): ?>
 			<nav>
 				<ul>
+					<li id="logo">
+						<a href="<?php echo Url::make(Config::get('application.admin_folder')); ?>">
+							<img src="<?php echo theme_url('assets/img/logo.png'); ?>" alt="Anchor CMS">
+						</a>
+					</li>
 					<?php foreach(admin_menu() as $title => $url): ?>
 					<li <?php if(strpos(Url::current(), $url) !== false) echo 'class="active"'; ?>>
 						<a href="<?php echo Url::make($url); ?>"><?php echo ucfirst(__('common.' . $title, $title)); ?></a>
@@ -29,9 +24,26 @@
 					<?php endforeach; ?>
 				</ul>
 			</nav>
-
-			<p><?php echo __('common.logged_in_as', 'Logged in as'); ?> <strong><?php echo $user->real_name; ?></strong>. 
-			<a href="<?php echo admin_url('users/logout'); ?>"><?php echo __('common.logout', 'Logout'); ?></a></li>
+			
+			<a class="logout" href="<?php echo admin_url('users/logout'); ?>"><?php echo __('common.logout', 'Logout'); ?></a>
+			
+			<div class="status-check">
+				<?php if(error_check()): ?>
+					<a href="#">
+						<img src="<?php echo theme_url('assets/img/status-check.png'); ?>">
+					</a>
+					
+					<ul>
+						<?php foreach(error_check() as $error): ?>
+						<li><?php echo $error; ?></li>
+						<?php endforeach; ?>
+					</ul>
+				<?php endif; ?>
+			</div>
+			<?php else: ?>
+			<a class="login" id="logo" href="<?php echo Url::make(Config::get('application.admin_folder')); ?>">
+				<img src="<?php echo theme_url('assets/img/logo.png'); ?>" alt="Anchor CMS">
+			</a>
 			<?php endif; ?>
 		</header>
 

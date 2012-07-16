@@ -5,6 +5,8 @@
 			<?php while(posts()): ?>
 			<li>
 				<a href="<?php echo article_url(); ?>" title="<?php echo article_title(); ?>">
+					<?php echo article_thumbnail(); ?>
+					
 					<time datetime="<?php echo date(DATE_W3C, article_time()); ?>"><?php echo relative_time(article_time()); ?></time>
 					<h2><?php echo article_title(); ?></h2>
 					<span class="category">Posted under <?php echo article_category(); ?></span>
@@ -20,7 +22,3 @@
 	<?php endif; ?>
 
 </section>
-
-<?php while(categories()): ?>
-	<?php echo category_id() . ' ' . category_title() . ' ' . category_description(); ?>
-<?php endwhile; ?>

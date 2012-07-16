@@ -61,6 +61,7 @@ if(Config::get('application.key') === false) {
 /**
 	0.5 --> 0.6
 */
+
 $sql = "create table if not exists `sessions` (
 	`id` char( 32 ) not null ,
 	`date` datetime not null ,
@@ -182,6 +183,8 @@ if(Config::get('database.collation', null) === null) {
 	Config::set('database.collation', 'utf8_bin');
 }
 
+Migrations::query('insert into `meta` VALUES (\'gosquared\', \'\')');
+
 if(Schema::has('categories') === false) {
 	$sql = 'CREATE TABLE `categories` (
 	  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
@@ -200,3 +203,8 @@ if(Schema::has('categories') === false) {
 	$sql = 'ALTER TABLE `posts` ADD `category` INT(6)  NULL  DEFAULT 1  AFTER `comments`;';
 	Migrations::query($sql);
 }
+
+/**
+	0.7 --> 0.8
+*/
+Migrations::query('ALTER TABLE `posts` CHANGE `thumbnail` `thumbnail` VARCHAR(255)');

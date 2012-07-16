@@ -1,8 +1,6 @@
-<h1><?php echo __('users.log_in', 'Log in'); ?></h1>
-
 <?php echo Notifications::read(); ?>
 
-<section class="content">
+<section class="login content">
 
 	<form method="post" action="<?php echo Url::current(); ?>">
 
@@ -18,13 +16,11 @@
 			<p>
     			<label for="pass"><?php echo __('users.password', 'Password'); ?>:</label>
     			<input type="password" name="pass" id="pass">
-    			
-    			<em><a href="<?php echo admin_url('users/amnesia'); ?>"><?php echo __('users.forgotten_password', 'Forgotten your password?'); ?></a></em>
-			</p>
+   			</p>
 
 			<p class="buttons">
+    			<a href="<?php echo admin_url('users/amnesia'); ?>"><?php echo __('users.forgotten_password', 'Forgotten your password?'); ?></a>
 			    <button type="submit"><?php echo __('users.login', 'Login'); ?></button>
-			    <a href="<?php echo Url::make(); ?>">Back to <?php echo Config::get('metadata.sitename'); ?></a>
 			</p>
 		</fieldset>
 	</form>

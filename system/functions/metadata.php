@@ -22,3 +22,9 @@ function twitter_url() {
     return 'http://twitter.com/' . twitter_account();
 }
 
+/*
+	GoSquared
+*/
+function gosquared_account() {
+	return Config::Get('metadata.gosquared');
+}

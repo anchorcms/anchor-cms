@@ -69,3 +69,19 @@ function category_description() {
 	
 	return '';
 }
+
+function category_url() {
+	if($itm = IoC::resolve('category')) {
+		return absolute_url($itm->description);
+	}
+	
+	return '';
+}
+
+function category_count() {
+	if($itm = IoC::resolve('category')) {
+		return $itm->postCount;
+	}
+	
+	return 0;
+}

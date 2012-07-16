@@ -1,8 +1,8 @@
-<h1><?php echo __('users.recover_password', 'Recover Password'); ?></h1>
-
 <?php echo Notifications::read(); ?>
 
-<section class="content">
+<section class="login content">
+
+	<h1><?php echo __('users.recover_password', 'Recover Password'); ?></h1>
 
 	<form method="post" action="<?php echo Url::current(); ?>">
 

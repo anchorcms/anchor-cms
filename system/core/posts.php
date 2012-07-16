@@ -67,7 +67,8 @@ class Posts {
 				coalesce(users.real_name, posts.author) as author,
 				coalesce(categories.title, posts.category) as category,
 				coalesce(comments.total, 0) as total_comments,
-				posts.status
+				posts.status,
+				posts.thumbnail
 
 			from posts 
 			left join users on (users.id = posts.author) 
@@ -247,15 +248,15 @@ class Posts {
 			return false;
 		}
 		
-		$post = Input::post(array('title', 'slug', 'created', 'description', 'html', 
+		$post = Input::post(array('title', 'slug', /*'created',*/ 'description', 'html', 
 			'css', 'js', 'status', 'delete', 'field', 'comments'));
 		$errors = array();
 
-		$post['created'] = strtotime($post['created']);
+		//$post['created'] = strtotime($post['created']);
 		
-		if($post['created'] === false) {
-			$errors[] = Lang::line('posts.invalid_date', 'Please enter a valid date');
-		}
+		//if($post['created'] === false) {
+		//	$errors[] = Lang::line('posts.invalid_date', 'Please enter a valid date');
+		//}
 
 		// delete
 		if($post['delete'] !== false) {
@@ -326,10 +327,20 @@ class Posts {
 		}
 
 		$post = Input::post(array('title', 'slug', 'created', 'description', 'html', 
-			'css', 'js', 'status', 'field', 'comments'));
+			'css', 'js', 'status', 'field', 'comments', 'thumbnail'));
 		$errors = array();
 		
 		$post['created'] = strtotime($post['created']);
+		
+		if($post['created'] === false) {
+			$post['created'] = time();
+		}
+		
+		$post['thumbnail'] = Thumbnail::create('thumbnail');
+		
+		if($post['thumbnail'] === false) {
+		    $errors[] = Lang::line('thumbnail.error', Thumbnail::$error);
+		}
 		
 		if($post['created'] === false) {
 			$errors[] = Lang::line('posts.invalid_date', 'Please enter a valid date');
@@ -340,11 +351,12 @@ class Posts {
 		}
 		
 		if(empty($post['description'])) {
-			$errors[] = Lang::line('posts.missing_description', 'Please enter a description');
+		    $post['description'] = strlen($post['html']) < 100 ? substr($post['html'], 0, 97) . '&hellip;' : $post['html'];
+			//$errors[] = Lang::line('posts.missing_description', 'Please enter a description');
 		}
 		
 		if(empty($post['html'])) {
-			$errors[] = Lang::line('posts.missing_html', 'Please enter your html');
+			$errors[] = Lang::line('posts.missing_html', 'Please enter your HTML');
 		}
 		
 		// use title as fallback

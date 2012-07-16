@@ -108,6 +108,31 @@ function article_total_comments() {
 	return 0;
 }
 
+function article_thumbnail_filename() {
+	if($itm = IoC::resolve('article')) {
+		return $itm->thumbnail;
+	}
+	
+	return '';
+}
+function article_thumbnail_src() {
+	return PATH . 'uploads/' . article_thumbnail_filename();
+}
+
+function article_thumbnail($width = 300, $height = 'auto', $fallback = false) {
+	if(article_thumbnail_filename() !== '') {
+	
+		Thumbnail::set(article_thumbnail_src());
+		$thumb = Thumbnail::resize($width, $height);
+		
+		if($thumb->src) {
+		    return '<img width="' . $thumb->width . '" height="' . $thumb->height . '" src="'. $thumb->src . '">';
+		}
+	}
+	
+	return '';
+}
+
 function article_author() {
 	if($itm = IoC::resolve('article')) {
 		return $itm->author;

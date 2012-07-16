@@ -62,7 +62,7 @@ return array(
 	'user_success_created' => 'A new user has been added',
 	'user_success_updated' => 'User has been updated',
 	'user_success_deleted' => 'User has been deleted',
-	'user_success_password' => 'Your new password has been set',
+	'user_success_password' => 'Your new password has been set. Go and login now!',
 	'user_notice_recover' => 'We have sent you an email to confirm your password change.',
 	'user_email_recover' => 'You have requested to reset your password. To continue follow the link below.',
 	'user_subject_recover' => 'Password Reset',

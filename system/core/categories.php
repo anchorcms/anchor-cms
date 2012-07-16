@@ -58,8 +58,15 @@ class Categories {
 		}
 
 		$result = Db::results($sql, $args);
+		$output = array();
 		
-		return new Items($result);
+		foreach($result as $row) {
+			$row->postCount = Db::results('select id from posts where id = ' . $row->id);
+			$row->postCount = (int) $row->postCount[0]->id;
+			$output[] = $row;
+		}
+		
+		return new Items($output);
 	}
 	
 	public static function find($where = array()) {

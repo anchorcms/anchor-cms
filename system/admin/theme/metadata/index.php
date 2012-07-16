@@ -76,7 +76,7 @@
 			<p>
 				<label for="auto_published_comments"><?php echo __('metadata.auto_publish_comments', 'Auto publish comments'); ?>:</label>
 				<?php $checked = Input::post('auto_published_comments', $metadata->auto_published_comments) ? ' checked' : ''; ?>
-				<input name="auto_published_comments" type="checkbox" value="1"<?php echo $checked; ?>>
+				<input id="auto_published_comments" name="auto_published_comments" type="checkbox" value="1"<?php echo $checked; ?>>
 			</p>
 
 			<p>
@@ -84,6 +84,13 @@
 				<input id="twitter" name="twitter" value="<?php echo Input::post('twitter', $metadata->twitter); ?>">
 				
 				<em><?php echo __('metadata.twitter_explain', 'Your twitter account.'); ?></em>
+			</p>
+
+			<p>
+				<label for="gosquared"><?php echo __('metadata.gosquared', 'GoSquared ID'); ?>:</label>
+				<input id="gosquared" name="gosquared" placeholder="GSN-000000-A" value="<?php echo Input::post('gosquared', $metadata->gosquared); ?>">
+				
+				<em><?php echo __('metadata.gosquared_explain', 'The site ID for your GoSquared (real-time web analytics) account. You can access your analytics <a href="//home.gosquared.com">here</a>, or sign up for a free trial <a href="//gosquared.com/join">here</a>.'); ?></em>
 			</p>
 		</fieldset>
 			

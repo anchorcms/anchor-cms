@@ -39,6 +39,11 @@
 	</head>
 	<body>
 	
+		<nav id="skip-links">
+			<a href="#content" title="Skip to the main content area of the site, bypassing the navigation">Skip to content &rarr;</a>
+			<a href="#footer" title="Skip to the bottom of the site">Skip to footer &rarr;</a>
+		</nav>
+	
 		<form id="search" action="<?php echo search_url(); ?>" method="post">
 			<input type="search" name="term" placeholder="To search, type and hit enter&hellip;" value="<?php echo search_term(); ?>">
 		</form>
@@ -61,5 +66,10 @@
 					</ul>
 				</nav>
 				<?php endif; ?>
+				
+				<p class="buttons">
+					<a class="search" href="#search" title="Search <?php echo site_name(); ?>">Search</a>
+					<a class="categories" href="#categories" title="All categories">Categories</a>
+				</p>
 			</div>
 		</header>

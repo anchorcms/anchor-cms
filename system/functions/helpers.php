@@ -81,11 +81,22 @@ function memory_usage() {
 	return memory_get_peak_usage(true) / 1024;
 }
 
+// easy GoSquared integration
+// I hope I get a raise for this ;)
+function gosquared() {
+	if(gosquared_account() !== '') {
+		return '<script>var GoSquared={};GoSquared.acct="' . gosquared_account() . '";(function(a){function b(){a._gstc_lt=+(new Date);var b=document;var c=b.createElement("script");c.type="text/javascript";c.async=true;c.src="//d1l6p2sc9645hc.cloudfront.net/tracker.js";var d=b.getElementsByTagName("script")[0];d.parentNode.insertBefore(c,d)}a.addEventListener?a.addEventListener("load",b,false):a.attachEvent("onload",b)})(window);</script>';
+	}
+	
+	return '';
+}
+
 // database profile information
 function db_profile() {
 	// total query time
 	$total = 0;
 
+	$html = "<script>(function(){var y=display,g=function(i){var e=document.getElementById(i);e.s=function(p,v){this.style[p]=v;};e.g=function(p){return this.style[p];};return e;};var a=g('debug_toggle'),t= g('debug_table');var b=function(e){var a=none;d=(t.g(y)==''||t.g(y)==a)?'block':a;t.s(y, d);e.preventDefault();e.stopPropagation()};a.addEventListener('click', b, false)}())</script>";
 	$html = '<style>';
 	$html .= '.debug {display: none;font-size: 13px; margin-bottom: 1em;}';
 	$html .= '.debug td, .debug th {padding: 4px 6px; border-bottom: 1px solid #ddd;}';
