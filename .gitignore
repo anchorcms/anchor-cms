@@ -15,3 +15,9 @@ Thumbs.db
 
 # ignore phpunit tests
 /tests
+
+# ignore file uploads
+/uploads/*
+
+# make sure the uploads folder isn't empty
+!/uploads/index.php

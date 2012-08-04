@@ -19,7 +19,7 @@
 /*    1)  Sitewide styles */
 
 body {
-	font: 16px/27px Adelle, Merriweather, Georgia, serif;
+	font: 16px/27px Merriweather, serif;
 	color: #7d8186;
 }
 
@@ -54,6 +54,7 @@ p {
 	
 #top {
 	background: #eff0f2;
+	margin-bottom: 40px;
 }
 	#top .wrap {
 		position: relative;
@@ -89,17 +90,26 @@ p {
 				position: relative;
 			}
 				#top nav .active:after {
+				    content: '';
+				    display: block;
+				    
 					position: absolute;
 					left: 50%;
+					margin-left: -6px;
 					bottom: -25px;
 					
-					width: 15px;
-					height: 8px;
+					width: 0;
+					height: 0;
 					
-					background: #f0f;
+					border-left: 6px solid transparent;
+					border-right: 6px solid transparent;
+					border-bottom: 6px solid #fff;
 				}
+		#top nav li {
+		    margin-right: 40px;
+		}
 		#top nav a {
-			padding-right: 40px;
+		    display: inline-block;
 			
 			font-size: 15px;
 			font-weight: bold;
@@ -107,6 +117,9 @@ p {
 			
 			color: #5e6367;
 		}
+		    #top nav a:hover {
+		        color: #3a3f42;
+		    }
 	#top p {
 		left: auto;
 		right: -4px;
