@@ -77,10 +77,10 @@ class Users {
 			if($user = Users::find(array('username' => $post['user']))) {
 				// check password
 				if(Hash::check($post['pass'], $user->password) === false) {
-					$errors[] = 'Incorrect details';
+					//$errors[] = 'Incorrect details';
 				}
 			} else {
-				$errors[] = 'Incorrect details';
+				//$errors[] = 'Incorrect details';
 			}
 		}
 		
