@@ -23,7 +23,7 @@
 		new blog set up in no time.</p>
 	</article>
 
-	<form method="post" action="index.php" autocomplete="off">
+	<form method="post" action="index.php>
 		<fieldset>
 			<p>
 				<label for="lang">
