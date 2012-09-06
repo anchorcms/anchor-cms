@@ -20,7 +20,7 @@
 
 		<p>To function correctly, Anchor requires a MySQL database (available 
 		with all good hosts). You'll need to know the credentials for said 
-		database to get any further. If you don't have these, try contecting your webhost.</p>
+		database to get any further. If you don't have these, try contacting your webhost.</p>
 	</article>
 
 	<form method="post" action="index.php?action=stage2" autocomplete="off">
