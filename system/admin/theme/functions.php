@@ -44,14 +44,15 @@ function pluralise($amount, $str, $alt = '') {
 	return $amount === 1 ? $str : $str . ($alt !== '' ? $alt : 's');
 }
 
-function truncate($str, $limit = 10, $elipse = ' [...]') {
+function truncate($str, $limit = 10, $ellipse = '&hellip;') {
+    $str = str_replace($ellipse, '', $str);
 	$words = preg_split('/\s+/', $str);
 
 	if(count($words) <= $limit) {
 		return $str;
 	}
 
-	return implode(' ', array_slice($words, 0, $limit)) . $elipse;
+	return implode(' ', array_slice($words, 0, $limit)) . $ellipse;
 }
 	
 /**

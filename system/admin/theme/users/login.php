@@ -10,12 +10,12 @@
 			
 			<p>
 			    <label for="user"><?php echo __('users.username', 'Username'); ?>:</label>
-			    <input autocapitalize="off" name="user" id="user" value="<?php echo filter_var(Input::post('user'), FILTER_SANITIZE_STRING); ?>">
+			    <input placeholder="Username" autocapitalize="off" name="user" id="user" value="<?php echo filter_var(Input::post('user'), FILTER_SANITIZE_STRING); ?>">
 			</p>
 			
 			<p>
     			<label for="pass"><?php echo __('users.password', 'Password'); ?>:</label>
-    			<input type="password" name="pass" id="pass">
+    			<input placeholder="Password" type="password" name="pass" id="pass">
    			</p>
 
 			<p class="buttons">
@@ -26,3 +26,9 @@
 	</form>
 
 </section>
+
+<script>
+    var body = document.body;
+    
+    body.style.marginTop = (-(body.clientHeight / 2)) + 'px';
+</script>

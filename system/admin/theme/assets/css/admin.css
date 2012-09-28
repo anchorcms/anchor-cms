@@ -1,400 +1,467 @@
-@import 'reset.css';
-@import 'transitions.css';
-
-fieldset, img, a {
-	border: none;
-}
-	a {
-		color: #3878b2;
-	}
-	a:hover {
-		color: #ca4121;
-	}
-
-input, textarea, button, select, body {
-	font: 15px/25px Helvetica Neue, sans-serif;
-}
-	input, textarea {
-		padding: 6px 15px;
-		margin-bottom: 20px;
-		
-		color: #484e54;
-		width: 100%;
-		
-		border: none;
-		box-shadow: inset 0 0 1px rgba(0,0,0,.8), inset 0 1px 1px rgba(0,0,0,.4);
-	}
-		input#title {
-			font-size: 29px;
-			line-height: 28px;
-			font-weight: lighter;
-		}
-		input:focus, textarea:focus {
-			background: #edf3f8;
-			color: #343d46;
-		}
-		textarea {
-			resize: vertical;
-			min-height: 90px;
-			max-height: 450px;
-		}
-		    textarea#css, textarea#js {
-		        font-family: Anonymous Pro, monospace;
-		        min-height: 200px;
-		        margin-bottom: 10px;
-		    }
-			textarea#post-content {
-				min-height: 1px;
-				margin: 0 0 4px;
-				padding: 20px 25px;
-			
-				box-shadow: none;
-				background: transparent;
-				font-size: 17px;
-				line-height: 26px;				
-			}
-	select {
-	    -webkit-appearance: none;
-	    width: 100%;
-	    padding: 4px 12px;
-	    border: none;
-	    
-	    background: #e8eef1 url('../img/dropdown.png') no-repeat 100% 50%;
-	    color: #657981;
-	    
-	    box-shadow: 0 1px 1px rgba(0,0,0,.05);
-	}		
+/**
+ *   Anchor CMS - admin interface
+ *   v2.0, by @idiot
+ */
+ 
+/*
+    Mini reset
+*/
+* {
+	margin: 0;
+	padding: 0;
 	
-form p {
-    position: relative;
+	-webkit-font-smoothing: antialiased;
+	
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
 }
-    form p em {
-        position: absolute;
-        right: 0;
-        top: 5px;
-        
-        font-size: 11px;
+
+::selection {
+    background: #606d80;
+    color: #fff;
+}
+
+::-webkit-input-placeholder {
+    color: #bec8d4;
+}
+::-moz-placeholder {
+    color: #bec8d4;
+}
+::placeholder {
+    color: #bec8d4;
+}
+
+/*
+    Admin panel-wide styles
+*/
+body {
+    background: #eceef1;
+    
+    font: 15px/25px "Helvetica Neue", sans-serif;
+}
+    body.login {
+        background: #444f5f;
+    }
+    body, .list a {
+        color: #7d8693;
     }
 
-label {
-	display: block;
-	cursor: pointer;
-	
-	padding: 5px 0;
-	
-	font-weight: bold;
-	font-size: 15px;
+a {
+    color: #486899;
+    text-decoration: none;
+    
+    -webkit-transition: color .25s, background .25s, opacity .25s;
 }
 
-button {
-	padding: 9px 18px;
-	background: #4e7fac;
-	border: none;
+fieldset, a, img {
+    border: none;
+}
 
-	font-weight: bold;
-	color: #fff;
-	
-	cursor: pointer;
-	
-	-webkit-border-radius: 5px;
-	-moz-border-radius: 5px;
-	border-radius: 5px;
-}
-	button:hover {
-		background: #bd4529;
-	}
-	button:active, button:focus {
-		-webkit-box-shadow: inset 0 2px 2px rgba(0,0,0,.3);
-		-moz-box-shadow: inset 0 2px 2px rgba(0,0,0,.3);
-		box-shadow: inset 0 2px 2px rgba(0,0,0,.3);
-	}
-.buttons {
-	overflow: hidden;
-	margin: 10px -25px -20px;
-	padding: 20px 25px;
-	
-	background: #f6f8fa;
-	
-	-webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.1);
-	-moz-box-shadow: inset 0 1px 1px rgba(0,0,0,.1);
-	box-shadow: inset 0 1px 1px rgba(0,0,0,.1);
-}
-	.buttons button {
-		float: right;
-	}
-	.buttons a {
-		display: block;
-		float: left;
-		
-		font-size: 13px;
-		line-height: 43px;
-	}
+input, textarea, button {
+    padding: 11px 16px;
 
-body {
-	color: #616d78;
-	background: #e9edf0;
-	
-	/* This is for the expand-y top bar */
-	padding-top: 50px;
+    background: #fff;
+    color: #4a525f;
+    
+    font-size: 15px;
+    line-height: 15px;
+    font-family: inherit;
+    
+    border: none;
+    border-radius: 5px;
 }
+    input:focus, textarea:focus, button:focus {
+        outline: none;
+    }
+    textarea {
+        font-size: 17px;
+        line-height: 25px;
+    }
+    button {
+        cursor: pointer;
+    }
+
+.wrap, .content, h1, #bottom, #post-content {
+    width: 960px;
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+.notification {
+    color: #fff;
+    background: #578cd9;
+    
+    padding: 10px 18px;
+    margin-bottom: 20px;
+    
+    font-size: 13px;
+    line-height: 21px;
+    font-weight: 500;
+    
+    border-radius: 5px;
+}
+    .notification.error {
+        background: #d34937;
+    }
+    .notification.success {
+        background: #64a524;
+    }
 
 #top {
-	position: absolute;
-	left: 0;
-	top: 0;
-	right: 0;
-	z-index: 10;
-	
-	line-height: 50px;
-	min-height: 50px;
-	background: #37434e;
-	
-	text-shadow: 0 1px 1px rgba(0,0,0,.25);
-	
-	-webkit-box-shadow: inset 0 -2px 3px rgba(0,0,0,.15), 0 1px 1px rgba(0,0,0,.1);
-	-moz-box-shadow: inset 0 -2px 3px rgba(0,0,0,.15), 0 1px 1px rgba(0,0,0,.1);
-	box-shadow: inset 0 -2px 3px rgba(0,0,0,.15), 0 1px 1px rgba(0,0,0,.1);
+    background: #444f5f;
+    padding: 15px 0;
 }
-	#top #logo {
-		margin: 0 14px;
-	}
-		#top nav #logo {
-			margin: 0;
-		}
-	#top #logo img {
-		opacity: .5;
-		margin: 0 6px;
-		position: relative;
-		top: 5px;
-	}
-		#top #logo:hover img {
-			opacity: 1;
-		}
-	#top nav, #top nav li {
-		float: left;
-	}
-		#top nav li {
-			display: inline-block;
-		}
-		#top nav li a {
-			display: block;
-			padding: 0 15px;
-			
-			color: #8c9eb3;
-			font-size: 13px;
-			font-weight: bold;
-			text-decoration: none;
-		}
-			#top a:hover {
-				background: #414d59;
-				color: #b2c6de;
-			}
-			#top nav li.active a {
-				color: #fff;
-			}
-	#top .status-check {
-		float: right;
-		position: relative;
-	}
-		#top .status-check img {
-			display: block;
-			margin: 17px 0;
-		}
-		#top .status-check ul {
-			position: absolute;
-			top: 50px;
-			right: 0;
-			width: 330px;
-			
-			list-style: square;
-			background: #414d59;
-			color: #b7c5d3;
-			
-			font-size: 13px;
-			line-height: 21px;
-			
-			padding: 15px 30px 10px;
-			
-			opacity: 0;
-			pointer-events: none;
-		}
-			#top .status-check a:hover + ul, #top .status-check ul:hover {
-				opacity: 1;
-				pointer-events: all;
-			}
-		#top .status-check li {
-			padding-bottom: 8px;
-		}
-		#top .status-check li a {
-			color: #e7eef6;
-			text-decoration: underline;
-			float: none;
-			display: inline;
-			padding: 0;
-		}
-			#top .status-check li a:hover {
-				color: #fff;
-			}
-	
-	#top .logout, #top .status-check a {
-		display: block;
-		float: right;
-		
-		padding: 0 20px;
-		
-		font-size: 13px;
-		text-decoration: none;
-		color: #616e7c;
-	}
-		#top .logout:hover {
-			color: #8595a4;
-		}
-		
-.content {
-	margin: 0 auto;
-	padding: 20px 25px;
-	width: 95%;
-	max-width: 1600px;
-	
-	background: #fff;
-	
-	-webkit-box-shadow: 0 1px 2px rgba(0,0,0,.25);
-	-moz-box-shadow: 0 1px 2px rgba(0,0,0,.25);
-	box-shadow: 0 1px 2px rgba(0,0,0,.25);
-}
-	.content, .buttons {
-		-webkit-border-radius: 0 0 3px 3px;
-		-moz-border-radius: 0 0 3px 3px;
-		border-radius: 0 0 3px 3px;
-	}
-	.login.content {
-		max-width: 450px;
-	}
-	.content h1, .content header {
-		font-size: 29px;
-		line-height: 40px;
-		font-weight: 300;
-		
-		padding: 20px 25px;
-		margin: -20px -25px 15px;
-		
-		box-shadow: 0 1px 1px #f2f5f8;
-		border-bottom: 1px solid #dfe5ea;
-	}
-		.content header {
-			padding: 0;
-			height: 66px; /* Can't do overflow: hidden because of the active tab thingy */
-		}
-		.content header input {
-			float: left;
-			width: 70%;
-			height: 65px;
-			margin: 0;
-			padding: 0 25px;
-			
-			background: #fff;
-			
-			box-shadow: none;
-		}
-		.content header nav {
-			position: relative;
-			z-index: 1;
-		
-			float: right;
-			width: 30%;
-		}
-			.content header nav li {
-				position: relative;
-				float: left;
-				
-				width: 33.35%;
-				list-style: none;
-			}
-			.content header nav li a {
-				display: block;
+    #top a {
+        display: inline-block;
+        padding: 0 18px;
+        
+        font-size: 13px;
+        font-weight: bold;
+        line-height: 34px;
+    }
+        #top #logo a {
+            padding-left: 0;
+        }
+    #top nav, #top nav li, #top nav a {
+        float: left;
+        list-style: none;
+    }
+    #top nav img {
+        position: relative;
+        top: 4px;
+    }
+    #top nav a {
+        margin-right: 20px;
+        color: #7b8eaa;
+    }
+        #top nav a:hover {
+            color: #a4b4cb;
+        }
+        #top nav .active a {
+            color: #394556;
+            background: #687993;
+            
+            border-radius: 5px;
+        }
+    #top .btn {
+        float: right;
+        padding: 0 16px;
+        margin-left: 20px;
 
-				font-size: 15px;
-				line-height: 65px;
-				font-weight: 500;
-				text-align: center;
-				text-decoration: none;
+        background: #38414f;
+        color: #6a788d;
 
-				background: #f6f8fa;
-			}
-				.content header nav li.active a {
-					background: #f1f4f7;
-				}
-				.content header nav li.active a:after {
-					content: '';
-					position: absolute;
-					left: 50%;
-					bottom: -3px;
-					
-					display: block;
-					width: 20px;
-					height: 10px;
-					margin-left: -10px;
-					
-					background: url('../img/active.png');
-				}
-	.content em {
-		font-family: Caecilia, Georgia, serif;
-		font-size: 13px;
-		color: #788795;
-	}
-	.content p {
-		padding-bottom: 15px;
-	}
+        border-radius: 5px;        
+    }
+        #top .btn:hover {
+            color: #8491a5;
+            background: #2f3744;
+        }
+        
+.status {
+    display: inline-block;
+    width: 7px;
+    height: 7px;
+    
+    overflow: hidden;
+    
+    background: #bec3cb;
+    border-radius: 4px;
+    
+    font-size: 0;
+}
+    .status.published, .status.visible {
+        background: #89c84b;
+    }
+    .status.draft, .status.hidden {
+        background: #dec138;
+    }
+    .status.archived {
+        background: #4b8fc8;
+    }
+  
+h1 {
+    font-size: 29px;
+    line-height: 120px;
+    font-weight: normal;
+    color: #99a3b1;
+} 
+    h1 a {
+        float: right;
+        margin-top: 40px;
+    }     
+h1 a, .btn, button {
+    display: inline-block;
+    padding: 0 22px;
+    
+    color: #fff;
+    background: #6aad28;
+    
+    font-size: 13px;
+    line-height: 38px;
+    font-weight: bold;
+    
+    border: none;
+    border-radius: 5px;
+}
+    h1 a:hover, .btn:hover, button:hover {
+        background: #4f8c12;
+    }
 
-.tabs {
-	overflow: hidden;
-	margin: -20px -25px;
-}
-	.tabs .carousel {
-	    position: relative;
-		width: 300%;
-		overflow: hidden;
-	}
-	.tabs fieldset {
-		float: left;
-		width: 33.33%;
-		height: 100%;
-		overflow: scroll;
-	}
-		.tabs #content p {
-			padding-bottom: 0;
-		}
-		
-.side {
-    float: left;
-    width: 50%;
-    padding: 30px 3%;
-}
-	
 #bottom {
-	overflow: hidden;
-	margin: 20px;
-	
-	color: #98a8b7;
-	font-size: 13px;
+    padding-top: 40px;
 }
-	.login + #bottom {
-		position: absolute;
-		left: 0;
-		right: 0;
-		bottom: 0;
-	}
-	#bottom small {
-		font-size: 13px;
-		float: left;
-	}
-	#bottom em {
-		font-style: normal;
-		float: right;
-	}
-	#bottom a {
-		color: #627587;
-	}
-		#bottom a:hover {
-			color: #445463;
-		}
+    #bottom small {
+        float: left;
+        font-size: 13px;
+    }
+    #bottom em {
+        float: right;
+        
+        font-size: 13px;
+        font-style: normal;
+        color: #9ba4b0;
+    }
+
+/*
+    List styling
+*/
+.list {
+    list-style: none;
+    width: 110%;
+}
+    .list li {
+        float: left;
+        width: 28.111111%;
+        margin: 0 3.333333% 30px 0;
+    }
+    .list li a {
+        display: block;
+        padding: 25px 30px 15px;
+        min-height: 75px;
+        
+        overflow: hidden;
+        
+        background: #fff;
+        border-radius: 5px;
+    }
+        .list:hover li a {
+            opacity: .5;
+        }
+        .list:hover li a:hover {
+            opacity: 1;
+        }
+    .list li strong {
+        display: block;
+        width: 110%;
+        height: 25px;
+        
+        font-size: 19px;
+        color: #606b7b;
+        
+        position: relative;
+        overflow: hidden;
+    }
+        .list li strong:after {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            width: 60px;
+            border-right: 10px solid #fff;
+            
+            background-image: -webkit-gradient(linear, left center, right center, from(rgba(255,255,255,0)), to(#fff));
+            background-image: -webkit-linear-gradient(left, rgba(255,255,255,0), #fff);
+            background-image: -moz-linear-gradient(left, rgba(255,255,255,0), #fff);
+            background-image: -o-linear-gradient(left, rgba(255,255,255,0), #fff);
+            background-image: -ms-linear-gradient(left, rgba(255,255,255,0), #fff);
+            background-image: linear-gradient(left, rgba(255,255,255,0), #fff);
+        }
+        .list li strong .status {
+            float: right;
+            
+            position: relative;
+            top: 10px;
+            right: 30px;
+            z-index: 10;
+        }
+    .list li strong + span {
+        display: block;
+        padding-bottom: 8px;
+        
+        font-size: 13px;
+        color: #a3acb9;
+    }
+    .list li p {
+        display: block;
+        height: 100px;
+        margin-bottom: -15px;
+        
+        position: relative;
+        overflow: hidden;
+    }
+        .list li p:after {
+            content: '';
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            height: 40px;
+            
+            background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(255,255,255,0)), to(#fff));
+            background-image: -webkit-linear-gradient(top, rgba(255,255,255,0), #fff);
+            background-image: -moz-linear-gradient(top, rgba(255,255,255,0), #fff);
+            background-image: -o-linear-gradient(top, rgba(255,255,255,0), #fff);
+            background-image: -ms-linear-gradient(top, rgba(255,255,255,0), #fff);
+            background-image: linear-gradient(top, rgba(255,255,255,0), #fff);
+        }
+    .list li time {
+        margin-right: 10px;
+    }
+    .list li .status {
+        margin-left: 10px;
+    }
+    
+/*
+    Login
+*/
+body.login {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin: -116px 0 0 -150px;
+}
+.login .wrap, .login .content {
+    width: 300px;
+}
+    .login h1 {
+        padding-bottom: 25px;
+        
+        font-size: 25px;
+        line-height: 60px;
+        font-weight: lighter;
+        color: #fff;
+    }
+    .login #logo {
+        padding: 0;
+    }
+    .login label {
+        display: none;
+    }
+    .login fieldset {
+        border: none;
+    }
+    .login input {
+        width: 300px;
+        margin-bottom: 20px;
+        
+        padding: 14px 16px;
+    }
+    .login .buttons a {
+        float: right;
+        font-size: 13px;
+        line-height: 38px;
+    }
+    .login .buttons button {
+        float: left;
+    }
+    
+    .login a {
+        color: #8491a5;
+    }
+        .login a:hover {
+            color: #fff;
+        }
+        
+    .login button {
+        background: #2f3744;
+        color: #96a4bb;
+    }
+        
+    .notification {
+        width: 300px;
+    }
+    
+/*
+    Single post
+*/
+.header {
+    background: #fff;
+}
+    .header input {
+        font-size: 29px;
+        line-height: 40px;
+        font-weight: lighter;
+        
+        float: left;
+        width: 700px;
+        padding: 30px 0;
+    }
+    .header .buttons {
+        float: right;
+        margin-top: 30px;
+    }
+#post-content {
+    display: block;
+    padding: 0;
+    margin: 30px auto;    
+    min-height: 250px;
+    
+    background: transparent;
+}
+    
+/*
+    Focus mode
+*/
+#top, #bottom, .header, #post-data, #media {
+    -webkit-transition: opacity .4s;
+    opacity: 1;
+}
+.focus #top, .focus #bottom, .focus .header, .focus #post-data, .focus #media {
+    opacity: 0;
+    pointer-events: none;
+}
+
+/*
+    Drag-n-drop upload
+*/
+#upload-file {
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    z-index: -1;
+    
+    opacity: 0;
+    -webkit-transition: opacity .25s;
+    -moz-transition: opacity .25s;
+    -ms-transition: opacity .25s;
+    -o-transition: opacity .25s;
+    transition: opacity .25s;
+    
+    background: rgba(178,190,208,.75);
+}
+    .draggy #upload-file {
+        opacity: 1;
+        z-index: 10000;
+    }
+    #upload-file span {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        
+        width: 130px;
+        height: 30px;
+        padding-top: 50px;
+        margin: -40px 0 0 -65px;
+        
+        font-weight: bold;
+        font-size: 17px;
+        line-height: 30px;
+        color: #768498;
+        
+        background: url('../img/cloud.png') no-repeat 50% 0;
+    }

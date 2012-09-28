@@ -6,9 +6,10 @@
 
 		<link rel="stylesheet" href="<?php echo theme_url('assets/css/admin.css'); ?>">
 	</head>
-	<body>
+	<body class="<?php echo Users::authed() ? 'admin' : 'login'; ?>">
 
 		<header id="top">
+		    <div class="wrap">
 			<?php if(($user = Users::authed()) !== false): ?>
 			<nav>
 				<ul>
@@ -25,9 +26,10 @@
 				</ul>
 			</nav>
 			
-			<a class="logout" href="<?php echo admin_url('users/logout'); ?>"><?php echo __('common.logout', 'Logout'); ?></a>
+			<a class="btn" href="<?php echo admin_url('users/logout'); ?>"><?php echo __('common.logout', 'Logout'); ?></a>
+			<a class="btn" href="<?php echo Url::make(); ?>"><?php echo __('common.visit_your_site', 'Visit your site'); ?></a>
 			
-			<div class="status-check">
+			<!-- <div class="status-check">
 				<?php if(error_check()): ?>
 					<a href="#">
 						<img src="<?php echo theme_url('assets/img/status-check.png'); ?>">
@@ -39,11 +41,12 @@
 						<?php endforeach; ?>
 					</ul>
 				<?php endif; ?>
-			</div>
+			</div> -->
 			<?php else: ?>
 			<a class="login" id="logo" href="<?php echo Url::make(Config::get('application.admin_folder')); ?>">
 				<img src="<?php echo theme_url('assets/img/logo.png'); ?>" alt="Anchor CMS">
 			</a>
 			<?php endif; ?>
+			</div>
 		</header>
 

@@ -28,7 +28,7 @@ class Users_controller {
 	public function amnesia() {
 		if(Input::method() == 'POST') {
 			if(Users::recover_password()) {
-				return Response::redirect($this->admin_url . '/users/login');
+				return Response::redirect($this->admin_url . '/login');
 			}
 		}
 		Template::render('users/amnesia');

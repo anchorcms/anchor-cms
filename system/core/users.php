@@ -73,14 +73,19 @@ class Users {
 		}
 
 		if(empty($errors)) {
+		    $failed = false;
 			// find user
 			if($user = Users::find(array('username' => $post['user']))) {
 				// check password
 				if(Hash::check($post['pass'], $user->password) === false) {
-					//$errors[] = 'Incorrect details';
+					$failed = true;
 				}
 			} else {
-				//$errors[] = 'Incorrect details';
+				$failed = true;
+			}
+			
+			if($failed) {
+			    $errors[] = Lang::line('users.incorrect_details', 'Incorrect username or password.');
 			}
 		}
 		

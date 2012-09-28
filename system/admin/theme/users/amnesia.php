@@ -2,7 +2,7 @@
 
 <section class="login content">
 
-	<h1><?php echo __('users.recover_password', 'Recover Password'); ?></h1>
+	<h1><?php echo __('users.recover_password', 'Forgotten your password?'); ?></h1>
 
 	<form method="post" action="<?php echo Url::current(); ?>">
 
@@ -12,7 +12,7 @@
 			
 			<p>
 				<label for="email"><?php echo __('users.email', 'Email'); ?>:</label>
-				<input autocapitalize="off" name="email" id="email" value="<?php echo Input::post('email'); ?>">
+				<input placeholder="Email address" autocapitalize="off" name="email" id="email" value="<?php echo Input::post('email'); ?>">
 			</p>
 
 			<p class="buttons">

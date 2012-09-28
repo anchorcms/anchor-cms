@@ -10,8 +10,12 @@
     	    <?php foreach($pages as $page): ?>
     	    <li>
     	        <a href="<?php echo admin_url('pages/edit/' . $page->id); ?>">
-    	            <strong><?php echo truncate($page->name, 4); ?></strong>
-    	            <i class="status"><?php echo ucwords($page->status); ?></i>
+    	            <strong>
+    	                <?php echo truncate($page->name, 4); ?>
+    	                <i class="status <?php echo $page->status; ?>" title="This page is currently <?php echo $page->status; ?>"><?php echo ucfirst($page->status); ?></i>
+    	            </strong>
+    	            
+    	            <span><?php echo Url::make($page->slug); ?></span>
     	        </a>
     	    </li>
     	    <?php endforeach; ?>

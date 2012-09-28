@@ -1,5 +1,5 @@
 
-<h1><?php echo __('categories.title', 'All Categories'); ?>
+<h1><?php echo __('categories.title', 'Categories'); ?>
 <a href="<?php echo admin_url('categories/add'); ?>"><?php echo __('categories.create_category', 'Create a new category'); ?></a></h1>
 
 <?php echo Notifications::read(); ?>
@@ -10,8 +10,11 @@
     	    <?php foreach($categories as $category): ?>
     	    <li>
     	        <a href="<?php echo admin_url('categories/edit/' . $category->id); ?>">
-    	            <strong><?php echo truncate($category->title, 4); ?></strong>
-    	            <i class="status"><?php echo $category->visible ? 'Visible' : 'Hidden'; ?></i>
+    	            <strong>
+    	                <?php echo truncate($category->title, 4); ?>
+    	                
+    	                <i class="status <?php echo $category->visible ? 'visible' : 'hidden'; ?>" title="<?php echo $category->visible ? 'Visible' : 'Hidden'; ?>"><?php echo $category->visible ? 'Visible' : 'Hidden'; ?></i>
+    	            </strong>
     	        </a>
     	    </li>
     	    <?php endforeach; ?>

@@ -3,7 +3,7 @@
 return array(
 
 	'add_user' => 'Add a new user',
-	'recover_password' => 'Recover Password',
+	'recover_password' => 'Forgot your password?',
 	'users' => 'Users',
 	'create_user' => 'Create a new user',
 	'reset_password' => 'Reset Password',
