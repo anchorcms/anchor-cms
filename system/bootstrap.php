@@ -42,6 +42,7 @@ if(magic_quotes()) {
 
 // get our autoloader
 require PATH . 'system/core/autoload.php';
+require PATH . 'system/library/markdown.php';
 
 // tell the autoloader where to find classes
 Autoloader::directory(array(

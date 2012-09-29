@@ -113,8 +113,12 @@ input, textarea, button {
     }
 
 #top {
-    background: #444f5f;
+    position: relative;
+    z-index: 21;
+
     padding: 15px 0;
+
+    background: #444f5f;
 }
     #top a {
         display: inline-block;
@@ -212,6 +216,23 @@ h1 a, .btn, button {
     h1 a:hover, .btn:hover, button:hover {
         background: #4f8c12;
     }
+    .btn.secondary, button.secondary {
+        background: #a4adbb;
+    }
+        .btn.secondary:hover, button.secondary:hover {
+            background: #848f9f;
+        }
+    .btn.blue, button.blue {
+        background: #7599d2;
+    }
+        .btn.blue:hover, button.blue:hover {
+            background: #5479b2;
+        }
+
+.disabled, [disabled] {
+    cursor: not-allowed;
+    opacity: .5;
+}
 
 #bottom {
     padding-top: 40px;
@@ -392,6 +413,9 @@ body.login {
     Single post
 */
 .header {
+    position: relative;
+    z-index: 20;
+    
     background: #fff;
 }
     .header input {
@@ -409,6 +433,10 @@ body.login {
         float: right;
         margin-top: 30px;
     }
+        .header .buttons .btn, .header .buttons button {
+            float: right;
+            margin-left: 20px;
+        }
 #post-content {
     display: block;
     padding: 0;
@@ -425,6 +453,33 @@ body.login {
 form[action*='add'] + #bottom {
     display: none;
 }
+
+.prevue {    
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: -100px;
+    z-index: 10;
+    
+    min-height: 250px;
+    padding: 40px 0;
+    pointer-events: none;    
+    
+    background: #e2e5e9;
+    
+    -webkit-transition: top .25s, opacity .4s;
+    -moz-transition: top .25s, opacity .4s;
+    -ms-transition: top .25s, opacity .4s;
+    -o-transition: top .25s, opacity .4s;
+    transition: top .25s, opacity .4s;
+}
+    .prevue.active {
+        top: 164px;
+    }
+    .prevue h2 {
+        font-size: 25px;
+        padding: 0 0 15px;
+    }
     
 /*
     Focus mode
@@ -438,7 +493,7 @@ form[action*='add'] + #bottom {
 
     opacity: 1;
 }
-    .focus #top, .focus #bottom, .focus #post-data, .focus #media, .focus .header p {
+    .focus #top, .focus #bottom, .focus #post-data, .focus #media, .focus .header p, .focus .prevue {
         opacity: 0;
         pointer-events: none;
     }
@@ -518,9 +573,8 @@ form[action*='add'] + #bottom {
             color: #fff;
             background-image: url('../img/tick.png');
         }
-        
-        
-.piggy {
+          
+/*.piggy {
     position: fixed;
     left: 50%;
     bottom: 50%;
@@ -534,4 +588,4 @@ form[action*='add'] + #bottom {
 }
     .focus .piggy {
         display: none;
-    }
+    }*/

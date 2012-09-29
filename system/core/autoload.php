@@ -46,7 +46,7 @@ class Autoloader {
 	public static function find($file) {
 		// search controllers
 		if(strpos($file, '_controller') !== false) {
-			$file = rtrim($file, '_controller');
+			$file = str_replace('_controller', '', $file);
 			$path = PATH . 'system/admin/controllers/';
 
 			if(file_exists($path . $file . '.php')) {

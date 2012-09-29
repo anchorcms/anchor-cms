@@ -7,6 +7,8 @@ $(document).ready(function() {
     var body = $('body');
     var titleCache = document.title;
     
+    var textarea = $('#post-content');
+    
     /**
      *   Focus mode
      */
@@ -33,7 +35,6 @@ $(document).ready(function() {
     
     //  Bind key events
     doc.keyup(function(e) {
-        console.log(e.target.nodeName);
         //  Pressing the "f" key
         if($.inArray(e.target.nodeName, ['INPUT', 'TEXTAREA']) === -1 && e.which == 70) {
             Focus.enter();
@@ -73,23 +74,29 @@ $(document).ready(function() {
      */
     var title = $('.header input');
     var slug = $('#slug');
+    var changedSlug = false;
+    
+    slug.keyup(function() {
+        changedSlug = true;
+    });
     
     title.keyup(function() {
-        //  Format the slug
-        var s = title.val().toLowerCase();
-            s = s.replace(/[^a-z0-9-]/g, '-').replace(/-+/g, '-');
+        if(!changedSlug) {
+            var s = title.val().toLowerCase();
+                s = s.replace(/[^a-z0-9-]/g, '-').replace(/-+/g, '-');
+                
+            //  Strip firstlast slash
+            if(s.charAt(s.length - 1) === '-') s = s.substr(0, s.length - 1);
+            if(s.charAt(0) === '-') s = s.substr(1);
             
-        //  Strip firstlast slash
-        if(s.charAt(s.length - 1) === '-') s = s.substr(0, s.length - 1);
-        if(s.charAt(0) === '-') s = s.substr(1);
-        
-        slug.val(s);
+            slug.val(s);
+        }
     });
     
     //  Autosave
     var autosave = function() {
         var key = slug.val();
-        var val = $('#post-content').val();
+        var val = textarea.val();
         
         if(key && val && window.localStorage) {
             localStorage.setItem('anchor-' + key, val);
@@ -107,6 +114,44 @@ $(document).ready(function() {
     };
     
     setInterval(autosave, 5000);
+    
+    /**
+     *   Post previewing
+     */
+    var buttons = $('.header .buttons');
+    var prevue = $('.prevue');
+    
+    buttons.append('<a href="#" class="secondary btn disabled">Preview</a>').children('.secondary').click(function(e) {
+        var html = textarea.val();
+        var me = $(this);
+        
+        if(html) {
+            me.removeClass('disabled');
+            
+            $.getJSON('/admin/markdown?wut=' + encodeURIComponent(html), function(data) {
+                console.log(data.html, prevue.hasClass('active'));
+                
+                if(data.html && !prevue.hasClass('active')) {
+                    prevue.children('.wrap').html(data.html);
+                }
+                
+                me.toggleClass('blue');
+                prevue.toggleClass('active');
+            });
+        } else {
+            me.addClass('disabled');
+        }
+        
+        return false;
+    });
+    
+    textarea.keyup(function() {
+        if(textarea.val() !== '') {
+            buttons.children('.disabled').removeClass('disabled');
+        } else {
+            buttons.children('.secondary').addClass('disabled');
+        }
+    });
 });
 
 (function(d) {

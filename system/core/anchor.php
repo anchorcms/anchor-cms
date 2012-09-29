@@ -50,7 +50,7 @@ class Anchor {
 			$action = count($segments) ? array_shift($segments) : 'index';
 
 			// public admin actions
-			$public = array('users/login', 'users/amnesia', 'users/reset');
+			$public = array('users/login', 'users/amnesia', 'users/reset', 'markdown');
 			
 			// redirect to login
 			if(Users::authed() === false and in_array(trim($controller, '_controller') . '/' . $action, $public) === false) {
