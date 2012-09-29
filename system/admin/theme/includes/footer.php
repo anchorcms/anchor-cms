@@ -10,6 +10,7 @@
 		<em><?php echo __('common.make_blogging_beautiful', 'Make blogging beautiful.'); ?></em>
 	</footer>
 
+	<script src="<?php echo theme_url('assets/js/zepto.js'); ?>"></script>
 	<script src="<?php echo theme_url('assets/js/admin.js'); ?>"></script>
 	<?php if(Config::get('debug', false)) echo db_profile(); ?>
 	<?php endif; ?>

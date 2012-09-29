@@ -384,7 +384,7 @@ body.login {
         color: #96a4bb;
     }
         
-    .notification {
+    .login .notification {
         width: 300px;
     }
     
@@ -402,6 +402,8 @@ body.login {
         float: left;
         width: 700px;
         padding: 30px 0;
+        
+        background: transparent;
     }
     .header .buttons {
         float: right;
@@ -411,15 +413,23 @@ body.login {
     display: block;
     padding: 0;
     margin: 30px auto;    
-    min-height: 250px;
+    min-height: 300px;
     
     background: transparent;
+}
+#post-data {
+    background: #ccd2d9;
+    padding: 30px;
+}
+
+form[action*='add'] + #bottom {
+    display: none;
 }
     
 /*
     Focus mode
 */
-#top, #bottom, .header, #post-data, #media {
+#top, #bottom, #post-data, #media, .header p {
     -webkit-transition: opacity .4s;
     -moz-transition: opacity .4s;
     -ms-transition: opacity .4s;
@@ -428,14 +438,28 @@ body.login {
 
     opacity: 1;
 }
-.focus #top, .focus #bottom, .focus .header, .focus #post-data, .focus #media {
-    opacity: 0;
-    pointer-events: none;
+    .focus #top, .focus #bottom, .focus #post-data, .focus #media, .focus .header p {
+        opacity: 0;
+        pointer-events: none;
+    }
+
+.header {
+    -webkit-transition: background .4s;
+    -moz-transition: background .4s;
+    -ms-transition: background .4s;
+    -o-transition: background .4s;
+    transition: background .4s;
 }
+    .focus .header {
+        background: transparent;
+    }
 
 /*
     Drag-n-drop upload
 */
+#media {
+    display: none;
+}
 #upload-file {
     position: fixed;
     left: 0;
@@ -452,7 +476,16 @@ body.login {
     transition: opacity .25s;
     
     background: rgba(178,190,208,.75);
+    
+    -webkit-transition: background .25s;
+    -moz-transition: background .25s;
+    -ms-transition: background .25s;
+    -o-transition: background .25s;
+    transition: background .25s;
 }
+    #upload-file.success {
+        background: rgba(119,181,47,.75);
+    }
     .draggy #upload-file {
         opacity: 1;
         z-index: 10000;
@@ -462,15 +495,43 @@ body.login {
         left: 50%;
         top: 50%;
         
-        width: 130px;
+        width: 250px;
         height: 30px;
         padding-top: 50px;
-        margin: -40px 0 0 -65px;
+        margin: -40px 0 0 -125px;
         
         font-weight: bold;
         font-size: 17px;
         line-height: 30px;
-        color: #768498;
+        text-align: center;
         
+        color: #768498;
         background: url('../img/cloud.png') no-repeat 50% 0;
+        
+        -webkit-transition: color .25s;
+        -moz-transition: color .25s;
+        -ms-transition: color .25s;
+        -o-transition: color .25s;
+        transition: color .25s;
+    }
+        #upload-file.success span {
+            color: #fff;
+            background-image: url('../img/tick.png');
+        }
+        
+        
+.piggy {
+    position: fixed;
+    left: 50%;
+    bottom: 50%;
+    
+    width: 80px;
+    height: 80px;
+    margin: -40px 0 0 -40px;
+    
+    background: #fff url('../img/piggy.gif') no-repeat 50% 15px;
+    border-radius: 5px;
+}
+    .focus .piggy {
+        display: none;
     }

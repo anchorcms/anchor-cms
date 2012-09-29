@@ -4,7 +4,7 @@
 
 	<header class="header">
 		<div class="wrap">
-    		<input autofocus tabindex="1" placeholder="Post title" id="title" name="title" value="<?php echo Input::post('title'); ?>">
+    		<input autofocus autocomplete="off" tabindex="1" placeholder="Post title" id="title" name="title" value="<?php echo Input::post('title'); ?>">
     		
     		<p class="buttons">
     			<button tabindex="3" type="submit"><?php echo __('posts.create', 'Create'); ?></button>
@@ -83,7 +83,7 @@
 					</p>
 				</div>
 				
-				<div class="side">
+				<div class="media-upload">
 					<p>
 						<label for="css"><?php echo __('posts.custom_css', 'Custom CSS'); ?>:</label>
 						<textarea id="css" name="css"><?php echo Input::post('css'); ?></textarea>
@@ -113,11 +113,6 @@
 				</div>
 
 				<button id="create" type="button"><?php echo __('posts.create_custom_field', 'Create a custom field'); ?></button>-->
-			</fieldset>
-			<fieldset id="media">
-			    Post thumbnail goes here.
-			    
-			    <input type="file" id="thumbnail" name="thumbnail">
 			</fieldset>
 		</div>
 	</div>
