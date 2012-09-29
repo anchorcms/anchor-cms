@@ -24,7 +24,7 @@ return array(
 	'real_name' => 'Real name',
 	'real_name_explain' => 'The user&rsquo;s real name. Used in author bylines (visible to public).',
 	'bio' => 'Biography',
-	'bio_explain' => 'A short biography for your user. Accepts valid HTML.',
+	'bio_explain' => 'A short biography for your user. Uses Markdown.',
 	'status' => 'Status',
 	'inactive' => 'Inactive',
 	'active' => 'Active',

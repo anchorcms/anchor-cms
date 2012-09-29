@@ -29,13 +29,15 @@
 	    
 	    //  Main textarea
 	    var textarea = d.getElementById('post-content');
+	    var placeholder = textarea.placeholder;
+	    
 	    var toggle = function(e) {	
-            if(e.type === 'focus') {
-                var focussing = setTimeout(function() {
-                    setClass('focus');
-                }, 400);
+            if(e.type === 'focus') {                
+                setClass('focus');
+                textarea.placeholder = (textarea.placeholder || 'Start typing.').split('.')[0] + '.';
             } else {
 	            setClass('');
+	            textarea.placeholder = placeholder;
 	        }
         };
 	        

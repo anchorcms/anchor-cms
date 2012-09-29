@@ -47,11 +47,15 @@ body {
         color: #7d8693;
     }
 
-a {
+a, button {
     color: #486899;
     text-decoration: none;
     
     -webkit-transition: color .25s, background .25s, opacity .25s;
+    -moz-transition: color .25s, background .25s, opacity .25s;
+    -ms-transition: color .25s, background .25s, opacity .25s;
+    -o-transition: color .25s, background .25s, opacity .25s;
+    transition: color .25s, background .25s, opacity .25s;
 }
 
 fieldset, a, img {
@@ -417,6 +421,11 @@ body.login {
 */
 #top, #bottom, .header, #post-data, #media {
     -webkit-transition: opacity .4s;
+    -moz-transition: opacity .4s;
+    -ms-transition: opacity .4s;
+    -o-transition: opacity .4s;
+    transition: opacity .4s;
+
     opacity: 1;
 }
 .focus #top, .focus #bottom, .focus .header, .focus #post-data, .focus #media {

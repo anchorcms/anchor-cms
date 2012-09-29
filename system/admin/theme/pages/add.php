@@ -35,7 +35,7 @@
 				<label for="content"><?php echo __('pages.content', 'Content'); ?>:</label>
 				<textarea id="content" name="content"><?php echo Input::post('content'); ?></textarea>
 				
-				<em><?php echo __('pages.content_explain', 'Your page\'s content. Accepts valid HTML.'); ?></em>
+				<em><?php echo __('pages.content_explain', 'Your page\'s content. Uses Markdown.'); ?></em>
 			</p>
 
 			<p>

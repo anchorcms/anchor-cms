@@ -64,13 +64,17 @@ class Users {
 		// remove white space
 		$post = array_map('trim', $post);
 		
-		if(empty($post['user'])) {
-			$errors[] = Lang::line('users.missing_login_username', 'Please enter your username');
-		}
-		
-		if(empty($post['pass'])) {
-			$errors[] = Lang::line('users.missing_login_password', 'Please enter your password');
-		}
+		if(empty($post['user']) and empty($post['pass'])) {
+		    $errors[] = Lang::line('users.empty_fields', 'Make sure you fill the fields in!');
+		} else {
+    		if(empty($post['user'])) {
+    			$errors[] = Lang::line('users.missing_login_username', 'Please enter your username.');
+    		}
+    		
+    		if(empty($post['pass'])) {
+    			$errors[] = Lang::line('users.missing_login_password', 'Please enter your password.');
+    		}
+    	}
 
 		if(empty($errors)) {
 		    $failed = false;

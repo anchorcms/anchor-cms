@@ -21,7 +21,7 @@
 				<label for="bio"><?php echo __('users.bio', 'Biography'); ?>:</label>
 				<textarea id="bio" name="bio"><?php echo Input::post('bio', $user->bio); ?></textarea>
 				
-				<em><?php echo __('users.bio_explain', 'A short biography for your user. Accepts valid HTML.'); ?></em>
+				<em><?php echo __('users.bio_explain', 'A short biography for your user. Uses Markdown.'); ?></em>
 			</p>
 			
 			<p>

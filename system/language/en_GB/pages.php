@@ -17,7 +17,7 @@ return array(
 	'slug' => 'Slug',
 	'slug_explain' => 'The slug for your post (<code>' . $_SERVER['HTTP_HOST'] . '/<span id="output">slug</span></code>).',
 	'content' => 'Content',
-	'content_explain' => 'Your page\'s content. Accepts valid HTML.',
+	'content_explain' => 'Your page\'s content. Uses Markdown.',
 	'redirect_option' => 'This page triggers a redirect to another url',
 	'redirect_url' => 'Redirect Url',
 	'status' => 'Status',

@@ -28,7 +28,7 @@
 				<label for="description"><?php echo __('categories.description', 'Description'); ?>:</label>
 				<textarea id="description" name="description"><?php echo Input::post('description'); ?></textarea>
 				
-				<em><?php echo __('categories.description_explain', 'Your category&rsquo;s description. Accepts valid HTML.'); ?></em>
+				<em><?php echo __('categories.description_explain', 'Your category&rsquo;s description. Uses Markdown.'); ?></em>
 			</p>
 
 			<p>
