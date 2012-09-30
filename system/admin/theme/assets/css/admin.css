@@ -75,7 +75,7 @@ input, textarea, button {
     border: none;
     border-radius: 5px;
 }
-    input:focus, textarea:focus, button:focus {
+    input:focus, textarea:focus, button:focus, select:focus {
         outline: none;
     }
     textarea {
