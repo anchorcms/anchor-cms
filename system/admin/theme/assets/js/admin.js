@@ -10,6 +10,11 @@ $(document).ready(function() {
     var textarea = $('#post-content');
     
     /**
+     *   Dropdown menu fix
+     */
+    $('select').after('<span class="arrow" />');
+    
+    /**
      *   Focus mode
      */
     var Focus = {

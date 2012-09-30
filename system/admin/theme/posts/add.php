@@ -43,7 +43,7 @@
 			</p>
 			
 			<p>
-				<label><?php echo __('posts.status', 'Status'); ?>:</label>
+				<label for="status"><?php echo __('posts.status', 'Status'); ?>:</label>
 				<select id="status" name="status">
 					<?php foreach(array(
 						'published' => __('posts.published', 'published'),
@@ -59,8 +59,8 @@
 			</p>
 			
 			<p>
-				<label><?php echo __('posts.category', 'Category'); ?>:</label>
-				<select id="status" name="status">
+				<label for="category"><?php echo __('posts.category', 'Category'); ?>:</label>
+				<select id="category" name="category">
 					<?php foreach(Categories::list_all() as $cat): ?>
 					<?php $selected = (Input::post('category') == $cat->slug) ? ' selected' : ''; ?>
 					<option value="<?php echo $cat->slug; ?>"<?php echo $selected; ?>>
@@ -74,19 +74,20 @@
 				<label for="comments"><?php echo __('posts.allow_comments', 'Allow Comments'); ?>:</label>
 				<input id="comments" name="comments" type="checkbox" value="1"<?php if(Input::post('comments')) echo ' checked'; ?>>
 			</p>
+			
+			<div class="media-upload">
+				<p>
+					<label for="css"><?php echo __('posts.custom_css', 'Custom CSS'); ?>:</label>
+					<textarea id="css" name="css"><?php echo Input::post('css'); ?></textarea>
+				</p>
+	
+				<p>
+					<label for="js"><?php echo __('posts.custom_js', 'Custom JS'); ?>:</label>
+					<textarea id="js" name="js"><?php echo Input::post('js'); ?></textarea>
+				</p>
+			</div>
 		</div>
 		
-		<div class="media-upload">
-			<p>
-				<label for="css"><?php echo __('posts.custom_css', 'Custom CSS'); ?>:</label>
-				<textarea id="css" name="css"><?php echo Input::post('css'); ?></textarea>
-			</p>
-
-			<p>
-				<label for="js"><?php echo __('posts.custom_js', 'Custom JS'); ?>:</label>
-				<textarea id="js" name="js"><?php echo Input::post('js'); ?></textarea>
-			</p>
-		</div>
 
 		<!--<legend><?php echo __('posts.custom_fields', 'Custom Fields'); ?></legend>
 		<em><?php echo __('posts.custom_fields_explain', 'Create custom fields here.'); ?></em>

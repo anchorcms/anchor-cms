@@ -85,6 +85,36 @@ input, textarea, button {
     button {
         cursor: pointer;
     }
+    
+select {
+    -webkit-appearance: none;
+    display: block;
+    float: left;
+    height: 39px;
+    padding: 0 32px 0 20px;
+    
+    font: 15px/39px "Helvetica Neue", sans-serif;
+    
+    border: none;
+    border-radius: 0 5px 5px 0;
+    
+    background: #fff;
+    color: #7f8b9e;
+    
+    min-width: 216px;
+}
+    select + .arrow {
+        display: inline-block;
+        position: absolute;
+        top: 19px;
+        margin-left: -24px;
+        
+        pointer-events: none;
+        
+        border-top: 4px solid #aab3c0;
+        border-right: 4px solid transparent;
+        border-left: 4px solid transparent;
+    }
 
 .wrap, .content, h1, #bottom, #post-content {
     width: 960px;
@@ -447,8 +477,65 @@ body.login {
 }
 #post-data {
     background: #ccd2d9;
-    padding: 30px;
+    padding: 30px 30px 10px;
 }
+    #post-data p {
+        position: relative;
+        float: left;
+        margin-right: 40px;
+        margin-bottom: 20px;
+    }
+    #post-data label {
+        background: #e6e9ed;
+        
+        display: inline-block;
+        float: left;
+        height: 39px;
+        padding: 0 18px;
+        
+        text-align: center;
+        line-height: 39px;
+        
+        cursor: pointer;
+        -webkit-user-select: none;
+        
+        border-radius: 5px 0 0 5px;
+    }
+    #post-data label + input, #post-data label + textarea {
+        float: left;
+        height: 39px;
+        
+        border-radius: 0 5px 5px 0;
+        
+        resize: none;
+    }
+        #post-data label + textarea {
+            font-size: 15px;
+            line-height: 15px;
+        }
+    #post-data #slug {
+        width: 230px;
+    }
+    #post-data #description {
+        width: 463px;
+    }
+    #post-data input[type=checkbox] {
+        -webkit-appearance: none;
+        width: 66px;
+        
+        background: #fff url('../img/cross.gif') no-repeat 50% 50%;
+    }
+        #post-data input[type=checkbox]:checked {
+            background-image: url('../img/tick.gif');
+        }
+
+    #post-data .media-upload textarea {
+        min-height: 150px;
+        max-height: 700px;
+        resize: vertical;
+        
+        width: 317px;
+    }
 
 form[action*='add'] + #bottom {
     display: none;
