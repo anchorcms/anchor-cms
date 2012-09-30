@@ -58,17 +58,57 @@ $(document).ready(function() {
         supported: window.FileReader && window.File,
         allowed: ['text/css', 'text/javascript'],
         
+        defaultText: 'Upload your file',
+        
         init: function() {            
-            $('.media-upload').remove();
+            $('.media-upload').hide();
             
-            body.append('<div id="upload-file"><span>Upload your file</span></div>');
+            Draggy.el = body.append('<div id="upload-file"><span>' + Draggy.defaultText + '</span></div>').children('#upload-file');
             
-            doc.on('dragover dragleave', function() {
-                html.toggleClass('draggy');
-            }).on('drop', function(e) {
-                e.stopPropagation();
-                e.preventDefault();
+            doc.on('dragover', Draggy.hover);
+            
+            doc.on('dragleave dragexit', function(e) {
+                if(e.pageX == 0) {
+                    Draggy.close();
+                }
             });
+            
+            doc.on('drop', Draggy.handle);
+        },
+        
+        close: function() {
+            html.removeClass('draggy');
+            Draggy.el.removeClass('success').children('span').text(Draggy.defaultText);
+        },
+        
+        hover: function() {
+            html.addClass('draggy');
+        },
+        
+        handle: function(e) {
+            e.stopPropagation();
+            e.preventDefault();
+            
+            var files = (e.target.files || e.dataTransfer.files)[0];
+            
+            if($.inArray(files.type, Draggy.allowed) !== -1) {
+                var reader = new FileReader;
+                
+                reader.onloadend = function(e) {
+                    if(e.target.readyState == FileReader.DONE) {
+                        var type = files.type === 'text/css' ? 'css' : 'js';
+                        
+                        $('#' + type).val(e.target.result);
+                        Draggy.el.addClass('success').children('span').text('Custom ' + type.toUpperCase() + ' added!');
+                        
+                        setTimeout(Draggy.close, 1250);
+                    }
+                };
+            
+                reader.readAsBinaryString(files);
+            } else {
+                Draggy.close();
+            }
         }
     };
     
@@ -134,8 +174,6 @@ $(document).ready(function() {
             me.removeClass('disabled');
             
             $.getJSON('/admin/markdown?wut=' + encodeURIComponent(html), function(data) {
-                console.log(data.html, prevue.hasClass('active'));
-                
                 if(data.html && !prevue.hasClass('active')) {
                     prevue.children('.wrap').html(data.html);
                 }
@@ -158,57 +196,3 @@ $(document).ready(function() {
         }
     });
 });
-
-(function(d) {
-	false && d.addEventListener('DOMContentLoaded', function() {
-        
-        //  Handle drag-n-drop
-        if(window.FileReader && window.File) {
-            
-            var modalInner = '<span>Upload your file</span>';
-            d.body.innerHTML += '<div id="upload-file">' + modalInner + '</div>';
-            
-            var allowedTypes = ['text/css', 'text/javascript'];
-            
-            d.addEventListener('dragover', function() {
-                setClass('draggy');
-            }, false);
-            
-            d.addEventListener('drop', function(e) {
-                e.stopPropagation();
-                e.preventDefault();
-                
-                var close = function() {
-                    setClass('');
-                    
-                    modal.className = '';
-                    modal.innerHTML = modalInner;
-                };
-                
-                var files = (e.target.files || e.dataTransfer.files)[0];
-                
-                if(allowedTypes.contains(files.type)) {
-                    var reader = new FileReader;
-                    
-                    reader.onloadend = function(e) {
-                        if(e.target.readyState == FileReader.DONE) {
-                            var type = files.type === 'text/css' ? 'css' : 'js';
-                            
-                            d.getElementById(type).value = e.target.result;
-                            
-                            var modal = d.getElementById('upload-file');
-                                modal.className = 'success';
-                                modal.innerHTML = '<span>Custom ' + type.toUpperCase() + ' added!</span>';
-                            
-                            setTimeout(close, 750);
-                        }
-                    };
-                
-                    reader.readAsBinaryString(files);
-                } else {
-                    close();
-                }
-            }, false);
-        }
-	}, false);
-})(document);

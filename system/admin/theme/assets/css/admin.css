@@ -610,20 +610,14 @@ form[action*='add'] + #bottom {
     bottom: 0;
     z-index: -1;
     
-    opacity: 0;
-    -webkit-transition: opacity .25s;
-    -moz-transition: opacity .25s;
-    -ms-transition: opacity .25s;
-    -o-transition: opacity .25s;
-    transition: opacity .25s;
-    
+    opacity: 0;    
     background: rgba(178,190,208,.75);
     
-    -webkit-transition: background .25s;
-    -moz-transition: background .25s;
-    -ms-transition: background .25s;
-    -o-transition: background .25s;
-    transition: background .25s;
+    -webkit-transition: opacity .25s, background .25s;
+    -moz-transition: opacity .25s, background .25s;
+    -ms-transition: opacity .25s, background .25s;
+    -o-transition: opacity .25s, background .25s;
+    transition: opacity .25s, background .25s;
 }
     #upload-file.success {
         background: rgba(119,181,47,.75);
