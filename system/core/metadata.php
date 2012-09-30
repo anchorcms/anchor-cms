@@ -9,7 +9,7 @@ class Metadata {
 			return false;
 		}
 		
-		$post = Input::post(array('sitename', 'description', 'theme', 'twitter', 'gosquared', 'home_page', 'posts_page', 'auto_published_comments', 'posts_per_page'));
+		$post = Input::post(array('sitename', 'description', 'theme', 'twitter', 'home_page', 'posts_page', 'auto_published_comments', 'posts_per_page'));
 		$errors = array();
 		
 		if(empty($post['sitename'])) {
@@ -24,10 +24,12 @@ class Metadata {
 			$errors[] = Lang::line('metadata.missing_theme', 'You need a theme');
 		}
 		
-		$post['gosquared'] = strtoupper($post['gosquared']);
+		if(substr($post['twitter'], 0, 1) === '@') {
+		    $post['twitter'] = substr($post['twitter'], 1);
+		}
 
 		// auto publish comments
-		$post['auto_published_comments'] = $post['auto_published_comments'] ? 1 : 0;
+		$post['auto_published_comments'] = (int) !!$post['auto_published_comments'];
 
 		// format posts per page, must be a whole number above 1 defaults to 10 if a invalid number is entered
 		$post['posts_per_page'] = ($posts_per_page = intval($post['posts_per_page'])) > 0 ? $posts_per_page : 10;

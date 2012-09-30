@@ -85,13 +85,6 @@
 				
 				<em><?php echo __('metadata.twitter_explain', 'Your twitter account.'); ?></em>
 			</p>
-
-			<p>
-				<label for="gosquared"><?php echo __('metadata.gosquared', 'GoSquared ID'); ?>:</label>
-				<input id="gosquared" name="gosquared" placeholder="GSN-000000-A" value="<?php echo Input::post('gosquared', $metadata->gosquared); ?>">
-				
-				<em><?php echo __('metadata.gosquared_explain', 'The site ID for your GoSquared (real-time web analytics) account. You can access your analytics <a href="//home.gosquared.com">here</a>, or sign up for a free trial <a href="//gosquared.com/join">here</a>.'); ?></em>
-			</p>
 		</fieldset>
 			
 		<p class="buttons">
