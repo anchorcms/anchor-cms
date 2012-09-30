@@ -138,6 +138,10 @@ $(document).ready(function() {
         }
     });
     
+    $('[name=delete]').click(function() {
+        return confirm('Are you sure you want to delete? This can’t be undone!');
+    });
+    
     //  Autosave
     var autosave = function() {
         var key = slug.val();

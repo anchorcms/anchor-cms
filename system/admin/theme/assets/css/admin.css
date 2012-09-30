@@ -258,6 +258,12 @@ h1 a, .btn, button {
         .btn.blue:hover, button.blue:hover {
             background: #5479b2;
         }
+    .btn.red, button.red {
+        background: #c4533d;
+    }
+        .btn.red:hover, button.red:hover {
+            background: #a03621;
+        }
 
 .disabled, [disabled] {
     cursor: not-allowed;
@@ -454,19 +460,51 @@ body.login {
         font-weight: lighter;
         
         float: left;
-        width: 700px;
+        width: 750px;
         padding: 30px 0;
         
         background: transparent;
     }
     .header .buttons {
-        float: right;
-        margin-top: 30px;
+        position: absolute;
+        top: 30px;
+        right: 0;
+        z-index: 100;
     }
         .header .buttons .btn, .header .buttons button {
             float: right;
             margin-left: 20px;
         }
+    .header .wrap {
+        overflow: visible;
+        position: relative;
+        height: 100px;
+    }
+        .header .wrap .notification {
+            position: absolute;
+            right: -20px;
+            top: 85px;
+            
+            width: 320px;
+        }
+            .header .wrap .notification:after {
+                content: '';
+                position: absolute;
+                display: block;
+                top: -6px;
+                right: 50px;
+                
+                border-bottom: 6px solid #578cd9;
+                border-left: 6px solid transparent;
+                border-right: 6px solid transparent;
+            }
+                .header .wrap .notification.error:after {
+                    border-bottom-color: #d34937;
+                }
+                .header .wrap .notification.success:after {
+                    border-bottom-color: #64a524;
+                }
+        
 #post-content {
     display: block;
     padding: 0;
@@ -511,7 +549,10 @@ body.login {
     }
         #post-data label + textarea {
             font-size: 15px;
-            line-height: 15px;
+            line-height: 25px;
+            
+            height: 39px;
+            padding: 6px 16px 11px;
         }
     #post-data #slug {
         width: 230px;
@@ -537,7 +578,7 @@ body.login {
         width: 317px;
     }
 
-form[action*='add'] + #bottom {
+form[action*='add'] + #bottom, form[action*='edit'] + #bottom {
     display: none;
 }
 

@@ -16,7 +16,8 @@ class Thumbnail {
     
         //  Make sure the file exists
         if(!isset($_FILES[$key])) {
-            return self::error('Form key does not exist. You should never see this.');
+            //return self::error('Form key does not exist. You should never see this.');
+            return false;
         }
         
         //  Store the file's key

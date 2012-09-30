@@ -336,11 +336,13 @@ class Posts {
 			$post['created'] = time();
 		}
 		
-		$post['thumbnail'] = Thumbnail::create('thumbnail');
-		
-		if($post['thumbnail'] === false) {
-		    $errors[] = Lang::line('thumbnail.error', Thumbnail::$error);
-		}
+		if($post['thumbnail'] !== false) {
+    		$post['thumbnail'] = Thumbnail::create('thumbnail');
+    		
+    		if($post['thumbnail'] === false) {
+    		    $errors[] = Lang::line('thumbnail.error', Thumbnail::$error);
+    		}
+    	}
 		
 		if($post['created'] === false) {
 			$errors[] = Lang::line('posts.invalid_date', 'Please enter a valid date');
