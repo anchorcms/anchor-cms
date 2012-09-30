@@ -5,6 +5,10 @@
 		<title><?php echo __('common.manage', 'Manage'); ?> <?php echo Config::get('metadata.sitename'); ?></title>
 
 		<link rel="stylesheet" href="<?php echo theme_url('assets/css/admin.css'); ?>">
+		<link rel="stylesheet" media="(max-width: 980px), (max-device-width: 480px)" href="<?php echo theme_url('assets/css/small.css'); ?>">
+		
+		<meta http-equiv="X-UA-Compatible" content="chrome=1">
+		<meta name="viewport" content="width=600">
 	</head>
 	<body class="<?php echo Users::authed() ? 'admin' : 'login'; ?>">
 
