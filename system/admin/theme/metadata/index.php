@@ -9,7 +9,7 @@
 
 		<input name="token" type="hidden" value="<?php echo Csrf::token(); ?>">
 		
-		<fieldset>
+		<fieldset class="split">
 			<p>
 				<label for="sitename"><?php echo __('metadata.sitename', 'Site name'); ?>:</label>
 				<input id="sitename" name="sitename" value="<?php echo Input::post('name', $metadata->sitename); ?>">
@@ -74,13 +74,15 @@
 			</p>
 
 			<p>
-				<label for="auto_published_comments"><?php echo __('metadata.auto_publish_comments', 'Auto publish comments'); ?>:</label>
+				<label for="auto_published_comments"><?php echo __('metadata.auto_publish_comments', 'Auto-allow comments'); ?>:</label>
 				<?php $checked = Input::post('auto_published_comments', $metadata->auto_published_comments) ? ' checked' : ''; ?>
 				<input id="auto_published_comments" name="auto_published_comments" type="checkbox" value="1"<?php echo $checked; ?>>
 			</p>
 
-			<p>
+			<p class="twitter">
 				<label for="twitter"><?php echo __('metadata.twitter', 'Twitter'); ?>:</label>
+				
+				<span class="at">@</span>
 				<input id="twitter" name="twitter" value="<?php echo Input::post('twitter', $metadata->twitter); ?>">
 				
 				<em><?php echo __('metadata.twitter_explain', 'Your twitter account.'); ?></em>

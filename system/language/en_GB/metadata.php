@@ -15,10 +15,10 @@ return array(
 	'posts_per_page' => 'Posts per page',
 	'posts_per_page_explain' => 'The number of posts to display per page.',
 	'current_theme' => 'Current theme',
-	'current_theme_explain' => 'Your current theme.',
-	'auto_publish_comments' => 'Auto publish comments',
+	'current_theme_explain' => 'Your blog&rsquo;s current theme.',
+	'auto_publish_comments' => 'Allow comments',
 	'twitter' => 'Twitter',
-	'twitter_explain' => 'Your twitter account.',
+	'twitter_explain' => 'Your Twitter account.',
 	'save' => 'Save changes',
 
 	'missing_sitename' => 'You need a site sitename',
