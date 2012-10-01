@@ -569,7 +569,7 @@ body.login {
         
         background: #fff url('../img/cross.gif') no-repeat 50% 50%;
     }
-        #post-data input[type=checkbox]:checked, .split input[type=checkbox] {
+        #post-data input[type=checkbox]:checked, .split input[type=checkbox]:checked {
             background-image: url('../img/tick.gif');
         }
 
@@ -595,6 +595,7 @@ body.login {
         border-radius: 0 5px 5px 5px !important;
     }
 .split p {
+    position: relative;
     overflow: hidden;
     clear: both;
     margin-bottom: 15px;
