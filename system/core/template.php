@@ -43,18 +43,19 @@ class Template {
 		if(file_exists(static::$path . 'functions.php')) {
 			require static::$path . 'functions.php';
 		}
+		
+		//  Add custom homepage file type
+		if($itm = IoC::resolve('page') and $itm->id == Config::get('metadata.home_page') and file_exists(static::$path . 'homepage.php') !== false) {
+		    $template = 'homepage';
+		}
 
 		// render files
 		foreach(array('includes/header', $template, 'includes/footer') as $file) {
 			$filepath = static::$path . $file . '.php';
 
-			//  Nasty hack, but hey, we've got custom pages now.
-			if($file === 'page' and file_exists(static::$path . Request::uri() . '.php') !== false) {
-				$filepath = static::$path . Request::uri() . '.php';
-			}
-			
-			if(file_exists($filepath) === false) {
-				throw new ErrorException('Theme file <strong>themes/' . $theme . '/' . $file . '.php</strong> not found.');
+			//  Add custom page types
+			if($file === 'page' and file_exists(static::$path . 'page-' . Request::uri() . '.php') !== false) {
+				$filepath = static::$path . 'page-' . Request::uri() . '.php';
 			}
 			
 			static::parse($filepath, $data);
