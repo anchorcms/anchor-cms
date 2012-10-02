@@ -1,14 +1,14 @@
 <h1><?php echo __('users.add_user', 'Add a new user'); ?></h1>
 
-<?php echo Notifications::read(); ?>
-
 <section class="content">
+
+    <?php echo Notifications::read(); ?>
 
 	<form method="post" action="<?php echo Url::current(); ?>" novalidate autocomplete="off">
 
 		<input name="token" type="hidden" value="<?php echo Csrf::token(); ?>">
 		
-		<fieldset>
+		<fieldset class="half split">
 			<p>
 				<label for="real_name"><?php echo __('users.real_name', 'Real name'); ?>:</label>
 				<input id="real_name" name="real_name" value="<?php echo Input::post('real_name'); ?>">
@@ -59,7 +59,7 @@
 			</p>
 		</fieldset>
 		
-		<fieldset>
+		<fieldset class="half split">
 		
 			<legend><?php echo __('users.user_details', 'User details'); ?></legend>
 			<em><?php echo __('users.user_details_explain', 'Create the details for your new user to log in to Anchor.'); ?></em>
@@ -88,7 +88,6 @@
 			
 		<p class="buttons">
 			<button type="submit"><?php echo __('users.create', 'Create'); ?></button>
-			<a href="<?php echo admin_url('users'); ?>"><?php echo __('users.return_users', 'Return to users'); ?></a>
 		</p>
 	</form>
 

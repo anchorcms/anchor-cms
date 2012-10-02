@@ -1,9 +1,9 @@
 
 <h1><?php echo __('metadata.metadata', 'Site metadata'); ?></h1>
 
-<?php echo Notifications::read(); ?>
 
 <section class="content">
+    <?php echo Notifications::read(); ?>
 
 	<form method="post" action="<?php echo Url::current(); ?>" novalidate>
 

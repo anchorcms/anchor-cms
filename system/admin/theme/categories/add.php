@@ -1,15 +1,14 @@
-
 <h1><?php echo __('categories.add_category', 'Add a Category'); ?></h1>
 
-<?php echo Notifications::read(); ?>
 
 <section class="content">
+    <?php echo Notifications::read(); ?>
 
 	<form method="post" action="<?php echo Url::current(); ?>" novalidate>
 
 		<input name="token" type="hidden" value="<?php echo Csrf::token(); ?>">
 		
-		<fieldset>
+		<fieldset class="split">
 			<p>
 				<label for="title"><?php echo __('categories.title', 'Title'); ?>:</label>
 				<input id="title" name="title" value="<?php echo Input::post('title'); ?>">
@@ -27,8 +26,6 @@
 			<p>
 				<label for="description"><?php echo __('categories.description', 'Description'); ?>:</label>
 				<textarea id="description" name="description"><?php echo Input::post('description'); ?></textarea>
-				
-				<em><?php echo __('categories.description_explain', 'Your category&rsquo;s description. Uses Markdown.'); ?></em>
 			</p>
 
 			<p>
@@ -42,7 +39,6 @@
 			
 		<p class="buttons">
 			<button type="submit"><?php echo __('categories.create', 'Create'); ?></button>
-			<a href="<?php echo admin_url('categories'); ?>"><?php echo __('categories.return_categories', 'Return to categories'); ?></a>
 		</p>
 	</form>
 
