@@ -48,7 +48,7 @@ function posts_next($text = 'Next', $default = '') {
 	$pages = floor($total / $per_page);
 	$page = $offset / $per_page;
 
-	if($page < $pages) {
+	if($pages > 0 and $page < $pages) {
 		return '<a href="' . current_url() . '?offset=' . ($offset + $per_page) . '">' . $text . '</a>';
 	}
 
@@ -62,8 +62,8 @@ function posts_prev($text = 'Previous', $default = '') {
 
 	$pages = ceil($total / $per_page);
 	$page = $offset / $per_page;
-
-	if($offset > 0) {
+	
+	if($pages > 1 and $offset > 0) {
 		return '<a href="' . current_url() . '?offset=' . ($offset - $per_page) . '">' . $text . '</a>';
 	}
 
@@ -71,7 +71,7 @@ function posts_prev($text = 'Previous', $default = '') {
 }
 
 function post_pages_total() {
-    return IoC::resolve('total_posts');
+    return ceil(IoC::resolve('total_posts') / Config::get('metadata.posts_per_page'));
 }
 
 function post_pages_current() {
