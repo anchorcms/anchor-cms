@@ -99,17 +99,17 @@ class Categories {
 		}
 
 		if(count($errors) > 0) {
-			Notifications::set('error', $errors, 'categories');
+			Notifications::set('error', $errors);
 			return false;
 		}
 
 		//  Make sure the visible count is right, yo
-		$post['visible'] = (int) strtolower($post['visible']) === 'on';
+		$post['visible'] = ($post['visible'] == 'yes' ? 1 : 0);
 
 		//  Add it
 		Db::insert('categories', $post);
 		
-		Notifications::set('success', 'New category added!', 'categories');
+		Notifications::set('success', 'New category added!');
 		
 		return true;
 	}
@@ -138,7 +138,7 @@ class Categories {
 		}
 	
 		//  Make sure the visible count is right, yo
-		$post['visible'] = (int) strtolower($post['visible']) === 'on';
+		$post['visible'] = ($post['visible'] == 'yes' ? 1 : 0);
 		
 		// use title as fallback
 		if(empty($post['slug'])) {

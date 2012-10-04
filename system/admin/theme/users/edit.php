@@ -12,7 +12,7 @@
 		<fieldset class="half split">
 			<p>
 				<label for="real_name"><?php echo __('users.real_name', 'Real name'); ?>:</label>
-				<input id="real_name" name="real_name" value="<?php echo Input::post('real_name', $user->real_name); ?>">
+				<input autofocus id="real_name" name="real_name" value="<?php echo Input::post('real_name', $user->real_name); ?>">
 				
 				<em><?php echo __('users.real_name_explain', 'The user&rsquo;s real name. Used in author bylines (visible to public).'); ?></em>
 			</p>

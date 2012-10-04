@@ -126,3 +126,11 @@ function db_profile() {
 
 	return $html;
 }
+
+function wrap($text, $tag) {
+    $tag = explode(' ', $tag);
+    $attr = str_replace($tag[0], '', join(' ', $tag));
+    $tag = $tag[0];
+    
+    return '<' . $tag . ($attr ? ' ' . $attr : '') . '>' . $text . '</' . $tag . '>';
+}

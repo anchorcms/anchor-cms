@@ -72,7 +72,7 @@ function category_description() {
 
 function category_url() {
 	if($itm = IoC::resolve('category')) {
-		return absolute_url($itm->description);
+		return absolute_url('categories/' . $itm->slug);
 	}
 	
 	return '';

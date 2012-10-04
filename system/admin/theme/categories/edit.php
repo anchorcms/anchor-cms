@@ -12,7 +12,7 @@
 		<fieldset class="split">
 			<p>
 				<label for="title"><?php echo __('categories.title', 'Title'); ?>:</label>
-				<input id="title" name="title" value="<?php echo Input::post('title', $category->title); ?>">
+				<input autofocus id="title" name="title" value="<?php echo Input::post('title', $category->title); ?>">
 				
 				<em><?php echo __('categories.title_explain', 'Your category&rsquo;s title. Publicly shown.'); ?></em>
 			</p>
@@ -32,7 +32,7 @@
 			<p>
 				<label for="visible"><?php echo __('categories.visible', 'Visible'); ?>:</label>
 				<?php $checked = Input::post('visible', $category->visible) ? ' checked' : ''; ?>
-				<input id="visible" name="visible" type="checkbox"<?php echo $checked; ?>>
+				<input id="visible" value="yes" name="visible" type="checkbox"<?php echo $checked; ?>>
 				
 				<em><?php echo __('categories.visible_explain', 'Should this category be publicly shown or not?'); ?></em>
 			</p>

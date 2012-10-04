@@ -42,7 +42,7 @@ function posts() {
 
 function posts_next($text = 'Next', $default = '') {
 	$per_page = Config::get('metadata.posts_per_page');
-	$offset = Input::get('offset', 0);
+	$offset = post_pages_current();
 	$total = IoC::resolve('total_posts');
 
 	$pages = floor($total / $per_page);
@@ -57,7 +57,7 @@ function posts_next($text = 'Next', $default = '') {
 
 function posts_prev($text = 'Previous', $default = '') {
 	$per_page = Config::get('metadata.posts_per_page');
-	$offset = Input::get('offset', 0);
+	$offset = post_pages_current();
 	$total = IoC::resolve('total_posts');
 
 	$pages = ceil($total / $per_page);
@@ -68,4 +68,12 @@ function posts_prev($text = 'Previous', $default = '') {
 	}
 
 	return $default;
+}
+
+function post_pages_total() {
+    return IoC::resolve('total_posts');
+}
+
+function post_pages_current() {
+    return Input::get('offset', 0) + 1;
 }

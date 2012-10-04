@@ -12,7 +12,7 @@
 		<fieldset class="split">
 			<p>
 				<label for="sitename"><?php echo __('metadata.sitename', 'Site name'); ?>:</label>
-				<input id="sitename" name="sitename" value="<?php echo Input::post('name', $metadata->sitename); ?>">
+				<input autofocus id="sitename" name="sitename" value="<?php echo Input::post('name', $metadata->sitename); ?>">
 				
 				<em><?php echo __('metadata.sitename_explain', 'Your site&rsquo;s name.'); ?></em>
 			</p>

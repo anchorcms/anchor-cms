@@ -10,7 +10,7 @@
 			
 			<p>
 			    <label for="user"><?php echo __('users.username', 'Username'); ?>:</label>
-			    <input placeholder="Username" autocapitalize="off" name="user" id="user" value="<?php echo filter_var(Input::post('user'), FILTER_SANITIZE_STRING); ?>">
+			    <input autofocus placeholder="Username" autocapitalize="off" name="user" id="user" value="<?php echo filter_var(Input::post('user'), FILTER_SANITIZE_STRING); ?>">
 			</p>
 			
 			<p>

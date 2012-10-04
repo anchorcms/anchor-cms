@@ -5,6 +5,8 @@ $(document).ready(function() {
     var doc = $(document);
     var html = $('html');
     var body = $('body');
+    var win = $(window);
+    
     var titleCache = document.title;
     
     var textarea = $('#post-content');
@@ -192,6 +194,7 @@ $(document).ready(function() {
         return false;
     });
     
+    //  Disabling the preview button
     textarea.keyup(function() {
         if(textarea.val() !== '') {
             buttons.children('.disabled').removeClass('disabled');
@@ -199,4 +202,33 @@ $(document).ready(function() {
             buttons.children('.secondary').addClass('disabled');
         }
     });
+    
+    
+    //  Fix textarea heights
+    var buildHeights = function(a) {
+        var r = 0;
+    
+        for(var i = 0; i < a.length; i++) {
+            r += $(a[i]).height() || 0;
+        }
+        
+        return r;
+    }
+    
+    var textareaHeight = function() {
+        if(win.height() > doc.height() || true) {
+            var others = buildHeights(['#top', '.header', '#post-data']);
+            textarea.css('height', win.height() - others);
+        } else {
+            textarea.css('height', 'auto');
+        }
+    };
+    
+    textareaHeight();
+    win.resize(textareaHeight);
+    
+    //  Autofocusing first input
+    if(!$('[autofocus]').length) {
+        $('input:first-child').attr('autofocus', 'autofocus').focus();
+    }
 });
