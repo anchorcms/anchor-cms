@@ -204,7 +204,8 @@ if(Schema::has('categories') === false) {
 	Migrations::query($sql);
 }
 
+
 /**
 	0.7 --> 0.8
 */
-Migrations::query('ALTER TABLE `posts` CHANGE `thumbnail` `thumbnail` VARCHAR(255)');
+Migrations::query('ALTER TABLE `posts` ADD `thumbnail` VARCHAR(255)  NULL  DEFAULT NULL  AFTER `status`;');
