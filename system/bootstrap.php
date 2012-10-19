@@ -21,6 +21,7 @@ if(ini_get('register_globals')) {
 	$globals = array($_REQUEST, $_SESSION, $_SERVER, $_FILES);
 
 	foreach($globals as $global) {
+		if (!empty($global))
 		foreach(array_keys($global) as $key) {
 			unset(${$key}); 
 		}
