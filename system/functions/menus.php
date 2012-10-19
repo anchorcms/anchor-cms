@@ -11,6 +11,16 @@ function has_menu_items() {
 	return $total;
 }
 
+function menu_rewind() {
+	if(($pages = IoC::resolve('menu')) === false) {
+		$params['status'] = 'published';
+		$pages = Pages::list_all($params);
+		IoC::instance('menu', $pages, true);
+	}
+	
+	$pages->rewind();
+}
+
 function menu_items($params = array()) {
 	if(!has_menu_items()) {
 		return false;
@@ -29,7 +39,7 @@ function menu_items($params = array()) {
 		// move to next
 		$pages->next();
 	}
-
+	
 	return $result;
 }
 
