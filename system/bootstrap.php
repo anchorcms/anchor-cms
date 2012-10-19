@@ -26,6 +26,7 @@ if(ini_get('register_globals')) {
 	if (isset($_FILES)) $globals[] = $_FILES;
 
 	foreach($globals as $global) {
+		if (!empty($global))
 		foreach(array_keys($global) as $key) {
 			unset(${$key}); 
 		}
