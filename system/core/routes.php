@@ -15,7 +15,7 @@ class Routes {
 		}
 
 		if(($article = Posts::find($params)) === false) {
-			Log::warning('Article connot be found: ' . $slug);
+			Log::warning('Article cannot be found: ' . $slug);
 			return Response::error(404);
 		}
 		
@@ -48,7 +48,7 @@ class Routes {
 
 		// if we cant find either it looks like we're barney rubble (in trouble)
 		if(($page = Pages::find($params)) === false) {
-			Log::warning('Page connot be found: ' . $slug);
+			Log::warning('Page cannot be found: ' . $slug);
 			return Response::error(404);
 		}
 
