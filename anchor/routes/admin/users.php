@@ -51,7 +51,7 @@ Route::post('admin/users/edit/(:num)', array('before' => 'auth', 'do' => functio
 
 	if($errors = $validator->errors()) {
 		Input::flash();
-		
+
 		Notify::error($errors);
 
 		return Response::redirect('admin/users/edit/' . $id);
@@ -98,7 +98,7 @@ Route::post('admin/users/add', array('before' => 'auth', 'do' => function() {
 
 	if($errors = $validator->errors()) {
 		Input::flash();
-		
+
 		Notify::error($errors);
 
 		return Response::redirect('admin/users/add');
@@ -109,6 +109,17 @@ Route::post('admin/users/add', array('before' => 'auth', 'do' => function() {
 	User::create($input);
 
 	Notify::success(__('users.user_success_created'));
+
+	return Response::redirect('admin/users');
+}));
+
+/*
+	Delete
+*/
+Route::get('admin/users/delete/(:num)', array('before' => 'auth', 'do' => function($id) {
+	User::where('id', '=', $id)->delete();
+
+	Notify::success(__('users.user_success_deleted'));
 
 	return Response::redirect('admin/users');
 }));

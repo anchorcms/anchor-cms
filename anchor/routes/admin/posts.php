@@ -22,13 +22,13 @@ Route::get('admin/posts/edit/(:num)', array('before' => 'auth', 'do' => function
 	$vars['page'] = Registry::get('posts_page');
 
 	$vars['statuses'] = array(
-		'draft' => __('posts.draft', 'Draft'), 
-		'archived' => __('posts.archived', 'Archived'), 
+		'draft' => __('posts.draft', 'Draft'),
+		'archived' => __('posts.archived', 'Archived'),
 		'published' => __('posts.published', 'Published')
 	);
 
 	$vars['templates'] = array('article' => 'Article');
-	$vars['categories'] = Category::dropdown();
+	$vars['categories'] = Category::all();
 
 	return View::make('posts/edit', $vars)
 		->nest('header', 'partials/header')
@@ -52,7 +52,7 @@ Route::post('admin/posts/edit/(:num)', array('before' => 'auth', 'do' => functio
 
 	if($errors = $validator->errors()) {
 		Input::flash();
-		
+
 		Notify::error($errors);
 
 		return Response::redirect('admin/posts/edit/' . $id);
@@ -89,13 +89,13 @@ Route::get('admin/posts/add', array('before' => 'auth', 'do' => function() {
 	$vars['fields'] = Extend::fields('post');
 
 	$vars['statuses'] = array(
-		'draft' => __('posts.draft', 'Draft'), 
-		'archived' => __('posts.archived', 'Archived'), 
+		'draft' => __('posts.draft', 'Draft'),
+		'archived' => __('posts.archived', 'Archived'),
 		'published' => __('posts.published', 'Published')
 	);
 
 	$vars['templates'] = array('article' => 'Article');
-	$vars['categories'] = Category::dropdown();
+	$vars['categories'] = Category::all();
 
 	return View::make('posts/add', $vars)
 		->nest('header', 'partials/header')
@@ -119,7 +119,7 @@ Route::post('admin/posts/add', array('before' => 'auth', 'do' => function() {
 
 	if($errors = $validator->errors()) {
 		Input::flash();
-		
+
 		Notify::error($errors);
 
 		return Response::redirect('admin/posts/add');

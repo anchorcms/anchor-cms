@@ -1,55 +1,55 @@
 body, html {
-    width: 100%;
+	width: 100%;
 }
 
-.wrap, .content, h1, #bottom, #post-content {
-    width: 90%;
+.wrap, .content, .notifications, h1, #bottom, #post-content {
+	width: 90%;
 }
 
 #top #logo, #top .btn {
-    display: none;
+	display: none;
 }
-    .login #top #logo {
-        display: block;
-    }
+	.login #top #logo {
+		display: block;
+	}
 #top a {
-    line-height: 27px;
-    padding: 0 10px;
+	line-height: 27px;
+	padding: 0 10px;
 }
-    #top nav a {
-        margin-right: 5px;
-    }
-    
+	#top nav a {
+		margin-right: 5px;
+	}
+
 .header .secondary {
-    display: none;
+	display: none;
 }
 .header input {
-    width: 70%;
+	width: 70%;
 }
 
 .list, .list li {
-    width: 100%;
+	width: 100%;
 }
-    .list li {
-        float: none;
-        margin-right: 0;
-    }
-    .list li p {
-        height: auto;
-    }
-        .list li p:after {
-            display: none;
-        }
-        
+	.list li {
+		float: none;
+		margin-right: 0;
+	}
+	.list li p {
+		height: auto;
+	}
+		.list li p:after {
+			display: none;
+		}
+
 #bottom {
-    text-align: center;
-    padding-bottom: 30px;
+	text-align: center;
+	padding-bottom: 30px;
 }
-    #bottom small, #bottom em {
-        float: none;
-        font-size: 11px;
-        line-height: 18px;
-        
-        display: block;
-        clear: both;
-    }
+	#bottom small, #bottom em {
+		float: none;
+		font-size: 11px;
+		line-height: 18px;
+
+		display: block;
+		clear: both;
+	}
