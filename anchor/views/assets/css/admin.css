@@ -38,7 +38,7 @@
 body {
 	background: #eceef1;
 
-	font: 15px/25px "Helvetica Neue", sans-serif;
+	font: 15px/25px "Helvetica Neue", "Open Sans", "DejaVu Sans", "Arial", sans-serif;
 }
 	body.login {
 		background: #444f5f;
