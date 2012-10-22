@@ -76,6 +76,13 @@
 				<label for="js"><?php echo __('posts.custom_js', 'Custom JS'); ?>:</label>
 				<textarea id="js" name="js"><?php echo Input::old('js'); ?></textarea>
 			</p>
+
+			<?php foreach($fields as $field): ?>
+			<p>
+				<label for="<?php echo $field->key; ?>"><?php echo $field->label; ?>:</label>
+				<?php echo Extend::html($field); ?>
+			</p>
+			<?php endforeach; ?>
 		</div>
 	</fieldset>
 </form>

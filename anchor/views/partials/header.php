@@ -2,7 +2,7 @@
 <html lang="en">
 	<head>
 		<meta charset="utf-8">
-		<title><?php echo __('common.manage', 'Manage'); ?> <?php echo Config::get('metadata.sitename'); ?></title>
+		<title><?php echo __('common.manage', 'Manage'); ?> <?php echo Config::get('meta.sitename'); ?></title>
 
 		<link rel="stylesheet" href="<?php echo asset('css/admin.css'); ?>">
 		<link rel="stylesheet" media="(max-width: 980px), (max-device-width: 480px)" href="<?php echo asset('css/small.css'); ?>">
@@ -10,7 +10,7 @@
 		<meta http-equiv="X-UA-Compatible" content="chrome=1">
 		<meta name="viewport" content="width=600">
 	</head>
-	<body class="<?php echo Auth::user() ? 'admin' : 'login'; ?>">
+	<body class="<?php echo Auth::guest() ? 'login' : 'admin'; ?>">
 
 		<header id="top">
 			<div class="wrap">

@@ -21,6 +21,9 @@ Route::get('admin/posts/edit/(:num)', array('before' => 'auth', 'do' => function
 	$vars['article'] = Post::find($id);
 	$vars['page'] = Registry::get('posts_page');
 
+	// extended fields
+	$vars['fields'] = Extend::fields('post', $id);
+
 	$vars['statuses'] = array(
 		'draft' => __('posts.draft', 'Draft'),
 		'archived' => __('posts.archived', 'Archived'),

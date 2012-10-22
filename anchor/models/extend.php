@@ -4,8 +4,32 @@ class Extend extends Model {
 
 	public static $table = 'extend';
 
-	public static function fields($type) {
-		return Query::table(static::$table)->where('type', '=', $type)->get();
+	public static function fields($type, $id = -1) {
+		$fields = Query::table(static::$table)->where('type', '=', $type)->get();
+
+		foreach(array_keys($fields) as $index) {
+			$meta = Query::table($type . '_meta')
+				->where($type, '=', $id)
+				->where('extend', '=', $fields[$index]->id)
+				->fetch();
+
+			$fields[$index]->value = $meta ? $meta->data : '';
+		}
+
+		return $fields;
+	}
+
+	public static function html($item) {
+		switch($item->field) {
+			case 'text':
+				return '<input id="' . $item->key . '" name="' . $item->key . '" type="text" value="' . $item->value . '">';
+			case 'html':
+				return '<textarea id="' . $item->key . '" name="' . $item->key . '" type="text">' . $item->value . '</textarea>';
+			case 'image':
+				return '<input id="' . $item->key . '" name="' . $item->key . '" type="file" accept="image/*">';
+			case 'file':
+				return '<input id="' . $item->key . '" name="' . $item->key . '" type="file">';
+		}
 	}
 
 	public static function paginate($page = 1, $perpage = 10) {
@@ -45,7 +69,7 @@ class Extend extends Model {
 
 					// save data
 					$meta[] = array(
-						'extend' => $extend->id, 
+						'extend' => $extend->id,
 						'data' => Json::encode(compact($name, $filepath))
 					);
 
@@ -75,7 +99,7 @@ class Extend extends Model {
 
 					// save data
 					$meta[] = array(
-						'extend' => $extend->id, 
+						'extend' => $extend->id,
 						'data' => Json::encode(compact($name, $filepath))
 					);
 
@@ -92,7 +116,7 @@ class Extend extends Model {
 
 		// save data
 		$meta[] = array(
-			'extend' => $extend->id, 
+			'extend' => $extend->id,
 			'data' => Json::encode(compact($text))
 		);
 	}
@@ -102,7 +126,7 @@ class Extend extends Model {
 
 		// save data
 		$meta[] = array(
-			'extend' => $extend->id, 
+			'extend' => $extend->id,
 			'data' => Json::encode(compact($html))
 		);
 	}
