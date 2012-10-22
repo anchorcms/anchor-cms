@@ -3,7 +3,7 @@
 <section class="content">
 	<nav>
 		<div class="logo">
-			<img src="assets/img/logo.png">
+			<img src="<?php echo rtrim(dirname($_SERVER['SCRIPT_NAME']), '/'); ?>/assets/img/logo.png">
 		</div>
 
 		<ul>
@@ -18,12 +18,12 @@
 	<article>
 		<h1>Hello. Willkommen. Bonjour. Croeso.</h1>
 
-		<p>If you were looking for a truly lightweight blogging experience, you&rsquo;ve 
-		found the right place. Simply fill in the details below, and you&rsquo;ll have your 
+		<p>If you were looking for a truly lightweight blogging experience, you&rsquo;ve
+		found the right place. Simply fill in the details below, and you&rsquo;ll have your
 		new blog set up in no time.</p>
 	</article>
 
-	<form method="post" action="index.php" autocomplete="off">
+	<form method="post" action="<?php echo rtrim(dirname($_SERVER['SCRIPT_NAME']), '/'); ?>/index.php" autocomplete="off">
 		<fieldset>
 			<p>
 				<label for="lang">
@@ -37,9 +37,9 @@
 				</select>
 			</p>
 		</fieldset>
-		
+
 		<p>
-			<small>You can get more languages by downloading them from <a href="https://github.com/anchorcms/anchor-translations">the Anchor translations repository</a>, and placing in the <code>/system/languages</code> folder.</small>
+			<small>You can get more languages by downloading them from <a href="//github.com/anchorcms/anchor-translations">the Anchor translations repository</a>, and placing in the <code>/system/languages</code> folder.</small>
 		</p>
 
 		<section class="options">

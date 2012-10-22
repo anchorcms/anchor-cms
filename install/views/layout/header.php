@@ -5,6 +5,6 @@
 		<title>Installin' Anchor CMS</title>
 		<meta name="robots" content="noindex, nofollow">
 
-		<link rel="stylesheet" href="assets/css/install.css">
+		<link rel="stylesheet" href="<?php echo rtrim(dirname($_SERVER['SCRIPT_NAME']), '/'); ?>/assets/css/install.css">
 	</head>
 	<body>

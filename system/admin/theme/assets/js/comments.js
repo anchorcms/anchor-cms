@@ -4,7 +4,7 @@ var Comments = (function() {
 	var p = new Popup();
 
 	var publish = function(event) {
-		var a = this, 
+		var a = this,
 			li = a.parent(),
 			url = Base_url + 'comments/status',
 			parent = li.parent().parent(),
@@ -18,7 +18,7 @@ var Comments = (function() {
 
 		event.end();
 	};
-	
+
 	var edit = function(event) {
 		var a = this,
 			li = a.parent().parent().parent();
@@ -41,9 +41,9 @@ var Comments = (function() {
 		html += '</fieldset>';
 		html +='<p class="buttons"><button name="update" type="button">' + Lang.get('update') + '</button> ';
 		html +='<a href="#close">' + Lang.get('close') + '</a></p>';
-		
+
 		var content = new Element('div', {
-			'class': 'popup_wrapper'			
+			'class': 'popup_wrapper'
 		});
 		content.html(html);
 
@@ -107,12 +107,12 @@ var Comments = (function() {
 			p.close();
 		});
 	};
-	
+
 	var remove = function() {
 		var a = this, li = a.parent().parent().parent();
 		var url = Base_url + 'comments/remove';
 		var id = li.get('id').split('c').pop();
-		
+
 		new Request.post(url, {'id': id}, function() {
 			li.remove();
 		});

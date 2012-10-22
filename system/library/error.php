@@ -16,7 +16,7 @@ class Error {
 
 		static::exception($exception);
 	}
-	
+
 	public static function shutdown() {
 		if(!is_null($error = error_get_last())) {
 			extract($error, EXTR_SKIP);

@@ -193,8 +193,8 @@ var Request = (function() {
 			if(this.status === 200) {
 				this.callback(this.responseText);
 			} else if(console.log) {
-				console.log(this.status, this.statusText, this.url);  
-			} 
+				console.log(this.status, this.statusText, this.url);
+			}
 		}
 	};
 
@@ -202,7 +202,7 @@ var Request = (function() {
 		var query = [];
 
 		item.each(function(itm, key) {
-			query.push(key + '=' + itm);
+			query.push(key + '=' + encodeURIComponent(itm));
 		});
 
 		return query.join('&');
@@ -213,7 +213,8 @@ var Request = (function() {
 			var request = xhr();
 			request.url = url;
 			request.open('POST', url, true);
-			request.setRequestHeader('Content-type','application/x-www-form-urlencoded');
+			request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+			request.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
 			request.callback = func;
 			request.onreadystatechange = state;
 			request.send(parse(data));

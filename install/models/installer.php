@@ -8,22 +8,22 @@ class Installer {
 	*/
 	public static function compat_check() {
 		$compat = array();
-		
+
 		// php
 		if(version_compare(PHP_VERSION, '5.3.0', '<')) {
 			$compat[] = '<strong>Anchor requires PHP 5.3 or newer.</strong><br>
 				<em>Your current environment is running PHP ' . PHP_VERSION . '</em>';
 		}
-		
+
 		// PDO
 		if(class_exists('PDO') === false) {
 			$compat[] = '<strong>Anchor requires PDO (PHP Data Objects).</strong><br>
-			<em>You can find more about <a href="//php.net/manual/en/book.pdo.php">installing and setting up PHP Data Objects</a> 
+			<em>You can find more about <a href="//php.net/manual/en/book.pdo.php">installing and setting up PHP Data Objects</a>
 			on the php.net website</em>';
 		} else {
 			if(in_array('mysql', PDO::getAvailableDrivers()) === false) {
 				$compat[] = '<strong>Anchor requires MySQL PDO Driver.</strong><br>
-					<em>You can find more about <a href="//php.net/manual/en/ref.pdo-mysql.php">installing and setting up MySQL PDO Driver</a> 
+					<em>You can find more about <a href="//php.net/manual/en/ref.pdo-mysql.php">installing and setting up MySQL PDO Driver</a>
 					on the php.net website</em>';
 			}
 		}
@@ -41,11 +41,12 @@ class Installer {
 
 		$dsn = 'mysql:dbname=' . $data['db']['name'] . ';host=' . $data['db']['host'] . ';port=' . $data['db']['port'];
 		$dbh = new PDO($dsn, $data['db']['user'], $data['db']['pass']);
-		
+
 		try {
 			$dbh->beginTransaction();
+			$dbh->exec('SET NAMES `utf8`');
 			$dbh->exec($sql);
-			
+
 			// create metadata
 			$sql= "INSERT INTO `meta` (`key`, `value`) VALUES ('sitename', ?), ('description', ?), ('theme', ?);";
 			$statement = $dbh->prepare($sql);
@@ -59,7 +60,7 @@ class Installer {
 			$dbh->commit();
 		} catch(PDOException $e) {
 			Messages::add($e->getMessage());
-			
+
 			// rollback any changes
 			if($dbh->inTransaction()) {
 				$dbh->rollBack();
@@ -74,7 +75,7 @@ class Installer {
 		$errors = array();
 		$data = $_SESSION;
 		$template = file_get_contents('../config.default.php');
-		
+
 		$index_page = 'index.php';
 		$base_url = trim($data['site']['site_path'], '/');
 		$path_url = '/' . $base_url;
@@ -92,12 +93,12 @@ class Installer {
 			"'password' => ''",
 			"'name' => 'anchorcms'",
 			"'collation' => 'utf8_bin'",
-			
+
 			// apllication paths
 			"'base_url' => '/'",
 			"'index_page' => 'index.php'",
 			"'key' => ''",
-			
+
 			//session details
 			"'path' => '/'",
 
@@ -116,7 +117,7 @@ class Installer {
 			"'base_url' => '" . $base_url . "'",
 			"'index_page' => '" . $index_page . "'",
 			"'key' => '" . $_SESSION['key'] . "'",
-			
+
 			//session details
 			"'path' => '" . $path_url . "'",
 
@@ -136,8 +137,8 @@ class Installer {
 			// failed to create config file offer to download it
 			$_SESSION['config'] = $config;
 
-			$html = 'It looks like we could not automatically create your config file for you, 
-				please download <code><a href="index.php?action=download">config.php</a></code> and upload it to your anchor 
+			$html = 'It looks like we could not automatically create your config file for you,
+				please download <code><a href="index.php?action=download">config.php</a></code> and upload it to your anchor
 				installation to complete the setup.';
 
 			Messages::add($html);
@@ -240,11 +241,11 @@ class Installer {
 		}
 
 		$bad_passwords = array('password', 123456, 12345678, 'qwerty', 'abc123', 'monkey', 1234567, 'letmein', 'trustno1', 'dragon', 'baseball', 111111, 'iloveyou', 'master', 'sunshine', 'ashley', 'bailey', 'passw0rd', 'shadow', 123123, 654321, 'superman', 'qazwsx', 'michael', 'Football');
-		
+
 		if(in_array($post['password'], $bad_passwords)) {
 			$errors[] = 'Come on, you can pick a better password than that.';
 		}
-		
+
 		//  hunter2
 		if($post['password'] == 'hunter2') {
 			$errors[] = '&ldquo;See, when YOU type hunter2, it shows to us as *******&rdquo;';

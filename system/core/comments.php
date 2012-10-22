@@ -5,7 +5,7 @@ class Comments {
 	public static function list_all($params = array()) {
 		$sql = "select * from comments where 1 = 1";
 		$args = array();
-		
+
 		if(isset($params['status'])) {
 			$sql .= " and status = ?";
 			$args[] = $params['status'];
@@ -15,25 +15,25 @@ class Comments {
 			$sql .= " and post = ?";
 			$args[] = $params['post'];
 		}
-		
+
 		if(isset($params['sortby'])) {
 			$sql .= " order by " . $params['sortby'];
-			
+
 			if(isset($params['sortmode'])) {
 				$sql .= " " . $params['sortmode'];
 			}
 		}
-		
+
 		if(isset($params['limit'])) {
 			$sql .= " limit " . $params['limit'];
-			
+
 			if(isset($params['offset'])) {
 				$sql .= " offset " . $params['offset'];
 			}
 		}
 
 		$result = Db::results($sql, $args);
-		
+
 		return new Items($result);
 	}
 
@@ -44,15 +44,15 @@ class Comments {
 		if(empty($post['name'])) {
 			$errors[] = 'Please enter your name';
 		}
-		
+
 		if(filter_var($post['email'], FILTER_VALIDATE_EMAIL) === false) {
 			$errors[] = 'Please enter a valid email address';
 		}
-		
+
 		if(empty($post['text'])) {
 			$errors[] = 'Please enter your comments';
 		}
-		
+
 		if(count($errors)) {
 			Notifications::set('error', $errors, 'comments');
 			return false;
@@ -66,16 +66,16 @@ class Comments {
 		$post['text'] = strip_tags($post['text'], '<a>,<b>,<blockquote>,<code>,<em>,<i>,<p>,<pre>');
 
 		Db::insert('comments', $post);
-		
+
 		Notifications::set('success', 'Your comment has been sent', 'comments');
-		
+
 		return true;
 	}
-	
+
 	public static function update() {
 		$post = Input::post(array('id', 'text', 'status'));
 		$errors = array();
-		
+
 		if(empty($post['text'])) {
 			$errors[] = 'Please enter comment text';
 		}
@@ -85,7 +85,7 @@ class Comments {
 			Response::content($output);
 			return false;
 		}
-		
+
 		$id = $post['id'];
 		unset($post['id']);
 
@@ -94,13 +94,13 @@ class Comments {
 		$output = json_encode(array('result' => true));
 		Response::content($output);
 	}
-	
+
 	public static function update_status() {
 		$post = Input::post(array('id', 'status'));
 		$errors = array();
-		
+
 		if(in_array($post['status'], array('published', 'pending', 'spam')) === false) {
-			$errors[] = 'Invalid comment status';
+			$errors[] = 'Invalid comment status: ' . $post['status'];
 		}
 
 		if(count($errors)) {
@@ -108,16 +108,13 @@ class Comments {
 			Response::content($output);
 			return false;
 		}
-		
-		$id = $post['id'];
-		unset($post['id']);
-		
-		Db::update('comments', $post, array('id' => $id));
+
+		Db::update('comments', array('status' => $post['status']), array('id' => $post['id']));
 
 		$output = json_encode(array('result' => true));
 		Response::content($output);
 	}
-	
+
 	public static function remove() {
 		$id = Input::post('id');
 

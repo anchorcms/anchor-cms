@@ -3,7 +3,7 @@
 <section class="content">
 	<nav>
 		<div class="logo">
-			<img src="assets/img/logo.png">
+			<img src="<?php echo rtrim(dirname($_SERVER['SCRIPT_NAME']), '/'); ?>/assets/img/logo.png">
 		</div>
 
 		<ul>
@@ -21,7 +21,7 @@
 		<p>Oh, we're so tantalisingly close! All we need now is a username and password to log in to the admin area with. Just make sure you <a href="http://bash.org/?244321">pick a secure password</a>.</p>
 	</article>
 
-	<form method="post" action="index.php?action=stage4" autocomplete="off">
+	<form method="post" action="<?php echo rtrim(dirname($_SERVER['SCRIPT_NAME']), '/'); ?>/index.php?action=stage4" autocomplete="off">
 		<fieldset>
 
 			<?php echo Messages::read(); ?>
@@ -39,7 +39,7 @@
 					<strong>Email address</strong>
 					<span>If you forget your password.</span>
 				</label>
-				
+
 				<input name="email" value="<?php echo post('email'); ?>">
 			</p>
 

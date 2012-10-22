@@ -13,7 +13,7 @@ return array(
 		'name' => 'anchorcms',
 		'collation' => 'utf8_bin'
 	),
-	
+
 	// Application settings
 	'application' => array(
 		// url paths
@@ -32,7 +32,7 @@ return array(
 		// Default application language
 		'language' => 'en_GB'
 	),
-	
+
 	// Session details
 	'session' => array(
 		'name' => 'anchorcms',
@@ -43,14 +43,14 @@ return array(
 
 	// Error handling
 	'error' => array(
-		'ignore' => array(E_NOTICE, E_USER_NOTICE, E_DEPRECATED, E_USER_DEPRECATED),
+		'ignore' => array(),
 		'detail' => false,
 		'log' => false
 	),
 
 	// Show database profile
 	'debug' => false,
-	
+
 	// Foreign characters
 	'foreign_characters' => array(
 		'/æ|ǽ/' => 'ae',

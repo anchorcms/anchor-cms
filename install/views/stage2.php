@@ -3,7 +3,7 @@
 <section class="content">
 	<nav>
 		<div class="logo">
-			<img src="assets/img/logo.png">
+			<img src="<?php echo rtrim(dirname($_SERVER['SCRIPT_NAME']), '/'); ?>/assets/img/logo.png">
 		</div>
 
 		<ul>
@@ -18,12 +18,12 @@
 	<article>
 		<h1>Database information</h1>
 
-		<p>To function correctly, Anchor requires a MySQL database (available 
-		with all good hosts). You'll need to know the credentials for said 
+		<p>To function correctly, Anchor requires a MySQL database (available
+		with all good hosts). You'll need to know the credentials for said
 		database to get any further. If you don't have these, try contacting your webhost.</p>
 	</article>
 
-	<form method="post" action="index.php?action=stage2" autocomplete="off">
+	<form method="post" action="<?php echo rtrim(dirname($_SERVER['SCRIPT_NAME']), '/'); ?>/index.php?action=stage2" autocomplete="off">
 
 		<fieldset>
 			<?php echo Messages::read(); ?>

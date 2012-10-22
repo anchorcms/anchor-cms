@@ -3,16 +3,16 @@
 class Comments_controller {
 
 	public function status() {
-		Response::header('Content-Type', 'application/json');
+		Response::header('Content-Type', 'application/json; charset=utf-8');
 
 		// process post request
 		if(Input::method() == 'POST') {
 			Comments::update_status();
 		}
 	}
-	
+
 	public function update() {
-		Response::header('Content-Type', 'application/json');
+		Response::header('Content-Type', 'application/json; charset=utf-8');
 
 		// process post request
 		if(Input::method() == 'POST') {
@@ -21,12 +21,12 @@ class Comments_controller {
 	}
 
 	public function remove() {
-		Response::header('Content-Type', 'application/json');
+		Response::header('Content-Type', 'application/json; charset=utf-8');
 
 		// process post request
 		if(Input::method() == 'POST') {
 			Comments::remove();
 		}
 	}
-	
+
 }
