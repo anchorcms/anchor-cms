@@ -1,26 +1,10 @@
 <?php
 
-// Define base path
-define('PATH', pathinfo(__FILE__, PATHINFO_DIRNAME) . '/');
+define('DS', '/');
+define('VERSION', '0.8');
 
-// Anchor version
-define('ANCHOR_VERSION', 0.7);
+define('PATH', dirname(dirname(__FILE__)) . DS);
+define('APP', PATH . 'install' . DS);
+define('SYS', PATH . 'system' . DS);
 
-require PATH . 'functions.php';
-require PATH . 'models/messages.php';
-require PATH . 'models/installer.php';
-require PATH . 'controller.php';
-
-// start native session
-session_start();
-
-$controller = new Installation_controller;
-$method = Installer::compat_check() ? 'compat' : get('action', 'stage1');
-$reflector = new ReflectionClass($controller);
-
-if($reflector->hasMethod($method) === false) {
-	header("HTTP/1.0 404 Not Found");
-	return '';
-}
-
-$reflector->getMethod($method)->invoke($controller);
+require SYS . 'bootstrap.php';

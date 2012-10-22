@@ -1,20 +1,11 @@
-<?php defined('IN_CMS') or die('No direct access allowed.');
+<?php
 
-/**
+/*
 	Include application helpers
 */
-require PATH . 'system/core/helpers.php';
+require PATH . 'system/helpers.php';
 
-/**
- *	Check our environment
- */
-if(has_php(5.3) === false) {
-	// echo and exit with some usful information
-	echo 'Anchor requires PHP 5.3 or newer, your current environment is running PHP ' . PHP_VERSION;
-	exit(1);
-}
-
-/**
+/*
 	Register Globals Fix
 */
 if(ini_get('register_globals')) {
@@ -22,12 +13,12 @@ if(ini_get('register_globals')) {
 
 	foreach($globals as $global) {
 		foreach(array_keys($global) as $key) {
-			unset(${$key}); 
+			unset(${$key});
 		}
 	}
 }
 
-/**
+/*
 	Magic Quotes Fix
 	note: magic quotes is deprecated in PHP 5.3
 	src: php.net/manual/en/security.magicquotes.disabling.php
@@ -41,70 +32,72 @@ if(magic_quotes()) {
 }
 
 // get our autoloader
-require PATH . 'system/core/autoload.php';
-require PATH . 'system/library/markdown.php';
+require PATH . 'system/error.php';
+require PATH . 'system/config.php';
+require PATH . 'system/autoload.php';
 
 // tell the autoloader where to find classes
-Autoloader::directory(array(
-	PATH . 'system/core/',
-	PATH . 'system/library/'
-));
+System\Autoloader::directory(array(PATH, APP . 'libraries' . DS, APP . 'models' . DS));
 
 // register the auto loader
-Autoloader::register();
+System\Autoloader::register();
 
-/**
-	Report all errors let our error class decide which to display
+/*
+	Error handling
 */
+set_exception_handler(function($e) {
+	Error::exception($e);
+});
+
+set_error_handler(function($code, $error, $file, $line) {
+	Error::native($code, $error, $file, $line);
+});
+
+register_shutdown_function(function() {
+	Error::shutdown();
+});
+
+// report all errors
 error_reporting(-1);
 
-/**
-	Error display will be handled by our error class
+/*
+	Localisation - Register the default timezone for the application.
 */
-ini_safe_set('display_errors', false);
-
-/**
-	Check our installation
-*/
-if(Config::load(PATH . 'config.php') === false) {
-	// looks like we are missing a config file
-	echo file_get_contents(PATH . 'system/admin/theme/error_config.php');
-	exit(1);
-}
-
-// Register the default timezone for the application.
 date_default_timezone_set(Config::get('application.timezone'));
 
-// set locale
-if(setlocale(LC_ALL, Config::get('application.language') . '.utf8') === false) {
-	Log::warning('setlocate failed, please check your system has ' . Config::get('application.language') . ' installed.');
+/*
+	Set input
+*/
+switch(Request::method()) {
+	case 'get':
+		parse_str(parse_url($_SERVER['REQUEST_URI'], PHP_URL_QUERY), Input::$array);
+		break;
+	case 'post':
+		Input::$array = $_POST;
+		break;
+	default:
+		parse_str(file_get_contents('php://input'), Input::$array);
 }
 
-// Register the PHP exception handler.
-set_exception_handler(array('Error', 'exception'));
-
-// Register the PHP error handler.
-set_error_handler(array('Error', 'native'));
-
-// Register the shutdown handler.
-register_shutdown_function(array('Error', 'shutdown'));
-
-/**
-	Start session handler
+/*
+	Start application
 */
-Session::start();
+if(is_readable($start = APP . 'start.php')) require $start;
 
-/**
-	Handle routing
-*/
-Anchor::run();
+Session::load();
 
-/**
-	Close and end session
+/*
+	Route the request
 */
-Session::end();
 
-/**
-	Output awesomeness!
-*/
-Response::send();
+// load defined routes
+Router::load();
+
+// call requested route
+$response = Router::route(Request::method(), Uri::current())->call();
+
+// Persist The Session To Storage
+Session::save();
+
+// And We're Done!
+$response->send();

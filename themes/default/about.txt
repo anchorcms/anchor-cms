@@ -1,6 +1,5 @@
 Theme name:    Default
-Version:       2.0
 Description:   This is the default, shiny theme for Anchor CMS.
 Author name:   Visual Idiot
 Author site:   http://visualidiot.com
-License:       :) (licence.visualidiot.com)
+License:       (licence.visualidiot.com)
