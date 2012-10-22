@@ -46,10 +46,7 @@ class Error {
 			$contexts = static::context($file, $e->getLine());
 
 			require PATH . 'system/admin/theme/error_php.php';
-		} else {
-			require PATH . 'system/admin/theme/error_500.php';
 		}
-
 		exit(1);
 	}
 
