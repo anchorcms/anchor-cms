@@ -10,7 +10,7 @@
 
 		<input name="token" type="hidden" value="<?php echo $token; ?>">
 
-		<fieldset>
+		<fieldset class="split">
 			<p>
 				<label for="title"><?php echo __('categories.title', 'Title'); ?>:</label>
 				<input id="title" name="title" value="<?php echo Input::old('title', $category->title); ?>">

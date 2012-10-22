@@ -13,7 +13,7 @@
 				<strong><?php echo $user->real_name; ?></strong>
 				<span>Username: <?php echo $user->username; ?></span>
 
-				<i class="role"><?php echo __('users.' . $user->role); ?></i>
+				<em class="highlight"><?php echo __('users.' . $user->role); ?></em>
 			</a>
 		</li>
 		<?php endforeach; ?>

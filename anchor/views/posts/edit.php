@@ -4,21 +4,21 @@
 
 	<header class="header">
 		<div class="wrap">
-    		<input autofocus autocomplete="off" tabindex="1" placeholder="Post title" id="title" name="title" value="<?php echo Input::old('title', $article->title); ?>">
+			<input autofocus autocomplete="off" tabindex="1" placeholder="Post title" id="title" name="title" value="<?php echo Input::old('title', $article->title); ?>">
 
-    		<p class="buttons">
-    			<button tabindex="3" type="submit"><?php echo __('posts.save', 'Save'); ?></button>
-    			<button class="red" name="delete" type="submit"><?php echo __('posts.delete', 'Delete'); ?></button>
-    		</p>
+			<p class="buttons">
+				<button tabindex="3" type="submit"><?php echo __('posts.save', 'Save'); ?></button>
+				<button class="red" name="delete" type="submit"><?php echo __('posts.delete', 'Delete'); ?></button>
+			</p>
 
-    		<?php echo $messages; ?>
-    	</div>
+			<?php echo $messages; ?>
+		</div>
 	</header>
 
 	<input name="token" type="hidden" value="<?php echo $token; ?>">
 
 	<div class="prevue">
-	    <div class="wrap"></div>
+		<div class="wrap"></div>
 	</div>
 
 	<fieldset id="content">

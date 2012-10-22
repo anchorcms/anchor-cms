@@ -5,11 +5,7 @@ class Input {
 	public static $array = array();
 
 	public static function get($key, $default = null) {
-		if(array_key_exists($key, static::$array)) {
-			return static::$array[$key];
-		}
-
-		return $default;
+		return array_get(static::$array, $key, $default);
 	}
 
 	public static function get_array($arr, $default = null) {
@@ -23,13 +19,9 @@ class Input {
 	}
 
 	public static function old($key, $default = null) {
-		$array = Session::get(':old:');
+		$array = Session::get(':old:', array());
 
-		if(array_key_exists($key, $array)) {
-			return $array[$key];
-		}
-
-		return $default;
+		return array_get($array, $key, $default);
 	}
 
 	public static function flash() {

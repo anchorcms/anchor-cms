@@ -10,7 +10,7 @@
 
 		<input name="token" type="hidden" value="<?php echo $token; ?>">
 
-		<fieldset>
+		<fieldset class="half split">
 			<p>
 				<label for="name"><?php echo __('comments.name', 'Name'); ?>:</label>
 				<input id="name" name="name" value="<?php echo Input::old('name', $comment->name); ?>">

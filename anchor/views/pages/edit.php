@@ -10,7 +10,7 @@
 
 		<input name="token" type="hidden" value="<?php echo $token; ?>">
 
-		<fieldset>
+		<fieldset class="split">
 			<p>
 				<label for="name"><?php echo __('pages.name', 'Name'); ?>:</label>
 				<input id="name" name="name" value="<?php echo Input::old('name', $page->name); ?>">

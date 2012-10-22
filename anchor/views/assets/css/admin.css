@@ -179,7 +179,7 @@ select {
 		background: #64a524;
 	}
 
-i.role {
+.highlight {
 	background: #e2e5eb;
 	color: #848f9f;
 
@@ -225,7 +225,7 @@ i.role {
 		top: 4px;
 	}
 	#top nav a {
-		margin-right: 20px;
+		margin-right: 8px;
 		color: #7b8eaa;
 	}
 		#top nav a:hover {
@@ -435,9 +435,7 @@ h1 a, .btn, button {
 			background-image: -ms-linear-gradient(top, rgba(255,255,255,0), #fff);
 			background-image: linear-gradient(top, rgba(255,255,255,0), #fff);
 		}
-	.list li time {
-		margin-right: 10px;
-	}
+
 	.list li .status {
 		margin-left: 10px;
 	}
