@@ -4,13 +4,14 @@ class Error {
 
 	public static function native($code, $error, $file, $line) {
 		// no error reporting nothing to do
-		if(error_reporting() === 0) {
-			return;
-		}
+		if(error_reporting() === 0) return;
 
 		$exception = new ErrorException($error, $code, 0, $file, $line);
 
-		if(in_array($code, Config::get('error.ignore', array()))) {
+		// error code to ignore
+		$ignore = Config::get('error.ignore', array());
+
+		if(in_array($code, $ignore)) {
 			return static::log($exception);
 		}
 
@@ -26,15 +27,13 @@ class Error {
 
 	public static function exception($e) {
 		// Clean the output buffer.
-		if(ob_get_level() > 0) {
-			ob_clean();
-		}
+		ob_get_level() and ob_end_clean();
 
 		// log exception
 		static::log($e);
 
 		// Display error
-		if(Config::get('error.detail', true)) {
+		if(Config::get('error.detail')) {
 			// Get the error file.
 			$file = $e->getFile();
 
@@ -43,7 +42,6 @@ class Error {
 
 			$line = $e->getLine();
 			$trace = $e->getTraceAsString();
-			$contexts = static::context($file, $e->getLine());
 
 			require PATH . 'system/admin/theme/error_php.php';
 		} else {
@@ -51,32 +49,6 @@ class Error {
 		}
 
 		exit(1);
-	}
-
-	private static function context($path, $line, $padding = 5) {
-		if(file_safe_exists($path)) {
-			$file = file($path, FILE_IGNORE_NEW_LINES);
-
-			array_unshift($file, '');
-
-			// Calculate the starting position.
-			$start = $line - $padding;
-
-			if($start < 0) {
-				$start = 0;
-			}
-
-			// Calculate the context length.
-			$length = ($line - $start) + $padding + 1;
-
-			if(($start + $length) > count($file) - 1) {
-				$length = null;
-			}
-
-			return array_slice($file, $start, $length, true);
-		}
-
-		return array();
 	}
 
 	public static function log($e) {

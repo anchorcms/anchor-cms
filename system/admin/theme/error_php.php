@@ -13,25 +13,5 @@
 		<h3>Stack Trace:</h3>
 
 		<pre><?php echo $trace; ?></pre>
-
-		<h3>Context:</h3>
-
-		<?php if(count($contexts)): ?>
-			<?php foreach ($contexts as $num => $context): ?>
-				<pre><?php echo htmlentities($num.' '.$context); ?></pre>
-			<?php endforeach; ?>
-		<?php else: ?>
-			Context unavailable.
-		<?php endif; ?>
-
-		<h3>Additional information</h3>
-		
-		<ul>
-			<li>PHP Version: <?php echo phpversion(); ?></li>
-			<li>Operating System: <?php echo php_uname(); ?></li>
-			<li>Server Software: <?php echo $_SERVER['SERVER_SOFTWARE']; ?></li>
-			<li>User Agent: <?php echo $_SERVER['HTTP_USER_AGENT']; ?></li>
-			<li>Request Uri: <?php echo $_SERVER['REQUEST_URI']; ?></li>
-		</ul>
 	</body>
 </html>

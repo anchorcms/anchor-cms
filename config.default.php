@@ -44,7 +44,7 @@ return array(
 	// Error handling
 	'error' => array(
 		'ignore' => array(),
-		'detail' => false,
+		'detail' => true,
 		'log' => false
 	),
 
