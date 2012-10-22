@@ -41,14 +41,14 @@
 
 				<p>
 					<label for="description"><?php echo __('posts.description', 'Description'); ?>:</label>
-					<textarea id="description" name="description"><?php echo Input::post('description'); ?></textarea>
+					<textarea id="description" name="description"><?php echo Html::encode(Input::post('description')); ?></textarea>
 
 					<em><?php echo __('posts.description_explain', 'A brief outline of what your post is about.'); ?></em>
 				</p>
 
 				<p>
 					<label for="html"><?php echo __('posts.content', 'Content'); ?>:</label>
-					<textarea id="html" name="html"><?php echo Input::post('html'); ?></textarea>
+					<textarea id="html" name="html"><?php echo Html::encode(Input::post('html')); ?></textarea>
 
 					<em><?php echo __('posts.content_explain', 'Your post\'s main content. Enjoys a healthy dose of valid HTML.'); ?></em>
 				</p>
