@@ -38,11 +38,11 @@
 					</ul>
 				</nav>
 
-				<a class="btn" href="<?php echo url('admin/logout'); ?>"><?php echo __('common.logout', 'Logout'); ?></a>
+				<a class="btn" href="<?php echo url('logout'); ?>"><?php echo __('common.logout', 'Logout'); ?></a>
 				<a class="btn" href="<?php echo site(); ?>"><?php echo __('common.visit_your_site', 'Visit your site'); ?></a>
 
 				<?php else: ?>
-				<a class="login" id="logo" href="<?php echo url('admin'); ?>">
+				<a class="login" id="logo" href="<?php echo url(''); ?>">
 					<img src="<?php echo asset('img/logo.png'); ?>" alt="Anchor CMS">
 				</a>
 				<?php endif; ?>

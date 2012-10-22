@@ -14,7 +14,6 @@
 				<strong><?php echo $article->title; ?></strong>
 				<span>
 					<time><?php echo Date::format($article->created); ?></time>
-					<?php echo $article->author; ?>
 
 					<i title="This post is currently <?php echo $article->status; ?>" class="status <?php echo strtolower($article->status); ?>">
 						<?php echo $article->status; ?></i>
