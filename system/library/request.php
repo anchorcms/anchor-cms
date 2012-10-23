@@ -7,42 +7,47 @@ class Request {
 		$segments = explode('/', static::uri());
 		return isset($segments[$index]) ? $segments[$index] : $default;
 	}
-	
+
 	public static function uri() {
-		if(isset($_SERVER['PATH_INFO']) and ($_SERVER['PATH_INFO'] !== '')) {
-			$uri = $_SERVER['PATH_INFO'];
-		}
-		// try request uri
-		elseif(isset($_SERVER['REQUEST_URI'])) {
-			// make sure we can parse URI
-			if(($uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH)) === false) {
-				throw new Exception('Malformed request URI');
+		$uri = static::detect();
+
+		$uri = static::remove_base($uri);
+
+		return trim($uri, '/');
+	}
+
+	private static function detect() {
+		foreach(array('PATH_INFO', 'REQUEST_URI') as $method) {
+			if(isset($_SERVER[$method])) {
+				if(($uri = parse_url($_SERVER[$method], PHP_URL_PATH)) === false) {
+					throw new Exception('Malformed request URI');
+				}
+
+				return $uri;
 			}
 		}
-		// cannot process request
-		else {
-			throw new Exception('Unable to determine the request URI');
-		}
+	}
 
+	private static function remove_base($uri) {
 		// remove base url
-		$base_url = parse_url(Config::get('application.base_url'), PHP_URL_PATH);
-
-		if(strlen($base_url)) {
-			if(strpos($uri, $base_url) === 0) {
-				$uri = substr($uri, strlen($base_url));
-			}
+		if($base = rtrim(Config::get('application.base_url'), '/')) {
+			$uri = static::remove($uri, $base);
 		}
 
 		// remove index file
-		$index = Config::get('application.index_page');
-
-		if(strlen($index)) {
-			if(strpos($uri, $index) === 0) {
-				$uri = substr($uri, strlen($index));
-			}
+		if($index = Config::get('application.index_page')) {
+			$uri = static::remove($uri, '/' . $index);
 		}
 
-		return trim($uri, '/');
-	}	
-	
+		return $uri;
+	}
+
+	private static function remove($uri, $str) {
+		if(strpos($uri, $str) === 0) {
+			return substr($uri, strlen($str));
+		}
+
+		return $uri;
+	}
+
 }

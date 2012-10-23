@@ -1,7 +1,7 @@
 <?php defined('IN_CMS') or die('No direct access allowed.');
 
 /*
-	This is the front controller that 
+	This is the front controller that
 	will route all incoming requests
 */
 class Anchor {
@@ -19,11 +19,11 @@ class Anchor {
 	public static function run() {
 		// run setup and prepare env
 		static::setup();
-		
+
 		// handle the requested uri
 		$uri = static::parse();
 		$segments = array();
-		
+
 		if(strlen($uri)) {
 			$segments = explode('/', $uri);
 		}
@@ -33,14 +33,14 @@ class Anchor {
 
 		// set our action or our default if none is set
 		$action = count($segments) ? array_shift($segments) : 'page';
-		
+
 		// default to our front end router
 		$controller = 'Routes';
-		
+
 		// set the template path
 		$theme = Config::get('metadata.theme');
 		Template::path(PATH . 'themes/' . $theme . '/');
-		
+
 		// remove admin as an argument and set the default action if there isnt one
 		if($action == 'admin') {
 			// set default controller for the admin
@@ -51,7 +51,7 @@ class Anchor {
 
 			// public admin actions
 			$public = array('users/login', 'users/amnesia', 'users/reset');
-			
+
 			// redirect to login
 			if(Users::authed() === false and in_array(trim($controller, '_controller') . '/' . $action, $public) === false) {
 				return Response::redirect(Config::get('application.admin_folder') . '/users/login');
@@ -63,14 +63,14 @@ class Anchor {
 
 		// log the controller we are going to use and the action
 		Log::info('Controller action: ' . $controller . '/' . $action);
-		
+
 		// check we can find a action
 		$reflector = new ReflectionClass($controller);
 
 		if($reflector->isInstantiable() === false or $reflector->hasMethod($action) === false) {
 			// default back to front end template for 404 page
 			Template::path(PATH . 'themes/' . $theme . '/');
-			
+
 			// report error
 			Log::warning(($reflector->isInstantiable() === false ? 'Controller was not Instantiable' : 'Action does not exist'));
 
@@ -80,7 +80,7 @@ class Anchor {
 
 		$reflector->getMethod($action)->invokeArgs(new $controller, $segments);
 	}
-	
+
 	private static function parse() {
 		// get uri
 		$uri = Request::uri();
@@ -90,12 +90,12 @@ class Anchor {
 
 		// route definitions
 		$routes = array();
-		
+
 		// posts host page
 		if($page = IoC::resolve('posts_page')) {
 			$routes[$page->slug . '/(:any)'] = 'article/$1';
 		}
-		
+
 		// fallback to 'admin'
 		$admin_folder = Config::get('application.admin_folder', 'admin');
 
@@ -108,16 +108,16 @@ class Anchor {
 
 			'search/(:any)' => 'search/$1',
 			'search' => 'search',
-			
+
 			'rss' => 'rss',
 
 			'(:any)' => 'page/$1'
 		));
-		
+
 		// define wild-cards
 		$search = array(':any', ':num');
 		$replace = array('[0-9a-zA-Z~%\.:_\\-]+', '[0-9]+');
-		
+
 		// parse routes
 		foreach($routes as $route => $translated) {
 			// replace wildcards
@@ -134,7 +134,7 @@ class Anchor {
 				return $translated;
 			}
 		}
-		
+
 		return $uri;
 	}
 

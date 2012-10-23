@@ -19,7 +19,7 @@ function theme_url($file = '') {
 }
 
 function current_url() {
-	return Url::make(Request::uri());
+	return Request::uri();
 }
 
 function admin_url($url = '') {
@@ -45,7 +45,7 @@ function receive($name = '') {
 
 // create a alias for typo in 0.6 and below so we dont break themes
 function recieve() {
-	$args = func_get_args(); 
+	$args = func_get_args();
 	return call_user_func_array('receive', $args);
 }
 
