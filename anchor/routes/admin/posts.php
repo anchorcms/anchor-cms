@@ -31,7 +31,7 @@ Route::get('admin/posts/edit/(:num)', array('before' => 'auth', 'do' => function
 	);
 
 	$vars['templates'] = array('article' => 'Article');
-	$vars['categories'] = Category::all();
+	$vars['categories'] = Category::dropdown();
 
 	return View::make('posts/edit', $vars)
 		->nest('header', 'partials/header')
@@ -101,7 +101,7 @@ Route::get('admin/posts/add', array('before' => 'auth', 'do' => function() {
 	);
 
 	$vars['templates'] = array('article' => 'Article');
-	$vars['categories'] = Category::all();
+	$vars['categories'] = Category::dropdown();
 
 	return View::make('posts/add', $vars)
 		->nest('header', 'partials/header')
@@ -132,7 +132,7 @@ Route::post('admin/posts/add', array('before' => 'auth', 'do' => function() {
 	}
 
 	// process extend fields
-	$postmeta = Extend::process();
+	//$postmeta = Extend::process();
 
 	if(empty($input['slug'])) {
 		$input['slug'] = $input['title'];
@@ -149,7 +149,7 @@ Route::post('admin/posts/add', array('before' => 'auth', 'do' => function() {
 	if(is_null($input['comments'])) $input['comments'] = 0;
 
 	$id = Post::create($input);
-
+/*
 	foreach($postmeta as $item) {
 		Query::insert('postmeta')->insert(array(
 			'post' => $id,
@@ -157,8 +157,34 @@ Route::post('admin/posts/add', array('before' => 'auth', 'do' => function() {
 			'data' => $item['data']
 		));
 	}
-
+*/
 	Notify::success(sprintf(__('posts.created', 'Your new article was created, <a href="%s">continue editing</a>.'), url('posts/edit/' . $id)));
+
+	return Response::redirect('admin/posts');
+}));
+
+/*
+	Preview
+*/
+Route::post('admin/posts/preview', array('before' => 'auth', 'do' => function() {
+	$html = Input::get('html');
+
+	// apply markdown processing
+	$md = new Markdown;
+	$output = Json::encode(array('html' => $md->transform($html)));
+
+	return Response::make($output, 200, array('Content-Type' => 'application/json'));
+}));
+
+/*
+	Delete
+*/
+Route::get('admin/posts/delete/(:num)', array('before' => 'auth', 'do' => function($id) {
+	Post::find($id)->delete();
+
+	Comment::where('post', '=', $id)->delete();
+
+	Notify::success(__('posts.post_success_deleted'));
 
 	return Response::redirect('admin/posts');
 }));

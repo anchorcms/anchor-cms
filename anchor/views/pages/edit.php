@@ -70,13 +70,10 @@
 		</fieldset>
 
 		<p class="buttons">
-
 			<button name="save" type="submit"><?php echo __('pages.save', 'Save'); ?></button>
 			<?php if(in_array($page->id, array(Config::get('metadata.home_page'), Config::get('metadata.posts_page'))) === false): ?>
-			<button name="delete" type="submit"><?php echo __('pages.delete', 'Delete'); ?></button>
+			<a class="btn delete red" href="<?php echo url('pages/delete/' . $page->id); ?>"><?php echo __('pages.delete', 'Delete'); ?></a>
 			<?php endif; ?>
-
-			<a href="<?php echo url('pages'); ?>"><?php echo __('pages.return_pages', 'Return to pages'); ?></a>
 		</p>
 	</form>
 

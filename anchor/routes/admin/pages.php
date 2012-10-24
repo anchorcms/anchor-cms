@@ -104,3 +104,14 @@ Route::post('admin/pages/add', array('before' => 'auth', 'do' => function() {
 
 	return Response::redirect('admin/pages');
 }));
+
+/*
+	Delete
+*/
+Route::get('admin/pages/delete/(:num)', array('before' => 'auth', 'do' => function($id) {
+	Page::find($id)->delete();
+
+	Notify::success(__('pages.page_success_delete'));
+
+	return Response::redirect('admin/pages');
+}));

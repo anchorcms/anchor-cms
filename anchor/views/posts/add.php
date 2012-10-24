@@ -23,9 +23,12 @@
 
 	<fieldset id="content">
 		<p>
-			<textarea tabindex="2" id="post-content" placeholder="<?php echo __('posts.content_explain', 'Just write.'); ?>" name="html"><?php echo Input::old('html'); ?></textarea>
+			<textarea tabindex="2" id="post-content"
+				placeholder="<?php echo __('posts.content_explain', 'Just write.'); ?>"
+				name="html"><?php echo Input::old('html'); ?></textarea>
 		</p>
 	</fieldset>
+
 	<fieldset id="post-data">
 		<div class="wrap">
 			<p>
@@ -40,26 +43,17 @@
 
 			<p>
 				<label for="status"><?php echo __('posts.status', 'Status'); ?>:</label>
-				<select id="status" name="status">
-					<?php foreach($statuses as $value => $status): ?>
-					<?php $selected = (Input::old('status') == $value) ? ' selected' : ''; ?>
-					<option value="<?php echo $value; ?>"<?php echo $selected; ?>>
-						<?php echo $status; ?>
-					</option>
-					<?php endforeach; ?>
-				</select>
+				<?php echo Form::select('status', $statuses, Input::old('status'), array('id' => 'status')); ?>
 			</p>
 
 			<p>
 				<label for="category"><?php echo __('posts.category', 'Category'); ?>:</label>
-				<select id="category" name="category">
-					<?php foreach($categories as $cat): ?>
-					<?php $selected = (Input::old('category') == $cat->slug) ? ' selected' : ''; ?>
-					<option value="<?php echo $cat->slug; ?>"<?php echo $selected; ?>>
-						<?php echo $cat->title; ?>
-					</option>
-					<?php endforeach; ?>
-				</select>
+				<?php echo Form::select('category', $categories, Input::old('category'), array('id' => 'category')); ?>
+			</p>
+
+			<p>
+				<label for="template"><?php echo __('posts.template', 'Template'); ?>:</label>
+				<?php echo Form::select('template', $templates, Input::old('template'), array('id' => 'template')); ?>
 			</p>
 
 			<p>

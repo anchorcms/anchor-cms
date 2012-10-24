@@ -35,7 +35,6 @@
 
 		<p class="buttons">
 			<button type="submit"><?php echo __('categories.save', 'Save'); ?></button>
-			<a href="<?php echo url('categories'); ?>"><?php echo __('categories.return_categories', 'Return to categories'); ?></a>
 		</p>
 
 	</form>

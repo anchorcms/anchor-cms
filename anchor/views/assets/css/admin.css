@@ -888,7 +888,7 @@ form[action*='add'] + #bottom, form[action*='edit'] + #bottom {
 			background-image: url('../img/tick.png');
 		}
 
-/*.piggy {
+.piggy {
 	position: fixed;
 	left: 50%;
 	bottom: 50%;
@@ -902,4 +902,4 @@ form[action*='add'] + #bottom, form[action*='edit'] + #bottom {
 }
 	.focus .piggy {
 		display: none;
-	}*/
+	}
