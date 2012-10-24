@@ -2,7 +2,7 @@
 
 return array(
 	// Application URL
-	'url' => '/anchor/public/',
+	'url' => rtrim(dirname($_SERVER['SCRIPT_NAME']), '/'),
 
 	// Application Index
 	'index' => 'index.php',
@@ -11,7 +11,7 @@ return array(
 	'timezone' => 'Europe/London',
 
 	// Application Key
-	'key' => 'P0MxX7ID0QRTzlwKE7n9Bd1UCNRwtIKe78VsmzbM',
+	'key' => 'YourSecretKeyGoesHere',
 
 	// Default Application Language
 	'language' => 'en_GB',
