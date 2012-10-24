@@ -30,7 +30,9 @@ class Post extends Model {
 			$str = str_replace($search, $replace, $str);
 		}
 
-		return $str;
+		$md = new Markdown;
+
+		return $md->transform($str);
 	}
 
 }
