@@ -5,7 +5,7 @@
 */
 Route::get(array('admin/users', 'admin/users/(:num)'), array('before' => 'auth', 'do' => function($page = 1) {
 	$vars['messages'] = Notify::read();
-	$vars['users'] = User::paginate($page);
+	$vars['users'] = User::paginate($page, Config::get('meta.posts_per_page'));
 
 	return View::make('users/index', $vars)
 		->nest('header', 'partials/header')

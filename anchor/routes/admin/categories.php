@@ -5,7 +5,7 @@
 */
 Route::get(array('admin/categories', 'admin/categories/(:num)'), array('before' => 'auth', 'do' => function($page = 1) {
 	$vars['messages'] = Notify::read();
-	$vars['categories'] = Category::paginate($page);
+	$vars['categories'] = Category::paginate($page, Config::get('meta.posts_per_page'));
 
 	return View::make('categories/index', $vars)
 		->nest('header', 'partials/header')
@@ -35,7 +35,7 @@ Route::post('admin/categories/edit/(:num)', array('before' => 'auth', 'do' => fu
 
 	if($errors = $validator->errors()) {
 		Input::flash();
-		
+
 		Notify::error($errors);
 
 		return Response::redirect('admin/categories/edit/' . $id);
@@ -76,7 +76,7 @@ Route::post('admin/categories/add', array('before' => 'auth', 'do' => function()
 
 	if($errors = $validator->errors()) {
 		Input::flash();
-		
+
 		Notify::error($errors);
 
 		return Response::redirect('admin/categories/add');

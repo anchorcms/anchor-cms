@@ -5,7 +5,7 @@
 */
 Route::get(array('admin/posts', 'admin/posts/(:num)'), array('before' => 'auth', 'do' => function($page = 1) {
 	$vars['messages'] = Notify::read();
-	$vars['posts'] = Post::paginate($page);
+	$vars['posts'] = Post::paginate($page, Config::get('meta.posts_per_page'));
 
 	return View::make('posts/index', $vars)
 		->nest('header', 'partials/header')
@@ -67,8 +67,11 @@ Route::post('admin/posts/edit/(:num)', array('before' => 'auth', 'do' => functio
 
 	$input['slug'] = Str::slug($input['slug']);
 
-	if(empty($input['created'])) {
-		$input['created'] = date('c');
+	if($input['created']) {
+		$input['created'] = Date::format($input['created'], 'c');
+	}
+	else {
+		unset($input['created']);
 	}
 
 	if(is_null($input['comments'])) $input['comments'] = 0;

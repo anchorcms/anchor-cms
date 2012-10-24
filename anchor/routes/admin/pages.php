@@ -5,7 +5,7 @@
 */
 Route::get(array('admin/pages', 'admin/pages/(:num)'), array('before' => 'auth', 'do' => function($page = 1) {
 	$vars['messages'] = Notify::read();
-	$vars['pages'] = Page::paginate($page);
+	$vars['pages'] = Page::paginate($page, Config::get('meta.posts_per_page'));
 
 	return View::make('pages/index', $vars)
 		->nest('header', 'partials/header')
@@ -40,7 +40,7 @@ Route::post('admin/pages/edit/(:num)', array('before' => 'auth', 'do' => functio
 
 	if($errors = $validator->errors()) {
 		Input::flash();
-		
+
 		Notify::error($errors);
 
 		return Response::redirect('admin/pages/edit/' . $id);
@@ -86,7 +86,7 @@ Route::post('admin/pages/add', array('before' => 'auth', 'do' => function() {
 
 	if($errors = $validator->errors()) {
 		Input::flash();
-		
+
 		Notify::error($errors);
 
 		return Response::redirect('admin/pages/add');

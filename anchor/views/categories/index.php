@@ -13,7 +13,7 @@
 			<a href="<?php echo url('categories/edit/' . $category->id); ?>">
 				<strong><?php echo $category->title; ?></strong>
 
-				<span><?php echo site($category->slug); ?></span>
+				<span><?php echo $category->slug; ?></span>
 			</a>
 		</li>
 		<?php endforeach; ?>

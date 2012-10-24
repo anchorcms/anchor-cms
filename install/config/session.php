@@ -15,7 +15,7 @@ return array(
 		The name that should be given to the session cookie.
 	*/
 
-	'cookie' => 'anchorcms',
+	'cookie' => 'anchorcms-install',
 
 	/*
 		Session Database
@@ -36,7 +36,7 @@ return array(
 		Determines if the session should expire when the user's web browser closes.
 	*/
 
-	'expire_on_close' => false,
+	'expire_on_close' => true,
 
 	/*
 		Session Cookie Path
@@ -56,5 +56,7 @@ return array(
 		HTTPS Only Session Cookie
 		Determines if the cookie should only be sent over HTTPS.
 	*/
+
 	'secure' => false
+
 );

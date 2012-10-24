@@ -12,7 +12,7 @@ return array(
 			'driver' => 'mysql',
 			'hostname' => 'localhost',
 			'username' => 'root',
-			'password' => 'bottle',
+			'password' => '',
 			'database' => 'anchorcms',
 			'charset' => 'utf8'
 		)

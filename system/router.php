@@ -26,7 +26,7 @@ class Router {
 				static::load($file->getPathname());
 			}
 
-			if($file->isFile() and $file->isReadable() and $file->getExtension() == 'php') {
+			if($file->isFile() and $file->isReadable() and pathinfo($file->getPathname(), PATHINFO_EXTENSION) == 'php') {
 				require $file->getPathname();
 			}
 		}

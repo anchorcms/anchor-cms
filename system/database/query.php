@@ -14,18 +14,18 @@ class Query {
 	private function wrap($value) {
 		// remove white space
 		$column = trim($value);
-		
+
 		// handle aliases
 		if(strpos(strtolower($column), ' as ') !== false) {
 			list($col, $alias) = explode(' as ', strtolower($column));
 			return $this->wrap($col) . ' AS ' . $this->wrap($alias);
 		}
-		
+
 		// dont wrap function calls
 		if(preg_match('/[a-z]+\(.*?\)/i', $column)) {
 			return $column;
 		}
-		
+
 		foreach(explode('.', $column) as $segment) {
 			$sql[] = ($segment !== '*') ? $this->wrapper . $segment . $this->wrapper : $segment;
 		}
@@ -44,14 +44,14 @@ class Query {
 
 		return $this->wrap($value);
 	}
-	
+
 	public static function table($table) {
 		return new static($table);
 	}
 
-	public function __construct($table) {
+	public function __construct($table, $connection = null) {
 		$this->table = $table;
-		$this->connection = DB::connection();
+		$this->connection = DB::connection($connection);
 		$this->style = Config::get('database.fetch');
 	}
 
@@ -59,7 +59,7 @@ class Query {
 	/*
 		MySQL Joins
 
-		Example: 
+		Example:
 
 		Db::table('users')
 			->join('groups', 'groups.id', '=', 'users.group')
@@ -148,7 +148,7 @@ class Query {
 	*/
 	public function build() {
 		$select = empty($this->select) ? '*' : $this->columnizer($this->select);
-		
+
 		$ordering = count($this->order) ? ' ORDER BY ' . implode(', ', $this->order) : '';
 		$grouping = count($this->group) ? ' GROUP BY ' . implode(', ', $this->group) : '';
 
@@ -172,7 +172,7 @@ class Query {
 
 		if($result) return $statement->fetchColumn($column_number);
 	}
-	
+
 	/*
 		MySQL select first record
 
@@ -191,7 +191,7 @@ class Query {
 
 		if($result) return $statement->fetch($this->style);
 	}
-	
+
 	/*
 		MySQL get result set
 
@@ -226,7 +226,7 @@ class Query {
 	/*
 		MySQL Insert
 
-		Example: 
+		Example:
 
 		Query::table('my_table')
 			->insert(array('id' => 1));
@@ -249,7 +249,7 @@ class Query {
 	/*
 		MySQL Insert
 
-		Example: 
+		Example:
 
 		Query::table('my_table')
 			->insert(array('id' => 1));
@@ -264,7 +264,7 @@ class Query {
 	/*
 		MySQL Update
 
-		Example: 
+		Example:
 
 		Query::table('my_table')
 			->where('id', '=', 2)
@@ -288,7 +288,7 @@ class Query {
 	/*
 		MySQL Delete
 
-		Example: 
+		Example:
 
 		Query::table('my_table')
 			->where('id', '=', 1)

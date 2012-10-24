@@ -3,7 +3,7 @@
 Route::get('admin/extend', array('before' => 'auth', 'do' => function($page = 1) {
 	$vars['messages'] = Notify::read();
 	$vars['token'] = Csrf::token();
-	$vars['extend'] = Extend::paginate($page);
+	$vars['extend'] = Extend::paginate($page, Config::get('meta.posts_per_page'));
 
 	return View::make('extend/index', $vars)
 		->nest('header', 'partials/header')

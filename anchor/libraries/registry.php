@@ -1,6 +1,7 @@
 <?php
 
-final class Registry {
+class Registry {
+
 	private static $data = array();
 
 	public static function get($key) {
@@ -16,4 +17,5 @@ final class Registry {
 	public static function has($key) {
 		return isset(static::$data[$key]);
 	}
+
 }

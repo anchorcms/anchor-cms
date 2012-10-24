@@ -10,12 +10,14 @@
 		<?php foreach($pages->results as $page): ?>
 		<li>
 			<a href="<?php echo url('pages/edit/' . $page->id); ?>">
-				<strong>
-					<?php echo $page->name; ?>
-					<i class="status <?php echo $page->status; ?>" title="This page is currently <?php echo $page->status; ?>"><?php echo ucfirst($page->status); ?></i>
-				</strong>
+				<strong><?php echo $page->name; ?></strong>
 
-				<span><?php echo site($page->slug); ?></span>
+				<span>
+					<?php echo $page->slug; ?>
+
+					<em class="status <?php echo $page->status; ?>"
+						title="This page is currently <?php echo $page->status; ?>"><?php echo ucfirst($page->status); ?></em>
+				</span>
 			</a>
 		</li>
 		<?php endforeach; ?>

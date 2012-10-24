@@ -16,7 +16,7 @@
 			<p><label for="pass"><?php echo __('users.password', 'Password'); ?>:</label>
 			<input placeholder="Password" type="password" name="pass" id="pass"></p>
 
-			<p class="buttons"><a href="<?php echo url('users/amnesia'); ?>">
+			<p class="buttons"><a href="<?php echo url('amnesia'); ?>">
 				<?php echo __('users.forgotten_password', 'Forgotten your password?'); ?></a>
 			<button type="submit"><?php echo __('users.login', 'Login'); ?></button></p>
 		</fieldset>

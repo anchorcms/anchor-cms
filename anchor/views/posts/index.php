@@ -15,8 +15,8 @@
 				<span>
 					<time><?php echo Date::format($article->created); ?></time>
 
-					<i title="This post is currently <?php echo $article->status; ?>" class="status <?php echo strtolower($article->status); ?>">
-						<?php echo $article->status; ?></i>
+					<em title="This post is currently <?php echo $article->status; ?>"
+						class="status <?php echo strtolower($article->status); ?>"><?php echo $article->status; ?></em>
 				</span>
 
 				<p><?php echo strip_tags($article->description); ?></p>

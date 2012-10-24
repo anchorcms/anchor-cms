@@ -43,7 +43,7 @@
 
 		<p class="buttons">
 			<button type="submit"><?php echo __('comments.save', 'Save'); ?></button>
-			<a href="<?php echo url('comments'); ?>"><?php echo __('comments.return_comments', 'Return to comments'); ?></a>
+			<a class="btn blue" href="<?php echo url('comments'); ?>"><?php echo __('comments.return_comments', 'Return to comments'); ?></a>
 		</p>
 	</form>
 </section>

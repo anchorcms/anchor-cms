@@ -1,7 +1,7 @@
 <?php namespace System\Database;
 
 use System\Config;
-use PDO, PDOStatement, PDOException;
+use PDO, PDOStatement, PDOException, Exception;
 
 class Connection {
 
@@ -98,7 +98,9 @@ class Connection {
 		// and set the message to include the SQL and query bindings so
 		// debugging is much easier on the developer.
 		catch(PDOException $exception) {
-			$exception = new Exception($sql, $bindings, $exception);
+			$error = $exception->getMessage() . str_repeat("\n", 3) . $sql;
+
+			$exception = new Exception($error, 0, $exception);
 
 			throw $exception;
 		}
