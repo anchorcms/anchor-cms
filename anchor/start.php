@@ -5,11 +5,16 @@
 */
 define('IS_ADMIN', strpos(Uri::current(), 'admin') === 0);
 
-// Check installation
-if( ! file_exists(APP . 'config/database.php')) {
-	// looks like we are missing a config file
-	echo '<html><h2>Missing config file</h2>
-		<p>It looks like the config file is missing or unreadable.</p>
+// Check installation by testing database connection
+try {
+	// get default database connection
+	DB::connection();
+}
+catch(Exception $e) {
+	// looks like we are missing config details
+	echo '<html><h2>Database connection</h2>
+		<!-- ' . $e->getMessage() . '-->
+		<p>Could not establish a database connection with supplied details.</p>
 		<p><a href="' . rtrim(dirname($_SERVER['SCRIPT_NAME']), '/') . '/install">Run the installer</a></p></html>';
 
 	exit(1);
@@ -27,7 +32,7 @@ if( ! IS_ADMIN) {
 	$fi = new FilesystemIterator(APP . 'functions', FilesystemIterator::SKIP_DOTS);
 
 	foreach($fi as $file) {
-		if($file->isFile() and $file->isReadable() and $file->getExtension() == 'php') {
+		if($file->isFile() and $file->isReadable() and pathinfo($file->getPathname(), PATHINFO_EXTENSION) == 'php') {
 			require $file->getPathname();
 		}
 	}
