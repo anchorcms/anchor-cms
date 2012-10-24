@@ -34,7 +34,7 @@
 
 	<div class="media-upload"></div>
 
-	<fieldset id="post-data">
+	<fieldset id="post-data" class="split">
 		<div class="wrap">
 			<p>
 				<label for="slug"><?php echo __('posts.slug', 'Slug'); ?>:</label>

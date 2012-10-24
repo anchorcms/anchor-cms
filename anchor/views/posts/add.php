@@ -29,7 +29,7 @@
 		</p>
 	</fieldset>
 
-	<fieldset id="post-data">
+	<fieldset id="post-data" class="split">
 		<div class="wrap">
 			<p>
 				<label for="slug"><?php echo __('posts.slug', 'Slug'); ?>:</label>

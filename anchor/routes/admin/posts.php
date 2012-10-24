@@ -40,15 +40,12 @@ Route::get('admin/posts/edit/(:num)', array('before' => 'auth', 'do' => function
 
 Route::post('admin/posts/edit/(:num)', array('before' => 'auth', 'do' => function($id) {
 	$input = Input::get_array(array('title', 'slug', 'description', 'created',
-		'html', 'category', 'status', 'comments', 'template'));
+		'html', 'css', 'js', 'category', 'status', 'comments', 'template'));
 
 	$validator = new Validator($input);
 
 	$validator->check('title')
 		->is_max(3, __('posts.missing_title', 'Please enter a title'));
-
-	$validator->check('description')
-		->is_max(3, __('posts.missing_description', 'Please enter a description'));
 
 	$validator->check('html')
 		->is_max(3, __('posts.missing_html', 'Please enter your html'));
@@ -110,15 +107,12 @@ Route::get('admin/posts/add', array('before' => 'auth', 'do' => function() {
 
 Route::post('admin/posts/add', array('before' => 'auth', 'do' => function() {
 	$input = Input::get_array(array('title', 'slug', 'description', 'created',
-		'html', 'category', 'status', 'comments', 'template'));
+		'html', 'css', 'js', 'category', 'status', 'comments', 'template'));
 
 	$validator = new Validator($input);
 
 	$validator->check('title')
 		->is_max(3, __('posts.missing_title', 'Please enter a title'));
-
-	$validator->check('description')
-		->is_max(3, __('posts.missing_description', 'Please enter a description'));
 
 	$validator->check('html')
 		->is_max(3, __('posts.missing_html', 'Please enter your html'));
@@ -130,9 +124,6 @@ Route::post('admin/posts/add', array('before' => 'auth', 'do' => function() {
 
 		return Response::redirect('admin/posts/add');
 	}
-
-	// process extend fields
-	//$postmeta = Extend::process();
 
 	if(empty($input['slug'])) {
 		$input['slug'] = $input['title'];
@@ -149,15 +140,7 @@ Route::post('admin/posts/add', array('before' => 'auth', 'do' => function() {
 	if(is_null($input['comments'])) $input['comments'] = 0;
 
 	$id = Post::create($input);
-/*
-	foreach($postmeta as $item) {
-		Query::insert('postmeta')->insert(array(
-			'post' => $id,
-			'extend' => $item['extend'],
-			'data' => $item['data']
-		));
-	}
-*/
+
 	Notify::success(sprintf(__('posts.created', 'Your new article was created, <a href="%s">continue editing</a>.'), url('posts/edit/' . $id)));
 
 	return Response::redirect('admin/posts');

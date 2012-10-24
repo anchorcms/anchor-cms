@@ -30,7 +30,7 @@ if( ! $('[autofocus]').length) {
 	*/
 	var Draggy = {
 		supported: window.FileReader && window.File,
-		allowed: ['text/css', 'text/javascript'],
+		allowed: ['text/css', 'text/javascript', 'application/javascript'],
 
 		defaultText: 'Upload your file',
 
