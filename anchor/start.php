@@ -5,13 +5,9 @@
 */
 define('IS_ADMIN', strpos(Uri::current(), 'admin') === 0);
 
-// Check installation by testing database connection
-try {
-	// get default database connection
-	DB::connection();
-}
-catch(PDOException $e) {
-	include_once 'views/intro.php';
+// Check installation
+if( ! is_readable(APP . 'config/database.php') or ! is_readable(APP . 'config/application.php')) {
+	echo View::make('intro')->render();
 
 	exit(1);
 }
