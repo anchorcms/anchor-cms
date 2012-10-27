@@ -92,7 +92,7 @@ class Installer {
 		foreach($data as $search => $replace) {
 			$distro = str_replace($search, $replace, $distro);
 		}
-
+		
 		file_put_contents(PATH . 'anchor/config/database.php', $distro);
 	}
 

@@ -13,9 +13,9 @@
 			<img src="<?php echo Html::asset('../anchor/views/assets/img/logo.png'); ?>">
 	
 			<ul>
-				<li class="metadata account done">Database information</li>
-				<li class="account done">Site metadata</li>
-				<li class="done">Your first account</li>
-				<li class="">Done!</li>
+				<li class="database metadata account complete">Database information</li>
+				<li class="metadata account complete">Site metadata</li>
+				<li class="account complete">Your first account</li>
+				<li class="complete">All done!</li>
 			</ul>
 		</nav>

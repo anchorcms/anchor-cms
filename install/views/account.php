@@ -5,7 +5,7 @@
 	<article>
 		<h1>Your first account</h1>
 
-		<p>Oh, we're so tantalisingly close! All we need now is a username and password to log in to the admin area with. Just make sure you <a href="http://bash.org/?244321">pick a secure password</a>.</p>
+		<p>Oh, we're so tantalisingly close! All we need now is a username and password to log in to the admin area with.</p>
 	</article>
 
 	<form method="post" action="<?php echo Uri::make('account'); ?>" autocomplete="off">
@@ -14,27 +14,21 @@
 			<?php echo $messages; ?>
 
 			<p>
-				<label>
-					<strong>Username</strong>
-					<span>C'mon, you know this.</span>
-				</label>
-				<input name="username" value="<?php echo Input::old('username', 'admin'); ?>">
+				<label for="username">Username</label>
+				<i>You use this to log in.</i>
+				<input id="username" name="username" value="<?php echo Input::old('username', 'admin'); ?>">
 			</p>
 
 			<p>
-				<label>
-					<strong>Email address</strong>
-					<span>If you forget your password.</span>
-				</label>
+				<label for="email">Email address</label>
+				<i>Needed if you can’t log in.</i>
 
-				<input name="email" value="<?php echo Input::old('email'); ?>">
+				<input id="email" type="email" name="email" value="<?php echo Input::old('email'); ?>">
 			</p>
 
 			<p>
-				<label>
-					<strong>Password</strong>
-					<span>Keep it safe, yo.</span>
-				</label>
+				<label>Password</label>
+				<i>Make sure to <a href="http://bash.org/?244321">pick a secure password</a>.</i>
 				<input name="password" type="password" value="<?php echo Input::old('password'); ?>">
 			</p>
 		</fieldset>

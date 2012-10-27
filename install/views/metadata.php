@@ -13,41 +13,33 @@
 			<?php echo $messages; ?>
 
 			<p>
-				<label>
-					<strong>Site Name</strong>
-					<span>Used in the <code>&lt;title&gt;</code>.</span>
-				</label>
+				<label for="site_name">Site Name</label>
+				<i>What’s your blog called?.</i>
 
-				<input name="site_name" value="<?php echo Input::old('site_name', 'My First Anchor Blog'); ?>">
+				<input id="site_name" name="site_name" value="<?php echo Input::old('site_name', 'My First Anchor Blog'); ?>">
 			</p>
 
 			<p>
-				<label>
-					<strong>Site Description</strong>
-					<span>A short bio of the site.</span>
-				</label>
+				<label for="site_desc">Site Description</label>
+                <i>A little bit about you or your blog.</i>
 
-				<textarea name="site_description"><?php echo Input::old('site_description',
+				<textarea id="site_desc" name="site_description"><?php echo Input::old('site_description',
 					'It&rsquo;s not just any blog. It&rsquo;s an Anchor blog.'); ?></textarea>
 			</p>
 
 			<p>
-				<label>
-					<strong>Site Path</strong>
-					<span>The path to Anchor.</span>
-				</label>
-
-				<input name="site_path" value="<?php echo Input::old('site_path', $path); ?>">
+				<label for="site_path">Site Path</label>
+                <i>Anchor’s folder. Change if this is wrong.</i>
+				<input id="site_path" name="site_path" value="<?php echo Input::old('site_path', $path); ?>">
 			</p>
 
 			<p>
-				<label>
-					<strong>Theme</strong>
-					<span>Your Anchor theme.</span>
-				</label>
-			<select name="theme">
-				<option value="default">Default</option>
-			</select></p>
+				<label for="theme">Theme</label>
+				<i>Your Anchor theme.</i>
+    			<select id="theme" name="theme">
+    				<option value="default">Default</option>
+    			</select>
+			</p>
 		</fieldset>
 
 		<section class="options">

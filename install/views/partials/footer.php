@@ -7,7 +7,16 @@
             var url = window.location.pathname.split('/');
                 url = url[url.length - 1];
             
-            document.getElementsByClassName(url).className += ' elapsed';
+            var items = document.getElementsByClassName(url);
+            
+            if(items.length > 3) {
+                document.body.parentNode.className += 'small';
+            }
+            
+            for(var i = 0; i < items.length; i++) {
+                items[i].className += ' elapsed';
+            }
+            
         </script>
 	</body>
 </html>
