@@ -6,7 +6,7 @@
 define('IS_ADMIN', strpos(Uri::current(), 'admin') === 0);
 
 // Check installation
-if( ! is_readable(APP . 'config/database.php') or ! is_readable(APP . 'config/application.php')) {
+if(is_null(Config::load('database'))) {
 	echo View::make('intro')->render();
 
 	exit(1);
