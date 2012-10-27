@@ -15,7 +15,7 @@ return array(
 		The name that should be given to the session cookie.
 	*/
 
-	'cookie' => 'anchorcms',
+	'cookie' => 'anchorcms-upgrade',
 
 	/*
 		Session Database
