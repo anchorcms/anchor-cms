@@ -8,3 +8,14 @@
 		<link rel="stylesheet" href="<?php echo Html::asset('views/assets/css/install.css'); ?>">
 	</head>
 	<body>
+	
+    	<nav>
+			<img src="<?php echo Html::asset('../anchor/views/assets/img/logo.png'); ?>">
+	
+			<ul>
+				<li class="metadata account done">Database information</li>
+				<li class="account done">Site metadata</li>
+				<li class="done">Your first account</li>
+				<li class="">Done!</li>
+			</ul>
+		</nav>

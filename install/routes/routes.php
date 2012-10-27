@@ -14,6 +14,12 @@ Route::get(array('/', 'start'), function() {
 	foreach($if as $file) {
 		if($file->isDir()) $vars['languages'][] = $file->getBasename();
 	}
+	
+	//  only show if there's a choice
+	if(count($vars['languages']) < 2) {
+	    Session::put('install', array('language' => $vars['languages'][0]));
+    	return Response::redirect('database');
+	}
 
 	return View::make('start', $vars)
 		->nest('header', 'partials/header')

@@ -5,7 +5,82 @@
     -webkit-font-smoothing: antialiased;
 }
 
-body {
-    background: #444F5F;
-    font: 1;
+a {
+    -webkit-transition: color .2s;
 }
+
+html {
+    background: #444f5f;
+    color: #7d8693;
+    
+    font: 15px/25px "Helvetica Neue", sans-serif;
+}
+    body {
+        width: 960px;
+        margin: 40px auto;
+    }
+    
+nav {
+    overflow: hidden;
+    padding-bottom: 40px;
+}
+    nav ul {
+        float: right;
+    }
+    nav li, nav img {
+        float: left;
+        margin-right: 80px;
+    }
+    nav li {
+        list-style: none;
+        font-size: 13px;
+        font-weight: 500;
+        
+        background: #444f5f;
+        color: #70829b;
+        margin-top: -11px;
+        
+        padding: 0 10px;
+    }
+        nav li:last-child {
+            margin-right: 0;
+        }
+        nav li.elapsed {
+            color: #fff;
+        }
+    nav ul {
+        height: 1px;
+        margin-top: 10px;
+        border-bottom: 1px solid #576477;
+    }
+    
+.content {
+    background: #fff;
+    padding: 40px 50px;
+    border-radius: 5px;
+}
+
+article {
+    padding-bottom: 40px;
+}
+
+fieldset {
+    border: none;
+}
+
+body > small {
+    display: block;
+    padding-top: 30px;
+    
+    color: #7f8c9f;
+}
+    body > small a {
+        float: right;
+        
+        color: #adbdd5;
+        font-weight: 500;
+        text-decoration: none;
+    }
+        body > small a:hover {
+            color: #fff;
+        }

@@ -1,20 +1,6 @@
 <?php echo $header; ?>
 
 <section class="content">
-	<nav>
-		<div class="logo">
-			<img src="<?php echo Html::asset('views/assets/img/logo.png'); ?>">
-		</div>
-
-		<ul>
-			<li><i class="icon-spanner"></i>Database information</li>
-			<li class="selected"><i class="icon-pencil"></i>Site metadata</li>
-			<li><i class="icon-user"></i>Your first account</li>
-		</ul>
-
-		<p>You're installing Anchor 0.8. Hooray!</p>
-	</nav>
-
 	<article>
 		<h1>Site metadata</h1>
 

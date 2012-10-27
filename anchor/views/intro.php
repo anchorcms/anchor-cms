@@ -8,7 +8,7 @@
     </head>
     <body>
         <div>
-            <img src="<?php echo dirname($_SERVER['SCRIPT_NAME']); ?>anchor/views/assets/img/logo.png" alt="Anchor logo">
+            <img src="<?php echo rtrim(dirname($_SERVER['SCRIPT_NAME']), '/'); ?>/anchor/views/assets/img/logo.png" alt="Anchor logo">
             <h1>Welcome to Anchor. Let’s go.</h1>
             <a href="<?php echo rtrim(dirname($_SERVER['SCRIPT_NAME']), '/') . '/install'; ?>">Run the installer</a>
         </div>
