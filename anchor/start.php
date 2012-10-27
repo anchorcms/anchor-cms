@@ -11,11 +11,7 @@ try {
 	DB::connection();
 }
 catch(PDOException $e) {
-	// looks like we are missing config details
-	echo '<html><h2>Database connection</h2>
-		<!-- ' . $e->getMessage() . '-->
-		<p>Could not establish a database connection with supplied details.</p>
-		<p><a href="' . rtrim(dirname($_SERVER['SCRIPT_NAME']), '/') . '/install">Run the installer</a></p></html>';
+	include_once 'views/intro.php';
 
 	exit(1);
 }
