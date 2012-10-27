@@ -10,7 +10,7 @@ try {
 	// get default database connection
 	DB::connection();
 }
-catch(Exception $e) {
+catch(PDOException $e) {
 	// looks like we are missing config details
 	echo '<html><h2>Database connection</h2>
 		<!-- ' . $e->getMessage() . '-->

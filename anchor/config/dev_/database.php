@@ -13,7 +13,7 @@ return array(
 			'hostname' => 'localhost',
 			'port' => 3306,
 			'username' => 'root',
-			'password' => '',
+			'password' => 'bottle',
 			'database' => 'anchorcms',
 			'charset' => 'utf8'
 		)

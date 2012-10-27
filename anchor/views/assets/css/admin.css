@@ -161,6 +161,10 @@ select {
 	overflow: hidden;
 }
 
+	.login .notifications {
+		width: 100%;
+	}
+
 .notifications {
 	margin-bottom: 10px;
 }

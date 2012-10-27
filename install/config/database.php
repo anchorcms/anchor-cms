@@ -11,6 +11,7 @@ return array(
 		'mysql' => array(
 			'driver' => 'mysql',
 			'hostname' => 'localhost',
+			'port' => 3306,
 			'username' => 'root',
 			'password' => '',
 			'database' => '',
