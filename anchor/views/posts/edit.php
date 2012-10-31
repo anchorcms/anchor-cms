@@ -68,12 +68,12 @@
 
 			<p>
 				<label for="css"><?php echo __('posts.custom_css', 'Custom CSS'); ?>:</label>
-				<textarea id="css" name="css"><?php echo Input::old('css'); ?></textarea>
+				<textarea id="css" name="css"><?php echo Input::old('css', $article->css); ?></textarea>
 			</p>
 
 			<p>
 				<label for="js"><?php echo __('posts.custom_js', 'Custom JS'); ?>:</label>
-				<textarea id="js" name="js"><?php echo Input::old('js'); ?></textarea>
+				<textarea id="js" name="js"><?php echo Input::old('js', $article->js); ?></textarea>
 			</p>
 
 			<?php foreach($fields as $field): ?>

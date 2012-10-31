@@ -80,7 +80,7 @@ class Validator {
 		}
 
 		if(isset($this->methods[$method]) === false) {
-			throw new ErrorException('Validator method ' . $method . ' not found');
+			throw new \ErrorException('Validator method ' . $method . ' not found');
 		}
 
 		$validator = $this->methods[$method];

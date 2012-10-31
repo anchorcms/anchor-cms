@@ -23,11 +23,6 @@ class Database {
 	}
 
 	public static function connect($config) {
-	    //  Set defaults
-	    if(!isset($config['port'])) {
-	        $config['port'] = 3306;
-	    }
-	    
 		// build dns string
 		$dsn = implode(';', array($config['driver'] . ':dbname=' . $config['database'], 'host=' . $config['hostname'],
 			':port=' . $config['port'], 'charset=' . $config['charset']));

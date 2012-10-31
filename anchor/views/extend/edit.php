@@ -41,39 +41,34 @@
 				<input id="label" name="label" value="<?php echo Input::old('label', $field->label); ?>">
 			</p>
 
-			<?php if($field->attributes): ?>
+			<p class="hide attributes_type">
+				<label for="attributes_type"><?php echo __('extend.attribute_type', 'File Types'); ?>:</label>
 
-			<?php $attributes = Json::decode($field->attributes); ?>
+				<?php $value = isset($field->attributes->type) ? $field->attributes->type : ''; ?>
+				<input id="attributes_type" name="attributes[type]"
+					value="<?php echo Input::old('attributes.type', $value); ?>">
+			</p>
 
-				<?php if(isset($attributes->type)): ?>
-				<p>
-					<label for="attributes_type"><?php echo __('extend.attribute_type', 'File Types'); ?>:</label>
-					<input id="attributes_type" name="attributes[type]"
-						value="<?php echo Input::old('attributes.type', implode(', ', $attributes->type)); ?>">
-				</p>
-				<?php endif; ?>
+			<p class="hide attributes_width">
+				<label for="attributes_size_width"><?php echo __('extend.attributes_size_width', 'Image Width'); ?>:</label>
 
-				<?php if(isset($attributes->size->width)): ?>
-				<p>
-					<label for="attributes_size_width"><?php echo __('extend.attributes_size_width', 'Image Width'); ?>:</label>
-					<input id="attributes_size_width" name="attributes[size][width]"
-						value="<?php echo Input::old('attributes.size.width', $attributes->size->width); ?>">
-				</p>
-				<?php endif; ?>
+				<?php $value = isset($field->attributes->size->width) ? $field->attributes->size->width : ''; ?>
+				<input id="attributes_size_width" name="attributes[size][width]"
+					value="<?php echo Input::old('attributes.size.width', $value); ?>">
+			</p>
 
-				<?php if(isset($attributes->size->height)): ?>
-				<p>
-					<label for="attributes_size_height"><?php echo __('extend.attributes_size_height', 'Image Height'); ?>:</label>
-					<input id="attributes_size_height" name="attributes[size][height]"
-						value="<?php echo Input::old('attributes.size.height', $attributes->size->height); ?>">
-				</p>
-				<?php endif; ?>
+			<p class="hide attributes_height">
+				<label for="attributes_size_height"><?php echo __('extend.attributes_size_height', 'Image Height'); ?>:</label>
 
-			<?php endif; ?>
+				<?php $value = isset($field->attributes->size->height) ? $field->attributes->size->height : ''; ?>
+				<input id="attributes_size_height" name="attributes[size][height]"
+					value="<?php echo Input::old('attributes.size.height', $value); ?>">
+			</p>
 		</fieldset>
 
 		<p class="buttons">
 			<button type="submit"><?php echo __('extend.update', 'Update'); ?></button>
+			<a class="btn delete red" href="<?php echo url('extend/delete/' . $field->id); ?>"><?php echo __('extend.delete', 'Delete'); ?></a>
 		</p>
 
 	</form>

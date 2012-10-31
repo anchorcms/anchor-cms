@@ -77,8 +77,8 @@ function article_time() {
 }
 
 function article_date() {
-	if(article_time() !== '') {
-	    return date(Config::get('meta.date_format'), article_time());
+	if($itm = Registry::get('article')) {
+		return Date::format($itm->created);
 	}
 
 	return '';
@@ -134,23 +134,29 @@ function article_author_bio() {
 	return '';
 }
 
-function article_custom_fields() {
-    if($itm = Registry::get('article')) {
-    	if(isset($itm->custom_fields)) {
-    	    // get associative array
-    	    $data = json_decode($itm->custom_fields, true);
-    	    return is_array($data) ? $data : array();
-    	}
-    }
-
-    return array();
-}
-
 function article_custom_field($key, $default = '') {
-    $fields = article_custom_fields();
-    return isset($fields[$key]) ? $fields[$key]['value'] : $default;
+	$itm = Registry::get('article');
+
+	if($extend = Extend::field('post', $key, $itm->id)) {
+		switch($extend->field) {
+			case 'text':
+				return isset($extend->value->text) ? $extend->value->text : '';
+			case 'html':
+				return isset($extend->value->html) ? $extend->value->html : '';
+			case 'image':
+				return isset($extend->value->filename) ? Html::asset('content/' . $extend->value->filename) : '';
+			case 'file':
+				return isset($extend->value->filename) ? Html::asset('content/' . $extend->value->filename) : '';
+		}
+	}
+
+	return '';
 }
 
 function customised() {
+	if($itm = Registry::get('article')) {
+		return $itm->js or $itm->css;
+	}
+
 	return false;
 }

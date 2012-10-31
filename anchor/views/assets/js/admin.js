@@ -124,6 +124,7 @@ if( ! $('[autofocus]').length) {
 /*
 	Focus mode
 */
+/*
 (function() {
 	var doc = $(document), html = $('html');
 
@@ -159,7 +160,7 @@ if( ! $('[autofocus]').length) {
 		}
 	});
 }());
-
+*/
 
 /*
 	Post previewing
@@ -240,4 +241,28 @@ if( ! $('[autofocus]').length) {
 			slug.val(string_to_slug(title.val()));
 		}
 	});
+}());
+
+/*
+	Extend attirubte selection
+*/
+(function() {
+	var select = $('#field'), attrs = $('.hide');
+
+	var update = function() {
+		var value = select.val();
+
+		attrs.hide();
+
+		if(value == 'image') {
+			attrs.show();
+		}
+		else if(value == 'file') {
+			$('.attributes_type').show();
+		}
+	};
+
+	select.bind('change', update);
+
+	update();
 }());

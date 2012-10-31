@@ -75,6 +75,8 @@ Route::post('admin/posts/edit/(:num)', array('before' => 'auth', 'do' => functio
 
 	Post::update($id, $input);
 
+	Extend::process('post', $id);
+
 	Notify::success(__('posts.updated', 'Your article has been updated.'));
 
 	return Response::redirect('admin/posts/edit/' . $id);
@@ -141,6 +143,8 @@ Route::post('admin/posts/add', array('before' => 'auth', 'do' => function() {
 
 	$id = Post::create($input);
 
+	Extend::process('post', $id);
+
 	Notify::success(sprintf(__('posts.created', 'Your new article was created, <a href="%s">continue editing</a>.'), url('posts/edit/' . $id)));
 
 	return Response::redirect('admin/posts');
@@ -166,6 +170,8 @@ Route::get('admin/posts/delete/(:num)', array('before' => 'auth', 'do' => functi
 	Post::find($id)->delete();
 
 	Comment::where('post', '=', $id)->delete();
+
+	Query::table('post_meta')->where('post', '=', $id)->delete();
 
 	Notify::success(__('posts.post_success_deleted'));
 

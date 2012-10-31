@@ -22,19 +22,147 @@ Route::get('admin/extend/add', array('before' => 'auth', 'do' => function() {
 		->nest('footer', 'partials/footer');
 }));
 
+Route::post('admin/extend/add', array('before' => 'auth', 'do' => function() {
+	$input = Input::get_array(array('type', 'field', 'key', 'label', 'attributes'));
+
+	if(empty($input['key'])) {
+		$input['key'] = $input['label'];
+	}
+
+	$input['key'] = Str::slug($input['key']);
+
+	$validator = new Validator($input);
+
+	$validator->add('valid_key', function($str) {
+		return Extend::where('key', '=', $str)->count() == 0;
+	});
+
+	$validator->check('key')
+		->is_valid_key(__('extend.missing_key', 'Please enter a unique key'));
+
+	$validator->check('label')
+		->is_max(1, __('extend.missing_label', 'Please enter a label'));
+
+	if($errors = $validator->errors()) {
+		Input::flash();
+
+		Notify::error($errors);
+
+		return Response::redirect('admin/extend/add');
+	}
+
+	if($input['field'] == 'image') {
+		$attributes = Json::encode($input['attributes']);
+	}
+	else if($input['field'] == 'file') {
+		$attributes = Json::encode(array(
+			'attributes' => array(
+				'type' => $input['attributes']['type']
+			)
+		));
+	}
+	else {
+		$attributes = '';
+	}
+
+	Extend::create(array(
+		'type' => $input['type'],
+		'field' => $input['field'],
+		'key' => $input['key'],
+		'label' => $input['label'],
+		'attributes' => $attributes
+	));
+
+	Notify::success(__('extend.extend_success_created', 'Field Created'));
+
+	return Response::redirect('admin/extend');
+}));
+
 /*
 	Edit
 */
 Route::get('admin/extend/edit/(:num)', array('before' => 'auth', 'do' => function($id) {
 	$vars['messages'] = Notify::read();
 	$vars['token'] = Csrf::token();
-	$vars['field'] = Extend::find($id);
+
+	$extend = Extend::find($id);
+
+	if($extend->attributes) {
+		$extend->attributes = Json::decode($extend->attributes);
+	}
+
+	$vars['field'] = $extend;
 
 	return View::make('extend/edit', $vars)
 		->nest('header', 'partials/header')
 		->nest('footer', 'partials/footer');
 }));
 
+Route::post('admin/extend/edit/(:num)', array('before' => 'auth', 'do' => function($id) {
+	$input = Input::get_array(array('type', 'field', 'key', 'label', 'attributes'));
+
+	if(empty($input['key'])) {
+		$input['key'] = $input['label'];
+	}
+
+	$input['key'] = Str::slug($input['key']);
+
+	$validator = new Validator($input);
+
+	$validator->add('valid_key', function($str) use($id) {
+		return Extend::where('key', '=', $str)->where('id', '<>', $id)->count() == 0;
+	});
+
+	$validator->check('key')
+		->is_valid_key(__('extend.missing_key', 'Please enter a unique key'));
+
+	$validator->check('label')
+		->is_max(1, __('extend.missing_label', 'Please enter a label'));
+
+	if($errors = $validator->errors()) {
+		Input::flash();
+
+		Notify::error($errors);
+
+		return Response::redirect('admin/extend/add');
+	}
+
+	if($input['field'] == 'image') {
+		$attributes = Json::encode($input['attributes']);
+	}
+	else if($input['field'] == 'file') {
+		$attributes = Json::encode(array(
+			'attributes' => array(
+				'type' => $input['attributes']['type']
+			)
+		));
+	}
+	else {
+		$attributes = '';
+	}
+
+	Extend::update($id, array(
+		'type' => $input['type'],
+		'field' => $input['field'],
+		'key' => $input['key'],
+		'label' => $input['label'],
+		'attributes' => $attributes
+	));
+
+	Notify::success(__('extend.extend_success_updated', 'Field Updated'));
+
+	return Response::redirect('admin/extend/edit/' . $id);
+}));
+
 /*
 	Delete
 */
+Route::get('admin/extend/delete/(:num)', array('before' => 'auth', 'do' => function($id) {
+	$field = Extend::find($id);
+
+	Query::table($field->type . '_meta')->where('extend', '=', $field->id)->delete();
+
+	$field->delete();
+
+	return Response::redirect('admin/extend');
+}));

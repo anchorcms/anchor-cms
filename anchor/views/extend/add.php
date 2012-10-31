@@ -40,6 +40,24 @@
 				<label for="label"><?php echo __('extend.field_label', 'Label'); ?>:</label>
 				<input id="label" name="label" value="<?php echo Input::old('label'); ?>">
 			</p>
+
+			<p class="hide attributes_type">
+				<label for="attributes_type"><?php echo __('extend.attribute_type', 'File Types'); ?>:</label>
+				<input id="attributes_type" name="attributes[type]"
+					value="<?php echo Input::old('attributes.type'); ?>">
+			</p>
+
+			<p class="hide attributes_width">
+				<label for="attributes_size_width"><?php echo __('extend.attributes_size_width', 'Image Width'); ?>:</label>
+				<input id="attributes_size_width" name="attributes[size][width]"
+					value="<?php echo Input::old('attributes.size.width'); ?>">
+			</p>
+
+			<p class="hide attributes_height">
+				<label for="attributes_size_height"><?php echo __('extend.attributes_size_height', 'Image Height'); ?>:</label>
+				<input id="attributes_size_height" name="attributes[size][height]"
+					value="<?php echo Input::old('attributes.size.height'); ?>">
+			</p>
 		</fieldset>
 
 		<p class="buttons">

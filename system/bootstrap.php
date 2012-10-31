@@ -63,7 +63,7 @@ error_reporting(-1);
 /*
 	Localisation - Register the default timezone for the application.
 */
-date_default_timezone_set(Config::get('application.timezone', 'Europe/London'));
+date_default_timezone_set(Config::get('application.timezone'));
 
 /*
 	Set input
