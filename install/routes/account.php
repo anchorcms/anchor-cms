@@ -4,6 +4,13 @@
 	Account
 */
 Route::get('account', function() {
+	// check we have a database
+	if( ! Session::get('install.metadata')) {
+		Notify::error('Please enter your site details');
+
+		return Response::redirect('metadata');
+	}
+
 	$vars['messages'] = Notify::read();
 
 	return View::make('account', $vars)

@@ -4,6 +4,22 @@ use System\Database\Connection;
 
 class Installer {
 
+	/*
+		Pre-install checker
+	*/
+
+	public static $errors = array();
+
+	public static function check($message, $action) {
+		if( ! $action()) {
+			static::$errors[] = $message;
+		}
+	}
+
+	/*
+		Install
+	*/
+
 	public static function run($settings) {
 		// create database connection
 		static::connect($settings['database']);
@@ -92,7 +108,7 @@ class Installer {
 		foreach($data as $search => $replace) {
 			$distro = str_replace($search, $replace, $distro);
 		}
-		
+
 		file_put_contents(PATH . 'anchor/config/database.php', $distro);
 	}
 

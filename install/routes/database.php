@@ -5,6 +5,13 @@
 	MySQL Database
 */
 Route::get('database', function() {
+	// check we have a selected language
+	if( ! Session::get('install.language')) {
+		Notify::error('Please select a language');
+
+		return Response::redirect('start');
+	}
+
 	$vars['messages'] = Notify::read();
 	$vars['collations'] = array(
 		'utf8_bin' => 'Unicode (multilingual), Binary',

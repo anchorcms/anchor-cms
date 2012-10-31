@@ -4,6 +4,13 @@
 	Metadata
 */
 Route::get('metadata', function() {
+	// check we have a database
+	if( ! Session::get('install.database')) {
+		Notify::error('Please select a database');
+
+		return Response::redirect('database');
+	}
+
 	$vars['messages'] = Notify::read();
 	$vars['path'] = rtrim(dirname(dirname($_SERVER['SCRIPT_NAME'])), '/') . '/';
 
