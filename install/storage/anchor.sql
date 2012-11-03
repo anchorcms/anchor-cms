@@ -49,7 +49,8 @@ INSERT INTO `meta` (`key`, `value`) VALUES
 ('twitter',	''),
 ('date_format', 'jS M, Y'),
 ('auto_published_comments', '0'),
-('posts_per_page', '6');
+('posts_per_page', '6'),
+('comment_notifications', '1');
 
 DROP TABLE IF EXISTS `page_meta`;
 CREATE TABLE `page_meta` (

@@ -99,9 +99,13 @@ Route::post($posts_page->slug . '/(:any)', function($slug) use($posts_page) {
 	$input['date'] = date('c');
 	$input['status'] = Config::get('meta.auto_published_comments') ? 'approved' : 'pending';
 
-	Comment::create($input);
+	$input['id'] = Comment::create($input);
 
 	Notify::success(__('comments.created', 'Your comment has been added.'));
+
+	if(Config::get('meta.comment_notifications')) {
+		Comment::notify($input);
+	}
 
 	return Response::redirect($posts_page->slug . '/' . $slug . '#comment');
 });

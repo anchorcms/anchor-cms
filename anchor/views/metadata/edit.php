@@ -67,6 +67,12 @@
 			</p>
 
 			<p>
+				<label for="comment_notifications"><?php echo __('metadata.comment_notifications', 'Email notification for new comments'); ?>:</label>
+				<?php $checked = Input::old('comment_notifications', $meta['comment_notifications']) ? ' checked' : ''; ?>
+				<input id="comment_notifications" name="comment_notifications" type="checkbox" value="1"<?php echo $checked; ?>>
+			</p>
+
+			<p>
 				<label><?php echo __('metadata.current_theme', 'Current theme'); ?>:</label>
 				<select id="theme" name="theme">
 					<?php foreach($themes as $theme => $about): ?>

@@ -20,8 +20,8 @@ function pluralise($amount, $str, $alt = '') {
 	return intval($amount) === 1 ? $str : $str . ($alt !== '' ? $alt : 's');
 }
 
-function relative_time($date) {
-	$elapsed = time() - $date;
+function relative_time($str) {
+	$elapsed = time() - strtotime($str);
 
 	if($elapsed <= 1) {
 		return 'Just now';
