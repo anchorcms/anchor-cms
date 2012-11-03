@@ -24,8 +24,17 @@ class Database {
 
 	public static function connect($config) {
 		// build dns string
-		$dsn = implode(';', array($config['driver'] . ':dbname=' . $config['database'], 'host=' . $config['hostname'],
-			':port=' . $config['port'], 'charset=' . $config['charset']));
+		$parts = array('dbname=' . $config['database'], 'host=' . $config['hostname']);
+
+		if(isset($config['port'])) {
+			$parts[] = 'port=' . $config['port'];
+		}
+
+		if(isset($config['charset'])) {
+			$parts[] = 'charset=' . $config['charset'];
+		}
+
+		$dsn = 'mysql:' . implode(';', $parts);
 
 		return new PDO($dsn, $config['username'], $config['password'], array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
 	}

@@ -22,6 +22,9 @@ Route::get('admin/pages/edit/(:num)', array('before' => 'auth', 'do' => function
 	$vars['statuses'] = array('draft' => __('pages.draft'), 'archived' => __('pages.archived'), 'published' => __('pages.published'));
 	$vars['templates'] = array('page' => 'Page');
 
+	// extended fields
+	$vars['fields'] = Extend::fields('page', $id);
+
 	return View::make('pages/edit', $vars)
 		->nest('header', 'partials/header')
 		->nest('footer', 'partials/footer');
@@ -54,6 +57,8 @@ Route::post('admin/pages/edit/(:num)', array('before' => 'auth', 'do' => functio
 
 	Page::update($id, $input);
 
+	Extend::process('page', $id);
+
 	Notify::success(__('pages.page_success_updated'));
 
 	return Response::redirect('admin/pages/edit/' . $id);
@@ -67,6 +72,9 @@ Route::get('admin/pages/add', array('before' => 'auth', 'do' => function() {
 	$vars['token'] = Csrf::token();
 	$vars['statuses'] = array('draft' => __('pages.draft'), 'archived' => __('pages.archived'), 'published' => __('pages.published'));
 	$vars['templates'] = array('page' => 'Page');
+
+	// extended fields
+	$vars['fields'] = Extend::fields('page');
 
 	return View::make('pages/add', $vars)
 		->nest('header', 'partials/header')
@@ -98,7 +106,9 @@ Route::post('admin/pages/add', array('before' => 'auth', 'do' => function() {
 
 	$input['slug'] = Str::slug($input['slug']);
 
-	Page::create($input);
+	$id = Page::create($input);
+
+	Extend::process('page', $id);
 
 	Notify::success(__('pages.page_success_created'));
 

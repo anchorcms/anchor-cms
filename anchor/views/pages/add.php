@@ -67,6 +67,13 @@
 
 			<em><?php echo __('pages.status_explain', 'Do you want your page to be live (published), pending (draft), or hidden (archived)?'); ?></em>
 		</p>
+
+		<?php foreach($fields as $field): ?>
+		<p>
+			<label for="extend_<?php echo $field->key; ?>"><?php echo $field->label; ?>:</label>
+			<?php echo Extend::html($field); ?>
+		</p>
+		<?php endforeach; ?>
 	</fieldset>
 
 	<p class="buttons">

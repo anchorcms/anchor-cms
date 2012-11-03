@@ -31,26 +31,20 @@ class Config {
 		array_forget(static::$items, $key);
 	}
 
-	public static function load($file) {
-		if(in_array($file, static::$mapped)) return;
-
-		// try environment config
+	public static function path() {
 		if(defined('ENV')) {
-			$path = APP . 'config' . DS . ENV . DS . $file . '.php';
+			$path = APP . 'config' . DS . ENV . DS;
 
-			if(is_readable($path)) {
-				// add file to mapped files
-				static::$mapped[] = $file;
-
-				// get returned array
-				return static::$items[$file] = require $path;
+			if(file_exists($path)) {
+				return $path;
 			}
 		}
 
-		// fallback to default
-		$path = APP . 'config' . DS . $file . '.php';
+		return APP . 'config' . DS;
+	}
 
-		if(is_readable($path)) {
+	public static function load($file) {
+		if(is_readable($path = static::path() . $file . '.php')) {
 			// add file to mapped files
 			static::$mapped[] = $file;
 

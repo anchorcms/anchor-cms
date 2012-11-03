@@ -124,7 +124,6 @@ if( ! $('[autofocus]').length) {
 /*
 	Focus mode
 */
-/*
 (function() {
 	var doc = $(document), html = $('html');
 
@@ -160,7 +159,6 @@ if( ! $('[autofocus]').length) {
 		}
 	});
 }());
-*/
 
 /*
 	Post previewing
