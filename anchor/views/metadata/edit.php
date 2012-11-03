@@ -73,6 +73,13 @@
 			</p>
 
 			<p>
+				<label for="comment_moderation_keys"><?php echo __('metadata.comment_moderation_keys', 'Spam keywords'); ?>:</label>
+				<textarea id="comment_moderation_keys" name="comment_moderation_keys"><?php echo Input::old('comment_moderation_keys', $meta['comment_moderation_keys']); ?></textarea>
+
+				<em><?php echo __('metadata.comment_moderation_keys_explain', 'Comma separated list of keywords.'); ?></em>
+			</p>
+
+			<p>
 				<label><?php echo __('metadata.current_theme', 'Current theme'); ?>:</label>
 				<select id="theme" name="theme">
 					<?php foreach($themes as $theme => $about): ?>

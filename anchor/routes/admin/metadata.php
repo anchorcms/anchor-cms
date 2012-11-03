@@ -14,7 +14,7 @@ Route::get('admin/metadata', array('before' => 'auth', 'do' => function() {
 
 Route::post('admin/metadata', array('before' => 'auth', 'do' => function() {
 	$input = Input::get_array(array('sitename', 'description', 'home_page', 'posts_page',
-		'posts_per_page', 'auto_published_comments', 'theme'));
+		'posts_per_page', 'auto_published_comments', 'theme', 'comment_notifications', 'comment_moderation_keys'));
 
 	$validator = new Validator($input);
 
