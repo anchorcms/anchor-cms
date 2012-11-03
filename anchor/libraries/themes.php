@@ -8,7 +8,7 @@ class Themes {
 
 		foreach($fi as $file) {
 			if($file->isDir()) {
-				$theme = $file->getFilename($folder);
+				$theme = $file->getFilename();
 
 				if($about = static::parse($theme)) {
 					$themes[$theme] = $about;
