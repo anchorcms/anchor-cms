@@ -60,4 +60,36 @@ class Comment extends Model {
 		}
 	}
 
+	public static function spam($comment) {
+		$parts = explode('@', $comment['email']);
+		$domain = array_pop($parts);
+
+		// check domain
+		$query = static::where('email', 'like', '%' . $domain)
+			->where('status', '=', 'spam');
+
+		if($query->count()) {
+			// duplicate spam
+			return true;
+		}
+
+		// check keywords
+		$badwords = Config::get('meta.comment_moderation_keys');
+
+		if($badwords) {
+			$words = explode(',', $badwords);
+
+			foreach($words as $word) {
+				$word = preg_quote($word, '#');
+				$pattern = "#$word#i";
+
+				foreach($comment as $part) {
+					if(preg_match($pattern, $part)) return true;
+				}
+			}
+		}
+
+		return false;
+	}
+
 }
