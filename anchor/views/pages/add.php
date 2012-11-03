@@ -68,6 +68,11 @@
 			<em><?php echo __('pages.status_explain', 'Do you want your page to be live (published), pending (draft), or hidden (archived)?'); ?></em>
 		</p>
 
+		<p>
+			<label for="template"><?php echo __('pages.template', 'Template'); ?>:</label>
+			<?php echo Form::select('template', $templates, Input::old('template', 'page'), array('id' => 'template')); ?>
+		</p>
+
 		<?php foreach($fields as $field): ?>
 		<p>
 			<label for="extend_<?php echo $field->key; ?>"><?php echo $field->label; ?>:</label>

@@ -53,7 +53,7 @@
 
 			<p>
 				<label for="template"><?php echo __('posts.template', 'Template'); ?>:</label>
-				<?php echo Form::select('template', $templates, Input::old('template'), array('id' => 'template')); ?>
+				<?php echo Form::select('template', $templates, Input::old('template', 'article'), array('id' => 'template')); ?>
 			</p>
 
 			<p>

@@ -23,7 +23,7 @@ CREATE TABLE `comments` (
   PRIMARY KEY (`id`),
   KEY `post` (`post`),
   KEY `status` (`status`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `extend`;
 CREATE TABLE `extend` (
@@ -41,13 +41,12 @@ CREATE TABLE `meta` (
   `key` varchar(140) NOT NULL,
   `value` text NOT NULL,
   PRIMARY KEY (`key`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 INSERT INTO `meta` (`key`, `value`) VALUES
 ('posts_page', '1'),
 ('home_page', '1'),
 ('twitter',	''),
-('gosquared', ''),
 ('date_format', 'jS M, Y'),
 ('auto_published_comments', '0'),
 ('posts_per_page', '6');
@@ -66,8 +65,8 @@ CREATE TABLE `page_meta` (
 DROP TABLE IF EXISTS `pages`;
 CREATE TABLE `pages` (
   `id` int(6) NOT NULL AUTO_INCREMENT,
-  `template` varchar(160) NOT NULL,
   `slug` varchar(150) NOT NULL,
+  `template` varchar(160) NOT NULL,
   `name` varchar(64) NOT NULL,
   `title` varchar(150) NOT NULL,
   `content` text NOT NULL,
@@ -76,10 +75,10 @@ CREATE TABLE `pages` (
   PRIMARY KEY (`id`),
   KEY `status` (`status`),
   KEY `slug` (`slug`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 INSERT INTO `pages` (`template`, `slug`, `name`, `title`, `content`, `status`, `redirect`) VALUES
-('', 'posts', 'Posts', 'My posts and thoughts', '<p>Welcome!</p>', 'published', '');
+('page', 'posts', 'Posts', 'My posts and thoughts', '<p>Welcome!</p>', 'published', '');
 
 DROP TABLE IF EXISTS `post_meta`;
 CREATE TABLE `post_meta` (
@@ -108,7 +107,7 @@ CREATE TABLE `posts` (
   PRIMARY KEY (`id`),
   KEY `status` (`status`),
   KEY `slug` (`slug`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `sessions`;
 CREATE TABLE `sessions` (
@@ -129,4 +128,4 @@ CREATE TABLE `users` (
   `status` enum('inactive','active') NOT NULL,
   `role` enum('administrator','editor','user') NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

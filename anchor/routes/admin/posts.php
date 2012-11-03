@@ -30,7 +30,7 @@ Route::get('admin/posts/edit/(:num)', array('before' => 'auth', 'do' => function
 		'published' => __('posts.published', 'Published')
 	);
 
-	$vars['templates'] = array('article' => 'Article');
+	$vars['templates'] = Themes::templates(Config::get('meta.theme'));
 	$vars['categories'] = Category::dropdown();
 
 	return View::make('posts/edit', $vars)
@@ -99,7 +99,7 @@ Route::get('admin/posts/add', array('before' => 'auth', 'do' => function() {
 		'published' => __('posts.published', 'Published')
 	);
 
-	$vars['templates'] = array('article' => 'Article');
+	$vars['templates'] = Themes::templates(Config::get('meta.theme'));
 	$vars['categories'] = Category::dropdown();
 
 	return View::make('posts/add', $vars)
