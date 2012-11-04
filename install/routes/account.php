@@ -30,7 +30,7 @@ Route::post('account', function() {
 		->is_email('Please enter a valid email address');
 
 	$validator->check('password')
-		->is_max(6, 'Please enter a password');
+		->is_max(6, 'Please enter a password, at least 6 characters long');
 
 	if($errors = $validator->errors()) {
 		Input::flash();
