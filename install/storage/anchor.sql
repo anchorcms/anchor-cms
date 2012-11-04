@@ -50,6 +50,7 @@ INSERT INTO `meta` (`key`, `value`) VALUES
 ('date_format', 'jS M, Y'),
 ('auto_published_comments', '0'),
 ('posts_per_page', '6'),
+('theme', 'default'),
 ('comment_notifications', '1'),
 ('comment_moderation_keys', '');
 

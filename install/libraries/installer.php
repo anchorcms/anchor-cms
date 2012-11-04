@@ -76,7 +76,10 @@ class Installer {
 	private static function metadata($metadata) {
 		$query = new Query('meta', 'install');
 
-		foreach($metadata as $key => $value) {
+		foreach(array(
+			'sitename' => $metadata['site_name'],
+			'description' => $metadata['site_desc']
+		) as $key => $value) {
 			$query->insert(array('key' => $key, 'value' => $value));
 		}
 	}
