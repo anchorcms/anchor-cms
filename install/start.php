@@ -12,7 +12,7 @@ Installer::check('Anchor requires <code>pdo_mysql</code> module to be installed.
 });
 
 Installer::check('Anchor is already installed!', function() {
-	return ! is_readable(PATH . 'anchor/config/database.php');
+	return is_readable(PATH . 'anchor/config/database.php');
 });
 
 if(count(Installer::$errors)) {
