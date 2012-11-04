@@ -16,16 +16,17 @@ class Language {
 		}
 	}
 
-	public static function line($key, $default = '') {
+	public static function line($key, $default = '', $args = array()) {
 		list($file, $line) = explode('.', $key);
 
-		if( ! isset(static::$lines[$file])) static::load($file);
-
-		if(isset(static::$lines[$file][$line])) {
-			return static::$lines[$file][$line];
+		if( ! isset(static::$lines[$file])) {
+			static::load($file);
 		}
 
-		return $default;
+		$text = isset(static::$lines[$file][$line]) ?
+			static::$lines[$file][$line] : $default;
+
+		return call_user_func_array('sprintf', array_merge(array($text), $args));
 	}
 
 }

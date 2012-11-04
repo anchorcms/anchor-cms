@@ -17,7 +17,7 @@ return array(
 	'nice_job' => 'Nice job, keep on going!',
 	'visit_your_site' => 'Visit your site',
 	'show_database_profile' => 'Show database profile',
-	'powered_by_anchor' => 'Powered by Anchor, version ',
+	'powered_by_anchor' => 'Powered by Anchor, version %s',
 	'make_blogging_beautiful' => 'Make blogging beautiful.'
 
 );
