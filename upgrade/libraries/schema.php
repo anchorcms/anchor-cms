@@ -17,11 +17,7 @@ class Schema {
 			$sql = "show tables like `" . $table . "`";
 		}
 
-		$result = $this->connection->query($sql);
-
-		dd($result);
-
-		return $result;
+		return $this->connection->query($sql);
 	}
 
 }
