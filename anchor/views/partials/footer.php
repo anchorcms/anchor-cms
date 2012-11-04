@@ -1,7 +1,7 @@
 
 		<?php if(Auth::user()): ?>
 		<footer id="bottom">
-			<small><?php echo __('common.powered_by_anchor', 'Powered by Anchor'); ?>.
+			<small><?php echo __('common.powered_by_anchor', 'Powered by Anchor, version %s', VERSION); ?>.
 			<?php echo 'Running PHP ' . phpversion() . '.'; ?></small>
 
 			<em><?php echo __('common.make_blogging_beautiful', 'Make blogging beautiful.'); ?></em>

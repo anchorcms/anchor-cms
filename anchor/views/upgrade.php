@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<meta charset="utf-8">
-		<title>Welcome to Anchor</title>
+		<title>Upgrade</title>
 
 		<style>
 			body {
@@ -41,8 +41,12 @@
 	<body>
 		<div>
 			<img src="<?php echo rtrim(dirname($_SERVER['SCRIPT_NAME']), '/'); ?>/anchor/views/assets/img/logo.png" alt="Anchor logo">
-			<h1>Welcome to Anchor. Let’s go.</h1>
-			<a href="<?php echo rtrim(dirname($_SERVER['SCRIPT_NAME']), '/') . '/install'; ?>">Run the installer</a>
+			<h1>Great News!</h1>
+			<p>There's a new version of anchor available.</p>
+
+			<a title="A backup of your site and database will be created before we start"
+				href="<?php echo rtrim(dirname($_SERVER['SCRIPT_NAME']), '/') . '/upgrade'; ?>">Run the upgrade</a>
+			<a href="<?php echo rtrim(dirname($_SERVER['SCRIPT_NAME']), '/'); ?>">Upgrade later</a>
 		</div>
 	</body>
 </html>

@@ -49,7 +49,9 @@ foreach(Category::all() as $itm) {
 Registry::set('all_categories', $categories);
 
 function __($line, $default = 'No language replacement') {
-	return Language::line($line, $default);
+	$args = array_slice(func_get_args(), 2);
+
+	return Language::line($line, $default, $args);
 }
 
 // include admin functions

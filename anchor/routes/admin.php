@@ -9,7 +9,6 @@ Route::get('admin', function() {
 	Log in
 */
 Route::get('admin/login', function() {
-	
 	$vars['messages'] = Notify::read();
 	$vars['token'] = Csrf::token();
 
@@ -23,6 +22,13 @@ Route::post('admin/login', array('before' => 'csrf', 'do' => function() {
 		Notify::error(array('Invalid details'));
 
 		return Response::redirect('admin/login');
+	}
+
+	// check for updates
+	Update::version();
+
+	if(version_compare(Config::get('meta.update_version'), VERSION, '>')) {
+		return Response::redirect('admin/upgrade');
 	}
 
 	return Response::redirect('admin/posts');
@@ -49,3 +55,15 @@ Route::post('admin/amnesia', function() {});
 Route::get('admin/reset/(:any)', function($key) {});
 
 Route::post('admin/reset/(:any)', function($key) {});
+
+/*
+	update
+*/
+Route::get('admin/upgrade', function() {
+	$vars['messages'] = Notify::read();
+	$vars['token'] = Csrf::token();
+
+	return View::make('upgrade', $vars)
+		->nest('header', 'partials/header')
+		->nest('footer', 'partials/footer');
+});
