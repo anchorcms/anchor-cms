@@ -4,7 +4,7 @@
 	Complete
 */
 Route::get('complete', function() {
-	$settings = Session::get('install');
+	$settings = Session::get('install', array());
 
 	return View::make('complete', $settings)
 		->nest('header', 'partials/header')

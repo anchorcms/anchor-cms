@@ -1,6 +1,6 @@
 <?php echo $header; ?>
 
-<section class="content small">
+<section class="content">
 	<article>
 		<h1>Woops!</h1>
 
