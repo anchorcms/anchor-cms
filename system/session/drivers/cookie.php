@@ -4,11 +4,15 @@ use System\Config, System\Cookie as C;
 
 class Cookie extends Driver {
 
-	const payload = 'session_payload';
+	public $payload_cookie;
+
+	public function __construct() {
+		$this->payload_cookie = Config::get('session.cookie', 'session') . '_payload';
+	}
 
 	public function load($id) {
-		if(C::has(Cookie::payload)) {
-			return unserialize(C::get(Cookie::payload));
+		if(C::has($this->payload_cookie)) {
+			return unserialize(C::get($this->payload_cookie));
 		}
 	}
 
@@ -17,7 +21,7 @@ class Cookie extends Driver {
 
 		$payload = serialize($session);
 
-		C::put(Cookie::payload, $payload, $lifetime, $path, $domain);
+		C::put($this->payload_cookie, $payload, $lifetime, $path, $domain);
 	}
 
 }
