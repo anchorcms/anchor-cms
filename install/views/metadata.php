@@ -20,10 +20,10 @@
 			</p>
 
 			<p>
-				<label for="site_desc">Site Description</label>
+				<label for="site_description">Site Description</label>
                 <i>A little bit about you or your blog.</i>
 
-				<textarea id="site_desc" name="site_description"><?php echo Input::old('site_description',
+				<textarea id="site_description" name="site_description"><?php echo Input::old('site_description',
 					'It&rsquo;s not just any blog. It&rsquo;s an Anchor blog.'); ?></textarea>
 			</p>
 

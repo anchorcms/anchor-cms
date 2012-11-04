@@ -78,7 +78,7 @@ class Installer {
 
 		foreach(array(
 			'sitename' => $metadata['site_name'],
-			'description' => $metadata['site_desc']
+			'description' => $metadata['site_description']
 		) as $key => $value) {
 			$query->insert(array('key' => $key, 'value' => $value));
 		}
