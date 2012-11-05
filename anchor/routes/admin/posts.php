@@ -30,7 +30,6 @@ Route::get('admin/posts/edit/(:num)', array('before' => 'auth', 'do' => function
 		'published' => __('posts.published', 'Published')
 	);
 
-	$vars['templates'] = Themes::templates(Config::get('meta.theme'));
 	$vars['categories'] = Category::dropdown();
 
 	return View::make('posts/edit', $vars)
@@ -40,7 +39,7 @@ Route::get('admin/posts/edit/(:num)', array('before' => 'auth', 'do' => function
 
 Route::post('admin/posts/edit/(:num)', array('before' => 'auth', 'do' => function($id) {
 	$input = Input::get_array(array('title', 'slug', 'description', 'created',
-		'html', 'css', 'js', 'category', 'status', 'comments', 'template'));
+		'html', 'css', 'js', 'category', 'status', 'comments'));
 
 	$validator = new Validator($input);
 
@@ -99,7 +98,6 @@ Route::get('admin/posts/add', array('before' => 'auth', 'do' => function() {
 		'published' => __('posts.published', 'Published')
 	);
 
-	$vars['templates'] = Themes::templates(Config::get('meta.theme'));
 	$vars['categories'] = Category::dropdown();
 
 	return View::make('posts/add', $vars)
@@ -109,7 +107,7 @@ Route::get('admin/posts/add', array('before' => 'auth', 'do' => function() {
 
 Route::post('admin/posts/add', array('before' => 'auth', 'do' => function() {
 	$input = Input::get_array(array('title', 'slug', 'description', 'created',
-		'html', 'css', 'js', 'category', 'status', 'comments', 'template'));
+		'html', 'css', 'js', 'category', 'status', 'comments'));
 
 	$validator = new Validator($input);
 

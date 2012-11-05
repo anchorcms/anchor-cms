@@ -28,11 +28,9 @@ else {
 		Default home page
 	*/
 	Route::get(array('/', $home_page->slug), function() use($home_page) {
-		$template = $home_page->template ?: 'page';
-
 		Registry::set('page', $home_page);
 
-		return new Template($template);
+		return new Template('page');
 	});
 
 	/*
@@ -49,15 +47,13 @@ Route::get(array('category/(:any)', 'category/(:any)/(:num)'), function($slug, $
 		return Response::error(404);
 	}
 
-	$template = $posts_page->template ?: 'posts';
-
 	Registry::set('page', $posts_page);
 
 	Registry::set('page_offset', $page);
 
 	Registry::set('post_category', $category);
 
-	return new Template($template);
+	return new Template('posts');
 });
 
 /*
@@ -68,11 +64,9 @@ Route::get($posts_page->slug . '/(:any)', function($slug) {
 		return Response::error(404);
 	}
 
-	$template = $post->template ?: 'article';
-
 	Registry::set('article', $post);
 
-	return new Template($template);
+	return new Template('article');
 });
 
 // add comments

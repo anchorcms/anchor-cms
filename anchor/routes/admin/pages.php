@@ -20,7 +20,6 @@ Route::get('admin/pages/edit/(:num)', array('before' => 'auth', 'do' => function
 	$vars['token'] = Csrf::token();
 	$vars['page'] = Page::find($id);
 	$vars['statuses'] = array('draft' => __('pages.draft'), 'archived' => __('pages.archived'), 'published' => __('pages.published'));
-	$vars['templates'] = Themes::templates(Config::get('meta.theme'));
 
 	// extended fields
 	$vars['fields'] = Extend::fields('page', $id);
@@ -31,7 +30,7 @@ Route::get('admin/pages/edit/(:num)', array('before' => 'auth', 'do' => function
 }));
 
 Route::post('admin/pages/edit/(:num)', array('before' => 'auth', 'do' => function($id) {
-	$input = Input::get_array(array('name', 'title', 'slug', 'content', 'status', 'template'));
+	$input = Input::get_array(array('name', 'title', 'slug', 'content', 'status'));
 
 	$validator = new Validator($input);
 
@@ -71,7 +70,6 @@ Route::get('admin/pages/add', array('before' => 'auth', 'do' => function() {
 	$vars['messages'] = Notify::read();
 	$vars['token'] = Csrf::token();
 	$vars['statuses'] = array('draft' => __('pages.draft'), 'archived' => __('pages.archived'), 'published' => __('pages.published'));
-	$vars['templates'] = Themes::templates(Config::get('meta.theme'));
 
 	// extended fields
 	$vars['fields'] = Extend::fields('page');
@@ -82,7 +80,7 @@ Route::get('admin/pages/add', array('before' => 'auth', 'do' => function() {
 }));
 
 Route::post('admin/pages/add', array('before' => 'auth', 'do' => function() {
-	$input = Input::get_array(array('name', 'title', 'slug', 'content', 'status', 'template'));
+	$input = Input::get_array(array('name', 'title', 'slug', 'content', 'status'));
 
 	$validator = new Validator($input);
 

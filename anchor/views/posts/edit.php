@@ -57,11 +57,6 @@
 			</p>
 
 			<p>
-				<label for="template"><?php echo __('posts.template', 'Template'); ?>:</label>
-				<?php echo Form::select('template', $templates, Input::old('template', $article->template), array('id' => 'template')); ?>
-			</p>
-
-			<p>
 				<label for="comments"><?php echo __('posts.allow_comments', 'Allow Comments'); ?>:</label>
 				<input id="comments" name="comments" type="checkbox" value="1"<?php if(Input::old('comments', $article->comments)) echo ' checked'; ?>>
 			</p>

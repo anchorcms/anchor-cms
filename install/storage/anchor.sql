@@ -69,7 +69,6 @@ DROP TABLE IF EXISTS `pages`;
 CREATE TABLE `pages` (
   `id` int(6) NOT NULL AUTO_INCREMENT,
   `slug` varchar(150) NOT NULL,
-  `template` varchar(160) NOT NULL,
   `name` varchar(64) NOT NULL,
   `title` varchar(150) NOT NULL,
   `content` text NOT NULL,
@@ -99,7 +98,6 @@ CREATE TABLE `posts` (
   `id` int(6) NOT NULL AUTO_INCREMENT,
   `title` varchar(150) NOT NULL,
   `slug` varchar(150) NOT NULL,
-  `template` varchar(150) NOT NULL,
   `description` text NOT NULL,
   `html` text NOT NULL,
   `created` datetime NOT NULL,
