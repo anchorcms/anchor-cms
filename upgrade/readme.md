@@ -20,9 +20,7 @@ lets tar gzip it to a safe location.
 
 	![typical anchor folder](http://dl.dropbox.com/u/5264455/Screens/9cf2.png)
 
-1.	Download the latest version and upload and overwrite any files that are needed.
-
-	![typical anchor folder](http://dl.dropbox.com/u/5264455/Screens/2dac.png)
+3.	Download the latest version and upload and overwrite any files that are needed.
 
 	![typical anchor folder](http://dl.dropbox.com/u/5264455/Screens/e773.png)
 
