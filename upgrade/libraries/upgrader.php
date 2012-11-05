@@ -80,6 +80,7 @@ class Upgrader {
 		Os::exec($command);
 
 		// clean
+		/*
 		$if = new FilesystemIterator($path, FilesystemIterator::SKIP_DOTS);
 
 		foreach($if as $file) {
@@ -95,6 +96,7 @@ class Upgrader {
 				unlink($file->getPathname());
 			}
 		}
+		*/
 
 		// copy
 		$command = 'cp --recursive ' . APP . 'storage/anchor-cms-' . static::$version . '/* ' . $path;
