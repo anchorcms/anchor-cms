@@ -9,6 +9,8 @@ class Upgrader {
 
 		// 0.7 and lower
 		if(is_readable($path = PATH . 'config.php')) {
+			define('IN_CMS', true);
+
 			$config = require $path;
 
 			$config['database']['user'] = $config['database']['username'];
@@ -25,6 +27,9 @@ class Upgrader {
 
 			if( ! isset($config['database']['port'])) {
 				$config['database']['port'] = 3306;
+			}
+			else {
+				$config['database']['port'] = $config['database']['port'];
 			}
 		}
 		// 0.8 and above
@@ -58,7 +63,7 @@ class Upgrader {
 		// compress archive
 		Archive::compress($backup);
 	}
-
+/*
 	public static function download() {
 		static::$version = file_get_contents('http://anchorcms.com/version');
 
@@ -79,25 +84,6 @@ class Upgrader {
 		$command = 'tar --extract --directory=' . APP . 'storage --file=' . $latest;
 		Os::exec($command);
 
-		// clean
-		/*
-		$if = new FilesystemIterator($path, FilesystemIterator::SKIP_DOTS);
-
-		foreach($if as $file) {
-			if($file->getBasename() == 'themes' or $file->getBasename() == 'upgrade') {
-				continue;
-			}
-
-			if($file->isDir()) {
-				$command = 'rm -rf ' . $file->getPathname();
-				Os::exec($command);
-			}
-			else {
-				unlink($file->getPathname());
-			}
-		}
-		*/
-
 		// copy
 		$command = 'cp --recursive ' . APP . 'storage/anchor-cms-' . static::$version . '/* ' . $path;
 		Os::exec($command);
@@ -106,7 +92,7 @@ class Upgrader {
 		$command = 'rm -rf ' . APP . 'storage/anchor-cms-' . static::$version;
 		Os::exec($command);
 	}
-
+*/
 	public static function database() {
 		$database = Session::get('config.database');
 
@@ -120,86 +106,101 @@ class Upgrader {
 			'charset' => 'utf8'
 		));
 
-		$schema = new Schema($connection);
-
-		/**
-			0.4 --> 0.5
+		/*
+			Categories
 		*/
 
-		if( ! $schema->has('users', 'email')) {
-			$sql = "alter table `users` add `email` varchar(140) not null after `password`";
-			$connection->query($sql);
-		}
+		$sql = "CREATE TABLE `categories` (
+			`id` int(6) NOT NULL AUTO_INCREMENT,
+			`title` varchar(150) NOT NULL,
+			`slug` varchar(40) NOT NULL,
+			`description` text NOT NULL,
+			PRIMARY KEY (`id`)
+		) ENGINE=InnoDB CHARSET=utf8";
 
-		if( ! $schema->has('posts', 'comments')) {
-			$sql = "alter table `posts` add `comments` tinyint( 1 ) not null";
-			$connection->query($sql);
-		}
-
-		if( ! $schema->has('posts', 'custom_fields') === false) {
-			$sql = "alter table `posts` add `custom_fields` text not null after `js`";
-			$connection->query($sql);
-		}
-
-		$sql = "create table if not exists `comments` (
-			`id` int(6) not null auto_increment,
-			`post` int(6) not null,
-			`status` enum('pending','published','spam') not null,
-			`date` int(11) not null,
-			`name` varchar(140) not null,
-			`email` varchar(140) not null,
-			`text` text not null,
-			primary key (`id`),
-			key `post` (`post`),
-			key `status` (`status`)
-		) engine=myisam charset=utf8 collate=utf8_general_ci";
 		$connection->query($sql);
 
-		// rename show_posts
-		$sql = "update `meta` set `value` = 'posts_page' where `value` = 'show_posts'";
+		$sql = "INSERT INTO `categories` (`title`, `slug`, `description`) VALUES
+			('Uncategorised', 'uncategorised', 'Ain\'t no category here.');";
 		$connection->query($sql);
 
-		// make posts_page the home page
-		if( ! $schema->has('meta', 'key', 'home_page') === false) {
-			$posts_page = $connection->column("select `value` from meta where `key` = 'show_posts'");
-
-			$sql = "insert into `meta` (`key`, `value`) values ('home_page', '" . $posts_page . "')";
-			$connection->query($sql);
-		}
-
-		// [BUGFIX] make sure the password field is big enough
-		$sql = "alter table `users` change `password` `password` text character set utf8 COLLATE utf8_general_ci not null";
-		$connection->query($sql);
-
-		/**
-			0.5 --> 0.6
+		/*
+			Comments
 		*/
-		$sql = "create table if not exists `sessions` (
-			`id` char( 32 ) not null ,
-			`date` datetime not null ,
-			`data` text not null
-		) engine=innodb charset=utf8 collate=utf8_general_ci;";
+		$sql = "ALTER TABLE `comments`
+		CHANGE `status` `status` enum('pending','approved','spam') NOT NULL AFTER `post`,
+		CHANGE `date` `date` datetime NOT NULL AFTER `status`,
+		COMMENT='';";
 		$connection->query($sql);
 
-		// comments auto published option
-		if( ! $schema->has('meta', 'key', 'auto_published_comments') === false) {
-			$sql = "insert into `meta` (`key`, `value`) values ('auto_published_comments', '0')";
-			$connection->query($sql);
-		}
-
-		// pagination
-		if($schema->has('meta', 'key', 'posts_per_page') === false) {
-			$sql = "insert into `meta` (`key`, `value`) values ('posts_per_page', '10')";
-			$connection->query($sql);
-		}
-
-		/**
-			0.6 --> 0.7
+		/*
+			Extend
 		*/
-		if( ! $schema->has('pages', 'redirect') === false) {
-			$sql = "alter table `pages` add `redirect` varchar( 150 ) not null";
-			$connection->query($sql);
-		}
+		$sql = "CREATE TABLE `extend` (
+			`id` int(6) NOT NULL AUTO_INCREMENT,
+			`type` enum('post','page') NOT NULL,
+			`field` enum('text','html','image','file') NOT NULL,
+			`key` varchar(160) NOT NULL,
+			`label` varchar(160) NOT NULL,
+			`attributes` text NOT NULL,
+			PRIMARY KEY (`id`)
+		) ENGINE=InnoDB CHARSET=utf8;";
+		$connection->query($sql);
+
+		/*
+			Page metadata
+		*/
+		$sql = "CREATE TABLE `page_meta` (
+			`id` int(6) NOT NULL AUTO_INCREMENT,
+			`page` int(6) NOT NULL,
+			`extend` int(6) NOT NULL,
+			`data` text NOT NULL,
+			PRIMARY KEY (`id`),
+			KEY `page` (`page`),
+			KEY `extend` (`extend`)
+		) ENGINE=InnoDB CHARSET=utf8;";
+		$connection->query($sql);
+
+		/*
+			Post metadata
+		*/
+		$sql = "CREATE TABLE `post_meta` (
+			`id` int(6) NOT NULL AUTO_INCREMENT,
+			`post` int(6) NOT NULL,
+			`extend` int(6) NOT NULL,
+			`data` text NOT NULL,
+			PRIMARY KEY (`id`),
+			KEY `item` (`post`),
+			KEY `extend` (`extend`)
+		) ENGINE=InnoDB CHARSET=utf8;";
+		$connection->query($sql);
+
+		/*
+			Posts
+		*/
+		$sql = "ALTER TABLE `posts`
+		DROP `custom_fields`,
+		CHANGE `created` `created` datetime NOT NULL AFTER `js`,
+		ADD `category` int(6) NOT NULL AFTER `author`,
+		COMMENT='';";
+		$connection->query($sql);
+
+		/*
+			Sessions
+		*/
+		$sql = "ALTER TABLE `sessions`
+		DROP `ip`,
+		DROP `ua`,
+		COMMENT='';";
+		$connection->query($sql);
+
+		/*
+			Users
+		*/
+		$sql = "ALTER TABLE `users`
+		CHANGE `password` `password` text NOT NULL AFTER `username`,
+		COMMENT='';";
+		$connection->query($sql);
 	}
 
 	public static function config_database() {
@@ -208,6 +209,7 @@ class Upgrader {
 
 		$data = array(
 			"'hostname' => 'localhost'" => "'hostname' => '" . $database['host'] . "'",
+			"'port' => 3306" => "'port' => '" . $database['port'] . "'",
 			"'username' => 'root'" => "'username' => '" . $database['user'] . "'",
 			"'password' => ''" => "'password' => '" . $database['pass'] . "'",
 			"'database' => ''" => "'database' => '" . $database['name'] . "'"

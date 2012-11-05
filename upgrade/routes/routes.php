@@ -14,19 +14,19 @@ Route::post('start', function() {
 	Upgrader::backup();
 
 	// download latest anchor
-	Upgrader::download();
+	//Upgrader::download();
 
 	// deploy new files
-	Upgrader::deploy(PATH);
+	//Upgrader::deploy(PATH);
 
 	// run database changes
-	Upgrade::database();
+	Upgrader::database();
 
 	// write database config file
-	Upgrade::config_database();
+	Upgrader::config_database();
 
 	// write application config file
-	Upgrade::config_application();
+	Upgrader::config_application();
 
 	return Response::redirect('complete');
 });

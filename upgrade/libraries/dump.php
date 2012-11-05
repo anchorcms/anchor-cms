@@ -3,28 +3,28 @@
 class Dump {
 
 	public static function create($file) {
-		$config = require PATH . 'anchor/config/dev/database.php';
+		$config = Session::get('config');
 
-		extract($config['connections'][$config['default']]);
+		extract($config['database']);
 
 		$command = '/usr/bin/mysqldump --opt' .
 			' --no-data' .
-			' --user ' . $username .
-			' --password=' . $password .
-			' --host=' . $hostname .
+			' --user ' . $user .
+			' --password=' . $pass .
+			' --host=' . $host .
 			' --port=' . $port .
-			' ' . $database . ' > ' . $file;
+			' ' . $name . ' > ' . $file;
 
 		Os::exec($command);
 
 		$command = '/usr/bin/mysqldump' .
 			' --skip-triggers --compact --no-create-info' .
-			' --user ' . $username .
-			' --password=' . $password .
-			' --host=' . $hostname .
+			' --user ' . $user .
+			' --password=' . $pass .
+			' --host=' . $host .
 			' --port=' . $port .
-			' --ignore-table=' . $database . '.session' .
-			' ' . $database . ' >> ' . $file;
+			' --ignore-table=' . $name . '.session' .
+			' ' . $name . ' >> ' . $file;
 
 		Os::exec($command);
 	}

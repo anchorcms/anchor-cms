@@ -2,6 +2,8 @@
 Thumbs.db
 .DS_Store
 *.esproj
+*.log
+*.gz
 
 # ignore generated config
 /anchor/config/dev
