@@ -107,6 +107,14 @@ class Upgrader {
 		));
 
 		/*
+			Metadata
+		*/
+		$sql = "INSERT INTO `meta` (`key`, `value`) VALUES
+			('comment_notifications', '0'),
+			('comment_moderation_keys', '');";
+		$connection->query($sql);
+
+		/*
 			Categories
 		*/
 
