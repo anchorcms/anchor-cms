@@ -22,14 +22,12 @@ lets tar gzip it to a safe location.
 
 3.	Download the latest version and upload and overwrite any files that are needed.
 
-	![typical anchor folder](http://dl.dropbox.com/u/5264455/Screens/e773.png)
-
 	*If you have customised the default theme please rename it! or it will be over written.*
 
-4.	Navigate to your site and append /upgrade to the url.
+	![typical anchor folder](http://dl.dropbox.com/u/5264455/Screens/e773.png)
 
-	![typical anchor folder](http://dl.dropbox.com/u/5264455/Screens/8ae2.png)
-
-5.	Follow the instructions and that should be it.
+4.	Navigate to your site and append /upgrade to the url, follow the instructions and that should be it.
 
 	*After the upgrade is complete its recommened you delete the install and upgrade folders.*
+
+	![typical anchor folder](http://dl.dropbox.com/u/5264455/Screens/8ae2.png)
