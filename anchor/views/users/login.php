@@ -1,8 +1,8 @@
 <?php echo $header; ?>
 
-<?php echo $messages; ?>
-
 <section class="login content">
+
+	<?php echo $messages; ?>
 
 	<form method="post" action="<?php echo url('login'); ?>">
 
@@ -23,12 +23,5 @@
 	</form>
 
 </section>
-
-<script>
-	(function() {
-		var body = document.body;
-		body.style.marginTop = (-(body.clientHeight / 2)) + 'px';
-	}());
-</script>
 
 <?php echo $footer; ?>

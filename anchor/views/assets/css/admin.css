@@ -155,15 +155,11 @@ select {
 		border-left: 4px solid transparent;
 	}
 
-.wrap, .content, .notifications, h1, #bottom, #post-content {
+.wrap, .content, h1, #bottom, #post-content {
 	width: 960px;
 	margin: 0 auto;
 	overflow: hidden;
 }
-
-	.login .notifications {
-		width: 100%;
-	}
 
 .notifications {
 	margin-bottom: 10px;
@@ -485,10 +481,7 @@ h1 a, .btn, button {
 	Login
 */
 body.login {
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	margin: -116px 0 0 -150px;
+	padding-top: 18%;
 }
 
 .login .wrap, .login .content {
