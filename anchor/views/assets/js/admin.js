@@ -164,14 +164,21 @@ if( ! $('[autofocus]').length) {
 	Post previewing
 */
 (function() {
-	var buttons = $('.header .buttons'), prevue = $('.prevue'), textarea = $('#post-content');
+	var buttons = $('.header .buttons'), prevue = $('.prevue'), textarea = $('#post-content'),
+		post = $('#post-data'), content = $('#content');
 
-	buttons
-		.append('<a href="#" class="secondary btn disabled">Preview</a>')
-		.children('.secondary')
-		.bind('click', function(e) {
-
+	var load = function(e) {
 		var html = textarea.val(), me = $(this);
+
+		// already in preview mode
+		if(prevue.hasClass('active')) {
+			me.toggleClass('blue');
+			prevue.toggleClass('active');
+			post.toggle();
+			content.toggle();
+
+			return false;
+		}
 
 		if(html) {
 			// build uri
@@ -182,19 +189,23 @@ if( ! $('[autofocus]').length) {
 			me.removeClass('disabled');
 
 			$.post(uri, {'html': html}, function(response) {
-				if(response.html && ! prevue.hasClass('active')) {
-					prevue.children('.wrap').html(response.html);
-				}
-
+				prevue.children('.wrap').html(response.html);
 				me.toggleClass('blue');
 				prevue.toggleClass('active');
+				post.toggle();
+				content.toggle();
 			});
 		} else {
 			me.addClass('disabled');
 		}
 
 		return false;
-	});
+	};
+
+	buttons
+		.append('<a href="#" class="secondary btn disabled">Preview</a>')
+		.children('.secondary')
+		.bind('click', load);
 
 	//  Disabling the preview button
 	textarea.keyup(function() {

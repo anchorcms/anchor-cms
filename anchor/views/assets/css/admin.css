@@ -302,6 +302,7 @@ h1 {
 	h1 a {
 		float: right;
 		margin-top: 40px;
+		margin-left: 8px;
 	}
 
 h1 a, .btn, button {
@@ -546,12 +547,17 @@ body.login {
 /*
 	Single post
 */
-.header {
-	position: relative;
-	z-index: 20;
 
+
+.header {
 	background: #fff;
+	min-height: 100px;
 }
+
+	.header .wrap {
+		position: relative;
+		overflow: visible;
+	}
 
 	.header input {
 		font-size: 29px;
@@ -559,31 +565,24 @@ body.login {
 		font-weight: lighter;
 
 		float: left;
-		width: 750px;
+		width: 600px;
 		padding: 30px 0;
 
 		background: transparent;
 	}
 
 	.header .buttons {
-		position: absolute;
-		top: 30px;
-		right: 0;
-		z-index: 100;
+		float: right;
+		padding: 30px 0;
 	}
 
-		.header .buttons .btn, .header .buttons button {
+		.header .buttons .btn {
 			float: right;
-			margin-left: 20px;
+			margin-left: 8px;
 		}
 
-	.header .wrap {
-		overflow: visible;
-		position: relative;
-		height: 100px;
-	}
 
-		.header .wrap .notification {
+		.header .wrap .notifications {
 			position: absolute;
 			right: -20px;
 			top: 85px;
@@ -591,33 +590,38 @@ body.login {
 			width: 320px;
 		}
 
-			.header .wrap .notification:after {
+			.header .wrap .notifications:after {
 				content: '';
 				position: absolute;
 				display: block;
 				top: -6px;
 				right: 50px;
 
-				border-bottom: 6px solid #578cd9;
+				border-bottom: 6px solid #64a524;
 				border-left: 6px solid transparent;
 				border-right: 6px solid transparent;
 			}
 
-				.header .wrap .notification.error:after {
-					border-bottom-color: #d34937;
-				}
+.prevue {
+	display: none;
+}
 
-				.header .wrap .notification.success:after {
-					border-bottom-color: #64a524;
-				}
+	.prevue.active {
+		display: block;
+	}
+
+	.prevue .wrap {
+		padding: 2em 0;
+	}
 
 #post-content {
 	display: block;
 	padding: 0;
 	margin: 30px auto;
-	min-height: 300px;
-
+	min-height: 500px;
+	overflow: auto;
 	background: transparent;
+	resize: vertical;
 }
 
 #post-data {
@@ -695,6 +699,13 @@ body.login {
 		width: 317px;
 	}
 
+
+
+
+
+
+
+
 .split label {
 	min-width: 150px;
 }
@@ -766,6 +777,7 @@ form[action*='add'] + #bottom, form[action*='edit'] + #bottom {
 	display: none;
 }
 
+/*
 .prevue {
 	position: absolute;
 	left: 0;
@@ -792,6 +804,8 @@ form[action*='add'] + #bottom, form[action*='edit'] + #bottom {
 		font-size: 25px;
 		padding: 0 0 15px;
 	}
+*/
+
 
 /*
 	Focus mode

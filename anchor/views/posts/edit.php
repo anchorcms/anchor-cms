@@ -6,17 +6,16 @@
 
 	<header class="header">
 		<div class="wrap">
+			<?php echo $messages; ?>
+
 			<input autofocus autocomplete="off" tabindex="1"
 				placeholder="Post title" id="title" name="title"
 				value="<?php echo Input::old('title', $article->title); ?>">
 
 			<p class="buttons">
-				<button tabindex="3" type="submit"><?php echo __('posts.save', 'Save'); ?></button>
-				<a class="btn delete red" href="<?php echo url('posts/delete/' . $article->id); ?>">
-					<?php echo __('posts.delete', 'Delete'); ?></a>
+				<button tabindex="3" class="btn" type="submit"><?php echo __('posts.save', 'Save'); ?></button>
+				<a class="btn delete red" href="<?php echo url('posts/delete/' . $article->id); ?>"><?php echo __('posts.delete', 'Delete'); ?></a>
 			</p>
-
-			<?php echo $messages; ?>
 		</div>
 	</header>
 
@@ -80,5 +79,15 @@
 		</div>
 	</fieldset>
 </form>
+
+<script>
+	(function() {
+		setTimeout(function() {
+			$('.notifications').animate({'opacity': 0}, function() {
+				$(this).remove();
+			});
+		}, 2000);
+	}());
+</script>
 
 <?php echo $footer; ?>
