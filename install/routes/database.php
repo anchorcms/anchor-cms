@@ -51,6 +51,7 @@ Route::post('database', function() {
 			'driver' => 'mysql',
 			'database' => $database['name'],
 			'hostname' => $database['host'],
+			'port' => $database['port'],
 			'username' => $database['user'],
 			'password' => $database['pass'],
 			'charset' => 'utf8'

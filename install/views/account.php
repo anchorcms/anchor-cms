@@ -9,10 +9,9 @@
 	</article>
 
 	<form method="post" action="<?php echo Uri::make('account'); ?>" autocomplete="off">
+		<?php echo $messages; ?>
+
 		<fieldset>
-
-			<?php echo $messages; ?>
-
 			<p>
 				<label for="username">Username</label>
 				<i>You use this to log in.</i>
@@ -35,7 +34,6 @@
 
 		<section class="options">
 			<button type="submit" class="btn">Complete</button>
-			<div class="test"></div>
 		</section>
 	</form>
 </section>

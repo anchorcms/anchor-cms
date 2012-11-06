@@ -10,9 +10,9 @@
 	</article>
 
 	<form method="post" action="<?php echo Uri::make('start'); ?>" autocomplete="off">
-		<fieldset>
-			<?php echo $messages; ?>
+		<?php echo $messages; ?>
 
+		<fieldset>
 			<p>
 				<label for="lang">
 					<strong>Language</strong>
@@ -32,7 +32,6 @@
 
 		<section class="options">
 			<button type="submit" class="btn">Next Step &raquo;</button>
-			<div class="test"></div>
 		</section>
 	</form>
 </section>

@@ -8,10 +8,9 @@
 	</article>
 
 	<form method="post" action="<?php echo Uri::make('metadata'); ?>" autocomplete="off">
+		<?php echo $messages; ?>
+
 		<fieldset>
-
-			<?php echo $messages; ?>
-
 			<p>
 				<label for="site_name">Site Name</label>
 				<i>What’s your blog called?.</i>
@@ -44,7 +43,6 @@
 
 		<section class="options">
 			<button type="submit" class="btn">Next Step &raquo;</button>
-			<div class="test"></div>
 		</section>
 	</form>
 </section>

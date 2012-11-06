@@ -66,7 +66,8 @@ class Installer {
 
 		foreach(array(
 			'sitename' => $metadata['site_name'],
-			'description' => $metadata['site_description']
+			'description' => $metadata['site_description'],
+			'theme' => $metadata['theme']
 		) as $key => $value) {
 			$query->insert(array('key' => $key, 'value' => $value));
 		}
@@ -91,6 +92,7 @@ class Installer {
 
 		$data = array(
 			"'hostname' => 'localhost'" => "'hostname' => '" . $database['host'] . "'",
+			"'port' => 3306" => "'port' => '" . $database['port'] . "'",
 			"'username' => 'root'" => "'username' => '" . $database['user'] . "'",
 			"'password' => ''" => "'password' => '" . $database['pass'] . "'",
 			"'database' => ''" => "'database' => '" . $database['name'] . "'"

@@ -8,10 +8,9 @@
 	</article>
 
 	<form method="post" action="<?php echo Uri::make('database'); ?>" autocomplete="off">
+        <?php echo $messages; ?>
 
 		<fieldset>
-			<?php echo $messages; ?>
-
 			<p>
 			    <label for="host">Database Host</label>
     			<input id="host" name="host" value="<?php echo Input::old('host', '127.0.0.1'); ?>">
@@ -63,7 +62,6 @@
 
 		<section class="options">
 			<button type="submit" class="btn">Next Step &raquo;</button>
-			<div class="test"></div>
 		</section>
 	</form>
 </section>
