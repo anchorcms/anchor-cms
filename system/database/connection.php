@@ -100,7 +100,8 @@ class Connection {
 		catch(PDOException $exception) {
 			$message = explode(':', $exception->getMessage());
 
-			$error = 'Database Error:' . end($message) . str_repeat("\n", 3) . $sql;
+			$error = '<strong>Database Error:</strong>' . end($message) . str_repeat("\n", 3) .
+				'<strong>SQL: </strong>' . $sql;
 
 			$exception = new Exception($error, 0, $exception);
 
