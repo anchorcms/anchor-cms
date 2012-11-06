@@ -43,7 +43,7 @@
 		</fieldset>
 
 		<section class="options">
-			<button type="submit">Next Step &raquo;</button>
+			<button type="submit" class="btn">Next Step &raquo;</button>
 			<div class="test"></div>
 		</section>
 	</form>

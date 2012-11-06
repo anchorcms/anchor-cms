@@ -5,6 +5,7 @@
 */
 Route::get('complete', function() {
 	$settings = Session::get('install', array());
+	$settings['root_uri'] = rtrim(dirname(dirname($_SERVER['SCRIPT_NAME'])), '/') . '/';
 
 	return View::make('complete', $settings)
 		->nest('header', 'partials/header')

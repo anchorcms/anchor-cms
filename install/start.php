@@ -3,22 +3,33 @@
 /*
 	Pre install checks
 */
-Installer::check('<code>anchor/config</code> directory needs to be writable.', function() {
+$GLOBALS['errors'] = array();
+
+function check($message, $action) {
+	if( ! $action()) {
+		$GLOBALS['errors'][] = $message;
+	}
+}
+
+check('<code>anchor/config</code> directory needs to be writable.', function() {
 	return is_writable(PATH . 'anchor/config');
 });
 
-Installer::check('Anchor requires <code>pdo_mysql</code> module to be installed.', function() {
+check('Anchor requires <code>pdo_mysql</code> module to be installed.', function() {
 	return in_array('mysql', PDO::getAvailableDrivers());
 });
 
 if(Uri::current() != 'complete') {
-	Installer::check('Anchor is already installed!', function() {
+	check('Anchor is already installed!', function() {
 		return file_exists(PATH . 'anchor/config/database.php') === false;
 	});
 }
 
-if(count(Installer::$errors)) {
-	echo View::make('halt', array('errors' => Installer::$errors))
+if(count($GLOBALS['errors'])) {
+	$vars['errors'] = $GLOBALS['errors'];
+	$vars['uri'] = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/') . '/';
+
+	echo View::make('halt', $vars)
 		->nest('header', 'partials/header')
 		->nest('footer', 'partials/footer');
 

@@ -1,12 +1,12 @@
 <?php echo $header; ?>
 
 <section class="content small">
-	<h1>Anchor upgrade complete!</h1>
+	<h1>Upgrade complete!</h1>
 
-	<p class="options">
-		<a href="<?php echo rtrim(dirname(dirname($_SERVER['SCRIPT_NAME'])), '/') . '/'; ?>index.php/admin" class="button">Visit your admin panel</a>
-		<a href="<?php echo rtrim(dirname(dirname($_SERVER['SCRIPT_NAME'])), '/') . '/'; ?>" class="right">Visit your new site</a>
-	</p>
+	<section class="options">
+		<a href="<?php echo $root_uri; ?>index.php/admin" class="button">Visit your admin panel</a>
+		<a href="<?php echo $root_uri; ?>" class="right">Visit your new site</a>
+	</section>
 </section>
 
 <?php echo $footer; ?>

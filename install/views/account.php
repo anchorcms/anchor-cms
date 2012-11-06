@@ -16,25 +16,25 @@
 			<p>
 				<label for="username">Username</label>
 				<i>You use this to log in.</i>
-				<input id="username" name="username" value="<?php echo Input::old('username', 'admin'); ?>">
+				<input tabindex="1" id="username" name="username" value="<?php echo Input::old('username', 'admin'); ?>">
 			</p>
 
 			<p>
 				<label for="email">Email address</label>
 				<i>Needed if you can’t log in.</i>
 
-				<input id="email" type="email" name="email" value="<?php echo Input::old('email'); ?>">
+				<input tabindex="2" id="email" type="email" name="email" value="<?php echo Input::old('email'); ?>">
 			</p>
 
 			<p>
 				<label>Password</label>
 				<i>Make sure to <a href="http://bash.org/?244321">pick a secure password</a>.</i>
-				<input name="password" type="password" value="<?php echo Input::old('password'); ?>">
+				<input tabindex="3" name="password" type="password" value="<?php echo Input::old('password'); ?>">
 			</p>
 		</fieldset>
 
 		<section class="options">
-			<button type="submit">Complete</button>
+			<button type="submit" class="btn">Complete</button>
 			<div class="test"></div>
 		</section>
 	</form>

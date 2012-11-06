@@ -5,18 +5,6 @@ use System\Database\Connection;
 class Installer {
 
 	/*
-		Pre-install checker
-	*/
-
-	public static $errors = array();
-
-	public static function check($message, $action) {
-		if( ! $action()) {
-			static::$errors[] = $message;
-		}
-	}
-
-	/*
 		Install
 	*/
 

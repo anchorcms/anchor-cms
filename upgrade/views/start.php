@@ -4,17 +4,12 @@
 	<article>
 		<h1>Hello. Willkommen. Bonjour. Croeso.</h1>
 
-		<p>If you were looking for a truly lightweight blogging experience, you&rsquo;ve
-		found the right place. Simply fill in the details below, and you&rsquo;ll have your
-		new blog set up in no time.</p>
+		<p>Get ready for the latest version of Anchor.</p>
 	</article>
 
-	<form method="post" action="<?php echo Uri::make('start'); ?>" autocomplete="off">
-		<section class="options">
-			<button type="submit">Begin &raquo;</button>
-			<div class="test"></div>
-		</section>
-	</form>
+	<section class="options">
+		<a class="btn" href="<?php echo Uri::make('start'); ?>">Start Upgrade &raquo;</a>
+	</section>
 </section>
 
 <?php echo $footer; ?>

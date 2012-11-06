@@ -32,7 +32,9 @@ Route::post('start', function() {
 });
 
 Route::get('complete', function() {
-	return View::make('complete')
+	$vars['root_uri'] = rtrim(dirname(dirname($_SERVER['SCRIPT_NAME'])), '/') . '/';
+
+	return View::make('complete', $vars)
 		->nest('header', 'partials/header')
 		->nest('footer', 'partials/footer');
 });

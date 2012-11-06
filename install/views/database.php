@@ -15,35 +15,35 @@
 			<p>
 			    <label for="host">Database Host</label>
     			<input id="host" name="host" value="<?php echo Input::old('host', '127.0.0.1'); ?>">
-    			
+
     			<i>Most likely <b>localhost</b> or <b>127.0.0.1</b>.</i>
     		</p>
 
 			<p>
 			    <label for="port">Port</label>
     			<input id="port" name="port" value="<?php echo Input::old('port', '3306'); ?>">
-    			
+
     			<i>Usually <b>3306</b>.</i>
     		</p>
 
 			<p>
     			<label for="user">Username</label>
     			<input id="user" name="user" value="<?php echo Input::old('user', 'root'); ?>">
-    			
+
     			<i>The database user, usually <b>root</b>.</i>
 			</p>
 
 			<p>
 			    <label for="pass">Password</label>
     			<input id="pass" name="pass" value="<?php echo Input::old('pass'); ?>">
-    			
+
     			<i>Leave blank for empty password.</i>
     		</p>
 
 			<p>
     			<label for="name">Database Name</label>
     			<input id="name" name="name" value="<?php echo Input::old('name', 'anchor'); ?>">
-    			
+
     			<i>Your database’s name.</i>
     		</p>
 
@@ -56,13 +56,13 @@
     				</option>
     				<?php endforeach; ?>
     			</select>
-    			
+
     			<i>Change if <b>utf8_general_ci</b> doesn’t work.</i>
 			</p>
 		</fieldset>
 
 		<section class="options">
-			<button type="submit">Next Step &raquo;</button>
+			<button type="submit" class="btn">Next Step &raquo;</button>
 			<div class="test"></div>
 		</section>
 	</form>
