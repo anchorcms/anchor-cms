@@ -30,7 +30,7 @@ Route::get('admin/pages/edit/(:num)', array('before' => 'auth', 'do' => function
 }));
 
 Route::post('admin/pages/edit/(:num)', array('before' => 'auth', 'do' => function($id) {
-	$input = Input::get_array(array('name', 'title', 'slug', 'content', 'status'));
+	$input = Input::get_array(array('name', 'title', 'slug', 'content', 'status', 'redirect'));
 
 	$validator = new Validator($input);
 
@@ -39,6 +39,11 @@ Route::post('admin/pages/edit/(:num)', array('before' => 'auth', 'do' => functio
 
 	$validator->check('title')
 		->is_max(3, __('pages.missing_title'));
+
+	if($input['redirect']) {
+		$validator->check('redirect')
+			->is_url( __('pages.missing_redirect', 'Please enter a valid url'));
+	}
 
 	if($errors = $validator->errors()) {
 		Input::flash();
@@ -80,7 +85,7 @@ Route::get('admin/pages/add', array('before' => 'auth', 'do' => function() {
 }));
 
 Route::post('admin/pages/add', array('before' => 'auth', 'do' => function() {
-	$input = Input::get_array(array('name', 'title', 'slug', 'content', 'status'));
+	$input = Input::get_array(array('name', 'title', 'slug', 'content', 'status', 'redirect'));
 
 	$validator = new Validator($input);
 
@@ -89,6 +94,11 @@ Route::post('admin/pages/add', array('before' => 'auth', 'do' => function() {
 
 	$validator->check('title')
 		->is_max(3, __('pages.missing_title'));
+
+	if($input['redirect']) {
+		$validator->check('redirect')
+			->is_url( __('pages.missing_redirect', 'Please enter a valid url'));
+	}
 
 	if($errors = $validator->errors()) {
 		Input::flash();

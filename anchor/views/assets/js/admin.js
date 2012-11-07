@@ -275,3 +275,22 @@ if( ! $('[autofocus]').length) {
 
 	update();
 }());
+
+/*
+	Show redirect url on Pages
+*/
+(function() {
+	var c = $('#redirect'), r = $('#redirect_url').parent();
+
+	var update = function() {
+		if(c.prop('checked')) {
+			r.show();
+		}
+		else {
+			r.hide();
+		}
+	};
+
+	c.bind('change', update);
+	update();
+}());

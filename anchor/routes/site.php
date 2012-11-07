@@ -164,6 +164,10 @@ Route::get('(:any)', function($slug) {
 		return Response::error(404);
 	}
 
+	if($page->redirect) {
+		return Response::redirect($page->redirect);
+	}
+
 	Registry::set('page', $page);
 
 	return new Template('page');
