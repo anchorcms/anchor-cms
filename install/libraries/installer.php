@@ -13,7 +13,7 @@ class Installer {
 		static::connect($settings['database']);
 
 		// install tables
-		static::schema($settings['database']);
+		static::schema();
 
 		// insert metadata
 		static::metadata($settings['metadata']);
@@ -45,13 +45,12 @@ class Installer {
 		DB::$connections['install'] = $connection;
 	}
 
-	private static function schema($database) {
+	private static function schema() {
 		$sql = file_get_contents(APP . 'storage/anchor.sql');
 
 		// swap place holders
 		$data = array(
-			'[[now]]' => date('c'),
-			'[[collate]]' => $database['collation']
+			'[[now]]' => date('Y-m-d H:i:s')
 		);
 
 		foreach($data as $search => $replace) {
