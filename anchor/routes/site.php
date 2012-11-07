@@ -164,11 +164,9 @@ Route::get('(:any)', function($slug) {
 		return Response::error(404);
 	}
 
-	$template = $page->template ?: 'page';
-
 	Registry::set('page', $page);
 
-	return new Template($template);
+	return new Template('page');
 });
 
 /*
