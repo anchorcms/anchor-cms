@@ -118,5 +118,8 @@ INSERT INTO `meta` (`key`, `value`) VALUES
 ('posts_per_page',  '6'),
 ('twitter', '');
 
-INSERT INTO `pages` (`template`, `slug`, `name`, `title`, `content`, `status`, `redirect`) VALUES
-('page', 'posts', 'Posts', 'My posts and thoughts', '<p>Welcome!</p>', 'published', '');
+INSERT INTO `pages` (`slug`, `name`, `title`, `content`, `status`, `redirect`) VALUES
+('posts', 'Posts', 'My posts and thoughts', '<p>Welcome!</p>', 'published', '');
+
+INSERT INTO `posts` (`title`, `slug`, `description`, `html`, `css`, `js`, `created`, `author`, `category`, `status`, `comments`) VALUES
+('Hello World', 'hello-world', 'This is the first post.', '### Hello', '', '', '[[now]]', '1', '1', 'published', '0');
