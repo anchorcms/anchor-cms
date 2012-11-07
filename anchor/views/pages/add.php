@@ -44,13 +44,13 @@
 			<p>
 				<label for="redirect"><?php echo __('pages.redirect_option',
 					'This page triggers a redirect to another url'); ?>:</label>
-				<?php $checked = Input::old('redirect_url') ? ' checked' : ''; ?>
+				<?php $checked = Input::old('redirect') ? ' checked' : ''; ?>
 				<input id="redirect" type="checkbox"<?php echo $checked; ?>>
 			</p>
 
 			<p>
 				<label for="redirect_url"><?php echo __('pages.redirect_url', 'Redirect Url'); ?></label>
-				<input id="redirect_url" name="redirect" value="<?php echo Input::old('redirect_url'); ?>">
+				<input id="redirect_url" name="redirect" value="<?php echo Input::old('redirect'); ?>">
 			</p>
 
 			<p>
