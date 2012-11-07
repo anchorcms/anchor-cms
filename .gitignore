@@ -23,3 +23,6 @@ Thumbs.db
 
 # make sure the uploads folder isn't empty
 !/uploads/index.php
+anchor/config/application.php
+
+anchor/config/database.php

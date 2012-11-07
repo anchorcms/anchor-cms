@@ -482,13 +482,14 @@ h1 a, .btn, button {
 	Login
 */
 body.login {
-	padding-top: 18%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-left: -150px;
 }
-
 .login .wrap, .login .content {
 	width: 300px;
 }
-
 	.login h1 {
 		padding-bottom: 25px;
 

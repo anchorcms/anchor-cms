@@ -19,7 +19,7 @@ Route::get('admin/login', function() {
 
 Route::post('admin/login', array('before' => 'csrf', 'do' => function() {
 	if( ! Auth::attempt(Input::get('user'), Input::get('pass'))) {
-		Notify::error(array('Invalid details'));
+		Notify::error(array('Username or password is wrong.'));
 
 		return Response::redirect('admin/login');
 	}
@@ -65,8 +65,8 @@ Route::post('admin/amnesia', function() {
 	});
 
 	$validator->check('email')
-		->is_email(__('users.invalid_email', 'Please enter a valid email address'))
-		->is_valid(__('users.invalid_account', 'Account not found'));
+		->is_email(__('users.invalid_email', 'Please enter a valid email address.'))
+		->is_valid(__('users.invalid_account', 'Account not found.'));
 
 	if($errors = $validator->errors()) {
 		Input::flash();

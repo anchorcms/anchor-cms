@@ -13,9 +13,10 @@
 				value="<?php echo Input::old('email'); ?>"></p>
 
 
-			<p class="buttons"><a href="<?php echo url('login'); ?>">
-				<?php echo __('users.back_to', 'Back to %s', Config::get('meta.sitename')); ?></a>
-			<button type="submit"><?php echo __('users.reset_password', 'Reset Password'); ?></button></p>
+			<p class="buttons">
+			    <a href="<?php echo url('login'); ?>"><?php echo __('users.remembered', 'I know my password'); ?></a>
+    			<button type="submit"><?php echo __('users.reset_pass', 'Reset'); ?></button>
+			</p>
 		</fieldset>
 	</form>
 
