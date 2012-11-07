@@ -2,9 +2,8 @@
 
 <h1><?php echo __('pages.editing', 'Editing'); ?> &ldquo;<?php echo Str::truncate($page->name, 4); ?>&rdquo;</h1>
 
-<?php echo $messages; ?>
-
 <section class="content">
+	<?php echo $messages; ?>
 
 	<form method="post" action="<?php echo url('pages/edit/' . $page->id); ?>" novalidate>
 

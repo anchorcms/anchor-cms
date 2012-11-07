@@ -2,9 +2,8 @@
 
 <h1>Editing &ldquo;<?php echo Str::truncate($category->title, 4); ?>&rdquo;</h1>
 
-<?php echo $messages; ?>
-
 <section class="content">
+	<?php echo $messages; ?>
 
 	<form method="post" action="<?php echo url('categories/edit/' . $category->id); ?>" novalidate>
 

@@ -3,9 +3,9 @@
 <h1><?php echo __('users.users', 'Users'); ?>
 <a href="<?php echo url('users/add'); ?>"><?php echo __('users.create_user', 'Create a new user'); ?></a></h1>
 
-<?php echo $messages; ?>
-
 <section class="content">
+	<?php echo $messages; ?>
+
 	<ul class="list">
 		<?php foreach($users->results as $user): ?>
 		<li>

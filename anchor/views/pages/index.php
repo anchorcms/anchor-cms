@@ -3,9 +3,9 @@
 <h1><?php echo __('pages.pages', 'Pages'); ?>
 <a href="<?php echo url('pages/add'); ?>"><?php echo __('pages.create_page', 'Create a new page'); ?></a></h1>
 
-<?php echo $messages; ?>
-
 <section class="content">
+	<?php echo $messages; ?>
+
 	<ul class="list">
 		<?php foreach($pages->results as $page): ?>
 		<li>

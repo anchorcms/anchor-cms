@@ -6,10 +6,10 @@
 <a href="<?php echo url('comments/approved'); ?>">Approved</a>
 <a href="<?php echo url('comments/spam'); ?>">Spam</a></h1>
 
-<?php echo $messages; ?>
-
 <section class="content">
-<?php if($comments->count): ?>
+	<?php echo $messages; ?>
+
+	<?php if($comments->count): ?>
 	<ul class="list">
 		<?php foreach($comments->results as $comment): ?>
 		<li>
@@ -26,9 +26,9 @@
 	</ul>
 
 	<?php echo $comments->links(); ?>
-<?php else: ?>
+	<?php else: ?>
 	<p><?php echo __('comments.no_comments', 'No comments found.'); ?></p>
-<?php endif; ?>
+	<?php endif; ?>
 </section>
 
 <?php echo $footer; ?>

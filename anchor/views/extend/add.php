@@ -2,9 +2,8 @@
 
 <h1>Create a custom field</h1>
 
-<?php echo $messages; ?>
-
 <section class="content">
+	<?php echo $messages; ?>
 
 	<form method="post" action="<?php echo url('extend/add'); ?>" novalidate>
 

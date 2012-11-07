@@ -2,9 +2,8 @@
 
 <h1>Editing &ldquo;<?php echo Str::truncate($field->label, 4); ?>&rdquo;</h1>
 
-<?php echo $messages; ?>
-
 <section class="content">
+	<?php echo $messages; ?>
 
 	<form method="post" action="<?php echo url('extend/edit/' . $field->id); ?>" novalidate>
 

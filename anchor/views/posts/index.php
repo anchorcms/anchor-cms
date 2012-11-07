@@ -3,9 +3,9 @@
 <h1><?php echo __('posts.posts', 'Posts'); ?>
 <a href="<?php echo url('posts/add'); ?>"><?php echo __('posts.create_post', 'Create a new post'); ?></a></h1>
 
-<?php echo $messages; ?>
-
 <section class="content">
+	<?php echo $messages; ?>
+
 	<?php if($posts->count): ?>
 	<ul class="list">
 		<?php foreach($posts->results as $article): ?>

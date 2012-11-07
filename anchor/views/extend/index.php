@@ -3,9 +3,10 @@
 <h1><?php echo __('extend.extend', 'Extend'); ?>
 <a href="<?php echo url('extend/add'); ?>"><?php echo __('extend.create_field', 'Create a new field'); ?></a></h1>
 
-<?php echo $messages; ?>
-
 <section class="content">
+	<?php echo $messages; ?>
+
+	<?php if(count($extend->results)): ?>
 	<ul class="list">
 		<?php foreach($extend->results as $field): ?>
 		<li>
@@ -19,6 +20,7 @@
 	</ul>
 
 	<?php echo $extend->links(); ?>
+	<?php endif; ?>
 </section>
 
 <?php echo $footer; ?>

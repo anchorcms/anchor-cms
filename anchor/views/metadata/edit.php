@@ -2,9 +2,9 @@
 
 <h1><?php echo __('metadata.metadata', 'Site metadata'); ?></h1>
 
-<?php echo $messages; ?>
-
 <section class="content">
+	<?php echo $messages; ?>
+
 	<form method="post" action="<?php echo url('metadata'); ?>" novalidate>
 
 		<input name="token" type="hidden" value="<?php echo $token; ?>">
@@ -12,7 +12,8 @@
 		<fieldset class="split">
 			<p>
 				<label for="sitename"><?php echo __('metadata.sitename', 'Site name'); ?>:</label>
-				<input autofocus id="sitename" name="sitename" value="<?php echo Input::old('sitename', $meta['sitename']); ?>">
+				<input autofocus id="sitename" name="sitename"
+					value="<?php echo Input::old('sitename', $meta['sitename']); ?>">
 
 				<em><?php echo __('metadata.sitename_explain', 'Your site&rsquo;s name.'); ?></em>
 			</p>
@@ -21,7 +22,8 @@
 				<label for="description"><?php echo __('metadata.sitedescription', 'Site description'); ?>:</label>
 				<textarea id="description" name="description"><?php echo Input::old('description', $meta['description']); ?></textarea>
 
-				<em><?php echo __('metadata.sitedescription_explain', 'A short paragraph to describe your site.'); ?></em>
+				<em><?php echo __('metadata.sitedescription_explain',
+					'A short paragraph to describe your site.'); ?></em>
 			</p>
 
 			<p>
@@ -67,14 +69,16 @@
 			</p>
 
 			<p>
-				<label for="comment_notifications"><?php echo __('metadata.comment_notifications', 'Email notification for new comments'); ?>:</label>
+				<label for="comment_notifications"><?php echo __('metadata.comment_notifications',
+					'Email notification for new comments'); ?>:</label>
 				<?php $checked = Input::old('comment_notifications', $meta['comment_notifications']) ? ' checked' : ''; ?>
 				<input id="comment_notifications" name="comment_notifications" type="checkbox" value="1"<?php echo $checked; ?>>
 			</p>
 
 			<p>
 				<label for="comment_moderation_keys"><?php echo __('metadata.comment_moderation_keys', 'Spam keywords'); ?>:</label>
-				<textarea id="comment_moderation_keys" name="comment_moderation_keys"><?php echo Input::old('comment_moderation_keys', $meta['comment_moderation_keys']); ?></textarea>
+				<textarea id="comment_moderation_keys"
+					name="comment_moderation_keys"><?php echo Input::old('comment_moderation_keys', $meta['comment_moderation_keys']); ?></textarea>
 
 				<em><?php echo __('metadata.comment_moderation_keys_explain', 'Comma separated list of keywords.'); ?></em>
 			</p>
