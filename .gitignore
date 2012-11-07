@@ -7,6 +7,8 @@ Thumbs.db
 
 # ignore generated config
 /anchor/config/dev
+/anchor/config/application.php
+/anchor/config/database.php
 
 # ignore user mod_rewrite
 /.htaccess
@@ -17,12 +19,3 @@ Thumbs.db
 
 # ignore phpunit tests
 /tests
-
-# ignore file uploads
-/uploads/*
-
-# make sure the uploads folder isn't empty
-!/uploads/index.php
-anchor/config/application.php
-
-anchor/config/database.php
