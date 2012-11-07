@@ -23,9 +23,7 @@ class View {
 
 		extract($this->vars);
 
-		if(file_exists($this->path)) {
-			include_once $this->path;
-		}
+		require $this->path;
 
 		return ob_get_clean();
 	}
