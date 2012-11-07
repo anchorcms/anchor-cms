@@ -19,10 +19,8 @@ check('Anchor requires <code>pdo_mysql</code> module to be installed.', function
 	return in_array('mysql', PDO::getAvailableDrivers());
 });
 
-if(Uri::current() != 'complete') {
-	check('Anchor is already installed!', function() {
-		return file_exists(PATH . 'anchor/config/database.php') === false;
-	});
+if(Uri::current() != 'complete' and file_exists(PATH . 'anchor/config/database.php') !== false) {
+	header('location: ../../');
 }
 
 if(count($GLOBALS['errors'])) {
