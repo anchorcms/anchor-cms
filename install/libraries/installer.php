@@ -65,7 +65,7 @@ class Installer {
 		DB::connection('install')->query($sql);
 	}
 
-	private static function metadata($metadata) {
+	private static function metadata() {
 		$metadata = Session::get('install.metadata');
 
 		$query = new Query('meta', 'install');
@@ -79,7 +79,7 @@ class Installer {
 		}
 	}
 
-	private static function account($account) {
+	private static function account() {
 		$account = Session::get('install.account');
 
 		$query = new Query('users', 'install');
@@ -95,7 +95,7 @@ class Installer {
 		));
 	}
 
-	private static function database($database) {
+	private static function database() {
 		$database = Session::get('install.database');
 
 		$distro = file_get_contents(APP . 'storage/database.distro.php');
@@ -115,7 +115,7 @@ class Installer {
 		file_put_contents(PATH . 'anchor/config/database.php', $distro);
 	}
 
-	private static function application($settings) {
+	private static function application() {
 		$settings = Session::get('install');
 
 		$distro = file_get_contents(APP . 'storage/application.distro.php');
