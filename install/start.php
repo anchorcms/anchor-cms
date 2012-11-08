@@ -11,9 +11,17 @@ function check($message, $action) {
 	}
 }
 
-check('<code>anchor/config</code> directory needs to be writable.', function() {
+check('<code>anchor/config</code> directory needs to be temporary writable
+	so we can create your application and database configuration files.', function() {
 	return is_writable(PATH . 'anchor/config');
 });
+
+if(is_apache()) {
+	check('The public root directory needs to be temporary writable
+		while we try to create your htaccess file.', function() {
+		return is_writable(PATH);
+	});
+}
 
 check('Anchor requires <code>pdo_mysql</code> module to be installed.', function() {
 	return in_array('mysql', PDO::getAvailableDrivers());
@@ -34,17 +42,9 @@ if(count($GLOBALS['errors'])) {
 	Helpers
 */
 function is_apache() {
-	return getenv('SERVER_SOFTWARE') === 'Apache';
+	return stripos(PHP_SAPI, 'apache') !== false;
 }
 
 function is_cgi() {
-	if(getenv('FCGI_SERVER_VERSION')) {
-		return true;
-	}
-
-	if($sign = getenv('SERVER_SIGNATURE')) {
-		return stripos($sign, 'cgi') !== false;
-	}
-
-	return false;
+	return stripos(PHP_SAPI, 'cgi') !== false;
 }

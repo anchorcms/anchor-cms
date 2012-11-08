@@ -120,10 +120,18 @@ class Installer {
 
 		$distro = file_get_contents(APP . 'storage/application.distro.php');
 
+		// config
+		$url = $settings['metadata']['site_path'];
+		$index = is_apache() ? '' : 'index.php';
+		$key = Str::random(40);
+		$language = $settings['language'];
+
+		// swaps
 		$data = array(
-			"'url' => ''" => "'url' => '" . $settings['metadata']['site_path'] . "'",
-			"'key' => 'YourSecretKeyGoesHere'" => "'key' => '" . Str::random(40) . "'",
-			"'language' => 'en_GB'" => "'language' => '" . $settings['language'] . "'"
+			"'url' => ''" => "'url' => '" . $url . "'",
+			"'index' => 'index.php'" => "'index' => '" . $index . "'",
+			"'key' => 'YourSecretKeyGoesHere'" => "'key' => '" . $key . "'",
+			"'language' => 'en_GB'" => "'language' => '" . $language . "'"
 		);
 
 		foreach($data as $search => $replace) {
@@ -135,13 +143,22 @@ class Installer {
 
 	private static function rewrite() {
 		if(is_apache()) {
+			$settings = Session::get('install');
+
+			$url = $settings['metadata']['site_path'];
+			$index = is_cgi() ? 'index.php?/$1' : 'index.php/$1';
+
+			// path to write too
 			$htpath = PATH . '.htaccess';
-			$ht = file_get_contents(PATH . 'htaccess.txt');
+			$ht = file_get_contents(APP . 'storage/htaccess.distro');
 
-			if(is_cgi()) {
-				$ht = str_replace('index.php/$1', 'index.php?/$1', $ht);
-			}
+			// set rewrite base
+			$ht = str_replace('{base}', $url, $ht);
 
+			// add in the old question mark for those cgi hosts
+			$ht = str_replace('{index}', $index, $ht);
+
+			// write the htaccess file
 			file_put_contents($htpath, $ht);
 		}
 	}
