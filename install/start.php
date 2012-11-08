@@ -19,10 +19,6 @@ check('Anchor requires <code>pdo_mysql</code> module to be installed.', function
 	return in_array('mysql', PDO::getAvailableDrivers());
 });
 
-if(Uri::current() != 'complete' and file_exists(PATH . 'anchor/config/database.php') !== false) {
-	header('location: ../../');
-}
-
 if(count($GLOBALS['errors'])) {
 	$vars['errors'] = $GLOBALS['errors'];
 	$vars['uri'] = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/') . '/';
@@ -32,4 +28,23 @@ if(count($GLOBALS['errors'])) {
 		->nest('footer', 'partials/footer');
 
 	exit(1);
+}
+
+/*
+	Helpers
+*/
+function is_apache() {
+	return getenv('SERVER_SOFTWARE') === 'Apache';
+}
+
+function is_cgi() {
+	if(getenv('FCGI_SERVER_VERSION')) {
+		return true;
+	}
+
+	if($sign = getenv('SERVER_SIGNATURE')) {
+		return stripos($sign, 'cgi') !== false;
+	}
+
+	return false;
 }

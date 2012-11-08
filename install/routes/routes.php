@@ -1,6 +1,17 @@
 <?php
 
 /*
+	Filters
+*/
+Route::filter('check', function() {
+	if(file_exists(PATH . 'anchor/config/database.php')) {
+		$root = rtrim(dirname(dirname($_SERVER['SCRIPT_NAME'])), '/') . '/';
+
+		return Response::make('', 302, array('location' => $root));
+	}
+});
+
+/*
 	Complete
 */
 Route::get('complete', function() {

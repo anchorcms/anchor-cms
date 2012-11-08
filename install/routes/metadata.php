@@ -3,7 +3,7 @@
 /*
 	Metadata
 */
-Route::get('metadata', function() {
+Route::get('metadata', array('before' => 'check', 'do' => function() {
 	// check we have a database
 	if( ! Session::get('install.database')) {
 		Notify::error('Please select a database');
@@ -17,9 +17,9 @@ Route::get('metadata', function() {
 	return View::make('metadata', $vars)
 		->nest('header', 'partials/header')
 		->nest('footer', 'partials/footer');
-});
+}));
 
-Route::post('metadata', function() {
+Route::post('metadata', array('before' => 'check', 'do' => function() {
 	$metadata = Input::get_array(array('site_name', 'site_description', 'site_path', 'theme'));
 
 	$validator = new Validator($metadata);
@@ -51,4 +51,4 @@ Route::post('metadata', function() {
 	Session::put('install', $settings);
 
 	return Response::redirect('account');
-});
+}));

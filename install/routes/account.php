@@ -3,7 +3,7 @@
 /*
 	Account
 */
-Route::get('account', function() {
+Route::get('account', array('before' => 'check', 'do' => function() {
 	// check we have a database
 	if( ! Session::get('install.metadata')) {
 		Notify::error('Please enter your site details');
@@ -16,9 +16,9 @@ Route::get('account', function() {
 	return View::make('account', $vars)
 		->nest('header', 'partials/header')
 		->nest('footer', 'partials/footer');
-});
+}));
 
-Route::post('account', function() {
+Route::post('account', array('before' => 'check', 'do' => function() {
 	$account = Input::get_array(array('username', 'email', 'password'));
 
 	$validator = new Validator($account);
@@ -48,7 +48,7 @@ Route::post('account', function() {
 
 	// run install process
 	try {
-		Installer::run($settings);
+		Installer::run();
 	}
 	catch(Exception $e) {
 		Input::flash();
@@ -59,4 +59,4 @@ Route::post('account', function() {
 	}
 
 	return Response::redirect('complete');
-});
+}));

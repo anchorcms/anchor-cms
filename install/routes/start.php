@@ -3,7 +3,7 @@
 /*
 	Start (Language Select)
 */
-Route::get(array('/', 'start'), function() {
+Route::get(array('/', 'start'), array('before' => 'check', 'do' => function() {
 	$vars['messages'] = Notify::read();
 	$vars['languages'] = array();
 
@@ -24,9 +24,9 @@ Route::get(array('/', 'start'), function() {
 	return View::make('start', $vars)
 		->nest('header', 'partials/header')
 		->nest('footer', 'partials/footer');
-});
+}));
 
-Route::post('start', function() {
+Route::post('start', array('before' => 'check', 'do' => function() {
 	$language = Input::get('language');
 
 	$validator = new Validator(array('language' => $language));
@@ -45,4 +45,4 @@ Route::post('start', function() {
 	Session::put('install', array('language' => $language));
 
 	return Response::redirect('database');
-});
+}));

@@ -4,7 +4,7 @@
 /*
 	MySQL Database
 */
-Route::get('database', function() {
+Route::get('database', array('before' => 'check', 'do' => function() {
 	// check we have a selected language
 	if( ! Session::get('install.language')) {
 		Notify::error('Please select a language');
@@ -40,9 +40,9 @@ Route::get('database', function() {
 	return View::make('database', $vars)
 		->nest('header', 'partials/header')
 		->nest('footer', 'partials/footer');
-});
+}));
 
-Route::post('database', function() {
+Route::post('database', array('before' => 'check', 'do' => function() {
 	$database = Input::get_array(array('host', 'port', 'user', 'pass', 'name', 'collation'));
 
 	// test connection
@@ -74,4 +74,4 @@ Route::post('database', function() {
 	Session::put('install', $settings);
 
 	return Response::redirect('metadata');
-});
+}));
