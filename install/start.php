@@ -11,13 +11,13 @@ function check($message, $action) {
 	}
 }
 
-check('<code>anchor/config</code> directory needs to be temporary writable
+check('<code>anchor/config</code> directory needs to be temporarily writable
 	so we can create your application and database configuration files.', function() {
 	return is_writable(PATH . 'anchor/config');
 });
 
 if(is_apache()) {
-	check('The public root directory needs to be temporary writable
+	check('The public root directory needs to be temporarily writable
 		while we try to create your htaccess file.', function() {
 		return is_writable(PATH);
 	});
