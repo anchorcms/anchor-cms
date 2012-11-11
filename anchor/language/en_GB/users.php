@@ -30,7 +30,7 @@ return array(
 	'active' => 'Active',
 	'status_explain' => 'If inactive, the user will not be able to log in.',
 	'role' => 'Role',
-	'administrator' => 'Administrator',
+	'administrator' => 'Admin',
 	'editor' => 'Editor',
 	'user' => 'User',
 	'role_explain' => 'The user&rsquo;s role. See <a href="//anchorcms.com/docs/roles">here</a> for more info.',
