@@ -26,7 +26,11 @@ class Language {
 		$text = isset(static::$lines[$file][$line]) ?
 			static::$lines[$file][$line] : $default;
 
-		return call_user_func_array('sprintf', array_merge(array($text), $args));
+		if(count($args)) {
+			return call_user_func_array('sprintf', array_merge(array($text), $args));
+		}
+
+		return $text;
 	}
 
 }
