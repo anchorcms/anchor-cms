@@ -125,20 +125,28 @@ if( ! $('[autofocus]').length) {
 	Focus mode
 */
 (function() {
-	var doc = $(document), html = $('html');
+	var doc = $(document), html = $('html'), body = html.children('body');
 
 	var Focus = {
 		//  Our element to focus
 		target: $('#post-content, .header input'),
+		exitSpan: '#exit-focus',
 
 		enter: function() {
 			html.addClass('focus');
+			
+			if(!body.children(Focus.exitSpan).length) {
+				body.append('<span class="btn" id="' + Focus.exitSpan.substr(1) + '">Exit focus mode</span>');
+			}
+			
+			body.children(Focus.exitSpan).css('opacity', 0).animate({opacity: 1}, 250);
 
 			//  Set titles and placeholders
 			Focus.target.placeholder = (Focus.target.placeholder || '').split('.')[0] + '.';
 		},
 
 		exit: function() {
+			body.children(Focus.exitSpan).animate({opacity: 0}, 250);
 			html.removeClass('focus');
 		}
 	};
@@ -163,7 +171,7 @@ if( ! $('[autofocus]').length) {
 /*
 	Post previewing
 */
-(function() {
+false && (function() {
 	var buttons = $('.header .buttons'), prevue = $('.prevue'), textarea = $('#post-content'),
 		post = $('#post-data'), content = $('#content');
 
@@ -273,24 +281,5 @@ if( ! $('[autofocus]').length) {
 
 	select.bind('change', update);
 
-	update();
-}());
-
-/*
-	Show redirect url on Pages
-*/
-(function() {
-	var c = $('#redirect'), r = $('#redirect_url').parent();
-
-	var update = function() {
-		if(c.prop('checked')) {
-			r.show();
-		}
-		else {
-			r.hide();
-		}
-	};
-
-	c.bind('change', update);
 	update();
 }());

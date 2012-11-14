@@ -318,8 +318,10 @@ h1 a, .btn, button {
 
 	border: none;
 	border-radius: 5px;
+	
+	/* span.btn */
+	cursor: pointer;
 }
-
 	h1 a:hover, .btn:hover, button:hover {
 		background: #4f8c12;
 	}
@@ -327,7 +329,6 @@ h1 a, .btn, button {
 	.btn.secondary, button.secondary {
 		background: #a4adbb;
 	}
-
 		.btn.secondary:hover, button.secondary:hover {
 			background: #848f9f;
 		}
@@ -335,7 +336,6 @@ h1 a, .btn, button {
 	.btn.blue, button.blue {
 		background: #7599d2;
 	}
-
 		.btn.blue:hover, button.blue:hover {
 			background: #5479b2;
 		}
@@ -343,9 +343,23 @@ h1 a, .btn, button {
 	.btn.red, button.red {
 		background: #c4533d;
 	}
-
 		.btn.red:hover, button.red:hover {
 			background: #a03621;
+		}
+	
+	#exit-focus.btn {
+		background: #d4d9e0;
+		color: #7c8592;
+		
+		position: fixed;
+		right: 20px;
+		top: 20px;
+		
+		padding: 0 17px;
+		line-height: 32px;
+	}
+		#exit-focus.btn:hover {
+			background: #cdd3db;
 		}
 
 .disabled, [disabled] {
@@ -559,7 +573,6 @@ body.login {
 		position: relative;
 		overflow: visible;
 	}
-
 	.header input {
 		font-size: 29px;
 		line-height: 40px;
@@ -571,46 +584,57 @@ body.login {
 
 		background: transparent;
 	}
-
+	.header .redirect {
+		position: absolute;
+		top: 100px;
+		left: -15px;
+		right: -15px;
+	}
+		.header .redirect input {
+			background: #fff;
+			
+			font: 17px/25px Inconsolata, monospace;
+			
+			float: none;
+			width: 100%;
+			padding: 10px 15px;
+			
+			border-radius: 0 0 5px 5px;
+		}
 	.header .buttons {
 		float: right;
 		padding: 30px 0;
 	}
-
 		.header .buttons .btn {
 			float: right;
 			margin-left: 8px;
 		}
 
+	.header .wrap .notifications {
+		position: absolute;
+		right: -20px;
+		top: 85px;
 
-		.header .wrap .notifications {
+		width: 320px;
+	}
+		.header .wrap .notifications:after {
+			content: '';
 			position: absolute;
-			right: -20px;
-			top: 85px;
+			display: block;
+			top: -6px;
+			right: 50px;
 
-			width: 320px;
+			border-bottom: 6px solid #64a524;
+			border-left: 6px solid transparent;
+			border-right: 6px solid transparent;
 		}
-
-			.header .wrap .notifications:after {
-				content: '';
-				position: absolute;
-				display: block;
-				top: -6px;
-				right: 50px;
-
-				border-bottom: 6px solid #64a524;
-				border-left: 6px solid transparent;
-				border-right: 6px solid transparent;
-			}
 
 .prevue {
 	display: none;
 }
-
 	.prevue.active {
 		display: block;
 	}
-
 	.prevue .wrap {
 		padding: 2em 0;
 	}
@@ -777,6 +801,38 @@ body.login {
 form[action*='add'] + #bottom, form[action*='edit'] + #bottom {
 	display: none;
 }
+
+input[type='range'], ::-webkit-slider-thumb {
+	-webkit-appearance: none;
+}
+	input[type='range'] {
+		background: #cdd3db;
+		padding: 0 5px 0 0 !important;
+		
+		overflow: hidden;
+	}
+	::-webkit-slider-thumb {
+		display: block;
+		width: 15px;
+		height: 29px;
+		
+		position: relative;
+		
+		border-radius: 3px;
+		
+		background: #95a1b2;
+	}
+		::-webkit-slider-thumb:before {
+			content: '';
+			display: block;
+			position: absolute;
+			left: -300px;
+			right: 10px;
+			top: 0;
+			bottom: 0;
+			
+			background: #95a1b2;
+		}
 
 /*
 .prevue {

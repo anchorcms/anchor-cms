@@ -55,7 +55,7 @@ return array(
 	'description' => 'Description',
 	'description_explain' => 'A brief outline of what your post is about. Used in the RSS feed.',
 	'content' => 'Content',
-	'content_explain' => 'Your post\'s main content. Enjoys a healthy dose of valid HTML.',
+	'content_explain' => 'Your post\'s main content. Enjoys a healthy dose of valid Markdown.',
 	'status' => 'Status',
 	'status_explain' => 'Statuses: live (published), pending (draft), or hidden (archived).',
 	'allow_comments' => 'Allow Comments',
