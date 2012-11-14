@@ -900,6 +900,34 @@ form[action*='add'] + #bottom, form[action*='edit'] + #bottom {
 			background-image: url('../img/tick.png');
 		}
 
+.empty {
+	text-align: center;
+	padding: 60px 0;
+}
+	.empty .icon {
+		display: block;
+		width: 54px;
+		height: 54px;
+		margin: 0 auto 15px;
+		
+		background: url('../img/icons.png') no-repeat;
+	}
+		.posts.empty .icon {
+			width: 52px;
+			background-position: -204px 0;
+		}
+		.comments.empty .icon {
+			width: 55px;
+			background-position: -256px 0;
+		}
+		.pages.empty .icon {
+			width: 45px;
+			background-position: -311px 0;
+		}
+	.empty a {
+		margin-top: 80px;
+	}
+
 .piggy {
 	position: fixed;
 	left: 50%;
