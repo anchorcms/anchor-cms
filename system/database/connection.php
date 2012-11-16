@@ -1,5 +1,15 @@
 <?php namespace System\Database;
 
+/**
+ * Nano
+ *
+ * Lightweight php framework
+ *
+ * @package		nano
+ * @author		k. wilson
+ * @link		http://madebykieron.co.uk
+ */
+
 use System\Config;
 use PDO, PDOStatement, PDOException, Exception;
 
@@ -53,6 +63,18 @@ class Connection {
 		else {
 			return $result;
 		}
+	}
+
+	public function first($sql, $bindings = array()) {
+		list($statement, $result) = $this->execute($sql, $bindings);
+
+		if($result) return $statement->fetch(Config::get('database.fetch'));
+	}
+
+	public function column($sql, $bindings = array()) {
+		list($statement, $result) = $this->execute($sql, $bindings);
+
+		if($result) return $statement->fetchColumn();
 	}
 
 	public function type($var) {

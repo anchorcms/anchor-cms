@@ -1,9 +1,19 @@
-<?php
+<?php namespace System;
+
+/**
+ * Nano
+ *
+ * Lightweight php framework
+ *
+ * @package		nano
+ * @author		k. wilson
+ * @link		http://madebykieron.co.uk
+ */
 
 /*
 	Include application helpers
 */
-require PATH . 'system/helpers.php';
+require PATH . 'system/helpers' . EXT;
 
 /*
 	Register Globals Fix
@@ -32,15 +42,27 @@ if(magic_quotes()) {
 }
 
 // get our autoloader
-require PATH . 'system/error.php';
-require PATH . 'system/config.php';
-require PATH . 'system/autoload.php';
+require PATH . 'system/error' . EXT;
+require PATH . 'system/config' . EXT;
+require PATH . 'system/autoload' . EXT;
 
-// tell the autoloader where to find classes
-System\Autoloader::directory(array(PATH, APP . 'libraries' . DS, APP . 'models' . DS));
+// register auto loader
+spl_autoload_register(array('System\\Autoloader', 'load'));
 
-// register the auto loader
-System\Autoloader::register();
+// map namespace
+Autoloader::namespaces(array(
+	'System' => SYS));
+
+// The auto-loader can search directories for files using the PSR-0
+// naming convention.
+Autoloader::directories(array(
+	APP . 'models',
+	APP . 'libraries'
+));
+
+// Aliases allow you to use classes without always specifying their
+// fully namespaced path.
+Autoloader::$aliases = Config::get('aliases');
 
 /*
 	Error handling
@@ -69,12 +91,14 @@ date_default_timezone_set(Config::get('application.timezone', 'UTC'));
 	Set input
 */
 switch(Request::method()) {
-	case 'get':
+	case 'GET':
 		parse_str(parse_url($_SERVER['REQUEST_URI'], PHP_URL_QUERY), Input::$array);
 		break;
-	case 'post':
+
+	case 'POST':
 		Input::$array = $_POST;
 		break;
+
 	default:
 		parse_str(file_get_contents('php://input'), Input::$array);
 }
@@ -82,7 +106,7 @@ switch(Request::method()) {
 /*
 	Start application
 */
-if(is_readable($start = APP . 'start.php')) require $start;
+if(is_readable($start = APP . 'start' . EXT)) require $start;
 
 Session::load();
 

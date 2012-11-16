@@ -1,5 +1,15 @@
 <?php namespace System\Session\Drivers;
 
+/**
+ * Nano
+ *
+ * Lightweight php framework
+ *
+ * @package		nano
+ * @author		k. wilson
+ * @link		http://madebykieron.co.uk
+ */
+
 use System\Str;
 
 abstract class Driver {
@@ -23,7 +33,7 @@ abstract class Driver {
 		// going to happen on the first iteration.
 		do {
 
-			$session = $this->load($id = Str::random(32));			
+			$session = $this->load($id = Str::random(32));
 
 		} while ( ! is_null($session));
 

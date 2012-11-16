@@ -1,5 +1,15 @@
 <?php namespace System;
 
+/**
+ * Nano
+ *
+ * Lightweight php framework
+ *
+ * @package		nano
+ * @author		k. wilson
+ * @link		http://madebykieron.co.uk
+ */
+
 class View {
 
 	public $path, $vars = array();
@@ -9,7 +19,7 @@ class View {
 	}
 
 	public function __construct($file, $vars = array()) {
-		$this->path = APP . 'views/' . $file . '.php';
+		$this->path = APP . 'views/' . $file . EXT;
 		$this->vars = array_merge($this->vars, $vars);
 	}
 

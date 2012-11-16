@@ -1,5 +1,15 @@
 <?php namespace System\Database;
 
+/**
+ * Nano
+ *
+ * Lightweight php framework
+ *
+ * @package		nano
+ * @author		k. wilson
+ * @link		http://madebykieron.co.uk
+ */
+
 use System\Database as DB;
 use System\Config;
 

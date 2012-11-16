@@ -1,5 +1,15 @@
 <?php namespace System\Session\Drivers;
 
+/**
+ * Nano
+ *
+ * Lightweight php framework
+ *
+ * @package		nano
+ * @author		k. wilson
+ * @link		http://madebykieron.co.uk
+ */
+
 use System\Database\Query;
 use System\Config;
 

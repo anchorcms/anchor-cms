@@ -1,5 +1,15 @@
 <?php namespace System\Session;
 
+/**
+ * Nano
+ *
+ * Lightweight php framework
+ *
+ * @package		nano
+ * @author		k. wilson
+ * @link		http://madebykieron.co.uk
+ */
+
 use System\Config;
 use System\Cookie;
 
@@ -78,7 +88,7 @@ class Payload {
 
 		$lifetime = ( ! $expire_on_close) ? $lifetime : 0;
 
-		Cookie::put($cookie, $this->session['id'], $lifetime, $path, $domain, $secure);	
+		Cookie::put($cookie, $this->session['id'], $lifetime, $path, $domain, $secure);
 	}
 
 	protected function age() {

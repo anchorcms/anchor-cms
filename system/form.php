@@ -1,206 +1,179 @@
 <?php namespace System;
 
+/**
+ * Nano
+ *
+ * Lightweight php framework
+ *
+ * @package		nano
+ * @author		k. wilson
+ * @link		http://madebykieron.co.uk
+ */
+
 class Form {
 
-	private static function attributes($attributes) {
-		if(is_string($attributes)) {
-			return ($attributes !== '') ? ' ' . $attributes : '';
+	public static function open($action, $method = 'POST', $attributes = array()) {
+		$attributes['method'] =  static::method(strtoupper($method));
+
+		$attributes['action'] = static::action($action);
+
+		if ( ! array_key_exists('accept-charset', $attributes)) {
+			$attributes['accept-charset'] = Config::get('application.encoding');
 		}
 
-		$att = array();
-
-		foreach($attributes as $key => $val) {
-			$att[] = $key . '="' . $val . '"';
-		}
-
-		return ' ' . implode(' ', $att);
+		return '<form' . Html::attributes($attributes) . '>';
 	}
 
-	public static function open($action, $attributes = array()) {
-		if(empty($attributes)) {
-			$attributes['method'] = 'post';
-		}
+	protected static function method($method) {
+		return ($method !== 'GET') ? 'POST' : $method;
+	}
 
-		if(!isset($attributes['method'])) {
-			$attributes['method'] = 'post';
-		}
-
-		if(strpos($action, '://') === false) {
-			$action = Uri::make($action);
-		}
-
-		return '<form action="' . $action . '"' . static::attributes($attributes) . '>';
+	protected static function action($action) {
+		return Uri::make($action);
 	}
 
 	public static function open_multipart($action, $attributes = array()) {
 		$attributes['enctype'] = 'multipart/form-data';
+
 		return static::open($action, $attributes);
 	}
 
-	public static function input($data, $value = '') {
-		$defaults = array(
-			'type' => 'text',
-			'name' => is_array($data) ? '' : $data,
-			'value' => $value
-		);
-
-		$params = is_array($data) ? $data : array();
-
-		return '<input' . static::attributes(array_merge($defaults, $params)) . '>';
-	}
-
-	public static function hidden($data, $value = '') {
-		if(!is_array($data)) {
-			$data = array(
-				'name' => $data,
-				'value' => $value
-			);
-		}
-
-		$data['type'] = 'hidden';
-
-		return static::input($data, $value);
-	}
-
-	public static function password($data, $value = '') {
-		if (!is_array($data)) {
-			$data = array('name' => $data);
-		}
-
-		$data['type'] = 'password';
-
-		return static::input($data, $value);
-	}
-
-	public static function upload($data, $value = '') {
-		if (!is_array($data)) {
-			$data = array('name' => $data);
-		}
-
-		$data['type'] = 'file';
-
-		return static::input($data, $value);
-	}
-
-	public static function textarea($data, $value = '') {
-		$defaults = array(
-			'name' => is_array($data) ? '' : $data,
-			'cols' => '90',
-			'rows' => '12'
-		);
-
-		if(is_array($data) and isset($data['value'])) {
-			$val = $data['value'];
-			unset($data['value']); // textareas don't use the value attribute
-		} else {
-			$val = $value;
-		}
-
-		$params = is_array($data) ? $data : array();
-
-		return '<textarea' . static::attributes(array_merge($defaults, $params)) . '>' . $val . '</textarea>';
-	}
-
-	public static function select($name, $options = array(), $selected = array(), $attributes = '') {
-		if(!is_array($selected)) {
-			$selected = array($selected);
-		}
-
-		if(is_array($attributes)) {
-			if(isset($attributes['multiple'])) {
-				$attributes['multiple'] = 'multiple';
-			}
-
-			$attributes = static::attributes($attributes);
-		}
-
-		$form = '<select name="' . $name . '"' . $attributes . '>';
-
-		foreach($options as $key => $val) {
-			if(is_array($val)) {
-				$form .= '<optgroup label="' . $key . '">';
-
-				foreach($val as $grp_key => $grp_val) {
-					$sel = in_array($grp_key, $selected) ? ' selected="selected"' : '';
-
-					$form .= '<option value="' . $grp_key . '"' . $sel . '>' . $grp_val . '</option>';
-				}
-
-				$form .= '</optgroup>';
-			} else {
-				$sel = in_array($key, $selected) ? ' selected="selected"' : '';
-
-				$form .= '<option value="' . $key . '"' . $sel . '>' . $val . '</option>';
-			}
-		}
-
-		$form .= '</select>';
-
-		return $form;
-	}
-
-	public static function checkbox($data, $value = '', $checked = false) {
-		$defaults = array(
-			'type' => 'checkbox',
-			'name' => is_array($data) ? '' : $data,
-			'value' => $value
-		);
-
-		if(is_array($data) and array_key_exists('checked', $data)) {
-			if($data['checked']) {
-				$defaults['checked'] = 'checked';
-			}
-		}
-
-		if($checked) {
-			$defaults['checked'] = 'checked';
-		}
-
-		$params = is_array($data) ? $data : array();
-
-		return static::input(array_merge($defaults, $params));
-	}
-
-	public static function radio($data, $value = '', $checked = false) {
-		if(!is_array($data)) {
-			$data = array('name' => $data);
-		}
-
-		$data['type'] = 'radio';
-
-		return static::checkbox($data, $value, $checked);
-	}
-
-	public static function submit($data, $value = '') {
-		$defaults = array(
-			'type' => 'submit',
-			'name' => is_array($data) ? '' : $data,
-			'value' => $value
-		);
-
-		$params = is_array($data) ? $data : array();
-
-		return static::input(array_merge($defaults, $params));
-	}
-
-	public static function button($data, $content = '') {
-		$defaults = array(
-			// default to submit for IE compat
-			'name' => is_array($data) ? 'submit' : $data,
-			'type' => 'button'
-		);
-
-		if(is_array($data) and isset($data['content'])) {
-			$content = $data['content'];
-			unset($data['content']); // content is not an attribute
-		}
-
-		$params = is_array($data) ? $data : array();
-		return '<button' . static::attributes(array_merge($defaults, $params)) . '>' . $content . '</button>';
-	}
-
 	public static function close() {
-		return "</form>";
+		return '</form>';
+	}
+
+	public static function input($type, $name, $value = '', $attributes = array()) {
+		$attributes['type'] = $type;
+
+		$attributes['name'] = $name;
+
+		if($value) $attributes['value'] = $value;
+
+		return Html::element('input', '', $attributes);
+	}
+
+	public static function text($name, $value = '', $attributes = array()) {
+		return static::input('text', $name, $value, $attributes);
+	}
+
+	public static function password($name, $attributes = array()) {
+		return static::input('password', $name, '', $attributes);
+	}
+
+	public static function hidden($name, $value = '', $attributes = array()) {
+		return static::input('hidden', $name, $value, $attributes);
+	}
+
+	public static function search($name, $value = '', $attributes = array()) {
+		return static::input('search', $name, $value, $attributes);
+	}
+
+	public static function email($name, $value = '', $attributes = array()) {
+		return static::input('email', $name, $value, $attributes);
+	}
+
+	public static function telephone($name, $value = '', $attributes = array()) {
+		return static::input('tel', $name, $value, $attributes);
+	}
+
+	public static function url($name, $value = '', $attributes = array()) {
+		return static::input('url', $name, $value, $attributes);
+	}
+
+	public static function number($name, $value = '', $attributes = array()) {
+		return static::input('number', $name, $value, $attributes);
+	}
+
+	public static function date($name, $value = '', $attributes = array()) {
+		return static::input('date', $name, $value, $attributes);
+	}
+
+	public static function file($name, $attributes = array()) {
+		return static::input('file', $name, '', $attributes);
+	}
+
+	public static function textarea($name, $value = '', $attributes = array()) {
+		$attributes['name'] = $name;
+
+		if ( ! isset($attributes['rows'])) $attributes['rows'] = 10;
+
+		if ( ! isset($attributes['cols'])) $attributes['cols'] = 50;
+
+		return Html::element('textarea', $value, $attributes);
+	}
+
+	public static function select($name, $options = array(), $selected = null, $attributes = array()) {
+		$attributes['name'] = $name;
+
+		$html = array();
+
+		foreach($options as $value => $display) {
+			if(is_array($display)) {
+				$html[] = static::optgroup($display, $value, $selected);
+			}
+			else {
+				$html[] = static::option($value, $display, $selected);
+			}
+		}
+
+		return Html::element('select', implode('', $html), $attributes);
+	}
+
+	protected static function optgroup($options, $label, $selected) {
+		$html = array();
+
+		foreach($options as $value => $display) {
+			$html[] = static::option($value, $display, $selected);
+		}
+
+		return Html::element('optgroup', implode('', $html), array('label' => Html::entities($label)));
+	}
+
+	protected static function option($value, $display, $selected) {
+		if(is_array($selected)) {
+			$selected = (in_array($value, $selected)) ? 'selected' : null;
+		}
+		else {
+			$selected = ((string) $value == (string) $selected) ? 'selected' : null;
+		}
+
+		$attributes = array('value' => Html::entities($value), 'selected' => $selected);
+
+		return Html::element('option', Html::entities($display), $attributes);
+	}
+
+	public static function checkbox($name, $value = 1, $checked = false, $attributes = array()) {
+		return static::checkable('checkbox', $name, $value, $checked, $attributes);
+	}
+
+	public static function radio($name, $value = null, $checked = false, $attributes = array()) {
+		if (is_null($value)) $value = $name;
+
+		return static::checkable('radio', $name, $value, $checked, $attributes);
+	}
+
+	protected static function checkable($type, $name, $value, $checked, $attributes) {
+		if($checked) $attributes['checked'] = 'checked';
+
+		return static::input($type, $name, $value, $attributes);
+	}
+
+	public static function submit($value = null, $attributes = array()) {
+		return static::input('submit', null, $value, $attributes);
+	}
+
+	public static function reset($value = null, $attributes = array()) {
+		return static::input('reset', null, $value, $attributes);
+	}
+
+	public static function image($url, $name = null, $attributes = array()) {
+		$attributes['src'] = URL::to_asset($url);
+
+		return static::input('image', $name, null, $attributes);
+	}
+
+	public static function button($value = null, $attributes = array()) {
+		return Html::element('button', Html::entities($value), $attributes);
 	}
 
 }

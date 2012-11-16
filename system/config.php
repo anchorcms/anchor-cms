@@ -1,5 +1,15 @@
 <?php namespace System;
 
+/**
+ * Nano
+ *
+ * Lightweight php framework
+ *
+ * @package		nano
+ * @author		k. wilson
+ * @link		http://madebykieron.co.uk
+ */
+
 class Config {
 
 	public static $items = array(),  $cache = array(), $mapped = array();
@@ -44,7 +54,7 @@ class Config {
 	}
 
 	public static function load($file) {
-		if(is_readable($path = static::path() . $file . '.php')) {
+		if(is_readable($path = static::path() . $file . EXT)) {
 			// add file to mapped files
 			static::$mapped[] = $file;
 

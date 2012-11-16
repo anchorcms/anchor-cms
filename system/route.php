@@ -1,5 +1,15 @@
 <?php namespace System;
 
+/**
+ * Nano
+ *
+ * Lightweight php framework
+ *
+ * @package		nano
+ * @author		k. wilson
+ * @link		http://madebykieron.co.uk
+ */
+
 use System\Routing\Filters;
 
 class Route {
@@ -9,10 +19,6 @@ class Route {
 	public static $filters = array();
 
 	public static function __callStatic($method, $arguments) {
-		if(in_array($method, array('get', 'post', 'any')) === false) {
-			return false;
-		}
-
 		list($route, $action) = $arguments;
 
 		if(is_string($route)) $route = array($route);

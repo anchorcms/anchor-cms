@@ -1,5 +1,15 @@
 <?php namespace System;
 
+/**
+ * Nano
+ *
+ * Lightweight php framework
+ *
+ * @package		nano
+ * @author		k. wilson
+ * @link		http://madebykieron.co.uk
+ */
+
 // Added in 5.3.3
 if( ! defined('JSON_ERROR_UTF8')) define('JSON_ERROR_UTF8', 5);
 

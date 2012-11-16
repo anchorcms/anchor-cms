@@ -1,5 +1,15 @@
 <?php namespace System;
 
+/**
+ * Nano
+ *
+ * Lightweight php framework
+ *
+ * @package		nano
+ * @author		k. wilson
+ * @link		http://madebykieron.co.uk
+ */
+
 class Hash {
 
 	public static function make($value, $rounds = 10) {
@@ -22,5 +32,5 @@ class Hash {
 	public static function check($value, $hash) {
 		return crypt($value, $hash) === $hash;
 	}
-	
+
 }

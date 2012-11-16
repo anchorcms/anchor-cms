@@ -1,5 +1,15 @@
 <?php namespace System;
 
+/**
+ * Nano
+ *
+ * Lightweight php framework
+ *
+ * @package		nano
+ * @author		k. wilson
+ * @link		http://madebykieron.co.uk
+ */
+
 class Uri {
 
 	public static $uri, $url, $index;
@@ -11,6 +21,10 @@ class Uri {
 
 		if(strlen(static::$index)) {
 			$base .= static::$index . '/';
+		}
+
+		if(starts_with($uri, $base)) {
+			return $uri;
 		}
 
 		return $base . $uri;

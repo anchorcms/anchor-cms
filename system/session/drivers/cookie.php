@@ -1,5 +1,15 @@
 <?php namespace System\Session\Drivers;
 
+/**
+ * Nano
+ *
+ * Lightweight php framework
+ *
+ * @package		nano
+ * @author		k. wilson
+ * @link		http://madebykieron.co.uk
+ */
+
 use System\Config, System\Cookie as C;
 
 class Cookie extends Driver {

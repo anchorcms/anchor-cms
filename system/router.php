@@ -1,13 +1,20 @@
 <?php namespace System;
 
+/**
+ * Nano
+ *
+ * Lightweight php framework
+ *
+ * @package		nano
+ * @author		k. wilson
+ * @link		http://madebykieron.co.uk
+ */
+
 use FilesystemIterator;
 
 class Router {
 
-	public static $routes = array(
-		'get' => array(),
-		'post' => array()
-	);
+	public static $routes = array();
 
 	public static $patterns = array(
 		'(:num)' => '([0-9]+)',
@@ -42,14 +49,42 @@ class Router {
 	}
 
 	public static function route($method, $uri) {
-		if($route = static::match($method, $uri)) {
+		if($route = static::match(strtolower($method), $uri)) {
 			return $route;
 		}
 	}
 
+	public static function match($method, $uri) {
+		foreach(static::method($method) as $route => $action) {
+			// try simple match
+			if($uri == $route) {
+				return new Route($action);
+			}
+
+			// replace any pre-defined patterns
+			if(str_contains($route, '(')) {
+				$route = str_replace(array_keys(static::$patterns), array_values(static::$patterns), $route);
+
+				// search for patterns
+				if(preg_match('#^' . $route . '$#', $uri, $matched)) {
+					return new Route($action, array_slice($matched, 1));
+				}
+			}
+
+			// search for wild card
+			if(str_contains($route, '*')) {
+				return new Route($action);
+			}
+		}
+	}
+
 	public static function method($method) {
+		// If there are routes defined as any we copy them
+		// into the requested method routes array
 		if(isset(static::$routes['any'])) {
 			foreach(static::$routes['any'] as $route => $action) {
+				// If the requested method route is defined
+				// skip the `any` route
 				if(array_key_exists($route, static::$routes[$method])) {
 					continue;
 				}
@@ -61,32 +96,5 @@ class Router {
 		return static::$routes[$method];
 	}
 
-	public static function match($method, $uri) {
-		foreach(static::method($method) as $route => $action) {
-			// try simple match
-			if($uri == $route) {
-				return new Route($action);
-			}
-
-			// search for patterns
-			if(strpos($route, '(') !== false) {
-				foreach(static::$patterns as $search => $replace) {
-					if(strpos($route, $search) !== false) {
-						// swap out placeholders for regex
-						$route = str_replace($search, $replace, $route);
-					}
-				}
-
-				if(preg_match('#^' . $route . '$#', $uri, $matched)) {
-					return new Route($action, array_slice($matched, 1));
-				}
-			}
-
-			// search for wild card
-			if(strpos($route, '*') !== false) {
-				return new Route($action);
-			}
-		}
-	}
 
 }

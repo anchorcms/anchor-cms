@@ -1,5 +1,15 @@
 <?php namespace System;
 
+/**
+ * Nano
+ *
+ * Lightweight php framework
+ *
+ * @package		nano
+ * @author		k. wilson
+ * @link		http://madebykieron.co.uk
+ */
+
 define('MB_STRING', function_exists('mb_get_info'));
 
 class Str {
@@ -34,7 +44,7 @@ class Str {
 		return substr(str_shuffle(str_repeat($pool, 5)), 0, $length);
 	}
 
-	public static function truncate($str, $limit = 10, $elipse = ' [...]') {
+	public static function truncate($str, $limit = 10, $elipse = '&hellip;') {
 		$words = preg_split('/\s+/', $str);
 
 		if(count($words) <= $limit) {

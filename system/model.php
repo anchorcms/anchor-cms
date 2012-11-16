@@ -1,5 +1,15 @@
 <?php namespace System;
 
+/**
+ * Nano
+ *
+ * Lightweight php framework
+ *
+ * @package		nano
+ * @author		k. wilson
+ * @link		http://madebykieron.co.uk
+ */
+
 use System\Database\Query;
 
 class Model {
@@ -62,7 +72,7 @@ class Model {
 
 	public function delete() {
 		$query = Query::table(static::$table)->where('id', '=', $this->id);
-		
+
 		$this->id = null;
 		$this->data = array();
 
