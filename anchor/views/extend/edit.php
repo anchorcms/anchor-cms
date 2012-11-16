@@ -5,7 +5,7 @@
 <section class="content">
 	<?php echo $messages; ?>
 
-	<form method="post" action="<?php echo url('extend/edit/' . $field->id); ?>" novalidate>
+	<form method="post" action="<?php echo admin_url('extend/edit/' . $field->id); ?>" novalidate>
 
 		<input name="token" type="hidden" value="<?php echo $token; ?>">
 
@@ -67,7 +67,7 @@
 
 		<p class="buttons">
 			<button type="submit"><?php echo __('extend.update', 'Update'); ?></button>
-			<a class="btn delete red" href="<?php echo url('extend/delete/' . $field->id); ?>"><?php echo __('extend.delete', 'Delete'); ?></a>
+			<a class="btn delete red" href="<?php echo admin_url('extend/delete/' . $field->id); ?>"><?php echo __('extend.delete', 'Delete'); ?></a>
 		</p>
 
 	</form>

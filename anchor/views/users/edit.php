@@ -6,7 +6,7 @@
 <section class="content">
 	<?php echo $messages; ?>
 
-	<form method="post" action="<?php echo url('users/edit/' . $user->id); ?>" novalidate autocomplete="off">
+	<form method="post" action="<?php echo admin_url('users/edit/' . $user->id); ?>" novalidate autocomplete="off">
 
 		<input name="token" type="hidden" value="<?php echo $token; ?>">
 
@@ -94,7 +94,7 @@
 		<p class="buttons">
 			<button type="submit"><?php echo __('users.update', 'Update'); ?></button>
 			<?php if(Auth::user()->id !== $user->id): ?>
-			<a class="red" name="delete" href="<?php echo url('users/delete/' . $user->id); ?>">
+			<a class="red" name="delete" href="<?php echo admin_url('users/delete/' . $user->id); ?>">
 				<?php echo __('users.delete', 'Delete'); ?></a>
 			<?php endif; ?>
 		</p>

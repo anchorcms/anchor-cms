@@ -1,6 +1,6 @@
 <?php echo $header; ?>
 
-<form method="post" action="<?php echo url('posts/edit/' . $article->id); ?>" enctype="multipart/form-data" novalidate>
+<form method="post" action="<?php echo admin_url('posts/edit/' . $article->id); ?>" enctype="multipart/form-data" novalidate>
 
 	<input name="token" type="hidden" value="<?php echo $token; ?>">
 
@@ -14,7 +14,8 @@
 
 			<p class="buttons">
 				<button tabindex="3" class="btn" type="submit"><?php echo __('posts.save', 'Save'); ?></button>
-				<a class="btn delete red" href="<?php echo url('posts/delete/' . $article->id); ?>"><?php echo __('posts.delete', 'Delete'); ?></a>
+				<a class="btn delete red" href="<?php echo admin_url('posts/delete/' . $article->id); ?>">
+					<?php echo __('posts.delete', 'Delete'); ?></a>
 			</p>
 		</div>
 	</header>

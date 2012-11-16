@@ -5,7 +5,7 @@
 <section class="content">
 	<?php echo $messages; ?>
 
-	<form method="post" action="<?php echo url('metadata'); ?>" novalidate>
+	<form method="post" action="<?php echo admin_url('metadata'); ?>" novalidate>
 
 		<input name="token" type="hidden" value="<?php echo $token; ?>">
 

@@ -1,10 +1,10 @@
 <?php echo $header; ?>
 
 <h1><?php echo __('comments.comments', 'Comments'); ?>
-<a href="<?php echo url('comments'); ?>">All</a>
-<a href="<?php echo url('comments/pending'); ?>">Pending</a>
-<a href="<?php echo url('comments/approved'); ?>">Approved</a>
-<a href="<?php echo url('comments/spam'); ?>">Spam</a></h1>
+<a href="<?php echo admin_url('comments'); ?>">All</a>
+<a href="<?php echo admin_url('comments/pending'); ?>">Pending</a>
+<a href="<?php echo admin_url('comments/approved'); ?>">Approved</a>
+<a href="<?php echo admin_url('comments/spam'); ?>">Spam</a></h1>
 
 <section class="content">
 	<?php echo $messages; ?>
@@ -13,7 +13,7 @@
 	<ul class="list">
 		<?php foreach($comments->results as $comment): ?>
 		<li>
-			<a href="<?php echo url('comments/edit/' . $comment->id); ?>">
+			<a href="<?php echo admin_url('comments/edit/' . $comment->id); ?>">
 				<strong><?php echo Str::truncate($comment->text, 10); ?></strong>
 
 				<span><?php echo __('comments.created', 'Created'); ?> <time><?php echo Date::format($comment->date); ?></time>

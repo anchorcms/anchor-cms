@@ -5,7 +5,7 @@
 <section class="content">
 	<?php echo $messages; ?>
 
-	<form method="post" action="<?php echo url('pages/add'); ?>" novalidate>
+	<form method="post" action="<?php echo admin_url('pages/add'); ?>" novalidate>
 
 		<input name="token" type="hidden" value="<?php echo $token; ?>">
 
@@ -82,7 +82,7 @@
 
 		<p class="buttons">
 			<button type="submit"><?php echo __('pages.create', 'Create'); ?></button>
-			<a href="<?php echo url('pages'); ?>"><?php echo __('pages.return_pages', 'Return to pages'); ?></a>
+			<a href="<?php echo admin_url('pages'); ?>"><?php echo __('pages.return_pages', 'Return to pages'); ?></a>
 		</p>
 	</form>
 

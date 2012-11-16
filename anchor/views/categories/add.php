@@ -5,7 +5,7 @@
 <section class="content">
 	<?php echo $messages; ?>
 
-	<form method="post" action="<?php echo url('categories/add'); ?>" novalidate>
+	<form method="post" action="<?php echo admin_url('categories/add'); ?>" novalidate>
 
 		<input name="token" type="hidden" value="<?php echo $token; ?>">
 

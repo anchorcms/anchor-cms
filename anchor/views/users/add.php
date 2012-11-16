@@ -5,7 +5,7 @@
 <section class="content">
 	<?php echo $messages; ?>
 
-	<form method="post" action="<?php echo url('users/add'); ?>" novalidate autocomplete="off">
+	<form method="post" action="<?php echo admin_url('users/add'); ?>" novalidate autocomplete="off">
 
 		<input name="token" type="hidden" value="<?php echo $token; ?>">
 

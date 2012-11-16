@@ -4,7 +4,7 @@
 
 	<?php echo $messages; ?>
 
-	<form method="post" action="<?php echo url('reset/' . $key); ?>">
+	<form method="post" action="<?php echo admin_url('reset/' . $key); ?>">
 
 		<input name="token" type="hidden" value="<?php echo $token; ?>">
 

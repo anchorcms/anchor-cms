@@ -1,7 +1,7 @@
 <?php echo $header; ?>
 
 <h1><?php echo __('pages.pages', 'Pages'); ?>
-<a href="<?php echo url('pages/add'); ?>"><?php echo __('pages.create_page', 'Create a new page'); ?></a></h1>
+<a href="<?php echo admin_url('pages/add'); ?>"><?php echo __('pages.create_page', 'Create a new page'); ?></a></h1>
 
 <section class="content">
 	<?php echo $messages; ?>
@@ -9,7 +9,7 @@
 	<ul class="list">
 		<?php foreach($pages->results as $page): ?>
 		<li>
-			<a href="<?php echo url('pages/edit/' . $page->id); ?>">
+			<a href="<?php echo admin_url('pages/edit/' . $page->id); ?>">
 				<strong><?php echo $page->name; ?></strong>
 
 				<span>

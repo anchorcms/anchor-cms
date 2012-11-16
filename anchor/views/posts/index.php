@@ -1,7 +1,7 @@
 <?php echo $header; ?>
 
 <h1><?php echo __('posts.posts', 'Posts'); ?>
-<a href="<?php echo url('posts/add'); ?>"><?php echo __('posts.create_post', 'Create a new post'); ?></a></h1>
+<a href="<?php echo admin_url('posts/add'); ?>"><?php echo __('posts.create_post', 'Create a new post'); ?></a></h1>
 
 <section class="content">
 	<?php echo $messages; ?>
@@ -10,7 +10,7 @@
 	<ul class="list">
 		<?php foreach($posts->results as $article): ?>
 		<li>
-			<a href="<?php echo url('posts/edit/' . $article->id); ?>">
+			<a href="<?php echo admin_url('posts/edit/' . $article->id); ?>">
 				<strong><?php echo $article->title; ?></strong>
 				<span>
 					<time><?php echo Date::format($article->created); ?></time>
@@ -27,7 +27,7 @@
 
 	<?php echo $posts->links(); ?>
 	<?php else: ?>
-	<p><a href="<?php echo url('posts/add'); ?>"><?php echo __('posts.noposts', 'No posts just yet. Why not write a new one?'); ?></a></p>
+	<p><a href="<?php echo admin_url('posts/add'); ?>"><?php echo __('posts.noposts', 'No posts just yet. Why not write a new one?'); ?></a></p>
 	<?php endif; ?>
 </section>
 

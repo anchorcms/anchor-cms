@@ -1,6 +1,6 @@
 <?php echo $header; ?>
 
-<form method="post" action="<?php echo url('posts/add'); ?>" enctype="multipart/form-data" novalidate>
+<form method="post" action="<?php echo admin_url('posts/add'); ?>" enctype="multipart/form-data" novalidate>
 
 	<input name="token" type="hidden" value="<?php echo $token; ?>">
 

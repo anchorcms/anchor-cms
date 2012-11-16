@@ -5,7 +5,7 @@
 <section class="content">
 	<?php echo $messages; ?>
 
-	<form method="post" action="<?php echo url('pages/edit/' . $page->id); ?>" novalidate>
+	<form method="post" action="<?php echo admin_url('pages/edit/' . $page->id); ?>" novalidate>
 
 		<input name="token" type="hidden" value="<?php echo $token; ?>">
 
@@ -78,7 +78,7 @@
 		<p class="buttons">
 			<button name="save" type="submit"><?php echo __('pages.save', 'Save'); ?></button>
 			<?php if(in_array($page->id, array(Config::get('metadata.home_page'), Config::get('metadata.posts_page'))) === false): ?>
-			<a class="btn delete red" href="<?php echo url('pages/delete/' . $page->id); ?>"><?php echo __('pages.delete', 'Delete'); ?></a>
+			<a class="btn delete red" href="<?php echo admin_url('pages/delete/' . $page->id); ?>"><?php echo __('pages.delete', 'Delete'); ?></a>
 			<?php endif; ?>
 		</p>
 	</form>

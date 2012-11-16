@@ -60,9 +60,6 @@ if( ! $('[autofocus]').length) {
 		},
 
 		handle: function(e) {
-			e.stopPropagation();
-			e.preventDefault();
-
 			var files = (e.target.files || e.dataTransfer.files)[0];
 
 			if($.inArray(files.type, Draggy.allowed) !== -1) {
@@ -83,6 +80,9 @@ if( ! $('[autofocus]').length) {
 			} else {
 				Draggy.close();
 			}
+
+			e.stopPropagation();
+			e.preventDefault();
 		}
 	};
 

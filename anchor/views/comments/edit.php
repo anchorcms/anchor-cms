@@ -5,7 +5,7 @@
 <section class="content">
 	<?php echo $messages; ?>
 
-	<form method="post" action="<?php echo url('comments/edit/' . $comment->id); ?>" novalidate>
+	<form method="post" action="<?php echo admin_url('comments/edit/' . $comment->id); ?>" novalidate>
 
 		<input name="token" type="hidden" value="<?php echo $token; ?>">
 
@@ -42,7 +42,7 @@
 
 		<p class="buttons">
 			<button type="submit"><?php echo __('comments.save', 'Save'); ?></button>
-			<a class="btn blue" href="<?php echo url('comments'); ?>"><?php echo __('comments.return_comments', 'Return to comments'); ?></a>
+			<a class="btn blue" href="<?php echo admin_url('comments'); ?>"><?php echo __('comments.return_comments', 'Return to comments'); ?></a>
 		</p>
 	</form>
 </section>
