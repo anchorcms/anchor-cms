@@ -56,15 +56,11 @@ function __($line, $default = 'No language replacement') {
 
 // include admin functions
 if(IS_ADMIN) {
-	function asset($path) {
-		return Html::asset('anchor/views/assets/' . $path);
+	function admin_asset($path) {
+		return asset('anchor/views/assets/' . $path);
 	}
 
-	function url($path) {
+	function admin_url($path) {
 		return Uri::make('admin/' . $path);
-	}
-
-	function site($path = '') {
-		return Uri::make($path);
 	}
 }
