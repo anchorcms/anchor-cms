@@ -56,7 +56,7 @@
 
 			<p>
 				<label for="posts_per_page"><?php echo __('metadata.posts_per_page', 'Posts per page'); ?>:</label>
-				<input id="posts_per_page" name="posts_per_page"
+				<input type="range" min="1" max="15" id="posts_per_page" name="posts_per_page"
 					value="<?php echo Input::old('posts_per_page', $meta['posts_per_page']); ?>">
 
 				<em><?php echo __('metadata.posts_per_page_explain', 'The number of posts to display per page.'); ?></em>

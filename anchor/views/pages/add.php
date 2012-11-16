@@ -1,23 +1,34 @@
 <?php echo $header; ?>
 
-<h1><?php echo __('pages.add_page', 'Add a Page'); ?></h1>
+<form method="post" action="<?php echo url('pages/add'); ?>" novalidate>
 
-<section class="content">
-	<?php echo $messages; ?>
+	<input name="token" type="hidden" value="<?php echo $token; ?>">
 
-	<form method="post" action="<?php echo admin_url('pages/add'); ?>" novalidate>
+	<header class="header">
+		<div class="wrap">
+			<?php echo $messages; ?>
 
-		<input name="token" type="hidden" value="<?php echo $token; ?>">
+			<input autofocus autocomplete="off" tabindex="1" placeholder="Page name" id="name" name="name"
+				value="<?php echo Input::old('name'); ?>">
 
-		<fieldset class="split">
-			<p>
-				<label for="name"><?php echo __('pages.name', 'Name'); ?>:</label>
-				<input id="name" name="name" value="<?php echo Input::old('name'); ?>">
-
-				<em><?php echo __('pages.name_explain',
-					'The name of your page. This gets shown in the navigation.'); ?></em>
+			<p class="buttons">
+				<button tabindex="3" class="btn" type="submit"><?php echo __('pages.create', 'Create'); ?></button>
+				<button class="secondary btn">Redirect</button>
 			</p>
 
+			<p class="redirect">
+				<input id="redirect_url" placeholder="Redirect URL" name="redirect" value="<?php echo Input::old('redirect'); ?>">
+			</p>
+		</div>
+	</header>
+
+	<fieldset id="content">
+		<p>
+			<textarea id="post-content" placeholder="<?php echo __('pages.content_explain', 'Your page’s content. Uses Markdown.'); ?>" name="content"><?php echo Input::old('content'); ?></textarea>
+		</p>
+	</fieldset>
+
+		<fieldset class="split">
 			<p>
 				<label><?php echo __('pages.title', 'Title'); ?>:</label>
 				<input id="title" name="title" value="<?php echo Input::old('title'); ?>">
@@ -49,17 +60,12 @@
 			</p>
 
 			<p>
-				<label for="redirect_url"><?php echo __('pages.redirect_url', 'Redirect Url'); ?></label>
-				<input id="redirect_url" name="redirect" value="<?php echo Input::old('redirect'); ?>">
-			</p>
-
-			<p>
 				<label><?php echo __('pages.status', 'Status'); ?>:</label>
 				<select id="status" name="status">
 					<?php foreach(array(
-						'draft' => __('pages.draft', 'Draft'),
+						'published' => __('pages.published', 'Published'),
 						'archived' => __('pages.archived', 'Archived'),
-						'published' => __('pages.published', 'Published')
+						'draft' => __('pages.draft', 'Draft')
 					) as $value => $status): ?>
 					<?php $selected = (Input::old('status') == $value) ? ' selected' : ''; ?>
 					<option value="<?php echo $value; ?>"<?php echo $selected; ?>>

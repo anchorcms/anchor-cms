@@ -17,7 +17,7 @@ return array(
 	'slug' => 'Slug',
 	'slug_explain' => 'The slug for your post.',
 	'content' => 'Content',
-	'content_explain' => 'Your page\'s content. Accepts valid HTML.',
+	'content_explain' => 'Your page\'s content. Accepts valid Markdown.',
 	'redirect_option' => 'This page triggers a redirect to another url',
 	'redirect_url' => 'Redirect Url',
 	'status' => 'Status',

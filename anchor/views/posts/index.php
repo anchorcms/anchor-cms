@@ -1,7 +1,10 @@
 <?php echo $header; ?>
 
 <h1><?php echo __('posts.posts', 'Posts'); ?>
-<a href="<?php echo admin_url('posts/add'); ?>"><?php echo __('posts.create_post', 'Create a new post'); ?></a></h1>
+<?php if($posts->count): ?>
+<a href="<?php echo url('posts/add'); ?>"><?php echo __('posts.create_post', 'Create a new post'); ?></a>
+<?php endif; ?>
+</h1>
 
 <section class="content">
 	<?php echo $messages; ?>
@@ -27,7 +30,15 @@
 
 	<?php echo $posts->links(); ?>
 	<?php else: ?>
+<<<<<<< HEAD
 	<p><a href="<?php echo admin_url('posts/add'); ?>"><?php echo __('posts.noposts', 'No posts just yet. Why not write a new one?'); ?></a></p>
+=======
+	<p class="empty posts">
+		<span class="icon"></span>
+		<?php echo __('posts.noposts_desc', 'You don’t have any posts!'); ?><br>
+		<a class="btn" href="<?php echo url('posts/add'); ?>"><?php echo __('posts.create_post', 'Why not write a new one?'); ?></a>
+	</p>
+>>>>>>> 7d88e3fcfa9782ea4f976f49d7d6ea72319cb0ca
 	<?php endif; ?>
 </section>
 
