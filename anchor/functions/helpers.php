@@ -11,7 +11,7 @@ function base_url($url = '') {
 }
 
 function theme_url($file = '') {
-	return Html::asset('themes/' . Config::get('meta.theme') . '/' . ltrim($file, '/'));
+	return asset('themes/' . Config::get('meta.theme') . '/' . ltrim($file, '/'));
 }
 
 function theme_include($file) {
