@@ -2,7 +2,7 @@
 
 <h1><?php echo __('posts.posts', 'Posts'); ?>
 <?php if($posts->count): ?>
-<a href="<?php echo url('posts/add'); ?>"><?php echo __('posts.create_post', 'Create a new post'); ?></a>
+<a href="<?php echo admin_url('posts/add'); ?>"><?php echo __('posts.create_post', 'Create a new post'); ?></a>
 <?php endif; ?>
 </h1>
 
