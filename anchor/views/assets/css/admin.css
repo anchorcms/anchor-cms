@@ -808,7 +808,7 @@ input[type='range'], ::-webkit-slider-thumb {
 	input[type='range'] {
 		background: #cdd3db;
 		padding: 0 5px 0 0 !important;
-		
+		cursor: col-resize;
 		overflow: hidden;
 	}
 	::-webkit-slider-thumb {
