@@ -5,13 +5,13 @@
 		<title>Installin' Anchor CMS</title>
 		<meta name="robots" content="noindex, nofollow">
 
-		<link rel="stylesheet" href="<?php echo Html::asset('views/assets/css/install.css'); ?>">
+		<link rel="stylesheet" href="<?php echo asset('views/assets/css/install.css'); ?>">
 	</head>
 	<body>
-	
+
     	<nav>
-			<img src="<?php echo Html::asset('../anchor/views/assets/img/logo.png'); ?>">
-	
+			<img src="<?php echo asset('../anchor/views/assets/img/logo.png'); ?>">
+
 			<ul>
 				<li class="database metadata account complete">Database information</li>
 				<li class="metadata account complete">Site metadata</li>

@@ -5,12 +5,12 @@
 		<title>Upgradin' Anchor CMS</title>
 		<meta name="robots" content="noindex, nofollow">
 
-		<link rel="stylesheet" href="<?php echo Html::asset('views/assets/css/upgrade.css'); ?>">
+		<link rel="stylesheet" href="<?php echo asset('views/assets/css/upgrade.css'); ?>">
 	</head>
 	<body>
 
     	<nav>
-			<img src="<?php echo Html::asset('../anchor/views/assets/img/logo.png'); ?>">
+			<img src="<?php echo asset('../anchor/views/assets/img/logo.png'); ?>">
 
 			<ul>
 				<li class="start">Start</li>
