@@ -101,6 +101,15 @@ function article_category() {
 	return '';
 }
 
+function article_category_slug() {
+	if($itm = Registry::get('article')) {
+		$categories = Registry::get('all_categories');
+		return $categories[$itm->category]->slug;
+	}
+
+	return '';
+}
+
 function article_category_url() {
 	if($itm = Registry::get('article')) {
 		$categories = Registry::get('all_categories');
