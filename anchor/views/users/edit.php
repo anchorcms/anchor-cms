@@ -1,6 +1,6 @@
 <?php echo $header; ?>
 
-<h1><?php echo __('users.editing', 'Editing'); ?>
+<h1><?php echo __('users.editing', 'Editing'); ?> 
 <?php echo $user->username; ?>&rsquo;s <?php echo __('users.profile', 'profile'); ?></h1>
 
 <section class="content">

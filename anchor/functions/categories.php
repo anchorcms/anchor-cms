@@ -50,6 +50,14 @@ function category_title() {
 	return '';
 }
 
+function category_slug() {
+	if($itm = Registry::get('category')) {
+		return $itm->slug;
+	}
+	
+	return '';
+}
+
 function category_description() {
 	if($itm = Registry::get('category')) {
 		return $itm->description;
