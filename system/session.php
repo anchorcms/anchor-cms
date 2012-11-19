@@ -10,7 +10,8 @@
  * @link		http://madebykieron.co.uk
  */
 
-use Session\Payload, System\Cookie;
+use Session\Payload;
+use System\Cookie;
 
 class Session {
 
@@ -29,10 +30,14 @@ class Session {
 	public static function factory($driver) {
 		switch ($driver) {
 			case 'cookie':
-				return new Session\Drivers\Cookie;
+				return new Session\Cookie;
 
+			case 'db':
 			case 'database':
-				return new Session\Drivers\Database;
+				return new Session\Database;
+
+			case 'memcache':
+				return new Session\Memcache;
 
 			default:
 				throw new \Exception("Session driver [$driver] is not supported.");

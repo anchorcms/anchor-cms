@@ -10,6 +10,8 @@
  * @link		http://madebykieron.co.uk
  */
 
+use ErrorException;
+
 class Error {
 
 	public static function native($code, $error, $file, $line) {
@@ -19,7 +21,7 @@ class Error {
 		// For a PHP error, we'll create an ErrorExcepetion and then feed that
 		// exception to the exception method, which will create a simple view
 		// of the exception details for the developer.
-		$exception = new \ErrorException($error, $code, 0, $file, $line);
+		$exception = new ErrorException($error, $code, 0, $file, $line);
 
 		if(in_array($code, Config::get('error.ignore'))) {
 			return static::log($exception);
@@ -29,9 +31,10 @@ class Error {
 	}
 
 	public static function shutdown() {
-		if(!is_null($error = error_get_last())) {
+		if($error = error_get_last()) {
 			extract($error, EXTR_SKIP);
-			static::exception(new \ErrorException($message, $type, 0, $file, $line));
+
+			static::exception(new ErrorException($message, $type, 0, $file, $line));
 		}
 	}
 
