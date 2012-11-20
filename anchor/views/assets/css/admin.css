@@ -799,10 +799,6 @@ body.login {
 	margin: 20px 15px 20px 150px;
 }
 
-form[action*='add'] + #bottom, form[action*='edit'] + #bottom {
-	display: none;
-}
-
 input[type='range'], ::-webkit-slider-thumb {
 	-webkit-appearance: none;
 }

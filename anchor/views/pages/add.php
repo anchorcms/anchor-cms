@@ -17,7 +17,7 @@
 			</p>
 
 			<p class="redirect">
-				<input id="redirect_url" placeholder="Redirect URL" name="redirect" value="<?php echo Input::old('redirect'); ?>">
+				<input id="redirect_url" placeholder="<?php echo __('pages.redirect_url', 'Redirect Url'); ?>" name="redirect" value="<?php echo Input::old('redirect'); ?>">
 			</p>
 		</div>
 	</header>
@@ -28,7 +28,8 @@
 		</p>
 	</fieldset>
 
-		<fieldset class="split">
+	<fieldset id="post-data" class="split">
+		<div class="wrap">
 			<p>
 				<label><?php echo __('pages.title', 'Title'); ?>:</label>
 				<input id="title" name="title" value="<?php echo Input::old('title'); ?>">
@@ -84,13 +85,9 @@
 				<?php echo Extend::html($field); ?>
 			</p>
 			<?php endforeach; ?>
-		</fieldset>
-
-		<p class="buttons">
-			<button type="submit"><?php echo __('pages.create', 'Create'); ?></button>
-			<a href="<?php echo admin_url('pages'); ?>"><?php echo __('pages.return_pages', 'Return to pages'); ?></a>
-		</p>
-	</form>
+		</div><!-- /.wrap -->
+	</fieldset>
+</form>
 
 </section>
 
