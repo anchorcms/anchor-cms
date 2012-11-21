@@ -9,6 +9,7 @@
 						<a href="<?php echo article_url(); ?>" title="<?php echo article_title(); ?>">
 							<time datetime="<?php echo date(DATE_W3C, article_time()); ?>"><?php echo relative_time(article_time()); ?></time>
 							<h2><?php echo article_title(); ?></h2>
+							<?php echo article_category_slug(); ?>
 						</a>
 					</li>
 					<?php endwhile; ?>
@@ -27,7 +28,7 @@
 			<?php while(categories()): ?>
 				<li>
 					<a href="<?php echo category_url(); ?>" title="<?php echo category_description(); ?>">
-						<?php echo category_title(); ?>
+						<?php echo category_title(); ?> : <?php echo category_slug(); ?>
 					</a>
 				</li>
 			<?php endwhile; ?>

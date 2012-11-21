@@ -567,10 +567,12 @@ body.login {
 .header {
 	background: #fff;
 	min-height: 100px;
+		position: relative;
+		z-index: 1200;
+
 }
 
 	.header .wrap {
-		position: relative;
 		overflow: visible;
 	}
 	.header input {
@@ -584,23 +586,6 @@ body.login {
 
 		background: transparent;
 	}
-	.header .redirect {
-		position: absolute;
-		top: 100px;
-		left: -15px;
-		right: -15px;
-	}
-		.header .redirect input {
-			background: #fff;
-			
-			font: 17px/25px Inconsolata, monospace;
-			
-			float: none;
-			width: 100%;
-			padding: 10px 15px;
-			
-			border-radius: 0 0 5px 5px;
-		}
 	.header .buttons {
 		float: right;
 		padding: 30px 0;
@@ -638,6 +623,29 @@ body.login {
 	.prevue .wrap {
 		padding: 2em 0;
 	}
+
+
+#redirect_url{
+	background: #f9f9f9;
+	opacity: 0;
+	height: 0;
+	-webkit-transition: all .3s;
+	-moz-transition: all .3s;
+	-ms-transition: all .3s;
+	-o-transition: all .3s;
+	transition: all .3s;
+}
+	#redirect_url.show{
+		top: 0px;
+		height: 37px;
+		opacity: 0.99;
+	}
+	#redirect_url input{
+		padding: 10px 0;
+		background: none;
+		color: #9faab6;
+	}
+
 
 #post-content {
 	display: block;
