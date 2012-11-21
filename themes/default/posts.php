@@ -28,7 +28,7 @@
 			<?php while(categories()): ?>
 				<li>
 					<a href="<?php echo category_url(); ?>" title="<?php echo category_description(); ?>">
-						<?php echo category_title(); ?> : <?php echo category_slug(); ?>
+						<?php echo category_title(); ?>
 					</a>
 				</li>
 			<?php endwhile; ?>
