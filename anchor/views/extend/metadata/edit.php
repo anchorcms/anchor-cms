@@ -5,7 +5,7 @@
 <section class="content">
 	<?php echo $messages; ?>
 
-	<form method="post" action="<?php echo admin_url('metadata'); ?>" novalidate>
+	<form method="post" action="<?php echo admin_url('extend/metadata'); ?>" novalidate>
 
 		<input name="token" type="hidden" value="<?php echo $token; ?>">
 
@@ -111,6 +111,14 @@
 			<button name="save" type="submit"><?php echo __('metadata.save', 'Save changes'); ?></button>
 		</p>
 	</form>
+
+	<aside class="sidebar">
+		<div class="filter">
+			<a href="<?php echo admin_url('extend/fields'); ?>">Custom Fields</a>
+			<a href="<?php echo admin_url('extend/metadata'); ?>">Metadata</a>
+			<a href="<?php echo admin_url('extend/plugins'); ?>">Plugins (Coming soon, yo!)</a>
+		</div>
+	</aside>
 
 </section>
 

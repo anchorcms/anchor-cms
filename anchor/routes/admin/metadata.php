@@ -1,18 +1,22 @@
 <?php
 
-Route::get('admin/metadata', array('before' => 'auth', 'do' => function() {
+/*
+	Edit/Index
+*/
+
+Route::get('admin/extend/metadata', array('before' => 'auth', 'do' => function() {
 	$vars['messages'] = Notify::read();
 	$vars['token'] = Csrf::token();
 	$vars['meta'] = Config::get('meta');
 	$vars['pages'] = Page::all();
 	$vars['themes'] = Themes::all();
 
-	return View::make('metadata/edit', $vars)
+	return View::make('extend/metadata/edit', $vars)
 		->nest('header', 'partials/header')
 		->nest('footer', 'partials/footer');
 }));
 
-Route::post('admin/metadata', array('before' => 'auth', 'do' => function() {
+Route::post('admin/extend/metadata', array('before' => 'auth', 'do' => function() {
 	$input = Input::get_array(array('sitename', 'description', 'home_page', 'posts_page',
 		'posts_per_page', 'auto_published_comments', 'theme', 'comment_notifications', 'comment_moderation_keys', 'twitter'));
 
@@ -29,7 +33,7 @@ Route::post('admin/metadata', array('before' => 'auth', 'do' => function() {
 
 		Notify::error($errors);
 
-		return Response::redirect('admin/metadata');
+		return Response::redirect('admin/extend/metadata');
 	}
 
 	foreach($input as $key => $value) {
@@ -38,5 +42,5 @@ Route::post('admin/metadata', array('before' => 'auth', 'do' => function() {
 
 	Notify::success(__('metadata.meta_success_updated'));
 
-	return Response::redirect('admin/metadata');
+	return Response::redirect('admin/extend/metadata');
 }));

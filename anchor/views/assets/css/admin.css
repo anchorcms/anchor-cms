@@ -318,7 +318,7 @@ h1 a, .btn, button {
 
 	border: none;
 	border-radius: 5px;
-	
+
 	/* span.btn */
 	cursor: pointer;
 }
@@ -346,15 +346,15 @@ h1 a, .btn, button {
 		.btn.red:hover, button.red:hover {
 			background: #a03621;
 		}
-	
+
 	#exit-focus.btn {
 		background: #d4d9e0;
 		color: #7c8592;
-		
+
 		position: fixed;
 		right: 20px;
 		top: 20px;
-		
+
 		padding: 0 17px;
 		line-height: 32px;
 	}
@@ -492,6 +492,15 @@ h1 a, .btn, button {
 		margin-left: 10px;
 	}
 
+.sidebar {
+	width: 200px;
+	float: right;
+}
+
+	.sidebar a {
+		display: block;
+	}
+
 /*
 	Login
 */
@@ -592,13 +601,13 @@ body.login {
 	}
 		.header .redirect input {
 			background: #fff;
-			
+
 			font: 17px/25px Inconsolata, monospace;
-			
+
 			float: none;
 			width: 100%;
 			padding: 10px 15px;
-			
+
 			border-radius: 0 0 5px 5px;
 		}
 	.header .buttons {
@@ -808,18 +817,18 @@ input[type='range'], ::-webkit-slider-thumb {
 	input[type='range'] {
 		background: #cdd3db;
 		padding: 0 5px 0 0 !important;
-		
+
 		overflow: hidden;
 	}
 	::-webkit-slider-thumb {
 		display: block;
 		width: 15px;
 		height: 29px;
-		
+
 		position: relative;
-		
+
 		border-radius: 3px;
-		
+
 		background: #95a1b2;
 	}
 		::-webkit-slider-thumb:before {
@@ -830,7 +839,7 @@ input[type='range'], ::-webkit-slider-thumb {
 			right: 10px;
 			top: 0;
 			bottom: 0;
-			
+
 			background: #95a1b2;
 		}
 
@@ -965,7 +974,7 @@ input[type='range'], ::-webkit-slider-thumb {
 		width: 54px;
 		height: 54px;
 		margin: 0 auto 15px;
-		
+
 		background: url('../img/icons.png') no-repeat;
 	}
 		.posts.empty .icon {

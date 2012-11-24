@@ -22,10 +22,7 @@
 								<img src="<?php echo admin_asset('img/logo.png'); ?>" alt="Anchor CMS">
 							</a>
 						</li>
-						<?php
-							$menu = array('posts', 'comments', 'pages', 'categories', 'users', 'metadata', 'extend');
-							//if( ! Config::get('meta.auto_published_comments')) unset($menu[array_search('comments', $menu)]);
-						?>
+						<?php $menu = array('posts', 'pages', 'categories', 'users', 'extend'); ?>
 						<?php foreach($menu as $url): ?>
 						<li <?php if(strpos(Uri::current(), $url) !== false) echo 'class="active"'; ?>>
 							<a href="<?php echo admin_url($url); ?>"><?php echo ucfirst(__('common.' . $url, $url)); ?></a>
@@ -35,8 +32,8 @@
 				</nav>
 
 				<a class="btn" href="<?php echo admin_url('logout'); ?>"><?php echo __('common.logout', 'Logout'); ?></a>
-				<a class="btn" href="<?php echo url(''); ?>"><?php echo __('common.visit_your_site', 'Visit your site'); ?></a>
-
+				<a class="btn" href="<?php echo url(Registry::get('home_page')->slug); ?>">
+					<?php echo __('common.visit_your_site', 'Visit your site'); ?></a>
 				<?php else: ?>
 				<a class="login" id="logo" href="<?php echo admin_url('posts'); ?>">
 					<img src="<?php echo admin_asset('img/logo.png'); ?>" alt="Anchor CMS">

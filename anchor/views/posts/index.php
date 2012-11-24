@@ -30,16 +30,21 @@
 
 	<?php echo $posts->links(); ?>
 	<?php else: ?>
-<<<<<<< HEAD
-	<p><a href="<?php echo admin_url('posts/add'); ?>"><?php echo __('posts.noposts', 'No posts just yet. Why not write a new one?'); ?></a></p>
-=======
+
 	<p class="empty posts">
 		<span class="icon"></span>
 		<?php echo __('posts.noposts_desc', 'You don’t have any posts!'); ?><br>
 		<a class="btn" href="<?php echo url('posts/add'); ?>"><?php echo __('posts.create_post', 'Why not write a new one?'); ?></a>
 	</p>
->>>>>>> 7d88e3fcfa9782ea4f976f49d7d6ea72319cb0ca
+
 	<?php endif; ?>
+
+	<aside class="sidebar">
+		<div class="filter">
+			<a href="<?php echo admin_url('comments'); ?>">Comments</a>
+		</div>
+	</aside>
+
 </section>
 
 <?php echo $footer; ?>

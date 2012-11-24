@@ -25,10 +25,10 @@
 
 	<aside class="sidebar">
 		<div class="filter">
-			<a href="<?php echo url('comments'); ?>">All</a>
-			<a href="<?php echo url('comments/pending'); ?>">Pending</a>
-			<a href="<?php echo url('comments/approved'); ?>">Approved</a>
-			<a href="<?php echo url('comments/spam'); ?>">Spam</a>
+			<a href="<?php echo admin_url('comments'); ?>">All</a>
+			<a href="<?php echo admin_url('comments/pending'); ?>">Pending</a>
+			<a href="<?php echo admin_url('comments/approved'); ?>">Approved</a>
+			<a href="<?php echo admin_url('comments/spam'); ?>">Spam</a>
 		</div>
 	</aside>
 
