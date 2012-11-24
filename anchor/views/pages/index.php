@@ -2,7 +2,7 @@
 
 <h1><?php echo __('pages.pages', 'Pages'); ?>
 <?php if($pages->count): ?>
-<a href="<?php echo url('pages/add'); ?>"><?php echo __('pages.create_page', 'Create a new page'); ?></a>
+<a href="<?php echo admin_url('pages/add'); ?>"><?php echo __('pages.create_page', 'Create a new page'); ?></a>
 <?php endif; ?>
 </h1>
 
@@ -33,7 +33,7 @@
 		<span class="icon"></span>
 		<?php echo __('comments.nopages_desc', 'You don’t have any pages.'); ?><br>
 
-		<a class="btn" href="<?php echo url('pages/add'); ?>"><?php echo __('pages.create_page', 'Create a new page'); ?></a>
+		<a class="btn" href="<?php echo admin_url('pages/add'); ?>"><?php echo __('pages.create_page', 'Create a new page'); ?></a>
 	</p>
 	<?php endif; ?>
 </section>

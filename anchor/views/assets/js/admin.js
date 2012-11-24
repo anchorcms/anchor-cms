@@ -129,7 +129,7 @@ if( ! $('[autofocus]').length) {
 
 	var Focus = {
 		//  Our element to focus
-		target: $('#post-content, .header input'),
+		target: $('#post-content'),
 		exitSpan: '#exit-focus',
 
 		enter: function() {
@@ -261,7 +261,7 @@ false && (function() {
 }());
 
 /*
-	Extend attirubte selection
+	Extend attribute selection
 */
 (function() {
 	var select = $('#field'), attrs = $('.hide');
@@ -283,3 +283,19 @@ false && (function() {
 
 	update();
 }());
+
+/*
+	Show/Hide Redirect Url Thing
+*/
+(function() {
+	// Redirect URL input field for later use
+	var input = $('#redirect_url');
+	var redirectToggle = $('#redirect_toggle');
+
+	redirectToggle.bind('click', function(e){
+		e.preventDefault();
+		input.toggleClass('show');
+	});
+}());
+
+
