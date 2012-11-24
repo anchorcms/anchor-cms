@@ -46,9 +46,11 @@ class Extend extends Model {
 				$value = isset($item->value->html) ? $item->value->html : '';
 				return '<textarea id="extend_' . $item->key . '" name="extend[' . $item->key . ']" type="text">' . $value . '</textarea>';
 			case 'image':
-				return '<input id="extend_' . $item->key . '" name="extend[' . $item->key . ']" type="file" accept="image/*">';
+				$value = isset($item->value->filename) ? $item->value->filename : '';
+				return '<input id="extend_' . $item->key . '" name="extend[' . $item->key . ']" type="file" accept="image/*"><em>'.$value.'</em>';
 			case 'file':
-				return '<input id="extend_' . $item->key . '" name="extend[' . $item->key . ']" type="file">';
+				$value = isset($item->value->filename) ? $item->value->filename : '';
+				return '<input id="extend_' . $item->key . '" name="extend[' . $item->key . ']" type="file"><em>'.$value.'</em>';
 		}
 	}
 

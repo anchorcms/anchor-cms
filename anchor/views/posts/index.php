@@ -2,7 +2,7 @@
 
 <h1><?php echo __('posts.posts', 'Posts'); ?>
 <?php if($posts->count): ?>
-<a href="<?php echo url('posts/add'); ?>"><?php echo __('posts.create_post', 'Create a new post'); ?></a>
+<a href="<?php echo admin_url('posts/add'); ?>"><?php echo __('posts.create_post', 'Create a new post'); ?></a>
 <?php endif; ?>
 </h1>
 
@@ -34,7 +34,7 @@
 	<p class="empty posts">
 		<span class="icon"></span>
 		<?php echo __('posts.noposts_desc', 'You don’t have any posts!'); ?><br>
-		<a class="btn" href="<?php echo url('posts/add'); ?>"><?php echo __('posts.create_post', 'Why not write a new one?'); ?></a>
+		<a class="btn" href="<?php echo admin_url('posts/add'); ?>"><?php echo __('posts.create_post', 'Why not write a new one?'); ?></a>
 	</p>
 
 	<?php endif; ?>

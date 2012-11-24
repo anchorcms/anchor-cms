@@ -576,10 +576,12 @@ body.login {
 .header {
 	background: #fff;
 	min-height: 100px;
+		position: relative;
+		z-index: 1200;
+
 }
 
 	.header .wrap {
-		position: relative;
 		overflow: visible;
 	}
 	.header input {
@@ -593,6 +595,7 @@ body.login {
 
 		background: transparent;
 	}
+
 	.header .redirect {
 		position: absolute;
 		top: 100px;
@@ -610,6 +613,7 @@ body.login {
 
 			border-radius: 0 0 5px 5px;
 		}
+
 	.header .buttons {
 		float: right;
 		padding: 30px 0;
@@ -647,6 +651,29 @@ body.login {
 	.prevue .wrap {
 		padding: 2em 0;
 	}
+
+
+#redirect_url{
+	background: #f9f9f9;
+	opacity: 0;
+	height: 0;
+	-webkit-transition: all .3s;
+	-moz-transition: all .3s;
+	-ms-transition: all .3s;
+	-o-transition: all .3s;
+	transition: all .3s;
+}
+	#redirect_url.show{
+		top: 0px;
+		height: 37px;
+		opacity: 0.99;
+	}
+	#redirect_url input{
+		padding: 10px 0;
+		background: none;
+		color: #9faab6;
+	}
+
 
 #post-content {
 	display: block;
@@ -724,6 +751,7 @@ body.login {
 		#post-data input[type=checkbox]:checked, .split input[type=checkbox]:checked {
 			background-image: url('../img/tick.gif');
 		}
+		#post-data input[type=file] + em { opacity: 1; }
 
 	#post-data .media-upload textarea {
 		min-height: 150px;
@@ -807,17 +835,13 @@ body.login {
 	margin: 20px 15px 20px 150px;
 }
 
-form[action*='add'] + #bottom, form[action*='edit'] + #bottom {
-	display: none;
-}
-
 input[type='range'], ::-webkit-slider-thumb {
 	-webkit-appearance: none;
 }
 	input[type='range'] {
 		background: #cdd3db;
 		padding: 0 5px 0 0 !important;
-
+		cursor: col-resize;
 		overflow: hidden;
 	}
 	::-webkit-slider-thumb {

@@ -13,14 +13,16 @@
 
 			<p class="buttons">
 				<button tabindex="3" class="btn" type="submit"><?php echo __('pages.create', 'Create'); ?></button>
-				<button class="secondary btn">Redirect</button>
-			</p>
-
-			<p class="redirect">
-				<input id="redirect_url" placeholder="Redirect URL" name="redirect" value="<?php echo Input::old('redirect'); ?>">
+				<button id="redirect_toggle" class="secondary btn">Redirect</button>
 			</p>
 		</div>
 	</header>
+
+	<fieldset id="redirect_url">
+		<div class="wrap">
+			<input placeholder="<?php echo __('pages.redirect_url', 'Redirect Url'); ?>" name="redirect" value="<?php echo Input::old('redirect'); ?>">
+		</div>
+	</fieldset>
 
 	<fieldset id="content">
 		<p>
@@ -28,14 +30,16 @@
 		</p>
 	</fieldset>
 
-		<fieldset class="split">
-			<p>
-				<label><?php echo __('pages.title', 'Title'); ?>:</label>
-				<input id="title" name="title" value="<?php echo Input::old('title'); ?>">
+	<fieldset id="post-data" class="split">
+		<div class="wrap">
 
-				<em><?php echo __('pages.title_explain',
-					'The title of your page, which gets shown in the <code>&lt;title&gt;</code>.'); ?></em>
+			<p>
+				<label for="redirect"><?php echo __('pages.redirect_option',
+					'This page triggers a redirect to another url'); ?>:</label>
+				<?php $checked = Input::old('redirect') ? ' checked' : ''; ?>
+				<input id="redirect" type="checkbox"<?php echo $checked; ?>>
 			</p>
+
 
 			<p>
 				<label for="slug"><?php echo __('pages.slug', 'Slug'); ?>:</label>
@@ -43,20 +47,6 @@
 
 				<em><?php echo __('pages.slug_explain',
 					'The slug for your post (<code>/<span id="output">slug</span></code>).'); ?></em>
-			</p>
-
-			<p>
-				<label for="content"><?php echo __('pages.content', 'Content'); ?>:</label>
-				<textarea id="content" name="content"><?php echo Input::old('content'); ?></textarea>
-
-				<em><?php echo __('pages.content_explain', 'Your page\'s content. Uses Markdown.'); ?></em>
-			</p>
-
-			<p>
-				<label for="redirect"><?php echo __('pages.redirect_option',
-					'This page triggers a redirect to another url'); ?>:</label>
-				<?php $checked = Input::old('redirect') ? ' checked' : ''; ?>
-				<input id="redirect" type="checkbox"<?php echo $checked; ?>>
 			</p>
 
 			<p>
@@ -84,13 +74,9 @@
 				<?php echo Extend::html($field); ?>
 			</p>
 			<?php endforeach; ?>
-		</fieldset>
-
-		<p class="buttons">
-			<button type="submit"><?php echo __('pages.create', 'Create'); ?></button>
-			<a href="<?php echo admin_url('pages'); ?>"><?php echo __('pages.return_pages', 'Return to pages'); ?></a>
-		</p>
-	</form>
+		</div><!-- /.wrap -->
+	</fieldset>
+</form>
 
 </section>
 
