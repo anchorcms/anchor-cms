@@ -1,6 +1,6 @@
 <?php echo $header; ?>
 
-<form method="post" action="<?php echo url('pages/add'); ?>" novalidate>
+<form method="post" action="<?php echo admin_url('pages/add'); ?>" novalidate>
 
 	<input name="token" type="hidden" value="<?php echo $token; ?>">
 
