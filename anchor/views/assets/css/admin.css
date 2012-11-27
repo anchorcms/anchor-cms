@@ -1,6 +1,6 @@
 /**
  *   Anchor CMS - admin interface
- *   v2.0, by @idiot
+ *   v2.0, by @anchorcms
  */
 
 /*
@@ -388,12 +388,90 @@ hgroup {
 	text-align: center;
 	padding: 60px 0;
 }
+<<<<<<< HEAD
 
 	.empty .icon {
 		display: block;
 		width: 54px;
 		height: 54px;
 		margin: 0 auto 15px;
+=======
+	.sidebar a {
+		display: block;
+		padding: 5px 20px;
+		
+		position: relative;
+		
+		font-size: 13px;
+		color: #616a71;
+		
+		border-radius: 5px;
+	}
+		.sidebar a:after {
+			content: '';
+			position: absolute;
+			left: 10px;
+			right: 10px;
+			bottom: 0;
+			
+			display: block;
+			height: 1px;
+			
+			background: #dadfe5;
+		}
+		.sidebar a:hover {
+			background: #e7eaee;
+		}
+		.sidebar a.active {
+			background: #fff;
+		}
+
+/*
+	Login
+*/
+body.login {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-left: -150px;
+}
+.login .wrap, .login .content {
+	width: 300px;
+}
+	.login h1 {
+		padding-bottom: 25px;
+
+		font-size: 25px;
+		line-height: 60px;
+		font-weight: lighter;
+		color: #fff;
+	}
+
+	.login #logo {
+		padding: 0;
+	}
+
+	.login label {
+		display: none;
+	}
+
+	.login fieldset {
+		border: none;
+	}
+
+	.login input {
+		width: 300px;
+		margin-bottom: 20px;
+
+		padding: 14px 16px;
+	}
+
+	.login .buttons a {
+		float: right;
+		font-size: 13px;
+		line-height: 38px;
+	}
+>>>>>>> sidebar stuff
 
 		background: url('../img/icons.png') no-repeat;
 	}
@@ -477,10 +555,160 @@ hgroup {
 		width: 100%;
 	}
 
+<<<<<<< HEAD
 .meta {
 	padding: 30px 0;
 	background: #ccd2d9;
 }
+=======
+		#post-data input[type=checkbox]:checked, .split input[type=checkbox]:checked {
+			background-image: url('../img/tick.gif');
+		}
+		#post-data input[type=file] + em { opacity: 1; }
+
+	#post-data .media-upload textarea {
+		min-height: 150px;
+		max-height: 700px;
+		resize: vertical;
+
+		width: 317px;
+	}
+
+
+
+
+
+
+
+
+.split label {
+	min-width: 150px;
+}
+
+.split input, .split select {
+	min-width: 300px;
+}
+
+	.split textarea {
+		min-width: 500px;
+		min-height: 120px;
+		max-height: 600px;
+
+		border-radius: 0 5px 5px 5px !important;
+	}
+
+.split p {
+	position: relative;
+	overflow: hidden;
+	clear: both;
+	margin-bottom: 15px;
+}
+
+.split em {
+	font-style: normal;
+	padding-left: 20px;
+	line-height: 40px;
+
+	opacity: 0;
+	-webkit-transition: opacity .25s;
+	-moz-transition: opacity .25s;
+	-ms-transition: opacity .25s;
+	-o-transition: opacity .25s;
+	transition: opacity .25s;
+}
+
+	.split input:focus + em, .split textarea:focus + em, .split select:focus + em {
+		opacity: 1;
+	}
+
+.split .twitter {
+	position: relative;
+}
+
+.split .twitter input {
+	padding-left: 32px;
+	border-radius: 0 5px 5px 0;
+}
+	.split .twitter .at {
+		pointer-events: none;
+		position: absolute;
+		left: 170px;
+		top: 8px;
+		z-index: 10;
+
+		color: #aab1bc;
+	}
+
+.split + .buttons {
+	clear: both;
+}
+
+.split + .buttons button:first-child {
+	margin: 20px 15px 20px 150px;
+}
+
+input[type='range'], ::-webkit-slider-thumb {
+	-webkit-appearance: none;
+}
+	input[type='range'] {
+		background: #cdd3db;
+		padding: 0 5px 0 0 !important;
+		cursor: col-resize;
+		overflow: hidden;
+	}
+	::-webkit-slider-thumb {
+		display: block;
+		width: 15px;
+		height: 29px;
+
+		position: relative;
+
+		border-radius: 3px;
+
+		background: #95a1b2;
+	}
+		::-webkit-slider-thumb:before {
+			content: '';
+			display: block;
+			position: absolute;
+			left: -300px;
+			right: 10px;
+			top: 0;
+			bottom: 0;
+
+			background: #95a1b2;
+		}
+
+
+.prevue {
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: -100px;
+	z-index: 10;
+
+	min-height: 250px;
+	padding: 40px 0;
+	pointer-events: none;
+
+	background: #e2e5e9;
+
+	-webkit-transition: top .25s, opacity .4s;
+	-moz-transition: top .25s, opacity .4s;
+	-ms-transition: top .25s, opacity .4s;
+	-o-transition: top .25s, opacity .4s;
+	transition: top .25s, opacity .4s;
+}
+	.prevue.active {
+		top: 164px;
+	}
+	.prevue h2 {
+		font-size: 25px;
+		padding: 0 0 15px;
+	}
+
+
+>>>>>>> sidebar stuff
 
 /*
 	Focus mode
