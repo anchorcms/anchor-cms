@@ -25,9 +25,9 @@ Route::get('admin/posts/edit/(:num)', array('before' => 'auth', 'do' => function
 	$vars['fields'] = Extend::fields('post', $id);
 
 	$vars['statuses'] = array(
+		'published' => __('posts.published', 'Published'),
 		'draft' => __('posts.draft', 'Draft'),
-		'archived' => __('posts.archived', 'Archived'),
-		'published' => __('posts.published', 'Published')
+		'archived' => __('posts.archived', 'Archived')
 	);
 
 	$vars['categories'] = Category::dropdown();
@@ -93,9 +93,9 @@ Route::get('admin/posts/add', array('before' => 'auth', 'do' => function() {
 	$vars['fields'] = Extend::fields('post');
 
 	$vars['statuses'] = array(
+		'published' => __('posts.published', 'Published'),
 		'draft' => __('posts.draft', 'Draft'),
-		'archived' => __('posts.archived', 'Archived'),
-		'published' => __('posts.published', 'Published')
+		'archived' => __('posts.archived', 'Archived')
 	);
 
 	$vars['categories'] = Category::dropdown();

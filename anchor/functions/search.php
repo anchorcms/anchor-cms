@@ -97,3 +97,7 @@ function search_prev($text = 'Previous', $default = '') {
 
 	return $default;
 }
+
+function search_form_input($extra = '') {
+	return '<input name="term" type="text" ' . $extra . ' value="' . search_term() . '">';
+}

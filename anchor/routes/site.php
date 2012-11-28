@@ -93,6 +93,9 @@ Route::post($posts_page->slug . '/(:any)', function($slug) use($posts_page) {
 	$input['date'] = date('c');
 	$input['status'] = Config::get('meta.auto_published_comments') ? 'approved' : 'pending';
 
+	// remove bad tags
+	$input['text'] = strip_tags($input['text'], '<a>,<b>,<blockquote>,<code>,<em>,<i>,<p>,<pre>');
+
 	// check if the comment is possibly spam
 	if($spam = Comment::spam($input)) {
 		$input['status'] = 'spam';

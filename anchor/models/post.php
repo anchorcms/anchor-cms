@@ -11,7 +11,7 @@ class Post extends Model {
 
 		$results = $query->take($perpage)->skip(($page - 1) * $perpage)->order_by('created', 'desc')->get();
 
-		return new Paginator($results, $count, $page, $perpage, url('posts'));
+		return new Paginator($results, $count, $page, $perpage, admin_url('posts'));
 	}
 
 	public static function slug($slug) {

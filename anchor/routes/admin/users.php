@@ -19,8 +19,17 @@ Route::get('admin/users/edit/(:num)', array('before' => 'auth', 'do' => function
 	$vars['messages'] = Notify::read();
 	$vars['token'] = Csrf::token();
 	$vars['user'] = User::find($id);
-	$vars['statuses'] = array('inactive' => __('users.inactive'), 'active' => __('users.active'));
-	$vars['roles'] = array('administrator' => __('users.administrator'), 'editor' => __('users.editor'), 'user' => __('users.user'));
+
+	$vars['statuses'] = array(
+		'inactive' => __('users.inactive'),
+		'active' => __('users.active')
+	);
+
+	$vars['roles'] = array(
+		'administrator' => __('users.administrator'),
+		'editor' => __('users.editor'),
+		'user' => __('users.user')
+	);
 
 	return View::make('users/edit', $vars)
 		->nest('header', 'partials/header')
@@ -74,8 +83,17 @@ Route::post('admin/users/edit/(:num)', array('before' => 'auth', 'do' => functio
 Route::get('admin/users/add', array('before' => 'auth', 'do' => function() {
 	$vars['messages'] = Notify::read();
 	$vars['token'] = Csrf::token();
-	$vars['statuses'] = array('inactive' => __('users.inactive'), 'active' => __('users.active'));
-	$vars['roles'] = array('administrator' => __('users.administrator'), 'editor' => __('users.editor'), 'user' => __('users.user'));
+
+	$vars['statuses'] = array(
+		'inactive' => __('users.inactive'),
+		'active' => __('users.active')
+	);
+
+	$vars['roles'] = array(
+		'administrator' => __('users.administrator'),
+		'editor' => __('users.editor'),
+		'user' => __('users.user')
+	);
 
 	return View::make('users/add', $vars)
 		->nest('header', 'partials/header')

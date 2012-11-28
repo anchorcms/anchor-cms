@@ -26,4 +26,14 @@ class Page extends Model {
 		return static::find(Config::get('meta.posts_page'));
 	}
 
+	public static function dropdown() {
+		$items = array();
+
+		foreach(static::all() as $page) {
+			$items[$page->id] = $page->name;
+		}
+
+		return $items;
+	}
+
 }

@@ -8,7 +8,7 @@ Route::get('admin/extend/metadata', array('before' => 'auth', 'do' => function()
 	$vars['messages'] = Notify::read();
 	$vars['token'] = Csrf::token();
 	$vars['meta'] = Config::get('meta');
-	$vars['pages'] = Page::all();
+	$vars['pages'] = Page::dropdown();
 	$vars['themes'] = Themes::all();
 
 	return View::make('extend/metadata/edit', $vars)

@@ -94,3 +94,31 @@ Route::post('admin/categories/add', array('before' => 'auth', 'do' => function()
 
 	return Response::redirect('admin/categories');
 }));
+
+/*
+	Delete
+*/
+Route::get('admin/categories/delete/(:num)', array('before' => 'auth', 'do' => function($id) {
+	$total = Query::table(Category::$table)->count();
+
+	if($total == 1) {
+		Notify::error(__('categories.category_failed_delete', 'You must have at least one category'));
+
+		return Response::redirect('admin/categories/edit/' . $id);
+	}
+
+	// move posts
+	$category = Category::where('id', '<>', $id)->fetch();
+
+	// delete selected
+	Category::find($id)->delete();
+
+	// update posts
+	Post::where('category', '=', $id)->update(array(
+		'category' => $category->id
+	));
+
+	Notify::success(__('categories.category_success_delete', 'Category deleted'));
+
+	return Response::redirect('admin/categories');
+}));

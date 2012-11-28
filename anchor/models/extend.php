@@ -41,17 +41,43 @@ class Extend extends Model {
 		switch($item->field) {
 			case 'text':
 				$value = isset($item->value->text) ? $item->value->text : '';
-				return '<input id="extend_' . $item->key . '" name="extend[' . $item->key . ']" type="text" value="' . $value . '">';
+				$html = '<input id="extend_' . $item->key . '" name="extend[' . $item->key . ']" type="text" value="' . $value . '">';
+				break;
+
 			case 'html':
 				$value = isset($item->value->html) ? $item->value->html : '';
-				return '<textarea id="extend_' . $item->key . '" name="extend[' . $item->key . ']" type="text">' . $value . '</textarea>';
+				$html = '<textarea id="extend_' . $item->key . '" name="extend[' . $item->key . ']" type="text">' . $value . '</textarea>';
+				break;
+
 			case 'image':
 				$value = isset($item->value->filename) ? $item->value->filename : '';
-				return '<input id="extend_' . $item->key . '" name="extend[' . $item->key . ']" type="file" accept="image/*"><em>'.$value.'</em>';
+				$html = '
+					<span class="current-file">
+						<a href="' . asset('content/' . $value) . '" target="_blank">' . $value . '</a>
+					</span>
+					<span class="file">
+						<input id="extend_' . $item->key . '" name="extend[' . $item->key . ']" type="file" accept="image/*">
+					</span>
+				';
+				break;
+
 			case 'file':
 				$value = isset($item->value->filename) ? $item->value->filename : '';
-				return '<input id="extend_' . $item->key . '" name="extend[' . $item->key . ']" type="file"><em>'.$value.'</em>';
+				$html = '
+					<span class="current-file">
+						<a href="' . asset('content/' . $value) . '" target="_blank">' . $value . '</a>
+					</span>
+					<span class="file">
+						<input id="extend_' . $item->key . '" name="extend[' . $item->key . ']" type="file">
+					</span>
+				';
+				break;
+
+			default:
+				$html = '';
 		}
+
+		return $html;
 	}
 
 	public static function paginate($page = 1, $perpage = 10) {

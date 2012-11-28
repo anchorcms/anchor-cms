@@ -6,6 +6,10 @@
 
 
 // Url helpers
+function full_url($url = '') {
+	return Uri::build(array('path' => Uri::make($url)));
+}
+
 function base_url($url = '') {
     return Uri::make($url);
 }

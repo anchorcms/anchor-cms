@@ -19,7 +19,11 @@ Route::get('admin/pages/edit/(:num)', array('before' => 'auth', 'do' => function
 	$vars['messages'] = Notify::read();
 	$vars['token'] = Csrf::token();
 	$vars['page'] = Page::find($id);
-	$vars['statuses'] = array('draft' => __('pages.draft'), 'archived' => __('pages.archived'), 'published' => __('pages.published'));
+	$vars['statuses'] = array(
+		'published' => __('pages.published'),
+		'draft' => __('pages.draft'),
+		'archived' => __('pages.archived')
+	);
 
 	// extended fields
 	$vars['fields'] = Extend::fields('page', $id);
@@ -33,9 +37,6 @@ Route::post('admin/pages/edit/(:num)', array('before' => 'auth', 'do' => functio
 	$input = Input::get_array(array('name', 'title', 'slug', 'content', 'status', 'redirect'));
 
 	$validator = new Validator($input);
-
-	$validator->check('name')
-		->is_max(3, __('pages.missing_name'));
 
 	$validator->check('title')
 		->is_max(3, __('pages.missing_title'));
@@ -51,6 +52,10 @@ Route::post('admin/pages/edit/(:num)', array('before' => 'auth', 'do' => functio
 		Notify::error($errors);
 
 		return Response::redirect('admin/pages/edit/' . $id);
+	}
+
+	if(empty($input['name'])) {
+		$input['name'] = $input['title'];
 	}
 
 	if(empty($input['slug'])) {
@@ -74,7 +79,11 @@ Route::post('admin/pages/edit/(:num)', array('before' => 'auth', 'do' => functio
 Route::get('admin/pages/add', array('before' => 'auth', 'do' => function() {
 	$vars['messages'] = Notify::read();
 	$vars['token'] = Csrf::token();
-	$vars['statuses'] = array('draft' => __('pages.draft'), 'archived' => __('pages.archived'), 'published' => __('pages.published'));
+	$vars['statuses'] = array(
+		'published' => __('pages.published'),
+		'draft' => __('pages.draft'),
+		'archived' => __('pages.archived')
+	);
 
 	// extended fields
 	$vars['fields'] = Extend::fields('page');
@@ -89,11 +98,8 @@ Route::post('admin/pages/add', array('before' => 'auth', 'do' => function() {
 
 	$validator = new Validator($input);
 
-	$validator->check('name')
-		->is_max(3, __('pages.missing_name'));
-
 	$validator->check('title')
-		->is_max(3, __('pages.missing_title'));
+		->is_max(3, __('pages.missing_title', ''));
 
 	if($input['redirect']) {
 		$validator->check('redirect')
@@ -106,6 +112,10 @@ Route::post('admin/pages/add', array('before' => 'auth', 'do' => function() {
 		Notify::error($errors);
 
 		return Response::redirect('admin/pages/add');
+	}
+
+	if(empty($input['name'])) {
+		$input['name'] = $input['title'];
 	}
 
 	if(empty($input['slug'])) {

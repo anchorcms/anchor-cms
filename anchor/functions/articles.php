@@ -1,146 +1,94 @@
 <?php
 
-/**
+/*
 	Theme functions for articles
 */
 function article_id() {
-	if($itm = Registry::get('article')) {
-		return $itm->id;
-	}
-
-	return '';
+	return Registry::prop('article', 'id');
 }
 
 function article_title() {
-	if($itm = Registry::get('article')) {
-		return $itm->title;
-	}
-
-	return '';
+	return Registry::prop('article', 'title');
 }
 
 function article_slug() {
-	if($itm = Registry::get('article')) {
-		return $itm->slug;
-	}
-
-	return '';
+	return Registry::prop('article', 'slug');
 }
 
 function article_url() {
-	if($itm = Registry::get('article')) {
+	if($slug = article_slug()) {
 		$page = Registry::get('posts_page');
-		return base_url($page->slug . '/' . $itm->slug);
-	}
 
-	return '';
+		return base_url($page->slug . '/' . $slug);
+	}
 }
 
 function article_description() {
-	if($itm = Registry::get('article')) {
-		return $itm->description;
-	}
-
-	return '';
+	return Registry::prop('article', 'description');
 }
 
 function article_html() {
-	if($itm = Registry::get('article')) {
-		return Post::parse($itm->html);
-	}
-
-	return '';
+	return Registry::prop('article', 'html');
 }
 
 function article_css() {
-	if($itm = Registry::get('article')) {
-		return $itm->css;
-	}
-
-	return '';
+	return Registry::prop('article', 'css');
 }
 
 function article_js() {
-	if($itm = Registry::get('article')) {
-		return $itm->js;
-	}
-
-	return '';
+	return Registry::prop('article', 'js');
 }
 
 function article_time() {
-	if($itm = Registry::get('article')) {
-		return strtotime($itm->created);
+	if($created = Registry::prop('article', 'created')) {
+		return strtotime($created);
 	}
-
-	return '';
 }
 
 function article_date() {
-	if($itm = Registry::get('article')) {
-		return Date::format($itm->created);
+	if($created = Registry::prop('article', 'created')) {
+		return Date::format($created);
 	}
-
-	return '';
 }
 
 function article_status() {
-	if($itm = Registry::get('article')) {
-		return $itm->status;
-	}
-
-	return '';
+	return Registry::prop('article', 'status');
 }
 
 function article_category() {
-	if($itm = Registry::get('article')) {
+	if($category = Registry::prop('article', 'category')) {
 		$categories = Registry::get('all_categories');
-		return $categories[$itm->category]->title;
-	}
 
-	return '';
+		return $categories[$category]->title;
+	}
 }
 
 function article_category_slug() {
-	if($itm = Registry::get('article')) {
+	if($category = Registry::prop('article', 'category')) {
 		$categories = Registry::get('all_categories');
-		return $categories[$itm->category]->slug;
-	}
 
-	return '';
+		return $categories[$category]->slug;
+	}
 }
 
 function article_category_url() {
-	if($itm = Registry::get('article')) {
+	if($category = Registry::prop('article', 'category')) {
 		$categories = Registry::get('all_categories');
-		return base_url('category/' . $categories[$itm->category]->slug);
-	}
 
-	return '';
+		return base_url('category/' . $categories[$category]->slug);
+	}
 }
 
 function article_total_comments() {
-	if($itm = Registry::get('article')) {
-		return $itm->total_comments;
-	}
-
-	return 0;
+	return Registry::prop('article', 'total_comments');
 }
 
 function article_author() {
-	if($itm = Registry::get('article')) {
-		return $itm->author;
-	}
-
-	return '';
+	return Registry::prop('article', 'author');
 }
 
 function article_author_bio() {
-	if($itm = Registry::get('article')) {
-		return $itm->bio;
-	}
-
-	return '';
+	return Registry::prop('article', 'bio');
 }
 
 function article_custom_field($key, $default = '') {
@@ -153,9 +101,9 @@ function article_custom_field($key, $default = '') {
 			case 'html':
 				return isset($extend->value->html) ? $extend->value->html : '';
 			case 'image':
-				return isset($extend->value->filename) ? Html::asset('content/' . $extend->value->filename) : '';
+				return isset($extend->value->filename) ? asset('content/' . $extend->value->filename) : '';
 			case 'file':
-				return isset($extend->value->filename) ? Html::asset('content/' . $extend->value->filename) : '';
+				return isset($extend->value->filename) ? asset('content/' . $extend->value->filename) : '';
 		}
 	}
 

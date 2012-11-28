@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
 	Theme functions for menus
 */
 function has_menu_items() {
@@ -29,52 +29,34 @@ function menu_items() {
 
 		$item->url = base_url($item->slug);
 
-		// register single post
 		Registry::set('menu_item', $item);
-		
-		// move to next
+
 		$pages->next();
 	}
 
 	return $result;
 }
 
+/*
+	Object props
+*/
+
 function menu_id() {
-	if($itm = Registry::get('menu_item')) {
-		return $itm->id;
-	}
-	
-	return '';
+	return Registry::prop('menu_item', 'id');
 }
 
 function menu_url() {
-	if($itm = Registry::get('menu_item')) {
-		return $itm->url;
-	}
-	
-	return '';
+	return Registry::prop('menu_item', 'url');
 }
 
 function menu_name() {
-	if($itm = Registry::get('menu_item')) {
-		return $itm->name;
-	}
-	
-	return '';
+	return Registry::prop('menu_item', 'name');
 }
 
 function menu_title() {
-	if($itm = Registry::get('menu_item')) {
-		return $itm->title;
-	}
-
-	return $default;
+	return Registry::prop('menu_item', 'title');
 }
 
 function menu_active() {
-	if($itm = Registry::get('menu_item')) {
-		return $itm->active;
-	}
-	
-	return '';
+	return Registry::prop('menu_item', 'active');
 }
