@@ -8,13 +8,11 @@ $posts_page = Registry::get('posts_page');
 $home_page = Registry::get('home_page');
 
 $callback = function($page = 1) use($posts_page) {
-	$template = $posts_page->template ?: 'posts';
-
 	Registry::set('page', $posts_page);
 
 	Registry::set('page_offset', $page);
 
-	return new Template($template);
+	return new Template('posts');
 };
 
 if($home_page->id == $posts_page->id) {
