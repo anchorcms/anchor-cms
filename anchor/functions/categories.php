@@ -25,7 +25,7 @@ function categories() {
 	if($result = $items->valid()) {
 		// register single category
 		Registry::set('category', $items->current());
-		
+
 		// move to next
 		$items->next();
 	}
@@ -35,41 +35,21 @@ function categories() {
 
 // single categories
 function category_id() {
-	if($itm = Registry::get('category')) {
-		return $itm->id;
-	}
-	
-	return '';
+	return Registry::prop('category', 'id');
 }
 
 function category_title() {
-	if($itm = Registry::get('category')) {
-		return $itm->title;
-	}
-	
-	return '';
+	return Registry::prop('category', 'title');
 }
 
 function category_slug() {
-	if($itm = Registry::get('category')) {
-		return $itm->slug;
-	}
-	
-	return '';
+	return Registry::prop('category', 'slug');
 }
 
 function category_description() {
-	if($itm = Registry::get('category')) {
-		return $itm->description;
-	}
-	
-	return '';
+	return Registry::prop('category', 'description');
 }
 
 function category_url() {
-	if($itm = Registry::get('category')) {
-		return base_url('category/' . $itm->slug);
-	}
-	
-	return '';
+	return base_url('category/' . category_slug());
 }

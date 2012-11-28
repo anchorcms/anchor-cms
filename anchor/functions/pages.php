@@ -4,69 +4,43 @@
 	Theme functions for pages
 */
 function page_id() {
-	if($itm = Registry::get('page')) {
-		return $itm->id;
-	}
-
-	return '';
+	return Registry::prop('page', 'id');
 }
 
 function page_url() {
-	if($itm = Registry::get('page')) {
-		return $itm->url;
-	}
-
-	return '';
+	return Registry::prop('page', 'url');
 }
 
 function page_slug() {
-	if($itm = Registry::get('page')) {
-		return $itm->slug;
-	}
-
-	return '';
+	return Registry::prop('page', 'slug');
 }
 
 function page_name() {
-	if($itm = Registry::get('page')) {
-		return $itm->name;
-	}
-
-	return '';
+	return Registry::prop('page', 'name');
 }
 
 function page_title($default = '') {
-	if($itm = Registry::get('page')) {
-		return $itm->title;
+	if($title = Registry::prop('page', 'title')) {
+		return $title;
 	}
-	if($itm = Registry::get('article')) {
-		return $itm->title;
+
+	if($title = Registry::prop('article', 'title')) {
+		return $title;
 	}
 
 	return $default;
 }
 
 function page_content() {
-	if($itm = Registry::get('page')) {
-		$md = new Markdown;
-		return $md->transform($itm->content);
-	}
+	$md = new Markdown;
 
-	return '';
+	return $md->transform(Registry::prop('page', 'content'));
 }
 
 function page_active() {
-	if($itm = Registry::get('page')) {
-		return $itm->active;
-	}
-
-	return '';
+	return Registry::prop('page', 'active');
 }
 
 function page_status() {
-	if($itm = Registry::get('page')) {
-		return $itm->status;
-	}
-
-	return '';
+	return Registry::prop('page', 'status');
 }

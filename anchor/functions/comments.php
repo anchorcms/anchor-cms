@@ -47,59 +47,31 @@ function comments() {
 
 // single comments
 function comment_id() {
-	if($itm = Registry::get('comment')) {
-		return $itm->id;
-	}
-
-	return '';
+	return Registry::prop('comment', 'id');
 }
 
 function comment_time() {
-	if($itm = Registry::get('comment')) {
-		return $itm->date;
-	}
-
-	return '';
+	return Registry::prop('comment', 'date');
 }
 
 function comment_date() {
-	if($itm = Registry::get('comment')) {
-		return date(Config::get('meta.date_format'), $itm->date);
-	}
-
-	return '';
+	return date(Config::get('meta.date_format'), comment_time());
 }
 
 function comment_name() {
-	if($itm = Registry::get('comment')) {
-		return $itm->name;
-	}
-
-	return '';
+	return Registry::prop('comment', 'name');
 }
 
 function comment_email() {
-	if($itm = Registry::get('comment')) {
-		return $itm->email;
-	}
-
-	return '';
+	return Registry::prop('comment', 'email');
 }
 
 function comment_text() {
-	if($itm = Registry::get('comment')) {
-		return $itm->text;
-	}
-
-	return '';
+	return Registry::prop('comment', 'text');
 }
 
 function comments_open() {
-	if($itm = Registry::get('article')) {
-		return $itm->comments ? true : false;
-	}
-
-	return false;
+	return Registry::prop('article', 'comments') ? true : false;
 }
 
 // form elements

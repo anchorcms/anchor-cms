@@ -1,48 +1,28 @@
 <?php
 
 /**
-	Theme functions for users
+	Theme functions for logged in user
 */
 function user_authed() {
-	return Users::authed() !== false;
+	return ! Auth::guest();
 }
 
 function user_authed_id() {
-	if($user = Users::authed()) {
-		return $user->id;
-	}
-
-	return '';
+	if($user = Auth::user()) return $user->id;
 }
 
 function user_authed_name() {
-	if($user = Users::authed()) {
-		return $user->username;
-	}
-
-	return '';
+	if($user = Auth::user()) return $user->username;
 }
 
 function user_authed_email() {
-	if($user = Users::authed()) {
-		return $user->email;
-	}
-
-	return '';
+	if($user = Auth::user()) return $user->email;
 }
 
 function user_authed_role() {
-	if($user = Users::authed()) {
-		return $user->role;
-	}
-
-	return '';
+	if($user = Auth::user()) return $user->role;
 }
 
 function user_authed_real_name() {
-	if($user = Users::authed()) {
-		return $user->real_name;
-	}
-
-	return '';
+	if($user = Auth::user()) return $user->real_name;
 }
