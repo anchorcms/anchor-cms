@@ -51,7 +51,7 @@
 		</fieldset>
 
 		<aside class="buttons">
-			<?php echo Form::button(__('users.create', 'Create'), array('class' => 'btn')); ?>
+			<?php echo Form::button(__('users.create', 'Create'), array('class' => 'btn', 'type' => 'submit')); ?>
 		</aside>
 	</form>
 

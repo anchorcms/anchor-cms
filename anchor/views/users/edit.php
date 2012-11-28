@@ -52,7 +52,10 @@
 		</fieldset>
 
 		<aside class="buttons">
-			<?php echo Form::button(__('users.update', 'Update'), array('class' => 'btn')); ?>
+			<?php echo Form::button(__('users.update', 'Update'), array(
+				'class' => 'btn',
+				'type' => 'submit'
+			)); ?>
 
 			<?php echo Html::link(admin_url('users/delete/' . $user->id), __('users.delete', 'Delete'), array(
 				'class' => 'btn delete red'
