@@ -44,4 +44,6 @@
 	</form>
 </section>
 
+<script src="<?php echo admin_asset('js/slug.js'); ?>"></script>
+
 <?php echo $footer; ?>
