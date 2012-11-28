@@ -1,8 +1,10 @@
 <?php echo $header; ?>
 
-<h1><?php echo __('metadata.metadata', 'Site metadata'); ?></h1>
+<hgroup class="wrap">
+	<h1><?php echo __('metadata.metadata', 'Site metadata'); ?></h1>
+</hgroup>
 
-<section class="content">
+<section class="wrap">
 	<?php echo $messages; ?>
 
 	<form method="post" action="<?php echo admin_url('extend/metadata'); ?>" novalidate>
@@ -11,55 +13,33 @@
 
 		<fieldset class="split">
 			<p>
-				<label for="sitename"><?php echo __('metadata.sitename', 'Site name'); ?>:</label>
-				<input autofocus id="sitename" name="sitename"
-					value="<?php echo Input::old('sitename', $meta['sitename']); ?>">
-
-				<em><?php echo __('metadata.sitename_explain', 'Your site&rsquo;s name.'); ?></em>
+				<label><?php echo __('metadata.sitename', 'Site name'); ?>:</label>
+				<?php echo Form::text('sitename', Input::old('sitename', $meta['sitename'])); ?>
+				<em><?php echo __('metadata.sitename_explain'); ?></em>
 			</p>
 
 			<p>
-				<label for="description"><?php echo __('metadata.sitedescription', 'Site description'); ?>:</label>
-				<textarea id="description" name="description"><?php echo Input::old('description', $meta['description']); ?></textarea>
-
-				<em><?php echo __('metadata.sitedescription_explain',
-					'A short paragraph to describe your site.'); ?></em>
+				<label><?php echo __('metadata.sitedescription', 'Site description'); ?>:</label>
+				<?php echo Form::textarea('description', Input::old('description', $meta['description'])); ?>
+				<em><?php echo __('metadata.sitedescription_explain'); ?></em>
 			</p>
 
 			<p>
 				<label><?php echo __('metadata.homepage', 'Home Page'); ?>:</label>
-				<select id="home_page" name="home_page">
-					<?php foreach($pages as $page): ?>
-					<?php $selected = (Input::old('home_page', $meta['home_page']) == $page->id) ? ' selected' : ''; ?>
-					<option value="<?php echo $page->id; ?>"<?php echo $selected; ?>>
-						<?php echo $page->name; ?>
-					</option>
-					<?php endforeach; ?>
-				</select>
-
-				<em><?php echo __('metadata.homepage_explain', 'Your current home page.'); ?></em>
+				<?php echo Form::select('home_page', $pages, Input::old('home_page', $meta['home_page'])); ?>
+				<em><?php echo __('metadata.homepage_explain'); ?></em>
 			</p>
 
 			<p>
 				<label><?php echo __('metadata.postspage', 'Posts Page'); ?>:</label>
-				<select id="posts_page" name="posts_page">
-					<?php foreach($pages as $page): ?>
-					<?php $selected = (Input::old('posts_page', $meta['posts_page']) == $page->id) ? ' selected' : ''; ?>
-					<option value="<?php echo $page->id; ?>"<?php echo $selected; ?>>
-						<?php echo $page->name; ?>
-					</option>
-					<?php endforeach; ?>
-				</select>
-
-				<em><?php echo __('metadata.postspage_explain', 'Your page that will show your posts.'); ?></em>
+				<?php echo Form::select('posts_page', $pages, Input::old('posts_page', $meta['posts_page'])); ?>
+				<em><?php echo __('metadata.postspage_explain'); ?></em>
 			</p>
 
 			<p>
 				<label for="posts_per_page"><?php echo __('metadata.posts_per_page', 'Posts per page'); ?>:</label>
-				<input type="range" min="1" max="15" id="posts_per_page" name="posts_per_page"
-					value="<?php echo Input::old('posts_per_page', $meta['posts_per_page']); ?>">
-
-				<em><?php echo __('metadata.posts_per_page_explain', 'The number of posts to display per page.'); ?></em>
+				<?php echo Form::input('range', 'posts_per_page', Input::old('posts_per_page', $meta['posts_per_page']), array('min' => 1, 'max' => 15)); ?>
+				<em><?php echo __('metadata.posts_per_page_explain'); ?></em>
 			</p>
 
 			<p>
@@ -76,10 +56,8 @@
 			</p>
 
 			<p>
-				<label for="comment_moderation_keys"><?php echo __('metadata.comment_moderation_keys', 'Spam keywords'); ?>:</label>
-				<textarea id="comment_moderation_keys"
-					name="comment_moderation_keys"><?php echo Input::old('comment_moderation_keys', $meta['comment_moderation_keys']); ?></textarea>
-
+				<label><?php echo __('metadata.comment_moderation_keys', 'Spam keywords'); ?>:</label>
+				<?php echo Form::textarea('comment_moderation_keys', Input::old('comment_moderation_keys', $meta['comment_moderation_keys'])); ?>
 				<em><?php echo __('metadata.comment_moderation_keys_explain', 'Comma separated list of keywords.'); ?></em>
 			</p>
 
@@ -107,18 +85,13 @@
 			</p>
 		</fieldset>
 
-		<p class="buttons">
-			<button name="save" type="submit"><?php echo __('metadata.save', 'Save changes'); ?></button>
-		</p>
+		<aside class="buttons">
+			<?php echo Form::button(__('metadata.save', 'Save changes'), array(
+				'type' => 'submit',
+				'class' => 'btn'
+			)); ?>
+		</aside>
 	</form>
-
-	<aside class="sidebar">
-		<div class="filter">
-			<a href="<?php echo admin_url('extend/fields'); ?>">Custom Fields</a>
-			<a href="<?php echo admin_url('extend/metadata'); ?>">Metadata</a>
-			<a href="<?php echo admin_url('extend/plugins'); ?>">Plugins (Coming soon, yo!)</a>
-		</div>
-	</aside>
 
 </section>
 

@@ -1,12 +1,16 @@
 <?php echo $header; ?>
 
-<h1><?php echo __('pages.pages', 'Pages'); ?>
-<?php if($pages->count): ?>
-<a href="<?php echo admin_url('pages/add'); ?>"><?php echo __('pages.create_page', 'Create a new page'); ?></a>
-<?php endif; ?>
-</h1>
+<hgroup class="wrap">
+	<h1><?php echo __('pages.pages', 'Pages'); ?></h1>
 
-<section class="content">
+	<?php if($pages->count): ?>
+	<nav>
+		<?php echo Html::link(admin_url('pages/add'), __('pages.create_page', 'Create a new page'), array('class' => 'btn')); ?>
+	</nav>
+	<?php endif; ?>
+</hgroup>
+
+<section class="wrap">
 	<?php echo $messages; ?>
 
 	<?php if($pages->count): ?>
@@ -27,14 +31,15 @@
 		<?php endforeach; ?>
 	</ul>
 
-	<?php echo $pages->links(); ?>
+	<aside class="paging"><?php echo $pages->links(); ?></aside>
+
 	<?php else: ?>
-	<p class="empty pages">
+	<aside class="empty pages">
 		<span class="icon"></span>
 		<?php echo __('comments.nopages_desc', 'You don’t have any pages.'); ?><br>
 
-		<a class="btn" href="<?php echo admin_url('pages/add'); ?>"><?php echo __('pages.create_page', 'Create a new page'); ?></a>
-	</p>
+		<?php echo Html::link(admin_url('pages/add'), __('pages.create_page', 'Create a new page'), array('class' => 'btn')); ?>
+	</aside>
 	<?php endif; ?>
 </section>
 

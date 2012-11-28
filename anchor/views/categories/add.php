@@ -1,8 +1,10 @@
 <?php echo $header; ?>
 
-<h1>Create a new category</h1>
+<hgroup class="wrap">
+	<h1>Create a new category</h1>
+</hgroup>
 
-<section class="content">
+<section class="wrap">
 	<?php echo $messages; ?>
 
 	<form method="post" action="<?php echo admin_url('categories/add'); ?>" novalidate>
@@ -32,9 +34,9 @@
 			</p>
 		</fieldset>
 
-		<p class="buttons">
-			<button type="submit"><?php echo __('categories.save', 'Save'); ?></button>
-		</p>
+		<aside class="buttons">
+			<?php echo Form::button(__('categories.save', 'Save'), array('type' => 'submit', 'class' => 'btn')); ?>
+		</aside>
 
 	</form>
 </section>

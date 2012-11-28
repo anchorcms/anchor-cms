@@ -1,8 +1,10 @@
 <?php echo $header; ?>
 
-<h1>Create a custom field</h1>
+<hgroup class="wrap">
+	<h1>Create a custom field</h1>
+</hgroup>
 
-<section class="content">
+<section class="wrap">
 	<?php echo $messages; ?>
 
 	<form method="post" action="<?php echo admin_url('extend/fields/add'); ?>" novalidate>
@@ -59,11 +61,12 @@
 			</p>
 		</fieldset>
 
-		<p class="buttons">
-			<button type="submit"><?php echo __('extend.save', 'Save'); ?></button>
-		</p>
-
+		<aside class="buttons">
+			<button class="btn" type="submit"><?php echo __('extend.save', 'Save'); ?></button>
+		</aside>
 	</form>
 </section>
+
+<script src="<?php echo admin_asset('js/custom-fields.js'); ?>"></script>
 
 <?php echo $footer; ?>

@@ -1,8 +1,17 @@
 <?php echo $header; ?>
 
-<h1><?php echo __('comments.comments', 'Comments'); ?></h1>
+<hgroup class="wrap">
+	<h1><?php echo __('comments.comments', 'Comments'); ?></h1>
 
-<section class="content">
+	<nav>
+		<a class="btn" href="<?php echo admin_url('comments'); ?>">All</a>
+		<a class="btn" href="<?php echo admin_url('comments/pending'); ?>">Pending</a>
+		<a class="btn" href="<?php echo admin_url('comments/approved'); ?>">Approved</a>
+		<a class="btn" href="<?php echo admin_url('comments/spam'); ?>">Spam</a>
+	</nav>
+</hgroup>
+
+<section class="wrap">
 	<?php echo $messages; ?>
 
 	<?php if($comments->count): ?>
@@ -10,7 +19,7 @@
 		<?php foreach($comments->results as $comment): ?>
 		<li>
 			<a href="<?php echo admin_url('comments/edit/' . $comment->id); ?>">
-				<strong><?php echo Str::truncate($comment->text, 10); ?></strong>
+				<strong><?php echo Str::truncate(strip_tags($comment->text), 2); ?></strong>
 
 				<span><?php echo __('comments.created', 'Created'); ?> <time><?php echo Date::format($comment->date); ?></time>
 				<?php echo __('comments.by', 'by'); ?> <?php echo $comment->name; ?></span>
@@ -21,16 +30,7 @@
 		<?php endforeach; ?>
 	</ul>
 
-	<?php echo $comments->links(); ?>
-
-	<aside class="sidebar">
-		<div class="filter">
-			<a href="<?php echo admin_url('comments'); ?>">All</a>
-			<a href="<?php echo admin_url('comments/pending'); ?>">Pending</a>
-			<a href="<?php echo admin_url('comments/approved'); ?>">Approved</a>
-			<a href="<?php echo admin_url('comments/spam'); ?>">Spam</a>
-		</div>
-	</aside>
+	<aside class="paging"><?php echo $comments->links(); ?></aside>
 
 	<?php else: ?>
 	<p class="empty comments">

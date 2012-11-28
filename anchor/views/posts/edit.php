@@ -4,71 +4,72 @@
 
 	<input name="token" type="hidden" value="<?php echo $token; ?>">
 
-	<header class="header">
+	<fieldset class="header">
 		<div class="wrap">
 			<?php echo $messages; ?>
 
-			<input autofocus autocomplete="off" tabindex="1"
-				placeholder="Post title" id="title" name="title"
-				value="<?php echo Input::old('title', $article->title); ?>">
+			<?php echo Form::text('title', Input::old('title', $article->title), array(
+				'placeholder' => __('posts.title', 'Post title')
+			)); ?>
 
-			<p class="buttons">
-				<button tabindex="3" class="btn" type="submit"><?php echo __('posts.save', 'Save'); ?></button>
-				<a class="btn delete red" href="<?php echo admin_url('posts/delete/' . $article->id); ?>">
-					<?php echo __('posts.delete', 'Delete'); ?></a>
-			</p>
+			<aside class="buttons">
+				<?php echo Form::button(__('posts.save', 'Save Changes'), array(
+					'type' => 'submit',
+					'class' => 'btn'
+				)); ?>
+
+				<?php echo Html::link(admin_url('posts/delete/' . $article->id), __('posts.delete', 'Delete'), array(
+					'class' => 'btn delete red'
+				)); ?>
+			</aside>
 		</div>
-	</header>
-
-	<div class="prevue">
-		<div class="wrap"></div>
-	</div>
-
-	<fieldset id="content">
-		<p>
-			<textarea tabindex="2" id="post-content"
-				placeholder="<?php echo __('posts.content_explain', 'Just write.'); ?>"
-				name="html"><?php echo Input::old('html', $article->html); ?></textarea>
-		</p>
 	</fieldset>
 
-	<div class="media-upload"></div>
+	<fieldset class="main">
+		<div class="wrap">
+			<?php echo Form::textarea('html', Input::old('html', $article->html), array(
+				'placeholder' => __('posts.content_explain', 'Just write.')
+			)); ?>
+		</div>
+	</fieldset>
 
-	<fieldset id="post-data" class="split">
+	<fieldset class="meta split">
 		<div class="wrap">
 			<p>
-				<label for="slug"><?php echo __('posts.slug', 'Slug'); ?>:</label>
-				<input id="slug" autocomplete="off" name="slug" value="<?php echo Input::old('slug', $article->slug); ?>">
+				<label><?php echo __('posts.slug', 'Slug'); ?>:</label>
+				<?php echo Form::text('slug', Input::old('slug', $article->slug)); ?>
+				<em><?php echo __('posts.slug_explain'); ?></em>
 			</p>
 
 			<p>
 				<label for="description"><?php echo __('posts.description', 'Description'); ?>:</label>
-				<textarea id="description" name="description"><?php echo Input::old('description', $article->description); ?></textarea>
+				<?php echo Form::textarea('description', Input::old('description', $article->description)); ?>
 			</p>
 
 			<p>
 				<label><?php echo __('posts.status', 'Status'); ?>:</label>
-				<?php echo Form::select('status', $statuses, Input::old('status', $article->status), array('id' => 'status')); ?>
+				<?php echo Form::select('status', $statuses, Input::old('status', $article->status)); ?>
+				<em><?php echo __('posts.status_explain'); ?></em>
 			</p>
 
 			<p>
-				<label for="category"><?php echo __('posts.category', 'Category'); ?>:</label>
-				<?php echo Form::select('category', $categories, Input::old('category', $article->category), array('id' => 'category')); ?>
+				<label><?php echo __('posts.category', 'Category'); ?>:</label>
+				<?php echo Form::select('category', $categories, Input::old('category', $article->category)); ?>
 			</p>
 
 			<p>
-				<label for="comments"><?php echo __('posts.allow_comments', 'Allow Comments'); ?>:</label>
-				<input id="comments" name="comments" type="checkbox" value="1"<?php if(Input::old('comments', $article->comments)) echo ' checked'; ?>>
+				<label><?php echo __('posts.allow_comments', 'Allow Comments'); ?>:</label>
+				<?php echo Form::checkbox('comments', 1, Input::old('comments', $article->comments) == 1); ?>
 			</p>
 
 			<p>
-				<label for="css"><?php echo __('posts.custom_css', 'Custom CSS'); ?>:</label>
-				<textarea id="css" name="css"><?php echo Input::old('css', $article->css); ?></textarea>
+				<label><?php echo __('posts.custom_css', 'Custom CSS'); ?>:</label>
+				<?php echo Form::textarea('css', Input::old('css', $article->css)); ?>
 			</p>
 
 			<p>
 				<label for="js"><?php echo __('posts.custom_js', 'Custom JS'); ?>:</label>
-				<textarea id="js" name="js"><?php echo Input::old('js', $article->js); ?></textarea>
+				<?php echo Form::textarea('js', Input::old('js', $article->js)); ?>
 			</p>
 
 			<?php foreach($fields as $field): ?>
@@ -79,16 +80,13 @@
 			<?php endforeach; ?>
 		</div>
 	</fieldset>
+
+	<div class="media-upload"></div>
 </form>
 
-<script>
-	(function() {
-		setTimeout(function() {
-			$('.notifications').animate({'opacity': 0}, function() {
-				$(this).remove();
-			});
-		}, 2000);
-	}());
-</script>
+<script src="<?php echo admin_asset('js/slug.js'); ?>"></script>
+<script src="<?php echo admin_asset('js/dragdrop.js'); ?>"></script>
+<script src="<?php echo admin_asset('js/focus-mode.js'); ?>"></script>
+<script src="<?php echo admin_asset('js/upload-fields.js'); ?>"></script>
 
 <?php echo $footer; ?>

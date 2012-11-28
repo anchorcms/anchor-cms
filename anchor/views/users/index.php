@@ -1,9 +1,14 @@
 <?php echo $header; ?>
 
-<h1><?php echo __('users.users', 'Users'); ?>
-<a href="<?php echo admin_url('users/add'); ?>"><?php echo __('users.create_user', 'Create a new user'); ?></a></h1>
+<hgroup class="wrap">
+	<h1><?php echo __('users.users', 'Users'); ?></h1>
 
-<section class="content">
+	<nav>
+		<?php echo Html::link(admin_url('users/add'), __('users.create_user', 'Create a new user'), array('class' => 'btn')); ?>
+	</nav>
+</hgroup>
+
+<section class="wrap">
 	<?php echo $messages; ?>
 
 	<ul class="list">
@@ -19,7 +24,7 @@
 		<?php endforeach; ?>
 	</ul>
 
-	<?php echo $users->links(); ?>
+	<aside class="paging"><?php echo $users->links(); ?></aside>
 </section>
 
 <?php echo $footer; ?>

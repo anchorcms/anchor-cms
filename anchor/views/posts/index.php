@@ -1,12 +1,16 @@
 <?php echo $header; ?>
 
-<h1><?php echo __('posts.posts', 'Posts'); ?>
-<?php if($posts->count): ?>
-<a href="<?php echo admin_url('posts/add'); ?>"><?php echo __('posts.create_post', 'Create a new post'); ?></a>
-<?php endif; ?>
-</h1>
+<hgroup class="wrap">
+	<h1><?php echo __('posts.posts', 'Posts'); ?></h1>
 
-<section class="content">
+	<?php if($posts->count): ?>
+	<nav>
+		<?php echo Html::link(admin_url('posts/add'), __('posts.create_post', 'Create a new post'), array('class' => 'btn')); ?>
+	</nav>
+	<?php endif; ?>
+</hgroup>
+
+<section class="wrap">
 	<?php echo $messages; ?>
 
 	<?php if($posts->count): ?>
@@ -28,23 +32,18 @@
 		<?php endforeach; ?>
 	</ul>
 
-	<?php echo $posts->links(); ?>
+	<aside class="paging"><?php echo $posts->links(); ?></aside>
+
 	<?php else: ?>
 
 	<p class="empty posts">
 		<span class="icon"></span>
 		<?php echo __('posts.noposts_desc', 'You don’t have any posts!'); ?><br>
-		<a class="btn" href="<?php echo admin_url('posts/add'); ?>"><?php echo __('posts.create_post', 'Why not write a new one?'); ?></a>
+
+		<?php echo Html::link(admin_url('posts/add'), __('posts.create_post', 'Create a new post'), array('class' => 'btn')); ?>
 	</p>
 
 	<?php endif; ?>
-
-	<aside class="sidebar">
-		<div class="filter">
-			<a href="<?php echo admin_url('comments'); ?>">Comments</a>
-		</div>
-	</aside>
-
 </section>
 
 <?php echo $footer; ?>

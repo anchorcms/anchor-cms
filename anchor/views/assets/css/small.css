@@ -2,54 +2,39 @@ body, html {
 	width: 100%;
 }
 
-.wrap, .content, .notifications, h1, #bottom, #post-content {
+.wrap {
 	width: 90%;
 }
 
-#top #logo, #top .btn {
-	display: none;
+.top nav {
+	float: none;
+	overflow: hidden;
 }
-	.login #top #logo {
-		display: block;
-	}
-#top a {
-	line-height: 27px;
-	padding: 0 10px;
-}
-	#top nav a {
-		margin-right: 5px;
-	}
 
-.header .secondary {
+.top .btn {
 	display: none;
-}
-.header input {
-	width: 70%;
 }
 
 .list, .list li {
 	width: 100%;
 }
+
 	.list li {
 		float: none;
 		margin-right: 0;
 	}
+
 	.list li p {
-		height: auto;
+		display: none;
 	}
-		.list li p:after {
-			display: none;
-		}
 
-#bottom {
-	text-align: center;
-	padding-bottom: 30px;
+hgroup h1 {
+	line-height: 80px;
+	margin: 0;
+	float: none;
 }
-	#bottom small, #bottom em {
-		float: none;
-		font-size: 11px;
-		line-height: 18px;
 
-		display: block;
-		clear: both;
-	}
+hgroup nav {
+	float: none;
+	line-height: 80px;
+}

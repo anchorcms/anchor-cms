@@ -1,9 +1,14 @@
 <?php echo $header; ?>
 
-<h1><?php echo __('categories.title', 'Categories'); ?>
-<a href="<?php echo admin_url('categories/add'); ?>"><?php echo __('categories.create_category', 'Create a new category'); ?></a></h1>
+<hgroup class="wrap">
+	<h1><?php echo __('categories.title', 'Categories'); ?></h1>
 
-<section class="content">
+	<nav>
+		<?php echo Html::link(admin_url('categories/add'), __('categories.create_category', 'Create a new category'), array('class' => 'btn')); ?>
+	</nav>
+</hgroup>
+
+<section class="wrap">
 	<?php echo $messages; ?>
 
 	<ul class="list">
@@ -18,7 +23,7 @@
 		<?php endforeach; ?>
 	</ul>
 
-	<?php echo $categories->links(); ?>
+	<aside class="paging"><?php echo $categories->links(); ?></aside>
 </section>
 
 <?php echo $footer; ?>

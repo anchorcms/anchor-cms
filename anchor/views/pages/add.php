@@ -4,68 +4,61 @@
 
 	<input name="token" type="hidden" value="<?php echo $token; ?>">
 
-	<header class="header">
+	<fieldset class="header">
 		<div class="wrap">
 			<?php echo $messages; ?>
 
-			<input autofocus autocomplete="off" tabindex="1" placeholder="Page name" id="name" name="name"
-				value="<?php echo Input::old('name'); ?>">
+			<?php echo Form::text('title', Input::old('title'), array(
+				'placeholder' => __('pages.title', 'Page title')
+			)); ?>
 
-			<p class="buttons">
-				<button tabindex="3" class="btn" type="submit"><?php echo __('pages.create', 'Create'); ?></button>
-				<button id="redirect_toggle" class="secondary btn">Redirect</button>
-			</p>
-		</div>
-	</header>
+			<aside class="buttons">
+				<?php echo Form::button(__('pages.create', 'Create'), array(
+					'type' => 'submit',
+					'class' => 'btn'
+				)); ?>
 
-	<fieldset id="redirect_url">
-		<div class="wrap">
-			<input placeholder="<?php echo __('pages.redirect_url', 'Redirect Url'); ?>" name="redirect" value="<?php echo Input::old('redirect'); ?>">
+				<?php echo Form::button(__('pages.redirect', 'Redirect'), array(
+					'class' => 'btn secondary'
+				)); ?>
+			</aside>
 		</div>
 	</fieldset>
 
-	<fieldset id="content">
-		<p>
-			<textarea id="post-content" placeholder="<?php echo __('pages.content_explain', 'Your page’s content. Uses Markdown.'); ?>" name="content"><?php echo Input::old('content'); ?></textarea>
-		</p>
+	<fieldset class="redirect">
+		<div class="wrap">
+			<?php echo Form::text('redirect', Input::old('redirect'), array(
+				'placeholder' => __('pages.redirect_url', 'Redirect Url')
+			)); ?>
+		</div>
 	</fieldset>
 
-	<fieldset id="post-data" class="split">
+	<fieldset class="main">
 		<div class="wrap">
+			<?php echo Form::textarea('content', Input::old('content'), array(
+				'placeholder' => __('pages.content_explain', 'Your page’s content. Uses Markdown.')
+			)); ?>
+		</div>
+	</fieldset>
 
+	<fieldset class="meta split">
+		<div class="wrap">
 			<p>
-				<label for="redirect"><?php echo __('pages.redirect_option',
-					'This page triggers a redirect to another url'); ?>:</label>
-				<?php $checked = Input::old('redirect') ? ' checked' : ''; ?>
-				<input id="redirect" type="checkbox"<?php echo $checked; ?>>
+				<label><?php echo __('pages.name', 'Name'); ?>:</label>
+				<?php echo Form::text('name', Input::old('name')); ?>
+				<em><?php echo __('pages.name_explain'); ?></em>
 			</p>
 
-
 			<p>
-				<label for="slug"><?php echo __('pages.slug', 'Slug'); ?>:</label>
-				<input id="slug" autocomplete="off" name="slug" value="<?php echo Input::old('slug'); ?>">
-
-				<em><?php echo __('pages.slug_explain',
-					'The slug for your post (<code>/<span id="output">slug</span></code>).'); ?></em>
+				<label><?php echo __('pages.slug', 'Slug'); ?>:</label>
+				<?php echo Form::text('slug', Input::old('slug')); ?>
+				<em><?php echo __('pages.slug_explain'); ?></em>
 			</p>
 
 			<p>
 				<label><?php echo __('pages.status', 'Status'); ?>:</label>
-				<select id="status" name="status">
-					<?php foreach(array(
-						'published' => __('pages.published', 'Published'),
-						'archived' => __('pages.archived', 'Archived'),
-						'draft' => __('pages.draft', 'Draft')
-					) as $value => $status): ?>
-					<?php $selected = (Input::old('status') == $value) ? ' selected' : ''; ?>
-					<option value="<?php echo $value; ?>"<?php echo $selected; ?>>
-						<?php echo $status; ?>
-					</option>
-					<?php endforeach; ?>
-				</select>
-
-				<em><?php echo __('pages.status_explain',
-					'Do you want your page to be live (published), pending (draft), or hidden (archived)?'); ?></em>
+				<?php echo Form::select('status', $statuses, Input::old('status')); ?>
+				<em><?php echo __('pages.status_explain'); ?></em>
 			</p>
 
 			<?php foreach($fields as $field): ?>
@@ -74,10 +67,11 @@
 				<?php echo Extend::html($field); ?>
 			</p>
 			<?php endforeach; ?>
-		</div><!-- /.wrap -->
+		</div>
 	</fieldset>
 </form>
 
-</section>
+<script src="<?php echo admin_asset('js/slug.js'); ?>"></script>
+<script src="<?php echo admin_asset('js/redirect.js'); ?>"></script>
 
 <?php echo $footer; ?>

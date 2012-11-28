@@ -1,8 +1,10 @@
 <?php echo $header; ?>
 
-<h1>Editing &ldquo;<?php echo Str::truncate($field->label, 4); ?>&rdquo;</h1>
+<hgroup class="wrap">
+	<h1>Editing &ldquo;<?php echo Str::truncate($field->label, 4); ?>&rdquo;</h1>
+</hgroup>
 
-<section class="content">
+<section class="wrap">
 	<?php echo $messages; ?>
 
 	<form method="post" action="<?php echo admin_url('extend/fields/edit/' . $field->id); ?>" novalidate>
@@ -65,12 +67,14 @@
 			</p>
 		</fieldset>
 
-		<p class="buttons">
-			<button type="submit"><?php echo __('extend.update', 'Update'); ?></button>
-			<a class="btn delete red" href="<?php echo admin_url('extend/delete/' . $field->id); ?>"><?php echo __('extend.delete', 'Delete'); ?></a>
-		</p>
-
+		<aside class="buttons">
+			<button class="btn" type="submit"><?php echo __('extend.update', 'Update'); ?></button>
+			<a class="btn delete red" href="<?php echo admin_url('extend/delete/' . $field->id); ?>">
+				<?php echo __('extend.delete', 'Delete'); ?></a>
+		</aside>
 	</form>
 </section>
+
+<script src="<?php echo admin_asset('js/custom-fields.js'); ?>"></script>
 
 <?php echo $footer; ?>

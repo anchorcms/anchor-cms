@@ -1,49 +1,49 @@
 <?php echo $header; ?>
 
-<h1>Editing Comment</h1>
+<hgroup class="wrap">
+	<h1>Editing Comment</h1>
+</hgroup>
 
-<section class="content">
+<section class="wrap">
 	<?php echo $messages; ?>
 
 	<form method="post" action="<?php echo admin_url('comments/edit/' . $comment->id); ?>" novalidate>
 
 		<input name="token" type="hidden" value="<?php echo $token; ?>">
 
-		<fieldset class="half split">
+		<fieldset class="split">
 			<p>
-				<label for="name"><?php echo __('comments.name', 'Name'); ?>:</label>
-				<input id="name" name="name" value="<?php echo Input::old('name', $comment->name); ?>">
+				<label><?php echo __('comments.name', 'Name'); ?>:</label>
+				<?php echo Form::text('name', Input::old('name', $comment->name)); ?>
 
 				<em><?php echo __('comments.name_explain', 'Author name.'); ?></em>
 			</p>
 
 			<p>
-				<label for="email"><?php echo __('comments.email', 'Email'); ?>:</label>
-				<input id="email" name="email" value="<?php echo Input::old('email', $comment->email); ?>">
+				<label><?php echo __('comments.email', 'Email'); ?>:</label>
+				<?php echo Form::email('email', Input::old('email', $comment->email)); ?>
 
 				<em><?php echo __('comments.email_explain', 'Author email.'); ?></em>
 			</p>
 
 			<p>
-				<label for="text"><?php echo __('comments.text', 'Comment'); ?>:</label>
-				<textarea id="text" name="text"><?php echo Input::old('text', $comment->text); ?></textarea>
+				<label><?php echo __('comments.text', 'Comment'); ?>:</label>
+				<?php echo Form::textarea('text', Input::old('text', $comment->text)); ?>
 			</p>
 
 			<p>
-				<label for="status"><?php echo __('comments.status', 'Status'); ?>:</label>
-				<select id="status" name="status">
-					<?php foreach($statuses as $value => $status): ?>
-					<?php $selected = (Input::old('status', $comment->status) == $value) ? ' selected' : ''; ?>
-					<option value="<?php echo $value; ?>"<?php echo $selected; ?>><?php echo $status; ?></option>
-					<?php endforeach; ?>
-				</select>
+				<label><?php echo __('comments.status', 'Status'); ?>:</label>
+				<?php echo Form::select('status', $statuses, Input::old('status', $comment->status)); ?>
 			</p>
 		</fieldset>
 
-		<p class="buttons">
-			<button type="submit"><?php echo __('comments.save', 'Save'); ?></button>
-			<a class="btn blue" href="<?php echo admin_url('comments'); ?>"><?php echo __('comments.return_comments', 'Return to comments'); ?></a>
-		</p>
+		<aside class="buttons">
+			<?php echo Form::button(__('Save Changes.save', 'Save Changes'), array('type' => 'submit', 'class' => 'btn')); ?>
+
+			<?php echo Html::link(admin_url('comments'), __('comments.return_comments', 'Return to comments'), array(
+				'class' => 'btn blue'
+			)); ?>
+		</aside>
 	</form>
 </section>
 
