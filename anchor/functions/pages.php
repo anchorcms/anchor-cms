@@ -37,10 +37,16 @@ function page_content() {
 	return $md->transform(Registry::prop('page', 'content'));
 }
 
-function page_active() {
-	return Registry::prop('page', 'active');
-}
-
 function page_status() {
 	return Registry::prop('page', 'status');
+}
+
+function page_custom_field($key, $default = '') {
+	$id = Registry::prop('page', 'id');
+
+	if($extend = Extend::field('page', $key, $id)) {
+		return Extend::value($extend, $default);
+	}
+
+	return $default;
 }

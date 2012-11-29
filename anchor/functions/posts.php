@@ -16,7 +16,7 @@ function has_posts() {
 
 		Registry::set('total_posts', $total);
 	}
-	
+
 	return $total;
 }
 
@@ -39,10 +39,10 @@ function posts() {
 		Registry::set('posts', $posts);
 	}
 
-	if($result = $posts->valid()) {	
+	if($result = $posts->valid()) {
 		// register single post
 		Registry::set('article', $posts->current());
-		
+
 		// move to next
 		$posts->next();
 	}

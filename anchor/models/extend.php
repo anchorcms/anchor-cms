@@ -22,6 +22,31 @@ class Extend extends Model {
 		return $field;
 	}
 
+	public static function value($extend, $value = null) {
+		switch($extend->field) {
+			case 'text':
+				if( ! empty($extend->value->text)) {
+					$value = $extend->value->text;
+				}
+				break;
+
+			case 'html':
+				if( ! empty($extend->value->html)) {
+					$value = $extend->value->html;
+				}
+				break;
+
+			case 'image':
+			case 'file':
+				if( ! empty($extend->value->filename)) {
+					$value = asset('content/' . $extend->value->filename);
+				}
+				break;
+		}
+
+		return $value;
+	}
+
 	public static function fields($type, $id = -1) {
 		$fields = Query::table(static::$table)->where('type', '=', $type)->get();
 

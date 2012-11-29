@@ -25,7 +25,7 @@ function menu_items() {
 	if($result = $pages->valid()) {
 		$item = $pages->current();
 
-		$item->active = false;
+		$item->active = str_contains(Uri::current(), $item->slug);
 
 		$item->url = base_url($item->slug);
 
@@ -33,6 +33,9 @@ function menu_items() {
 
 		$pages->next();
 	}
+
+	// back to the start
+	if( ! $result) $pages->rewind();
 
 	return $result;
 }

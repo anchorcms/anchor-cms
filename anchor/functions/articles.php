@@ -92,22 +92,13 @@ function article_author_bio() {
 }
 
 function article_custom_field($key, $default = '') {
-	$itm = Registry::get('article');
+	$id = Registry::prop('article', 'id');
 
-	if($extend = Extend::field('post', $key, $itm->id)) {
-		switch($extend->field) {
-			case 'text':
-				return isset($extend->value->text) ? $extend->value->text : '';
-			case 'html':
-				return isset($extend->value->html) ? $extend->value->html : '';
-			case 'image':
-				return isset($extend->value->filename) ? asset('content/' . $extend->value->filename) : '';
-			case 'file':
-				return isset($extend->value->filename) ? asset('content/' . $extend->value->filename) : '';
-		}
+	if($extend = Extend::field('post', $key, $id)) {
+		return Extend::value($extend, $default);
 	}
 
-	return '';
+	return $default;
 }
 
 function customised() {
