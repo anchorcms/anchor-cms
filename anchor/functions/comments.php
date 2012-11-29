@@ -51,11 +51,15 @@ function comment_id() {
 }
 
 function comment_time() {
-	return Registry::prop('comment', 'date');
+	if($time = Registry::prop('comment', 'date')) {
+		return strtotime($time);
+	}
 }
 
 function comment_date() {
-	return date(Config::get('meta.date_format'), comment_time());
+	if($date = Registry::prop('comment', 'date')) {
+		return Date::format($date);
+	}
 }
 
 function comment_name() {
