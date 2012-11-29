@@ -22,7 +22,7 @@ function pluralise($amount, $str, $alt = '') {
 
 function relative_time($time) {
 	// make sure $date is a time stamp
- 	if( ! preg_match('/^[0-9]+$/', $time)) $time = strtotime($time);
+ 	if(!is_numeric($time)) $time = strtotime($time);
 
 	$elapsed = time() - $time;
 
