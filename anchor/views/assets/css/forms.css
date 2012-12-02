@@ -155,6 +155,8 @@ select {
 		width: 66px;
 		min-width: 66px;
 
+		cursor: pointer;
+
 		background: #fff url('../img/cross.gif') no-repeat 50% 50%;
 	}
 
