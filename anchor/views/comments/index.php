@@ -3,12 +3,14 @@
 <hgroup class="wrap">
 	<h1><?php echo __('comments.comments', 'Comments'); ?></h1>
 
-	<nav>
-		<a class="btn" href="<?php echo admin_url('comments'); ?>">All</a>
-		<a class="btn" href="<?php echo admin_url('comments/pending'); ?>">Pending</a>
-		<a class="btn" href="<?php echo admin_url('comments/approved'); ?>">Approved</a>
-		<a class="btn" href="<?php echo admin_url('comments/spam'); ?>">Spam</a>
-	</nav>
+	<?php if($comments->count): ?>
+		<nav>
+			<a class="btn" href="<?php echo admin_url('comments'); ?>">All</a>
+			<a class="btn" href="<?php echo admin_url('comments/pending'); ?>">Pending</a>
+			<a class="btn" href="<?php echo admin_url('comments/approved'); ?>">Approved</a>
+			<a class="btn" href="<?php echo admin_url('comments/spam'); ?>">Spam</a>
+		</nav>
+	<?php endif; ?>
 </hgroup>
 
 <section class="wrap">
