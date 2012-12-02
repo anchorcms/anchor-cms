@@ -48,13 +48,13 @@
 			</p>
 
 			<p>
-				<label><?php echo __('posts.status', 'Status'); ?>:</label>
+				<label for="status"><?php echo __('posts.status', 'Status'); ?>:</label>
 				<?php echo Form::select('status', $statuses, Input::old('status', $article->status)); ?>
 				<em><?php echo __('posts.status_explain'); ?></em>
 			</p>
 
 			<p>
-				<label><?php echo __('posts.category', 'Category'); ?>:</label>
+				<label for="category"><?php echo __('posts.category', 'Category'); ?>:</label>
 				<?php echo Form::select('category', $categories, Input::old('category', $article->category)); ?>
 			</p>
 
