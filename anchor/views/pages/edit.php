@@ -30,7 +30,7 @@
 		</div>
 	</fieldset>
 
-	<fieldset class="redirect">
+	<fieldset class="redirect <?php echo ($page->redirect) ? 'show' : ''; ?>">
 		<div class="wrap">
 			<?php echo Form::text('redirect', Input::old('redirect', $page->redirect), array(
 				'placeholder' => __('pages.redirect_url', 'Redirect Url')
