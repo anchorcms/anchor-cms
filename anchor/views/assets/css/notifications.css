@@ -34,7 +34,7 @@
 	position: absolute;
 	left: 55%;
 	top: 82px;
-
+	z-index: 1200;
 	width: 320px;
 }
 	.header .notifications:after {
