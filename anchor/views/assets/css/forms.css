@@ -88,6 +88,8 @@ select {
 
 	background: #fff;
 	color: #7f8b9e;
+	
+	cursor: pointer;
 
 	min-width: 216px;
 }
@@ -135,7 +137,6 @@ select {
 	text-align: center;
 	line-height: 39px;
 
-	cursor: pointer;
 	-webkit-user-select: none;
 
 	border-radius: 5px 0 0 5px;
@@ -153,6 +154,8 @@ select {
 		-webkit-appearance: none;
 		width: 66px;
 		min-width: 66px;
+
+		cursor: pointer;
 
 		background: #fff url('../img/cross.gif') no-repeat 50% 50%;
 	}

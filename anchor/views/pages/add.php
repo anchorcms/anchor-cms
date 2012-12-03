@@ -9,7 +9,8 @@
 			<?php echo $messages; ?>
 
 			<?php echo Form::text('title', Input::old('title'), array(
-				'placeholder' => __('pages.title', 'Page title')
+				'placeholder' => __('pages.title', 'Page title'),
+				'autocomplete'=> 'off'
 			)); ?>
 
 			<aside class="buttons">

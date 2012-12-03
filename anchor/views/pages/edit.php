@@ -9,7 +9,8 @@
 			<?php echo $messages; ?>
 
 			<?php echo Form::text('title', Input::old('title', $page->title), array(
-				'placeholder' => __('pages.title', 'Page title')
+				'placeholder' => __('pages.title', 'Page title'),
+				'autocomplete'=> 'off'
 			)); ?>
 
 			<aside class="buttons">
@@ -29,7 +30,7 @@
 		</div>
 	</fieldset>
 
-	<fieldset class="redirect">
+	<fieldset class="redirect <?php echo ($page->redirect) ? 'show' : ''; ?>">
 		<div class="wrap">
 			<?php echo Form::text('redirect', Input::old('redirect', $page->redirect), array(
 				'placeholder' => __('pages.redirect_url', 'Redirect Url')
