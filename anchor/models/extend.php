@@ -32,7 +32,9 @@ class Extend extends Model {
 
 			case 'html':
 				if( ! empty($extend->value->html)) {
-					$value = $extend->value->html;
+					$md = new Markdown;
+
+					$value = $md->transform($extend->value->html);
 				}
 				break;
 
