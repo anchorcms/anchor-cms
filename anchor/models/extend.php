@@ -114,7 +114,7 @@ class Extend extends Model {
 
 		$results = $query->take($perpage)->skip(($page - 1) * $perpage)->get();
 
-		return new Paginator($results, $count, $page, $perpage, url('extend'));
+		return new Paginator($results, $count, $page, $perpage, admin_url('extend/fields'));
 	}
 
 	/*

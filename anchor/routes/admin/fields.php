@@ -1,6 +1,6 @@
 <?php
 
-Route::get('admin/extend/fields', array('before' => 'auth', 'do' => function($page = 1) {
+Route::get(array('admin/extend/fields', 'admin/extend/fields/(:num)'), array('before' => 'auth', 'do' => function($page = 1) {
 	$vars['messages'] = Notify::read();
 	$vars['token'] = Csrf::token();
 	$vars['extend'] = Extend::paginate($page, Config::get('meta.posts_per_page'));
