@@ -24,6 +24,10 @@ function theme_include($file) {
 	}
 }
 
+function asset_url($extra = '') {
+	return asset('anchor/views/assets/' . ltrim($extra, '/'));
+}
+
 function current_url() {
 	return Uri::current();
 }

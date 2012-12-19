@@ -128,6 +128,13 @@ Route::get('feeds/rss', function() {
 	return Response::make($xml, 200, array('content-type' => 'application/xml'));
 });
 
+Route::get('feeds/json', function() {
+	return json_encode(array(
+		'meta' => Config::get('meta'),
+		'posts' => Post::where('status', '=', 'published')->get()
+	));
+});
+
 /*
 	Search
 */

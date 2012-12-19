@@ -21,7 +21,7 @@ body {
 	font: 17px/26px Skolar, Tisa, "Chaparral Pro", Georgia, serif;
 }
 
-h1, h2, h3, h4, h5, #logo, #top, .slidey b, .slidey label {
+h1, h2, h3, h4, h5, #logo, #top, .slidey b, .slidey label, .counter {
 	font-family: "Helvetica Neue", sans-serif;
 	font-weight: 300;
 }
@@ -55,7 +55,7 @@ img {
  *   Layout reset
  */
 .wrap {
-	min-width: 650px;
+	min-width: 280px;
 	max-width: 750px;
 	width: 60%;
 	
@@ -68,7 +68,7 @@ img {
 body, .items li:first-child {
 	color: #6e7886;
 }
-a {
+a, .items h1 a:hover {
 	color: #4075c3;
 }
 	a:hover {

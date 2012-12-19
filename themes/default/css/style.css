@@ -6,6 +6,7 @@ h1 {
 	padding: 80px 0 40px;
 
 	font-size: 40px;
+	line-height: 48px;
 	color: #505762;
 }
 
@@ -44,9 +45,15 @@ h1 {
 		.slidey a {
 			display: block;
 			text-decoration: none;
+			
+			color: #717985;
 		}
+			.slidey a:hover {
+				color: #414b59;
+			}
 		.slidey li span {
 			float: right;
+			opacity: .6;
 		}
 
 #top {
@@ -99,6 +106,9 @@ h1 {
 				opacity: 1;
 			}
 
+/**
+ *   Index page listing, category listing, search page results
+ */
 .items {
 	list-style: none;
 }
@@ -112,9 +122,15 @@ h1 {
 			background: #fff !important;
 			padding: 110px 0;
 		}
-			.items li:first-child h2 a {
+			.items li h1 a {
 				color: #3d4551;
 			}
+	.items h1 {
+		padding: 0 0 8px;
+	}
+		.items h1 a {
+			text-decoration: none;
+		}
 	.items h2 {
 		font-size: 32px;
 		line-height: 41px;
@@ -124,25 +140,84 @@ h1 {
 			padding-bottom: 12px;
 			
 			color: #fff;
+			color: rgba(176,200,236,.8);
+			
 			text-decoration: none;
 		}
+			.items h2 a:hover {
+				color: #fff;
+			}
 	.items .content {
 		padding: 10px 0 0;
 	}
 		.items .content p {
 			padding-bottom: 15px;
 		}
-	.items footer {
-		font-size: 12px;
-		font-style: italic;
-		
-		opacity: .6;
-	}
 	
+/**
+ *   Give some extra space to single-page wrappers
+ */
 .content.wrap {
 	padding-bottom: 50px;
 }
+	.content.wrap ul, .content.wrap ol {
+		padding: 20px 30px;
+	}
+		.content.wrap ul ul, .content.wrap ol ol {
+			padding: 0 20px;
+		}
+
+/**
+ *   Footnotes and straplines
+ */
+.footnote, .commentlist time, .items footer {
+	display: block;
+	padding: 5px 0 15px;
+
+	color: #98a2b1;
+	font-size: 14px;
+	font-style: italic;
+}
+	.footnote {
+		padding: 20px 0 40px;
+	}
+
+/**
+ *   Comment form
+ */
+ul.commentlist {
+	margin-bottom: 40px;
 	
+	list-style: none;
+	border-top: 1px solid rgba(22,36,54,.1);
+}
+	ul.commentlist .wrap {
+		position: relative;
+	}
+	ul.commentlist li {
+		padding: 40px 0;
+		border-bottom: 1px solid rgba(22,36,54,.1);
+	}
+		ul.commentlist time {
+			font-size: 13px;
+		}
+		ul.commentlist h2 {
+			font-size: 25px;
+			line-height: 33px;
+		}
+		ul.commentlist .counter {
+			position: absolute;
+			right: 0;
+			top: 0;
+			
+			font-size: 25px;
+			font-weight: 300;
+			color: #cdd2da;
+		}
+	
+/**
+ *   Footer
+ */
 #bottom {
 	padding: 30px 0 40px;
 }
