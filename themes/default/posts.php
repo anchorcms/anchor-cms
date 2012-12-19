@@ -31,7 +31,14 @@
 			<?php endwhile; ?>
 		</ul>
 	
-		<p><?php echo posts_prev(); ?> <?php echo posts_next(); ?></p>
+		<?php if(has_pagination()): ?>
+		<nav class="pagination">
+			<div class="wrap">
+				<?php echo posts_prev(); ?>
+				<?php echo posts_next(); ?>
+			</div>
+		</nav>
+		<?php endif; ?>
 
 	<?php else: ?>
 		<p>Looks like you have some writing to do!</p>

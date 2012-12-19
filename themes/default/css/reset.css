@@ -21,7 +21,7 @@ body {
 	font: 17px/26px Skolar, Tisa, "Chaparral Pro", Georgia, serif;
 }
 
-h1, h2, h3, h4, h5, #logo, #top, .slidey b, .slidey label, .counter, input, textarea, button {
+h1, h2, h3, h4, h5, #logo, #top, .slidey b, .slidey label, .counter, input, textarea, button, .pagination {
 	font-family: "Helvetica Neue", sans-serif;
 	font-weight: 300;
 }
@@ -65,7 +65,7 @@ img {
 /**
  *   Default colours
  */
-body, .items li:first-child {
+body, .items > li:first-child {
 	color: #6e7886;
 }
 a, .items h1 a:hover {

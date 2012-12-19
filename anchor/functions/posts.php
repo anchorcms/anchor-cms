@@ -50,7 +50,7 @@ function posts() {
 	return $result;
 }
 
-function posts_next($text = 'Next', $default = '') {
+function posts_next($text = 'Next &rarr;', $default = '') {
 	$per_page = Config::get('meta.posts_per_page');
 	$page = Registry::get('page_offset');
 
@@ -70,13 +70,21 @@ function posts_next($text = 'Next', $default = '') {
 	}
 
 	if(($page - 1) < $pages) {
-		return '<a href="' . $url . '">' . $text . '</a>';
+		return '<a class="next" href="' . $url . '">' . $text . '</a>';
 	}
 
 	return $default;
 }
 
-function posts_prev($text = 'Previous', $default = '') {
+function total_posts() {
+	return Registry::get('total_posts');
+}
+
+function has_pagination() {
+	return total_posts() > Config::get('meta.posts_per_page');
+}
+
+function posts_prev($text = '&larr; Previous', $default = '') {
 	$per_page = Config::get('meta.posts_per_page');
 	$page = Registry::get('page_offset');
 
@@ -96,7 +104,7 @@ function posts_prev($text = 'Previous', $default = '') {
 	}
 
 	if($offset > 0) {
-		return '<a href="' . $url . '">' . $text . '</a>';
+		return '<a class="prev" href="' . $url . '">' . $text . '</a>';
 	}
 
 	return $default;

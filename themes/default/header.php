@@ -39,7 +39,7 @@
     		<script><?php echo article_js(); ?></script>
 		<?php endif; ?>
 	</head>
-	<body>
+	<body class="<?php echo body_class(); ?>">
 		<div class="main-wrap">
 			<div class="slidey" id="tray">
 				<div class="wrap">

@@ -53,6 +53,22 @@ function receive($name = '') {
 	return Events::call($name);
 }
 
+function body_class() {
+	$classes = array();
+	
+	//  Get the URL slug
+	$url = explode('/', Uri::current());
+	$classes[] = $url[0] ? $url[0] : 'index';
+	
+	//  Is it a posts page?
+	$classes[] = is_postspage() ? 'posts' : '';
+	
+	//  Is it the homepage?
+	$classes[] = is_homepage() ? 'home' : '';
+	
+	return trim(join(' ', $classes));
+}
+
 // page type helpers
 function is_homepage() {
 	if($itm = Registry::get('page')) {
