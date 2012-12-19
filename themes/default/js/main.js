@@ -1,11 +1,17 @@
 var Anchor = {
 	init: function() {
-		//  Set up the slidey panel
-		Anchor.hideSlidey();
+		Anchor.slidey = $('.slidey');
+		
+		//  Uh, bind to the resizing of the window?
+		Anchor.bindResize();
+		$(window).resize(Anchor.bindResize);
 		
 		//  Set up the toggle link
 		Anchor.linky = $('.linky').click(Anchor.toggleSlidey);
 			  
+		//  Set up the slidey panel
+		Anchor.hideSlidey();
+
 		//  Hide the thingymabob
 		setTimeout(function() {
 			$('body').addClass('js-enabled');
@@ -20,10 +26,8 @@ var Anchor = {
 	},
 	
 	hideSlidey: function() {
-		this.slidey = $('.slidey');
-		this._slideyHeight = -(this.slidey.height() + 1);
-		
-		this.slidey.css('margin-top', this._slideyHeight);
+		Anchor.slidey.css('margin-top', this._slideyHeight);
+		Anchor.linky && Anchor.linky.removeClass('active');
 		
 		return this;
 	},
@@ -36,6 +40,11 @@ var Anchor = {
 		self.slidey.css('margin-top', me.hasClass('active') ? 0 : self._slideyHeight);
 		
 		return false;
+	},
+	
+	bindResize: function() {
+		Anchor._slideyHeight = -(Anchor.slidey.height() + 1);
+		Anchor.hideSlidey();
 	}
 };
 

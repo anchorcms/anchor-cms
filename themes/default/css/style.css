@@ -116,7 +116,7 @@ h1 {
 	list-style: none;
 }
 	.items > li {
-		padding: 70px 0 65px;
+		padding: 70px 0 60px;
 		
 		color: #97aec9;
 		background: #3c4552;
@@ -211,10 +211,6 @@ h1 {
 	font-size: 14px;
 	font-style: italic;
 }
-	.items > li footer {
-		color: #627ea5;
-		color: rgba(167,201,250,.5);
-	}
 	.footnote {
 		padding: 20px 0 40px;
 	}
