@@ -28,9 +28,9 @@ function article_description() {
 }
 
 function article_html() {
-	$md = new Markdown;
+	$html = Registry::prop('article', 'html');
 
-	return $md->transform(Registry::prop('article', 'html'));
+	return Post::parse($html);
 }
 
 function article_css() {
@@ -87,12 +87,12 @@ function article_total_comments() {
 
 function article_author($key = false) {
 	$id = article_author_id();
-	
+
 	if($user = User::search(array('id' => $id))) {
 		unset($user->password);
 		return isset($user->{$key}) ? $user->{$key} : $user;
 	}
-	
+
 	return false;
 }
 
