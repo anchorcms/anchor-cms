@@ -1,6 +1,6 @@
 <?php theme_include('header'); ?>
 
-		<section class="content">
+		<section class="content wrap">
 
 		<h1>You searched for &ldquo;<?php echo search_term(); ?>&rdquo;.</h1>
 

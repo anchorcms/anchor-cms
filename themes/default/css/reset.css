@@ -78,6 +78,7 @@ a {
 pre, .hilite, mark {
 	background: #f9f6ea;
 	color: #8b7c65;
+	text-shadow: 0 1px 0 rgba(255,255,255,.2);
 }
 
 /**

@@ -1,6 +1,13 @@
 /**
  *
  */
+ 
+h1 {
+	padding: 80px 0 40px;
+
+	font-size: 40px;
+	color: #505762;
+}
 
 /* The slide-down panel at the very top of the page. Like literally. It's above the page, hidden. */
 .slidey {
@@ -114,6 +121,7 @@
 	}
 		.items h2 a {
 			display: block;
+			padding-bottom: 12px;
 			
 			color: #fff;
 			text-decoration: none;
@@ -130,6 +138,10 @@
 		
 		opacity: .6;
 	}
+	
+.content.wrap {
+	padding-bottom: 50px;
+}
 	
 #bottom {
 	padding: 30px 0 40px;
