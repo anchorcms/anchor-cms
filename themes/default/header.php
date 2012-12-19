@@ -39,7 +39,7 @@
 	</head>
 	<body>
 		<div class="main-wrap">
-			<div class="slidey">
+			<div class="slidey" id="tray">
 				<div class="wrap">
 					<form id="search" action="<?php echo search_url(); ?>" method="post">
 						<label for="term">Search my blog:</label>
@@ -75,11 +75,8 @@
 						</li>
 						<?php endwhile; ?>
 						
-						<li class="search">
-							<a href="#search"><img src="<?php echo theme_url('img/search.png'); ?>" alt="Search" title="Search my blog"></a>
-						</li>
-						<li class="categories">
-							<a href="#categories"><img src="<?php echo theme_url('img/categories.png'); ?>" alt="Categories" title="View my posts by category"></a>
+						<li class="tray">
+							<a href="#tray" class="linky"><img src="<?php echo theme_url('img/categories.png'); ?>" alt="Categories" title="View my posts by category"></a>
 						</li>
 					</ul>
 				</nav>

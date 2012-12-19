@@ -69,12 +69,6 @@
 			float: left;
 			padding-left: 40px;
 		}
-			#top ul li.search {
-				padding-left: 60px;
-			}
-			#top ul li.categories {
-				padding-left: 20px;
-			}
 		#top ul a {
 			display: inline-block;
 			color: #555f6d;
@@ -84,7 +78,7 @@
 			vertical-align: middle;
 			
 			position: relative;
-			top: -3px;
+			top: -2px;
 			
 			width: 16px;
 			height: 16px;
@@ -93,6 +87,9 @@
 		}
 			#top ul a:hover img {
 				opacity: .7;
+			}
+			#top ul a.active img {
+				opacity: 1;
 			}
 
 .items {

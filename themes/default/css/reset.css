@@ -28,6 +28,27 @@ h1, h2, h3, h4, h5, #logo, #top, .slidey b, .slidey label {
 
 pre, code, .mono {
 	font: 12px/19px "Anonymous Pro", Consolas, monospace;
+	padding: 0 2px;
+}
+
+p {
+	padding-bottom: 15px;
+}
+p + p {
+	text-indent: 1em;
+}
+
+pre {
+	padding: 15px 20px;
+	margin-bottom: 20px;
+	
+	border-radius: 5px;
+	white-space: pre-wrap;
+}
+
+img {
+	max-width: 100%;
+	height: auto;
 }
 
 /**
@@ -35,7 +56,7 @@ pre, code, .mono {
  */
 .wrap {
 	min-width: 650px;
-	max-width: 800px;
+	max-width: 750px;
 	width: 60%;
 	
 	margin: 0 auto;
@@ -53,6 +74,11 @@ a {
 	a:hover {
 		color: #1e4d92;
 	}
+	
+pre, .hilite, mark {
+	background: #f9f6ea;
+	color: #8b7c65;
+}
 
 /**
  *   Transitions and animations

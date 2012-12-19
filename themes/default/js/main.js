@@ -16,13 +16,34 @@ document.ready = function(callback) {
 //  When the DOM is ready
 document.ready(function() {	
 	//  Get the slidey height
-	var slidey = document.getElementsByClassName('slidey')[0];
+	var slidey = document.getElementsByClassName('slidey')[0],
+		height = '-' + (slidey.clientHeight + 1) + 'px';
 	
 	//  And move it up
-	slidey.style.marginTop = '-' + slidey.clientHeight + 'px';
+	slidey.style.marginTop = height;
 	
 	//  Add a class for da CSS
 	setTimeout(function() {
 		document.body.className = 'js-enabled';
 	}, 10);
+	
+	//  Store the links
+	var links = document.getElementsByClassName('linky');
+	
+	for(var i = 0; i < links.length; i++) {
+		var me = links[i];
+		me.addEventListener('click', function(e) {
+			e.preventDefault();
+			
+			var me = this;
+			var opened = slidey.style.marginTop == '0px';
+			
+			if(me.href.indexOf('search') > 0 && !opened) {
+				document.getElementById('term').focus();
+			}
+			
+			me.className = opened ? 'linky' : 'active linky';
+			slidey.style.marginTop = !opened ? '0px' : height;
+		});
+	}	
 });
