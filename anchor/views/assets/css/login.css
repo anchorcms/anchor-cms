@@ -57,6 +57,8 @@ body.login {
 	.login button {
 		background: #2f3744;
 		color: #96a4bb;
+		font-size: 13px;
+		font-weight: 500;
 	}
 
 	.login .notification {

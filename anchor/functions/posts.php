@@ -101,3 +101,7 @@ function posts_prev($text = 'Previous', $default = '') {
 
 	return $default;
 }
+
+function posts_per_page() {
+	return min(Registry::get('total_posts'), Config::get('meta.posts_per_page'));
+}

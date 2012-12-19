@@ -58,5 +58,10 @@ class Html {
 
 		return static::element('a', $title, $attributes);
 	}
+	
+	public static function Markdown($text) {
+		$md = new \Markdown;
+		return $md->transform($text);
+	}
 
 }

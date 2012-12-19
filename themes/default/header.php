@@ -38,14 +38,30 @@
 		<?php endif; ?>
 	</head>
 	<body>
-
-		<form id="search" action="<?php echo search_url(); ?>" method="post">
-			<input type="search" name="term" placeholder="To search, type and hit enter&hellip;" value="<?php echo search_term(); ?>">
-		</form>
-
-		<header id="top">
-			<div class="wrap">
-
+		<div class="main-wrap">
+			<div class="slidey" id="tray">
+				<div class="wrap">
+					<form id="search" action="<?php echo search_url(); ?>" method="post">
+						<label for="term">Search my blog:</label>
+						<input type="search" id="term" name="term" placeholder="To search, type and hit enter&hellip;" value="<?php echo search_term(); ?>">
+					</form>
+					
+					<aside>	
+						<b>Categories</b>
+						<ul>
+						<?php while(categories()): ?>
+							<li>
+								<a href="<?php echo category_url(); ?>" title="<?php echo category_description(); ?>">
+									<?php echo category_title(); ?> <span><?php echo category_count(); ?></span>
+								</a>
+							</li>
+						<?php endwhile; ?>
+						</ul>
+					</aside>
+				</div>
+			</div>
+			
+			<header id="top">
 				<a id="logo" href="<?php echo base_url(); ?>"><?php echo site_name(); ?></a>
 
 				<?php if(has_menu_items()): ?>
@@ -58,8 +74,11 @@
 							</a>
 						</li>
 						<?php endwhile; ?>
+						
+						<li class="tray">
+							<a href="#tray" class="linky"><img src="<?php echo theme_url('img/categories.png'); ?>" alt="Categories" title="View my posts by category"></a>
+						</li>
 					</ul>
 				</nav>
 				<?php endif; ?>
-			</div>
-		</header>
+			</header>

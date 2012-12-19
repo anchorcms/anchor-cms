@@ -1,49 +1,49 @@
-(function(d,w) {
-    
-    var load = function(callback) {
-            if(w.addEventListener) {
-                w.addEventListener('DOMContentLoaded', callback);
-            } else if(w.attachEvent) {
-                w.attachEvent('onload', callback);
-            }
-        },
-        $ = function(el) {
-        	return d.getElementById(el);
-        };
-        
-    load(function() {
-    
-        var search = $('search'),
-            header = $('top').childNodes[1],
-            props = ['webkitTransition', 'MozTransition', 'MsTransition', 'OTransition', 'transition'];
-        
-        d.body.className += 'js';
-        
-        header.innerHTML += '<img src="' + base + 'img/search.gif" id="label">';
-        
-        setTimeout(function() {
-            for(var i = 0; i < props.length; i++) {
-            	search.style[props[i]] = 'margin .25s linear';
-            }
-        }, 1);
-        
-        var label = $('label'),
-            count = 0;
-        
-        label.onclick = function() {
-            var opened = count % 2 == 1;
-            label.className = 'invisible';
-            search.className = !opened ? 'opened' : '';
-            
-            search.childNodes[1][opened ? 'blur' : 'focus']();
-            
-            setTimeout(function() {
-                label.src = base + 'img/' + (opened ? 'search' : 'close') + '.gif';
-                label.className = '';
-            }, 250);
-            
-            count++;
-        };
-    });
-    
-})(document, window);
+//  window.attachEvent polyfill
+window.attachEvent = window.attachEvent || function(x, callback) {
+	document.addEventListener('DOMContentLoaded', callback, false)
+}
+
+document.ready = function(callback) {
+	//  If the page is already loaded
+	if(document.readyState == 'complete') {
+		return callback();
+	}
+	
+	//  And get ready for document load
+	return window.attachEvent('onload', callback);
+};
+
+//  When the DOM is ready
+document.ready(function() {	
+	//  Get the slidey height
+	var slidey = document.getElementsByClassName('slidey')[0],
+		height = '-' + (slidey.clientHeight + 1) + 'px';
+	
+	//  And move it up
+	slidey.style.marginTop = height;
+	
+	//  Add a class for da CSS
+	setTimeout(function() {
+		document.body.className = 'js-enabled';
+	}, 10);
+	
+	//  Store the links
+	var links = document.getElementsByClassName('linky');
+	
+	for(var i = 0; i < links.length; i++) {
+		var me = links[i];
+		me.addEventListener('click', function(e) {
+			e.preventDefault();
+			
+			var me = this;
+			var opened = slidey.style.marginTop == '0px';
+			
+			if(me.href.indexOf('search') > 0 && !opened) {
+				document.getElementById('term').focus();
+			}
+			
+			me.className = opened ? 'linky' : 'active linky';
+			slidey.style.marginTop = !opened ? '0px' : height;
+		});
+	}	
+});
