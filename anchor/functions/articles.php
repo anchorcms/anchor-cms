@@ -28,7 +28,9 @@ function article_description() {
 }
 
 function article_html() {
-	return Registry::prop('article', 'html');
+	$md = new Markdown;
+
+	return $md->transform(Registry::prop('article', 'html'));
 }
 
 function article_css() {
