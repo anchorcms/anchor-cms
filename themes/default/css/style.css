@@ -9,6 +9,9 @@ h1 {
 	line-height: 48px;
 	color: #505762;
 }
+	.search h1 {
+		padding: 60px 0;
+	}
 
 /* The slide-down panel at the very top of the page. Like literally. It's above the page, hidden. */
 .slidey {
