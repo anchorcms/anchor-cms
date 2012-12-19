@@ -38,19 +38,17 @@
 
 				<p class="name">
 					<label for="name">Your name:</label>
-					<?php echo comment_form_input_name(); ?>
+					<?php echo comment_form_input_name('placeholder="Your name"'); ?>
 				</p>
 
 				<p class="email">
 					<label for="email">Your email address:</label>
-					<em>Will never be published.</em>
-					<?php echo comment_form_input_email(); ?>
+					<?php echo comment_form_input_email('placeholder="Your email (won’t be published)"'); ?>
 				</p>
 
 				<p class="textarea">
 					<label for="text">Your comment:</label>
-					<em>Allowed HTML: <code>&lt;a&gt;</code>, <code>&lt;b&gt;</code>, <code>&lt;blockquote&gt;</code>, <code>&lt;code&gt;</code>, <code>&lt;em&gt;</code>, <code>&lt;i&gt;</code>, <code>&lt;p&gt;</code> and <code>&lt;pre&gt;</code>.</em>
-					<?php echo comment_form_input_text(); ?>
+					<?php echo comment_form_input_text('placeholder="Your comment"'); ?>
 				</p>
 
 				<p class="submit">
