@@ -83,7 +83,18 @@ function article_total_comments() {
 	return Registry::prop('article', 'total_comments');
 }
 
-function article_author() {
+function article_author($key = false) {
+	$id = article_author_id();
+	
+	if($user = User::search(array('id' => $id))) {
+		unset($user->password);
+		return isset($user->{$key}) ? $user->{$key} : $user;
+	}
+	
+	return false;
+}
+
+function article_author_id() {
 	return Registry::prop('article', 'author');
 }
 

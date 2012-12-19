@@ -1,37 +1,34 @@
 <?php theme_include('header'); ?>
 
-		<section class="content">
+<section class="content">
 
-			<?php if(has_posts()): ?>
-				<ul class="items wrap">
-					<?php while(posts()): ?>
-					<li>
-						<a href="<?php echo article_url(); ?>" title="<?php echo article_title(); ?>">
-							<time datetime="<?php echo date(DATE_W3C, article_time()); ?>"><?php echo relative_time(article_time()); ?></time>
-							<h2><?php echo article_title(); ?></h2>
-						</a>
-					</li>
-					<?php endwhile; ?>
-				</ul>
-
-				<p><?php echo posts_prev(); ?> <?php echo posts_next(); ?></p>
-
-			<?php else: ?>
-				<p>Looks like you have some writing to do!</p>
-			<?php endif; ?>
-
-		</section>
-
-		<aside>
-			<ul>
-			<?php while(categories()): ?>
-				<li>
-					<a href="<?php echo category_url(); ?>" title="<?php echo category_description(); ?>">
-						<?php echo category_title(); ?>
-					</a>
-				</li>
+	<?php if(has_posts()): ?>
+		<ul class="items">
+			<?php $i = 0; while(posts()): $i++; ?>
+			<li style="background: hsl(215,28%,<?php echo round((($i / posts_per_page()) * 20) + 20); ?>%);">
+				<article class="wrap">
+					<h2>
+						<a href="<?php echo article_url(); ?>" title="<?php echo article_title(); ?>"><?php echo article_title(); ?></a>
+					</h2>
+	
+					<div class="content">
+						<?php echo Html::markdown(article_html()); ?>
+					</div>
+					
+					<footer>
+						Posted <time datetime="<?php echo date(DATE_W3C, article_time()); ?>"><?php echo relative_time(article_time()); ?></time> by <?php echo article_author('real_name'); ?>.
+					</footer>
+				</article>
+			</li>
 			<?php endwhile; ?>
-			</ul>
-		</aside>
+		</ul>
+	
+		<p><?php echo posts_prev(); ?> <?php echo posts_next(); ?></p>
 
+	<?php else: ?>
+		<p>Looks like you have some writing to do!</p>
+	<?php endif; ?>
+
+</section>
+		
 <?php theme_include('footer'); ?>

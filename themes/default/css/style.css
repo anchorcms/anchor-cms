@@ -1,568 +1,152 @@
 /**
- *    Anchor CMS' default theme
+ *
  */
 
-::-webkit-selection { background: #ffc; color: #222; }
-::-moz-selection { background: #ffc; color: #222; }
-::selection { background: #ffc; color: #222; }
-
-html {
-    min-height: 100%;
+/* The slide-down panel at the very top of the page. Like literally. It's above the page, hidden. */
+.slidey {
+	overflow: hidden;
+	padding: 30px 0;
+	
+	background: #f3f5f8;
+	border-bottom: 1px solid #e5e8ed;
 }
-
-body, input, textarea, button {
-	color: #777;
-	font: 16px/26px "Helvetica Neue", "Open Sans", "DejaVu Sans", "Arial", sans-serif;
-}
-
-h1 {
-    font-size: 40px;
-    line-height: 48px;
-    font-weight: bold;
-
-    color: #333;
-
-    margin-bottom: 30px;
-}
-
-a, a * {
-    -webkit-transition: color .25s;
-    -moz-transition: color .25s;
-    -ms-transition: color .25s;
-    -o-transition: color .25s;
-    transition: color .25s;
-}
-    a:active {
-        -webkit-transform: translateY(1px);
-    }
-
-#label, #attribution {
-	-webkit-transition: opacity .2s;
-	-moz-transition: opacity .2s;
-	-ms-transition: opacity .2s;
-	-o-transition: opacity .2s;
-	transition: opacity .2s;
-}
-
-.content a, .comments a {
-    color: #2082ab;
-}
-    .content a:hover, .comments a:hover {
-        color: #222;
-    }
-
-.wrap, .content {
-	width: 900px;
-	margin: 0 auto;
-
-	text-align: left;
-}
-    .content {
-        width: 730px;
-        margin: 60px auto 80px;
-
-        padding-left: 170px;
-    }
-        .content img, .content .items {
-            margin-left: -170px;
-
-            width: 900px;
-            height: auto;
-        }
-        .content p {
-            padding-bottom: 15px;
-        }
-
-form#search {
-	position: relative;
-	background: #ddd;
-
-	padding: 10px 0;
-}
-    .js form#search {
-        margin-top: -58px;
-    }
-        .js form#search.opened {
-            margin-top: 0;
-        }
-	form#search input {
-		padding: 8px 12px;
-		color: #333;
-
-		border: none;
-		width: 900px;
+	.js-enabled .slidey {
+		-webkit-transition: margin-top .2s;
+		-moz-transition: margin-top .2s;
+		transition: margin-top .2s;
 	}
-
-button {
-    background: #2082ab;
-
-    color: #fff;
-    font-weight: bold;
-
-    padding: 8px 15px;
-
-    -webkit-border-radius: 3px;
-    -moz-border-radius: 3px;
-    border-radius: 3px;
-}
-
-header#top {
-	background: #f3f3f3;
-	padding: 50px 0 20px;
-}
-	header#top div {
-		position: relative;
-	}
-	header#top a#logo {
-		color: #444;
-		font-size: 18px;
-		line-height: 21px;
-
-		text-decoration: none;
-
+	.slidey b, .slidey label {
 		display: block;
-		width: 130px;
-
-		padding-bottom: 4px;
+		font-weight: 500;
+		padding-bottom: 15px;
+		
+		font-size: 15px;
+		font-weight: 500;
 	}
-	    header#top a#logo:hover, header#top nav li.active a, header#top nav li.active a:hover {
-	        color: #2082ab;
-	    }
-	header#top nav {
-		position: absolute;
-		left: 170px;
-		bottom: 0;
+	.slidey form, .slidey aside {
+		float: left;
+		width: 50%;
 	}
-		header#top nav li {
-			float: left;
-			position: relative;
-
-			margin-right: 50px;
+		.slidey form input {
+			padding: 20px;
+			width: 75%;
 		}
-		    header#top nav li.active:after {
-		        content: '';
-		        display: block;
-
-		        position: absolute;
-		        left: 50%;
-		        bottom: -20px;
-
-		        width: 0;
-		        height: 0;
-
-		        border-left: 8px solid transparent;
-		        border-right: 8px solid transparent;
-		        border-bottom: 8px solid #fff;
-
-		        margin-left: -8px;
-		    }
-		header#top nav li a {
-			color: #888;
-
-			font-weight: bold;
-			font-size: 14px;
-
-			text-decoration: none;
-
+	.slidey li {
+		list-style: none;
+	}
+		.slidey a {
 			display: block;
+			text-decoration: none;
 		}
-		    header#top nav li a:hover {
-		        color: #444;
-		    }
-	header#top img#label {
-		cursor: pointer;
+		.slidey li span {
+			float: right;
+		}
 
-		position: absolute;
-		right: 0;
-		bottom: 0;
-
-		opacity: 1;
+#top {
+	overflow: hidden;
+	padding: 20px 35px;
+	
+	background: #fff;
+	border-bottom: 1px solid rgba(22,36,54,.1);
+}
+	#top a {
+		float: left;
+		
+		font-size: 13px;
+		font-weight: 500;
+		text-decoration: none;
+		
+		color: #8895a7;
 	}
-	    header#top img#label.invisible {
-	        opacity: 0;
-	    }
-
-ul.items {
-    list-style: none;
-
-    padding: 60px 0 80px;
-}
-    ul.items li {
-        clear: both;
-        overflow: hidden;
-
-        padding-bottom: 20px;
-    }
-    ul.items li a {
-        display: block;
-        text-decoration: none;
-    }
-        ul.items li a time {
-            display: block;
-            float: left;
-
-            color: #aaa;
-            font-size: 13px;
-            line-height: 34px;
-
-            width: 130px;
-            padding-right: 40px;
-            text-align: right;
-        }
-            ul.items li a:hover time {
-                color: #7ac1df;
-            }
-        ul.items li a h2 {
-            font-size: 28px;
-            line-height: 30px;
-
-            color: #555;
-
-            display: block;
-            float: left;
-
-            width: 730px;
-        }
-            ul.items li a:hover h2 {
-                color: #2082ab;
-            }
-
-section.comments {
-    width: 900px;
-    margin: 0 auto 50px;
-    padding-top: 30px;
-
-    text-align: left;
-
-    border-top: 1px solid #eee;
-}
-    section.comments h1, section.comments form.commentform legend {
-        font-weight: bold;
-        font-size: 22px;
-
-        color: #555;
-    }
-        section.comments h1 a {
-            float: right;
-            font-size: 15px;
-        }
-    section.comments ul {
-        list-style: none;
-        overflow: hidden;
-
-        padding-left: 170px;
-        padding-bottom: 30px;
-    }
-        section.comments ul li {
-            float: left;
-            width: 670px;
-
-            margin-bottom: 30px;
-            padding: 30px;
-
-            background: #fafafa;
-        }
-        section.comments h2 {
-            color: #555;
-            font-size: 18px;
-            line-height: 30px;
-
-            float: left;
-            width: 250px;
-        }
-        section.comments time {
-            float: right;
-
-            font: italic 13px/30px Georgia, serif;
-        }
-        section.comments div.content {
-            clear: both;
-            width: auto;
-
-            margin: 0;
-            padding: 20px 0 0;
-
-            font-size: 15px;
-            line-height: 25px;
-        }
-
-    section.comments form.commentform {
-        clear: both;
-        padding-left: 170px;
-        padding-top: 40px;
-
-        border-top: 1px solid #eee;
-    }
-        section.comments form.commentform p.notification {
-            clear: both;
-            float: none;
-            padding-bottom: 25px;
-
-            font-weight: bold;
-        }
-            section.comments form.commentform p.notification.error {
-                color: #c22a0a;
-            }
-        section.comments form.commentform legend {
-            margin-left: -170px;
-            margin-bottom: 20px;
-        }
-        section.comments form.commentform p {
-            float: left;
-            width: 365px;
-
-            position: relative;
-        }
-            section.comments form.commentform p.email {
-                position: relative;
-                right: -15px;
-            }
-            section.comments form.commentform p.textarea {
-                width: 100%;
-            }
-            	section.comments form.commentform p.textarea em {
-            		right: 0;
-            	}
-            section.comments form.commentform p em {
-                font: italic 13px Georgia, serif;
-
-                position: absolute;
-                top: 5px;
-                right: 15px;
-
-                color: #aaa;
-            }
-        section.comments form.commentform label {
-            display: block;
-            font-size: 15px;
-
-            padding-bottom: 8px;
-        }
-        section.comments form.commentform input, section.comments form.commentform textarea {
-            width: 320px;
-            padding: 8px 14px;
-            margin-bottom: 20px;
-
-            border: 1px solid #bbb;
-        }
-            section.comments form.commentform textarea {
-                width: 700px;
-                min-height: 150px;
-                max-height: 400px;
-                resize: vertical;
-            }
-        section.comments form.commentform button {
-            margin-bottom: 50px;
-        }
-
-section.footnote {
-    clear: both;
-    width: 730px;
-
-    font: italic 12px/19px Georgia, serif;
-    text-align: left;
-    color: #aaa;
-
-    margin: 0 auto 60px;
-    padding-left: 170px;
-}
-
-footer#bottom {
-    width: 130px;
-    height: 80px;
-
-    border-top: 1px solid #f5f5f5;
-    padding-top: 20px;
-
-    text-align: left;
-    position: relative;
-}
-    footer#bottom small {
-        width: 730px;
-        display: block;
-        float: left;
-
-        font-size: 13px;
-        color: #999;
-    }
-        footer#bottom small a {
-            color: #666;
-        }
-        footer#bottom small a:hover {
-            color: #333;
-        }
-    footer#bottom ul {
-        clear: both;
-        list-style: none;
-
-        position: relative;
-        top: -8px;
-
-        width: 730px;
-    }
-        footer#bottom ul li {
-            display: inline-block;
-            float: left;
-        }
-        footer#bottom ul a {
-            color: #aaa;
-            font-size: 11px;
-            line-height: 11px;
-
-            padding-right: 15px;
-        }
-            footer#bottom ul a:hover {
-                color: #777;
-            }
-    footer#bottom a#attribution {
-        display: block;
-
-        position: absolute;
-        left: 876px;
-        top: 18px;
-
-        width: 24px;
-        height: 22px;
-
-        background: url('../img/attribution.gif');
-        text-indent: -999em;
-
-        opacity: .5;
-    }
-        footer#bottom a#attribution:hover {
-            opacity: 1;
-        }
-
-@media only screen and (max-width: 900px), only screen and (max-device-width: 480px) {
-
-    .wrap, .content {
-        width: 90%;
-        margin: 0 5%;
-        padding-left: 0;
-    }
-        .content h1 {
-            padding-top: 50px;
-        }
-
-    form#search {
-        padding: 10px 5%;
-    }
-        form#search input {
-            width: 100%;
-        }
-
-    header#top {
-        overflow: hidden;
-        padding-top: 40px;
-    }
-        header#top a#logo {
-            width: 100%;
-            padding-bottom: 15px;
-        }
-        header#top nav {
-            position: static;
-        }
-            header#top nav li {
-                margin-right: 30px;
-            }
-        header#top img#label {
-            bottom: -20px;
-        }
-
-    .content ul.items, .content img {
-        padding-bottom: 20px;
-        margin-left: 0;
-
-        width: 100%;
-    }
-        ul.items li a {
-            overflow: hidden;
-            padding-bottom: 20px;
-        }
-            ul.items li a time, ul.items li a h2 {
-                float: none;
-                clear: both;
-
-                width: 100%;
-            }
-            ul.items li a time {
-                line-height: 22px;
-                text-align: left;
-            }
-
-    section.comments {
-        margin-top: 40px;
-        width: auto;
-    }
-    section.comments h1 {
-        padding: 0 20px;
-        line-height: 20px;
-    }
-    section.comments ul {
-        padding: 0;
-    }
-        section.comments ul li {
-            width: 90%;
-            padding: 20px 5%;
-            margin-bottom: 0;
-            border-bottom: 1px solid #ddd;
-
-            position: relative;
-        }
-            section.comments ul li:last-child {
-                border-bottom: none;
-            }
-            section.comments ul li time {
-                position: absolute;
-                right: 20px;
-                top: 20px;
-            }
-        section.comments div.content {
-            width: auto;
-            padding-top: 0;
-        }
-    section.comments form.commentform {
-        padding: 20px 20px;
-        position: relative;
-    }
-        section.comments form.commentform legend {
-            margin-left: 0;
-        }
-        section.comments form.commentform p, section.comments form.commentform p.textarea {
-            float: none;
-            width: 100%;
-        }
-            section.comments form.commentform p.email {
-                right: 0;
-            }
-
-			section.comments form.commentform p.textarea em {
-				position: relative;
-				line-height: 18px;
-
-				display: block;
-				top: -5px;
-				margin-bottom: 10px;
+		#top #logo:hover, #top ul a:hover, #top ul .active a, .items li:first-child h2 a:hover, p a:hover {
+			color: #4171b1;
+		}
+	#top ul {
+		list-style: none;
+		float: right;
+	}
+		#top ul li {
+			float: left;
+			padding-left: 40px;
+		}
+			#top ul li.search {
+				padding-left: 60px;
+			}
+			#top ul li.categories {
+				padding-left: 20px;
+			}
+		#top ul a {
+			display: inline-block;
+			color: #555f6d;
+		}
+		#top ul img {
+			display: inline-block;
+			vertical-align: middle;
+			
+			position: relative;
+			top: -3px;
+			
+			width: 16px;
+			height: 16px;
+			
+			opacity: .4;
+		}
+			#top ul a:hover img {
+				opacity: .7;
 			}
 
-        section.comments form.commentform input, section.comments form.commentform textarea {
-            width: 93%;
-        }
-
-    section.footnote {
-        width: 90%;
-
-        margin: 30px 5%;
-        padding: 0;
-    }
-
-    footer#bottom, footer#bottom small, footer#bottom ul {
-        width: 100%;
-    }
-        footer#bottom a#attribution {
-            left: auto;
-            right: 0;
-
-            top: 30px;
-        }
+.items {
+	list-style: none;
 }
+	.items li {
+		padding: 70px 0 65px;
+		
+		color: #97aec9;
+		background: #3c4552;
+	}
+		.items li:first-child {
+			background: #fff !important;
+			padding: 110px 0;
+		}
+			.items li:first-child h2 a {
+				color: #3d4551;
+			}
+	.items h2 {
+		font-size: 32px;
+		line-height: 41px;
+	}
+		.items h2 a {
+			display: block;
+			
+			color: #fff;
+			text-decoration: none;
+		}
+	.items .content {
+		padding: 10px 0 0;
+	}
+		.items .content p {
+			padding-bottom: 15px;
+		}
+	.items footer {
+		font-size: 12px;
+		font-style: italic;
+		
+		opacity: .6;
+	}
+	
+#bottom {
+	padding: 40px 0;
+}
+	#bottom ul {
+		float: right;
+		list-style: none;
+	}
+		#bottom li {
+			float: left;
+			padding-left: 35px;
+			
+			font-size: 14px;
+		}
+		#bottom a {
+			text-decoration: none;
+		}

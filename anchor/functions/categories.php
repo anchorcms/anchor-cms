@@ -53,3 +53,10 @@ function category_description() {
 function category_url() {
 	return base_url('category/' . category_slug());
 }
+
+function category_count() {
+	$query = Query::table('posts')->where('category', '=', category_id())
+								  ->where('status', '=', 'published')->fetch('count(*) as num');
+								  
+	return $query->num;
+}
