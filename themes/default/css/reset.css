@@ -51,6 +51,13 @@ img {
 	height: auto;
 }
 
+a {
+	text-decoration: none;
+}
+	a img {
+		border: none;
+	}
+
 /**
  *   Layout reset
  */
