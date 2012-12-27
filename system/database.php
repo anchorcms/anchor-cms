@@ -46,7 +46,7 @@ class Database {
 
 		$dsn = 'mysql:' . implode(';', $parts);
 
-		return new PDO($dsn, $config['username'], $config['password'], array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
+		return new PDO($dsn, $config['username'], $config['password'], array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8'));
 	}
 
 	public static function __callStatic($method, $parameters) {
