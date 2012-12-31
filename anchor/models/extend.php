@@ -159,12 +159,17 @@ class Extend extends Model {
 				$filename = basename($filepath);
 
 				// resize image
-				if(isset($extend->attributes->size)) {
+				if(isset($extend->attributes->size->width) and isset($extend->attributes->size->height)) {
 					$image = Image::open($filepath);
 
-					$image->resize($extend->attributes->size->width, $extend->attributes->size->height);
+					$width = intval($extend->attributes->size->width);
+					$height = intval($extend->attributes->size->height);
 
-					$image->output($ext, $filepath);
+					if($width <> $image->width() or $height <> $image->height()) {
+						$image->resize($width, $height);
+
+						$image->output($ext, $filepath);
+					}
 				}
 
 				return Json::encode(compact('name', 'filename'));
