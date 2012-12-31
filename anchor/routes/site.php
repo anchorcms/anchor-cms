@@ -128,6 +128,13 @@ Route::get('feeds/rss', function() {
 	return Response::make($xml, 200, array('content-type' => 'application/xml'));
 });
 
+Route::get('feeds/json', function() {
+	return json_encode(array(
+		'meta' => Config::get('meta'),
+		'posts' => Post::where('status', '=', 'published')->get()
+	));
+});
+
 /*
 	Search
 */
@@ -139,10 +146,7 @@ Route::get(array('search', 'search/(:any)', 'search/(:any)/(:num)'), function($i
 
 	Registry::set('page_offset', $offset);
 
-	// get search term
-	$term = Session::get('search_' . $id);
-
-	Registry::set('search_term', $term);
+	Registry::set('search_term', $id);
 
 	return new Template('search');
 });
@@ -150,11 +154,10 @@ Route::get(array('search', 'search/(:any)', 'search/(:any)/(:num)'), function($i
 Route::post('search', function() {
 	// search and save search ID
 	$term = Input::get('term');
-	$id = Str::random(4);
 
-	Session::put('search_' . $id, $term);
+	Session::put('search_term', $term);
 
-	return Response::redirect('search/' . $id);
+	return Response::redirect('search/' . $term);
 });
 
 /*

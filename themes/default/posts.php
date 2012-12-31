@@ -6,9 +6,9 @@
 		<ul class="items">
 			<li>
 				<article class="wrap">
-					<h2>
+					<h1>
 						<a href="<?php echo article_url(); ?>" title="<?php echo article_title(); ?>"><?php echo article_title(); ?></a>
-					</h2>
+					</h1>
 
 					<div class="content">
 						<?php echo article_html(); ?>
@@ -31,10 +31,25 @@
 					</footer>
 				</article>
 			</li>
+			<?php $i = 0; while(posts()): $i++; ?>
+			<li style="background: hsl(215,28%,<?php echo round((($i / posts_per_page()) * 20) + 20); ?>%);">
+				<article class="wrap">
+					<h2>
+						<a href="<?php echo article_url(); ?>" title="<?php echo article_title(); ?>"><?php echo article_title(); ?></a>
+					</h2>
+				</article>
+			</li>
 			<?php endwhile; ?>
 		</ul>
 
-		<p><?php echo posts_prev(); ?> <?php echo posts_next(); ?></p>
+		<?php if(has_pagination()): ?>
+		<nav class="pagination">
+			<div class="wrap">
+				<?php echo posts_prev(); ?>
+				<?php echo posts_next(); ?>
+			</div>
+		</nav>
+		<?php endif; ?>
 
 	<?php else: ?>
 		<p>Looks like you have some writing to do!</p>

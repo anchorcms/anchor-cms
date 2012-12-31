@@ -125,9 +125,11 @@ class Extend extends Model {
 		// format file array
 		$files = array();
 
-		foreach($_FILES['extend'] as $label => $items) {
-			foreach($items as $key => $value) {
-				$files[$key][$label] = $value;
+		if(isset($_FILES['extend'])) {
+			foreach($_FILES['extend'] as $label => $items) {
+				foreach($items as $key => $value) {
+					$files[$key][$label] = $value;
+				}
 			}
 		}
 

@@ -554,6 +554,11 @@ body.login {
 	.main textarea {
 		width: 100%;
 	}
+	
+	.main textarea[name=content], .main textarea[name=html] {
+		background: transparent;
+		padding: 0;
+	}
 
 .meta {
 	padding: 30px 0;
