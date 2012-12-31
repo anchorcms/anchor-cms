@@ -77,11 +77,7 @@ class Response {
 	}
 
 	public static function error($code, $vars = array()) {
-		if($code === 404) {
-			return \Template::make(404, $vars);
-		}
-		
-		return new static(View::make('error/'.$code, $vars), $code);
+		return new static(View::make('error/' . $code, $vars), $code);
 	}
 
 	public static function redirect($uri, $status = 302) {
