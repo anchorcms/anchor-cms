@@ -102,7 +102,7 @@ Route::get('admin/categories/delete/(:num)', array('before' => 'auth', 'do' => f
 	$total = Query::table(Category::$table)->count();
 
 	if($total == 1) {
-		Notify::error(__('categories.category_failed_delete', 'You must have at least one category'));
+		Notify::error(__('categories.category_failed_delete'));
 
 		return Response::redirect('admin/categories/edit/' . $id);
 	}
