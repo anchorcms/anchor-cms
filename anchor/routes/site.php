@@ -42,7 +42,7 @@ else {
 */
 Route::get(array('category/(:any)', 'category/(:any)/(:num)'), function($slug, $page = 1) use($posts_page) {
 	if( ! $category = Category::slug($slug)) {
-		return Response::error(404);
+		return Response::make(new Template('404'), 404);
 	}
 
 	Registry::set('page', $posts_page);
@@ -59,7 +59,7 @@ Route::get(array('category/(:any)', 'category/(:any)/(:num)'), function($slug, $
 */
 Route::get($posts_page->slug . '/(:any)', function($slug) {
 	if( ! $post = Post::slug($slug)) {
-		return Response::error(404);
+		return Response::make(new Template('404'), 404);
 	}
 
 	Registry::set('article', $post);
@@ -165,7 +165,7 @@ Route::post('search', function() {
 */
 Route::get('(:any)', function($slug) {
 	if( ! $page = Page::slug($slug)) {
-		return Response::error(404);
+		return Response::make(new Template('404'), 404);
 	}
 
 	if($page->redirect) {
@@ -181,5 +181,5 @@ Route::get('(:any)', function($slug) {
 	404 catch all
 */
 Route::any('*', function() {
-	return Response::make(new Template('404'), 404);
+	return Response::error(404);
 });
