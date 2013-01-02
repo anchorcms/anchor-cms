@@ -37,6 +37,9 @@
 	z-index: 1200;
 	width: 320px;
 }
+.header .page .notifications {
+	left: 48%;
+}
 	.header .notifications div:after {
 		content: '';
 		position: absolute;

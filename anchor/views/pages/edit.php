@@ -5,7 +5,7 @@
 	<input name="token" type="hidden" value="<?php echo $token; ?>">
 
 	<fieldset class="header">
-		<div class="wrap">
+		<div class="wrap page">
 			<?php echo $messages; ?>
 
 			<?php echo Form::text('title', Input::old('title', $page->title), array(
