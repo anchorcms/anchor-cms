@@ -2,7 +2,6 @@
 	Drag and Drop upload
 */
 
-/*
 (function() {
 	// Set some useful elements to, uh, use later
 	var doc = $(document), html = $('html'), body = $('body');
@@ -67,4 +66,3 @@
 
 	Draggy.supported && Draggy.init();
 }());
-*/
