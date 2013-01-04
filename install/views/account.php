@@ -27,7 +27,7 @@
 
 			<p>
 				<label>Password</label>
-				<i>Make sure to <a href="http://bash.org/?244321">pick a secure password</a>.</i>
+				<i>Make sure to <a href="http://bash.org/?244321" target="_blank">pick a secure password</a>.</i>
 				<input tabindex="3" name="password" type="password" value="<?php echo Input::old('password'); ?>">
 			</p>
 		</fieldset>

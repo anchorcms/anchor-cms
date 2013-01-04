@@ -1,7 +1,7 @@
 <?php
 
 define('DS', '/');
-define('VERSION', '0.8');
+define('VERSION', '0.9');
 
 define('PATH', dirname(dirname(__FILE__)) . DS);
 define('APP', PATH . 'install' . DS);

@@ -6,7 +6,7 @@
 
 	var Focus = {
 		//  Our element to focus
-		target: $('textarea[name=html]'),
+		target: $('textarea[name=html], textarea[name=content]'),
 		exitSpan: '#exit-focus',
 
 		enter: function() {
