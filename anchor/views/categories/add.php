@@ -30,7 +30,7 @@
 				<label for="description"><?php echo __('categories.description', 'Description'); ?>:</label>
 				<textarea id="description" name="description"><?php echo Input::old('description'); ?></textarea>
 
-				<em><?php echo __('categories.description_explain', 'A brief outline of what your category is about.'); ?></em>
+				<em><?php echo __('categories.description_explain', 'What your category is about.'); ?></em>
 			</p>
 		</fieldset>
 

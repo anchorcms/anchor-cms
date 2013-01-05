@@ -88,7 +88,7 @@ select {
 
 	background: #fff;
 	color: #7f8b9e;
-	
+
 	cursor: pointer;
 
 	min-width: 216px;
@@ -119,7 +119,8 @@ select {
 	}
 
 	.half label + input, .half label + textarea, .half label + select {
-		min-width: 315px;
+		min-width: 305px;
+		width: auto;
 	}
 
 	.half em, .half legend {
@@ -140,14 +141,19 @@ select {
 	-webkit-user-select: none;
 
 	border-radius: 5px 0 0 5px;
-	min-width: 150px;
+	min-width: 160px;
 }
 
 	.split label + input, .split label + textarea {
 		float: left;
 		height: 39px;
 		border-radius: 0 5px 5px 0;
-		resize: none;
+	}
+	.split label + textarea {
+		resize: vertical;
+	}
+	textarea[name=css], textarea[name=js] {
+		font-family: Monaco, "Courier New", courier, monospace;
 	}
 
 	.split input[type=checkbox] {
@@ -169,7 +175,7 @@ select {
 	}
 
 	.split textarea {
-		min-width: 500px;
+		width: 500px;
 		min-height: 120px;
 		max-height: 600px;
 
@@ -261,5 +267,5 @@ select {
 	}
 
 	.split + .buttons button:first-child {
-		margin: 20px 15px 20px 150px;
+		margin: 20px 15px 20px 160px;
 	}
