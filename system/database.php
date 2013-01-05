@@ -45,11 +45,12 @@ class Database {
 		}
 
 		$dsn = 'mysql:' . implode(';', $parts);
+		$options = array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION);
 
-		$options = array(
-			PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-			PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES ' . $config['charset']
-		);
+		// Prior to version 5.3.6, charset was ignored.
+		if(version_compare(PHP_VERSION, '5.3.6', '<=')) {
+			$options[PDO::MYSQL_ATTR_INIT_COMMAND] = 'SET NAMES ' . $config['charset'];
+		}
 
 		return new PDO($dsn, $config['username'], $config['password'], $options);
 	}
