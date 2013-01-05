@@ -23,7 +23,9 @@ function has_posts() {
 function posts() {
 	if( ! $posts = Registry::get('posts')) {
 		$per_page = Config::get('meta.posts_per_page');
-		$page = Registry::get('page_offset') - 1;
+
+		$offset = Registry::get('page_offset') ?: 1;
+		$page = $offset - 1;
 
 		$query = Post::where('status', '=', 'published');
 
