@@ -77,27 +77,26 @@ class Extend extends Model {
 				break;
 
 			case 'image':
-				$value = isset($item->value->filename) ? $item->value->filename : '';
-				$html = '
-					<span class="current-file">
-						<a href="' . asset('content/' . $value) . '" target="_blank">' . $value . '</a>
-					</span>
-					<span class="file">
-						<input id="extend_' . $item->key . '" name="extend[' . $item->key . ']" type="file" accept="image/*">
-					</span>
-				';
-				break;
-
 			case 'file':
 				$value = isset($item->value->filename) ? $item->value->filename : '';
-				$html = '
-					<span class="current-file">
-						<a href="' . asset('content/' . $value) . '" target="_blank">' . $value . '</a>
-					</span>
+
+				$html = '<span class="current-file">';
+
+				if($value) {
+					$html .= '<a href="' . asset('content/' . $value) . '" target="_blank">' . $value . '</a>';
+				}
+
+				$html .= '</span>
 					<span class="file">
-						<input id="extend_' . $item->key . '" name="extend[' . $item->key . ']" type="file">
-					</span>
-				';
+					<input id="extend_' . $item->key . '" name="extend[' . $item->key . ']" type="file">
+					</span>';
+
+				if($value) {
+					$html .= '</p><p>
+					<label>Remove ' . $item->label . ':</label>
+					<input type="checkbox" name="extend_remove[' . $item->key . ']" value="1">';
+				}
+
 				break;
 
 			default:
@@ -167,7 +166,12 @@ class Extend extends Model {
 					$width = intval($extend->attributes->size->width);
 					$height = intval($extend->attributes->size->height);
 
-					if($width <> $image->width() or $height <> $image->height()) {
+					// if a width and height is set and is not the same
+					// size as the uploaed file
+					if(
+						($width and $height) and
+						($width <> $image->width() or $height <> $image->height())
+					) {
 						$image->resize($width, $height);
 
 						$image->output($ext, $filepath);
@@ -210,7 +214,7 @@ class Extend extends Model {
 	*/
 
 	public static function process($type, $item) {
-		foreach(static::fields($type) as $extend) {
+		foreach(static::fields($type, $item) as $extend) {
 			if($extend->attributes) {
 				$extend->attributes = Json::decode($extend->attributes);
 			}
@@ -233,6 +237,16 @@ class Extend extends Model {
 						$extend->type => $item,
 						'data' => $data
 					));
+				}
+			}
+
+			// remove data
+			if(Input::get('extend_remove.' . $extend->key)) {
+				if(isset($extend->value->filename) and strlen($extend->value->filename)) {
+					Query::table($extend->type . '_meta')->where($extend->type, '=', $item)->delete();
+
+					$resource = PATH . 'content' . DS . $extend->value->filename;
+					file_exists($resource) and unlink(PATH . 'content' . DS . $extend->value->filename);
 				}
 			}
 		}

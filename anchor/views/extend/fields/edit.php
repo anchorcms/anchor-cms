@@ -69,7 +69,7 @@
 
 		<aside class="buttons">
 			<button class="btn" type="submit"><?php echo __('extend.update', 'Update'); ?></button>
-			<a class="btn delete red" href="<?php echo admin_url('extend/delete/' . $field->id); ?>">
+			<a class="btn delete red" href="<?php echo admin_url('extend/fields/delete/' . $field->id); ?>">
 				<?php echo __('extend.delete', 'Delete'); ?></a>
 		</aside>
 	</form>
