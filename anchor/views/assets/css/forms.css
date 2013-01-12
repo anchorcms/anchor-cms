@@ -88,7 +88,7 @@ select {
 
 	background: #fff;
 	color: #7f8b9e;
-	
+
 	cursor: pointer;
 
 	min-width: 216px;
@@ -233,8 +233,21 @@ select {
 		background: #fff;
 	}
 
-		.split .current-file a {
+	.split .remove-file {
+		border-radius: 0;
+		width: 39px;
+		height: 39px;
+		display: block;
+		float: left;
+	}
 
+		.split .remove-file a {
+			width: 39px;
+			height: 39px;
+			display: block;
+			overflow: hidden;
+			text-indent: -1000px;
+			background: #e6e9ed url('../img/cross.gif') no-repeat center center;
 		}
 
 	.split .twitter {
