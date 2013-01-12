@@ -319,6 +319,7 @@ hgroup {
 
 		position: relative;
 		overflow: hidden;
+		white-space: nowrap;
 	}
 
 		.list li strong:after {
