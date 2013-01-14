@@ -11,7 +11,7 @@ class Page extends Model {
 
 		$results = $query->take($perpage)->skip(($page - 1) * $perpage)->order_by('title')->get();
 
-		return new Paginator($results, $count, $page, $perpage, url('pages'));
+		return new Paginator($results, $count, $page, $perpage, url('admin/pages'));
 	}
 
 	public static function slug($slug) {
