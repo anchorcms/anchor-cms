@@ -18,7 +18,7 @@ class Paginator {
 
 	public $page = 1;
 
-	public $per_page = 10;
+	public $perpage = 10;
 
 	public function __construct($results, $count, $page, $perpage, $url) {
 		$this->results = $results;
