@@ -23,9 +23,9 @@ function has_posts() {
 function posts() {
 	if( ! $posts = Registry::get('posts')) {
 		$per_page = Config::get('meta.posts_per_page');
-
 		$offset = Registry::get('page_offset') ?: 1;
 		$page = $offset - 1;
+
 
 		$query = Post::where('status', '=', 'published');
 
@@ -52,7 +52,7 @@ function posts() {
 	return $result;
 }
 
-function posts_next($text = 'Next &rarr;', $default = '') {
+function posts_prev($text = '&larr; Previous', $default = '') {
 	$per_page = Config::get('meta.posts_per_page');
 	$page = Registry::get('page_offset');
 
@@ -62,17 +62,17 @@ function posts_next($text = 'Next &rarr;', $default = '') {
 	$pages = floor($total / $per_page);
 
 	$posts_page = Registry::get('posts_page');
-	$next = $page + 1;
+	$prev = $page + 1;
 
-	$url = base_url($posts_page->slug . '/' . $next);
+	$url = base_url($posts_page->slug . '/' . $prev);
 
 	// filter category
 	if($category = Registry::get('post_category')) {
-		$url = base_url('category/' . $category->slug . '/' . $next);
+		$url = base_url('category/' . $category->slug . '/' . $prev);
 	}
 
 	if(($page - 1) < $pages) {
-		return '<a class="next" href="' . $url . '">' . $text . '</a>';
+		return '<a class="prev" href="' . $url . '">' . $text . '</a>';
 	}
 
 	return $default;
@@ -86,7 +86,7 @@ function has_pagination() {
 	return total_posts() > Config::get('meta.posts_per_page');
 }
 
-function posts_prev($text = '&larr; Previous', $default = '') {
+function posts_next($text = 'Next &rarr;', $default = '') {
 	$per_page = Config::get('meta.posts_per_page');
 	$page = Registry::get('page_offset');
 
@@ -96,17 +96,17 @@ function posts_prev($text = '&larr; Previous', $default = '') {
 	$pages = ceil($total / $per_page);
 
 	$posts_page = Registry::get('posts_page');
-	$prev = $page - 1;
+	$next = $page - 1;
 
-	$url = base_url($posts_page->slug . '/' . $prev);
+	$url = base_url($posts_page->slug . '/' . $next);
 
 	// filter category
 	if($category = Registry::get('post_category')) {
-		$url = base_url('category/' . $category->slug . '/' . $prev);
+		$url = base_url('category/' . $category->slug . '/' . $next);
 	}
 
 	if($offset > 0) {
-		return '<a class="prev" href="' . $url . '">' . $text . '</a>';
+		return '<a class="next" href="' . $url . '">' . $text . '</a>';
 	}
 
 	return $default;
