@@ -60,6 +60,7 @@ return array(
 	'invalid_email' => 'Please enter a valid email address',
 	'missing_name' => 'Please enter a display name',
 	'missing_username' => 'Please enter a username',
+	'invalid_status' => 'You cannot change your own status',
 	'user_success_created' => 'A new user has been added',
 	'user_success_updated' => 'User has been updated',
 	'user_success_deleted' => 'User has been deleted',

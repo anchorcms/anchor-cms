@@ -55,18 +55,18 @@ function receive($name = '') {
 
 function body_class() {
 	$classes = array();
-	
+
 	//  Get the URL slug
-	$url = explode('/', Uri::current());
-	$classes[] = $url[0] ? $url[0] : 'index';
-	
+	$parts = explode('/', Uri::current());
+	$classes[] = count($parts) ? trim(current($parts)) : 'index';
+
 	//  Is it a posts page?
-	$classes[] = is_postspage() ? 'posts' : '';
-	
+	if(is_postspage()) $classes[] = 'posts';
+
 	//  Is it the homepage?
-	$classes[] = is_homepage() ? 'home' : '';
-	
-	return trim(join(' ', $classes));
+	if(is_homepage()) $classes[] = 'home';
+
+	return implode(' ', $classes);
 }
 
 // page type helpers

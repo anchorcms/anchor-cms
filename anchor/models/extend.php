@@ -243,7 +243,9 @@ class Extend extends Model {
 			// remove data
 			if(Input::get('extend_remove.' . $extend->key)) {
 				if(isset($extend->value->filename) and strlen($extend->value->filename)) {
-					Query::table($extend->type . '_meta')->where($extend->type, '=', $item)->delete();
+					Query::table($extend->type . '_meta')
+						->where('extend', '=', $extend->id)
+						->where($extend->type, '=', $item)->delete();
 
 					$resource = PATH . 'content' . DS . $extend->value->filename;
 					file_exists($resource) and unlink(PATH . 'content' . DS . $extend->value->filename);
