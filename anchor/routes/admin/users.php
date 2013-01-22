@@ -47,6 +47,13 @@ Route::post('admin/users/edit/(:num)', array('before' => 'auth', 'do' => functio
 
 	$validator = new Validator($input);
 
+	$validator->add('safe', function($str) use($id) {
+		return ($str != 'inactive' and Auth::user()->id == $id);
+	});
+
+	$validator->check('status')
+		->is_safe(__('users.invalid_status'));
+
 	$validator->check('username')
 		->is_max(3, __('users.missing_username'));
 
