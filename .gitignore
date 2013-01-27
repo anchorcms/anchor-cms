@@ -1,22 +1,26 @@
-# ignore os/app generated files
+# os/app generated files
 Thumbs.db
 .DS_Store
 *.esproj
 *.log
 *.gz
 
-# ignore generated config
+# env
 /anchor/config/dev
+
+# generated config
 /anchor/config/application.php
 /anchor/config/database.php
 
-# ignore user mod_rewrite
+# user mod_rewrite
 /.htaccess
 
-# ignore debug and custom themes
+# debug and custom themes
 /themes/*
 !/themes/default
-/content/*
 
-# ignore phpunit tests
+# phpunit tests
 /tests
+
+# anchor content
+/content/*
