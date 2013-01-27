@@ -1,11 +1,11 @@
 <?php echo $header; ?>
 
-<form method="post" action="<?php echo admin_url('pages/edit/' . $page->id); ?>"  novalidate>
+<form method="post" action="<?php echo admin_url('pages/edit/' . $page->id); ?>" enctype="multipart/form-data" novalidate>
 
 	<input name="token" type="hidden" value="<?php echo $token; ?>">
 
 	<fieldset class="header">
-		<div class="wrap">
+		<div class="wrap page">
 			<?php echo $messages; ?>
 
 			<?php echo Form::text('title', Input::old('title', $page->title), array(
@@ -73,9 +73,13 @@
 			<?php endforeach; ?>
 		</div>
 	</fieldset>
+
+	<div class="media-upload"></div>
 </form>
 
 <script src="<?php echo admin_asset('js/slug.js'); ?>"></script>
 <script src="<?php echo admin_asset('js/redirect.js'); ?>"></script>
+<script src="<?php echo admin_asset('js/focus-mode.js'); ?>"></script>
+<script src="<?php echo admin_asset('js/upload-fields.js'); ?>"></script>
 
 <?php echo $footer; ?>
