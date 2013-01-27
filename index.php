@@ -1,22 +1,33 @@
 <?php
 
-/**
- *    Anchor CMS
- *
- *    Originally built by @idiot, with thanks to @kieronwilson, @spenserj and a bunch of other contributors.
- *    You're all great.
- */
+/*
+               /   \
+              |  o  |
+               \   /
+        ________) (________
+       |                   |
+       '------.     .------'
+               |   |
+               |   |
+               |   |
+               |   |
+    /\         |   |         /\
+   /_ \        /   \        / _\
+     \ '.    .'     '.    .' /
+      \  '--'         '--'  /
+       '.                 .'
+         '._           _.'
+            `'-.   .-'`
+                \ /
+*/
 
-// Anchor version
-define('ANCHOR_VERSION', 0.7);
+define('DS', '/');
+define('ENV', getenv('APP_ENV'));
+define('VERSION', '0.8');
 
-// benchmark
-define('ANCHOR_START', microtime(true));
+define('PATH', dirname(__FILE__) . DS);
+define('APP', PATH . 'anchor' . DS);
+define('SYS', PATH . 'system' . DS);
+define('EXT', '.php');
 
-// Define base path
-define('PATH', pathinfo(__FILE__, PATHINFO_DIRNAME) . '/');
-
-// Block direct access to any PHP files
-define('IN_CMS', true);
-
-require PATH . 'system/bootstrap.php';
+require SYS . 'bootstrap' . EXT;

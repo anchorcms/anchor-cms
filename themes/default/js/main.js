@@ -1,49 +1,52 @@
-(function(d,w) {
-    
-    var load = function(callback) {
-            if(w.addEventListener) {
-                w.addEventListener('DOMContentLoaded', callback);
-            } else if(w.attachEvent) {
-                w.attachEvent('onload', callback);
-            }
-        },
-        $ = function(el) {
-        	return d.getElementById(el);
-        };
-        
-    load(function() {
-    
-        var search = $('search'),
-            header = $('top').childNodes[1],
-            props = ['webkitTransition', 'MozTransition', 'MsTransition', 'OTransition', 'transition'];
-        
-        d.body.className += 'js';
-        
-        header.innerHTML += '<img src="' + base + 'img/search.gif" id="label">';
-        
-        setTimeout(function() {
-            for(var i = 0; i < props.length; i++) {
-            	search.style[props[i]] = 'margin .25s linear';
-            }
-        }, 1);
-        
-        var label = $('label'),
-            count = 0;
-        
-        label.onclick = function() {
-            var opened = count % 2 == 1;
-            label.className = 'invisible';
-            search.className = !opened ? 'opened' : '';
-            
-            search.childNodes[1][opened ? 'blur' : 'focus']();
-            
-            setTimeout(function() {
-                label.src = base + 'img/' + (opened ? 'search' : 'close') + '.gif';
-                label.className = '';
-            }, 250);
-            
-            count++;
-        };
-    });
-    
-})(document, window);
+var Anchor = {
+	init: function() {
+		Anchor.slidey = $('.slidey');
+		
+		//  Uh, bind to the resizing of the window?
+		Anchor.bindResize();
+		$(window).resize(Anchor.bindResize);
+		
+		//  Set up the toggle link
+		Anchor.linky = $('.linky').click(Anchor.toggleSlidey);
+			  
+		//  Set up the slidey panel
+		Anchor.hideSlidey();
+
+		//  Hide the thingymabob
+		setTimeout(function() {
+			$('body').addClass('js-enabled');
+		}, 10);
+		
+		//  Listen for search links
+		$('a[href="#search"]').click(function() {
+			if(!Anchor.linky.hasClass('active')) {
+				return Anchor.toggleSlidey.call(Anchor.linky);
+			}
+		});
+	},
+	
+	hideSlidey: function() {
+		Anchor.slidey.css('margin-top', this._slideyHeight);
+		Anchor.linky && Anchor.linky.removeClass('active');
+		
+		return this;
+	},
+	
+	toggleSlidey: function() {
+		var self = Anchor;
+		var me = $(this);
+			
+		me.toggleClass('active');
+		self.slidey.css('margin-top', me.hasClass('active') ? 0 : self._slideyHeight);
+		
+		return false;
+	},
+	
+	bindResize: function() {
+		Anchor._slideyHeight = -(Anchor.slidey.height() + 1);
+		Anchor.hideSlidey();
+	}
+};
+
+//  And bind loading
+$(Anchor.init);

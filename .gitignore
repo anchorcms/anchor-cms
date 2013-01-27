@@ -2,9 +2,13 @@
 Thumbs.db
 .DS_Store
 *.esproj
+*.log
+*.gz
 
 # ignore generated config
-/config.php
+/anchor/config/dev
+/anchor/config/application.php
+/anchor/config/database.php
 
 # ignore user mod_rewrite
 /.htaccess
