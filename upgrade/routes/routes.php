@@ -6,7 +6,7 @@ Route::get(array('/', 'upgrade'), function() {
 		->nest('footer', 'partials/footer');
 });
 
-Route::post('start', function() {
+Route::get('start', function() {
 	// backup
 	Upgrader::import();
 
