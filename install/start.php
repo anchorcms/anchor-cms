@@ -21,7 +21,7 @@ check('<code>anchor/config</code> directory needs to be temporarily writable
 	return is_writable(PATH . 'anchor/config');
 });
 
-if(is_apache()) {
+if(mod_rewrite()) {
 	check('The public root directory needs to be temporarily writable
 		while we try to create your htaccess file.', function() {
 		return is_writable(PATH);
@@ -52,4 +52,12 @@ function is_apache() {
 
 function is_cgi() {
 	return stripos(PHP_SAPI, 'cgi') !== false;
+}
+
+function mod_rewrite() {
+	if(is_apache() and function_exists('apache_get_modules')) {
+		return in_array('mod_rewrite', apache_get_modules());
+	}
+
+	return ! getenv('HTTP_MOD_REWRITE') ?: true;
 }
