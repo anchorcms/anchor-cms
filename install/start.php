@@ -59,5 +59,5 @@ function mod_rewrite() {
 		return in_array('mod_rewrite', apache_get_modules());
 	}
 
-	return ! getenv('HTTP_MOD_REWRITE') ?: true;
+	return getenv('HTTP_MOD_REWRITE') ? true : false;
 }
