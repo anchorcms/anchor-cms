@@ -21,6 +21,3 @@ Thumbs.db
 
 # phpunit tests
 /tests
-
-# anchor content
-/content/*
