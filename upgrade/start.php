@@ -1,5 +1,8 @@
 <?php
 
+$GLOBALS['ANCHOR_URL'] = str_finish(rtrim(str_replace('\\', '/', dirname(dirname($_SERVER['SCRIPT_NAME']))), '/'), '/');
+$GLOBALS['UPGRADE_URL'] = str_finish(Config::get('application.url'), '/');
+
 /*
 	Pre upgrade checks
 */
@@ -31,7 +34,7 @@ if(Uri::current() != 'complete') {
 
 if(count($GLOBALS['errors'])) {
 	$vars['errors'] = $GLOBALS['errors'];
-	$vars['uri'] = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/') . '/';
+	$vars['uri'] = $GLOBALS['UPGRADE_URL'];
 
 	echo View::make('halt', $vars)
 		->nest('header', 'partials/header')

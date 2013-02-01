@@ -12,7 +12,7 @@ Route::get('metadata', array('before' => 'check', 'do' => function() {
 	}
 
 	$vars['messages'] = Notify::read();
-	$vars['path'] = rtrim(dirname(dirname($_SERVER['SCRIPT_NAME'])), '/') . '/';
+	$vars['path'] = $GLOBALS['ANCHOR_URL'];
 
 	return View::make('metadata', $vars)
 		->nest('header', 'partials/header')

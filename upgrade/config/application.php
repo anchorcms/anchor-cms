@@ -2,7 +2,7 @@
 
 return array(
 	// Application URL
-	'url' => rtrim(dirname($_SERVER['SCRIPT_NAME']), '/'),
+	'url' => rtrim(str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME'])), '/'),
 
 	// Application Index
 	'index' => 'index.php',

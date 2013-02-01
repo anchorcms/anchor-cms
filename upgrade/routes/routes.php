@@ -32,7 +32,7 @@ Route::get('start', function() {
 });
 
 Route::get('complete', function() {
-	$vars['root_uri'] = rtrim(dirname(dirname($_SERVER['SCRIPT_NAME'])), '/') . '/';
+	$vars['root_uri'] = $GLOBALS['ANCHOR_URL'];
 
 	return View::make('complete', $vars)
 		->nest('header', 'partials/header')

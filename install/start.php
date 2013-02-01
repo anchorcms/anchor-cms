@@ -1,5 +1,8 @@
 <?php
 
+$GLOBALS['ANCHOR_URL'] = str_finish(rtrim(str_replace('\\', '/', dirname(dirname($_SERVER['SCRIPT_NAME']))), '/'), '/');
+$GLOBALS['INSTALL_URL'] = str_finish(Config::get('application.url'), '/');
+
 /*
 	Pre install checks
 */
@@ -34,7 +37,7 @@ check('Anchor requires <code>pdo_mysql</code> module to be installed.', function
 
 if(count($GLOBALS['errors'])) {
 	$vars['errors'] = $GLOBALS['errors'];
-	$vars['uri'] = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/') . '/';
+	$vars['uri'] = $GLOBALS['INSTALL_URL'];
 
 	echo View::make('halt', $vars)
 		->nest('header', 'partials/header')
