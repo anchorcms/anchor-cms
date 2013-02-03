@@ -155,6 +155,12 @@ Route::get('admin/upgrade', function() {
 	$vars['messages'] = Notify::read();
 	$vars['token'] = Csrf::token();
 
+	$version = Config::get('meta.update_version');
+	$url = 'https://github.com/anchorcms/anchor-cms/archive/%s.zip';
+
+	$vars['version'] = $version;
+	$vars['url'] = sprintf($url, $version);
+
 	return View::make('upgrade', $vars)
 		->nest('header', 'partials/header')
 		->nest('footer', 'partials/footer');

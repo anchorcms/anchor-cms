@@ -45,7 +45,29 @@ class Update {
 	}
 
 	public static function touch() {
-		return file_get_contents('http://anchorcms.com/version');
+		$url = 'http://anchorcms.com/version';
+
+		if(in_array(ini_get('allow_url_fopen'), array('true', '1', 'On'))) {
+			$result = file_get_contents($url);
+		}
+		else if(function_exists('curl_init')) {
+			$session = curl_init();
+
+			curl_setopt_array($session, array(
+				CURLOPT_URL => $url,
+				CURLOPT_HEADER => false,
+				CURLOPT_RETURNTRANSFER => true
+			));
+
+			$result = curl_exec($session);
+
+			curl_close($session);
+		}
+		else {
+			$result = false;
+		}
+
+		return $result;
 	}
 
 }

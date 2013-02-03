@@ -42,12 +42,8 @@ class Config {
 	}
 
 	public static function path() {
-		if(defined('ENV')) {
-			$path = APP . 'config' . DS . ENV . DS;
-
-			if(file_exists($path)) {
-				return $path;
-			}
+		if(constant('ENV')) {
+			return APP . 'config' . DS . ENV . DS;
 		}
 
 		return APP . 'config' . DS;

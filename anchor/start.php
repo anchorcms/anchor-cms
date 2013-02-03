@@ -3,7 +3,7 @@
 /*
 	Anchor setup
 */
-define('IS_ADMIN', strpos(Uri::current(), 'admin') === 0);
+define('IS_ADMIN', starts_with(Uri::current(), 'admin'));
 
 // Check installation
 if(is_null(Config::load('database'))) {
@@ -63,4 +63,27 @@ if(IS_ADMIN) {
 	function admin_url($path) {
 		return Uri::make('admin/' . $path);
 	}
+}
+
+/*
+	Anchor migrations
+*/
+$current = Config::get('meta.current_migration');
+$migrate_to = Config::get('migrations.current');
+
+$migrations = new Migrations($current);
+
+if(is_null($current)) {
+	$number = $migrations->up($migrate_to);
+
+	Query::table('meta')->insert(array(
+		'key' => 'current_migration',
+		'value' => $number
+	));
+}
+else if($current < $migrate_to) {
+	$number = $migrations->up($migrate_to);
+
+	Query::table('meta')->update(array('value' => $number))
+		->where('key', '=', 'current_migration');
 }

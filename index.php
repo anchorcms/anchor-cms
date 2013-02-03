@@ -21,7 +21,7 @@
                 \ /
 */
 
-define('DS', '/');
+define('DS', DIRECTORY_SEPARATOR);
 define('ENV', getenv('APP_ENV'));
 define('VERSION', '0.8.2');
 

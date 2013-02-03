@@ -45,8 +45,7 @@
 			<h1>Great News!</h1>
 			<p>There's a new version of anchor available.</p>
 
-			<a title="A backup of your site and database will be created before we start"
-				href="<?php echo $base . '/upgrade'; ?>">Run the upgrade</a>
+			<a title="Download latest version <?php echo $version; ?>" href="<?php echo $url; ?>">Download Now</a>
 			<a href="<?php echo $base; ?>">Upgrade later</a>
 		</div>
 	</body>
