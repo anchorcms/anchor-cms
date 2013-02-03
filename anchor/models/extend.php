@@ -137,6 +137,9 @@ class Extend extends Model {
 
 	public static function upload($file) {
 		$storage = PATH . 'content' . DS;
+
+		if(!is_dir($storage)) mkdir($storage);
+
 		$ext = pathinfo($file['name'], PATHINFO_EXTENSION);
 
 		$filename = hash('crc32', file_get_contents($file['tmp_name'])) . '.' . $ext;
