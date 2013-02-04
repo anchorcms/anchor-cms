@@ -1,3 +1,4 @@
+<?php $base = rtrim(str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME'])), '/'); ?>
 <!doctype html>
 <html>
 	<head>
@@ -40,13 +41,12 @@
 	</head>
 	<body>
 		<div>
-			<img src="<?php echo rtrim(dirname($_SERVER['SCRIPT_NAME']), '/'); ?>/anchor/views/assets/img/logo.png" alt="Anchor logo">
+			<img src="<?php echo $base; ?>/anchor/views/assets/img/logo.png" alt="Anchor logo">
 			<h1>Great News!</h1>
 			<p>There's a new version of anchor available.</p>
 
-			<a title="A backup of your site and database will be created before we start"
-				href="<?php echo rtrim(dirname($_SERVER['SCRIPT_NAME']), '/') . '/upgrade'; ?>">Run the upgrade</a>
-			<a href="<?php echo rtrim(dirname($_SERVER['SCRIPT_NAME']), '/'); ?>">Upgrade later</a>
+			<a title="Download latest version <?php echo $version; ?>" href="<?php echo $url; ?>">Download Now</a>
+			<a href="<?php echo $base; ?>">Upgrade later</a>
 		</div>
 	</body>
 </html>

@@ -20,7 +20,10 @@ class Post extends Model {
 
 	public static function parse($str) {
 		// process tags
-		if(preg_match_all('/[\{\{|\[\[]+([a-z]+)[\}\}|\]\]]+/i', $str, $matches)) {
+		//$pattern = '/[\{\{|\[\[]+([a-z]+)[\}\}|\]\]]+/i';
+		$pattern = '/[\{\{]{1}([a-z]+)[\}\}]{1}/i';
+
+		if(preg_match_all($pattern, $str, $matches)) {
 			list($search, $replace) = $matches;
 
 			foreach($replace as $index => $key) {

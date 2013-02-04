@@ -64,6 +64,8 @@ Route::get($posts_page->slug . '/(:any)', function($slug) {
 
 	Registry::set('article', $post);
 
+	Registry::set('category', Category::find($post->category));
+
 	return new Template('article');
 });
 

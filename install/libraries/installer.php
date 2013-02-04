@@ -142,7 +142,7 @@ class Installer {
 	}
 
 	private static function rewrite() {
-		if(is_apache()) {
+		if(mod_rewrite()) {
 			$settings = Session::get('install');
 
 			$url = $settings['metadata']['site_path'];

@@ -5,9 +5,7 @@
 */
 Route::filter('check', function() {
 	if(file_exists(PATH . 'anchor/config/database.php')) {
-		$root = rtrim(dirname(dirname($_SERVER['SCRIPT_NAME'])), '/') . '/';
-
-		return Response::make('', 302, array('location' => $root));
+		return Response::make('', 302, array('location' => $GLOBALS['ANCHOR_URL']));
 	}
 });
 
@@ -16,7 +14,7 @@ Route::filter('check', function() {
 */
 Route::get('complete', function() {
 	$settings = Session::get('install', array());
-	$settings['root_uri'] = rtrim(dirname(dirname($_SERVER['SCRIPT_NAME'])), '/') . '/';
+	$settings['root_uri'] = $GLOBALS['ANCHOR_URL'];
 
 	return View::make('complete', $settings)
 		->nest('header', 'partials/header')

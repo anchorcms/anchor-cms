@@ -21,6 +21,10 @@ function has_posts() {
 }
 
 function posts() {
+	if( ! $total = Registry::get('total_posts')) {
+		$total = has_posts();
+	}
+
 	if( ! $posts = Registry::get('posts')) {
 		$per_page = Config::get('meta.posts_per_page');
 		$offset = Registry::get('page_offset') ?: 1;
