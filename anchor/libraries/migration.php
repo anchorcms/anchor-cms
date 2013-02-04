@@ -4,25 +4,32 @@ abstract class Migration {
 	abstract public function up();
 	abstract public function down();
 
-	public function has_table($name) {
+	public function has_table($table) {
 		$default = Config::get('database.default');
 		$db = Config::get('database.connections.' . $default . '.database');
 
-		$sql = 'SELECT table_name FROM information_schema.tables
-			WHERE table_schema = ? AND table_name = ?';
-		$result = DB::query($sql, array($db, $name));
+		$sql = 'SHOW TABLES FROM `' . $db . '`';
+		$result = DB::query($sql);
 
-		return count($result);
+		$tables = array();
+
+		foreach($result as $row) {
+			$tables[] = $row->{'Tables_in_' . $db};
+		}
+
+		return in_array($table, $tables);
 	}
 
-	public function has_table_column($table, $name) {
-		$default = Config::get('database.default');
-		$db = Config::get('database.connections.' . $default . '.database');
+	public function has_table_column($table, $column) {
+		$sql = 'SHOW COLUMNS FROM `' . $table . '`';
+		$result = DB::query($sql);
 
-		$sql = 'SELECT table_name FROM information_schema.columns
-			WHERE table_schema = ? AND table_name = ? AND column_name = ?';
-		$result = DB::query($sql, array($db, $table, $name));
+		$columns = array();
 
-		return count($result);
+		foreach($result as $row) {
+			$columns[] = $row->Field;
+		}
+
+		return in_array($column, $columns);
 	}
 }
