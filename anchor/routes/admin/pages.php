@@ -13,6 +13,25 @@ Route::get(array('admin/pages', 'admin/pages/(:num)'), array('before' => 'auth',
 }));
 
 /*
+	Reorder
+*/
+Route::post('admin/pages/reorder', array('before' => 'auth', 'do' => function() {
+	$pages = Input::get( 'page' );
+
+	if( $pages )
+	{
+		$order = 1;
+		foreach( $pages as $page )
+		{
+			$page = Page::find( $page );
+			$page->order = $order;
+			$page->save();
+			$order++;
+		}
+	}
+}));
+
+/*
 	Edit
 */
 Route::get('admin/pages/edit/(:num)', array('before' => 'auth', 'do' => function($id) {

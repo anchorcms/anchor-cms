@@ -9,7 +9,7 @@ class Page extends Model {
 
 		$count = $query->count();
 
-		$results = $query->take($perpage)->skip(($page - 1) * $perpage)->order_by('title')->get();
+		$results = $query->take($perpage)->skip(($page - 1) * $perpage)->order_by('order')->get();
 
 		return new Paginator($results, $count, $page, $perpage, admin_url('pages'));
 	}

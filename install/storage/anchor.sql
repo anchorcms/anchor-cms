@@ -53,6 +53,7 @@ CREATE TABLE `pages` (
   `content` text NOT NULL,
   `status` enum('draft','published','archived') NOT NULL,
   `redirect` text NOT NULL,
+  `order` int(6) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `status` (`status`),
   KEY `slug` (`slug`)
