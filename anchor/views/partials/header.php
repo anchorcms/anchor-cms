@@ -11,9 +11,8 @@
 		<link rel="stylesheet" href="<?php echo admin_asset('css/login.css'); ?>">
 		<link rel="stylesheet" href="<?php echo admin_asset('css/notifications.css'); ?>">
 		<link rel="stylesheet" href="<?php echo admin_asset('css/forms.css'); ?>">
-
 		<link rel="stylesheet" media="(max-width: 980px), (max-device-width: 480px)" href="<?php echo admin_asset('css/small.css'); ?>">
-
+		<link rel="shortcut icon" href="<?php echo admin_asset('img/favicon.ico'); ?>">
 		<meta http-equiv="X-UA-Compatible" content="chrome=1">
 		<meta name="viewport" content="width=600">
 	</head>
