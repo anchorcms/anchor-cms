@@ -40,7 +40,7 @@
 		<aside class="buttons">
 			<?php echo Form::button(__('Save Changes.save', 'Save Changes'), array('type' => 'submit', 'class' => 'btn')); ?>
 			
-			<?php echo Html::link(admin_url('comments/delete/' . $comment->id), __('comments.delete', 'Delete'), array(
+			<?php echo Html::link(admin_url('comments/edit/' . $comment->id), __('comments.delete', 'Delete'), array(
 				'class' => 'btn delete red'
 			)); ?>
 			
