@@ -52,6 +52,8 @@ function posts() {
 		// move to next
 		$posts->next();
 	}
+	// back to the start
+	if( ! $result) $posts->rewind();
 
 	return $result;
 }
