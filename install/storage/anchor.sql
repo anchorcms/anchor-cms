@@ -1,3 +1,7 @@
+# Setup Categories
+# ------------------------------------------------------------
+DROP TABLE IF EXISTS `categories`;
+
 CREATE TABLE `categories` (
   `id` int(6) NOT NULL AUTO_INCREMENT,
   `title` varchar(150) NOT NULL,
@@ -5,6 +9,18 @@ CREATE TABLE `categories` (
   `description` text NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB CHARSET=utf8;
+
+LOCK TABLES `categories` WRITE;
+
+INSERT INTO `categories` (`title`, `slug`, `description`) VALUES
+('Uncategorised', 'uncategorised', 'Ain\'t no category here.');
+
+UNLOCK TABLES;
+
+
+# Setup Comments
+# ------------------------------------------------------------
+DROP TABLE IF EXISTS `comments`;
 
 CREATE TABLE `comments` (
   `id` int(6) NOT NULL AUTO_INCREMENT,
@@ -19,6 +35,11 @@ CREATE TABLE `comments` (
   KEY `status` (`status`)
 ) ENGINE=InnoDB CHARSET=utf8;
 
+
+# Setup Extend
+# ------------------------------------------------------------
+DROP TABLE IF EXISTS `extend`;
+
 CREATE TABLE `extend` (
   `id` int(6) NOT NULL AUTO_INCREMENT,
   `type` enum('post','page') NOT NULL,
@@ -29,11 +50,34 @@ CREATE TABLE `extend` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB CHARSET=utf8;
 
+
+# Setup Meta
+# ------------------------------------------------------------
+DROP TABLE IF EXISTS `meta`;
+
 CREATE TABLE `meta` (
   `key` varchar(140) NOT NULL,
   `value` text NOT NULL,
   PRIMARY KEY (`key`)
 ) ENGINE=InnoDB CHARSET=utf8;
+
+LOCK TABLES `meta` WRITE;
+
+INSERT INTO `meta` (`key`, `value`) VALUES
+('auto_published_comments', '0'),
+('comment_moderation_keys', ''),
+('comment_notifications', '0'),
+('date_format', 'jS M, Y'),
+('home_page', '1'),
+('posts_page',  '1'),
+('posts_per_page',  '6'),
+('twitter', '');
+
+UNLOCK TABLES;
+
+# Setup Page Meta
+# ------------------------------------------------------------
+DROP TABLE IF EXISTS `page_meta`;
 
 CREATE TABLE `page_meta` (
   `id` int(6) NOT NULL AUTO_INCREMENT,
@@ -44,6 +88,11 @@ CREATE TABLE `page_meta` (
   KEY `page` (`page`),
   KEY `extend` (`extend`)
 ) ENGINE=InnoDB CHARSET=utf8;
+
+
+# Setup Pages
+# ------------------------------------------------------------
+DROP TABLE IF EXISTS `pages`;
 
 CREATE TABLE `pages` (
   `id` int(6) NOT NULL AUTO_INCREMENT,
@@ -58,6 +107,17 @@ CREATE TABLE `pages` (
   KEY `slug` (`slug`)
 ) ENGINE=InnoDB CHARSET=utf8;
 
+LOCK TABLES `pages` WRITE;
+
+INSERT INTO `pages` (`slug`, `name`, `title`, `content`, `status`, `redirect`) VALUES
+('posts', 'Posts', 'My posts and thoughts', '<p>Welcome!</p>', 'published', '');
+
+UNLOCK TABLES;
+
+# Setup Post Meta
+# ------------------------------------------------------------
+DROP TABLE IF EXISTS `post_meta`;
+
 CREATE TABLE `post_meta` (
   `id` int(6) NOT NULL AUTO_INCREMENT,
   `post` int(6) NOT NULL,
@@ -67,6 +127,10 @@ CREATE TABLE `post_meta` (
   KEY `post` (`post`),
   KEY `extend` (`extend`)
 ) ENGINE=InnoDB CHARSET=utf8;
+
+# Setup Posts
+# ------------------------------------------------------------
+DROP TABLE IF EXISTS `posts`;
 
 CREATE TABLE `posts` (
   `id` int(6) NOT NULL AUTO_INCREMENT,
@@ -86,12 +150,29 @@ CREATE TABLE `posts` (
   KEY `slug` (`slug`)
 ) ENGINE=InnoDB CHARSET=utf8;
 
+LOCK TABLES `posts` WRITE;
+
+INSERT INTO `posts` (`title`, `slug`, `description`, `html`, `css`, `js`, `created`, `author`, `category`, `status`, `comments`) VALUES
+('Hello World', 'hello-world', 'This is the first post.', '### Hello', '', '', '[[now]]', '1', '1', 'published', '0');
+
+UNLOCK TABLES;
+
+
+# Setup Sessions
+# ------------------------------------------------------------
+DROP TABLE IF EXISTS `sessions`;
+
 CREATE TABLE `sessions` (
   `id` char(32) NOT NULL,
   `date` datetime NOT NULL,
   `data` text NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB CHARSET=utf8;
+
+
+# Setup Users
+# ------------------------------------------------------------
+DROP TABLE IF EXISTS `users`;
 
 CREATE TABLE `users` (
   `id` int(6) NOT NULL AUTO_INCREMENT,
@@ -104,22 +185,3 @@ CREATE TABLE `users` (
   `role` enum('administrator','editor','user') NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB CHARSET=utf8;
-
-INSERT INTO `categories` (`title`, `slug`, `description`) VALUES
-('Uncategorised', 'uncategorised', 'Ain\'t no category here.');
-
-INSERT INTO `meta` (`key`, `value`) VALUES
-('auto_published_comments', '0'),
-('comment_moderation_keys', ''),
-('comment_notifications', '0'),
-('date_format', 'jS M, Y'),
-('home_page', '1'),
-('posts_page',  '1'),
-('posts_per_page',  '6'),
-('twitter', '');
-
-INSERT INTO `pages` (`slug`, `name`, `title`, `content`, `status`, `redirect`) VALUES
-('posts', 'Posts', 'My posts and thoughts', '<p>Welcome!</p>', 'published', '');
-
-INSERT INTO `posts` (`title`, `slug`, `description`, `html`, `css`, `js`, `created`, `author`, `category`, `status`, `comments`) VALUES
-('Hello World', 'hello-world', 'This is the first post.', '### Hello', '', '', '[[now]]', '1', '1', 'published', '0');
