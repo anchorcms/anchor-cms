@@ -53,7 +53,7 @@ function posts() {
 		$posts->next();
 	}
 	// back to the start
-	if( ! $result) $posts->rewind();
+	else $posts->rewind();
 
 	return $result;
 }
