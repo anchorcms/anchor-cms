@@ -1,6 +1,6 @@
 		<small>
 			You’re installing Anchor version <?php echo VERSION; ?>.
-			<a href="//twitter.com/anchorcms">Need help?</a>
+			<a href="//twitter.com/anchorcms" target="_blank">Need help?</a>
 		</small>
 
 		<script>

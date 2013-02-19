@@ -319,6 +319,7 @@ hgroup {
 
 		position: relative;
 		overflow: hidden;
+		white-space: nowrap;
 	}
 
 		.list li strong:after {
@@ -391,7 +392,7 @@ hgroup {
 
 	.empty .icon {
 		display: block;
-		width: 54px;
+		width: 52px;
 		height: 54px;
 		margin: 0 auto 15px;
 		background: url('../img/icons.png') no-repeat;
@@ -400,12 +401,12 @@ hgroup {
 	.sidebar a {
 		display: block;
 		padding: 5px 20px;
-		
+
 		position: relative;
-		
+
 		font-size: 13px;
 		color: #616a71;
-		
+
 		border-radius: 5px;
 	}
 		.sidebar a:after {
@@ -414,10 +415,10 @@ hgroup {
 			left: 10px;
 			right: 10px;
 			bottom: 0;
-			
+
 			display: block;
 			height: 1px;
-			
+
 			background: #dadfe5;
 		}
 		.sidebar a:hover {
@@ -554,10 +555,11 @@ body.login {
 	.main textarea {
 		width: 100%;
 	}
-	
+
 	.main textarea[name=content], .main textarea[name=html] {
 		background: transparent;
 		padding: 0;
+		resize: none;
 	}
 
 .meta {
@@ -577,17 +579,6 @@ body.login {
 
 		width: 317px;
 	}
-
-
-
-
-
-
-
-
-.split label {
-	min-width: 150px;
-}
 
 .split input, .split select {
 	min-width: 300px;
@@ -611,7 +602,9 @@ body.login {
 .split em {
 	font-style: normal;
 	padding-left: 20px;
-	line-height: 40px;
+	line-height: 28px;
+	display: inline-block;
+	max-width: 500px;
 
 	opacity: 0;
 	-webkit-transition: opacity .25s;

@@ -14,19 +14,19 @@ function check($message, $action) {
 	}
 }
 
-check('<code>content</code> directory needs to be writable
+check('<code>' . PATH . 'content/</code> needs to be writable
 	so we can upload your images and files.', function() {
 	return is_writable(PATH . 'content');
 });
 
-check('<code>anchor/config</code> directory needs to be temporarily writable
+check('<code>' . PATH . 'anchor/config/</code> needs to be temporarily writable
 	so we can create your application and database configuration files.', function() {
 	return is_writable(PATH . 'anchor/config');
 });
 
 if(mod_rewrite()) {
-	check('The public root directory needs to be temporarily writable
-		while we try to create your htaccess file.', function() {
+	check('<code>' . PATH . '</code> needs to be temporarily writable while
+		we try to create your htaccess file.', function() {
 		return is_writable(PATH);
 	});
 }

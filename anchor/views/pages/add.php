@@ -74,5 +74,7 @@
 
 <script src="<?php echo admin_asset('js/slug.js'); ?>"></script>
 <script src="<?php echo admin_asset('js/redirect.js'); ?>"></script>
+<script src="<?php echo admin_asset('js/focus-mode.js'); ?>"></script>
+<script src="<?php echo admin_asset('js/upload-fields.js'); ?>"></script>
 
 <?php echo $footer; ?>
