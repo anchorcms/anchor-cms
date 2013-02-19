@@ -1,3 +1,5 @@
+Options -indexes
+
 <IfModule mod_rewrite.c>
 	RewriteEngine On
 	RewriteBase {base}
