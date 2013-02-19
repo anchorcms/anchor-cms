@@ -57,7 +57,7 @@ function search_term() {
 	return Registry::get('search_term');
 }
 
-function search_next($text = 'Next', $default = '') {
+function search_prev($text = '&larr; Previous', $default = '') {
 	$per_page = Config::get('meta.posts_per_page');
 	$page = Registry::get('page_offset');
 
@@ -69,16 +69,16 @@ function search_next($text = 'Next', $default = '') {
 	$posts_page = Registry::get('page');
 	$next = $page + 1;
 
-	$url = base_url($posts_page->slug . '/' . $next);
+	$url = base_url('search/' . search_term() . '/' . $next);
 
 	if(($page - 1) < $pages) {
-		return '<a href="' . $url . '">' . $text . '</a>';
+		return '<a class="prev" href="' . $url . '">' . $text . '</a>';
 	}
 
 	return $default;
 }
 
-function search_prev($text = 'Previous', $default = '') {
+function search_next($text = 'Next &rarr;', $default = '') {
 	$per_page = Config::get('meta.posts_per_page');
 	$page = Registry::get('page_offset');
 
@@ -90,10 +90,10 @@ function search_prev($text = 'Previous', $default = '') {
 	$posts_page = Registry::get('posts_page');
 	$prev = $page - 1;
 
-	$url = base_url($posts_page->slug . '/' . $prev);
+	$url = base_url('search/' . search_term() . '/' . $prev);
 
 	if($offset > 0) {
-		return '<a href="' . $url . '">' . $text . '</a>';
+		return '<a class="next" href="' . $url . '">' . $text . '</a>';
 	}
 
 	return $default;
