@@ -108,7 +108,6 @@ nav {
 
 	nav li, nav img {
 		float: left;
-		margin-right: 80px;
 	}
 
 	nav li {
@@ -119,6 +118,7 @@ nav {
 		background: #444f5f;
 		color: #70829b;
 		margin-top: -11px;
+		margin-right: 80px;
 
 		padding: 0 10px;
 	}
@@ -285,6 +285,14 @@ select {
 		background: #4680d3;
 	}
 
+	.btn.quiet {
+		color: #ccc;
+	}
+
 form .btn {
 	margin-left: 220px;
+}
+
+form .quiet {
+	margin-right: 25px;
 }

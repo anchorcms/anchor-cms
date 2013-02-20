@@ -1,12 +1,12 @@
 <?php
 
 /**
-	Theme functions for categories
-*/
+ * Theme functions for categories
+ */
 
 function total_categories() {
 	if( ! $categories = Registry::get('categories')) {
-		$categories = Category::all();
+		$categories = Category::get();
 
 		$categories = new Items($categories);
 

@@ -35,7 +35,7 @@ Session::read();
 /**
  * Route the request
  */
-$response = Router::create()->match(Request::method(), Uri::current())->run();
+$response = Router::create(Uri::current())->match(Request::method())->run();
 
 /**
  * Update session

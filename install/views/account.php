@@ -8,7 +8,7 @@
 		<p>Oh, we're so tantalisingly close! All we need now is a username and password to log in to the admin area with.</p>
 	</article>
 
-	<form method="post" action="<?php echo Uri::to('account'); ?>" autocomplete="off">
+	<form method="post" action="<?php echo uri_to('account'); ?>" autocomplete="off">
 		<?php echo $messages; ?>
 
 		<fieldset>
@@ -33,6 +33,7 @@
 		</fieldset>
 
 		<section class="options">
+			<a href="<?php echo uri_to('metadata'); ?>" class="btn quiet">&laquo; Back</a>
 			<button type="submit" class="btn">Complete</button>
 		</section>
 	</form>

@@ -57,9 +57,8 @@
 				'type' => 'submit'
 			)); ?>
 
-			<?php echo Html::link(admin_url('users/delete/' . $user->id), __('users.delete', 'Delete'), array(
-				'class' => 'btn delete red'
-			)); ?>
+			<?php echo Html::link('admin/users/delete/' . $user->id,
+				__('users.delete', 'Delete'), array('class' => 'btn delete red')); ?>
 		</aside>
 	</form>
 

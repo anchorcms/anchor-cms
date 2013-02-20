@@ -1,7 +1,7 @@
 <?php echo $header; ?>
 
 <hgroup class="wrap">
-	<h1>Editing &ldquo;<?php echo Str::truncate($category->title, 4); ?>&rdquo;</h1>
+	<h1>Editing &ldquo;<?php echo $category->title; ?>&rdquo;</h1>
 </hgroup>
 
 <section class="wrap">

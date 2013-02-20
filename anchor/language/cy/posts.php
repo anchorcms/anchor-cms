@@ -1,4 +1,4 @@
-<?php defined('IN_CMS') or die('Ni chaniateir.');
+<?php
 
 return array(
 

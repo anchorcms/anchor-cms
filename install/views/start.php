@@ -44,10 +44,6 @@
 			</p>
 		</fieldset>
 
-		<p>
-			<small>You can get more languages by downloading them from <a href="//github.com/anchorcms/anchor-translations">the Anchor translations repository</a>, and placing in the <code>anchor/languages</code> folder.</small>
-		</p>
-
 		<section class="options">
 			<button type="submit" class="btn">Next Step &raquo;</button>
 		</section>

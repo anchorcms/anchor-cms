@@ -109,6 +109,25 @@ function slug($str, $separator = '-') {
 	return trim(strtolower($str), $separator);
 }
 
+function parse($str) {
+	// process tags
+	$pattern = '/[\{\{]{1}([a-z]+)[\}\}]{1}/i';
+
+	if(preg_match_all($pattern, $str, $matches)) {
+		list($search, $replace) = $matches;
+
+		foreach($replace as $index => $key) {
+			$replace[$index] = Config::meta($key);
+		}
+
+		$str = str_replace($search, $replace, $str);
+	}
+
+	$md = new Markdown;
+
+	return $md->transform($str);
+}
+
 
 /**
  * Anchor setup

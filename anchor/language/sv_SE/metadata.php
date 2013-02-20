@@ -1,4 +1,4 @@
-<?php defined('IN_CMS') or die('Direkt&aring;tkomst ej till&aring;tet.');
+<?php
 
 return array(
 

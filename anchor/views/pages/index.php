@@ -5,7 +5,8 @@
 
 	<?php if($pages->count): ?>
 	<nav>
-		<?php echo Html::link(admin_url('pages/add'), __('pages.create_page', 'Create a new page'), array('class' => 'btn')); ?>
+		<?php echo Html::link('admin/pages/add',
+			__('pages.create_page', 'Create a new page'), array('class' => 'btn')); ?>
 	</nav>
 	<?php endif; ?>
 </hgroup>
@@ -38,7 +39,8 @@
 		<span class="icon"></span>
 		<?php echo __('comments.nopages_desc', 'You don’t have any pages.'); ?><br>
 
-		<?php echo Html::link(admin_url('pages/add'), __('pages.create_page', 'Create a new page'), array('class' => 'btn')); ?>
+		<?php echo Html::link('admin/pages/add',
+			__('pages.create_page', 'Create a new page'), array('class' => 'btn')); ?>
 	</aside>
 	<?php endif; ?>
 </section>

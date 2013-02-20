@@ -22,7 +22,7 @@ class Notify {
 
 		foreach($types as $type => $messages) {
 			foreach($messages as $message) {
-				$html .= sprintf(static::$mwrap, $type, $message);
+				$html .= sprintf(static::$mwrap, $type, implode('<br>', (array) $message));
 			}
 		}
 

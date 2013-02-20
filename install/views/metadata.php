@@ -48,6 +48,7 @@
 		</fieldset>
 
 		<section class="options">
+			<a href="<?php echo uri_to('database'); ?>" class="btn quiet">&laquo; Back</a>
 			<button type="submit" class="btn">Next Step &raquo;</button>
 		</section>
 	</form>

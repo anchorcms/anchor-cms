@@ -7,7 +7,7 @@
 
 // Url helpers
 function full_url($url = '') {
-	return Uri::build(array('path' => Uri::make($url)));
+	return '//' . $_SERVER['HTTP_HOST'] . Uri::to($url);
 }
 
 function base_url($url = '') {

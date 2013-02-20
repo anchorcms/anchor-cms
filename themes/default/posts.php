@@ -20,8 +20,9 @@
 					</footer>
 				</article>
 			</li>
-			<?php $i = 0; while(posts()): $i++; ?>
-			<li style="background: hsl(215,28%,<?php echo round((($i / posts_per_page()) * 20) + 20); ?>%);">
+			<?php $i = 0; while(posts()): ?>
+			<?php $bg = sprintf('background: hsl(215, 28%%, %d%%);', round(((++$i / posts_per_page()) * 20) + 20)); ?>
+			<li style="<?php echo $bg; ?>">
 				<article class="wrap">
 					<h2>
 						<a href="<?php echo article_url(); ?>" title="<?php echo article_title(); ?>"><?php echo article_title(); ?></a>

@@ -86,4 +86,16 @@
 <script src="<?php echo admin_asset('js/focus-mode.js'); ?>"></script>
 <script src="<?php echo admin_asset('js/upload-fields.js'); ?>"></script>
 
+<script>
+	(function() {
+		var textarea = $('textarea').first(), limit = 1080;
+
+		var resize = function() {
+			textarea.height(textarea[0].scrollHeight);
+		};
+
+		textarea.bind('keydown', resize).trigger('keydown');
+	}());
+</script>
+
 <?php echo $footer; ?>

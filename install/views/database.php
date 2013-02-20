@@ -50,7 +50,7 @@
     			<label for="collation">Collation</label>
     			<select id="collation" name="collation">
     				<?php foreach($collations as $code => $collation): ?>
-    				<option value="<?php echo $code; ?>" title="<?php echo $collation; ?>"<?php if($code == 'utf8_general_ci') echo ' selected'; ?>>
+    				<option value="<?php echo $code; ?>" <?php if($code == 'utf8_general_ci') echo ' selected'; ?>>
     					<?php echo $code; ?>
     				</option>
     				<?php endforeach; ?>
@@ -61,6 +61,7 @@
 		</fieldset>
 
 		<section class="options">
+            <a href="<?php echo uri_to('start'); ?>" class="btn quiet">&laquo; Back</a>
 			<button type="submit" class="btn">Next Step &raquo;</button>
 		</section>
 	</form>

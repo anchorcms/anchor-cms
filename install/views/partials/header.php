@@ -13,9 +13,18 @@
 			<img src="<?php echo asset('views/assets/img/logo.png'); ?>">
 
 			<ul>
-				<li class="database metadata account complete">Database information</li>
+				<li class="start database metadata account complete">Language and timezone</li>
+				<li class="database metadata account complete">Database setup</li>
 				<li class="metadata account complete">Site metadata</li>
-				<li class="account complete">Your first account</li>
+				<li class="account complete">Your account</li>
 				<li class="complete">All done!</li>
 			</ul>
 		</nav>
+
+		<script>
+			(function(w, d, u) {
+				var parts = w.location.pathname.split('/'), url = parts[parts.length - 1], li = d.getElementsByClassName(url);
+				if(url == 'complete') d.body.parentNode.className += 'small';
+				for(var i = 0; i < li.length; i++) li[i].className += ' elapsed';
+			}(window, document));
+		</script>

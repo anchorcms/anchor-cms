@@ -18,24 +18,4 @@ class Post extends Record {
 		return static::where('slug', 'like', $slug)->fetch();
 	}
 
-	public static function parse($str) {
-		// process tags
-		//$pattern = '/[\{\{|\[\[]+([a-z]+)[\}\}|\]\]]+/i';
-		$pattern = '/[\{\{]{1}([a-z]+)[\}\}]{1}/i';
-
-		if(preg_match_all($pattern, $str, $matches)) {
-			list($search, $replace) = $matches;
-
-			foreach($replace as $index => $key) {
-				$replace[$index] = Config::get('meta.' . $key);
-			}
-
-			$str = str_replace($search, $replace, $str);
-		}
-
-		$md = new Markdown;
-
-		return $md->transform($str);
-	}
-
 }

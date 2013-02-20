@@ -4,7 +4,8 @@
 	<h1><?php echo __('users.users', 'Users'); ?></h1>
 
 	<nav>
-		<?php echo Html::link(admin_url('users/add'), __('users.create_user', 'Create a new user'), array('class' => 'btn')); ?>
+		<?php echo Html::link('admin/users/add',
+			__('users.create_user', 'Create a new user'), array('class' => 'btn')); ?>
 	</nav>
 </hgroup>
 

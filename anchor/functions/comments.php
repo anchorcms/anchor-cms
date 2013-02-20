@@ -84,19 +84,19 @@ function comment_form_notifications() {
 }
 
 function comment_form_url() {
-	return Uri::make(Uri::current());
+	return Uri::to(Uri::current());
 }
 
 function comment_form_input_name($extra = '') {
-	return '<input name="name" id="name" type="text" ' . $extra . ' value="' . Input::old('name') . '">';
+	return '<input name="name" id="name" type="text" ' . $extra . ' value="' . Input::previous('name') . '">';
 }
 
 function comment_form_input_email($extra = '') {
-	return '<input name="email" id="email" type="email" ' . $extra . ' value="' . Input::old('email') . '">';
+	return '<input name="email" id="email" type="email" ' . $extra . ' value="' . Input::previous('email') . '">';
 }
 
 function comment_form_input_text($extra = '') {
-	return '<textarea name="text" id="text" ' . $extra . '>' . Input::old('text') . '</textarea>';
+	return '<textarea name="text" id="text" ' . $extra . '>' . Input::previous('text') . '</textarea>';
 }
 
 function comment_form_button($text = 'Post Comment', $extra = '') {

@@ -78,3 +78,10 @@ function normalize($str) {
 
 	return strtr($str, $table);
 }
+
+/**
+ * Encode html to entities
+ */
+function e($str) {
+	return htmlspecialchars($str, ENT_NOQUOTES, System\Config::app('encoding'), false);
+}

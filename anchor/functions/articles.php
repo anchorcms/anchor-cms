@@ -28,9 +28,7 @@ function article_description() {
 }
 
 function article_html() {
-	$html = Registry::prop('article', 'html');
-
-	return Post::parse($html);
+	return parse(Registry::prop('article', 'html'));
 }
 
 function article_css() {
