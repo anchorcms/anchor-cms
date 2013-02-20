@@ -132,10 +132,18 @@ class Image {
 			$ratio = $dst_w / $this->src_w;
 			$dst_h = $this->src_h * $ratio;
 		}
-		// portrate
+		// portrait
 		if($this->src_w < $this->src_h) {
 			$ratio = $dst_h / $this->src_h;
 			$dst_w = $this->src_w * $ratio;
+		}
+		// square : use smaller value as the match
+		if($this->src_w == $this->src_h) {
+			if($dst_w > $dst_h) {
+				$dst_w = $dst_h;
+			}else{
+				$dst_h = $dst_w;
+			}
 		}
 
 		$this->dst_image = imagecreatetruecolor($dst_w, $dst_h);

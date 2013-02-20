@@ -28,7 +28,7 @@
 
 	<fieldset class="main">
 		<div class="wrap">
-			<?php echo Form::textarea('html', Input::old('html', $article->html), array(
+			<?php echo Form::textarea('html', Input::old('html', htmlspecialchars($article->html)), array(
 				'placeholder' => __('posts.content_explain', 'Just write.')
 			)); ?>
 		</div>
