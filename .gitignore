@@ -9,8 +9,8 @@ Thumbs.db
 /anchor/config/dev
 
 # generated config
-/anchor/config/application.php
-/anchor/config/database.php
+/anchor/config/app.php
+/anchor/config/db.php
 
 # user mod_rewrite
 /.htaccess
