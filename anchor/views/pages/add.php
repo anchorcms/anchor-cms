@@ -8,7 +8,7 @@
 		<div class="wrap">
 			<?php echo $messages; ?>
 
-			<?php echo Form::text('title', Input::old('title'), array(
+			<?php echo Form::text('title', Input::previous('title'), array(
 				'placeholder' => __('pages.title', 'Page title'),
 				'autocomplete'=> 'off'
 			)); ?>
@@ -28,7 +28,7 @@
 
 	<fieldset class="redirect">
 		<div class="wrap">
-			<?php echo Form::text('redirect', Input::old('redirect'), array(
+			<?php echo Form::text('redirect', Input::previous('redirect'), array(
 				'placeholder' => __('pages.redirect_url', 'Redirect Url')
 			)); ?>
 		</div>
@@ -36,7 +36,7 @@
 
 	<fieldset class="main">
 		<div class="wrap">
-			<?php echo Form::textarea('content', Input::old('content'), array(
+			<?php echo Form::textarea('content', Input::previous('content'), array(
 				'placeholder' => __('pages.content_explain', 'Your page’s content. Uses Markdown.')
 			)); ?>
 		</div>
@@ -46,19 +46,19 @@
 		<div class="wrap">
 			<p>
 				<label><?php echo __('pages.name', 'Name'); ?>:</label>
-				<?php echo Form::text('name', Input::old('name')); ?>
+				<?php echo Form::text('name', Input::previous('name')); ?>
 				<em><?php echo __('pages.name_explain'); ?></em>
 			</p>
 
 			<p>
 				<label><?php echo __('pages.slug', 'Slug'); ?>:</label>
-				<?php echo Form::text('slug', Input::old('slug')); ?>
+				<?php echo Form::text('slug', Input::previous('slug')); ?>
 				<em><?php echo __('pages.slug_explain'); ?></em>
 			</p>
 
 			<p>
 				<label><?php echo __('pages.status', 'Status'); ?>:</label>
-				<?php echo Form::select('status', $statuses, Input::old('status')); ?>
+				<?php echo Form::select('status', $statuses, Input::previous('status')); ?>
 				<em><?php echo __('pages.status_explain'); ?></em>
 			</p>
 

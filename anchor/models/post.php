@@ -1,6 +1,6 @@
 <?php
 
-class Post extends Model {
+class Post extends Record {
 
 	public static $table = 'posts';
 
@@ -9,7 +9,7 @@ class Post extends Model {
 
 		$count = $query->count();
 
-		$results = $query->take($perpage)->skip(($page - 1) * $perpage)->order_by('created', 'desc')->get();
+		$results = $query->take($perpage)->skip(($page - 1) * $perpage)->sort('created', 'desc')->get();
 
 		return new Paginator($results, $count, $page, $perpage, admin_url('posts'));
 	}

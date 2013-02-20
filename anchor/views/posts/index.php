@@ -5,7 +5,7 @@
 
 	<?php if($posts->count): ?>
 	<nav>
-		<?php echo Html::link(admin_url('posts/add'), __('posts.create_post', 'Create a new post'), array('class' => 'btn')); ?>
+		<?php echo Html::link('admin/posts/add', __('posts.create_post', 'Create a new post'), array('class' => 'btn')); ?>
 	</nav>
 	<?php endif; ?>
 </hgroup>
@@ -40,7 +40,7 @@
 		<span class="icon"></span>
 		<?php echo __('posts.noposts_desc', 'You don’t have any posts!'); ?><br>
 
-		<?php echo Html::link(admin_url('posts/add'), __('posts.create_post', 'Create a new post'), array('class' => 'btn')); ?>
+		<?php echo Html::link('admin/posts/add', __('posts.create_post', 'Create a new post'), array('class' => 'btn')); ?>
 	</p>
 
 	<?php endif; ?>

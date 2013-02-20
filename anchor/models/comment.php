@@ -1,6 +1,6 @@
 <?php
 
-class Comment extends Model {
+class Comment extends Record {
 
 	public static $table = 'comments';
 

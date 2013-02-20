@@ -1,6 +1,6 @@
 <?php
 
-class User extends Model {
+class User extends Record {
 
 	public static $table = 'users';
 
@@ -19,9 +19,9 @@ class User extends Model {
 
 		$count = $query->count();
 
-		$results = $query->take($perpage)->skip(($page - 1) * $perpage)->order_by('real_name', 'desc')->get();
+		$results = $query->take($perpage)->skip(($page - 1) * $perpage)->sort('real_name', 'desc')->get();
 
-		return new Paginator($results, $count, $page, $perpage, url('users'));
+		return new Paginator($results, $count, $page, $perpage, Uri::to('users'));
 	}
 
 }

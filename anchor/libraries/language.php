@@ -5,7 +5,7 @@ class Language {
 	private static $lines = array();
 
 	private static function path($file) {
-		$language = Config::get('application.language');
+		$language = Config::app('language');
 
 		return APP . 'language/' . $language . '/' . $file . '.php';
 	}
@@ -23,8 +23,15 @@ class Language {
 			static::load($file);
 		}
 
-		$text = isset(static::$lines[$file][$line]) ?
-			static::$lines[$file][$line] : $default;
+		if(isset(static::$lines[$file][$line])) {
+			$text = static::$lines[$file][$line];
+		}
+		else if($default) {
+			$text = $default;
+		}
+		else {
+			$text = $key;
+		}
 
 		if(count($args)) {
 			return call_user_func_array('sprintf', array_merge(array($text), $args));

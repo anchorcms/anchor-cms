@@ -2,55 +2,37 @@
 
 class Notify {
 
+	public static $types = array('error', 'notice', 'success', 'warning');
+	public static $wrap = '<div class="notifications">%s</div>';
+	public static $mwrap = '<p class="%s">%s</p>';
+
+	public static function add($type, $message) {
+		if(in_array($type, static::$types)) {
+			Session::put('messages.' . $type, array_merge((array) Session::get('messages.' . $type), (array) $message));
+		}
+	}
+
 	public static function read() {
+		$types = Session::get('messages');
+
+		// no messages no problem
+		if(is_null($types)) return '';
+
 		$html = '';
 
-		$types = Session::get('messages', array());
-
-		Session::forget('messages');
-
-		if(count($types)) {
-
-			$html .= '<div class="notifications">';
-
-			foreach($types as $type => $fields) {
-
-				$html .= '<div class="' . $type . '">';
-
-				foreach($fields as $field => $messages) {
-					if(is_array($messages)) {
-						foreach($messages as $message) {
-							$html .= '<p>' . $message . '</p>';
-						}
-					}
-					else {
-						$html .= '<p>' . $messages . '</p>';
-					}
-				}
-
-				$html .= '</div>';
+		foreach($types as $type => $messages) {
+			foreach($messages as $message) {
+				$html .= sprintf(static::$mwrap, $type, $message);
 			}
-
-			$html .= '</div>';
 		}
 
-		return $html;
+		Session::erase('messages');
+
+		return sprintf(static::$wrap, $html);
 	}
 
 	public static function __callStatic($method, $paramaters = array()) {
-		$current = Session::get('messages', array());
-
-		$messages = array_shift($paramaters);
-
-		if( ! is_array($messages)) $messages = array($messages);
-
-		if( ! isset($current[$method])) {
-			$current[$method] = array();
-		}
-
-		$current[$method] = array_merge($current[$method], $messages);
-
-		Session::put('messages', $current);
+		static::add($method, array_shift($paramaters));
 	}
 
 }

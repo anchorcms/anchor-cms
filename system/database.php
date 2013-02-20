@@ -3,60 +3,74 @@
 /**
  * Nano
  *
- * Lightweight php framework
+ * Just another php framework
  *
  * @package		nano
- * @author		k. wilson
  * @link		http://madebykieron.co.uk
+ * @copyright	http://unlicense.org/
  */
 
-use PDO, System\Database\Connection;
+use ErrorException;
+use Exception;
 
 class Database {
 
+	/**
+	 * The current database driver
+	 *
+	 * @var array
+	 */
 	public static $connections = array();
 
-	public static function connection($connection = null) {
-		if(is_null($connection)) $connection = Config::get('database.default');
-
-		if( ! isset(static::$connections[$connection])) {
-			$config = Config::get("database.connections.{$connection}");
-
-			if(is_null($config)) {
-				throw new \Exception("Database connection is not defined for [$connection].");
-			}
-
-			static::$connections[$connection] = new Connection(static::connect($config), $config);
+	/**
+	 * Create a new database conncetor from app config
+	 *
+	 * @param array
+	 * @return object Database connector
+	 */
+	public static function factory($config) {
+		switch($config['driver']) {
+			case 'mysql':
+				return new Database\Connectors\Mysql($config);
+			case 'sqlite':
+				return new Database\Connectors\Sqlite($config);
 		}
 
-		return static::$connections[$connection];
+		throw new ErrorException('Unknown database driver');
 	}
 
-	public static function connect($config) {
-		// build dns string
-		$parts = array('dbname=' . $config['database'], 'host=' . $config['hostname']);
+	/**
+	 * Get a database connection by name r return the default
+	 *
+	 * @param string
+	 * @return object
+	 */
+	public static function connection($name = null) {
+		// use the default connection if none is specified
+		if(is_null($name)) $name = Config::db('default');
 
-		if(isset($config['port'])) {
-			$parts[] = 'port=' . $config['port'];
-		}
+		// if we have already connected just return the instance
+		if(isset(static::$connections[$name])) return static::$connections[$name];
 
-		if(isset($config['charset'])) {
-			$parts[] = 'charset=' . $config['charset'];
-		}
-
-		$dsn = 'mysql:' . implode(';', $parts);
-		$options = array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION);
-
-		// Prior to version 5.3.6, charset was ignored.
-		if(version_compare(PHP_VERSION, '5.3.6', '<=')) {
-			$options[PDO::MYSQL_ATTR_INIT_COMMAND] = 'SET NAMES ' . $config['charset'];
-		}
-
-		return new PDO($dsn, $config['username'], $config['password'], $options);
+		// connect and return
+		return (static::$connections[$name] = static::factory(Config::db('connections.' . $name)));
 	}
 
-	public static function __callStatic($method, $parameters) {
-		return call_user_func_array(array(static::connection(), $method), $parameters);
+	/**
+	 * Magic method for calling database driver methods on the default connection
+	 *
+	 * @param string
+	 * @param array
+	 * @return mixed
+	 */
+	public static function __callStatic($method, $arguments) {
+		$db = static::connection()->instance();
+
+		if(method_exists($db, $method)) {
+			return call_user_func_array(array($db, $method), $arguments);
+		}
+
+		throw new ErrorException('Unknown database method');
 	}
 
 }

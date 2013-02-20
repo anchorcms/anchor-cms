@@ -1,13 +1,13 @@
 <IfModule mod_rewrite.c>
 	RewriteEngine On
-	RewriteBase {base}
+	RewriteBase {{base}}
 
 	# Allow any files or directories that exist to be displayed directly
 	RewriteCond %{REQUEST_FILENAME} !-f
 	RewriteCond %{REQUEST_FILENAME} !-d
 
 	# Rewrite all other URLs to index.php/URL
-	RewriteRule ^(.*)$ {index} [L]
+	RewriteRule ^(.*)$ {{index}} [L]
 </IfModule>
 
 <IfModule !mod_rewrite.c>

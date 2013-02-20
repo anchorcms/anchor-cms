@@ -160,6 +160,17 @@ class Image {
 
 	public function crop($dst_w, $dst_h, $src_x, $src_y) {
 
+		// if the source image is square use smaller dest size
+		// @link http://srccd.com/posts/the-move-to-anchor-cms
+		if($this->src_w == $this->src_h) {
+			if($dst_w > $dst_h) {
+				$dst_w = $dst_h;
+			}
+			else {
+				$dst_h = $dst_w;
+			}
+		}
+
 		$this->dst_image = imagecreatetruecolor($dst_w, $dst_h);
 
 		$params = array(

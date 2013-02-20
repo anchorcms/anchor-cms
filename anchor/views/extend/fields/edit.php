@@ -16,7 +16,7 @@
 				<label for="type"><?php echo __('extend.field_extend', 'Extend'); ?>:</label>
 				<select id="type" name="type">
 					<?php foreach(array('post', 'page') as $type): ?>
-					<?php $selected = (Input::old('type', $field->type) == $type) ? ' selected' : ''; ?>
+					<?php $selected = (Input::previous('type', $field->type) == $type) ? ' selected' : ''; ?>
 					<option<?php echo $selected; ?>><?php echo $type; ?></option>
 					<?php endforeach; ?>
 				</select>
@@ -26,7 +26,7 @@
 				<label for="field"><?php echo __('extend.field_type', 'Type'); ?>:</label>
 				<select id="field" name="field">
 					<?php foreach(array('text', 'html', 'image', 'file') as $type): ?>
-					<?php $selected = (Input::old('field', $field->field) == $type) ? ' selected' : ''; ?>
+					<?php $selected = (Input::previous('field', $field->field) == $type) ? ' selected' : ''; ?>
 					<option<?php echo $selected; ?>><?php echo $type; ?></option>
 					<?php endforeach; ?>
 				</select>
@@ -34,12 +34,12 @@
 
 			<p>
 				<label for="key"><?php echo __('extend.field_key', 'Unique Key'); ?>:</label>
-				<input id="key" name="key" value="<?php echo Input::old('key', $field->key); ?>">
+				<input id="key" name="key" value="<?php echo Input::previous('key', $field->key); ?>">
 			</p>
 
 			<p>
 				<label for="label"><?php echo __('extend.field_label', 'Label'); ?>:</label>
-				<input id="label" name="label" value="<?php echo Input::old('label', $field->label); ?>">
+				<input id="label" name="label" value="<?php echo Input::previous('label', $field->label); ?>">
 			</p>
 
 			<p class="hide attributes_type">
@@ -47,7 +47,7 @@
 
 				<?php $value = isset($field->attributes->type) ? $field->attributes->type : ''; ?>
 				<input id="attributes_type" name="attributes[type]"
-					value="<?php echo Input::old('attributes.type', $value); ?>">
+					value="<?php echo Input::previous('attributes.type', $value); ?>">
 			</p>
 
 			<p class="hide attributes_width">
@@ -55,7 +55,7 @@
 
 				<?php $value = isset($field->attributes->size->width) ? $field->attributes->size->width : ''; ?>
 				<input id="attributes_size_width" name="attributes[size][width]"
-					value="<?php echo Input::old('attributes.size.width', $value); ?>">
+					value="<?php echo Input::previous('attributes.size.width', $value); ?>">
 			</p>
 
 			<p class="hide attributes_height">
@@ -63,7 +63,7 @@
 
 				<?php $value = isset($field->attributes->size->height) ? $field->attributes->size->height : ''; ?>
 				<input id="attributes_size_height" name="attributes[size][height]"
-					value="<?php echo Input::old('attributes.size.height', $value); ?>">
+					value="<?php echo Input::previous('attributes.size.height', $value); ?>">
 			</p>
 		</fieldset>
 

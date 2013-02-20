@@ -3,60 +3,83 @@
 /**
  * Nano
  *
- * Lightweight php framework
+ * Just another php framework
  *
  * @package		nano
- * @author		k. wilson
  * @link		http://madebykieron.co.uk
+ * @copyright	http://unlicense.org/
  */
 
 class Config {
 
-	public static $items = array(),  $cache = array(), $mapped = array();
+	/**
+	 * Holds the app data
+	 *
+	 * @var array
+	 */
+	public static $array = array();
 
-	public static function get($key, $default = null) {
-		// return cached
-		if(isset(static::$cache[$key])) {
-			return static::$cache[$key];
+	/**
+	 * Returns a value from the config array
+	 *
+	 * @param string
+	 * @param mixed
+	 * @return mixed
+	 */
+	public static function get($key, $fallback = null) {
+		// first segment refers to config file
+		$keys = explode('.', $key);
+
+		// read the config file if we have one
+		if( ! array_key_exists($file = current($keys), static::$array)) {
+
+			// is the file readable
+			if(is_readable($path = APP . 'config' . DS . $file . EXT)) {
+				static::$array[$file] = require $path;
+			}
 		}
 
-		// load config file
-		$file = current(explode('.', $key));
-
-		if( ! array_key_exists($file, static::$mapped)) {
-			static::load($file);
-		}
-
-		// cache it for faster lookups
-		static::$cache[$key] = array_get(static::$items, $key, $default);
-
-		return static::$cache[$key];
+		return Arr::get(static::$array, $key, $fallback);
 	}
 
+	/**
+	 * Sets a value in the config array
+	 *
+	 * @param string
+	 * @param mixed
+	 */
 	public static function set($key, $value) {
-		array_set(static::$items, $key, $value);
+		Arr::set(static::$array, $key, $value);
 	}
 
-	public static function forget($key) {
-		array_forget(static::$items, $key);
+	/**
+	 * Removes value in the config array
+	 *
+	 * @param string
+	 */
+	public static function dismiss($key) {
+		Arr::dismiss(static::$array, $key);
 	}
 
-	public static function path() {
-		if(constant('ENV')) {
-			return APP . 'config' . DS . ENV . DS;
+	/**
+	 * Returns a value from the config array using the
+	 * method call as the file reference
+	 *
+	 * @example Config::app('url');
+	 *
+	 * @param string
+	 * @param array
+	 */
+	public static function __callStatic($method, $arguments) {
+		$key = $method;
+		$fallback = null;
+
+		if(count($arguments)) {
+			$key .= '.' . array_shift($arguments);
+			$fallback = array_shift($arguments);
 		}
 
-		return APP . 'config' . DS;
-	}
-
-	public static function load($file) {
-		if(is_readable($path = static::path() . $file . EXT)) {
-			// add file to mapped files
-			static::$mapped[] = $file;
-
-			// get returned array
-			return static::$items[$file] = require $path;
-		}
+		return static::get($key, $fallback);
 	}
 
 }

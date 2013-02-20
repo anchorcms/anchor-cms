@@ -5,7 +5,7 @@ class Auth {
 	private static $session = 'auth';
 
 	public static function guest() {
-		return Session::has(static::$session) === false;
+		return Session::get(static::$session) === null;
 	}
 
 	public static function user() {
@@ -25,7 +25,7 @@ class Auth {
 	}
 
 	public static function logout() {
-		Session::forget(static::$session);
+		Session::erase(static::$session);
 	}
 
 }

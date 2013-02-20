@@ -14,26 +14,26 @@
 		<fieldset class="split">
 			<p>
 				<label><?php echo __('comments.name', 'Name'); ?>:</label>
-				<?php echo Form::text('name', Input::old('name', $comment->name)); ?>
+				<?php echo Form::text('name', Input::previous('name', $comment->name)); ?>
 
 				<em><?php echo __('comments.name_explain', 'Author name.'); ?></em>
 			</p>
 
 			<p>
 				<label><?php echo __('comments.email', 'Email'); ?>:</label>
-				<?php echo Form::email('email', Input::old('email', $comment->email)); ?>
+				<?php echo Form::email('email', Input::previous('email', $comment->email)); ?>
 
 				<em><?php echo __('comments.email_explain', 'Author email.'); ?></em>
 			</p>
 
 			<p>
 				<label><?php echo __('comments.text', 'Comment'); ?>:</label>
-				<?php echo Form::textarea('text', Input::old('text', $comment->text)); ?>
+				<?php echo Form::textarea('text', Input::previous('text', $comment->text)); ?>
 			</p>
 
 			<p>
 				<label><?php echo __('comments.status', 'Status'); ?>:</label>
-				<?php echo Form::select('status', $statuses, Input::old('status', $comment->status)); ?>
+				<?php echo Form::select('status', $statuses, Input::previous('status', $comment->status)); ?>
 			</p>
 		</fieldset>
 

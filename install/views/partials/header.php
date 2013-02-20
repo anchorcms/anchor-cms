@@ -10,7 +10,7 @@
 	<body>
 
     	<nav>
-			<img src="<?php echo asset('../anchor/views/assets/img/logo.png'); ?>">
+			<img src="<?php echo asset('views/assets/img/logo.png'); ?>">
 
 			<ul>
 				<li class="database metadata account complete">Database information</li>

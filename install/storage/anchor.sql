@@ -4,7 +4,7 @@ CREATE TABLE `categories` (
   `slug` varchar(40) NOT NULL,
   `description` text NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB CHARSET=utf8;
+) ENGINE=InnoDB CHARSET={{charset}};
 
 CREATE TABLE `comments` (
   `id` int(6) NOT NULL AUTO_INCREMENT,
@@ -17,7 +17,7 @@ CREATE TABLE `comments` (
   PRIMARY KEY (`id`),
   KEY `post` (`post`),
   KEY `status` (`status`)
-) ENGINE=InnoDB CHARSET=utf8;
+) ENGINE=InnoDB CHARSET={{charset}};
 
 CREATE TABLE `extend` (
   `id` int(6) NOT NULL AUTO_INCREMENT,
@@ -27,13 +27,13 @@ CREATE TABLE `extend` (
   `label` varchar(160) NOT NULL,
   `attributes` text NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB CHARSET=utf8;
+) ENGINE=InnoDB CHARSET={{charset}};
 
 CREATE TABLE `meta` (
   `key` varchar(140) NOT NULL,
   `value` text NOT NULL,
   PRIMARY KEY (`key`)
-) ENGINE=InnoDB CHARSET=utf8;
+) ENGINE=InnoDB CHARSET={{charset}};
 
 CREATE TABLE `page_meta` (
   `id` int(6) NOT NULL AUTO_INCREMENT,
@@ -43,7 +43,7 @@ CREATE TABLE `page_meta` (
   PRIMARY KEY (`id`),
   KEY `page` (`page`),
   KEY `extend` (`extend`)
-) ENGINE=InnoDB CHARSET=utf8;
+) ENGINE=InnoDB CHARSET={{charset}};
 
 CREATE TABLE `pages` (
   `id` int(6) NOT NULL AUTO_INCREMENT,
@@ -56,7 +56,7 @@ CREATE TABLE `pages` (
   PRIMARY KEY (`id`),
   KEY `status` (`status`),
   KEY `slug` (`slug`)
-) ENGINE=InnoDB CHARSET=utf8;
+) ENGINE=InnoDB CHARSET={{charset}};
 
 CREATE TABLE `post_meta` (
   `id` int(6) NOT NULL AUTO_INCREMENT,
@@ -66,7 +66,7 @@ CREATE TABLE `post_meta` (
   PRIMARY KEY (`id`),
   KEY `post` (`post`),
   KEY `extend` (`extend`)
-) ENGINE=InnoDB CHARSET=utf8;
+) ENGINE=InnoDB CHARSET={{charset}};
 
 CREATE TABLE `posts` (
   `id` int(6) NOT NULL AUTO_INCREMENT,
@@ -84,14 +84,14 @@ CREATE TABLE `posts` (
   PRIMARY KEY (`id`),
   KEY `status` (`status`),
   KEY `slug` (`slug`)
-) ENGINE=InnoDB CHARSET=utf8;
+) ENGINE=InnoDB CHARSET={{charset}};
 
 CREATE TABLE `sessions` (
   `id` char(32) NOT NULL,
-  `date` datetime NOT NULL,
+  `expire` int(10) NOT NULL,
   `data` text NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB CHARSET=utf8;
+) ENGINE=InnoDB CHARSET={{charset}};
 
 CREATE TABLE `users` (
   `id` int(6) NOT NULL AUTO_INCREMENT,
@@ -103,7 +103,7 @@ CREATE TABLE `users` (
   `status` enum('inactive','active') NOT NULL,
   `role` enum('administrator','editor','user') NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB CHARSET=utf8;
+) ENGINE=InnoDB CHARSET={{charset}};
 
 INSERT INTO `categories` (`title`, `slug`, `description`) VALUES
 ('Uncategorised', 'uncategorised', 'Ain\'t no category here.');
@@ -122,4 +122,4 @@ INSERT INTO `pages` (`slug`, `name`, `title`, `content`, `status`, `redirect`) V
 ('posts', 'Posts', 'My posts and thoughts', '<p>Welcome!</p>', 'published', '');
 
 INSERT INTO `posts` (`title`, `slug`, `description`, `html`, `css`, `js`, `created`, `author`, `category`, `status`, `comments`) VALUES
-('Hello World', 'hello-world', 'This is the first post.', '### Hello', '', '', '[[now]]', '1', '1', 'published', '0');
+('Hello World', 'hello-world', 'This is the first post.', '### Hello', '', '', '{{now}}', '1', '1', 'published', '0');

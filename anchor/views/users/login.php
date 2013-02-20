@@ -11,7 +11,7 @@
 		<fieldset>
 			<p><label for="user"><?php echo __('users.username', 'Username'); ?>:</label>
 			<input autofocus placeholder="Username" autocapitalize="off" name="user" id="user"
-				value="<?php echo filter_var(Input::old('user'), FILTER_SANITIZE_STRING); ?>"></p>
+				value="<?php echo filter_var(Input::previous('user'), FILTER_SANITIZE_STRING); ?>"></p>
 
 			<p><label for="pass"><?php echo __('users.password', 'Password'); ?>:</label>
 			<input placeholder="Password" type="password" name="pass" id="pass"></p>

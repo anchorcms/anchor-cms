@@ -3,142 +3,141 @@
 /**
  * Nano
  *
- * Lightweight php framework
+ * Just another php framework
  *
  * @package		nano
- * @author		k. wilson
  * @link		http://madebykieron.co.uk
+ * @copyright	http://unlicense.org/
  */
+
+use ErrorException;
+use OverflowException;
 
 class Uri {
 
-	public static $uri, $url, $index;
+	/**
+	 * The current uri
+	 *
+	 * @var string
+	 */
+	public static $current;
 
-	public static function make($uri) {
-		if(strpos($uri, '://') !== false) return $uri;
+	/**
+	 * Get a path relative to the application
+	 *
+	 * @param string
+	 * @return string
+	 */
+	public static function to($uri) {
+		$base = Config::app('url', '');
 
-		$base = str_finish(static::$url, '/');
-
-		if(strlen(static::$index)) {
-			$base .= static::$index . '/';
+		if($index = Config::app('index', '')) {
+			$index .= '/';
 		}
 
-		if(starts_with($uri, $base)) {
-			return $uri;
-		}
-
-		return $base . $uri;
+		return rtrim($base, '/') . '/' . $index . ltrim($uri, '/');
 	}
 
+	/**
+	 * Get the current uri string
+	 *
+	 * @return string
+	 */
 	public static function current() {
-		if(static::$uri) return static::$uri;
+		if(is_null(static::$current)) static::$current = static::detect();
 
-		return static::$uri = static::detect();
+		return static::$current;
 	}
 
-	private static function detect() {
-		$attempts = array('PATH_INFO', 'REQUEST_URI');
+	/**
+	 * Try and detect the current uri
+	 *
+	 * @return string
+	 */
+	public static function detect() {
+		$try = array('PATH_INFO', 'REQUEST_URI');
 
-		foreach($attempts as $variable) {
-			if(isset($_SERVER[$variable])) {
-				if(($uri = parse_url($_SERVER[$variable], PHP_URL_PATH)) === false) {
-					throw new \ErrorException('Malformed request URI');
+		foreach($try as $method) {
+			if($uri = Arr::get($_SERVER, $method)) {
+				// make sure the uri is not malformed
+				if($uri = parse_url($uri, PHP_URL_PATH)) {
+					return static::format($uri);
 				}
 
-				return static::format($uri);
+				// woah jackie, we found a bad'n
+				throw new ErrorException('Malformed URI');
 			}
 		}
+
+		throw new OverflowException('Uri was not detected. Make sure the PATH_INFO or REQUEST_URI is set.');
 	}
 
-	private static function format($uri) {
-		// First we want to remove the application's base URL from the URI if it is
-		// in the string. It is possible for some of the parsed server variables to
-		// include the entire document root in the string.
-		$uri = static::remove_base($uri);
+	/**
+	 * Format the uri string remove any malicious
+	 * characters and relative paths
+	 *
+	 * @param string
+	 * @return string
+	 */
+	public static function format($uri) {
+		// Remove all characters except letters, digits and $-_.+!*'(),{}|\\^~[]`<>#%";/?:@&=.
+		$uri = filter_var(rawurldecode($uri), FILTER_SANITIZE_URL);
 
-		// Next we'll remove the index file from the URI if it is there and then
-		// finally trim down the URI. If the URI is left with spaces, we'll use
-		// a single slash for the root URI.
-		$uri = static::remove_index($uri);
+		// remove script path/name
+		$uri = static::remove_script_name($uri);
 
+		// remove the relative uri
+		$uri = static::remove_relative_uri($uri);
+
+		// return argument if not empty or return a single slash
 		return trim($uri, '/') ?: '/';
 	}
 
-	private static function remove_base($uri) {
-		if(is_null(static::$url)) {
-			static::$url = Config::get('application.url');
-		}
+	/**
+	 * Remove a value from the start of a string
+	 * in this case the passed uri string
+	 *
+	 * @param string
+	 * @param string
+	 * @return string
+	 */
+	public static function remove($value, $uri) {
+		// make sure our search value is a non-empty string
+		if(is_string($value) and strlen($value)) {
 
-		return static::remove($uri, static::$url);
-	}
-
-	private static function remove_index($uri) {
-		if(is_null(static::$index)) {
-			static::$index = Config::get('application.index');
-		}
-
-		return static::remove($uri, '/' . static::$index);
-	}
-
-	private static function remove($uri, $value) {
-		if( ! strlen($value)) return $uri;
-
-		return (strpos($uri, $value) === 0) ? substr($uri, strlen($value)) : $uri;
-	}
-
-	public static function build($segments = array()) {
-		// make sure we have all the fragments
-		foreach(array('scheme', 'host', 'port', 'user', 'pass', 'path', 'query', 'fragment') as $fragment) {
-			if( ! isset($segments[$fragment])) {
-				// set missing default
-				switch($fragment) {
-					case 'scheme':
-						$segments[$fragment] = 'http';
-						break;
-					case 'host':
-						$segments[$fragment] = $_SERVER['HTTP_HOST'];
-						break;
-					default:
-						$segments[$fragment] = '';
-				}
+			// if the search value is at the start sub it out
+			if(strpos($uri, $value) === 0) {
+				$uri = substr($uri, strlen($value));
 			}
 		}
 
-		$url = $segments['scheme'] . '://';
+		return $uri;
+	}
 
-		if($segments['user']) {
-			$url .= $segments['user'];
+	/**
+	 * Remove the SCRIPT_NAME from the uri path
+	 *
+	 * @param string
+	 * @return string
+	 */
+	public static function remove_script_name($uri) {
+		return static::remove(Arr::get($_SERVER, 'SCRIPT_NAME'), $uri);
+	}
 
-			if($segments['pass']) {
-				$url .= ':' . $segments['pass'];
-			}
+	/**
+	 * Remove the relative path from the uri set in the application config
+	 *
+	 * @param string
+	 * @return string
+	 */
+	public static function remove_relative_uri($uri) {
+		$base = Config::app('url');
 
-			$url .= '@';
+		if($index = Config::app('index')) {
+			$index .= '/';
 		}
 
-		$url .= trim($segments['host'], '/');
-
-		if($segments['port']) {
-			$url .= ':' . $segments['port'];
-		}
-
-		if($segments['path']) {
-			$url .= '/' . trim($segments['path'], '/');
-		}
-
-		if($segments['query']) {
-			if(is_array($segments['query'])) {
-				$segments['query'] = http_build_query($segments['query']);
-			}
-
-			$url .= '?' . htmlentities($segments['query'], ENT_COMPAT, 'UTF-8', false);
-		}
-
-		if($segments['fragment']) {
-			$url .= '#' . urlencode($segments['fragment']);
-		}
-
-		return $url;
+		return static::remove($base . $index, $uri);
 	}
 
 }

@@ -3,62 +3,145 @@
 /**
  * Nano
  *
- * Lightweight php framework
+ * Just another php framework
  *
  * @package		nano
- * @author		k. wilson
  * @link		http://madebykieron.co.uk
+ * @copyright	http://unlicense.org/
  */
 
-use System\Routing\Filters;
+use InvalidArgumentException;
 
 class Route {
 
-	private $action, $args = array();
+	/**
+	 * Array of callable functions
+	 *
+	 * @var array
+	 */
+	public $actions;
 
-	public static $filters = array();
+	/**
+	 * The collected arguments from the uri match
+	 *
+	 * @var array
+	 */
+	public $args = array();
 
+	/**
+	 * Define a route using the method name as
+	 * the request method to listen for
+	 *
+	 * @param string
+	 * @param array
+	 */
 	public static function __callStatic($method, $arguments) {
-		list($route, $action) = $arguments;
+		list($patterns, $args) = $arguments;
 
-		if(is_string($route)) $route = array($route);
+		static::register($method, $patterns, $args);
+	}
 
-		foreach($route as $http) {
-			Router::register($method, $http, $action);
+	/**
+	 * Register a route to add to the router
+	 *
+	 * @param string
+	 * @param array|string
+	 * @param array
+	 */
+	public static function register($method, $patterns, $args) {
+		if( ! is_array($patterns)) {
+			$patterns = array($patterns);
+		}
+
+		if(is_callable($args)) {
+			$args = array('main' => $args);
+		}
+
+		if( ! isset($args['main'])) {
+			throw new InvalidArgumentException('No `main` index was passed');
+		}
+
+		foreach($patterns as $pattern) {
+			Router::$routes[strtoupper($method)][$pattern] = $args;
 		}
 	}
 
-	public static function filter($name, $action) {
-		Filters::$actions[$name] = $action;
+	/**
+	 * Register a action to be called on before or after
+	 *
+	 * @param string
+	 * @param string|closure
+	 */
+	public static function action($name, $func) {
+		Router::$actions[$name] = $func;
 	}
 
-	public function __construct($action, $args = array()) {
-		$this->action = $action;
+	/**
+	 * Create a new instance of the Route class
+	 *
+	 * @param array
+	 * @param array
+	 */
+	public function __construct($funcs, $args = array()) {
+		$this->actions = $funcs;
 		$this->args = $args;
 	}
 
-	public function call() {
-		$response = null;
+	/**
+	 * Calls the before action
+	 *
+	 * @return object
+	 */
+	public function before() {
+		if(isset($this->actions['before'])) {
+			$name = $this->actions['before'];
 
-		if(is_array($this->action)) {
-			if(isset($this->action['before'])) {
-				$response = Filters::run($this->action['before']);
+			if(isset(Router::$actions[$name])) {
+				return call_user_func_array(Router::$actions[$name], $this->args);
 			}
+		}
+	}
 
-			$this->action = $this->action['do'];
+	/**
+	 * Calls the after action
+	 *
+	 * @param string
+	 */
+	public function after($response) {
+		if(isset($this->actions['after'])) {
+			$name = $this->actions['after'];
+
+			if(isset(Router::$actions[$name])) {
+				call_user_func(Router::$actions[$name], $response);
+			}
+		}
+	}
+
+	/**
+	 * Calls the route actions and returns a response object
+	 *
+	 * @return object
+	 */
+	public function run() {
+		$response = $this->before();
+
+		if(is_null($response)) {
+			$response = call_user_func_array($this->actions['main'], $this->args);
 		}
 
-		if(is_null($response)) $response = call_user_func_array($this->action, $this->args);
+		$this->after($response);
 
-		if($response instanceof Response) {
-			return $response;
-		}
-
+		// Create a response from a View
 		if($response instanceof View) {
-			$response = $response->render();
+			$response = Response::create($response->yield());
 		}
 
-		return new Response($response);
+		// Create a response from a String
+		if(is_string($response)) {
+			$response = Response::create($response);
+		}
+
+		return $response;
 	}
 
 }

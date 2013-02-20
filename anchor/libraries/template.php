@@ -19,4 +19,8 @@ class Template extends View {
 		$this->vars = array_merge($this->vars, $vars);
 	}
 
+	public function __toString() {
+		return $this->yield();
+	}
+
 }

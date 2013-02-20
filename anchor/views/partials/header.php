@@ -25,7 +25,7 @@
 				<nav>
 					<ul>
 						<li class="logo">
-							<a href="<?php echo url('admin'); ?>">Anchor CMS</a>
+							<a href="<?php echo admin_url(); ?>">Anchor CMS</a>
 						</li>
 
 						<?php $menu = array('posts', 'comments', 'pages', 'categories', 'users', 'extend'); ?>

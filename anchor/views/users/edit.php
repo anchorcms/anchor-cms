@@ -15,29 +15,29 @@
 		<fieldset class="half split">
 			<p>
 				<label><?php echo __('users.real_name', 'Real name'); ?>:</label>
-				<?php echo Form::text('real_name', Input::old('real_name', $user->real_name)); ?>
+				<?php echo Form::text('real_name', Input::previous('real_name', $user->real_name)); ?>
 			</p>
 
 			<p>
 				<label><?php echo __('users.bio', 'Biography'); ?>:</label>
-				<?php echo Form::textarea('bio', Input::old('bio', $user->bio), array('cols' => 20)); ?>
+				<?php echo Form::textarea('bio', Input::previous('bio', $user->bio), array('cols' => 20)); ?>
 			</p>
 
 			<p>
 				<label><?php echo __('users.status', 'Status'); ?>:</label>
-				<?php echo Form::select('status', $statuses, Input::old('status', $user->status)); ?>
+				<?php echo Form::select('status', $statuses, Input::previous('status', $user->status)); ?>
 			</p>
 
 			<p>
 				<label><?php echo __('users.role', 'Role'); ?>:</label>
-				<?php echo Form::select('role', $roles, Input::old('role', $user->role)); ?>
+				<?php echo Form::select('role', $roles, Input::previous('role', $user->role)); ?>
 			</p>
 		</fieldset>
 
 		<fieldset class="half split">
 			<p>
 				<label><?php echo __('users.username', 'Username'); ?>:</label>
-				<?php echo Form::text('username', Input::old('username', $user->username)); ?>
+				<?php echo Form::text('username', Input::previous('username', $user->username)); ?>
 			</p>
 
 			<p>
@@ -47,7 +47,7 @@
 
 			<p>
 				<label><?php echo __('users.email', 'Email'); ?>:</label>
-				<?php echo Form::text('email', Input::old('email', $user->email)); ?>
+				<?php echo Form::text('email', Input::previous('email', $user->email)); ?>
 			</p>
 		</fieldset>
 

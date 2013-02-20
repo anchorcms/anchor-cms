@@ -14,21 +14,21 @@
 		<fieldset class="split">
 			<p>
 				<label><?php echo __('categories.title', 'Title'); ?>:</label>
-				<?php echo Form::text('title', Input::old('title', $category->title)); ?>
+				<?php echo Form::text('title', Input::previous('title', $category->title)); ?>
 
 				<em><?php echo __('categories.title_explain', 'Your category title.'); ?></em>
 			</p>
 
 			<p>
 				<label><?php echo __('categories.slug', 'Slug'); ?>:</label>
-				<?php echo Form::text('slug', Input::old('slug', $category->slug)); ?>
+				<?php echo Form::text('slug', Input::previous('slug', $category->slug)); ?>
 
 				<em><?php echo __('categories.slug_explain', 'The slug for your category.'); ?></em>
 			</p>
 
 			<p>
 				<label><?php echo __('categories.description', 'Description'); ?>:</label>
-				<?php echo Form::textarea('description', Input::old('description', $category->description)); ?>
+				<?php echo Form::textarea('description', Input::previous('description', $category->description)); ?>
 
 				<em><?php echo __('categories.description_explain', 'What your category is about.'); ?></em>
 			</p>

@@ -1,13 +1,13 @@
 <?php
 
-class Category extends Model {
+class Category extends Record {
 
 	public static $table = 'categories';
 
 	public static function dropdown() {
 		$items = array();
 
-		foreach(static::all() as $item) {
+		foreach(static::get() as $item) {
 			$items[$item->id] = $item->title;
 		}
 
@@ -23,9 +23,9 @@ class Category extends Model {
 
 		$count = $query->count();
 
-		$results = $query->take($perpage)->skip(($page - 1) * $perpage)->order_by('title')->get();
+		$results = $query->take($perpage)->skip(($page - 1) * $perpage)->sort('title')->get();
 
-		return new Paginator($results, $count, $page, $perpage, url('categories'));
+		return new Paginator($results, $count, $page, $perpage, Uri::to('categories'));
 	}
 
 }

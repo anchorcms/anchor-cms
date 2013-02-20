@@ -25,7 +25,7 @@ function menu_items() {
 	if($result = $pages->valid()) {
 		$item = $pages->current();
 
-		$item->active = str_contains(Uri::current(), $item->slug);
+		$item->active = strpos(Uri::current(), $item->slug) !== false;
 
 		$item->url = base_url($item->slug);
 

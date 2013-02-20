@@ -10,7 +10,7 @@
 		<fieldset>
 			<p><label for="email"><?php echo __('users.email', 'Email'); ?>:</label>
 			<input autofocus placeholder="Email address" autocapitalize="off" name="email" id="email"
-				value="<?php echo Input::old('email'); ?>"></p>
+				value="<?php echo Input::previous('email'); ?>"></p>
 
 
 			<p class="buttons">

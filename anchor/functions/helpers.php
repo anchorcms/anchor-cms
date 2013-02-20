@@ -11,7 +11,7 @@ function full_url($url = '') {
 }
 
 function base_url($url = '') {
-    return Uri::make($url);
+    return Uri::to($url);
 }
 
 function theme_url($file = '') {
@@ -30,10 +30,6 @@ function asset_url($extra = '') {
 
 function current_url() {
 	return Uri::current();
-}
-
-function admin_url($url = '') {
-    return base_url('admin/' . ltrim($url, '/'));
 }
 
 function search_url() {

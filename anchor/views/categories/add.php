@@ -14,21 +14,21 @@
 		<fieldset class="split">
 			<p>
 				<label for="title"><?php echo __('categories.title', 'Title'); ?>:</label>
-				<input id="title" name="title" value="<?php echo Input::old('title'); ?>">
+				<input id="title" name="title" value="<?php echo Input::previous('title'); ?>">
 
 				<em><?php echo __('categories.title_explain', 'Your category title.'); ?></em>
 			</p>
 
 			<p>
 				<label for="slug"><?php echo __('categories.slug', 'Slug'); ?>:</label>
-				<input id="slug" name="slug" value="<?php echo Input::old('slug'); ?>">
+				<input id="slug" name="slug" value="<?php echo Input::previous('slug'); ?>">
 
 				<em><?php echo __('categories.slug_explain', 'The slug for your category.'); ?></em>
 			</p>
 
 			<p>
 				<label for="description"><?php echo __('categories.description', 'Description'); ?>:</label>
-				<textarea id="description" name="description"><?php echo Input::old('description'); ?></textarea>
+				<textarea id="description" name="description"><?php echo Input::previous('description'); ?></textarea>
 
 				<em><?php echo __('categories.description_explain', 'What your category is about.'); ?></em>
 			</p>

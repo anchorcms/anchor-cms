@@ -38,7 +38,7 @@ function posts() {
 			$query->where('category', '=', $category->id);
 		}
 
-		$posts = $query->order_by('created', 'desc')->take($per_page)->skip($page * $per_page)->get();
+		$posts = $query->sort('created', 'desc')->take($per_page)->skip($page * $per_page)->get();
 
 		$posts = new Items($posts);
 

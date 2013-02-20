@@ -1,6 +1,6 @@
 <?php
 
-class Page extends Model {
+class Page extends Record {
 
 	public static $table = 'pages';
 
@@ -9,9 +9,9 @@ class Page extends Model {
 
 		$count = $query->count();
 
-		$results = $query->take($perpage)->skip(($page - 1) * $perpage)->order_by('title')->get();
+		$results = $query->take($perpage)->skip(($page - 1) * $perpage)->sort('title')->get();
 
-		return new Paginator($results, $count, $page, $perpage, admin_url('pages'));
+		return new Paginator($results, $count, $page, $perpage, Uri::to('admin/pages'));
 	}
 
 	public static function slug($slug) {
@@ -19,17 +19,17 @@ class Page extends Model {
 	}
 
 	public static function home() {
-		return static::find(Config::get('meta.home_page'));
+		return static::find(Config::meta('home_page'));
 	}
 
 	public static function posts() {
-		return static::find(Config::get('meta.posts_page'));
+		return static::find(Config::meta('posts_page'));
 	}
 
 	public static function dropdown() {
 		$items = array();
 
-		foreach(static::all() as $page) {
+		foreach(static::get() as $page) {
 			$items[$page->id] = $page->name;
 		}
 

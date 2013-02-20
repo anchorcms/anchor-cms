@@ -30,4 +30,4 @@ define('APP', PATH . 'install' . DS);
 define('SYS', PATH . 'system' . DS);
 define('EXT', '.php');
 
-require SYS . 'bootstrap' . EXT;
+require SYS . 'start' . EXT;
