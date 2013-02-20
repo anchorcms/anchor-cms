@@ -19,7 +19,7 @@
 					'class' => 'btn'
 				)); ?>
 
-				<?php echo Html::link(admin_url('posts/delete/' . $article->id), __('posts.delete', 'Delete'), array(
+				<?php echo Html::link('admin/posts/delete/' . $article->id, __('posts.delete', 'Delete'), array(
 					'class' => 'btn delete red'
 				)); ?>
 			</aside>

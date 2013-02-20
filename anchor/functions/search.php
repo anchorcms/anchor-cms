@@ -10,7 +10,7 @@ function has_search_results() {
 		$term = Registry::get('search_term');
 
 		$query = Post::where('status', '=', 'published')
-			->where('title', 'like', $term . '%');
+			->where('title', 'like', '%' . $term . '%');
 
 		$total = $query->count();
 
@@ -31,7 +31,7 @@ function search_results() {
 		$term = Registry::get('search_term');
 
 		$posts = Post::where('status', '=', 'published')
-			->where('title', 'like', $term . '%')
+			->where('title', 'like', '%' . $term . '%')
 			->take($per_page)
 			->skip($page * $per_page)
 			->get();
