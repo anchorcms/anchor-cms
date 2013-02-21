@@ -1,7 +1,7 @@
 /**
  *
  */
- 
+
 h1 {
 	padding: 80px 0 40px;
 
@@ -17,7 +17,7 @@ h1 {
 .slidey {
 	overflow: hidden;
 	padding: 30px 0;
-	
+
 	background: #f3f5f8;
 	border-bottom: 1px solid #e5e8ed;
 }
@@ -30,7 +30,7 @@ h1 {
 		display: block;
 		font-weight: 500;
 		padding-bottom: 15px;
-		
+
 		font-size: 15px;
 		font-weight: 500;
 	}
@@ -48,7 +48,7 @@ h1 {
 		.slidey a {
 			display: block;
 			text-decoration: none;
-			
+
 			color: #717985;
 		}
 			.slidey a:hover {
@@ -62,17 +62,17 @@ h1 {
 #top {
 	overflow: hidden;
 	padding: 20px 35px;
-	
+
 	background: #fff;
 	border-bottom: 1px solid rgba(22,36,54,.1);
 }
 	#top a {
 		float: left;
-		
+
 		font-size: 13px;
 		font-weight: 500;
 		text-decoration: none;
-		
+
 		color: #8895a7;
 	}
 		#top #logo:hover, #top ul a:hover, #top ul .active a, .posts .items li:first-child h2 a:hover, p a:hover {
@@ -93,13 +93,13 @@ h1 {
 		#top ul img {
 			display: inline-block;
 			vertical-align: middle;
-			
+
 			position: relative;
 			top: -2px;
-			
+
 			width: 16px;
 			height: 16px;
-			
+
 			opacity: .4;
 		}
 			#top ul a:hover img {
@@ -117,7 +117,7 @@ h1 {
 }
 	.items > li {
 		padding: 70px 0 60px;
-		
+
 		color: #97aec9;
 		background: #3c4552;
 	}
@@ -125,7 +125,8 @@ h1 {
 			background: #fff !important;
 			padding: 110px 0;
 		}
-			.items li h1 a, .posts .items > li:first-child h2 a {
+			.items li h1 a,
+			.items > li:first-child h2 a {
 				color: #3d4551;
 			}
 	.items h1 {
@@ -141,10 +142,10 @@ h1 {
 		.items h2 a {
 			display: block;
 			padding-bottom: 12px;
-			
+
 			color: #fff;
 			color: rgba(176,200,236,.8);
-			
+
 			text-decoration: none;
 		}
 			.items h2 a:hover {
@@ -156,7 +157,7 @@ h1 {
 		.items .content p {
 			padding-bottom: 15px;
 		}
-		
+
 /**
  *   Pagination
  */
@@ -164,7 +165,7 @@ h1 {
 	overflow: hidden;
 	padding: 30px 0;
 	margin-bottom: 50px;
-	
+
 	border-top: 1px solid rgba(22,36,54,.1);
 	border-bottom: 1px solid rgba(22,36,54,.1);
 }
@@ -174,10 +175,10 @@ h1 {
 	.pagination a {
 		float: left;
 		text-decoration: none;
-		
+
 		font-size: 13px;
 		font-weight: 500;
-		
+
 		color: #6f7b8b;
 	}
 		.pagination a:hover {
@@ -186,7 +187,7 @@ h1 {
 	.pagination a.next {
 		float: right;
 	}
-	
+
 /**
  *   Give some extra space to single-page wrappers
  */
@@ -220,7 +221,7 @@ h1 {
  */
 ul.commentlist {
 	margin-bottom: 40px;
-	
+
 	list-style: none;
 	border-top: 1px solid rgba(22,36,54,.1);
 }
@@ -242,7 +243,7 @@ ul.commentlist {
 			position: absolute;
 			right: 0;
 			top: 0;
-			
+
 			font-size: 25px;
 			font-weight: 300;
 			color: #cdd2da;
@@ -259,7 +260,7 @@ ul.commentlist {
 		width: 48%;
 		margin-right: 4%;
 		margin-bottom: 10px;
-		
+
 		text-indent: 0;
 	}
 		#comment p + p {
@@ -272,10 +273,10 @@ ul.commentlist {
 	#comment input, #comment textarea {
 		width: 100%;
 		padding: 10px 15px;
-		
+
 		font-size: 15px;
 		font-weight: normal;
-		
+
 		border: 1px solid rgba(22,36,54,.2);
 		border-radius: 4px;
 	}
@@ -291,21 +292,21 @@ ul.commentlist {
 	#comment button {
 		display: inline-block;
 		padding: 9px 18px;
-		
+
 		background: #4e82ce;
 		color: #fff;
-		
+
 		border: none;
 		border-radius: 5px;
 		cursor: pointer;
-		
+
 		font-size: 13px;
 		font-weight: 500;
 	}
 		#comment button:hover {
 			background: #3c6eb7;
 		}
-	
+
 /**
  *   Footer
  */
@@ -319,7 +320,7 @@ ul.commentlist {
 		#bottom li {
 			float: left;
 			padding-left: 35px;
-			
+
 			font-size: 14px;
 		}
 		#bottom a {

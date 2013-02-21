@@ -68,7 +68,7 @@ function body_class() {
 // page type helpers
 function is_homepage() {
 	if($itm = Registry::get('page')) {
-		return isset($itm->id) and $itm->id == Config::get('meta.home_page');
+		return isset($itm->id) and $itm->id == Config::meta('home_page');
 	}
 
 	return false;
@@ -76,7 +76,7 @@ function is_homepage() {
 
 function is_postspage() {
 	if($itm = Registry::get('page')) {
-		return isset($itm->id) and $itm->id == Config::get('meta.posts_page');
+		return isset($itm->id) and $itm->id == Config::meta('posts_page');
 	}
 
 	return false;
