@@ -37,7 +37,7 @@
 		<aside class="buttons">
 			<?php echo Form::button(__('categories.save', 'Save'), array('type' => 'submit', 'class' => 'btn')); ?>
 
-			<?php echo Html::link(admin_url('categories/delete/' . $category->id), __('categories.delete', 'Delete'), array(
+			<?php echo Html::link('admin/categories/delete/' . $category->id, __('categories.delete', 'Delete'), array(
 				'class' => 'btn delete red'
 			)); ?>
 		</aside>

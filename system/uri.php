@@ -29,6 +29,11 @@ class Uri {
 	 * @return string
 	 */
 	public static function to($uri) {
+		// dont format absolute uri's
+		if(strpos($uri, '://')) {
+			return $uri;
+		}
+
 		$base = Config::app('url', '');
 
 		if($index = Config::app('index', '')) {

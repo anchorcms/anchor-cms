@@ -155,12 +155,8 @@ check('Anchor requires the php module <code>pdo_mysql</code> to be installed.', 
 
 if(count($GLOBALS['errors'])) {
 	$vars['errors'] = $GLOBALS['errors'];
-	$vars['uri'] = $GLOBALS['INSTALL_URL'];
 
-	$vars['header'] = View::create('partials/header', $vars)->yeild();
-	$vars['footer'] = View::create('partials/footer', $vars)->yeild();
-
-	echo Layout::create('halt', $vars);
+	echo Layout::create('halt', $vars)->yield();
 
 	exit(0);
 }

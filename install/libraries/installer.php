@@ -31,9 +31,6 @@ class Installer {
 		// write application config
 		static::application($settings);
 
-		// write session config
-		static::session($settings);
-
 		// install htaccess file
 		static::rewrite($settings);
 	}
@@ -119,14 +116,6 @@ class Installer {
 		));
 
 		file_put_contents(PATH . 'anchor/config/app.php', $distro);
-	}
-
-	private static function session($settings) {
-		$distro = Braces::compile(APP . 'storage/session.distro.php', array(
-			'session' => 'database'
-		));
-
-		file_put_contents(PATH . 'anchor/config/session.php', $distro);
 	}
 
 	private static function rewrite($settings) {
