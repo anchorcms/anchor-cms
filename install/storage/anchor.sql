@@ -119,7 +119,7 @@ INSERT INTO `meta` (`key`, `value`) VALUES
 ('twitter', '');
 
 INSERT INTO `pages` (`slug`, `name`, `title`, `content`, `status`, `redirect`) VALUES
-('posts', 'Posts', 'My posts and thoughts', '<p>Welcome!</p>', 'published', '');
+('posts', 'Posts', 'My posts and thoughts', 'Welcome!', 'published', '');
 
 INSERT INTO `posts` (`title`, `slug`, `description`, `html`, `css`, `js`, `created`, `author`, `category`, `status`, `comments`) VALUES
 ('Hello World', 'hello-world', 'This is the first post.', '### Hello', '', '', '[[now]]', '1', '1', 'published', '0');
