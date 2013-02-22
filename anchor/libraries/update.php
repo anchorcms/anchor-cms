@@ -4,7 +4,7 @@ class Update {
 
 	public static function version() {
 		// first time
-		if( ! $last = Config::get('meta.last_update_check')) {
+		if( ! $last = Config::meta('last_update_check')) {
 			$last = static::setup();
 		}
 
@@ -17,12 +17,13 @@ class Update {
 	public static function setup() {
 		$version = static::touch();
 		$today = date('Y-m-d H:i:s');
+		$table = Base::table('meta');
 
-		Query::table('meta')->insert(array('key' => 'last_update_check', 'value' => $today));
-		Query::table('meta')->insert(array('key' => 'update_version', 'value' => $version));
+		Query::table($table)->insert(array('key' => 'last_update_check', 'value' => $today));
+		Query::table($table)->insert(array('key' => 'update_version', 'value' => $version));
 
 		// reload database metadata
-		foreach(Query::table('meta')->get() as $item) {
+		foreach(Query::table($table)->get() as $item) {
 			$meta[$item->key] = $item->value;
 		}
 
@@ -32,12 +33,13 @@ class Update {
 	public static function renew() {
 		$version = static::touch();
 		$today = date('Y-m-d H:i:s');
+		$table = Base::table('meta');
 
-		Query::table('meta')->where('key', '=', 'last_update_check')->update(array('value' => $today));
-		Query::table('meta')->where('key', '=', 'update_version')->update(array('value' => $version));
+		Query::table($table)->where('key', '=', 'last_update_check')->update(array('value' => $today));
+		Query::table($table)->where('key', '=', 'update_version')->update(array('value' => $version));
 
 		// reload database metadata
-		foreach(Query::table('meta')->get() as $item) {
+		foreach(Query::table($table)->get() as $item) {
 			$meta[$item->key] = $item->value;
 		}
 
