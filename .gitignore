@@ -19,5 +19,9 @@ Thumbs.db
 /themes/*
 !/themes/default
 
+# uploaded content
+/content/*
+!/content/index.php
+
 # phpunit tests
 /tests

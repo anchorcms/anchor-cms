@@ -1,6 +1,6 @@
 <?php
 
-class User extends Record {
+class User extends Base {
 
 	public static $table = 'users';
 
@@ -15,7 +15,7 @@ class User extends Record {
 	}
 
 	public static function paginate($page = 1, $perpage = 10) {
-		$query = Query::table(static::$table);
+		$query = Query::table(static::table());
 
 		$count = $query->count();
 

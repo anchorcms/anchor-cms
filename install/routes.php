@@ -86,7 +86,7 @@ Route::get('database', array('before' => 'check', 'main' => function() {
 }));
 
 Route::post('database', array('before' => 'check', 'main' => function() {
-	$database = Input::get(array('host', 'port', 'user', 'pass', 'name', 'collation'));
+	$database = Input::get(array('host', 'port', 'user', 'pass', 'name', 'collation', 'prefix'));
 
 	// test connection
 	try {
@@ -97,7 +97,8 @@ Route::post('database', array('before' => 'check', 'main' => function() {
 			'port' => $database['port'],
 			'username' => $database['user'],
 			'password' => $database['pass'],
-			'charset' => 'utf8'
+			'charset' => 'utf8',
+			'prefix' => $database['prefix']
 		));
 	}
 	catch(PDOException $e) {

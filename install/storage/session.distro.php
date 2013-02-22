@@ -3,7 +3,7 @@
 return array(
 	'driver' => 'database',
 	'cookie' => 'anchorcms',
-	'table' => 'anchor_sessions',
+	'table' => '{{table}}',
 	'lifetime' => 86400,
 	'expire_on_close' => false,
 	'path' => '/',

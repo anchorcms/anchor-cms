@@ -17,7 +17,7 @@ class Installer {
 		static::connect($settings);
 
 		// install tables
-		static::schema();
+		static::schema($settings);
 
 		// insert metadata
 		static::metadata($settings);
@@ -30,6 +30,9 @@ class Installer {
 
 		// write application config
 		static::application($settings);
+
+		// write session config
+		static::session($settings);
 
 		// install htaccess file
 		static::rewrite($settings);
@@ -51,10 +54,13 @@ class Installer {
 		static::$connection = DB::factory($config);
 	}
 
-	private static function schema() {
+	private static function schema($settings) {
+		$database = $settings['database'];
+
 		$sql = Braces::compile(APP . 'storage/anchor.sql', array(
 			'now' => date('Y-m-d H:i:s'),
-			'charset' => 'utf8'
+			'charset' => 'utf8',
+			'prefix' => $database['prefix']
 		));
 
 		static::$connection->instance()->query($sql);
@@ -62,6 +68,7 @@ class Installer {
 
 	private static function metadata($settings) {
 		$metadata = $settings['metadata'];
+		$database = $settings['database'];
 
 		$config = array(
 			'sitename' => $metadata['site_name'],
@@ -69,7 +76,7 @@ class Installer {
 			'theme' => $metadata['theme']
 		);
 
-		$query = Query::table('meta', static::$connection);
+		$query = Query::table($database['prefix'] . 'meta', static::$connection);
 
 		foreach($config as $key => $value) {
 			$query->insert(array('key' => $key, 'value' => $value));
@@ -78,8 +85,9 @@ class Installer {
 
 	private static function account($settings) {
 		$account = $settings['account'];
+		$database = $settings['database'];
 
-		$query = Query::table('users', static::$connection);
+		$query = Query::table($database['prefix'] . 'users', static::$connection);
 
 		$query->insert(array(
 			'username' => $account['username'],
@@ -100,7 +108,8 @@ class Installer {
 			'port' => $database['port'],
 			'username' => $database['user'],
 			'password' => $database['pass'],
-			'database' => $database['name']
+			'database' => $database['name'],
+			'prefix' => $database['prefix']
 		));
 
 		file_put_contents(PATH . 'anchor/config/db.php', $distro);
@@ -116,6 +125,16 @@ class Installer {
 		));
 
 		file_put_contents(PATH . 'anchor/config/app.php', $distro);
+	}
+
+	private static function session($settings) {
+		$database = $settings['database'];
+
+		$distro = Braces::compile(APP . 'storage/session.distro.php', array(
+			'table' => $database['prefix'] . 'sessions'
+		));
+
+		file_put_contents(PATH . 'anchor/config/session.php', $distro);
 	}
 
 	private static function rewrite($settings) {

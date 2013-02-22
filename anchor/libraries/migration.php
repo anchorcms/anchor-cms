@@ -22,16 +22,19 @@ abstract class Migration {
 	}
 
 	public function has_table_column($table, $column) {
-		$sql = 'SHOW COLUMNS FROM `' . $table . '`';
-		$statement = DB::query($sql);
-		$statement->setFetchMode(PDO::FETCH_OBJ);
+		if($this->has_table($table)) {
+			$sql = 'SHOW COLUMNS FROM `' . $table . '`';
+			$statement = DB::query($sql);
+			$statement->setFetchMode(PDO::FETCH_OBJ);
 
-		$columns = array();
+			$columns = array();
 
-		foreach($statement->fetchAll() as $row) {
-			$columns[] = $row->Field;
+			foreach($statement->fetchAll() as $row) {
+				$columns[] = $row->Field;
+			}
+
+			return in_array($column, $columns);
 		}
-
-		return in_array($column, $columns);
+		else return false;
 	}
 }

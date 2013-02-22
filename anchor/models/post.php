@@ -1,11 +1,11 @@
 <?php
 
-class Post extends Record {
+class Post extends Base {
 
 	public static $table = 'posts';
 
 	public static function paginate($page = 1, $perpage = 10) {
-		$query = query::table(static::$table);
+		$query = query::table(static::table());
 
 		$count = $query->count();
 

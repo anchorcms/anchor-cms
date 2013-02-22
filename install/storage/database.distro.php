@@ -2,6 +2,7 @@
 
 return array(
 	'default' => 'mysql',
+	'prefix' => '{{prefix}}',
 	'connections' => array(
 		'mysql' => array(
 			'driver' => 'mysql',

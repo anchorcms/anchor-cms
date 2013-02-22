@@ -23,7 +23,7 @@
 					'class' => 'btn secondary'
 				)); ?>
 
-				<?php echo Html::link(admin_url('pages/delete/' . $page->id), __('posts.delete', 'Delete'), array(
+				<?php echo Html::link('admin/pages/delete/' . $page->id, __('posts.delete', 'Delete'), array(
 					'class' => 'btn delete red'
 				)); ?>
 			</aside>

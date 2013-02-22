@@ -11,11 +11,9 @@ class Registry {
 	}
 
 	public static function prop($object, $key) {
-		try {
-			if($obj = static::get($object)) {
-				return $obj->{$key};
-			}
-		} catch(Exception $e) {}
+		if($obj = static::get($object)) {
+			return $obj->{$key};
+		}
 	}
 
 	public static function set($key, $value) {

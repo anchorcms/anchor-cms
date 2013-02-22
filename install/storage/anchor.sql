@@ -1,4 +1,4 @@
-CREATE TABLE `categories` (
+CREATE TABLE `{{prefix}}categories` (
   `id` int(6) NOT NULL AUTO_INCREMENT,
   `title` varchar(150) NOT NULL,
   `slug` varchar(40) NOT NULL,
@@ -6,7 +6,7 @@ CREATE TABLE `categories` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB CHARSET={{charset}};
 
-CREATE TABLE `comments` (
+CREATE TABLE `{{prefix}}comments` (
   `id` int(6) NOT NULL AUTO_INCREMENT,
   `post` int(6) NOT NULL,
   `status` enum('pending','approved','spam') NOT NULL,
@@ -19,7 +19,7 @@ CREATE TABLE `comments` (
   KEY `status` (`status`)
 ) ENGINE=InnoDB CHARSET={{charset}};
 
-CREATE TABLE `extend` (
+CREATE TABLE `{{prefix}}extend` (
   `id` int(6) NOT NULL AUTO_INCREMENT,
   `type` enum('post','page') NOT NULL,
   `field` enum('text','html','image','file') NOT NULL,
@@ -29,13 +29,13 @@ CREATE TABLE `extend` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB CHARSET={{charset}};
 
-CREATE TABLE `meta` (
+CREATE TABLE `{{prefix}}meta` (
   `key` varchar(140) NOT NULL,
   `value` text NOT NULL,
   PRIMARY KEY (`key`)
 ) ENGINE=InnoDB CHARSET={{charset}};
 
-CREATE TABLE `page_meta` (
+CREATE TABLE `{{prefix}}page_meta` (
   `id` int(6) NOT NULL AUTO_INCREMENT,
   `page` int(6) NOT NULL,
   `extend` int(6) NOT NULL,
@@ -45,7 +45,7 @@ CREATE TABLE `page_meta` (
   KEY `extend` (`extend`)
 ) ENGINE=InnoDB CHARSET={{charset}};
 
-CREATE TABLE `pages` (
+CREATE TABLE `{{prefix}}pages` (
   `id` int(6) NOT NULL AUTO_INCREMENT,
   `slug` varchar(150) NOT NULL,
   `name` varchar(64) NOT NULL,
@@ -58,7 +58,7 @@ CREATE TABLE `pages` (
   KEY `slug` (`slug`)
 ) ENGINE=InnoDB CHARSET={{charset}};
 
-CREATE TABLE `post_meta` (
+CREATE TABLE `{{prefix}}post_meta` (
   `id` int(6) NOT NULL AUTO_INCREMENT,
   `post` int(6) NOT NULL,
   `extend` int(6) NOT NULL,
@@ -68,7 +68,7 @@ CREATE TABLE `post_meta` (
   KEY `extend` (`extend`)
 ) ENGINE=InnoDB CHARSET={{charset}};
 
-CREATE TABLE `posts` (
+CREATE TABLE `{{prefix}}posts` (
   `id` int(6) NOT NULL AUTO_INCREMENT,
   `title` varchar(150) NOT NULL,
   `slug` varchar(150) NOT NULL,
@@ -86,14 +86,14 @@ CREATE TABLE `posts` (
   KEY `slug` (`slug`)
 ) ENGINE=InnoDB CHARSET={{charset}};
 
-CREATE TABLE `sessions` (
+CREATE TABLE `{{prefix}}sessions` (
   `id` char(32) NOT NULL,
   `expire` int(10) NOT NULL,
   `data` text NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB CHARSET={{charset}};
 
-CREATE TABLE `users` (
+CREATE TABLE `{{prefix}}users` (
   `id` int(6) NOT NULL AUTO_INCREMENT,
   `username` varchar(100) NOT NULL,
   `password` text NOT NULL,
@@ -105,10 +105,10 @@ CREATE TABLE `users` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB CHARSET={{charset}};
 
-INSERT INTO `categories` (`title`, `slug`, `description`) VALUES
+INSERT INTO `{{prefix}}categories` (`title`, `slug`, `description`) VALUES
 ('Uncategorised', 'uncategorised', 'Ain\'t no category here.');
 
-INSERT INTO `meta` (`key`, `value`) VALUES
+INSERT INTO `{{prefix}}meta` (`key`, `value`) VALUES
 ('auto_published_comments', '0'),
 ('comment_moderation_keys', ''),
 ('comment_notifications', '0'),
@@ -118,8 +118,8 @@ INSERT INTO `meta` (`key`, `value`) VALUES
 ('posts_per_page',  '6'),
 ('twitter', '');
 
-INSERT INTO `pages` (`slug`, `name`, `title`, `content`, `status`, `redirect`) VALUES
+INSERT INTO `{{prefix}}pages` (`slug`, `name`, `title`, `content`, `status`, `redirect`) VALUES
 ('posts', 'Posts', 'My posts and thoughts', '<p>Welcome!</p>', 'published', '');
 
-INSERT INTO `posts` (`title`, `slug`, `description`, `html`, `css`, `js`, `created`, `author`, `category`, `status`, `comments`) VALUES
+INSERT INTO `{{prefix}}posts` (`title`, `slug`, `description`, `html`, `css`, `js`, `created`, `author`, `category`, `status`, `comments`) VALUES
 ('Hello World', 'hello-world', 'This is the first post.', '### Hello', '', '', '{{now}}', '1', '1', 'published', '0');

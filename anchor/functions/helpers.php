@@ -67,17 +67,9 @@ function body_class() {
 
 // page type helpers
 function is_homepage() {
-	if($itm = Registry::get('page')) {
-		return isset($itm->id) and $itm->id == Config::meta('home_page');
-	}
-
-	return false;
+	return Registry::prop('page', 'id') == Config::meta('home_page');
 }
 
 function is_postspage() {
-	if($itm = Registry::get('page')) {
-		return isset($itm->id) and $itm->id == Config::meta('posts_page');
-	}
-
-	return false;
+	return Registry::prop('page', 'id') == Config::meta('posts_page');
 }

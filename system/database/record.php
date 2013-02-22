@@ -20,6 +20,13 @@ abstract class Record {
 	public $data = array();
 
 	/**
+	 * The database table name prefix
+	 *
+	 * @var string
+	 */
+	public static $prefix;
+
+	/**
 	 * The database table
 	 *
 	 * @var array
@@ -132,7 +139,7 @@ abstract class Record {
 	 * @return mixed
 	 */
 	public static function __callStatic($method, $arguments) {
-		$obj = Query::table(static::$table)->apply(get_called_class());
+		$obj = Query::table(static::$prefix . static::$table)->apply(get_called_class());
 
 		if(method_exists($obj, $method)) {
 			return call_user_func_array(array($obj, $method), $arguments);

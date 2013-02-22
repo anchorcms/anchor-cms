@@ -12,14 +12,6 @@ class Migration_rename_config_files extends Migration {
 		}
 	}
 
-	public function down() {
-		if(is_writable($src = APP . 'config/app.php')) {
-			rename($src, APP . 'config/application.php');
-		}
-
-		if(is_writable($src = APP . 'config/db.php')) {
-			rename($src, APP . 'config/database.php');
-		}
-	}
+	public function down() {}
 
 }

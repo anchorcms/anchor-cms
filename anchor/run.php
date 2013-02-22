@@ -52,8 +52,10 @@ function show_installer() {
 }
 
 function load_meta() {
+	$table = Config::db('prefix', '') . 'meta';
+
 	// load database metadata
-	foreach(Query::table('meta')->get() as $item) {
+	foreach(Query::table($table)->get() as $item) {
 		$meta[$item->key] = $item->value;
 	}
 
@@ -104,7 +106,7 @@ function slug($str, $separator = '-') {
 	$str = normalize($str);
 
 	// replace non letter or digits by separator
-  	$str = preg_replace('#[^\\pL\d]+#u', $separator, $str);
+	$str = preg_replace('#[^\\pL\d]+#u', $separator, $str);
 
 	return trim(strtolower($str), $separator);
 }
@@ -122,6 +124,8 @@ function parse($str) {
 
 		$str = str_replace($search, $replace, $str);
 	}
+
+	$str = html_entity_decode($str, ENT_NOQUOTES, System\Config::app('encoding'));
 
 	$md = new Markdown;
 
@@ -153,16 +157,17 @@ $current = Config::get('meta.current_migration');
 $migrate_to = Config::get('migrations.current');
 
 $migrations = new Migrations($current);
+$table = Config::db('prefix', '') . 'meta';
 
 if(is_null($current)) {
 	$number = $migrations->up($migrate_to);
 
-	Query::table('meta')->insert(array(
+	Query::table($table)->insert(array(
 		'key' => 'current_migration',
 		'value' => $number
 	));
 }
 else if($current < $migrate_to) {
 	$number = $migrations->up($migrate_to);
-	Query::table('meta')->where('key', '=', 'current_migration')->update(array('value' => $number));
+	Query::table($table)->where('key', '=', 'current_migration')->update(array('value' => $number));
 }
