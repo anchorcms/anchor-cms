@@ -6,7 +6,7 @@
 
 	var Focus = {
 		//  Our element to focus
-		target: $('textarea[name=html]'),
+		target: $('div.CodeMirror'),
 		exitSpan: '#exit-focus',
 
 		enter: function() {
@@ -29,7 +29,7 @@
 	};
 
 	//  Bind textarea events
-	Focus.target.focus(Focus.enter).blur(Focus.exit);
+	Focus.target.focusin(Focus.enter).focusout(Focus.exit);
 
 	//  Bind key events
 	doc.keyup(function(e) {

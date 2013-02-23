@@ -37,7 +37,8 @@
 	<fieldset class="main">
 		<div class="wrap">
 			<?php echo Form::textarea('content', Input::old('content'), array(
-				'placeholder' => __('pages.content_explain', 'Your page’s content. Uses Markdown.')
+				'placeholder' => __('pages.content_explain', 'Your page’s content. Uses Markdown.'),
+				'id' => 'editor'
 			)); ?>
 		</div>
 	</fieldset>
@@ -71,6 +72,9 @@
 		</div>
 	</fieldset>
 </form>
+
+<!-- Initialize CodeMirror on "editor" textarea -->
+<script>var editor = CodeMirror.fromTextArea(document.getElementById("editor"), {mode: "text/html", theme: "anchor", tabMode: "indent", lineWrapping: true, lineNumbers: false});</script>
 
 <script src="<?php echo admin_asset('js/slug.js'); ?>"></script>
 <script src="<?php echo admin_asset('js/redirect.js'); ?>"></script>

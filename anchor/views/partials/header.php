@@ -15,6 +15,13 @@
 		<link rel="shortcut icon" href="<?php echo admin_asset('img/favicon.ico'); ?>">
 		<meta http-equiv="X-UA-Compatible" content="chrome=1">
 		<meta name="viewport" content="width=600">
+		
+		<!-- Load in master CodeMirror library and stylesheet -->
+		<link rel="stylesheet" href="<?php echo admin_asset('js/codemirror/lib/codemirror.min.css'); ?>">
+		<link rel="stylesheet" href="<?php echo admin_asset('js/codemirror/theme/custom.css'); ?>">
+		
+		<!-- Load in CodeMirror with text/html supported MIME type -->
+		<script src="<?php echo admin_asset('js/codemirror/lib/codemirror.min.js'); ?>"></script>
 	</head>
 	<body class="<?php echo Auth::guest() ? 'login' : 'admin'; ?>">
 
