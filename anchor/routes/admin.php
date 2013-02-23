@@ -784,7 +784,7 @@ Route::post('admin/pages/edit/(:num)', array('before' => 'auth', 'main' => funct
 	$input['slug'] = slug($input['slug']);
 
 	// convert html to entities
-	$input['content'] = e($input['content']);
+	//$input['content'] = e($input['content']);
 
 	Page::update($id, $input);
 
@@ -847,7 +847,7 @@ Route::post('admin/pages/add', array('before' => 'auth', 'main' => function() {
 	$input['slug'] = slug($input['slug']);
 
 	// convert html to entities
-	$input['content'] = e($input['content']);
+	//$input['content'] = e($input['content']);
 
 	$id = Page::create($input);
 
@@ -957,7 +957,7 @@ Route::post('admin/posts/edit/(:num)', array('before' => 'auth', 'main' => funct
 	}
 
 	// convert html to entities
-	$input['html'] = e($input['html']);
+	//$input['html'] = e($input['html']);
 
 	Post::update($id, $input);
 
@@ -1031,7 +1031,7 @@ Route::post('admin/posts/add', array('before' => 'auth', 'main' => function() {
 	}
 
 	// convert html to entities
-	$input['html'] = e($input['html']);
+	//$input['html'] = e($input['html']);
 
 	$post = Post::create($input);
 
