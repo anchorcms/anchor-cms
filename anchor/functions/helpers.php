@@ -66,3 +66,7 @@ function is_homepage() {
 function is_postspage() {
 	return Registry::prop('page', 'id') == Config::meta('posts_page');
 }
+
+function is_article() {
+	return Registry::get('article') !== null;
+}
