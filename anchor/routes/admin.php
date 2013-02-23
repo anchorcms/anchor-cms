@@ -27,6 +27,8 @@ Route::get('admin', function() {
 	Log in
 */
 Route::get('admin/login', function() {
+	if(Auth::user()) return Response::redirect('admin/posts');
+
 	$vars['messages'] = Notify::read();
 	$vars['token'] = Csrf::token();
 
@@ -67,6 +69,8 @@ Route::get('admin/logout', function() {
 	Amnesia
 */
 Route::get('admin/amnesia', function() {
+	if(Auth::user()) return Response::redirect('admin/posts');
+
 	$vars['messages'] = Notify::read();
 	$vars['token'] = Csrf::token();
 
