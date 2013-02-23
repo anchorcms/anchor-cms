@@ -7,6 +7,10 @@ Route::action('auth', function() {
 	if(Auth::guest()) return Response::redirect('admin/login');
 });
 
+Route::action('guest', function() {
+	if(Auth::user()) return Response::redirect('admin/posts');
+});
+
 Route::action('csrf', function() {
 	if( ! Csrf::check(Input::get('token'))) {
 		Notify::error(array('Invalid token'));
@@ -66,14 +70,14 @@ Route::get('admin/logout', function() {
 /*
 	Amnesia
 */
-Route::get('admin/amnesia', function() {
+Route::get('admin/amnesia', array('before' => 'guest', 'main' => function() {
 	$vars['messages'] = Notify::read();
 	$vars['token'] = Csrf::token();
 
 	return View::create('users/amnesia', $vars)
 		->partial('header', 'partials/header')
 		->partial('footer', 'partials/footer');
-});
+}));
 
 Route::post('admin/amnesia', array('before' => 'csrf', 'main' => function() {
 	$email = Input::get('email');
@@ -119,7 +123,7 @@ Route::post('admin/amnesia', array('before' => 'csrf', 'main' => function() {
 /*
 	Reset password
 */
-Route::get('admin/reset/(:any)', function($key) {
+Route::get('admin/reset/(:any)', array('before' => 'guest', 'main' => function($key) {
 	$vars['messages'] = Notify::read();
 	$vars['token'] = Csrf::token();
 	$vars['key'] = ($token = Session::get('token'));
@@ -133,7 +137,7 @@ Route::get('admin/reset/(:any)', function($key) {
 	return View::create('users/reset', $vars)
 		->partial('header', 'partials/header')
 		->partial('footer', 'partials/footer');
-});
+}));
 
 Route::post('admin/reset/(:any)', array('before' => 'csrf', 'main' => function($key) {
 	$password = Input::get('pass');
