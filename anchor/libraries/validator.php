@@ -50,7 +50,7 @@ class Validator {
 			return strpos($str, $needle) !== false;
 		};
 
-		$this->methods['regex'] = function($str, $needle) {
+		$this->methods['regex'] = function($str, $pattern) {
 			return preg_match($pattern, $str);
 		};
 	}

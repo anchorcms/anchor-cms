@@ -660,6 +660,9 @@ Route::post('admin/extend/metadata', array('before' => 'auth', 'main' => functio
 	$validator->check('description')
 		->is_max(3, __('metadata.missing_description'));
 
+	$validator->check('posts_per_page')
+		->is_regex('#^[0-9]+$#', __('metadata.missing_posts_per_page', 'Please enter a number for posts per page'));
+
 	if($errors = $validator->errors()) {
 		Input::flash();
 
