@@ -15,7 +15,7 @@ function has_menu_items() {
 
 function menu_items() {
 	if( ! $pages = Registry::get('menu')) {
-		$pages = Page::where('status', '=', 'published')->get();
+		$pages = Page::where('status', '=', 'published')->order_by( 'order' )->get();
 
 		$pages = new Items($pages);
 

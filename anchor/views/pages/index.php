@@ -1,5 +1,18 @@
 <?php echo $header; ?>
 
+<script src="<?=admin_asset( 'js/jquery-1.9.0.js' );?>"></script>
+<script src="<?=admin_asset( 'js/jquery-ui.js' );?>"></script>
+<script>
+	$( document ).ready(function(){
+		$( '#pages' ).sortable({
+			deactivate: function( ui, event )
+			{
+				$.post( '/admin/pages/reorder', $( '.list' ).sortable( 'serialize' ) );
+			}
+		});
+	});
+</script>
+
 <hgroup class="wrap">
 	<h1><?php echo __('pages.pages', 'Pages'); ?></h1>
 
@@ -14,9 +27,9 @@
 	<?php echo $messages; ?>
 
 	<?php if($pages->count): ?>
-	<ul class="list">
+	<ul id="pages" class="list">
 		<?php foreach($pages->results as $page): ?>
-		<li>
+		<li id="page_<?=$page->id;?>">
 			<a href="<?php echo admin_url('pages/edit/' . $page->id); ?>">
 				<strong><?php echo $page->name; ?></strong>
 
