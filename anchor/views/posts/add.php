@@ -25,7 +25,8 @@
 	<fieldset class="main">
 		<div class="wrap">
 			<?php echo Form::textarea('html', Input::old('html'), array(
-				'placeholder' => __('posts.content_explain', 'Just write.')
+				'placeholder' => __('posts.content_explain', 'Just write.'),
+				'id' => 'editor'
 			)); ?>
 		</div>
 	</fieldset>
@@ -80,6 +81,9 @@
 
 	<div class="media-upload"></div>
 </form>
+
+<!-- Initialize CodeMirror on "editor" textarea -->
+<script>var editor = CodeMirror.fromTextArea(document.getElementById("editor"), {mode: "application/x-httpd-php", theme: "anchor", tabMode: "indent", lineWrapping: true, lineNumbers: false});</script>
 
 <script src="<?php echo admin_asset('js/slug.js'); ?>"></script>
 <script src="<?php echo admin_asset('js/dragdrop.js'); ?>"></script>

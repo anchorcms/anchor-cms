@@ -77,10 +77,13 @@
 	text-decoration-style: dotted;
 }
 .cm-s-anchor .cm-strong { color: #eee; }
+
+/* Un-comment below to visualize tab character */
 /*.cm-s-anchor .cm-tab:before {
-	content: "→";   //visualize tab character*/
+	content: "→";
 	color: #586e75;
 }*/
+
 .cm-s-anchor .CodeMirror-focused .CodeMirror-selected {
 	background: #eee8d5;
 	color: inherit;
