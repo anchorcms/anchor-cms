@@ -308,7 +308,7 @@ Route::get(array(
 ), array('before' => 'auth', 'main' => function($status = 'all', $page = 1, $perpage = 10) {
 	$vars['messages'] = Notify::read();
 
-	$query = Query::table(Comment::$table);
+	$query = Query::table(Base::table(Comment::$table));
 
 	if(in_array($status, array('pending', 'approved', 'spam'))) {
 		$query->where('status', '=', $status);
