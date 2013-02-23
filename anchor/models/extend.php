@@ -169,11 +169,10 @@ class Extend extends Base {
 					$width = intval($extend->attributes->size->width);
 					$height = intval($extend->attributes->size->height);
 
-					// if a width and height is set and is not the same
-					// size as the uploaed file
+					// resize larger images
 					if(
 						($width and $height) and
-						($width <> $image->width() or $height <> $image->height())
+						($image->width() > $width or $image->height() > $height)
 					) {
 						$image->resize($width, $height);
 
