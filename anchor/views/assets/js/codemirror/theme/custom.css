@@ -1,0 +1,126 @@
+/* Custom code-mirror theme for Anchor ->
+	Based on solarized color pallet (http://ethanschoonover.com/solarized) */
+
+.anchor.base03 { color: #002b36; }
+.anchor.base02 { color: #073642; }
+.anchor.base01 { color: #586e75; }
+.anchor.base00 { color: #657b83; }
+.anchor.base0 { color: #839496; }
+.anchor.base1 { color: #93a1a1; }
+.anchor.base2 { color: #eee8d5; }
+.anchor.base3  { color: #fdf6e3; }
+.anchor.solar-yellow  { color: #b58900; }
+.anchor.solar-orange  { color: #cb4b16; }
+.anchor.solar-red { color: #dc322f; }
+.anchor.solar-magenta { color: #d33682; }
+.anchor.solar-violet  { color: #6c71c4; }
+.anchor.solar-blue { color: #268bd2; }
+.anchor.solar-cyan { color: #2aa198; }
+.anchor.solar-green { color: #859900; }
+
+.cm-s-anchor {
+	font: 17px/25px "Helvetica Neue", "Open Sans", "DejaVu Sans", "Arial", sans-serif;
+	color: #4a525f;
+	border: none;
+	border-radius: 5px;
+	color-profile: sRGB;
+	rendering-intent: auto;
+}
+
+.cm-s-anchor .CodeMirror-widget {
+	text-shadow: none;
+}
+
+
+.cm-s-anchor .cm-keyword { color: #cb4b16 }
+.cm-s-anchor .cm-atom { color: #d33682; }
+.cm-s-anchor .cm-number { color: #d33682; }
+.cm-s-anchor .cm-def { color: #2aa198; }
+
+.cm-s-anchor .cm-variable { color: #268bd2; }
+.cm-s-anchor .cm-variable-2 { color: #b58900; }
+.cm-s-anchor .cm-variable-3 { color: #6c71c4; }
+
+.cm-s-anchor .cm-property { color: #2aa198; }
+.cm-s-anchor .cm-operator {color: #6c71c4;}
+
+.cm-s-anchor .cm-comment { color: #586e75; font-style:italic; }
+
+.cm-s-anchor .cm-string { color: #859900; }
+.cm-s-anchor .cm-string-2 { color: #b58900; }
+
+.cm-s-anchor .cm-meta { color: #859900; }
+.cm-s-anchor .cm-error,
+.cm-s-anchor .cm-invalidchar {
+	color: #586e75;
+	border-bottom: 1px dotted #dc322f;
+}
+.cm-s-anchor .cm-qualifier { color: #b58900; }
+.cm-s-anchor .cm-builtin { color: #d33682; }
+.cm-s-anchor .cm-bracket { color: #cb4b16; }
+.cm-s-anchor .CodeMirror-matchingbracket { color: #859900; }
+.cm-s-anchor .CodeMirror-nonmatchingbracket { color: #dc322f; }
+.cm-s-anchor .cm-tag { color: #93a1a1 }
+.cm-s-anchor .cm-attribute {  color: #2aa198; }
+.cm-s-anchor .cm-header { color: #586e75; }
+.cm-s-anchor .cm-quote { color: #93a1a1; }
+.cm-s-anchor .cm-hr {
+	color: transparent;
+	border-top: 1px solid #586e75;
+	display: block;
+}
+.cm-s-anchor .cm-link { color: #93a1a1; cursor: pointer; }
+.cm-s-anchor .cm-special { color: #6c71c4; }
+.cm-s-anchor .cm-em {
+	color: #999;
+	text-decoration: underline;
+	text-decoration-style: dotted;
+}
+.cm-s-anchor .cm-strong { color: #eee; }
+/*.cm-s-anchor .cm-tab:before {
+	content: "→";   //visualize tab character*/
+	color: #586e75;
+}*/
+.cm-s-anchor .CodeMirror-focused .CodeMirror-selected {
+	background: #eee8d5;
+	color: inherit;
+}
+.cm-s-anchor ::selection {
+	background: #eee8d5;
+	color: inherit;
+}
+.cm-s-anchor .CodeMirror-selected {
+	background: #93a1a1;
+}
+
+
+
+/* Editor styling */
+
+/* Gutter border and some shadow from it */
+.cm-s-anchor .CodeMirror-gutters {
+	padding: 0 15px 0 10px;
+	border-right: 1px solid;
+	background-color: #dddddd;
+	border-color: #dddddd;
+}
+
+/* Common */
+.cm-s-anchor .CodeMirror-linenumber {
+	color: #586e75;
+}
+.cm-s-anchor .CodeMirror-gutter .CodeMirror-gutter-text {
+	color: #586e75;
+}
+.cm-s-anchor .CodeMirror-lines {
+	padding-left: 5px;
+}
+.cm-s-anchor .CodeMirror-lines .CodeMirror-cursor {
+	border-left: 1px solid #819090;
+}
+
+/* Active line. Negative margin compensates left padding of the text in the view-port */
+.cm-s-anchor .activeline {
+	margin-left: -20px;
+	background: rgba(0, 0, 0, 0.05);
+}
