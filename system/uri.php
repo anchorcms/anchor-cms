@@ -109,7 +109,6 @@ class Uri {
 	public static function remove($value, $uri) {
 		// make sure our search value is a non-empty string
 		if(is_string($value) and strlen($value)) {
-
 			// if the search value is at the start sub it out
 			if(strpos($uri, $value) === 0) {
 				$uri = substr($uri, strlen($value));
@@ -136,13 +135,17 @@ class Uri {
 	 * @return string
 	 */
 	public static function remove_relative_uri($uri) {
-		$base = Config::app('url');
-
-		if($index = Config::app('index')) {
-			$index .= '/';
+		// remove base url
+		if($base = Config::app('url')) {
+			$uri = static::remove(rtrim($base, '/'), $uri);
 		}
 
-		return static::remove($base . $index, $uri);
+		// remove index
+		if($index = Config::app('index')) {
+			$uri = static::remove('/' . $index, $uri);
+		}
+
+		return $uri;
 	}
 
 }
