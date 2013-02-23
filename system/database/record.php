@@ -97,7 +97,9 @@ abstract class Record {
 	 * @return mixed
 	 */
 	public function __get($key) {
-		return $this->data[$key];
+		if(array_key_exists($key, $this->data)) {
+			return $this->data[$key];
+		}
 	}
 
 	/**

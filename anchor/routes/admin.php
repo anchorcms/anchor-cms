@@ -1,9 +1,23 @@
 <?php
 
 /**
+ * Admin actions
+ */
+Route::action('auth', function() {
+	if(Auth::guest()) return Response::redirect('admin/login');
+});
+
+Route::action('csrf', function() {
+	if( ! Csrf::check(Input::get('token'))) {
+		Notify::error(array('Invalid token'));
+
+		return Response::redirect('admin/login');
+	}
+});
+
+/**
  * Admin routing
  */
-
 Route::get('admin', function() {
 	if(Auth::guest()) return Response::redirect('admin/login');
 	return Response::redirect('admin/posts');
@@ -61,7 +75,7 @@ Route::get('admin/amnesia', function() {
 		->partial('footer', 'partials/footer');
 });
 
-Route::post('admin/amnesia', function() {
+Route::post('admin/amnesia', array('before' => 'csrf', 'main' => function() {
 	$email = Input::get('email');
 
 	$validator = new Validator(array('email' => $email));
@@ -86,10 +100,10 @@ Route::post('admin/amnesia', function() {
 	$user = $query->fetch();
 	Session::put('user', $user->id);
 
-	$token = Str::random(8);
+	$token = noise(8);
 	Session::put('token', $token);
 
-	$uri = Uri::build(array('path' => Uri::make('admin/reset/' . $token)));
+	$uri = 'http://' . $_SERVER['HTTP_HOST'] . Uri::to('admin/reset/' . $token);
 
 	mail($user->email,
 		__('users.user_subject_recover', 'Password Reset'),
@@ -100,7 +114,7 @@ Route::post('admin/amnesia', function() {
 		'We have sent you an email to confirm your password change.'));
 
 	return Response::redirect('admin/login');
-});
+}));
 
 /*
 	Reset password
@@ -121,7 +135,7 @@ Route::get('admin/reset/(:any)', function($key) {
 		->partial('footer', 'partials/footer');
 });
 
-Route::post('admin/reset/(:any)', function($key) {
+Route::post('admin/reset/(:any)', array('before' => 'csrf', 'main' => function($key) {
 	$password = Input::get('pass');
 	$token = Session::get('token');
 	$user = Session::get('user');
@@ -147,13 +161,13 @@ Route::post('admin/reset/(:any)', function($key) {
 
 	User::update($user, array('password' => Hash::make($password)));
 
-	Session::forget('user');
-	Session::forget('token');
+	Session::erase('user');
+	Session::erase('token');
 
 	Notify::success(__('users.user_success_password', 'Your new password has been set. Go and login now!'));
 
 	return Response::redirect('admin/login');
-});
+}));
 
 /*
 	Upgrade
@@ -162,7 +176,7 @@ Route::get('admin/upgrade', function() {
 	$vars['messages'] = Notify::read();
 	$vars['token'] = Csrf::token();
 
-	$version = Config::get('meta.update_version');
+	$version = Config::meta('update_version');
 	$url = 'https://github.com/anchorcms/anchor-cms/archive/%s.zip';
 
 	$vars['version'] = $version;
@@ -172,7 +186,6 @@ Route::get('admin/upgrade', function() {
 		->partial('header', 'partials/header')
 		->partial('footer', 'partials/footer');
 });
-
 
 /*
 	List Categories
@@ -619,10 +632,10 @@ Route::get('admin/extend/fields/delete/(:num)', array('before' => 'auth', 'main'
 /*
 	List Metadata
 */
-
 Route::get('admin/extend/metadata', array('before' => 'auth', 'main' => function() {
 	$vars['messages'] = Notify::read();
 	$vars['token'] = Csrf::token();
+
 	$vars['meta'] = Config::get('meta');
 	$vars['pages'] = Page::dropdown();
 	$vars['themes'] = Themes::all();
@@ -632,9 +645,12 @@ Route::get('admin/extend/metadata', array('before' => 'auth', 'main' => function
 		->partial('footer', 'partials/footer');
 }));
 
+/*
+	Update Metadata
+*/
 Route::post('admin/extend/metadata', array('before' => 'auth', 'main' => function() {
 	$input = Input::get(array('sitename', 'description', 'home_page', 'posts_page',
-		'posts_per_page', 'auto_published_comments', 'theme', 'comment_notifications', 'comment_moderation_keys', 'twitter'));
+		'posts_per_page', 'auto_published_comments', 'theme', 'comment_notifications', 'comment_moderation_keys'));
 
 	$validator = new Validator($input);
 
@@ -653,10 +669,51 @@ Route::post('admin/extend/metadata', array('before' => 'auth', 'main' => functio
 	}
 
 	foreach($input as $key => $value) {
-		Query::table('meta')->where('key', '=', $key)->update(array('value' => $value));
+		Query::table(Base::table('meta'))->where('key', '=', $key)->update(array('value' => $value));
 	}
 
 	Notify::success(__('metadata.meta_success_updated'));
+
+	return Response::redirect('admin/extend/metadata');
+}));
+
+/*
+	Add Metadata
+*/
+Route::get('admin/extend/metadata/add', array('before' => 'auth', 'main' => function() {
+	$vars['messages'] = Notify::read();
+	$vars['token'] = Csrf::token();
+
+	return View::create('extend/metadata/add', $vars)
+		->partial('header', 'partials/header')
+		->partial('footer', 'partials/footer');
+}));
+
+Route::post('admin/extend/metadata/add', array('before' => 'auth', 'main' => function() {
+	$input = Input::get(array('name', 'value'));
+
+	$validator = new Validator($input);
+
+	$validator->check('name')
+		->is_max(3, __('metadata.missing_custom_name', 'Please enter a unique key name'));
+
+	$validator->check('value')
+		->is_max(3, __('metadata.missing_custom_value', 'Please enter a value'));
+
+	if($errors = $validator->errors()) {
+		Input::flash();
+
+		Notify::error($errors);
+
+		return Response::redirect('admin/extend/metadata/add');
+	}
+
+	Query::table(Base::table('meta'))->insert(array(
+		'key' => 'custom_' . slug($input['name'], '_'),
+		'value' => $input['value']
+	));
+
+	Notify::success(__('metadata.custom_meta_success_created', 'Custom metadata created'));
 
 	return Response::redirect('admin/extend/metadata');
 }));

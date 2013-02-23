@@ -3,9 +3,6 @@
 /**
 	Theme helpers functions
 */
-
-
-// Url helpers
 function full_url($url = '') {
 	return '//' . $_SERVER['HTTP_HOST'] . Uri::to($url);
 }
@@ -30,10 +27,6 @@ function asset_url($extra = '') {
 
 function current_url() {
 	return Uri::current();
-}
-
-function search_url() {
-	return base_url('search');
 }
 
 function rss_url() {

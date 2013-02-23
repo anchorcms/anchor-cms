@@ -2,6 +2,11 @@
 
 <hgroup class="wrap">
 	<h1><?php echo __('metadata.metadata', 'Site metadata'); ?></h1>
+
+	<nav>
+		<?php echo Html::link('admin/extend/metadata/add',
+			__('metadata.create_meta', 'Create a new field'), array('class' => 'btn')); ?>
+	</nav>
 </hgroup>
 
 <section class="wrap">
@@ -41,7 +46,10 @@
 				<?php echo Form::input('range', 'posts_per_page', Input::previous('posts_per_page', $meta['posts_per_page']), array('min' => 1, 'max' => 15)); ?>
 				<em><?php echo __('metadata.posts_per_page_explain'); ?></em>
 			</p>
+		</fieldset>
 
+		<fieldset class="split">
+			<legend>Comments</legend>
 			<p>
 				<label for="auto_published_comments"><?php echo __('metadata.auto_publish_comments', 'Auto-allow comments'); ?>:</label>
 				<?php $checked = Input::previous('auto_published_comments', $meta['auto_published_comments']) ? ' checked' : ''; ?>
@@ -60,7 +68,10 @@
 				<?php echo Form::textarea('comment_moderation_keys', Input::previous('comment_moderation_keys', $meta['comment_moderation_keys'])); ?>
 				<em><?php echo __('metadata.comment_moderation_keys_explain', 'Comma separated list of keywords.'); ?></em>
 			</p>
+		</fieldset>
 
+		<fieldset class="split">
+			<legend>Apperance</legend>
 			<p>
 				<label><?php echo __('metadata.current_theme', 'Current theme'); ?>:</label>
 				<select id="theme" name="theme">
@@ -74,15 +85,17 @@
 
 				<em><?php echo __('metadata.current_theme_explain', 'Your current theme.'); ?></em>
 			</p>
+		</fieldset>
 
-			<p class="twitter">
-				<label for="twitter"><?php echo __('metadata.twitter', 'Twitter'); ?>:</label>
+		<fieldset class="split">
+			<legend>Custom</legend>
 
-				<span class="at">@</span>
-				<input id="twitter" name="twitter" value="<?php echo Input::previous('twitter', $meta['twitter']); ?>">
-
-				<em><?php echo __('metadata.twitter_explain', 'Your twitter account.'); ?></em>
+			<?php foreach($meta as $key => $value): if(strpos($key, 'custom_') !== 0) continue; ?>
+			<p>
+				<label><?php echo ucwords(str_replace('_', ' ', substr($key, 7))); ?>:</label>
+				<?php echo Form::textarea($key, Input::previous($key, $value)); ?>
 			</p>
+			<?php endforeach; ?>
 		</fieldset>
 
 		<aside class="buttons">
@@ -92,7 +105,6 @@
 			)); ?>
 		</aside>
 	</form>
-
 </section>
 
 <?php echo $footer; ?>

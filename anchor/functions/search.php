@@ -4,42 +4,15 @@
 	Theme functions for search
 */
 function has_search_results() {
-	if( ! $total = Registry::get('total_posts')) {
-		$per_page = Config::get('meta.posts_per_page');
-		$page = Registry::get('page_offset') - 1;
-		$term = Registry::get('search_term');
-
-		$query = Post::where('status', '=', 'published')
-			->where('title', 'like', '%' . $term . '%');
-
-		$total = $query->count();
-
-		Registry::set('total_posts', $total);
-	}
-
-	return $total;
+	return Registry::get('total_posts', 0) > 0;
 }
 
 function total_search_results() {
-	return has_search_results() ? Registry::get('total_posts') : 0;
+	return Registry::get('total_posts', 0);
 }
 
 function search_results() {
-	if( ! $posts = Registry::get('search_results')) {
-		$per_page = Config::get('meta.posts_per_page');
-		$page = Registry::get('page_offset') - 1;
-		$term = Registry::get('search_term');
-
-		$posts = Post::where('status', '=', 'published')
-			->where('title', 'like', '%' . $term . '%')
-			->take($per_page)
-			->skip($page * $per_page)
-			->get();
-
-		$posts = new Items($posts);
-
-		Registry::set('search_results', $posts);
-	}
+	$posts = Registry::get('search_results');
 
 	if($result = $posts->valid()) {
 		// register single post
@@ -56,8 +29,12 @@ function search_term() {
 	return Registry::get('search_term');
 }
 
+function has_search_pagination() {
+	return Registry::get('total_posts') > Config::meta('posts_per_page');
+}
+
 function search_next($text = 'Next', $default = '') {
-	$per_page = Config::get('meta.posts_per_page');
+	$per_page = Config::meta('posts_per_page');
 	$page = Registry::get('page_offset');
 
 	$offset = ($page - 1) * $per_page;
@@ -96,6 +73,10 @@ function search_prev($text = 'Previous', $default = '') {
 	}
 
 	return $default;
+}
+
+function search_url() {
+	return base_url('search');
 }
 
 function search_form_input($extra = '') {

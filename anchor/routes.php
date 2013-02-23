@@ -1,89 +1,84 @@
 <?php
 
-Route::action('auth', function() {
-	if(Auth::guest()) return Response::redirect('admin/login');
-});
-
-Route::action('csrf', function() {
-	if( ! Csrf::check(Input::get('token'))) {
-		Notify::error(array('Invalid token'));
-
-		return Response::redirect('admin/login');
-	}
-});
-
-
-/**
- * Site routing
- */
-
 // Home page and posts page
 $posts_page = Registry::get('posts_page');
 $home_page = Registry::get('home_page');
 
-$callback = function($page = 1) use($posts_page) {
-	Registry::set('page', $posts_page);
+$callback = function($offset = 1) use($posts_page) {
+	// get public listings
+	list($total, $posts) = Post::listing(null, $offset, Config::meta('posts_per_page'));
 
-	Registry::set('page_offset', $page);
+	$posts = new Items($posts);
+
+	Registry::set('posts', $posts);
+	Registry::set('total_posts', $total);
+	Registry::set('page', $posts_page);
+	Registry::set('page_offset', $offset);
 
 	return new Template('posts');
 };
 
+/**
+ * The home page is the post listing page.
+ */
 if($home_page->id == $posts_page->id) {
-	/*
-		View home page and posts and paginate through them
-	*/
 	Route::get(array('/', $posts_page->slug, $posts_page->slug . '/(:num)'), $callback);
 }
 else {
-	/*
-		Default home page
-	*/
+	/**
+	 * The home page
+	 */
 	Route::get(array('/', $home_page->slug), function() use($home_page) {
 		Registry::set('page', $home_page);
 
 		return new Template('page');
 	});
 
-	/*
-		View posts and paginate through them
-	*/
+	/**
+	 * The post listings page
+	 */
 	Route::get(array($posts_page->slug, $posts_page->slug . '/(:num)'), $callback);
 }
 
-/*
-	View posts by category
-*/
-Route::get(array('category/(:any)', 'category/(:any)/(:num)'), function($slug, $page = 1) use($posts_page) {
+/**
+ * View posts by category
+ */
+Route::get(array('category/(:any)', 'category/(:any)/(:num)'), function($slug = '', $offset = 1) use($posts_page) {
 	if( ! $category = Category::slug($slug)) {
 		return Response::create(new Template('404'), 404);
 	}
 
+	// get public listings
+	list($total, $posts) = Post::listing($category, $offset, Config::meta('posts_per_page'));
+
+	$posts = new Items($posts);
+
+	Registry::set('posts', $posts);
+	Registry::set('total_posts', $total);
 	Registry::set('page', $posts_page);
-
-	Registry::set('page_offset', $page);
-
+	Registry::set('page_offset', $offset);
 	Registry::set('post_category', $category);
 
 	return new Template('posts');
 });
 
-/*
-	View article
-*/
+/**
+ * View article
+ */
 Route::get($posts_page->slug . '/(:any)', function($slug) {
 	if( ! $post = Post::slug($slug)) {
 		return Response::create(new Template('404'), 404);
 	}
 
 	Registry::set('article', $post);
-
 	Registry::set('category', Category::find($post->category));
 
 	return new Template('article');
 });
 
-// add comments
+/**
+ * Post a comment
+ */
 Route::post($posts_page->slug . '/(:any)', function($slug) use($posts_page) {
 	$input = Input::get(array('name', 'email', 'text'));
 
@@ -127,9 +122,9 @@ Route::post($posts_page->slug . '/(:any)', function($slug) use($posts_page) {
 	return Response::redirect($posts_page->slug . '/' . $slug . '#comment');
 });
 
-/*
-	Rss feed
-*/
+/**
+ * Rss feed
+ */
 Route::get('feeds/rss', function() {
 	$uri = 'http://' . $_SERVER['HTTP_HOST'];
 	$rss = new Rss(Config::meta('sitename'), Config::meta('description'), $uri, Config::app('language'));
@@ -145,9 +140,9 @@ Route::get('feeds/rss', function() {
 	return Response::create($xml, 200, array('content-type' => 'application/xml'));
 });
 
-/*
-	Json feed
-*/
+/**
+ * Json feed
+ */
 Route::get('feeds/json', function() {
 	$json = Json::encode(array(
 		'meta' => Config::get('meta'),
@@ -157,34 +152,43 @@ Route::get('feeds/json', function() {
 	return Response::create($json, 200, array('content-type' => 'application/json'));
 });
 
-/*
-	Search
-*/
-Route::get(array('search', 'search/(:any)', 'search/(:any)/(:num)'), function($id = '', $offset = 1) {
+/**
+ * Search
+ */
+Route::get(array('search', 'search/(:any)', 'search/(:any)/(:num)'), function($slug = '', $offset = 1) {
+	// mock search page
 	$page = new Page;
+	$page->id = 0;
 	$page->title = 'Search';
+	$page->slug = 'search';
 
+	// get search term
+	$term = Session::get($slug);
+
+	list($total, $posts) = Post::search($term, $offset, Config::meta('posts_per_page'));
+
+	// search templating vars
 	Registry::set('page', $page);
-
 	Registry::set('page_offset', $offset);
-
-	Registry::set('search_term', $id);
+	Registry::set('search_term', $term);
+	Registry::set('search_results', new Items($posts));
+	Registry::set('total_posts', $total);
 
 	return new Template('search');
 });
 
 Route::post('search', function() {
 	// search and save search ID
-	$term = Input::get('term');
+	$term = filter_var(Input::get('term', ''), FILTER_SANITIZE_STRING);
 
-	Session::put('search_term', $term);
+	Session::put(slug($term), $term);
 
-	return Response::redirect('search/' . $term);
+	return Response::redirect('search/' . slug($term));
 });
 
-/*
-	View pages
-*/
+/**
+ * View pages
+ */
 Route::get('(:any)', function($slug) {
 	if( ! $page = Page::slug($slug)) {
 		return Response::create(new Template('404'), 404);
@@ -199,9 +203,9 @@ Route::get('(:any)', function($slug) {
 	return new Template('page');
 });
 
-/*
-	404 catch all
-*/
+/**
+ * 404 catch all
+ */
 Route::any(':all', function() {
 	return Response::error(404);
 });

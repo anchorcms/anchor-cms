@@ -18,6 +18,28 @@ class Paginator {
 		$this->url = rtrim($url, '/');
 	}
 
+	public function next_link($text = 'Next &rarr;', $default = '') {
+		$pages = ceil($this->count / $this->perpage);
+
+		if($this->page < $pages) {
+			$page = $this->page + 1;
+
+			return '<a href="' . $this->url . '/' . $page . '">' . $text . '</a>';
+		}
+
+		return $default;
+	}
+
+	public function prev_link($text = '&larr; Previous', $default = '') {
+		if($this->page > 1) {
+			$page = $this->page - 1;
+
+			return '<a href="' . $this->url . '/' . $page . '">' . $text . '</a>';
+		}
+
+		return $default;
+	}
+
 	public function links() {
 		$html = '';
 

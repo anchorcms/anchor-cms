@@ -37,7 +37,7 @@
 					</ul>
 				</nav>
 
-				<?php echo Html::link(admin_url('logout'), __('common.logout', 'Logout'), array('class' => 'btn')); ?>
+				<?php echo Html::link('admin/logout', __('common.logout', 'Logout'), array('class' => 'btn')); ?>
 
 				<?php $home = Registry::get('home_page')->slug; ?>
 				<?php echo Html::link($home, __('common.visit_your_site', 'Visit your site'), array('class' => 'btn', 'target' => '_blank')); ?>

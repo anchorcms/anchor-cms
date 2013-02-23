@@ -16,11 +16,9 @@ function article_slug() {
 }
 
 function article_url() {
-	if($slug = article_slug()) {
-		$page = Registry::get('posts_page');
+	$page = Registry::get('posts_page');
 
-		return base_url($page->slug . '/' . $slug);
-	}
+	return base_url($page->slug . '/' . article_slug());
 }
 
 function article_description() {
@@ -84,7 +82,9 @@ function article_total_comments() {
 }
 
 function article_author() {
-	if($user = User::search(array('id' => article_author_id()))) {
+	$id = Registry::prop('article', 'author');
+
+	if($user = User::find($id)) {
 		return $user->real_name;
 	}
 
