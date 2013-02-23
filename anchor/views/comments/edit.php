@@ -28,7 +28,7 @@
 
 			<p>
 				<label><?php echo __('comments.text', 'Comment'); ?>:</label>
-				<?php echo Form::textarea('text', Input::old('text', $comment->text)); ?>
+				<?php echo Form::textarea('text', Input::old('text', htmlspecialchars($comment->text))); ?>
 			</p>
 
 			<p>

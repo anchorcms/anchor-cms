@@ -170,10 +170,10 @@ class Extend extends Model {
 					$height = intval($extend->attributes->size->height);
 
 					// if a width and height is set and is not the same
-					// size as the uploaed file
+					// size as the uploaed file - smaller only
 					if(
 						($width and $height) and
-						($width <> $image->width() or $height <> $image->height())
+						($width < $image->width() or $height < $image->height())
 					) {
 						$image->resize($width, $height);
 

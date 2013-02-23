@@ -40,7 +40,7 @@
 
 	<fieldset class="main">
 		<div class="wrap">
-			<?php echo Form::textarea('content', Input::old('content', $page->content), array(
+			<?php echo Form::textarea('content', Input::old('content', htmlspecialchars($page->content)), array(
 				'placeholder' => __('pages.content_explain', 'Your page’s content. Uses Markdown.')
 			)); ?>
 		</div>

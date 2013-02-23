@@ -8,7 +8,7 @@
 			</article>
 			
 			<section class="footnote">
-				<p>This article is my <?php echo numeral(article_id()); ?> oldest. It is <?php echo count_words(article_html()); ?> words long, and it’s got <?php echo total_comments() . pluralise(total_comments(), ' comment'); ?> for now. <?php echo article_custom_field('attribution'); ?></p>
+				<p>This article is my <?php echo numeral(article_id()); ?> oldest. It is <?php echo count_words(article_html()); ?> words long, and it’s got <?php echo total_comments() . pluralise(total_comments(), ' comment'); ?> for now. <?php echo article_custom_field('attribution'); ?><?php echo article_previous() ? ' <a href="'.article_previous().'">&laquo; Previous article</a>' : ''; ?><?php echo article_next() ? ' <a href="'.article_next().'">Next article &raquo;</a>' : ''; ?></p>
 			</section>
 		</section>
 
