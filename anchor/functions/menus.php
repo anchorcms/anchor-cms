@@ -23,13 +23,11 @@ function menu_items() {
 	}
 
 	if($result = $pages->valid()) {
-		$item = $pages->current();
+		$page = $pages->current();
 
-		$item->active = strpos(Uri::current(), $item->slug) !== false;
+		$page->active = (Uri::current() == $page->uri($relative = true));
 
-		$item->url = base_url($item->slug);
-
-		Registry::set('menu_item', $item);
+		Registry::set('menu_item', $page);
 
 		$pages->next();
 	}
@@ -49,7 +47,9 @@ function menu_id() {
 }
 
 function menu_url() {
-	return Registry::prop('menu_item', 'url');
+	if($page = Registry::get('menu_item')) {
+		return $page->uri();
+	}
 }
 
 function menu_name() {

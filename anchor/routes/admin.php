@@ -745,6 +745,7 @@ Route::get('admin/pages/edit/(:num)', array('before' => 'auth', 'main' => functi
 	$vars['messages'] = Notify::read();
 	$vars['token'] = Csrf::token();
 	$vars['page'] = Page::find($id);
+	$vars['pages'] = Page::dropdown(array('exclude' => array($id), 'show_empty_option' => true));
 	$vars['statuses'] = array(
 		'published' => __('pages.published'),
 		'draft' => __('pages.draft'),
@@ -760,7 +761,7 @@ Route::get('admin/pages/edit/(:num)', array('before' => 'auth', 'main' => functi
 }));
 
 Route::post('admin/pages/edit/(:num)', array('before' => 'auth', 'main' => function($id) {
-	$input = Input::get(array('name', 'title', 'slug', 'content', 'status', 'redirect'));
+	$input = Input::get(array('parent', 'name', 'title', 'slug', 'content', 'status', 'redirect'));
 
 	$validator = new Validator($input);
 
@@ -808,6 +809,7 @@ Route::post('admin/pages/edit/(:num)', array('before' => 'auth', 'main' => funct
 Route::get('admin/pages/add', array('before' => 'auth', 'main' => function() {
 	$vars['messages'] = Notify::read();
 	$vars['token'] = Csrf::token();
+	$vars['pages'] = Page::dropdown(array('exclude' => array(), 'show_empty_option' => true));
 	$vars['statuses'] = array(
 		'published' => __('pages.published'),
 		'draft' => __('pages.draft'),
@@ -823,7 +825,7 @@ Route::get('admin/pages/add', array('before' => 'auth', 'main' => function() {
 }));
 
 Route::post('admin/pages/add', array('before' => 'auth', 'main' => function() {
-	$input = Input::get(array('name', 'title', 'slug', 'content', 'status', 'redirect'));
+	$input = Input::get(array('parent', 'name', 'title', 'slug', 'content', 'status', 'redirect'));
 
 	$validator = new Validator($input);
 

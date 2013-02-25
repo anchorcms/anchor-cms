@@ -65,6 +65,12 @@
 				<em><?php echo __('pages.status_explain'); ?></em>
 			</p>
 
+			<p>
+				<label><?php echo __('pages.parent', 'Parent'); ?>:</label>
+				<?php echo Form::select('parent', $pages, Input::previous('parent', $page->parent)); ?>
+				<em><?php echo __('pages.parent_explain'); ?></em>
+			</p>
+
 			<?php foreach($fields as $field): ?>
 			<p>
 				<label for="extend_<?php echo $field->key; ?>"><?php echo $field->label; ?>:</label>

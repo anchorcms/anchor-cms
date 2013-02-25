@@ -187,10 +187,10 @@ Route::post('search', function() {
 });
 
 /**
- * View pages
+ * View pages/catch all
  */
-Route::get('(:any)', function($slug) {
-	if( ! $page = Page::slug($slug)) {
+Route::get('(:all)', function($uri) {
+	if( ! $page = Page::slug($slug = basename($uri))) {
 		return Response::create(new Template('404'), 404);
 	}
 
@@ -201,11 +201,4 @@ Route::get('(:any)', function($slug) {
 	Registry::set('page', $page);
 
 	return new Template('page');
-});
-
-/**
- * 404 catch all
- */
-Route::any(':all', function() {
-	return Response::error(404);
 });

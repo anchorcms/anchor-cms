@@ -8,7 +8,9 @@ function page_id() {
 }
 
 function page_url() {
-	return Registry::prop('page', 'url');
+	if($page = Registry::get('page')) {
+		return $page->uri();
+	}
 }
 
 function page_slug() {
