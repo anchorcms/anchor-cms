@@ -19,7 +19,7 @@ class Form {
 	}
 
 	protected static function action($action) {
-		return Uri::make($action);
+		return Uri::to($action);
 	}
 
 	public static function open_multipart($action, $attributes = array()) {

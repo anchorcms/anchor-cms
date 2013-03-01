@@ -29,10 +29,7 @@ class Uri {
 	 * @return string
 	 */
 	public static function to($uri) {
-		// dont format absolute uri's
-		if(strpos($uri, '://')) {
-			return $uri;
-		}
+		if(strpos($uri, '://')) return $uri;
 
 		$base = Config::app('url', '');
 
@@ -41,6 +38,20 @@ class Uri {
 		}
 
 		return rtrim($base, '/') . '/' . $index . ltrim($uri, '/');
+	}
+
+	/**
+	 * Get full uri relative to the application
+	 *
+	 * @param string
+	 * @return string
+	 */
+	public static function full($uri) {
+		if(strpos($uri, '://')) return $uri;
+
+		$scheme = empty($_SERVER['HTTPS']) ? 'http://' : 'https://';
+
+		return $scheme . $_SERVER['HTTP_HOST'] . static::to($uri);
 	}
 
 	/**

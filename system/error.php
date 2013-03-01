@@ -27,7 +27,7 @@ class Error {
 
 		if(Config::error('report')) {
 			// clear output buffer
-			ob_get_level() and ob_end_clean();
+			while(ob_get_level() > 1) ob_end_clean();
 
 			echo '<html>
 				<head>

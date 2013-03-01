@@ -15,7 +15,7 @@ class Comment extends Base {
 	}
 
 	public static function notify($comment) {
-		$uri = Uri::build(array('path' => Uri::make('admin/comments/edit/' . $comment['id'])));
+		$uri = Uri::full('admin/comments/edit/' . $comment['id']);
 
 		$headers  = 'MIME-Version: 1.0' . "\r\n";
 		$headers .= 'Content-type: text/html; charset=utf-8' . "\r\n";

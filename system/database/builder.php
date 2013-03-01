@@ -13,6 +13,47 @@
 class Builder {
 
 	/**
+	 * Wrap database tables and columns names
+	 *
+	 * @param string|array
+	 * @return string
+	 */
+	public function wrap($column) {
+		if(is_array($column)) {
+			$columns = array();
+
+			foreach($column as $c) {
+				$columns[] = $this->wrap($c);
+			}
+
+			return implode(', ', $columns);
+		}
+
+		return $this->enclose($column);
+	}
+
+	/**
+	 * Enclose value with database connector escape characters
+	 *
+	 * @param string
+	 * @return string
+	 */
+	public function enclose($value) {
+		$params = array();
+
+		foreach(explode('.', $value) as $item) {
+			if($item == '*') {
+				$params[] = $item;
+			}
+			else {
+				$params[] = $this->connection->lwrap . $item . $this->connection->rwrap;
+			}
+		}
+
+		return implode('.', $params);
+	}
+
+	/**
 	 * Set a row offset on the query
 	 *
 	 * @param int
@@ -121,6 +162,5 @@ class Builder {
 	public function build_select_count() {
 		return 'SELECT COUNT(*) FROM ' . $this->wrap($this->table) . $this->build();
 	}
-
 
 }
