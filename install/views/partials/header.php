@@ -23,7 +23,7 @@
 
 		<script>
 			(function(w, d, u) {
-				var parts = w.location.pathname.split('/'), url = parts[parts.length - 1], li = d.getElementsByClassName(url);
+				var parts = "<?php echo Uri::current(); ?>".split('/'), url = parts.pop(), li = d.getElementsByClassName(url);
 				if(url == 'complete') d.body.parentNode.className += 'small';
 				for(var i = 0; i < li.length; i++) li[i].className += ' elapsed';
 			}(window, document));

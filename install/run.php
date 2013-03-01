@@ -27,6 +27,13 @@ Autoloader::directory(array(
 	PATH . 'anchor/libraries'
 ));
 
+/**
+ * Set the current uri from get
+ */
+if($route = Arr::get($_GET, 'route')) {
+	Uri::$current = trim($route, '/');
+}
+
 /*
 	Helper functions
 */
@@ -141,13 +148,6 @@ check('<code>anchor/config</code> directory needs to be temporarily writable
 	so we can create your application and database configuration files.', function() {
 	return is_writable(PATH . 'anchor/config');
 });
-
-if(mod_rewrite()) {
-	check('The public root directory needs to be temporarily writable
-		while we try to create your htaccess file.', function() {
-		return is_writable(PATH);
-	});
-}
 
 check('Anchor requires the php module <code>pdo_mysql</code> to be installed.', function() {
 	return in_array('mysql', PDO::getAvailableDrivers());

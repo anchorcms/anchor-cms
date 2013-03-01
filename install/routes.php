@@ -4,7 +4,7 @@
 	Filters
 */
 Route::action('check', function() {
-	// return the user to the installed version of anchor
+
 });
 
 /*
@@ -133,7 +133,7 @@ Route::get('metadata', array('before' => 'check', 'main' => function() {
 }));
 
 Route::post('metadata', array('before' => 'check', 'main' => function() {
-	$metadata = Input::get(array('site_name', 'site_description', 'site_path', 'theme'));
+	$metadata = Input::get(array('site_name', 'site_description', 'site_path', 'theme', 'rewrite'));
 
 	$validator = new Validator($metadata);
 
@@ -230,6 +230,7 @@ Route::get('complete', function() {
 
 	$settings = Session::get('install');
 	$vars['site_uri'] = $settings['metadata']['site_path'];
+	$vars['htaccess'] = Session::get('htaccess');
 
 	// scrub session now we are done
 	Session::erase('install');

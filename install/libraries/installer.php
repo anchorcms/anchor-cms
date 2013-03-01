@@ -13,6 +13,9 @@ class Installer {
 		// session data
 		$settings = Session::get('install');
 
+		// set the timezone before we add dates
+		date_default_timezone_set($settings['i18n']['timezone']);
+
 		// create database connection
 		static::connect($settings);
 
@@ -138,13 +141,18 @@ class Installer {
 	}
 
 	private static function rewrite($settings) {
-		if(mod_rewrite()) {
+		if(!mod_rewrite() or (is_apache() and $settings['metadata']['rewrite'])) {
 			$htaccess = Braces::compile(APP . 'storage/htaccess.distro', array(
 				'base' => $settings['metadata']['site_path'],
 				'index' => (is_cgi() ? 'index.php?/$1' : 'index.php/$1')
 			));
 
-			file_put_contents(PATH . '.htaccess', $htaccess);
+			if(isset($htaccess) and is_writable($filepath = PATH . '.htaccess')) {
+				file_put_contents($filepath, $htaccess);
+			}
+			else {
+				Session::put('htaccess', $htaccess);
+			}
 		}
 	}
 

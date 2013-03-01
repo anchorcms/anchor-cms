@@ -2,7 +2,7 @@
 
 return array(
 	'url' => dirname($_SERVER['SCRIPT_NAME']),
-	'index' => 'index.php',
+	'index' => 'index.php?route=',
 	'timezone' => 'UTC',
 	'key' => hash('md5', 'Anchor Installer ' . VERSION),
 	'language' => 'en_GB',
