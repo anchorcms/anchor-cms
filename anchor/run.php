@@ -80,19 +80,19 @@ function load_theming_functions() {
 }
 
 function load_register() {
-	$home_id = Config::meta('home_page');
-	$post_id = Config::meta('posts_page');
+	$table = Base::table('pages');
 
-	$pages = Page::where_in('id', array($home_id, $post_id))->get();
+	$sql = '(SELECT * FROM ' . $table . ' WHERE id = ?) union (SELECT * FROM ' . $table . ' WHERE id = ?)';
 
-	$home = ($pages[0]->id == $home_id) ? $pages[0] : $pages[1];
-	$post = ($pages[0]->id == $post_id) ? $pages[0] : $pages[1];
+	list($result, $statement) = DB::ask($sql, array(Config::meta('home_page'), Config::meta('posts_page')));
+
+	$pages = $statement->fetchAll(PDO::FETCH_OBJ);
 
 	// register home page
-	Registry::set('home_page', $home);
+	Registry::set('home_page', array_shift($pages));
 
 	// register posts page
-	Registry::set('posts_page', $post);
+	Registry::set('posts_page', array_shift($pages));
 
 	// register categories
 	foreach(Category::get() as $itm) {
