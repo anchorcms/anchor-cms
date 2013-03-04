@@ -111,7 +111,7 @@ class Status {
 
 		// for fastcgi we have to send a status header like so:
 		// http://php.net/manual/en/function.header.php
-		if(PHP_SAPI == 'cgi') {
+		if(strpos(PHP_SAPI, 'cgi') !== false) {
 			header('Status: ' . $this->status . ' ' . $message);
 		}
 		// overwise we just send a normal status header

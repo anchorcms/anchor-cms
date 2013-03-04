@@ -44,7 +44,7 @@ class Response {
 	 * @return object
 	 */
 	public static function create($output, $status = 200, $headers = array()) {
-		return new static($output, $status = 200, $headers);
+		return new static($output, $status, $headers);
 	}
 
 	/**
