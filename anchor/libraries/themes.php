@@ -16,6 +16,8 @@ class Themes {
 			}
 		}
 
+		ksort($themes);
+
 		return $themes;
 	}
 
