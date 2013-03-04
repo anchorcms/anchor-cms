@@ -21,7 +21,7 @@ class Database extends Driver {
 		extract($this->config);
 
 		// run garbage collection
-		if(mt_rand(0, 1000) > 900) {
+		if(mt_rand(0, 100) > 90) {
 			Query::table($table)->where('expire', '<', time())->delete();
 		}
 
