@@ -1,5 +1,7 @@
 <?php namespace System\Database;
 
+use System\Database\Query;
+
 /**
  * Nano
  *

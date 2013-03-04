@@ -11,7 +11,7 @@
  */
 
 use Exception;
-use Config;
+use System\Config;
 
 abstract class Connector {
 

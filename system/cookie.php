@@ -56,7 +56,7 @@ class Cookie {
 	 * @param string
 	 * @param bool
 	 */
-	public static function dismiss($name, $path = '/', $domain = null, $secure = false) {
+	public static function erase($name, $path = '/', $domain = null, $secure = false) {
 		static::write($name, null, -2000, $path, $domain, $secure);
 	}
 

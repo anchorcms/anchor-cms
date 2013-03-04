@@ -19,16 +19,6 @@ class Template extends View {
 		$this->vars = array_merge($this->vars, $vars);
 	}
 
-	public function yield() {
-		if(Config::db('profiling')) {
-			$profile = View::create('profile', array('profile' => DB::profile()))->yield();
-
-			return preg_replace('#</body>#', $profile . '</body>', parent::yield());
-		}
-
-		return parent::yield();
-	}
-
 	public function __toString() {
 		return $this->yield();
 	}

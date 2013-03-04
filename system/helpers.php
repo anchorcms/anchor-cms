@@ -19,7 +19,7 @@
  * @return string
  */
 function asset($uri) {
-	return rtrim(System\Config::app('url'), '/') . '/' . $uri;
+	return rtrim(Config::app('url'), '/') . '/' . $uri;
 }
 
 /**
@@ -83,5 +83,5 @@ function normalize($str) {
  * Encode html to entities
  */
 function e($str) {
-	return htmlspecialchars($str, ENT_NOQUOTES, System\Config::app('encoding'), false);
+	return htmlspecialchars($str, ENT_NOQUOTES, Config::app('encoding'), false);
 }

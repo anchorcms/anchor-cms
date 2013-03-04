@@ -11,6 +11,8 @@
  */
 
 use InvalidArgumentException;
+use Response;
+use View;
 
 class Route {
 

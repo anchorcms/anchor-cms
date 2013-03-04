@@ -10,9 +10,6 @@
  * @copyright	http://unlicense.org/
  */
 
-use System\Arr;
-use System\Session;
-
 class Input {
 
 	/**

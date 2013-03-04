@@ -57,8 +57,8 @@ class Config {
 	 *
 	 * @param string
 	 */
-	public static function dismiss($key) {
-		Arr::dismiss(static::$array, $key);
+	public static function erase($key) {
+		Arr::erase(static::$array, $key);
 	}
 
 	/**
