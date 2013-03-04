@@ -15,7 +15,7 @@ class Post extends Base {
 	}
 
 	public static function slug($slug) {
-		return static::where('slug', 'like', $slug)->fetch();
+		return static::where('slug', '=', $slug)->fetch();
 	}
 
 	public static function listing($category = null, $page = 1, $per_page = 10) {

@@ -15,7 +15,7 @@ class Page extends Base {
 	}
 
 	public static function slug($slug) {
-		return static::where('slug', 'like', $slug)->fetch();
+		return static::where('slug', '=', $slug)->fetch();
 	}
 
 	public static function dropdown($params = array()) {
