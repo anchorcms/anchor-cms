@@ -54,6 +54,22 @@ class Builder {
 	}
 
 	/**
+	 * Build placeholders to replace with values in a query
+	 *
+	 * @param int
+	 * @return string
+	 */
+	public function placeholders($length, $holder = '?') {
+		$holders = array();
+
+		for($i = 0; $i < $length; $i++) {
+			$holders[] = $holder;
+		}
+
+		return implode(', ', $holders);
+	}
+
+	/**
 	 * Set a row offset on the query
 	 *
 	 * @param int
@@ -97,13 +113,8 @@ class Builder {
 	 */
 	public function build_insert($row) {
 		$keys = array_keys($row);
+		$values = $this->placeholders(count($row));
 		$this->bind = array_values($row);
-
-		$values = call_user_func(function() use($row) {
-			$placeholders = array();
-			for($i = 0; $i < count($row); $i++) $placeholders[] = '?';
-			return implode(', ', $placeholders);
-		});
 
 		return 'INSERT INTO ' . $this->wrap($this->table) . ' (' . $this->wrap($keys) . ') VALUES(' . $values . ')';
 	}

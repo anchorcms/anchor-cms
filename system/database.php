@@ -57,6 +57,16 @@ class Database {
 	}
 
 	/**
+	 * Get a database connection profile
+	 *
+	 * @param string
+	 * @return array
+	 */
+	public static function profile($name = null) {
+		return static::connection($name)->profile();
+	}
+
+	/**
 	 * Magic method for calling database driver methods on the default connection
 	 *
 	 * @param string
@@ -64,13 +74,7 @@ class Database {
 	 * @return mixed
 	 */
 	public static function __callStatic($method, $arguments) {
-		$db = static::connection()->instance();
-
-		if(method_exists($db, $method)) {
-			return call_user_func_array(array($db, $method), $arguments);
-		}
-
-		throw new ErrorException('Unknown database method');
+		return call_user_func_array(array(static::connection()->instance(), $method), $arguments);
 	}
 
 }

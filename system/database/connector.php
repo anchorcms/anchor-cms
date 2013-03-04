@@ -11,8 +11,16 @@
  */
 
 use Exception;
+use Config;
 
 abstract class Connector {
+
+	/**
+	 * Log of all queries
+	 *
+	 * @var array
+	 */
+	private $queries = array();
 
 	/**
 	 * All connectors will implement a function to return the pdo instance
@@ -28,10 +36,14 @@ abstract class Connector {
 	 * @param array
 	 * @return array
 	 */
-	public function ask($sql, $arguments = array()) {
+	public function ask($sql, $binds = array()) {
 		try {
+			if(Config::db('profiling')) {
+				$this->queries[] = compact('sql', 'binds');
+			}
+
 			$statement = $this->instance()->prepare($sql);
-			$result = $statement->execute($arguments);
+			$result = $statement->execute($binds);
 
 			return array($result, $statement);
 		}
@@ -39,6 +51,15 @@ abstract class Connector {
 			$error = 'Database Error: ' . $e->getMessage() . '</code></p><p><code>SQL: ' . trim($sql);
 			throw new Exception($error, 0, $e);
 		}
+	}
+
+	/**
+	 * Return the profile array
+	 *
+	 * @return array
+	 */
+	public function profile() {
+		return $this->queries;
 	}
 
 }
