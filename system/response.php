@@ -74,6 +74,18 @@ class Response {
 	}
 
 	/**
+	 * Creates a response with the output as JSON
+	 *
+	 * @param string
+	 * @param int
+	 * @return object
+	 */
+	public static function json($output, $status = 200) {
+		return static::create(json_encode($output), $status,
+			array('content-type' => 'application/json; charset=' . Config::app('encoding', 'UTF-8')));
+	}
+
+	/**
 	 * Create a new instance of the Response class
 	 *
 	 * @param string
