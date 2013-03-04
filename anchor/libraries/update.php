@@ -50,7 +50,8 @@ class Update {
 		$url = 'http://anchorcms.com/version';
 
 		if(in_array(ini_get('allow_url_fopen'), array('true', '1', 'On'))) {
-			$result = file_get_contents($url);
+			$context = stream_context_create(array('http' => array('timeout' => 2)));
+			$result = @file_get_contents($url, false, $context);
 		}
 		else if(function_exists('curl_init')) {
 			$session = curl_init();
