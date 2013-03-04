@@ -62,4 +62,15 @@ abstract class Connector {
 		return $this->queries;
 	}
 
+	/**
+	 * Magic method for calling methods on PDO instance
+	 *
+	 * @param string
+	 * @param array
+	 * @return mixed
+	 */
+	public static function __callStatic($method, $arguments) {
+		return call_user_func_array(array($this->instance(), $method), $arguments);
+	}
+
 }

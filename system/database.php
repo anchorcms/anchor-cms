@@ -74,7 +74,7 @@ class Database {
 	 * @return mixed
 	 */
 	public static function __callStatic($method, $arguments) {
-		return call_user_func_array(array(static::connection()->instance(), $method), $arguments);
+		return call_user_func_array(array(static::connection(), $method), $arguments);
 	}
 
 }
