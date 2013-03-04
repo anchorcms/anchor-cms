@@ -80,11 +80,19 @@ function load_theming_functions() {
 }
 
 function load_register() {
+	$home_id = Config::meta('home_page');
+	$post_id = Config::meta('posts_page');
+
+	$pages = Page::where_in('id', array($home_id, $post_id))->get();
+
+	$home = ($pages[0]->id == $home_id) ? $pages[0] : $pages[1];
+	$post = ($pages[0]->id == $post_id) ? $pages[0] : $pages[1];
+
 	// register home page
-	Registry::set('home_page', Page::home());
+	Registry::set('home_page', $home);
 
 	// register posts page
-	Registry::set('posts_page', Page::posts());
+	Registry::set('posts_page', $post);
 
 	// register categories
 	foreach(Category::get() as $itm) {

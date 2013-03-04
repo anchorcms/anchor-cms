@@ -18,14 +18,6 @@ class Page extends Base {
 		return static::where('slug', 'like', $slug)->fetch();
 	}
 
-	public static function home() {
-		return static::find(Config::meta('home_page'));
-	}
-
-	public static function posts() {
-		return static::find(Config::meta('posts_page'));
-	}
-
 	public static function dropdown($params = array()) {
 		$items = array();
 		$exclude = array();
