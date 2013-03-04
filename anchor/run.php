@@ -161,11 +161,11 @@ load_register();
 /**
  * Anchor migrations
  */
-$current = Config::get('meta.current_migration');
-$migrate_to = Config::get('migrations.current');
+$current = Config::meta('current_migration');
+$migrate_to = Config::migrations('current');
 
 $migrations = new Migrations($current);
-$table = Config::db('prefix', '') . 'meta';
+$table = Base::table('meta');
 
 if(is_null($current)) {
 	$number = $migrations->up($migrate_to);
