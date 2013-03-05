@@ -7,7 +7,7 @@
 <section class="wrap">
 	<?php echo $messages; ?>
 
-	<form method="post" action="<?php echo admin_url('users/add'); ?>" novalidate autocomplete="off">
+	<form method="post" action="<?php echo Uri::to('admin/users/add'); ?>" novalidate autocomplete="off">
 
 		<input name="token" type="hidden" value="<?php echo $token; ?>">
 

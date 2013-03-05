@@ -7,7 +7,7 @@
 <section class="wrap">
 	<?php echo $messages; ?>
 
-	<form method="post" action="<?php echo admin_url('extend/fields/add'); ?>" novalidate>
+	<form method="post" action="<?php echo Uri::to('admin/extend/fields/add'); ?>" novalidate>
 
 		<input name="token" type="hidden" value="<?php echo $token; ?>">
 
@@ -67,6 +67,6 @@
 	</form>
 </section>
 
-<script src="<?php echo admin_asset('js/custom-fields.js'); ?>"></script>
+<script src="<?php echo asset('anchor/views/assets/js/custom-fields.js'); ?>"></script>
 
 <?php echo $footer; ?>

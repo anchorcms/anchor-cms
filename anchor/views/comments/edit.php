@@ -7,7 +7,7 @@
 <section class="wrap">
 	<?php echo $messages; ?>
 
-	<form method="post" action="<?php echo admin_url('comments/edit/' . $comment->id); ?>" novalidate>
+	<form method="post" action="<?php echo Uri::to('admin/comments/edit/' . $comment->id); ?>" novalidate>
 
 		<input name="token" type="hidden" value="<?php echo $token; ?>">
 
@@ -40,9 +40,9 @@
 		<aside class="buttons">
 			<?php echo Form::button(__('Save Changes.save', 'Save Changes'), array('type' => 'submit', 'class' => 'btn')); ?>
 
-			<?php echo Html::link(admin_url('comments'), __('comments.return_comments', 'Return to comments'), array(
-				'class' => 'btn blue'
-			)); ?>
+			<?php echo Html::link('admin/comments',
+				__('comments.return_comments', 'Return to comments'),
+				array('class' => 'btn blue')); ?>
 		</aside>
 	</form>
 </section>

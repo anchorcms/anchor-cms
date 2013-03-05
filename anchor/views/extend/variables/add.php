@@ -1,24 +1,24 @@
 <?php echo $header; ?>
 
 <hgroup class="wrap">
-	<h1><?php echo __('metadata.create_meta', 'Create a new field'); ?></h1>
+	<h1><?php echo __('extend.create_variable', 'Create a new variable'); ?></h1>
 </hgroup>
 
 <section class="wrap">
 	<?php echo $messages; ?>
 
-	<form method="post" action="<?php echo admin_url('extend/metadata/add'); ?>" novalidate>
+	<form method="post" action="<?php echo Uri::to('admin/extend/variables/add'); ?>" novalidate>
 
 		<input name="token" type="hidden" value="<?php echo $token; ?>">
 
 		<fieldset class="split">
 			<p>
-				<label><?php echo __('metadata.custom_name', 'Name'); ?>:</label>
-				<?php echo Form::text('name', Input::previous('name')); ?>
+				<label><?php echo __('extend.variable_name', 'Key'); ?>:</label>
+				<?php echo Form::text('key', Input::previous('key')); ?>
 			</p>
 
 			<p>
-				<label><?php echo __('metadata.custom_value', 'Value'); ?>:</label>
+				<label><?php echo __('extend.variable_value', 'Value'); ?>:</label>
 				<?php echo Form::textarea('value', Input::previous('value'), array('cols' => 20)); ?>
 			</p>
 		</fieldset>

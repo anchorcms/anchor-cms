@@ -9,21 +9,28 @@
 
 	<ul class="list">
 		<li>
-			<a href="<?php echo admin_url('extend/fields'); ?>">
-				<strong>Custom Fields</strong>
+			<a href="<?php echo Uri::to('admin/extend/fields'); ?>">
+				<strong>Fields</strong>
 
 				<span>Create additional fields</span>
 			</a>
 		</li>
 		<li>
-			<a href="<?php echo admin_url('extend/metadata'); ?>">
+			<a href="<?php echo Uri::to('admin/extend/variables'); ?>">
+				<strong>Variables</strong>
+
+				<span>Create additional metadata</span>
+			</a>
+		</li>
+		<li>
+			<a href="<?php echo Uri::to('admin/extend/metadata'); ?>">
 				<strong>Metadata</strong>
 
 				<span>Manage your site data</span>
 			</a>
 		</li>
 		<li>
-			<a href="<?php echo admin_url('extend/plugins'); ?>">
+			<a href="<?php echo Uri::to('admin/extend/plugins'); ?>">
 				<strong>Plugins</strong>
 
 				<span>Coming soon, yo!</span>

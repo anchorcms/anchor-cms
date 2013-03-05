@@ -1,6 +1,6 @@
 <?php echo $header; ?>
 
-<form method="post" action="<?php echo admin_url('posts/add'); ?>" enctype="multipart/form-data" novalidate>
+<form method="post" action="<?php echo Uri::to('admin/posts/add'); ?>" enctype="multipart/form-data" novalidate>
 
 	<input name="token" type="hidden" value="<?php echo $token; ?>">
 
@@ -77,14 +77,12 @@
 			<?php endforeach; ?>
 		</div>
 	</fieldset>
-
-	<div class="media-upload"></div>
 </form>
 
-<script src="<?php echo admin_asset('js/slug.js'); ?>"></script>
-<script src="<?php echo admin_asset('js/dragdrop.js'); ?>"></script>
-<script src="<?php echo admin_asset('js/focus-mode.js'); ?>"></script>
-<script src="<?php echo admin_asset('js/upload-fields.js'); ?>"></script>
+<script src="<?php echo asset('anchor/views/assets/js/slug.js'); ?>"></script>
+<script src="<?php echo asset('anchor/views/assets/js/dragdrop.js'); ?>"></script>
+<script src="<?php echo asset('anchor/views/assets/js/focus-mode.js'); ?>"></script>
+<script src="<?php echo asset('anchor/views/assets/js/upload-fields.js'); ?>"></script>
 
 <script>
 	(function() {

@@ -2,17 +2,12 @@
 
 <hgroup class="wrap">
 	<h1><?php echo __('metadata.metadata', 'Site metadata'); ?></h1>
-
-	<nav>
-		<?php echo Html::link('admin/extend/metadata/add',
-			__('metadata.create_meta', 'Create a new field'), array('class' => 'btn')); ?>
-	</nav>
 </hgroup>
 
 <section class="wrap">
 	<?php echo $messages; ?>
 
-	<form method="post" action="<?php echo admin_url('extend/metadata'); ?>" novalidate>
+	<form method="post" action="<?php echo Uri::to('admin/extend/metadata'); ?>" novalidate>
 
 		<input name="token" type="hidden" value="<?php echo $token; ?>">
 
@@ -85,17 +80,6 @@
 
 				<em><?php echo __('metadata.current_theme_explain', 'Your current theme.'); ?></em>
 			</p>
-		</fieldset>
-
-		<fieldset class="split">
-			<legend>Custom</legend>
-
-			<?php foreach($meta as $key => $value): if(strpos($key, 'custom_') !== 0) continue; ?>
-			<p>
-				<label><?php echo ucwords(str_replace('_', ' ', substr($key, 7))); ?>:</label>
-				<?php echo Form::textarea($key, Input::previous($key, $value)); ?>
-			</p>
-			<?php endforeach; ?>
 		</fieldset>
 
 		<aside class="buttons">

@@ -15,7 +15,7 @@
 	<ul class="list">
 		<?php foreach($users->results as $user): ?>
 		<li>
-			<a href="<?php echo admin_url('users/edit/' . $user->id); ?>">
+			<a href="<?php echo Uri::to('admin/users/edit/' . $user->id); ?>">
 				<strong><?php echo $user->real_name; ?></strong>
 				<span>Username: <?php echo $user->username; ?></span>
 

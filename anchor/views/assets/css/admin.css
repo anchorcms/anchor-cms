@@ -30,7 +30,7 @@ fieldset, a, img {
 /*
 	Layout
 */
-.wrap {
+.wrap, .profile {
 	width: 960px;
 	margin: 0 auto;
 	overflow: hidden;
@@ -383,6 +383,43 @@ hgroup {
 
 	.list li .status {
 		margin-left: 10px;
+	}
+
+[draggable] {
+	-moz-user-select: none;
+	-khtml-user-select: none;
+	-webkit-user-select: none;
+	user-select: none;
+}
+
+.sortable {
+	list-style-type: none;
+}
+
+	.sortable li {
+		width: 28%;
+		margin: 10px 0;
+		border: 2px solid transparent;
+	}
+
+	.sortable li.item {
+		width: 28%;
+		color: #7d8693;
+		background: #fff;
+		border-radius: 5px;
+		border: 2px solid #fff;
+		cursor: move;
+
+		margin: 10px 0;
+		padding: 7px 14px;
+	}
+
+	.sortable li.over {
+		border: 2px solid #ccc;
+	}
+
+	.sortable li.moving {
+		opacity: .7;
 	}
 
 .empty {

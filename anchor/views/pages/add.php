@@ -1,6 +1,6 @@
 <?php echo $header; ?>
 
-<form method="post" action="<?php echo admin_url('pages/add'); ?>" enctype="multipart/form-data" novalidate>
+<form method="post" action="<?php echo Uri::to('admin/pages/add'); ?>" enctype="multipart/form-data" novalidate>
 
 	<input name="token" type="hidden" value="<?php echo $token; ?>">
 
@@ -45,6 +45,11 @@
 	<fieldset class="meta split">
 		<div class="wrap">
 			<p>
+				<label><?php echo __('pages.show_in_menu', 'Show In Menu'); ?>:</label>
+				<?php echo Form::checkbox('show_in_menu', 1, Input::previous('show_in_menu', 0) == 1); ?>
+			</p>
+
+			<p>
 				<label><?php echo __('pages.name', 'Name'); ?>:</label>
 				<?php echo Form::text('name', Input::previous('name')); ?>
 				<em><?php echo __('pages.name_explain'); ?></em>
@@ -78,9 +83,23 @@
 	</fieldset>
 </form>
 
-<script src="<?php echo admin_asset('js/slug.js'); ?>"></script>
-<script src="<?php echo admin_asset('js/redirect.js'); ?>"></script>
-<script src="<?php echo admin_asset('js/focus-mode.js'); ?>"></script>
-<script src="<?php echo admin_asset('js/upload-fields.js'); ?>"></script>
+<script src="<?php echo asset('anchor/views/assets/js/slug.js'); ?>"></script>
+<script src="<?php echo asset('anchor/views/assets/js/redirect.js'); ?>"></script>
+<script src="<?php echo asset('anchor/views/assets/js/focus-mode.js'); ?>"></script>
+<script src="<?php echo asset('anchor/views/assets/js/upload-fields.js'); ?>"></script>
+
+<script>
+	(function(input, output) {
+		var changed = false;
+
+		output.bind('keyup', function() {
+			changed = true;
+		});
+
+		input.bind('keyup', function() {
+			if( ! changed) output.val(input.val());
+		});
+	}($('input[name=title]'), $('input[name=name]')));
+</script>
 
 <?php echo $footer; ?>

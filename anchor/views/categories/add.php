@@ -7,7 +7,7 @@
 <section class="wrap">
 	<?php echo $messages; ?>
 
-	<form method="post" action="<?php echo admin_url('categories/add'); ?>" novalidate>
+	<form method="post" action="<?php echo Uri::to('admin/categories/add'); ?>" novalidate>
 
 		<input name="token" type="hidden" value="<?php echo $token; ?>">
 
@@ -41,6 +41,6 @@
 	</form>
 </section>
 
-<script src="<?php echo admin_asset('js/slug.js'); ?>"></script>
+<script src="<?php echo asset('anchor/views/assets/js/slug.js'); ?>"></script>
 
 <?php echo $footer; ?>

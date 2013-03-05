@@ -9,7 +9,7 @@ abstract class Migration {
 		$db = Config::db('connections.' . $default . '.database');
 
 		$sql = 'SHOW TABLES FROM `' . $db . '`';
-		$statement = DB::query($sql);
+		list($result, $statement) = DB::ask($sql);
 		$statement->setFetchMode(PDO::FETCH_OBJ);
 
 		$tables = array();
@@ -24,7 +24,7 @@ abstract class Migration {
 	public function has_table_column($table, $column) {
 		if($this->has_table($table)) {
 			$sql = 'SHOW COLUMNS FROM `' . $table . '`';
-			$statement = DB::query($sql);
+			list($result, $statement) = DB::ask($sql);
 			$statement->setFetchMode(PDO::FETCH_OBJ);
 
 			$columns = array();

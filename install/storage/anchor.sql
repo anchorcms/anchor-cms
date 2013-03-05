@@ -53,6 +53,8 @@ CREATE TABLE `{{prefix}}pages` (
   `content` text NOT NULL,
   `status` enum('draft','published','archived') NOT NULL,
   `redirect` text NOT NULL,
+  `show_in_menu` tinyint(1) NOT NULL,
+  `menu_order` int(4) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `status` (`status`),
   KEY `slug` (`slug`)

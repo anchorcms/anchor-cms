@@ -1,6 +1,6 @@
 <?php echo $header; ?>
 
-<form method="post" action="<?php echo admin_url('pages/edit/' . $page->id); ?>" enctype="multipart/form-data" novalidate>
+<form method="post" action="<?php echo Uri::to('admin/pages/edit/' . $page->id); ?>" enctype="multipart/form-data" novalidate>
 
 	<input name="token" type="hidden" value="<?php echo $token; ?>">
 
@@ -49,6 +49,11 @@
 	<fieldset class="meta split">
 		<div class="wrap">
 			<p>
+				<label><?php echo __('pages.show_in_menu', 'Show In Menu'); ?>:</label>
+				<?php echo Form::checkbox('show_in_menu', 1, Input::previous('show_in_menu', $page->show_in_menu) == 1); ?>
+			</p>
+
+			<p>
 				<label><?php echo __('pages.name', 'Name'); ?>:</label>
 				<?php echo Form::text('name', Input::previous('name', $page->name)); ?>
 				<em><?php echo __('pages.name_explain'); ?></em>
@@ -83,9 +88,9 @@
 	<div class="media-upload"></div>
 </form>
 
-<script src="<?php echo admin_asset('js/slug.js'); ?>"></script>
-<script src="<?php echo admin_asset('js/redirect.js'); ?>"></script>
-<script src="<?php echo admin_asset('js/focus-mode.js'); ?>"></script>
-<script src="<?php echo admin_asset('js/upload-fields.js'); ?>"></script>
+<script src="<?php echo asset('anchor/views/assets/js/slug.js'); ?>"></script>
+<script src="<?php echo asset('anchor/views/assets/js/redirect.js'); ?>"></script>
+<script src="<?php echo asset('anchor/views/assets/js/focus-mode.js'); ?>"></script>
+<script src="<?php echo asset('anchor/views/assets/js/upload-fields.js'); ?>"></script>
 
 <?php echo $footer; ?>

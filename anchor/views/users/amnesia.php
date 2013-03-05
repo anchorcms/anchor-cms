@@ -4,7 +4,7 @@
 
 	<?php echo $messages; ?>
 
-	<form method="post" action="<?php echo admin_url('amnesia'); ?>">
+	<form method="post" action="<?php echo Uri::to('admin/amnesia'); ?>">
 		<input name="token" type="hidden" value="<?php echo $token; ?>">
 
 		<fieldset>
@@ -14,7 +14,7 @@
 
 
 			<p class="buttons">
-			    <a href="<?php echo admin_url('login'); ?>"><?php echo __('users.remembered', 'I know my password'); ?></a>
+			    <a href="<?php echo Uri::to('admin/login'); ?>"><?php echo __('users.remembered', 'I know my password'); ?></a>
     			<button type="submit"><?php echo __('users.reset_pass', 'Reset'); ?></button>
 			</p>
 		</fieldset>

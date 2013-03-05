@@ -156,6 +156,10 @@ select {
 		font-family: Monaco, "Courier New", courier, monospace;
 	}
 
+	.split summary {
+		margin-left: 160px;
+	}
+
 	.split input[type=checkbox] {
 		-webkit-appearance: none;
 		width: 66px;

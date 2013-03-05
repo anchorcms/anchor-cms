@@ -2,17 +2,18 @@
 <html lang="en">
 	<head>
 		<meta charset="utf-8">
-		<title><?php echo __('common.manage', 'Manage'); ?> <?php echo Config::get('meta.sitename'); ?></title>
+		<title><?php echo __('common.manage', 'Manage'); ?> <?php echo Config::meta('sitename'); ?></title>
 
-		<script src="<?php echo admin_asset('js/zepto.js'); ?>"></script>
+		<script src="<?php echo asset('anchor/views/assets/js/zepto.js'); ?>"></script>
 
-		<link rel="stylesheet" href="<?php echo admin_asset('css/reset.css'); ?>">
-		<link rel="stylesheet" href="<?php echo admin_asset('css/admin.css'); ?>">
-		<link rel="stylesheet" href="<?php echo admin_asset('css/login.css'); ?>">
-		<link rel="stylesheet" href="<?php echo admin_asset('css/notifications.css'); ?>">
-		<link rel="stylesheet" href="<?php echo admin_asset('css/forms.css'); ?>">
+		<link rel="stylesheet" href="<?php echo asset('anchor/views/assets/css/reset.css'); ?>">
+		<link rel="stylesheet" href="<?php echo asset('anchor/views/assets/css/admin.css'); ?>">
+		<link rel="stylesheet" href="<?php echo asset('anchor/views/assets/css/login.css'); ?>">
+		<link rel="stylesheet" href="<?php echo asset('anchor/views/assets/css/notifications.css'); ?>">
+		<link rel="stylesheet" href="<?php echo asset('anchor/views/assets/css/forms.css'); ?>">
 
-		<link rel="stylesheet" media="(max-width: 980px), (max-device-width: 480px)" href="<?php echo admin_asset('css/small.css'); ?>">
+		<link rel="stylesheet" media="(max-width: 980px), (max-device-width: 480px)"
+			href="<?php echo asset('anchor/views/assets/css/small.css'); ?>">
 
 		<meta http-equiv="X-UA-Compatible" content="chrome=1">
 		<meta name="viewport" content="width=600">
@@ -25,13 +26,13 @@
 				<nav>
 					<ul>
 						<li class="logo">
-							<a href="<?php echo admin_url('posts'); ?>">Anchor CMS</a>
+							<a href="<?php echo Uri::to('admin/posts'); ?>">Anchor CMS</a>
 						</li>
 
-						<?php $menu = array('posts', 'comments', 'pages', 'categories', 'users', 'extend'); ?>
+						<?php $menu = array('posts', 'comments', 'pages', 'menu', 'categories', 'users', 'extend'); ?>
 						<?php foreach($menu as $url): ?>
 						<li <?php if(strpos(Uri::current(), $url) !== false) echo 'class="active"'; ?>>
-							<a href="<?php echo admin_url($url); ?>"><?php echo ucfirst(__('common.' . $url, $url)); ?></a>
+							<a href="<?php echo Uri::to('admin/' . $url); ?>"><?php echo ucfirst(__('common.' . $url, $url)); ?></a>
 						</li>
 						<?php endforeach; ?>
 					</ul>
@@ -39,12 +40,15 @@
 
 				<?php echo Html::link('admin/logout', __('common.logout', 'Logout'), array('class' => 'btn')); ?>
 
-				<?php $home = Registry::get('home_page')->slug; ?>
-				<?php echo Html::link($home, __('common.visit_your_site', 'Visit your site'), array('class' => 'btn', 'target' => '_blank')); ?>
+				<?php $home = Registry::get('home_page'); ?>
+
+				<?php echo Html::link($home->slug,
+					__('common.visit_your_site', 'Visit your site'),
+					array('class' => 'btn', 'target' => '_blank')); ?>
 
 				<?php else: ?>
 				<aside class="logo">
-					<a href="<?php echo admin_url('users/login'); ?>">Anchor CMS</a>
+					<a href="<?php echo Uri::to('admin/users/login'); ?>">Anchor CMS</a>
 				</aside>
 				<?php endif; ?>
 			</div>

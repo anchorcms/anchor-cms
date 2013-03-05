@@ -10,7 +10,7 @@ date_default_timezone_set(Config::app('timezone', 'UTC'));
  */
 switch(constant('ENV')) {
 	case 'dev':
-		ini_set('display_errors', true);
+		ini_set('display_errors', false);
 		error_reporting(-1);
 		break;
 
@@ -43,73 +43,6 @@ function is_installed() {
 	return Config::get('db') !== null;
 }
 
-function show_installer() {
-	if( ! is_installed()) {
-		echo View::create('intro')->yield();
-
-		exit(0);
-	}
-}
-
-function load_meta() {
-	$table = Config::db('prefix', '') . 'meta';
-
-	// load database metadata
-	foreach(Query::table($table)->get() as $item) {
-		$meta[$item->key] = $item->value;
-	}
-
-	Config::set('meta', $meta);
-}
-
-function load_theming_functions() {
-	if(IS_ADMIN) return;
-
-	$fi = new FilesystemIterator(APP . 'functions', FilesystemIterator::SKIP_DOTS);
-
-	foreach($fi as $file) {
-		if($file->isFile() and $file->isReadable() and pathinfo($file->getPathname(), PATHINFO_EXTENSION) == 'php') {
-			require $file->getPathname();
-		}
-	}
-
-	// include theme functions
-	if(is_readable($path = PATH . 'themes' . DS . Config::meta('theme') . DS . 'functions.php')) {
-		require $path;
-	}
-}
-
-function load_register() {
-	$table = Base::table('pages');
-
-	$sql = '(SELECT * FROM ' . $table . ' WHERE id = ?) union (SELECT * FROM ' . $table . ' WHERE id = ?)';
-
-	list($result, $statement) = DB::ask($sql, array(Config::meta('home_page'), Config::meta('posts_page')));
-
-	$pages = $statement->fetchAll(PDO::FETCH_OBJ);
-
-	// register home page
-	Registry::set('home_page', array_shift($pages));
-
-	// register posts page
-	Registry::set('posts_page', array_shift($pages));
-
-	// register categories
-	foreach(Category::get() as $itm) {
-		$categories[$itm->id] = $itm;
-	}
-
-	Registry::set('all_categories', $categories);
-}
-
-function admin_asset($path) {
-	return asset('anchor/views/assets/' . $path);
-}
-
-function admin_url($path = '') {
-	return Uri::to('admin/' . $path);
-}
-
 function slug($str, $separator = '-') {
 	$str = normalize($str);
 
@@ -140,42 +73,13 @@ function parse($str) {
 	return $md->transform($str);
 }
 
+function readable_size($size) {
+	$unit = array('b','kb','mb','gb','tb','pb');
+
+	return round($size / pow(1024, ($i = floor(log($size, 1024)))), 2) . ' ' . $unit[$i];
+}
 
 /**
  * Anchor setup
  */
-define('IS_ADMIN', is_admin());
-
-// Check installation
-show_installer();
-
-// load database metadata
-load_meta();
-
-// include theming functions
-load_theming_functions();
-
-// load home/post/categories into registery
-load_register();
-
-/**
- * Anchor migrations
- */
-$current = Config::meta('current_migration');
-$migrate_to = Config::migrations('current');
-
-$migrations = new Migrations($current);
-$table = Base::table('meta');
-
-if(is_null($current)) {
-	$number = $migrations->up($migrate_to);
-
-	Query::table($table)->insert(array(
-		'key' => 'current_migration',
-		'value' => $number
-	));
-}
-else if($current < $migrate_to) {
-	$number = $migrations->up($migrate_to);
-	Query::table($table)->where('key', '=', 'current_migration')->update(array('value' => $number));
-}
+Anchor::setup();

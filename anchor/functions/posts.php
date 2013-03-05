@@ -18,6 +18,9 @@ function posts() {
 		$posts->next();
 	}
 
+	// back to the start
+	if( ! $result) $posts->rewind();
+
 	return $result;
 }
 

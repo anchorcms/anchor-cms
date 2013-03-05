@@ -39,7 +39,19 @@ class Page extends Base {
 		return $items;
 	}
 
-	public function uri($relative = false) {
+	public static function home() {
+		return static::find(Config::meta('home_page'));
+	}
+
+	public static function posts() {
+		return static::find(Config::meta('posts_page'));
+	}
+
+	public function uri() {
+		return Uri::to($this->relative_uri());
+	}
+
+	public function relative_uri() {
 		$segments = array($this->slug);
 		$parent = $this->parent;
 
@@ -49,9 +61,11 @@ class Page extends Base {
 			$parent = $page->parent;
 		}
 
-		$uri = implode('/', array_reverse($segments));
+		return implode('/', array_reverse($segments));
+	}
 
-		return $relative ? $uri : Uri::to($uri);
+	public function active() {
+		return Registry::prop('page', 'slug') == $this->slug;
 	}
 
 }

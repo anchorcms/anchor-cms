@@ -1,8 +1,8 @@
 <?php
 
 /**
-	Theme functions for pages
-*/
+ *	Theme functions for pages
+ */
 function page_id() {
 	return Registry::prop('page', 'id');
 }
@@ -22,11 +22,11 @@ function page_name() {
 }
 
 function page_title($default = '') {
-	if($title = Registry::prop('page', 'title')) {
+	if($title = Registry::prop('article', 'title')) {
 		return $title;
 	}
 
-	if($title = Registry::prop('article', 'title')) {
+	if($title = Registry::prop('page', 'title')) {
 		return $title;
 	}
 

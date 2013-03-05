@@ -6,6 +6,8 @@
 
 			<em><?php echo __('common.make_blogging_beautiful', 'Make blogging beautiful.'); ?></em>
 		</footer>
+
+		<script src="<?php echo asset('anchor/views/assets/js/admin.js'); ?>"></script>
 		<?php endif; ?>
 	</body>
 </html>

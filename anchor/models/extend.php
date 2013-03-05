@@ -113,7 +113,7 @@ class Extend extends Base {
 
 		$results = $query->take($perpage)->skip(($page - 1) * $perpage)->get();
 
-		return new Paginator($results, $count, $page, $perpage, admin_url('extend/fields'));
+		return new Paginator($results, $count, $page, $perpage, Uri::to('admin/extend/fields'));
 	}
 
 	/*

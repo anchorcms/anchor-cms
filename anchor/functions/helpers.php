@@ -1,10 +1,10 @@
 <?php
 
 /**
-	Theme helpers functions
-*/
+ * Theme helpers functions
+ */
 function full_url($url = '') {
-	return '//' . $_SERVER['HTTP_HOST'] . Uri::to($url);
+	return Uri::full($url);
 }
 
 function base_url($url = '') {

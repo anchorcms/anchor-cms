@@ -15,6 +15,13 @@ use System\Database\Query;
 abstract class Record {
 
 	/**
+	 * Save found objects for faster lookups
+	 *
+	 * @var array
+	 */
+	protected static $cache = array();
+
+	/**
 	 * Holds the current record data
 	 *
 	 * @var array
@@ -49,7 +56,12 @@ abstract class Record {
 	 * @return object Record
 	 */
 	public static function find($id) {
-		return static::where(static::$primary, '=', $id)->apply(get_called_class())->fetch();
+		$class = get_called_class();
+		$key = $class . $id;
+
+		if(isset(static::$cache[$key])) return static::$cache[$key];
+
+		return (static::$cache[$key] = static::where(static::$primary, '=', $id)->apply($class)->fetch());
 	}
 
 	/**

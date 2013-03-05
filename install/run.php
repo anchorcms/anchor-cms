@@ -30,8 +30,8 @@ Autoloader::directory(array(
 /**
  * Set the current uri from get
  */
-if($route = Arr::get($_GET, 'route')) {
-	Uri::$current = trim($route, '/');
+if($route = Arr::get($_GET, 'route', '/')) {
+	Uri::$current = trim($route, '/') ?: '/';
 }
 
 /*

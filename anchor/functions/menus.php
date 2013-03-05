@@ -4,30 +4,14 @@
 	Theme functions for menus
 */
 function has_menu_items() {
-	if( ! $total = Registry::get('total_menu_items')) {
-		$total = Page::where('status', '=', 'published')->count();
-
-		Registry::set('total_menu_items', $total);
-	}
-
-	return $total;
+	return Registry::get('total_menu_items');
 }
 
 function menu_items() {
-	if( ! $pages = Registry::get('menu')) {
-		$pages = Page::where('status', '=', 'published')->get();
-
-		$pages = new Items($pages);
-
-		Registry::set('menu', $pages);
-	}
+	$pages = Registry::get('menu');
 
 	if($result = $pages->valid()) {
-		$page = $pages->current();
-
-		$page->active = (Uri::current() == $page->uri($relative = true));
-
-		Registry::set('menu_item', $page);
+		Registry::set('menu_item', $pages->current());
 
 		$pages->next();
 	}
@@ -41,7 +25,6 @@ function menu_items() {
 /*
 	Object props
 */
-
 function menu_id() {
 	return Registry::prop('menu_item', 'id');
 }
@@ -49,6 +32,12 @@ function menu_id() {
 function menu_url() {
 	if($page = Registry::get('menu_item')) {
 		return $page->uri();
+	}
+}
+
+function menu_relative_url() {
+	if($page = Registry::get('menu_item')) {
+		return $page->relative_uri();
 	}
 }
 
@@ -61,5 +50,40 @@ function menu_title() {
 }
 
 function menu_active() {
-	return Registry::prop('menu_item', 'active');
+	if($page = Registry::get('menu_item')) {
+		return $page->active();
+	}
+}
+
+function menu_parent() {
+	return Registry::prop('menu_item', 'parent');
+}
+
+/*
+	HTML Builders
+*/
+function menu_render($params = array()) {
+	$html = '';
+	$menu = Registry::get('menu');
+
+	// options
+	$parent = isset($params['parent']) ? $params['parent'] : 0;
+	$class = isset($params['class']) ? $params['class'] : 'active';
+
+	foreach($menu as $item) {
+		if($item->parent == $parent) {
+			$attr = array();
+
+			if($item->active()) $attr['class'] = $class;
+
+			$html .= '<li>';
+			$html .= Html::link($item->relative_uri(), $item->name, $attr);
+			$html .= menu_render(array('parent' => $item->id));
+			$html .= '</li>' . PHP_EOL;
+		}
+	}
+
+	if($html) $html = PHP_EOL . '<ul>' . PHP_EOL . $html . '</ul>' . PHP_EOL;
+
+	return $html;
 }

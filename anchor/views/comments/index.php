@@ -5,10 +5,10 @@
 
 
 	<nav>
-		<a class="btn" href="<?php echo admin_url('comments'); ?>">All</a>
-		<a class="btn" href="<?php echo admin_url('comments/pending'); ?>">Pending</a>
-		<a class="btn" href="<?php echo admin_url('comments/approved'); ?>">Approved</a>
-		<a class="btn" href="<?php echo admin_url('comments/spam'); ?>">Spam</a>
+		<a class="btn" href="<?php echo Uri::to('admin/comments'); ?>">All</a>
+		<a class="btn" href="<?php echo Uri::to('admin/comments/pending'); ?>">Pending</a>
+		<a class="btn" href="<?php echo Uri::to('admin/comments/approved'); ?>">Approved</a>
+		<a class="btn" href="<?php echo Uri::to('admin/comments/spam'); ?>">Spam</a>
 	</nav>
 </hgroup>
 
@@ -19,7 +19,7 @@
 	<ul class="list">
 		<?php foreach($comments->results as $comment): ?>
 		<li>
-			<a href="<?php echo admin_url('comments/edit/' . $comment->id); ?>">
+			<a href="<?php echo Uri::to('admin/comments/edit/' . $comment->id); ?>">
 				<strong><?php echo strip_tags($comment->text); ?></strong>
 
 				<span><?php echo __('comments.created', 'Created'); ?> <time><?php echo Date::format($comment->date); ?></time>

@@ -18,7 +18,7 @@
 	<ul class="list">
 		<?php foreach($pages->results as $page): ?>
 		<li>
-			<a href="<?php echo admin_url('pages/edit/' . $page->id); ?>">
+			<a href="<?php echo Uri::to('admin/pages/edit/' . $page->id); ?>">
 				<strong><?php echo $page->name; ?></strong>
 
 				<span>

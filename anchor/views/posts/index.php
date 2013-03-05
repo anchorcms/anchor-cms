@@ -17,7 +17,7 @@
 	<ul class="list">
 		<?php foreach($posts->results as $article): ?>
 		<li>
-			<a href="<?php echo admin_url('posts/edit/' . $article->id); ?>">
+			<a href="<?php echo Uri::to('admin/posts/edit/' . $article->id); ?>">
 				<strong><?php echo $article->title; ?></strong>
 				<span>
 					<time><?php echo Date::format($article->created); ?></time>
