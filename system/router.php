@@ -77,28 +77,45 @@ class Router {
 	}
 
 	/**
-	 * Read app routes from a directory recursively
+	 * Try and match uri with filesystem so we only include
+	 * files relative to our uri and not everything
 	 *
 	 * @param string
 	 */
 	public function read($path) {
-		// try and match uri with filesystem so we only include
-		// files relative to our uri and not everything
-		foreach(explode($this->uri, '/') as $segment) {
-			if(is_dir($dir = $path . DS . $segment)) {
-				$this->import($dir);
+		// direct match
+		if(file_exists($file = $path . DS . $this->uri . EXT)) {
+			require $file;
+		}
+
+		// try matching a folder
+		$segments = array_diff(explode('/', $this->uri), array(''));
+
+		if(count($segments)) {
+			while(count($segments) and is_dir($path . DS . $segments[0])) {
+				// if we have a same name file import it
+				if(file_exists($file = $path . DS . $segments[0] . EXT)) require $file;
+
+				// step into dir shift one from the array
+				$path .= DS . array_shift($segments);
 			}
 
-			if(file_exists($file = $path . DS . $segment . EXT)) {
-				require $file;
-			}
+			// if the whole uri matched a folder import the folder
+			if(empty($segments)) return $this->import($path);
 
-			$path .= DS . $segment;
+			// try matching a file with remaining segemnts
+			while(count($segments)) {
+				$segment = array_shift($segments);
+
+				if(file_exists($file = $path . DS . $segment . EXT)) {
+					return require $file;
+				}
+			}
 		}
 	}
 
 	/**
-	 * Import app routes from a directory recursively
+	 * Import app routes from a directory
 	 *
 	 * @param string
 	 */
@@ -106,11 +123,8 @@ class Router {
 		$iterator = new FilesystemIterator($path, FilesystemIterator::SKIP_DOTS);
 
 		foreach($iterator as $fileinfo) {
-			if($fileinfo->getExtension() == 'php') {
+			if('.' . $fileinfo->getExtension() == EXT) {
 				require $fileinfo->getPathname();
-			}
-			else if($fileinfo->isDir()) {
-				$this->import($fileinfo->getPathname());
 			}
 		}
 	}

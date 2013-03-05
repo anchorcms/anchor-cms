@@ -1,10 +1,32 @@
 <?php
 
-// Home page and posts page
-$posts_page = Registry::get('posts_page');
+/**
+ * Important pages
+ */
 $home_page = Registry::get('home_page');
+$posts_page = Registry::get('posts_page');
 
-$callback = function($offset = 1) use($posts_page) {
+/**
+ * The Home page
+ */
+if($home_page->id != $posts_page->id) {
+	Route::get(array('/', $home_page->slug), function() use($home_page) {
+		Registry::set('page', $home_page);
+
+		return new Template('page');
+	});
+}
+
+/**
+ * Post listings page
+ */
+$routes = array($posts_page->slug, $posts_page->slug . '/(:num)');
+
+if($home_page->id == $posts_page->id) {
+	array_unshift($routes, '/');
+}
+
+Route::get($routes, function($offset = 1) use($posts_page) {
 	// get public listings
 	list($total, $posts) = Post::listing(null, $offset, Config::meta('posts_per_page'));
 
@@ -16,29 +38,7 @@ $callback = function($offset = 1) use($posts_page) {
 	Registry::set('page_offset', $offset);
 
 	return new Template('posts');
-};
-
-/**
- * The home page is the post listing page.
- */
-if($home_page->id == $posts_page->id) {
-	Route::get(array('/', $posts_page->slug, $posts_page->slug . '/(:num)'), $callback);
-}
-else {
-	/**
-	 * The home page
-	 */
-	Route::get(array('/', $home_page->slug), function() use($home_page) {
-		Registry::set('page', $home_page);
-
-		return new Template('page');
-	});
-
-	/**
-	 * The post listings page
-	 */
-	Route::get(array($posts_page->slug, $posts_page->slug . '/(:num)'), $callback);
-}
+});
 
 /**
  * View posts by category
@@ -65,11 +65,12 @@ Route::get(array('category/(:any)', 'category/(:any)/(:num)'), function($slug = 
 /**
  * View article
  */
-Route::get($posts_page->slug . '/(:any)', function($slug) {
+Route::get($posts_page->slug . '/(:any)', function($slug) use($posts_page) {
 	if( ! $post = Post::slug($slug)) {
 		return Response::create(new Template('404'), 404);
 	}
 
+	Registry::set('page', $posts_page);
 	Registry::set('article', $post);
 	Registry::set('category', Category::find($post->category));
 
@@ -125,7 +126,7 @@ Route::post($posts_page->slug . '/(:any)', function($slug) use($posts_page) {
 /**
  * Rss feed
  */
-Route::get('feeds/rss', function() {
+Route::get(array('rss', 'feeds/rss'), function() {
 	$uri = 'http://' . $_SERVER['HTTP_HOST'];
 	$rss = new Rss(Config::meta('sitename'), Config::meta('description'), $uri, Config::app('language'));
 
@@ -187,7 +188,7 @@ Route::post('search', function() {
 });
 
 /**
- * View pages/catch all
+ * View pages
  */
 Route::get('(:all)', function($uri) {
 	if( ! $page = Page::slug($slug = basename($uri))) {
