@@ -3,9 +3,11 @@
 class Migration_alter_comments_date extends Migration {
 
 	public function up() {
-		if($this->has_table('comments')) {
-			$sql = 'ALTER TABLE `comments` CHANGE `date` `date` datetime NOT NULL AFTER `status`';
-			DB::query($sql);
+		$table = Base::table('comments');
+
+		if($this->has_table($table)) {
+			$sql = 'ALTER TABLE `' . $table . '` CHANGE `date` `date` datetime NOT NULL AFTER `status`';
+			DB::ask($sql);
 		}
 	}
 

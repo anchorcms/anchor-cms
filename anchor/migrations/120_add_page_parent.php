@@ -7,7 +7,7 @@ class Migration_add_page_parent extends Migration {
 
 		if( ! $this->has_table_column($table, 'parent')) {
 			$sql = 'ALTER TABLE `' . $table . '` ADD `parent` int(6) NOT NULL AFTER `id`';
-			DB::query($sql);
+			DB::ask($sql);
 		}
 	}
 

@@ -16,7 +16,7 @@ class Migration_create_post_meta_table extends Migration {
 				KEY `extend` (`extend`)
 			) ENGINE=InnoDB";
 
-			DB::query($sql);
+			DB::ask($sql);
 		}
 	}
 

@@ -16,7 +16,7 @@ class Migration_create_extend_table extends Migration {
 				PRIMARY KEY (`id`)
 			) ENGINE=InnoDB";
 
-			DB::query($sql);
+			DB::ask($sql);
 		}
 	}
 

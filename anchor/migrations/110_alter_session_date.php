@@ -3,9 +3,11 @@
 class Migration_alter_session_date extends Migration {
 
 	public function up() {
-		if($this->has_table_column('sessions', 'date')) {
-			$sql = 'ALTER TABLE `sessions` CHANGE `date` `expire` int(10) NOT NULL AFTER `id`';
-			DB::query($sql);
+		$table = Base::table('sessions');
+
+		if($this->has_table_column($table, 'date')) {
+			$sql = 'ALTER TABLE `' . $table . '` CHANGE `date` `expire` int(10) NOT NULL AFTER `id`';
+			DB::ask($sql);
 		}
 	}
 
