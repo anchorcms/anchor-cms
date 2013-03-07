@@ -68,6 +68,8 @@ Route::post('admin/pages/edit/(:num)', array('before' => 'auth', 'main' => funct
 	// convert html to entities
 	//$input['content'] = e($input['content']);
 
+	$input['show_in_menu'] = is_null($input['show_in_menu']) 0 : 1;
+
 	Page::update($id, $input);
 
 	Extend::process('page', $id);
@@ -131,6 +133,8 @@ Route::post('admin/pages/add', array('before' => 'auth', 'main' => function() {
 
 	// convert html to entities
 	//$input['content'] = e($input['content']);
+
+	$input['show_in_menu'] = is_null($input['show_in_menu']) 0 : 1;
 
 	$id = Page::create($input);
 
