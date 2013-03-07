@@ -136,9 +136,9 @@ Route::post('admin/pages/add', array('before' => 'auth', 'main' => function() {
 
 	$input['show_in_menu'] = is_null($input['show_in_menu']) ? 0 : 1;
 
-	$id = Page::create($input);
+	$page = Page::create($input);
 
-	Extend::process('page', $id);
+	Extend::process('page', $page->id);
 
 	Notify::success(__('pages.page_success_created'));
 
