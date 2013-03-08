@@ -49,7 +49,7 @@ class Error {
 		}
 		else {
 			// issue a 500 response
-			Response::error(500)->send();
+			Response::error(500, array('exception' => $e))->send();
 		}
 
 		exit(1);

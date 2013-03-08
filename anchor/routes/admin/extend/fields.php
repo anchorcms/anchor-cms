@@ -36,8 +36,9 @@ Route::post('admin/extend/fields/add', array('before' => 'auth', 'main' => funct
 
 	$validator = new Validator($input);
 
-	$validator->add('valid_key', function($str) {
-		return Extend::where('key', '=', $str)->count() == 0;
+	$validator->add('valid_key', function($str) use($input) {
+		return Extend::where('key', '=', $str)
+			->where('type', '=', $input['type'])->count() == 0;
 	});
 
 	$validator->check('key')
@@ -51,7 +52,7 @@ Route::post('admin/extend/fields/add', array('before' => 'auth', 'main' => funct
 
 		Notify::error($errors);
 
-		return Response::redirect('admin/extend/add');
+		return Response::redirect('admin/extend/fields/add');
 	}
 
 	if($input['field'] == 'image') {
@@ -112,8 +113,10 @@ Route::post('admin/extend/fields/edit/(:num)', array('before' => 'auth', 'main' 
 
 	$validator = new Validator($input);
 
-	$validator->add('valid_key', function($str) use($id) {
-		return Extend::where('key', '=', $str)->where('id', '<>', $id)->count() == 0;
+	$validator->add('valid_key', function($str) use($id, $input) {
+		return Extend::where('key', '=', $str)
+			->where('type', '=', $input['type'])
+			->where('id', '<>', $id)->count() == 0;
 	});
 
 	$validator->check('key')
@@ -127,7 +130,7 @@ Route::post('admin/extend/fields/edit/(:num)', array('before' => 'auth', 'main' 
 
 		Notify::error($errors);
 
-		return Response::redirect('admin/extend/add');
+		return Response::redirect('admin/extend/fields/add');
 	}
 
 	if($input['field'] == 'image') {

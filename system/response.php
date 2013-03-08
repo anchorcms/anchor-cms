@@ -69,8 +69,8 @@ class Response {
 	 * @param int
 	 * @return object
 	 */
-	public static function error($status) {
-		return static::create(View::create('error/' . $status)->yield(), $status);
+	public static function error($status, $vars = array()) {
+		return static::create(View::create('error/' . $status, $vars)->yield(), $status);
 	}
 
 	/**

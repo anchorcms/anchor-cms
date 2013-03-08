@@ -8,7 +8,9 @@ class Notify {
 
 	public static function add($type, $message) {
 		if(in_array($type, static::$types)) {
-			Session::put('messages.' . $type, array_merge((array) Session::get('messages.' . $type), (array) $message));
+			$messages = array_merge((array) Session::get('messages.' . $type), (array) $message);
+
+			Session::put('messages.' . $type, $messages);
 		}
 	}
 

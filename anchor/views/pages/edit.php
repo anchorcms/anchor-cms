@@ -43,6 +43,8 @@
 			<?php echo Form::textarea('content', Input::previous('content', $page->content), array(
 				'placeholder' => __('pages.content_explain', 'Your page’s content. Uses Markdown.')
 			)); ?>
+
+			<?php echo $editor; ?>
 		</div>
 	</fieldset>
 
@@ -84,13 +86,15 @@
 			<?php endforeach; ?>
 		</div>
 	</fieldset>
-
-	<div class="media-upload"></div>
 </form>
 
 <script src="<?php echo asset('anchor/views/assets/js/slug.js'); ?>"></script>
 <script src="<?php echo asset('anchor/views/assets/js/redirect.js'); ?>"></script>
-<script src="<?php echo asset('anchor/views/assets/js/focus-mode.js'); ?>"></script>
+<!--<script src="<?php echo asset('anchor/views/assets/js/focus-mode.js'); ?>"></script>-->
 <script src="<?php echo asset('anchor/views/assets/js/upload-fields.js'); ?>"></script>
+<script src="<?php echo asset('anchor/views/assets/js/editor.js'); ?>"></script>
+<script>
+	$('textarea[name=content]').editor();
+</script>
 
 <?php echo $footer; ?>

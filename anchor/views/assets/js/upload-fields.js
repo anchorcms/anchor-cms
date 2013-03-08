@@ -1,7 +1,7 @@
-/*
-	Populate placeholder when user selects a file to upload
-*/
-(function() {
+/**
+ * Populate placeholder when user selects a file to upload
+ */
+$(function() {
 	var basename = function(path) {
 		return path.replace(/\\/g,'/').replace(/.*\//, '');
 	};
@@ -11,4 +11,4 @@
 
 		placeholder.html(basename(input.val()));
 	});
-}());
+});

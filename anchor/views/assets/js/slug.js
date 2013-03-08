@@ -1,5 +1,9 @@
-
-(function(input, output) {
+/**
+ * Format title into a slug value after each keypress
+ * Disabled if the slug is manually changed
+ */
+$(function() {
+	var input = $('input[name=title]'), output = $('input[name=slug]');
 	var changed = false;
 
 	var slugify = function(str) {
@@ -24,4 +28,4 @@
 	input.bind('keyup', function() {
 		if( ! changed) output.val(slugify(input.val()));
 	});
-}($('input[name=title]'), $('input[name=slug]')));
+});

@@ -12,8 +12,8 @@
 # <http://daringfireball.net/projects/markdown/>
 #
 
-!defined('MARKDOWN_EMPTY_ELEMENT_SUFFIX') and define('MARKDOWN_EMPTY_ELEMENT_SUFFIX', ">");
-!defined('MARKDOWN_TAB_WIDTH') and define('MARKDOWN_TAB_WIDTH', 4);
+define('MARKDOWN_EMPTY_ELEMENT_SUFFIX', ">");
+define('MARKDOWN_TAB_WIDTH', 4);
 
 class Markdown {
 

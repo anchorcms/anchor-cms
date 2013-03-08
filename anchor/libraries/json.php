@@ -1,8 +1,5 @@
 <?php
 
-// Added in 5.3.3
-if( ! defined('JSON_ERROR_UTF8')) define('JSON_ERROR_UTF8', 5);
-
 class Json  {
 
 	public static function encode($obj) {

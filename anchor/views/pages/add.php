@@ -39,6 +39,8 @@
 			<?php echo Form::textarea('content', Input::previous('content'), array(
 				'placeholder' => __('pages.content_explain', 'Your page’s content. Uses Markdown.')
 			)); ?>
+
+			<?php echo $editor; ?>
 		</div>
 	</fieldset>
 
@@ -84,22 +86,13 @@
 </form>
 
 <script src="<?php echo asset('anchor/views/assets/js/slug.js'); ?>"></script>
+<script src="<?php echo asset('anchor/views/assets/js/page-name.js'); ?>"></script>
 <script src="<?php echo asset('anchor/views/assets/js/redirect.js'); ?>"></script>
-<script src="<?php echo asset('anchor/views/assets/js/focus-mode.js'); ?>"></script>
+<!--<script src="<?php echo asset('anchor/views/assets/js/focus-mode.js'); ?>"></script>-->
 <script src="<?php echo asset('anchor/views/assets/js/upload-fields.js'); ?>"></script>
-
+<script src="<?php echo asset('anchor/views/assets/js/editor.js'); ?>"></script>
 <script>
-	(function(input, output) {
-		var changed = false;
-
-		output.bind('keyup', function() {
-			changed = true;
-		});
-
-		input.bind('keyup', function() {
-			if( ! changed) output.val(input.val());
-		});
-	}($('input[name=title]'), $('input[name=name]')));
+	$('textarea[name=content]').editor();
 </script>
 
 <?php echo $footer; ?>

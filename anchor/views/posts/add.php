@@ -27,6 +27,8 @@
 			<?php echo Form::textarea('html', Input::previous('html'), array(
 				'placeholder' => __('posts.content_explain', 'Just write.')
 			)); ?>
+
+			<?php echo $editor; ?>
 		</div>
 	</fieldset>
 
@@ -81,19 +83,12 @@
 
 <script src="<?php echo asset('anchor/views/assets/js/slug.js'); ?>"></script>
 <script src="<?php echo asset('anchor/views/assets/js/dragdrop.js'); ?>"></script>
-<script src="<?php echo asset('anchor/views/assets/js/focus-mode.js'); ?>"></script>
+<!--<script src="<?php echo asset('anchor/views/assets/js/focus-mode.js'); ?>"></script>-->
 <script src="<?php echo asset('anchor/views/assets/js/upload-fields.js'); ?>"></script>
-
+<script src="<?php echo asset('anchor/views/assets/js/text-resize.js'); ?>"></script>
+<script src="<?php echo asset('anchor/views/assets/js/editor.js'); ?>"></script>
 <script>
-	(function() {
-		var textarea = $('textarea').first(), limit = 1080;
-
-		var resize = function() {
-			textarea.height(textarea[0].scrollHeight);
-		};
-
-		textarea.bind('keydown', resize).trigger('keydown');
-	}());
+	$('textarea[name=html]').editor();
 </script>
 
 <?php echo $footer; ?>

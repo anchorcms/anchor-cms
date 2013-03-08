@@ -34,7 +34,8 @@ Route::get('admin/posts/edit/(:num)', array('before' => 'auth', 'main' => functi
 
 	return View::create('posts/edit', $vars)
 		->partial('header', 'partials/header')
-		->partial('footer', 'partials/footer');
+		->partial('footer', 'partials/footer')
+		->partial('editor', 'partials/editor');
 }));
 
 Route::post('admin/posts/edit/(:num)', array('before' => 'auth', 'main' => function($id) {
@@ -105,7 +106,8 @@ Route::get('admin/posts/add', array('before' => 'auth', 'main' => function() {
 
 	return View::create('posts/add', $vars)
 		->partial('header', 'partials/header')
-		->partial('footer', 'partials/footer');
+		->partial('footer', 'partials/footer')
+		->partial('editor', 'partials/editor');
 }));
 
 Route::post('admin/posts/add', array('before' => 'auth', 'main' => function() {
