@@ -79,32 +79,6 @@ function readable_size($size) {
 	return round($size / pow(1024, ($i = floor(log($size, 1024)))), 2) . ' ' . $unit[$i];
 }
 
-function format_bug_report($bug) {
-	$message =
-		'Bug Report' . "\r\n" .
-		'----------' . "\r\n" .
-		$bug['message'] . "\r\n" .
-
-		'Origin' . "\r\n" .
-		'----------' . "\r\n" .
-		$bug['file'] . ' on line ' . $bug['line'] . "\r\n" .
-
-		'Trace' . "\r\n" .
-		'----------' . "\r\n" .
-		str_replace(', ', "\r\n", $bug['trace']);
-
-	return $message;
-}
-
-/**
- * Bug report?
- */
-if($bug = Arr::get($_POST, '_bug_report')) {
-	$headers = implode("\r\n", array('MIME-Version: 1.0', 'Content-type: text/plain; charset=utf-8'));
-	mail('bug@kieronwilson.co.uk', 'Bug Report', format_bug_report($bug), $headers);
-	exit;
-}
-
 /**
  * Anchor setup
  */
