@@ -1,3 +1,6 @@
+/**
+ * Zepto plugin to create textareas into markdown editors
+ */
 ;(function($) {
 	$.fn.editor = function() {
 
@@ -52,53 +55,47 @@
 
 			var start = element.selectionStart, end = element.selectionEnd;
 			var value = element.value;
-			var selections = value.substring(start, end).split("\n");
 			var pattern = new RegExp(/^[\t]{1}/);
 			var edits = 0;
 
 			// single line
-			if(start == end) return untab_single();
+			if(start == end) {
+				// move to the start of the line
+				while(start > 0) {
+					if(value.charAt(start) == "\n") {
+						start++;
+						break;
+					}
 
+					start--;
+				}
+
+				var portion = value.substring(start, end);
+				var matches = portion.match(pattern);
+
+				if(matches) {
+					element.value = value.substring(0, start) + portion.replace(pattern, '') + value.substring(end);
+					end--;
+				}
+
+				element.selectionStart = element.selectionEnd = end;
+			}
 			// multiline
-			for(var i = 0; i < selections.length; i++) {
-				if(selections[i].match(pattern)) {
-					edits++;
-					selections[i] = selections[i].replace(pattern, '');
-				}
-			}
+			else {
+				var selections = value.substring(start, end).split("\n");
 
-			element.value = value.substring(0, start) + selections.join("\n") + value.substring(end);
-
-			element.selectionStart = start;
-			element.selectionEnd = end - edits;
-		};
-
-		var untab_single = function() {
-			var element = textarea[0];
-
-			var start = element.selectionStart, end = element.selectionEnd;
-			var value = element.value;
-			var pattern = new RegExp(/^[\t]{1}/);
-
-			// move to the start of the line
-			while(start > 0) {
-				if(value.charAt(start) == "\n") {
-					start++;
-					break;
+				for(var i = 0; i < selections.length; i++) {
+					if(selections[i].match(pattern)) {
+						edits++;
+						selections[i] = selections[i].replace(pattern, '');
+					}
 				}
 
-				start--;
+				element.value = value.substring(0, start) + selections.join("\n") + value.substring(end);
+
+				element.selectionStart = start;
+				element.selectionEnd = end - edits;
 			}
-
-			var portion = value.substring(start, end);
-			var matches = portion.match(pattern);
-
-			if(matches) {
-				element.value = value.substring(0, start) + portion.replace(pattern, '') + value.substring(end);
-				end--;
-			}
-
-			element.selectionStart = element.selectionEnd = end;
 		};
 
 		var controls = {

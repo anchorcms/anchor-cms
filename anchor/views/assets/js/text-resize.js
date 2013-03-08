@@ -1,3 +1,6 @@
+/**
+ * Textarea auto resize
+ */
 $(function() {
 	var textarea = $('textarea').first(), limit = 1080;
 

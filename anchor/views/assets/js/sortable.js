@@ -1,3 +1,6 @@
+/**
+ * Zepto sortable plugin using html5 drag and drop api.
+ */
 ;(function($) {
 	$.fn.sortable = function(options) {
 

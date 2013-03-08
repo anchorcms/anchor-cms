@@ -1,9 +1,11 @@
-/*
-	Drag and Drop upload
-*/
+/**
+ * Drag and Drop upload
+ *
+ * Allows the drag and drop of single files into posts
+ */
 $(function() {
 	var zone = $(document), body = $('body');
-	var allowed = ['text/css', 'text/javascript', 'application/javascript'];
+	var allowed = ['text/css', 'text/javascript', 'application/javascript', 'text/x-markdown'];
 
 	var cancel = function(event) {
 		event.preventDefault();
@@ -49,9 +51,19 @@ $(function() {
 	};
 
 	var complete = function() {
-		var type = (this.file.type == 'text/css') ? 'css' : 'js';
+		if(['text/css'].indexOf(this.file.type) !== -1) {
+			$('textarea[name=css]').val(this.result);
+		}
 
-		$('textarea[name=' + type + ']').val(this.result);
+		if(['text/javascript', 'application/javascript'].indexOf(this.file.type) !== -1) {
+			$('textarea[name=js]').val(this.result);
+		}
+
+		if(['text/x-markdown'].indexOf(this.file.type) !== -1) {
+			var textarea = $('textarea[name=html]'), value = textarea.val();
+
+			textarea.val(this.result).trigger('keydown');
+		}
 	};
 
 	if(window.FileReader && window.FileList && window.File) {

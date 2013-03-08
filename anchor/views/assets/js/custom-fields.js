@@ -1,7 +1,9 @@
-/*
-	Extend attribute selection
-*/
-(function() {
+/**
+ * Extend attribute selection
+ *
+ * Show/hide fields depending on type
+ */
+$(function() {
 	var select = $('#field'), attrs = $('.hide');
 
 	var update = function() {
@@ -20,4 +22,4 @@
 	select.bind('change', update);
 
 	update();
-}());
+});
