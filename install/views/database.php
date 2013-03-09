@@ -34,7 +34,7 @@
 
 			<p>
 			    <label for="pass">Password</label>
-    			<input id="pass" name="pass" value="<?php echo Input::old('pass'); ?>">
+    			<input id="pass" name="pass" type="password" value="<?php echo Input::old('pass'); ?>">
 
     			<i>Leave blank for empty password.</i>
     		</p>
