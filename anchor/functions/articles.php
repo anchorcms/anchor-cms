@@ -122,7 +122,10 @@ function article_author_id() {
 }
 
 function article_author_bio() {
-	return Registry::prop('article', 'bio');
+	if($user = User::search(array('id' => article_author_id()))) {
+		return $user->bio;
+	}
+	return false;
 }
 
 function article_custom_field($key, $default = '') {
