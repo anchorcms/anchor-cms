@@ -58,7 +58,8 @@ function body_class() {
 
 	//  Get the URL slug
 	$parts = explode('/', Uri::current());
-	$classes[] = count($parts) ? trim(current($parts)) : 'index';
+	$cpart = trim(current($parts));
+	$classes[] = (!empty($cpart)) ? $cpart : 'index';
 
 	//  Is it a posts page?
 	if(is_postspage()) $classes[] = 'posts';
