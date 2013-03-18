@@ -33,9 +33,14 @@ Input::detect(Request::method());
 Session::read();
 
 /**
+ * Import defined routes
+ */
+Router::import(Uri::current());
+
+/**
  * Route the request
  */
-$response = Router::create(Uri::current())->match(Request::method())->run();
+$response = Router::create(Request::method(), Uri::current())->dispatch();
 
 /**
  * Update session

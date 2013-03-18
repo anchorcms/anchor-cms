@@ -107,12 +107,15 @@ Route::post('admin/amnesia', array('before' => 'csrf', 'main' => function() {
 	$token = noise(8);
 	Session::put('token', $token);
 
-	$uri = 'http://' . $_SERVER['HTTP_HOST'] . Uri::to('admin/reset/' . $token);
+	$uri = Uri::full('admin/reset/' . $token);
+	$subject = __('users.user_subject_recover', 'Password Reset');
 
-	mail($user->email,
-		__('users.user_subject_recover', 'Password Reset'),
-		__('users.user_email_recover',
-			'You have requested to reset your password. To continue follow the link below.' . PHP_EOL . '%s', $uri));
+	$fallback = 'You have requested to reset your password.' .
+		'To continue follow the link below.' . PHP_EOL . '%s';
+
+	$msg = __('users.user_email_recover', $fallback, $uri);
+
+	mail($user->email, $subject, $msg);
 
 	Notify::success(__('users.user_notice_recover',
 		'We have sent you an email to confirm your password change.'));

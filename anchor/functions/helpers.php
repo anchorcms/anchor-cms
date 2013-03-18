@@ -12,11 +12,17 @@ function base_url($url = '') {
 }
 
 function theme_url($file = '') {
-	return asset('themes/' . Config::get('meta.theme') . '/' . ltrim($file, '/'));
+	$theme_folder = Config::meta('theme');
+	$base = 'themes' . '/' . $theme_folder . '/';
+
+	return asset($base . ltrim($file, '/'));
 }
 
 function theme_include($file) {
-	if(is_readable($path = PATH . 'themes' . DS . Config::get('meta.theme') . DS . ltrim($file, '/') . '.php')) {
+	$theme_folder = Config::meta('theme');
+	$base = PATH . 'themes' . DS . $theme_folder . DS;
+
+	if(is_readable($path = $base . ltrim($file, DS) . EXT)) {
 		return require $path;
 	}
 }

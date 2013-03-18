@@ -2,7 +2,7 @@
 
 class Items implements Iterator {
 
-	private $position = 0, $array = array();  
+	private $position = 0, $array = array();
 
 	public function __construct($items = array()) {
 		$this->position = 0;

@@ -40,6 +40,12 @@ class Memcache extends Driver {
 	public function write($id, $cargo) {
 		extract($this->config);
 
+		// if the session is set to never expire
+		// we will set it to 1 year
+		if($lifetime == 0) {
+			$lifetime = (3600 * 24 * 365);
+		}
+
 		$this->server->set($this->key . '_' . $id, serialize($cargo), 0, $lifetime);
 	}
 

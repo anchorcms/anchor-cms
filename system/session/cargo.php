@@ -75,6 +75,12 @@ class Cargo {
 	public function write() {
 		extract($this->driver->config);
 
+		// if the session is set to never expire
+		// we will set it to 1 year
+		if($lifetime == 0) {
+			$lifetime = (3600 * 24 * 365);
+		}
+
 		// save session ID
 		Cookie::write($cookie, $this->id, ($expire_on_close ? 0 : $lifetime));
 

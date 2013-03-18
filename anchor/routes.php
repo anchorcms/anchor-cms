@@ -81,6 +81,10 @@ Route::get($posts_page->slug . '/(:any)', function($slug) use($posts_page) {
  * Post a comment
  */
 Route::post($posts_page->slug . '/(:any)', function($slug) use($posts_page) {
+	if( ! $post = Post::slug($slug) or ! $post->comments) {
+		return Response::create(new Template('404'), 404);
+	}
+
 	$input = Input::get(array('name', 'email', 'text'));
 
 	$validator = new Validator($input);
@@ -190,7 +194,7 @@ Route::post('search', function() {
 /**
  * View pages
  */
-Route::get('(:all)', function($uri) {
+Route::any('(:all)', function($uri) {
 	if( ! $page = Page::slug($slug = basename($uri))) {
 		return Response::create(new Template('404'), 404);
 	}

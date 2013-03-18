@@ -37,6 +37,8 @@ class Session {
 				return new Session\Drivers\Cookie($config);
 			case 'database':
 				return new Session\Drivers\Database($config);
+			case 'runtime':
+				return new Session\Drivers\Runtime($config);
 		}
 
 		throw new ErrorException('Unknown session driver');

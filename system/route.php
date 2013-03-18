@@ -13,6 +13,7 @@
 use InvalidArgumentException;
 use Response;
 use View;
+use Closure;
 
 class Route {
 
@@ -21,7 +22,7 @@ class Route {
 	 *
 	 * @var array
 	 */
-	public $actions;
+	public $callbacks;
 
 	/**
 	 * The collected arguments from the uri match
@@ -38,44 +39,36 @@ class Route {
 	 * @param array
 	 */
 	public static function __callStatic($method, $arguments) {
-		list($patterns, $args) = $arguments;
-
-		static::register($method, $patterns, $args);
+		static::register($method, array_shift($arguments), array_shift($arguments));
 	}
 
 	/**
-	 * Register a route to add to the router
+	 * Register a route on the router
 	 *
 	 * @param string
 	 * @param array|string
-	 * @param array
+	 * @param array|closure
 	 */
-	public static function register($method, $patterns, $args) {
-		if( ! is_array($patterns)) {
-			$patterns = array($patterns);
+	public static function register($method, $patterns, $arguments) {
+		$method = strtoupper($method);
+
+		if($arguments instanceof Closure) {
+			$arguments = array('main' => $arguments);
 		}
 
-		if(is_callable($args)) {
-			$args = array('main' => $args);
-		}
-
-		if( ! isset($args['main'])) {
-			throw new InvalidArgumentException('No `main` index was passed');
-		}
-
-		foreach($patterns as $pattern) {
-			Router::$routes[strtoupper($method)][$pattern] = $args;
+		foreach((array) $patterns as $pattern) {
+			Router::$routes[$method][$pattern] = $arguments;
 		}
 	}
 
 	/**
-	 * Register a action to be called on before or after
+	 * Register a action on the router
 	 *
 	 * @param string
 	 * @param string|closure
 	 */
-	public static function action($name, $func) {
-		Router::$actions[$name] = $func;
+	public static function action($name, $callback) {
+		Router::$actions[$name] = $callback;
 	}
 
 	/**
@@ -84,38 +77,37 @@ class Route {
 	 * @param array
 	 * @param array
 	 */
-	public function __construct($funcs, $args = array()) {
-		$this->actions = $funcs;
+	public function __construct($callbacks, $args = array()) {
+		$this->callbacks = $callbacks;
 		$this->args = $args;
 	}
 
 	/**
-	 * Calls the before action
+	 * Calls before actions
 	 *
 	 * @return object
 	 */
 	public function before() {
-		if(isset($this->actions['before'])) {
-			$name = $this->actions['before'];
+		if( ! isset($this->callbacks['before'])) return;
 
-			if(isset(Router::$actions[$name])) {
-				return call_user_func_array(Router::$actions[$name], $this->args);
+		foreach(explode(',', $this->callbacks['before']) as $action) {
+			// return the first response object
+			if($response = call_user_func_array(Router::$actions[$action], $this->args)) {
+				return $response;
 			}
 		}
 	}
 
 	/**
-	 * Calls the after action
+	 * Calls after actions
 	 *
 	 * @param string
 	 */
 	public function after($response) {
-		if(isset($this->actions['after'])) {
-			$name = $this->actions['after'];
+		if( ! isset($this->actions['after'])) return;
 
-			if(isset(Router::$actions[$name])) {
-				call_user_func(Router::$actions[$name], $response);
-			}
+		foreach(explode(',', $this->callbacks['after']) as $action) {
+			call_user_func(Router::$actions[$action], $response);
 		}
 	}
 
@@ -125,20 +117,23 @@ class Route {
 	 * @return object
 	 */
 	public function run() {
+		// Call before actions
 		$response = $this->before();
 
+		// If we didn't get a response run the main callback
 		if(is_null($response)) {
-			$response = call_user_func_array($this->actions['main'], $this->args);
+			$response = call_user_func_array($this->callbacks['main'], $this->args);
 		}
 
+		// Call any after actions
 		$this->after($response);
 
-		// Create a response from a View
+		// If the response was a view get the output and create response
 		if($response instanceof View) {
 			$response = Response::create($response->yield());
 		}
 
-		// Create a response from a String
+		// If the output was a string create response
 		if(is_string($response)) {
 			$response = Response::create($response);
 		}

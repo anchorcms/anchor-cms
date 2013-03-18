@@ -35,10 +35,10 @@ class Html {
 	}
 
 	public static function element($name, $content = '', $attributes = null) {
-		$forbidden = array('img', 'input', 'br', 'hr', 'frame', 'area', 'base', 'basefont',
+		$short = array('img', 'input', 'br', 'hr', 'frame', 'area', 'base', 'basefont',
 			'col', 'isindex', 'link', 'meta', 'param');
 
-		if(in_array($name, $forbidden)) {
+		if(in_array($name, $short)) {
 			if($content) $attributes['value'] = $content;
 
 			return '<' . $name . static::attributes($attributes) . '>';
@@ -55,12 +55,6 @@ class Html {
 		$attributes['href'] = $uri;
 
 		return static::element('a', $title, $attributes);
-	}
-
-	public static function Markdown($text) {
-		$md = new Markdown;
-
-		return $md->transform($text);
 	}
 
 }

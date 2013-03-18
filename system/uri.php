@@ -71,11 +71,13 @@ class Uri {
 	 * @return string
 	 */
 	public static function detect() {
-		$try = array('PATH_INFO', 'REQUEST_URI');
+		$try = array('PATH_INFO', 'ORIG_PATH_INFO', 'REQUEST_URI');
 
 		foreach($try as $method) {
-			if($uri = Arr::get($_SERVER, $method)) {
-				// make sure the uri is not malformed
+			if( ! array_key_exists($method, $_SERVER)) continue;
+
+			if($uri = filter_var($_SERVER[$method], FILTER_SANITIZE_URL)) {
+				// make sure the uri is not malformed and return the pathname
 				if($uri = parse_url($uri, PHP_URL_PATH)) {
 					return static::format($uri);
 				}

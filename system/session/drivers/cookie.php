@@ -18,13 +18,23 @@ class Cookie extends Driver {
 	public function read($id) {
 		extract($this->config);
 
-		if($data = C::read($cookie . '_payload')) {
-			return unserialize(base64_decode($data));
+		// check if the cookie exists
+		if($encoded = C::read($cookie . '_payload')) {
+			// can we decode and unserialize it
+			if($data = @unserialize(base64_decode($encoded))) {
+				return $data;
+			}
 		}
 	}
 
 	public function write($id, $cargo) {
 		extract($this->config);
+
+		// if the session is set to never expire
+		// we will set it to 1 year
+		if($lifetime == 0) {
+			$lifetime = (3600 * 24 * 365);
+		}
 
 		$data = base64_encode(serialize($cargo));
 

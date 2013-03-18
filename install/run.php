@@ -150,7 +150,11 @@ check('<code>anchor/config</code> directory needs to be temporarily writable
 });
 
 check('Anchor requires the php module <code>pdo_mysql</code> to be installed.', function() {
-	return in_array('mysql', PDO::getAvailableDrivers());
+	return extension_loaded('PDO') and extension_loaded('pdo_mysql');
+});
+
+check('Anchor requires the php module <code>GD</code> to be installed.', function() {
+	return extension_loaded('gd');
 });
 
 if(count($GLOBALS['errors'])) {

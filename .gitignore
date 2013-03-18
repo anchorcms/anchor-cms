@@ -24,5 +24,8 @@ Thumbs.db
 /content/*
 !/content/index.php
 
+# plugins
+/plugins/*
+
 # phpunit tests
 /tests

@@ -9,13 +9,13 @@ class Template extends View {
 		// custom article and page templates
 		if($template == 'page' or $template == 'article') {
 			if($item = Registry::get($template)) {
-				if(is_readable($base . $template . '-' . $item->slug . '.php')) {
+				if(is_readable($base . $template . '-' . $item->slug . EXT)) {
 					$template .= '-' . $item->slug;
 				}
 			}
 		}
 
-		$this->path = $base . $template . '.php';
+		$this->path = $base . $template . EXT;
 		$this->vars = array_merge($this->vars, $vars);
 	}
 
