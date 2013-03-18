@@ -82,21 +82,15 @@ function article_total_comments() {
 }
 
 function article_author() {
-	$id = Registry::prop('article', 'author');
-
-	if($user = User::find($id)) {
-		return $user->real_name;
-	}
-
-	return false;
+	return Registry::prop('article', 'author_name');
 }
 
 function article_author_id() {
-	return Registry::prop('article', 'author');
+	return Registry::prop('article', 'author_id');
 }
 
 function article_author_bio() {
-	return Registry::prop('article', 'bio');
+	return Registry::prop('article', 'author_bio');
 }
 
 function article_custom_field($key, $default = '') {

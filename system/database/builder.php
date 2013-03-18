@@ -10,7 +10,7 @@
  * @copyright	http://unlicense.org/
  */
 
-class Builder {
+abstract class Builder {
 
 	/**
 	 * Wrap database tables and columns names
@@ -40,17 +40,36 @@ class Builder {
 	 */
 	public function enclose($value) {
 		$params = array();
+		$alias = '';
+		$alias_keyword = ' as ';
+
+		if($pos = strpos(strtolower($value), $alias_keyword)) {
+			$alias = substr($value, $pos + strlen($alias_keyword));
+			$value = substr($value, 0, $pos);
+		}
 
 		foreach(explode('.', $value) as $item) {
 			if($item == '*') {
 				$params[] = $item;
 			}
 			else {
-				$params[] = $this->connection->lwrap . $item . $this->connection->rwrap;
+				// trim left if already escaped
+				$item = $this->connection->lwrap . ltrim($item, $this->connection->lwrap);
+
+				// trim right if already escaped
+				$item = rtrim($item, $this->connection->rwrap) . $this->connection->rwrap;
+
+				$params[] = $item;
 			}
 		}
 
-		return implode('.', $params);
+		$value = implode('.', $params);
+
+		if($alias) {
+			$value .= ' AS ' . $this->enclose($alias);
+		}
+
+		return $value;
 	}
 
 	/**

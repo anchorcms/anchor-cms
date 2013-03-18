@@ -15,39 +15,50 @@ class Post extends Base {
 	}
 
 	public static function slug($slug) {
-		return static::where('slug', '=', $slug)->fetch();
+		return static::left_join('users', 'users.id', '=', 'posts.author')
+			->where('posts.slug', '=', $slug)
+			->fetch(array('posts.*',
+				'users.id as author_id',
+				'users.bio as author_bio',
+				'users.real_name as author_name'));
 	}
 
 	public static function listing($category = null, $page = 1, $per_page = 10) {
 		// get total
-		$query = static::where('status', '=', 'published');
+		$query = static::left_join('users', 'users.id', '=', 'posts.author')
+			->where('posts.status', '=', 'published');
 
-		if($category) $query->where('category', '=', $category->id);
+		if($category) {
+			$query->where('posts.category', '=', $category->id);
+		}
 
 		$total = $query->count();
 
 		// get posts
-		$query = static::where('status', '=', 'published');
-
-		if($category) $query->where('category', '=', $category->id);
-
 		$posts = $query->sort('created', 'desc')
 			->take($per_page)
-			->skip(--$page * $per_page)->get();
+			->skip(--$page * $per_page)
+			->get(array('posts.*',
+				'users.id as author_id',
+				'users.bio as author_bio',
+				'users.real_name as author_name'));
 
 		return array($total, $posts);
 	}
 
 	public static function search($term, $page = 1, $per_page = 10) {
-		$total = static::where('status', '=', 'published')
-			->where('title', 'like', '%' . $term . '%')
-			->count();
+		$query = static::left_join('users', 'users.id', '=', 'posts.author')
+			->where('posts.status', '=', 'published')
+			->where('posts.title', 'like', '%' . $term . '%');
 
-		$posts = static::where('status', '=', 'published')
-			->where('title', 'like', '%' . $term . '%')
-			->take($per_page)
+		$total = $query->count();
+
+		$posts = $query->take($per_page)
 			->skip(--$page * $per_page)
-			->get();
+			->get(array('posts.*',
+				'users.id as author_id',
+				'users.bio as author_bio',
+				'users.real_name as author_name'));
 
 		return array($total, $posts);
 	}
