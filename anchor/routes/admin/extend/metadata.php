@@ -42,6 +42,10 @@ Route::post('admin/extend/metadata', array('before' => 'auth', 'main' => functio
 		return Response::redirect('admin/extend/metadata');
 	}
 
+	// convert double quotes so we dont break html
+	$input['sitename'] = htmlspecialchars($input['sitename'], ENT_COMPAT, Config::app('encoding'), false);
+	$input['description'] = htmlspecialchars($input['description'], ENT_COMPAT, Config::app('encoding'), false);
+
 	foreach($input as $key => $value) {
 		Query::table(Base::table('meta'))->where('key', '=', $key)->update(array('value' => $value));
 	}
