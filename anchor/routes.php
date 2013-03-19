@@ -137,7 +137,7 @@ Route::get(array('rss', 'feeds/rss'), function() {
 	$query = Post::where('status', '=', 'published');
 
 	foreach($query->get() as $article) {
-		$rss->item($article->title, $article->slug, $article->description, $article->created);
+		$rss->item($article->title, base_url(Registry::get('posts_page')->slug . '/' . $article->slug), $article->description, $article->created);
 	}
 
 	$xml = $rss->output();
