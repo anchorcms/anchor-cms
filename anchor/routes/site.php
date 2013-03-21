@@ -183,5 +183,5 @@ Route::get('(:any)', function($slug) {
 	404 catch all
 */
 Route::any('*', function() {
-	return Response::error(404);
+	return Response::make(new Template('404'), 404);
 });
