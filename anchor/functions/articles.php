@@ -26,6 +26,10 @@ function article_description() {
 }
 
 function article_html() {
+	return parse(Registry::prop('article', 'html'), false);
+}
+
+function article_markdown() {
 	return parse(Registry::prop('article', 'html'));
 }
 

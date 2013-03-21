@@ -12,7 +12,7 @@
 					</h1>
 
 					<div class="content">
-						<?php echo Html::markdown(article_html()); ?>
+						<?php echo article_markdown(); ?>
 					</div>
 
 					<footer>

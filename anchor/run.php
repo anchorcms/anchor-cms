@@ -52,7 +52,7 @@ function slug($str, $separator = '-') {
 	return trim(strtolower($str), $separator);
 }
 
-function parse($str) {
+function parse($str, $markdown = true) {
 	// process tags
 	$pattern = '/[\{\{]{1}([a-z]+)[\}\}]{1}/i';
 
@@ -68,9 +68,13 @@ function parse($str) {
 
 	$str = html_entity_decode($str, ENT_NOQUOTES, System\Config::app('encoding'));
 
-	$md = new Markdown;
+    //  Parse Markdown as well?
+	if($markdown === true) {
+	    $md = new Markdown;
+	    $str = $md->transform($str);
+	}
 
-	return $md->transform($str);
+	return $str;
 }
 
 function readable_size($size) {

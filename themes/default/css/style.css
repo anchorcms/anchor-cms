@@ -210,6 +210,8 @@ h1 {
 	color: #98a2b1;
 	font-size: 14px;
 	font-style: italic;
+	
+	white-space: nowrap;
 }
 	.footnote {
 		padding: 20px 0 40px;
