@@ -1,11 +1,11 @@
 <?php echo $header; ?>
 
 <hgroup class="wrap">
-	<h1><?php echo __('posts.posts', 'Posts'); ?></h1>
+	<h1><?php echo __('posts.posts'); ?></h1>
 
 	<?php if($posts->count): ?>
 	<nav>
-		<?php echo Html::link('admin/posts/add', __('posts.create_post', 'Create a new post'), array('class' => 'btn')); ?>
+		<?php echo Html::link('admin/posts/add', __('posts.create_post'), array('class' => 'btn')); ?>
 	</nav>
 	<?php endif; ?>
 </hgroup>
@@ -22,8 +22,9 @@
 				<span>
 					<time><?php echo Date::format($article->created); ?></time>
 
-					<em title="This post is currently <?php echo $article->status; ?>"
-						class="status <?php echo strtolower($article->status); ?>"><?php echo $article->status; ?></em>
+					<em class="status <?php echo $article->status; ?>" title="<?php echo __('global.' . $article->status); ?>">
+						<?php echo __('global.' . $article->status); ?>
+					</em>
 				</span>
 
 				<p><?php echo strip_tags($article->description); ?></p>
@@ -38,9 +39,8 @@
 
 	<p class="empty posts">
 		<span class="icon"></span>
-		<?php echo __('posts.noposts_desc', 'You don’t have any posts!'); ?><br>
-
-		<?php echo Html::link('admin/posts/add', __('posts.create_post', 'Create a new post'), array('class' => 'btn')); ?>
+		<?php echo __('posts.noposts_desc'); ?><br>
+		<?php echo Html::link('admin/posts/add', __('posts.create_post'), array('class' => 'btn')); ?>
 	</p>
 
 	<?php endif; ?>

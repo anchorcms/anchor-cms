@@ -43,7 +43,7 @@ Route::post('admin/login', array('before' => 'csrf', 'main' => function() {
 	$attempt = Auth::attempt(Input::get('user'), Input::get('pass'));
 
 	if( ! $attempt) {
-		Notify::error('Username or password is wrong.');
+		Notify::error(__('users.login_error'));
 
 		return Response::redirect('admin/login');
 	}
@@ -63,7 +63,7 @@ Route::post('admin/login', array('before' => 'csrf', 'main' => function() {
 */
 Route::get('admin/logout', function() {
 	Auth::logout();
-	Notify::notice('You are now logged out.');
+	Notify::notice(__('users.logout_notice'));
 	return Response::redirect('admin/login');
 });
 
@@ -90,8 +90,8 @@ Route::post('admin/amnesia', array('before' => 'csrf', 'main' => function() {
 	});
 
 	$validator->check('email')
-		->is_email(__('users.invalid_email', 'Please enter a valid email address.'))
-		->is_valid(__('users.invalid_account', 'Account not found.'));
+		->is_email(__('users.email_missing'))
+		->is_valid(__('users.email_not_found'));
 
 	if($errors = $validator->errors()) {
 		Input::flash();
@@ -108,17 +108,12 @@ Route::post('admin/amnesia', array('before' => 'csrf', 'main' => function() {
 	Session::put('token', $token);
 
 	$uri = Uri::full('admin/reset/' . $token);
-	$subject = __('users.user_subject_recover', 'Password Reset');
-
-	$fallback = 'You have requested to reset your password.' .
-		'To continue follow the link below.' . PHP_EOL . '%s';
-
-	$msg = __('users.user_email_recover', $fallback, $uri);
+	$subject = __('users.recovery_subject');
+	$msg = __('users.recovery_message', $uri);
 
 	mail($user->email, $subject, $msg);
 
-	Notify::success(__('users.user_notice_recover',
-		'We have sent you an email to confirm your password change.'));
+	Notify::success(__('users.recovery_sent'));
 
 	return Response::redirect('admin/login');
 }));
@@ -132,7 +127,7 @@ Route::get('admin/reset/(:any)', array('before' => 'guest', 'main' => function($
 	$vars['key'] = ($token = Session::get('token'));
 
 	if($token != $key) {
-		Notify::error(__('users.invalid_account', 'Account not found'));
+		Notify::error(__('users.recovery_expired'));
 
 		return Response::redirect('admin/login');
 	}
@@ -148,7 +143,7 @@ Route::post('admin/reset/(:any)', array('before' => 'csrf', 'main' => function($
 	$user = Session::get('user');
 
 	if($token != $key) {
-		Notify::error(__('users.invalid_account', 'Account not found'));
+		Notify::error(__('users.recovery_expired'));
 
 		return Response::redirect('admin/login');
 	}
@@ -156,7 +151,7 @@ Route::post('admin/reset/(:any)', array('before' => 'csrf', 'main' => function($
 	$validator = new Validator(array('password' => $password));
 
 	$validator->check('password')
-		->is_max(6, __('users.password_too_short', 'Your password must be at least %s characters long', 6));
+		->is_max(6, __('users.password_too_short', 6));
 
 	if($errors = $validator->errors()) {
 		Input::flash();
@@ -171,7 +166,7 @@ Route::post('admin/reset/(:any)', array('before' => 'csrf', 'main' => function($
 	Session::erase('user');
 	Session::erase('token');
 
-	Notify::success(__('users.user_success_password', 'Your new password has been set. Go and login now!'));
+	Notify::success(__('users.password_reset'));
 
 	return Response::redirect('admin/login');
 }));

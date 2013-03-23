@@ -2,7 +2,7 @@
 <html lang="en">
 	<head>
 		<meta charset="utf-8">
-		<title><?php echo __('common.manage', 'Manage'); ?> <?php echo Config::meta('sitename'); ?></title>
+		<title><?php echo __('global.manage'); ?> <?php echo Config::meta('sitename'); ?></title>
 
 		<script src="<?php echo asset('anchor/views/assets/js/zepto.js'); ?>"></script>
 
@@ -32,19 +32,19 @@
 						<?php $menu = array('posts', 'comments', 'pages', /*'menu',*/ 'categories', 'users', 'extend'); ?>
 						<?php foreach($menu as $url): ?>
 						<li <?php if(strpos(Uri::current(), $url) !== false) echo 'class="active"'; ?>>
-							<a href="<?php echo Uri::to('admin/' . $url); ?>"><?php echo ucfirst(__('common.' . $url, $url)); ?></a>
+							<a href="<?php echo Uri::to('admin/' . $url); ?>">
+								<?php echo ucfirst(__($url . '.' . $url)); ?>
+							</a>
 						</li>
 						<?php endforeach; ?>
 					</ul>
 				</nav>
 
-				<?php echo Html::link('admin/logout', __('common.logout', 'Logout'), array('class' => 'btn')); ?>
+				<?php echo Html::link('admin/logout', __('global.logout'), array('class' => 'btn')); ?>
 
 				<?php $home = Registry::get('home_page'); ?>
 
-				<?php echo Html::link($home->slug,
-					__('common.visit_your_site', 'Visit your site'),
-					array('class' => 'btn', 'target' => '_blank')); ?>
+				<?php echo Html::link($home->slug, __('global.visit_your_site'), array('class' => 'btn', 'target' => '_blank')); ?>
 
 				<?php else: ?>
 				<aside class="logo">

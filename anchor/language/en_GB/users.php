@@ -2,74 +2,66 @@
 
 return array(
 
-	'add_user' => 'Add a new user',
-	'recover_password' => 'Recover Password',
 	'users' => 'Users',
+
 	'create_user' => 'Create a new user',
-	'reset_password' => 'Reset Password',
-	'reset_password_for' => 'Password reset for ',
-	'reset_password_explain' => 'Please enter a new password that you won&rsquo;t forget this time.',
-	'back_to' => 'Back to %s',
-
-	// english spelling confusion
-	'log_in' => 'Log in', // verb
-	'login' => 'Login', // noun
-
+	'add_user' => 'Add a new user',
+	'editing_user' => 'Editing %s&rsquo;s Profile',
+	'remembered' => 'I know my password',
 	'forgotten_password' => 'Forgotten your password?',
 
-	'recover' => 'Recover',
-	'editing' => 'Editing',
-	'profile' => 'profile',
-
-	'real_name' => 'Real name',
-	'real_name_explain' => 'The user&rsquo;s real name. Used in author bylines (visible to public).',
-	'bio' => 'Biography',
-	'bio_explain' => 'A short biography for your user. Accepts valid Markdown.',
-	'status' => 'Status',
-	'inactive' => 'Inactive',
-	'active' => 'Active',
-	'status_explain' => 'If inactive, the user will not be able to log in.',
-	'role' => 'Role',
+	// roles
 	'administrator' => 'Admin',
+	'administrator_explain' => '',
+
 	'editor' => 'Editor',
+	'editor_explain' => '',
+
 	'user' => 'User',
-	'role_explain' => 'The user&rsquo;s role. See <a href="//anchorcms.com/docs/roles">here</a> for more info.',
-	'user_details' => 'User details',
-	'user_details_explain' => 'Create the details for your new user to log in to Anchor.',
+	'user_explain' => '',
+
+	// form fields
+	'real_name' => 'Real Name',
+	'real_name_explain' => '',
+
+	'bio' => 'Biography',
+	'bio_explain' => '',
+
+	'status' => 'Status',
+	'status_explain' => '',
+
+	'role' => 'Role',
+	'role_explain' => '',
+
 	'username' => 'Username',
-	'username_explain' => 'The desired username. Can be changed later.',
+	'username_explain' => '',
+	'username_missing' => 'Please enter a username, must be at least %s characters',
+
 	'password' => 'Password',
+	'password_explain' => '',
+	'password_too_short' => 'Password must be at least %s characters',
+
 	'new_password' => 'New Password',
-	'password_blank' => 'Leave blank for no change.',
+
 	'email' => 'Email',
-	'email_explain' => 'The user&rsquo;s email address. Needed if the user forgets their password.',
+	'email_explain' => '',
+	'email_missing' => 'Please enter a valid email address',
+	'email_not_found' => 'Profile not found.',
 
-	'create' => 'Create',
-	'update' => 'Update',
-	'delete' => 'Delete',
-	'submit' => 'Submit',
-	'return_users' => 'Return to Users',
+	// messages
+	'updated' => 'User profile updated.',
+	'created' => 'User profile created.',
+	'deleted' => 'User profile deleted.',
+	'delete_error' => 'You cannot delete your own profile',
+	'login_error' => 'Username or password is wrong.',
+	'logout_notice' => 'You are now logged out.',
+	'recovery_sent' => 'We have sent you an email to confirm your password change.',
+	'recovery_expired' => 'Password recovery token has expired, please try again.',
+	'password_reset' => 'Your new password has been set. Go and login now!',
 
-	'delete_confirm' => 'Are you sure you would like to delete this user?',
-	'delete_confirm_submit' => 'Yes, I understand this will be permanently deleted',
-	'delete_confirm_cancel' => 'No, keep this user',
-
-	'username_exists' => 'Username is already being used',
-	'missing_password' => 'Please enter a password',
-	'password_too_short' => 'Your password must be at least %s characters long',
-	'invalid_email' => 'Please enter a valid email address',
-	'missing_name' => 'Please enter a display name',
-	'missing_username' => 'Please enter a username',
-	'invalid_status' => 'You cannot change your own status',
-	'user_success_created' => 'A new user has been added',
-	'user_success_updated' => 'User has been updated',
-	'user_success_deleted' => 'User has been deleted',
-	'user_success_password' => 'Your new password has been set. Go and login now!',
-	'user_notice_recover' => 'We have sent you an email to confirm your password change.',
-	'user_email_recover' => 'You have requested to reset your password. To continue follow the link below.' . PHP_EOL . '%s',
-	'user_subject_recover' => 'Password Reset',
-	'invalid_account' => 'Account not found',
-	'missing_login_username' => 'Please enter your username',
-	'missing_login_password' => 'Please enter your password'
+	// password recovery email
+	'recovery_subject' => 'Password Reset',
+	'recovery_message' => 'You have requested to reset your password.' .
+		'To continue follow the link below.' . PHP_EOL . '%s',
 
 );

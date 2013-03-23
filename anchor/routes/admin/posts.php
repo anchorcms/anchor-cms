@@ -25,9 +25,9 @@ Route::get('admin/posts/edit/(:num)', array('before' => 'auth', 'main' => functi
 	$vars['fields'] = Extend::fields('post', $id);
 
 	$vars['statuses'] = array(
-		'published' => __('posts.published', 'Published'),
-		'draft' => __('posts.draft', 'Draft'),
-		'archived' => __('posts.archived', 'Archived')
+		'published' => __('global.published'),
+		'draft' => __('global.draft'),
+		'archived' => __('global.archived')
 	);
 
 	$vars['categories'] = Category::dropdown();
@@ -45,7 +45,7 @@ Route::post('admin/posts/edit/(:num)', array('before' => 'auth', 'main' => funct
 	$validator = new Validator($input);
 
 	$validator->check('title')
-		->is_max(3, __('posts.missing_title', 'Please enter a title'));
+		->is_max(3, __('posts.title_missing'));
 
 	if($errors = $validator->errors()) {
 		Input::flash();
@@ -80,7 +80,7 @@ Route::post('admin/posts/edit/(:num)', array('before' => 'auth', 'main' => funct
 
 	Extend::process('post', $id);
 
-	Notify::success(__('posts.updated', 'Your article has been updated.'));
+	Notify::success(__('posts.updated'));
 
 	return Response::redirect('admin/posts/edit/' . $id);
 }));
@@ -97,9 +97,9 @@ Route::get('admin/posts/add', array('before' => 'auth', 'main' => function() {
 	$vars['fields'] = Extend::fields('post');
 
 	$vars['statuses'] = array(
-		'published' => __('posts.published', 'Published'),
-		'draft' => __('posts.draft', 'Draft'),
-		'archived' => __('posts.archived', 'Archived')
+		'published' => __('global.published'),
+		'draft' => __('global.draft'),
+		'archived' => __('global.archived')
 	);
 
 	$vars['categories'] = Category::dropdown();
@@ -117,7 +117,7 @@ Route::post('admin/posts/add', array('before' => 'auth', 'main' => function() {
 	$validator = new Validator($input);
 
 	$validator->check('title')
-		->is_max(3, __('posts.missing_title', 'Please enter a title'));
+		->is_max(3, __('posts.title_missing'));
 
 	if($errors = $validator->errors()) {
 		Input::flash();
@@ -153,9 +153,7 @@ Route::post('admin/posts/add', array('before' => 'auth', 'main' => function() {
 
 	Extend::process('post', $post->id);
 
-	$message = __('posts.created', 'Your new article was created, <a href="%s">continue editing</a>.');
-
-	Notify::success(sprintf($message, Uri::to('posts/edit/' . $post->id)));
+	Notify::success(__('posts.created', Uri::to('posts/edit/' . $post->id)));
 
 	return Response::redirect('admin/posts');
 }));
@@ -183,7 +181,7 @@ Route::get('admin/posts/delete/(:num)', array('before' => 'auth', 'main' => func
 
 	Query::table('post_meta')->where('post', '=', $id)->delete();
 
-	Notify::success(__('posts.post_success_deleted'));
+	Notify::success(__('posts.deleted'));
 
 	return Response::redirect('admin/posts');
 }));

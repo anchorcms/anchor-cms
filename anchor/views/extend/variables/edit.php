@@ -1,7 +1,7 @@
 <?php echo $header; ?>
 
 <hgroup class="wrap">
-	<h1><?php echo __('extend.edit_variable', 'Edit Variable'); ?></h1>
+	<h1><?php echo __('extend.editing_variable', $variable->user_key); ?></h1>
 </hgroup>
 
 <section class="wrap">
@@ -13,22 +13,23 @@
 
 		<fieldset class="split">
 			<p>
-				<label><?php echo __('extend.variable_name', 'Key'); ?>:</label>
+				<label><?php echo __('extend.name'); ?>:</label>
 				<?php echo Form::text('key', Input::previous('key', $variable->user_key)); ?>
+				<em><?php echo __('extend.name_explain'); ?></em>
 			</p>
 
 			<p>
-				<label><?php echo __('extend.variable_value', 'Value'); ?>:</label>
+				<label><?php echo __('extend.value'); ?>:</label>
 				<?php echo Form::textarea('value', Input::previous('value', $variable->value), array('cols' => 20)); ?>
-				<summary>Snippet to insert into your template:<br>
-				<code><?php echo e('<?php echo site_meta(\'' . $variable->user_key . '\'); ?>'); ?></code></summary>
+				<em><?php echo __('extend.value_explain'); ?></em>
+				<summary><?php echo __('extend.value_code_snipet', $variable->user_key); ?></summary>
 			</p>
 		</fieldset>
 
 		<aside class="buttons">
-			<?php echo Form::button(__('extend.update', 'Update'), array('class' => 'btn', 'type' => 'submit')); ?>
+			<?php echo Form::button(__('global.update'), array('class' => 'btn', 'type' => 'submit')); ?>
 			<?php echo Html::link('admin/extend/variables/delete/' . $variable->key,
-				__('extend.edit_delete', 'Delete'), array('class' => 'btn delete red')); ?>
+				__('global.delete'), array('class' => 'btn delete red')); ?>
 		</aside>
 	</form>
 </section>

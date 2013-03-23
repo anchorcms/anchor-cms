@@ -4,15 +4,11 @@
 /*
 	List Comments
 */
-Route::get(array(
-	'admin/comments',
-	'admin/comments/(pending|approved|spam)',
-	'admin/comments/(pending|approved|spam)/(:num)',
-	'admin/comments/(pending|approved|spam)/(:num)/(:num)'
-), array('before' => 'auth', 'main' => function($status = 'all', $page = 1, $perpage = 10) {
-	$vars['messages'] = Notify::read();
+Route::get(array('admin/comments', 'admin/comments/(pending|approved|spam)', 'admin/comments/(pending|approved|spam)/(:num)'),
+	array('before' => 'auth', 'main' => function($status = 'all', $page = 1) {
 
 	$query = Query::table(Base::table(Comment::$table));
+	$perpage = Config::meta('posts_per_page');
 
 	if(in_array($status, array('pending', 'approved', 'spam'))) {
 		$query->where('status', '=', $status);
@@ -22,6 +18,7 @@ Route::get(array(
 	$results = $query->take($perpage)->skip(($page - 1) * $perpage)->sort('date', 'desc')->get();
 
 	$vars['comments'] = new Paginator($results, $count, $page, $perpage, Uri::to('comments/' . $status));
+	$vars['messages'] = Notify::read();
 
 	return View::create('comments/index', $vars)
 		->partial('header', 'partials/header')
@@ -37,9 +34,9 @@ Route::get('admin/comments/edit/(:num)', array('before' => 'auth', 'main' => fun
 	$vars['comment'] = Comment::find($id);
 
 	$vars['statuses'] = array(
-		'approved' => __('comments.approved', 'Approved'),
-		'pending' => __('comments.pending', 'Pending'),
-		'spam' => __('comments.spam', 'Spam')
+		'approved' => __('global.approved'),
+		'pending' => __('global.pending'),
+		'spam' => __('global.spam')
 	);
 
 	return View::create('comments/edit', $vars)
@@ -53,10 +50,10 @@ Route::post('admin/comments/edit/(:num)', array('before' => 'auth', 'main' => fu
 	$validator = new Validator($input);
 
 	$validator->check('name')
-		->is_max(3, __('comments.missing_name', 'Please enter a name'));
+		->is_max(3, __('comments.name_missing'));
 
 	$validator->check('text')
-		->is_max(3, __('comments.missing_text', 'Please enter comment text'));
+		->is_max(3, __('comments.text_missing'));
 
 	if($errors = $validator->errors()) {
 		Input::flash();
@@ -68,7 +65,7 @@ Route::post('admin/comments/edit/(:num)', array('before' => 'auth', 'main' => fu
 
 	Comment::update($id, $input);
 
-	Notify::success(__('comments.updated', 'Your comment has been updated.'));
+	Notify::success(__('comments.updated'));
 
 	return Response::redirect('admin/comments/' . $input['status']);
 }));
@@ -82,57 +79,7 @@ Route::get('admin/comments/delete/(:num)', array('before' => 'auth', 'main' => f
 
 	$comment->delete();
 
-	return Response::redirect('admin/comments/' . $status);
-}));
-
-/*
-	Approve Comment
-*/
-Route::get('admin/comments/status/approve/(:num)', array('before' => 'auth', 'main' => function($id) {
-	$comment = Comment::find($id);
-	$status = $comment->status;
-
-	$comment->status = 'approved';
-	$comment->save();
-
-	return Response::redirect('admin/comments/' . $status);
-}));
-
-/*
-	Unapprove Comment
-*/
-Route::get('admin/comments/status/unapprove/(:num)', array('before' => 'auth', 'main' => function($id) {
-	$comment = Comment::find($id);
-	$status = $comment->status;
-
-	$comment->status = 'pending';
-	$comment->save();
-
-	return Response::redirect('admin/comments/' . $status);
-}));
-
-/*
-	Spam Comment
-*/
-Route::get('admin/comments/status/spam/(:num)', array('before' => 'auth', 'main' => function($id) {
-	$comment = Comment::find($id);
-	$status = $comment->status;
-
-	$comment->status = 'spam';
-	$comment->save();
-
-	return Response::redirect('admin/comments/' . $status);
-}));
-
-/*
-	Not Spam Comment
-*/
-Route::get('admin/comments/status/notspam/(:num)', array('before' => 'auth', 'main' => function($id) {
-	$comment = Comment::find($id);
-	$status = $comment->status;
-
-	$comment->status = 'pending';
-	$comment->save();
+	Notify::success(__('comments.deleted'));
 
 	return Response::redirect('admin/comments/' . $status);
 }));

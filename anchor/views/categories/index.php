@@ -1,11 +1,10 @@
 <?php echo $header; ?>
 
 <hgroup class="wrap">
-	<h1><?php echo __('categories.title', 'Categories'); ?></h1>
+	<h1><?php echo __('categories.categories'); ?></h1>
 
 	<nav>
-		<?php echo Html::link('admin/categories/add',
-			__('categories.create_category', 'Create a new category'), array('class' => 'btn')); ?>
+		<?php echo Html::link('admin/categories/add', __('categories.create_category'), array('class' => 'btn')); ?>
 	</nav>
 </hgroup>
 

@@ -2,11 +2,27 @@
 
 return array(
 
-	'missing_title' => 'Please enter a title',
-	'category_failed_delete' => 'You must have at least one category',
+	'category' => 'Category',
+	'categories' => 'Categories',
 
-	'category_success_created' => 'Your new category has been added.',
-	'category_success_updated' => 'Your category has been updated.',
-	'category_success_deleted' => 'Your category has been deleted.'
+	'create_category' => 'Create a new category',
+	'edit_category' => 'Editing &ldquo;%s&rdquo;',
+
+	// form fields
+	'title' => 'Title',
+	'title_explain' => 'Your category title.',
+	'title_missing' => 'Please enter a title',
+
+	'slug' => 'Slug',
+	'slug_explain' => 'The slug for your category.',
+
+	'description' => 'Description',
+	'description_explain' => 'What your category is about.',
+
+	// messages
+	'created' => 'Your new category has been added.',
+	'updated' => 'Your category has been updated.',
+	'deleted' => 'Your category has been deleted.',
+	'delete_error' => 'You must have at least one category.',
 
 );

@@ -1,11 +1,10 @@
 <?php echo $header; ?>
 
 <hgroup class="wrap">
-	<h1><?php echo __('extend.variables', 'Site Variables'); ?></h1>
+	<h1><?php echo __('extend.variables'); ?></h1>
 
 	<nav>
-		<?php echo Html::link('admin/extend/variables/add',
-			__('extend.create_variable', 'Create a new variable'), array('class' => 'btn')); ?>
+		<?php echo Html::link('admin/extend/variables/add', __('extend.create_variable'), array('class' => 'btn')); ?>
 	</nav>
 </hgroup>
 
@@ -18,7 +17,6 @@
 		<li>
 			<a href="<?php echo Uri::to('admin/extend/variables/edit/' . $var->key); ?>">
 				<strong><?php echo substr($var->key, strlen('custom_')); ?></strong>
-
 				<p><?php echo e($var->value); ?></p>
 			</a>
 		</li>
@@ -26,8 +24,7 @@
 	</ul>
 	<?php else: ?>
 	<p class="empty">
-		<span class="icon"></span>
-		No variables yet.
+		<span class="icon"></span> <?php echo __('extend.novars_desc'); ?>
 	</p>
 	<?php endif; ?>
 </section>

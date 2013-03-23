@@ -46,12 +46,27 @@ class Uri {
 	 * @param string
 	 * @return string
 	 */
-	public static function full($uri) {
+	public static function full($uri, $secure = null) {
 		if(strpos($uri, '://')) return $uri;
 
-		$scheme = empty($_SERVER['HTTPS']) ? 'http://' : 'https://';
+		if( ! is_null($secure)) {
+			$scheme = $secure ? 'https://' : 'http://';
+		}
+		else {
+			$scheme = empty($_SERVER['HTTPS']) ? 'http://' : 'https://';
+		}
 
 		return $scheme . $_SERVER['HTTP_HOST'] . static::to($uri);
+	}
+
+	/**
+	 * Get full secure uri relative to the application
+	 *
+	 * @param string
+	 * @return string
+	 */
+	public static function secure($uri) {
+		return static::full($uri, true);
 	}
 
 	/**

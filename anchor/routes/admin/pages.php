@@ -20,10 +20,11 @@ Route::get('admin/pages/edit/(:num)', array('before' => 'auth', 'main' => functi
 	$vars['token'] = Csrf::token();
 	$vars['page'] = Page::find($id);
 	$vars['pages'] = Page::dropdown(array('exclude' => array($id), 'show_empty_option' => true));
+
 	$vars['statuses'] = array(
-		'published' => __('pages.published'),
-		'draft' => __('pages.draft'),
-		'archived' => __('pages.archived')
+		'published' => __('global.published'),
+		'draft' => __('global.draft'),
+		'archived' => __('global.archived')
 	);
 
 	// extended fields
@@ -41,11 +42,11 @@ Route::post('admin/pages/edit/(:num)', array('before' => 'auth', 'main' => funct
 	$validator = new Validator($input);
 
 	$validator->check('title')
-		->is_max(3, __('pages.missing_title'));
+		->is_max(3, __('pages.title_missing'));
 
 	if($input['redirect']) {
 		$validator->check('redirect')
-			->is_url( __('pages.missing_redirect', 'Please enter a valid url'));
+			->is_url( __('pages.redirect_missing'));
 	}
 
 	if($errors = $validator->errors()) {
@@ -75,7 +76,7 @@ Route::post('admin/pages/edit/(:num)', array('before' => 'auth', 'main' => funct
 
 	Extend::process('page', $id);
 
-	Notify::success(__('pages.page_success_updated'));
+	Notify::success(__('pages.updated'));
 
 	return Response::redirect('admin/pages/edit/' . $id);
 }));
@@ -87,10 +88,11 @@ Route::get('admin/pages/add', array('before' => 'auth', 'main' => function() {
 	$vars['messages'] = Notify::read();
 	$vars['token'] = Csrf::token();
 	$vars['pages'] = Page::dropdown(array('exclude' => array(), 'show_empty_option' => true));
+
 	$vars['statuses'] = array(
-		'published' => __('pages.published'),
-		'draft' => __('pages.draft'),
-		'archived' => __('pages.archived')
+		'published' => __('global.published'),
+		'draft' => __('global.draft'),
+		'archived' => __('global.archived')
 	);
 
 	// extended fields
@@ -103,16 +105,17 @@ Route::get('admin/pages/add', array('before' => 'auth', 'main' => function() {
 }));
 
 Route::post('admin/pages/add', array('before' => 'auth', 'main' => function() {
-	$input = Input::get(array('parent', 'name', 'title', 'slug', 'content', 'status', 'redirect', 'show_in_menu'));
+	$input = Input::get(array('parent', 'name', 'title', 'slug', 'content',
+		'status', 'redirect', 'show_in_menu'));
 
 	$validator = new Validator($input);
 
 	$validator->check('title')
-		->is_max(3, __('pages.missing_title', ''));
+		->is_max(3, __('pages.title_missing'));
 
 	if($input['redirect']) {
 		$validator->check('redirect')
-			->is_url( __('pages.missing_redirect', 'Please enter a valid url'));
+			->is_url(__('pages.redirect_missing'));
 	}
 
 	if($errors = $validator->errors()) {
@@ -142,7 +145,7 @@ Route::post('admin/pages/add', array('before' => 'auth', 'main' => function() {
 
 	Extend::process('page', $page->id);
 
-	Notify::success(__('pages.page_success_created'));
+	Notify::success(__('pages.created'));
 
 	return Response::redirect('admin/pages');
 }));
@@ -153,7 +156,7 @@ Route::post('admin/pages/add', array('before' => 'auth', 'main' => function() {
 Route::get('admin/pages/delete/(:num)', array('before' => 'auth', 'main' => function($id) {
 	Page::find($id)->delete();
 
-	Notify::success(__('pages.page_success_delete'));
+	Notify::success(__('pages.deleted'));
 
 	return Response::redirect('admin/pages');
 }));
