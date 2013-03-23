@@ -5,7 +5,7 @@ class Language {
 	private static $lines = array();
 
 	private static function path($file) {
-		$language = Config::app('language');
+		$language = Config::app('language', 'en_GB');
 
 		return APP . 'language/' . $language . '/' . $file . '.php';
 	}
@@ -17,7 +17,17 @@ class Language {
 	}
 
 	public static function line($key, $default = '', $args = array()) {
-		list($file, $line) = explode('.', $key);
+		$parts = explode('.', $key);
+
+		if(count($parts) > 1) {
+			$file = array_shift($parts);
+			$line = array_shift($parts);
+		}
+
+		if(count($parts) == 1) {
+			$file = 'global';
+			$line = array_shift($parts);
+		}
 
 		if( ! isset(static::$lines[$file])) {
 			static::load($file);

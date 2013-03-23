@@ -40,12 +40,19 @@ Route::post('admin/extend/variables/add', array('before' => 'auth', 'main' => fu
 	$validator = new Validator($input);
 
 	$validator->add('valid_key', function($str) {
-		return Query::table(Base::table('meta'))->where('key', '=', $str)->count() == 0;
+		if(strlen($str) > 7) {
+			return Query::table(Base::table('meta'))
+				->where('key', '=', $str)
+				->count() == 0;
+		}
+
+		return true;
 	});
 
 	$validator->check('key')
-		->is_max(3, __('extend.missing_variable_key', 'Please enter a unique key'))
-		->is_valid_key(__('extend.missing_variable_key', 'Please enter a unique key'));
+		// include prefix length 'custom_'
+		->is_max(7, __('extend.name_missing'))
+		->is_valid_key(__('extend.name_exists'));
 
 	if($errors = $validator->errors()) {
 		Input::flash();
@@ -57,7 +64,7 @@ Route::post('admin/extend/variables/add', array('before' => 'auth', 'main' => fu
 
 	Query::table(Base::table('meta'))->insert($input);
 
-	Notify::success(__('extend.variable_success_created', 'Variable Created'));
+	Notify::success(__('extend.variable_created'));
 
 	return Response::redirect('admin/extend/variables');
 }));
@@ -94,8 +101,9 @@ Route::post('admin/extend/variables/edit/(:any)', array('before' => 'auth', 'mai
 	});
 
 	$validator->check('key')
-		->is_max(3, __('extend.missing_variable_key', 'Please enter a unique key'))
-		->is_valid_key(__('extend.missing_variable_key', 'Please enter a unique key'));
+		// include prefix length 'custom_'
+		->is_max(7, __('extend.name_missing'))
+		->is_valid_key(__('extend.name_exists'));
 
 	if($errors = $validator->errors()) {
 		Input::flash();
@@ -107,7 +115,7 @@ Route::post('admin/extend/variables/edit/(:any)', array('before' => 'auth', 'mai
 
 	Query::table(Base::table('meta'))->where('key', '=', $key)->update($input);
 
-	Notify::success(__('extend.variable_success_updated', 'Variable Update'));
+	Notify::success(__('extend.variable_updated'));
 
 	return Response::redirect('admin/extend/variables');
 }));
@@ -118,7 +126,7 @@ Route::post('admin/extend/variables/edit/(:any)', array('before' => 'auth', 'mai
 Route::get('admin/extend/variables/delete/(:any)', array('before' => 'auth', 'main' => function($key) {
 	Query::table(Base::table('meta'))->where('key', '=', $key)->delete();
 
-	Notify::success(__('extend.variable_success_delete', 'Variable Deleted'));
+	Notify::success(__('extend.variable_deleted'));
 
 	return Response::redirect('admin/extend/variables');
 }));

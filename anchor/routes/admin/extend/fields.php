@@ -42,10 +42,11 @@ Route::post('admin/extend/fields/add', array('before' => 'auth', 'main' => funct
 	});
 
 	$validator->check('key')
-		->is_valid_key(__('extend.missing_key', 'Please enter a unique key'));
+		->is_max(1, __('extend.key_missing'))
+		->is_valid_key(__('extend.key_exists'));
 
 	$validator->check('label')
-		->is_max(1, __('extend.missing_label', 'Please enter a label'));
+		->is_max(1, __('extend.label_missing'));
 
 	if($errors = $validator->errors()) {
 		Input::flash();
@@ -77,7 +78,7 @@ Route::post('admin/extend/fields/add', array('before' => 'auth', 'main' => funct
 		'attributes' => $attributes
 	));
 
-	Notify::success(__('extend.extend_success_created', 'Field Created'));
+	Notify::success(__('extend.field_created'));
 
 	return Response::redirect('admin/extend/fields');
 }));
@@ -120,10 +121,11 @@ Route::post('admin/extend/fields/edit/(:num)', array('before' => 'auth', 'main' 
 	});
 
 	$validator->check('key')
-		->is_valid_key(__('extend.missing_key', 'Please enter a unique key'));
+		->is_max(1, __('extend.key_missing'))
+		->is_valid_key(__('extend.key_exists'));
 
 	$validator->check('label')
-		->is_max(1, __('extend.missing_label', 'Please enter a label'));
+		->is_max(1, __('extend.label_missing'));
 
 	if($errors = $validator->errors()) {
 		Input::flash();
@@ -155,7 +157,7 @@ Route::post('admin/extend/fields/edit/(:num)', array('before' => 'auth', 'main' 
 		'attributes' => $attributes
 	));
 
-	Notify::success(__('extend.extend_success_updated', 'Field Updated'));
+	Notify::success(__('extend.field_updated'));
 
 	return Response::redirect('admin/extend/fields/edit/' . $id);
 }));
@@ -169,6 +171,8 @@ Route::get('admin/extend/fields/delete/(:num)', array('before' => 'auth', 'main'
 	Query::table(Base::table($field->type . '_meta'))->where('extend', '=', $field->id)->delete();
 
 	$field->delete();
+
+	Notify::success(__('extend.field_deleted'));
 
 	return Response::redirect('admin/extend/fields');
 }));

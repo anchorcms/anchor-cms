@@ -10,7 +10,7 @@ date_default_timezone_set(Config::app('timezone', 'UTC'));
  */
 switch(constant('ENV')) {
 	case 'dev':
-		ini_set('display_errors', false);
+		ini_set('display_errors', true);
 		error_reporting(-1);
 		break;
 
@@ -29,10 +29,10 @@ Autoloader::directory(array(
 /**
  * Helpers
  */
-function __($line, $default = 'No language replacement') {
-	$args = array_slice(func_get_args(), 2);
+function __($line) {
+	$args = array_slice(func_get_args(), 1);
 
-	return Language::line($line, $default, $args);
+	return Language::line($line, null, $args);
 }
 
 function is_admin() {

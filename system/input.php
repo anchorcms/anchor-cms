@@ -49,17 +49,50 @@ class Input {
 	 * @return mixed
 	 */
 	public static function get($key, $fallback = null) {
-		if(is_array($key)) {
-			$values = array();
+		if(is_array($key)) return static::get_array($key, $fallback);
 
-			foreach($key as $k) {
-				$values[$k] = static::get($k, $fallback);
+		return Arr::get(static::$array, $key, $fallback);
+	}
+
+	/**
+	 * Get a array of elements from the input array
+	 *
+	 * @param array
+	 * @param mixed
+	 * @return array
+	 */
+	public static function get_array($array, $fallback = null) {
+		$values = array();
+
+		foreach($array as $key) {
+			$values[$key] = static::get($key, $fallback);
+		}
+
+		return $values;
+	}
+
+	/**
+	 * Get a element or array of elements from the input array
+	 * and return sanitized values
+	 *
+	 * @param string|array
+	 * @param mixed
+	 * @return mixed
+	 */
+	public static function safe($key, $fallback = null) {
+		if(is_array($key)) {
+			$values = static::get_array($key, $fallback);
+
+			foreach(array_keys($values) as $index) {
+				$values[$index] = Str::create($values[$index])->strip()->value();
 			}
 
 			return $values;
 		}
 
-		return Arr::get(static::$array, $key, $fallback);
+		$value = Arr::get(static::$array, $key, $fallback);
+
+		return Str::create($value)->strip()->value();
 	}
 
 	/**

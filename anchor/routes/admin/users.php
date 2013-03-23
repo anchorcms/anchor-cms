@@ -51,18 +51,15 @@ Route::post('admin/users/edit/(:num)', array('before' => 'auth', 'main' => funct
 		return ($str != 'inactive' and Auth::user()->id == $id);
 	});
 
-	$validator->check('status')
-		->is_safe(__('users.invalid_status'));
-
 	$validator->check('username')
-		->is_max(3, __('users.missing_username'));
+		->is_max(2, __('users.username_missing', 2));
 
 	$validator->check('email')
-		->is_email(__('users.missing_email'));
+		->is_email(__('users.email_missing'));
 
 	if($password_reset) {
 		$validator->check('password')
-			->is_max(6, sprintf(__('users.password_too_short'), 6));
+			->is_max(6, __('users.password_too_short', 6));
 	}
 
 	if($errors = $validator->errors()) {
@@ -79,7 +76,7 @@ Route::post('admin/users/edit/(:num)', array('before' => 'auth', 'main' => funct
 
 	User::update($id, $input);
 
-	Notify::success(__('users.user_success_updated'));
+	Notify::success(__('users.updated'));
 
 	return Response::redirect('admin/users/edit/' . $id);
 }));
@@ -92,8 +89,8 @@ Route::get('admin/users/add', array('before' => 'auth', 'main' => function() {
 	$vars['token'] = Csrf::token();
 
 	$vars['statuses'] = array(
-		'inactive' => __('users.inactive'),
-		'active' => __('users.active')
+		'inactive' => __('global.inactive'),
+		'active' => __('global.active')
 	);
 
 	$vars['roles'] = array(
@@ -113,13 +110,13 @@ Route::post('admin/users/add', array('before' => 'auth', 'main' => function() {
 	$validator = new Validator($input);
 
 	$validator->check('username')
-		->is_max(3, __('users.missing_username'));
+		->is_max(2, __('users.username_missing', 2));
 
 	$validator->check('email')
-		->is_email(__('users.missing_email'));
+		->is_email(__('users.email_missing'));
 
 	$validator->check('password')
-		->is_max(6, sprintf(__('users.password_too_short'), 6));
+		->is_max(6, __('users.password_too_short', 6));
 
 	if($errors = $validator->errors()) {
 		Input::flash();
@@ -133,7 +130,7 @@ Route::post('admin/users/add', array('before' => 'auth', 'main' => function() {
 
 	User::create($input);
 
-	Notify::success(__('users.user_success_created'));
+	Notify::success(__('users.created'));
 
 	return Response::redirect('admin/users');
 }));
@@ -145,14 +142,14 @@ Route::get('admin/users/delete/(:num)', array('before' => 'auth', 'main' => func
 	$self = Auth::user();
 
 	if($self->id == $id) {
-		Notify::error('You cannot commit suicide');
+		Notify::error(__('users.delete_error'));
 
 		return Response::redirect('admin/users/edit/' . $id);
 	}
 
 	User::where('id', '=', $id)->delete();
 
-	Notify::success(__('users.user_success_deleted'));
+	Notify::success(__('users.deleted'));
 
 	return Response::redirect('admin/users');
 }));

@@ -3,12 +3,14 @@
 class Paginator {
 
 	public $results = array();
-
 	public $count = 0;
-
 	public $page = 1;
-
 	public $perpage = 10;
+
+	public $first = 'First';
+	public $last = 'Last';
+	public $next = 'Next';
+	public $prev = 'Previous';
 
 	public function __construct($results, $count, $page, $perpage, $url) {
 		$this->results = $results;
@@ -18,7 +20,9 @@ class Paginator {
 		$this->url = rtrim($url, '/');
 	}
 
-	public function next_link($text = 'Next &rarr;', $default = '') {
+	public function next_link($text = null, $default = '') {
+		if(is_null($text)) $text = $this->next;
+
 		$pages = ceil($this->count / $this->perpage);
 
 		if($this->page < $pages) {
@@ -30,7 +34,9 @@ class Paginator {
 		return $default;
 	}
 
-	public function prev_link($text = '&larr; Previous', $default = '') {
+	public function prev_link($text = null, $default = '') {
+		if(is_null($text)) $text = $this->prev;
+
 		if($this->page > 1) {
 			$page = $this->page - 1;
 
@@ -51,7 +57,8 @@ class Paginator {
 			if($this->page > 1) {
 				$page = $this->page - 1;
 
-				$html = '<a href="' . $this->url . '">First</a> <a href="' . $this->url . '/' . $page . '">Previous</a>';
+				$html = '<a href="' . $this->url . '">' . $this->first . '</a>
+					<a href="' . $this->url . '/' . $page . '">' . $this->prev . '</a>';
 			}
 
 			for($i = $this->page - $range; $i < $this->page + $range; $i++) {
@@ -72,7 +79,8 @@ class Paginator {
 			if($this->page < $pages) {
 				$page = $this->page + 1;
 
-				$html .= '<a href="' . $this->url . '/' . $page . '">Next</a> <a href="' . $this->url . '/' . $pages . '">Last</a>';
+				$html .= '<a href="' . $this->url . '/' . $page . '">' . $this->next . '</a>
+					<a href="' . $this->url . '/' . $pages . '">' . $this->last . '</a>';
 			}
 
 		}

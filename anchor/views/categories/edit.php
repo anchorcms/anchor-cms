@@ -1,7 +1,7 @@
 <?php echo $header; ?>
 
 <hgroup class="wrap">
-	<h1>Editing &ldquo;<?php echo $category->title; ?>&rdquo;</h1>
+	<h1><?php echo __('categories.edit_category', $category->title); ?></h1>
 </hgroup>
 
 <section class="wrap">
@@ -13,31 +13,26 @@
 
 		<fieldset class="split">
 			<p>
-				<label><?php echo __('categories.title', 'Title'); ?>:</label>
+				<label><?php echo __('categories.title'); ?>:</label>
 				<?php echo Form::text('title', Input::previous('title', $category->title)); ?>
-
-				<em><?php echo __('categories.title_explain', 'Your category title.'); ?></em>
+				<em><?php echo __('categories.title_explain'); ?></em>
 			</p>
-
 			<p>
-				<label><?php echo __('categories.slug', 'Slug'); ?>:</label>
+				<label><?php echo __('categories.slug'); ?>:</label>
 				<?php echo Form::text('slug', Input::previous('slug', $category->slug)); ?>
-
-				<em><?php echo __('categories.slug_explain', 'The slug for your category.'); ?></em>
+				<em><?php echo __('categories.slug_explain'); ?></em>
 			</p>
-
 			<p>
-				<label><?php echo __('categories.description', 'Description'); ?>:</label>
+				<label><?php echo __('categories.description'); ?>:</label>
 				<?php echo Form::textarea('description', Input::previous('description', $category->description)); ?>
-
-				<em><?php echo __('categories.description_explain', 'What your category is about.'); ?></em>
+				<em><?php echo __('categories.description_explain'); ?></em>
 			</p>
 		</fieldset>
 
 		<aside class="buttons">
-			<?php echo Form::button(__('categories.save', 'Save'), array('type' => 'submit', 'class' => 'btn')); ?>
+			<?php echo Form::button(__('global.save'), array('type' => 'submit', 'class' => 'btn')); ?>
 
-			<?php echo Html::link('admin/categories/delete/' . $category->id, __('categories.delete', 'Delete'), array(
+			<?php echo Html::link('admin/categories/delete/' . $category->id, __('global.delete'), array(
 				'class' => 'btn delete red'
 			)); ?>
 		</aside>

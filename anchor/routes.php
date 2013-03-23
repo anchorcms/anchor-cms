@@ -90,10 +90,10 @@ Route::post($posts_page->slug . '/(:any)', function($slug) use($posts_page) {
 	$validator = new Validator($input);
 
 	$validator->check('email')
-		->is_email(__('comments.missing_email', 'Please enter your email address'));
+		->is_email(__('comments.email_missing'));
 
 	$validator->check('text')
-		->is_max(3, __('comments.missing_text', 'Please enter your comment'));
+		->is_max(3, __('comments.text_missing'));
 
 	if($errors = $validator->errors()) {
 		Input::flash();
@@ -104,8 +104,8 @@ Route::post($posts_page->slug . '/(:any)', function($slug) use($posts_page) {
 	}
 
 	$input['post'] = Post::slug($slug)->id;
-	$input['date'] = date('c');
-	$input['status'] = Config::get('meta.auto_published_comments') ? 'approved' : 'pending';
+	$input['date'] = date('Y-m-d H:i:s');
+	$input['status'] = Config::meta('auto_published_comments') ? 'approved' : 'pending';
 
 	// remove bad tags
 	$input['text'] = strip_tags($input['text'], '<a>,<b>,<blockquote>,<code>,<em>,<i>,<p>,<pre>');
@@ -115,13 +115,13 @@ Route::post($posts_page->slug . '/(:any)', function($slug) use($posts_page) {
 		$input['status'] = 'spam';
 	}
 
-	$input['id'] = Comment::create($input);
+	$comment = Comment::create($input);
 
-	Notify::success(__('comments.created', 'Your comment has been added.'));
+	Notify::success(__('comments.created'));
 
 	// dont notify if we have marked as spam
-	if( ! $spam and Config::get('meta.comment_notifications')) {
-		Comment::notify($input);
+	if( ! $spam and Config::meta('comment_notifications')) {
+		$comment->notify();
 	}
 
 	return Response::redirect($posts_page->slug . '/' . $slug . '#comment');

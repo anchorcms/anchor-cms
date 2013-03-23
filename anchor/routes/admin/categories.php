@@ -31,7 +31,7 @@ Route::post('admin/categories/edit/(:num)', array('before' => 'auth', 'main' => 
 	$validator = new Validator($input);
 
 	$validator->check('title')
-		->is_max(3, __('categories.missing_title'));
+		->is_max(3, __('categories.title_missing'));
 
 	if($errors = $validator->errors()) {
 		Input::flash();
@@ -49,7 +49,7 @@ Route::post('admin/categories/edit/(:num)', array('before' => 'auth', 'main' => 
 
 	Category::update($id, $input);
 
-	Notify::success(__('categories.category_success_updated'));
+	Notify::success(__('categories.updated'));
 
 	return Response::redirect('admin/categories/edit/' . $id);
 }));
@@ -72,7 +72,7 @@ Route::post('admin/categories/add', array('before' => 'auth', 'main' => function
 	$validator = new Validator($input);
 
 	$validator->check('title')
-		->is_max(3, __('categories.missing_title'));
+		->is_max(3, __('categories.title_missing'));
 
 	if($errors = $validator->errors()) {
 		Input::flash();
@@ -90,7 +90,7 @@ Route::post('admin/categories/add', array('before' => 'auth', 'main' => function
 
 	Category::create($input);
 
-	Notify::success(__('categories.category_success_created'));
+	Notify::success(__('categories.created'));
 
 	return Response::redirect('admin/categories');
 }));
@@ -102,7 +102,7 @@ Route::get('admin/categories/delete/(:num)', array('before' => 'auth', 'main' =>
 	$total = Query::table(Category::$table)->count();
 
 	if($total == 1) {
-		Notify::error(__('categories.category_failed_delete'));
+		Notify::error(__('categories.delete_error'));
 
 		return Response::redirect('admin/categories/edit/' . $id);
 	}
@@ -118,7 +118,7 @@ Route::get('admin/categories/delete/(:num)', array('before' => 'auth', 'main' =>
 		'category' => $category->id
 	));
 
-	Notify::success(__('categories.category_success_delete', 'Category deleted'));
+	Notify::success(__('categories.deleted'));
 
 	return Response::redirect('admin/categories');
 }));
