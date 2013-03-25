@@ -29,10 +29,10 @@ Autoloader::directory(array(
 /**
  * Helpers
  */
-function __($line) {
+function __($line, $fallback = '') {
 	$args = array_slice(func_get_args(), 1);
 
-	return Language::line($line, null, $args);
+	return Language::line($line, $fallback, $args);
 }
 
 function is_admin() {

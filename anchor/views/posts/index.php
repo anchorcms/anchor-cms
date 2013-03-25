@@ -12,9 +12,19 @@
 
 <section class="wrap">
 	<?php echo $messages; ?>
+	
+	<nav class="sidebar">
+	    <a href="<?php echo Uri::to('admin/posts'); ?>" class="<?php if(!Input::get('cat')) echo 'active'; ?>"><?php echo __('global.all', 'All'); ?></a>
+	    
+	    <?php foreach(Category::paginate(1,999)->results as $result): ?>
+	    <a href="?cat=<?php echo $result->slug; ?>" class="<?php if(Input::get('cat') === $result->slug) echo 'active'; ?>">
+	        <?php echo $result->title; ?>
+	    </a>
+	    <?php endforeach; ?>
+	</nav>
 
 	<?php if($posts->count): ?>
-	<ul class="list">
+	<ul class="main list">
 		<?php foreach($posts->results as $article): ?>
 		<li>
 			<a href="<?php echo Uri::to('admin/posts/edit/' . $article->id); ?>">
