@@ -81,6 +81,7 @@
 	<div class="media-upload"></div>
 </form>
 
+<script src="<?php echo admin_asset('js/editor.js'); ?>"></script>
 <script src="<?php echo admin_asset('js/slug.js'); ?>"></script>
 <script src="<?php echo admin_asset('js/dragdrop.js'); ?>"></script>
 <script src="<?php echo admin_asset('js/focus-mode.js'); ?>"></script>
