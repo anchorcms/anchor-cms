@@ -1,0 +1,142 @@
+.markItUp textarea {
+  resize: none; 
+}
+
+.markItUpHeader {
+  text-align: center;
+}
+
+.markItUpHeader ul {
+  margin-bottom: 10px;
+}
+
+.markItUpFooter {
+	width:100%;
+	cursor:n-resize;
+}
+.markItUpResizeHandle {
+	overflow:hidden;
+	width:22px; height:5px;
+	margin-left:auto;
+	margin-right:auto;
+	background-image:url(../img/handle.png);
+	cursor:n-resize;
+}
+
+/* first row of buttons */
+.markItUpHeader ul li	{
+	list-style:none;
+	display: inline-block;
+	zoom: 1;
+	position:relative;
+}
+.markItUpHeader ul li ul{
+	display:none;
+}
+.markItUpHeader ul li:hover > ul{
+	display:block;
+}
+.markItUpHeader ul .markItUpDropMenu {
+	background:transparent url(../img/menu.png) no-repeat 115% 50%;
+	margin-right:5px;
+}
+.markItUpHeader ul .markItUpDropMenu li {
+	margin-right:0px;
+}
+.markItUpHeader ul .markItUpSeparator {
+	margin:0 10px;
+	width:1px;
+	height:16px;
+	overflow:hidden;
+	background-color:#CCC;
+}
+.markItUpHeader ul ul .markItUpSeparator {
+	width:auto; height:1px;
+	margin:0px;
+}
+/* next rows of buttons */
+.markItUpHeader ul ul {
+	display:none;
+	position:absolute;
+	top:18px; left:0px;	
+	background:#F5F5F5;
+	border:1px solid #3C769D;
+	height:inherit;
+}
+.markItUpHeader ul ul li {
+	float:none;
+	border-bottom:1px solid #3C769D;
+}
+.markItUpHeader ul ul .markItUpDropMenu {
+	background:#F5F5F5 url(../img/submenu.png) no-repeat 100% 50%;
+}
+/* next rows of buttons */
+.markItUpHeader ul ul ul {
+	position:absolute;
+	top:-1px; left:150px;
+}
+.markItUpHeader ul ul ul li {
+	float:none;
+}
+.markItUpHeader ul a {
+	display:block;
+	width:50px;
+	height:20px;
+	text-indent:-10000px;
+	background-repeat:no-repeat;
+	padding:3px;
+	margin:0px;
+}
+.markItUpHeader ul ul a {
+	display:block;
+	padding-left:0px;
+	text-indent:0;
+	width:120px; 
+	padding:5px 5px 5px 25px;
+	background-position:2px 50%;
+}
+.markItUpHeader ul ul a:hover  {
+	color:#FFF;
+	background-color:#3C769D;
+}
+
+.markItUp .markItUpButton a {
+  background-image: url(../img/icon_sprite.png);
+  background-repeat: no-repeat;
+  opacity: 0.35;
+}
+
+.markItUp .markItUpButton a:hover {
+  opacity: 0.7;
+}
+
+.markItUp .markItUpButton1 a {
+	background-position: -353px center;
+}
+
+.markItUp .markItUpButton2 a {
+	background-position: -437px center;
+}
+
+
+.markItUp .markItUpButton3 a {
+  background-position: 14px center;
+}
+
+.markItUp .markItUpButton4 a {
+	background-position: -57px center;
+}
+
+.markItUp .markItUpButton5 a {
+	background-position: -125px center;
+}
+.markItUp .markItUpButton6 a {
+	background-position: -207px center;
+}
+
+.markItUp .markItUpButton7 a {
+	background-position: -523px center;
+}
+.markItUp .markItUpButton8 a {
+	background-position: -281px center;
+}

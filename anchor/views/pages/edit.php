@@ -75,6 +75,7 @@
 	</fieldset>
 </form>
 
+<script src="<?php echo admin_asset('js/editor.js'); ?>"></script>
 <script src="<?php echo admin_asset('js/slug.js'); ?>"></script>
 <script src="<?php echo admin_asset('js/redirect.js'); ?>"></script>
 
