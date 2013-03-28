@@ -4,16 +4,6 @@ class Post extends Base {
 
 	public static $table = 'posts';
 
-	public static function paginate($page = 1, $perpage = 10) {
-		$query = Query::table(static::table());
-
-		$count = $query->count();
-
-		$results = $query->take($perpage)->skip(($page - 1) * $perpage)->sort('created', 'desc')->get();
-
-		return new Paginator($results, $count, $page, $perpage, Uri::to('admin/posts'));
-	}
-
 	public static function slug($slug) {
 		return static::left_join(Base::table('users'), Base::table('users.id'), '=', Base::table('posts.author'))
 			->where(Base::table('posts.slug'), '=', $slug)

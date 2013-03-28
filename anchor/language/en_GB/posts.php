@@ -17,6 +17,7 @@ return array(
 
 	'slug' => 'Slug',
 	'slug_explain' => '',
+	'slug_duplicate' => 'Slug already exists',
 
 	'description' => 'Description',
 	'description_explain' => '',

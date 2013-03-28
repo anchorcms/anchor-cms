@@ -12,14 +12,15 @@
 
 <section class="wrap">
 	<?php echo $messages; ?>
-	
+
 	<nav class="sidebar">
-	    <a href="<?php echo Uri::to('admin/posts'); ?>" class="<?php if(!Input::get('cat')) echo 'active'; ?>"><?php echo __('global.all', 'All'); ?></a>
-	    
-	    <?php foreach(Category::paginate(1,999)->results as $result): ?>
-	    <a href="?cat=<?php echo $result->slug; ?>" class="<?php if(Input::get('cat') === $result->slug) echo 'active'; ?>">
-	        <?php echo $result->title; ?>
-	    </a>
+		<?php echo Html::link('admin/posts', __('global.all'), array(
+			'class' => isset($category) ? '' : 'active'
+		)); ?>
+	    <?php foreach($categories as $cat): ?>
+		<?php echo Html::link('admin/posts/category/' . $cat->slug, $cat->title, array(
+			'class' => (isset($category) and $category->id == $cat->id) ? 'active' : ''
+		)); ?>
 	    <?php endforeach; ?>
 	</nav>
 

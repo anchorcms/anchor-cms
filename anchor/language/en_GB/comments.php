@@ -3,7 +3,6 @@
 return array(
 
 	'comments' => 'Comments',
-	'all_comments' => 'All',
 	'nocomments_desc' => 'No comments yet.',
 	'editing_comment' => 'Editing Comment',
 	'view_comment' => 'View Comment',

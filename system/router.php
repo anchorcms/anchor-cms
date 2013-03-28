@@ -61,41 +61,17 @@ class Router {
 	 *
 	 * @return object
 	 */
-	public static function create($method, $uri) {
-		return new static($method, $uri);
-	}
+	public static function create() {
+		if(Request::cli()) {
+			// get cli arguments
+			$args = Arr::get($_SERVER, 'argv', array());
 
-	/**
-	 * Try and match uri with filesystem so we only include
-	 * files relative to our uri and not everything
-	 *
-	 * @param string
-	 */
-	public static function import($uri) {
-		$path = APP . 'routes';
+			$uri = implode('/', array_slice($args, 1));
 
-		// try routes.php file
-		if(is_readable($routes = $path . EXT)) {
-			require $routes;
+			return new static('cli', trim($uri, '/') ?: '/');
 		}
 
-		// try direct match with uri
-		if(is_file($file = $path . DS . $uri . EXT)) {
-			require $file;
-		}
-
-		// try matching a folder
-		$segments = array_diff(explode('/', $uri), array(''));
-
-		while(count($segments)) {
-			// if we have a same name file import it
-			if(is_readable($file = $path . DS . $segments[0] . EXT)) {
-				require $file;
-			}
-
-			// step into dir shift one from the array
-			$path .= DS . array_shift($segments);
-		}
+		return new static(Request::method(), Uri::current());
 	}
 
 	/**
@@ -158,6 +134,10 @@ class Router {
 			if(preg_match('#^' . $pattern . '$#', $this->uri, $matched)) {
 				return new Route($action, array_slice($matched, 1));
 			}
+		}
+
+		if(isset(static::$routes['ERROR']['404'])) {
+			return new Route(static::$routes['ERROR']['404']);
 		}
 
 		throw new ErrorException('No routes matched');

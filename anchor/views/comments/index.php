@@ -6,10 +6,10 @@
 
 <section class="wrap">
 	<?php echo $messages; ?>
-	
+
 	<nav class="sidebar statuses">
 	    <?php foreach(array(
-	        '' => 'comments.all_comments',
+	        '' => 'global.all',
 	        '/pending' => 'global.pending',
 	        '/approved' => 'global.approved',
 	        '/spam' => 'global.spam'
@@ -34,9 +34,9 @@
     		</li>
     		<?php endforeach; ?>
     	</ul>
-    
+
     	<aside class="paging"><?php echo $comments->links(); ?></aside>
-    
+
     	<?php else: ?>
     	<p class="empty comments">
     		<span class="icon"></span> <?php echo __('comments.nocomments_desc'); ?>

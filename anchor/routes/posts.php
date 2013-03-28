@@ -4,8 +4,44 @@
 	List all posts and paginate through them
 */
 Route::get(array('admin/posts', 'admin/posts/(:num)'), array('before' => 'auth', 'main' => function($page = 1) {
+	$perpage = Config::meta('posts_per_page');
+	$total = Post::count();
+	$posts = Post::sort('created', 'desc')->take($perpage)->skip(($page - 1) * $perpage)->get();
+	$url = Uri::to('admin/posts');
+
+	$pagination = new Paginator($posts, $total, $page, $perpage, $url);
+
 	$vars['messages'] = Notify::read();
-	$vars['posts'] = Post::paginate($page, Config::get('meta.posts_per_page'));
+	$vars['posts'] = $pagination;
+	$vars['categories'] = Category::sort('title')->get();
+
+	return View::create('posts/index', $vars)
+		->partial('header', 'partials/header')
+		->partial('footer', 'partials/footer');
+}));
+
+/*
+	List posts by category and paginate through them
+*/
+Route::get(array('admin/posts/category/(:any)', 'admin/posts/category/(:any)/(:num)'),
+	array('before' => 'auth', 'main' => function($slug, $page = 1) {
+	if( ! $category = Category::slug($slug)) {
+		return Response::error(404);
+	}
+
+	$query = Post::where('category', '=', $category->id);
+
+	$perpage = Config::meta('posts_per_page');
+	$total = $query->count();
+	$posts = $query->sort('created', 'desc')->take($perpage)->skip(($page - 1) * $perpage)->get();
+	$url = Uri::to('admin/posts/category/' . $category->slug);
+
+	$pagination = new Paginator($posts, $total, $page, $perpage, $url);
+
+	$vars['messages'] = Notify::read();
+	$vars['posts'] = $pagination;
+	$vars['category'] = $category;
+	$vars['categories'] = Category::sort('title')->get();
 
 	return View::create('posts/index', $vars)
 		->partial('header', 'partials/header')
@@ -44,8 +80,15 @@ Route::post('admin/posts/edit/(:num)', array('before' => 'auth', 'main' => funct
 
 	$validator = new Validator($input);
 
+	$validator->add('duplicate', function($str) use($id) {
+		return Post::where('slug', '=', $str)->where('id', '<>', $id)->count() == 0;
+	});
+
 	$validator->check('title')
 		->is_max(3, __('posts.title_missing'));
+
+	$validator->check('slug')
+		->is_duplicate(__('posts.slug_duplicate'));
 
 	if($errors = $validator->errors()) {
 		Input::flash();
@@ -116,8 +159,15 @@ Route::post('admin/posts/add', array('before' => 'auth', 'main' => function() {
 
 	$validator = new Validator($input);
 
+	$validator->add('duplicate', function($str) {
+		return Post::where('slug', '=', $str)->count() == 0;
+	});
+
 	$validator->check('title')
 		->is_max(3, __('posts.title_missing'));
+
+	$validator->check('slug')
+		->is_duplicate(__('posts.slug_duplicate'));
 
 	if($errors = $validator->errors()) {
 		Input::flash();

@@ -18,9 +18,7 @@ require PATH . 'system/boot' . EXT;
 /**
  * Boot the application
  */
-if(is_readable($run = APP . 'run' . EXT)) {
-	require $run;
-}
+require APP . 'run' . EXT;
 
 /**
  * Set input
@@ -33,14 +31,9 @@ Input::detect(Request::method());
 Session::read();
 
 /**
- * Import defined routes
- */
-Router::import(Uri::current());
-
-/**
  * Route the request
  */
-$response = Router::create(Request::method(), Uri::current())->dispatch();
+$response = Router::create()->dispatch();
 
 /**
  * Update session

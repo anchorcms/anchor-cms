@@ -8,7 +8,7 @@ class Form {
 		$attributes['action'] = static::action($action);
 
 		if ( ! array_key_exists('accept-charset', $attributes)) {
-			$attributes['accept-charset'] = Config::get('application.encoding');
+			$attributes['accept-charset'] = Config::app('encoding');
 		}
 
 		return '<form' . Html::attributes($attributes) . '>';

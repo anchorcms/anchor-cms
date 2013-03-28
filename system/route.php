@@ -72,6 +72,16 @@ class Route {
 	}
 
 	/**
+	 * Start a collection of routes
+	 *
+	 * @param string
+	 * @param string|closure
+	 */
+	public static function collection($actions, $definitions) {
+		//
+	}
+
+	/**
 	 * Create a new instance of the Route class
 	 *
 	 * @param array
