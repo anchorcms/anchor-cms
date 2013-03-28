@@ -12,19 +12,16 @@
 
 <section class="wrap">
 	<?php echo $messages; ?>
-	
+
 	<nav class="sidebar statuses">
-	    <a href="<?php echo Uri::to('admin/pages/'); ?>" class="<?php if(!Input::get('type')) echo 'active'; ?>">
-	        <span class="icon"></span>
-            <?php echo __('global.all', 'All'); ?>
-            </a>
-	    
-	    <?php foreach(array('published', 'draft', 'archived') as $type): ?>
-	    <a href="?type=<?php echo $type; ?>" class="<?php echo $type . (Input::get('type') == $type ? ' active' : ''); ?>">
-	        <span class="icon"></span>
-	        <?php echo __('global.' . $type); ?>
-	    </a>
-	    <?php endforeach; ?>
+		<?php echo Html::link('admin/pages', '<span class="icon"></span> ' . __('global.all'), array(
+			'class' => ($status == 'all') ? 'active' : ''
+		)); ?>
+		<?php foreach(array('published', 'draft', 'archived') as $type): ?>
+		<?php echo Html::link('admin/pages/status/' . $type, '<span class="icon"></span> ' . __('global.' . $type), array(
+			'class' => ($status == $type) ? 'active' : ''
+		)); ?>
+		<?php endforeach; ?>
 	</nav>
 
 	<?php if($pages->count): ?>

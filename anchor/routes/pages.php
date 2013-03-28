@@ -4,8 +4,40 @@
 	List Pages
 */
 Route::get(array('admin/pages', 'admin/pages/(:num)'), array('before' => 'auth', 'main' => function($page = 1) {
+	$perpage = Config::meta('posts_per_page');
+	$total = Page::count();
+	$pages = Page::sort('title')->take($perpage)->skip(($page - 1) * $perpage)->get();
+	$url = Uri::to('admin/pages');
+
+	$pagination = new Paginator($pages, $total, $page, $perpage, $url);
+
 	$vars['messages'] = Notify::read();
-	$vars['pages'] = Page::paginate($page, Config::get('meta.posts_per_page'));
+	$vars['pages'] = $pagination;
+	$vars['status'] = 'all';
+
+	return View::create('pages/index', $vars)
+		->partial('header', 'partials/header')
+		->partial('footer', 'partials/footer');
+}));
+
+/*
+	List pages by status and paginate through them
+*/
+Route::get(array('admin/pages/status/(:any)', 'admin/pages/status/(:any)/(:num)'),
+	array('before' => 'auth', 'main' => function($status, $page = 1) {
+
+	$query = Page::where('status', '=', $status);
+
+	$perpage = Config::meta('posts_per_page');
+	$total = $query->count();
+	$pages = $query->sort('title')->take($perpage)->skip(($page - 1) * $perpage)->get();
+	$url = Uri::to('admin/pages/status');
+
+	$pagination = new Paginator($pages, $total, $page, $perpage, $url);
+
+	$vars['messages'] = Notify::read();
+	$vars['pages'] = $pagination;
+	$vars['status'] = $status;
 
 	return View::create('pages/index', $vars)
 		->partial('header', 'partials/header')
