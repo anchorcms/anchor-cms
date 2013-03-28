@@ -20,9 +20,6 @@ function posts() {
 	// back to the start
 	else $posts->rewind();
 
-	// back to the start
-	if( ! $result) $posts->rewind();
-
 	return $result;
 }
 
