@@ -11,9 +11,11 @@ return array(
 	// form fields
 	'sitename' => 'Site name',
 	'sitename_explain' => '',
+	'sitename_missing' => 'Your site needs a name!',
 
 	'sitedescription' => 'Site description',
 	'sitedescription_explain' => '',
+	'sitedescription_missing' => 'Your site needs a description!',
 
 	'homepage' => 'Home Page',
 	'homepage_explain' => '',
@@ -37,6 +39,7 @@ return array(
 	'current_theme' => 'Current theme',
 	'current_theme_explain' => '',
 
-
+	// messages
+	'updated' => 'Metadata updated',
 
 );

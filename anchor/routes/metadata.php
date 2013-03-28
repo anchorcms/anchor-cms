@@ -26,10 +26,10 @@ Route::post('admin/extend/metadata', array('before' => 'auth', 'main' => functio
 	$validator = new Validator($input);
 
 	$validator->check('sitename')
-		->is_max(3, __('metadata.missing_sitename'));
+		->is_max(3, __('metadata.sitename_missing'));
 
 	$validator->check('description')
-		->is_max(3, __('metadata.missing_description'));
+		->is_max(3, __('metadata.sitedescription_missing'));
 
 	$validator->check('posts_per_page')
 		->is_regex('#^[0-9]+$#', __('metadata.missing_posts_per_page', 'Please enter a number for posts per page'));
@@ -50,7 +50,7 @@ Route::post('admin/extend/metadata', array('before' => 'auth', 'main' => functio
 		Query::table(Base::table('meta'))->where('key', '=', $key)->update(array('value' => $value));
 	}
 
-	Notify::success(__('metadata.meta_success_updated'));
+	Notify::success(__('metadata.updated'));
 
 	return Response::redirect('admin/extend/metadata');
 }));
