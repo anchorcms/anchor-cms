@@ -10,12 +10,12 @@ abstract class Migration {
 
 		$sql = 'SHOW TABLES FROM `' . $db . '`';
 		list($result, $statement) = DB::ask($sql);
-		$statement->setFetchMode(PDO::FETCH_OBJ);
+		$statement->setFetchMode(PDO::FETCH_NUM);
 
 		$tables = array();
 
 		foreach($statement->fetchAll() as $row) {
-			$tables[] = $row->{'Tables_in_' . $db};
+			$tables[] = $row[0];
 		}
 
 		return in_array($table, $tables);
