@@ -43,7 +43,7 @@ function article_js() {
 
 function article_time() {
 	if($created = Registry::prop('article', 'created')) {
-		return strtotime($created);
+		return Date::format($created, 'U');
 	}
 }
 
