@@ -120,7 +120,7 @@ Route::post($posts_page->slug . '/(:any)', function($slug) use($posts_page) {
 	}
 
 	$input['post'] = Post::slug($slug)->id;
-	$input['date'] = date('Y-m-d H:i:s');
+	$input['date'] = Date::mysql('now');
 	$input['status'] = Config::meta('auto_published_comments') ? 'approved' : 'pending';
 
 	// remove bad tags
@@ -153,7 +153,12 @@ Route::get(array('rss', 'feeds/rss'), function() {
 	$query = Post::where('status', '=', 'published');
 
 	foreach($query->get() as $article) {
-		$rss->item($article->title, base_url(Registry::get('posts_page')->slug . '/' . $article->slug), $article->description, $article->created);
+		$rss->item(
+			$article->title,
+			Uri::to(Registry::get('posts_page')->slug . '/' . $article->slug),
+			$article->description,
+			$article->created
+		);
 	}
 
 	$xml = $rss->output();

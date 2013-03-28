@@ -10,4 +10,8 @@ class Date {
 		return date($format, $time);
 	}
 
+	public static function mysql($date) {
+		return static::format($date, 'Y-m-d H:i:s');
+	}
+
 }

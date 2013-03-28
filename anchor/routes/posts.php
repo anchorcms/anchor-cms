@@ -106,7 +106,7 @@ Route::post('admin/posts/edit/(:num)', array('before' => 'auth', 'main' => funct
 	$input['slug'] = slug($input['slug']);
 
 	if($input['created']) {
-		$input['created'] = Date::format($input['created'], 'Y-m-d H:i:s');
+		$input['created'] = Date::mysql($input['created']);
 	}
 	else {
 		unset($input['created']);
@@ -185,7 +185,7 @@ Route::post('admin/posts/add', array('before' => 'auth', 'main' => function() {
 	$input['slug'] = slug($input['slug']);
 
 	if(empty($input['created'])) {
-		$input['created'] = date('Y-m-d H:i:s');
+		$input['created'] = Date::mysql('now');
 	}
 
 	$user = Auth::user();

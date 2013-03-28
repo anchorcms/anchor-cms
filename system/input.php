@@ -72,30 +72,6 @@ class Input {
 	}
 
 	/**
-	 * Get a element or array of elements from the input array
-	 * and return sanitized values
-	 *
-	 * @param string|array
-	 * @param mixed
-	 * @return mixed
-	 */
-	public static function safe($key, $fallback = null) {
-		if(is_array($key)) {
-			$values = static::get_array($key, $fallback);
-
-			foreach(array_keys($values) as $index) {
-				$values[$index] = Str::create($values[$index])->strip()->value();
-			}
-
-			return $values;
-		}
-
-		$value = Arr::get(static::$array, $key, $fallback);
-
-		return Str::create($value)->strip()->value();
-	}
-
-	/**
 	 * Save the input array for the next request
 	 */
 	public static function flash() {
