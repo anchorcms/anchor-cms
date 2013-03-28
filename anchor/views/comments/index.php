@@ -1,45 +1,48 @@
 <?php echo $header; ?>
 
 <hgroup class="wrap">
-	<h1><?php echo __('comments.comments', 'Comments'); ?></h1>
-
-	<?php if($comments->count): ?>
-		<nav>
-			<a class="btn" href="<?php echo admin_url('comments'); ?>">All</a>
-			<a class="btn" href="<?php echo admin_url('comments/pending'); ?>">Pending</a>
-			<a class="btn" href="<?php echo admin_url('comments/approved'); ?>">Approved</a>
-			<a class="btn" href="<?php echo admin_url('comments/spam'); ?>">Spam</a>
-		</nav>
-	<?php endif; ?>
+	<h1><?php echo __('comments.comments'); ?></h1>
 </hgroup>
 
 <section class="wrap">
 	<?php echo $messages; ?>
 
-	<?php if($comments->count): ?>
-	<ul class="list">
-		<?php foreach($comments->results as $comment): ?>
-		<li>
-			<a href="<?php echo admin_url('comments/edit/' . $comment->id); ?>">
-				<strong><?php echo Str::truncate(strip_tags($comment->text), 2); ?></strong>
+	<nav class="sidebar statuses">
+	    <?php foreach(array(
+	        '' => 'global.all',
+	        '/pending' => 'global.pending',
+	        '/approved' => 'global.approved',
+	        '/spam' => 'global.spam'
+	    ) as $url => $str): ?>
+    	    <a class="link <?php echo str_replace('/', '', $url) . (Uri::to('admin/comments' . $url) === '/' . Uri::current() ? ' active' : ''); ?>" href="<?php echo Uri::to('admin/comments' . $url); ?>">
+    	        <span class="icon"></span>
+    	        <?php echo __($str); ?>
+    	    </a>
+	    <?php endforeach; ?>
+	</nav>
 
-				<span><?php echo __('comments.created', 'Created'); ?> <time><?php echo Date::format($comment->date); ?></time>
-				<?php echo __('comments.by', 'by'); ?> <?php echo $comment->name; ?></span>
+	<div class="main">
+    	<?php if($comments->count): ?>
+    	<ul class="list">
+    		<?php foreach($comments->results as $comment): ?>
+    		<li>
+    			<a href="<?php echo Uri::to('admin/comments/edit/' . $comment->id); ?>">
+    				<strong><?php echo strip_tags($comment->text); ?></strong>
+    				<span><time><?php echo Date::format($comment->date); ?></time></span>
+    				<span class="highlight"><?php echo $comment->status; ?></span>
+    			</a>
+    		</li>
+    		<?php endforeach; ?>
+    	</ul>
 
-				<span class="highlight"><?php echo $comment->status; ?></span>
-			</a>
-		</li>
-		<?php endforeach; ?>
-	</ul>
+    	<aside class="paging"><?php echo $comments->links(); ?></aside>
 
-	<aside class="paging"><?php echo $comments->links(); ?></aside>
-
-	<?php else: ?>
-	<p class="empty comments">
-		<span class="icon"></span>
-		<?php echo __('comments.no_comments', 'No comments, yet.'); ?>
-	</p>
-	<?php endif; ?>
+    	<?php else: ?>
+    	<p class="empty comments">
+    		<span class="icon"></span> <?php echo __('comments.nocomments_desc'); ?>
+    	</p>
+    	<?php endif; ?>
+    </div>
 </section>
 
 <?php echo $footer; ?>

@@ -3,67 +3,98 @@
 /**
  * Nano
  *
- * Lightweight php framework
+ * Just another php framework
  *
  * @package		nano
- * @author		k. wilson
  * @link		http://madebykieron.co.uk
+ * @copyright	http://unlicense.org/
  */
 
 use ErrorException;
 
 class Error {
 
-	public static function native($code, $error, $file, $line) {
-		// no error reporting nothing to do
-		if(error_reporting() === 0) return;
+	/**
+	 * Exception handler
+	 *
+	 * This will log the exception and output the exception properties
+	 * formatted as html or a 500 response depending on your application config
+	 *
+	 * @param object The uncaught exception
+	 */
+	public static function exception($e) {
+		static::log($e);
 
-		// For a PHP error, we'll create an ErrorExcepetion and then feed that
-		// exception to the exception method, which will create a simple view
-		// of the exception details for the developer.
-		$exception = new ErrorException($error, $code, 0, $file, $line);
+		if(Config::error('report')) {
+			// clear output buffer
+			while(ob_get_level() > 1) ob_end_clean();
 
-		if(in_array($code, Config::get('error.ignore'))) {
-			return static::log($exception);
+			echo '<html>
+				<head>
+					<title>Uncaught Exception</title>
+					<style>
+						body{font-family:"Open Sans",arial,sans-serif;background:#FFF;color:#333;margin:2em}
+						code{background:#D1E751;border-radius:4px;padding:2px 6px}
+					</style>
+				</head>
+				<body>
+					<h1>Uncaught Exception</h1>
+					<p><code>' . $e->getMessage() . '</code></p>
+					<h3>Origin</h3>
+					<p><code>' . substr($e->getFile(), strlen(PATH)) . ' on line ' . $e->getLine() . '</code></p>
+					<h3>Trace</h3>
+					<pre>' . $e->getTraceAsString() . '</pre>
+				</body>
+				</html>';
 		}
-
-		static::exception($exception);
-	}
-
-	public static function shutdown() {
-		if($error = error_get_last()) {
-			extract($error, EXTR_SKIP);
-
-			static::exception(new ErrorException($message, $type, 0, $file, $line));
-		}
-	}
-
-	public static function exception($exception) {
-		static::log($exception);
-
-		ob_get_level() and ob_end_clean();
-
-		// show details or error
-		if(Config::get('error.detail')) {
-			echo "<html><h2>Unhandled Exception</h2>
-				<h3>Message:</h3>
-				<pre>".$exception->getMessage()."</pre>
-				<h3>Location:</h3>
-				<pre>".$exception->getFile()." on line ".$exception->getLine()."</pre>
-				<h3>Stack Trace:</h3>
-				<pre>".$exception->getTraceAsString()."</pre></html>";
-		}
-		// show 500 error
 		else {
-			Response::error(500)->send();
+			// issue a 500 response
+			Response::error(500, array('exception' => $e))->send();
 		}
 
 		exit(1);
 	}
 
-	public static function log($exception) {
-		if(Config::get('error.log')) {
-			call_user_func(Config::get('error.logger'), $exception);
+	/**
+	 * Error handler
+	 *
+	 * This will catch the php native error and treat it as a exception
+	 * which will provide a full back trace on all errors
+	 *
+	 * @param int
+	 * @param string
+	 * @param string
+	 * @param int
+	 * @param array
+	 */
+	public static function native($code, $message, $file, $line, $context) {
+		static::exception(new ErrorException($message, $code, 0, $file, $line));
+	}
+
+	/**
+	 * Shutdown handler
+	 *
+	 * This will catch errors that are generated at the
+	 * shutdown level of execution
+	 */
+	public static function shutdown() {
+		if($error = error_get_last()) {
+			extract($error);
+
+			static::exception(new ErrorException($message, $type, 0, $file, $line));
+		}
+	}
+
+	/**
+	 * Exception logger
+	 *
+	 * Log the exception depending on the application config
+	 *
+	 * @param object The exception
+	 */
+	public static function log($e) {
+		if(is_callable($logger = Config::error('log'))) {
+			call_user_func($logger, $e);
 		}
 	}
 

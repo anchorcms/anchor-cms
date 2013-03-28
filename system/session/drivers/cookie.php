@@ -3,35 +3,42 @@
 /**
  * Nano
  *
- * Lightweight php framework
+ * Just another php framework
  *
  * @package		nano
- * @author		k. wilson
  * @link		http://madebykieron.co.uk
+ * @copyright	http://unlicense.org/
  */
 
-use System\Config, System\Cookie as C;
+use System\Cookie as C;
+use System\Session\Driver;
 
 class Cookie extends Driver {
 
-	public $payload_cookie;
+	public function read($id) {
+		extract($this->config);
 
-	public function __construct() {
-		$this->payload_cookie = Config::get('session.cookie', 'session') . '_payload';
-	}
-
-	public function load($id) {
-		if(C::has($this->payload_cookie)) {
-			return unserialize(C::get($this->payload_cookie));
+		// check if the cookie exists
+		if($encoded = C::read($cookie . '_payload')) {
+			// can we decode and unserialize it
+			if($data = @unserialize(base64_decode($encoded))) {
+				return $data;
+			}
 		}
 	}
 
-	public function save($session, $config, $exists) {
-		extract($config, EXTR_SKIP);
+	public function write($id, $cargo) {
+		extract($this->config);
 
-		$payload = serialize($session);
+		// if the session is set to never expire
+		// we will set it to 1 year
+		if($lifetime == 0) {
+			$lifetime = (3600 * 24 * 365);
+		}
 
-		C::put($this->payload_cookie, $payload, $lifetime, $path, $domain);
+		$data = base64_encode(serialize($cargo));
+
+		C::write($cookie . '_payload', $data, $lifetime, $path, $domain, $secure);
 	}
 
 }

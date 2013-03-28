@@ -4,7 +4,7 @@ class Update {
 
 	public static function version() {
 		// first time
-		if( ! $last = Config::get('meta.last_update_check')) {
+		if( ! $last = Config::meta('last_update_check')) {
 			$last = static::setup();
 		}
 
@@ -15,40 +15,43 @@ class Update {
 	}
 
 	public static function setup() {
-		$table = Query::table('meta');
 		$version = static::touch();
-		$today = date('c');
+		$today = date('Y-m-d H:i:s');
+		$table = Base::table('meta');
 
-		$table->insert(array('key' => 'last_update_check', 'value' => $today));
-		Config::$items['meta']['last_update_check'] = $today;
+		Query::table($table)->insert(array('key' => 'last_update_check', 'value' => $today));
+		Query::table($table)->insert(array('key' => 'update_version', 'value' => $version));
 
-		$table->insert(array('key' => 'update_version', 'value' => $version));
-		Config::$items['meta']['update_version'] = $version;
+		// reload database metadata
+		foreach(Query::table($table)->get() as $item) {
+			$meta[$item->key] = $item->value;
+		}
 
-		// reset cache
-		Config::$cache = array();
+		Config::set('meta', $meta);
 	}
 
 	public static function renew() {
-		$table = Query::table('meta');
 		$version = static::touch();
-		$today = date('c');
+		$today = date('Y-m-d H:i:s');
+		$table = Base::table('meta');
 
-		$table->where('key', '=', 'last_update_check')->update(array('value' => $today));
-		Config::$items['meta']['last_update_check'] = $today;
+		Query::table($table)->where('key', '=', 'last_update_check')->update(array('value' => $today));
+		Query::table($table)->where('key', '=', 'update_version')->update(array('value' => $version));
 
-		$table->where('key', '=', 'update_version')->update(array('value' => $version));
-		Config::$items['meta']['update_version'] = $version;
+		// reload database metadata
+		foreach(Query::table($table)->get() as $item) {
+			$meta[$item->key] = $item->value;
+		}
 
-		// reset cache
-		Config::$cache = array();
+		Config::set('meta', $meta);
 	}
 
 	public static function touch() {
 		$url = 'http://anchorcms.com/version';
 
 		if(in_array(ini_get('allow_url_fopen'), array('true', '1', 'On'))) {
-			$result = file_get_contents($url);
+			$context = stream_context_create(array('http' => array('timeout' => 2)));
+			$result = @file_get_contents($url, false, $context);
 		}
 		else if(function_exists('curl_init')) {
 			$session = curl_init();

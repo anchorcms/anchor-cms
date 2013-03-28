@@ -1,4 +1,7 @@
-(function() {
+/**
+ * Toggles the redirect field in pages
+ */
+$(function() {
 	var fieldset = $('fieldset.redirect'),
 		input = $('input[name=redirect]'),
 		btn = $('button.secondary');
@@ -14,7 +17,7 @@
 	input.change(function(){
 		if(input.val() === '') fieldset.removeClass('show');
 	});
-	
+
 	// Show the redirect field if it isn't empty.
 	if(input.val() !== '') fieldset.addClass('show');
-}());
+});

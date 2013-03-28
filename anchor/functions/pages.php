@@ -1,14 +1,16 @@
 <?php
 
 /**
-	Theme functions for pages
-*/
+ *	Theme functions for pages
+ */
 function page_id() {
 	return Registry::prop('page', 'id');
 }
 
 function page_url() {
-	return Registry::prop('page', 'url');
+	if($page = Registry::get('page')) {
+		return $page->uri();
+	}
 }
 
 function page_slug() {
@@ -20,11 +22,11 @@ function page_name() {
 }
 
 function page_title($default = '') {
-	if($title = Registry::prop('page', 'title')) {
+	if($title = Registry::prop('article', 'title')) {
 		return $title;
 	}
 
-	if($title = Registry::prop('article', 'title')) {
+	if($title = Registry::prop('page', 'title')) {
 		return $title;
 	}
 
@@ -32,9 +34,7 @@ function page_title($default = '') {
 }
 
 function page_content() {
-	$md = new Markdown;
-
-	return $md->transform(Registry::prop('page', 'content'));
+	return parse(Registry::prop('page', 'content'));
 }
 
 function page_status() {

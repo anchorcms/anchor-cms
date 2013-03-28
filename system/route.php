@@ -3,62 +3,152 @@
 /**
  * Nano
  *
- * Lightweight php framework
+ * Just another php framework
  *
  * @package		nano
- * @author		k. wilson
  * @link		http://madebykieron.co.uk
+ * @copyright	http://unlicense.org/
  */
 
-use System\Routing\Filters;
+use InvalidArgumentException;
+use Response;
+use View;
+use Closure;
 
 class Route {
 
-	private $action, $args = array();
+	/**
+	 * Array of callable functions
+	 *
+	 * @var array
+	 */
+	public $callbacks;
 
-	public static $filters = array();
+	/**
+	 * The collected arguments from the uri match
+	 *
+	 * @var array
+	 */
+	public $args = array();
 
+	/**
+	 * Define a route using the method name as
+	 * the request method to listen for
+	 *
+	 * @param string
+	 * @param array
+	 */
 	public static function __callStatic($method, $arguments) {
-		list($route, $action) = $arguments;
+		static::register($method, array_shift($arguments), array_shift($arguments));
+	}
 
-		if(is_string($route)) $route = array($route);
+	/**
+	 * Register a route on the router
+	 *
+	 * @param string
+	 * @param array|string
+	 * @param array|closure
+	 */
+	public static function register($method, $patterns, $arguments) {
+		$method = strtoupper($method);
 
-		foreach($route as $http) {
-			Router::register($method, $http, $action);
+		if($arguments instanceof Closure) {
+			$arguments = array('main' => $arguments);
+		}
+
+		foreach((array) $patterns as $pattern) {
+			Router::$routes[$method][$pattern] = $arguments;
 		}
 	}
 
-	public static function filter($name, $action) {
-		Filters::$actions[$name] = $action;
+	/**
+	 * Register a action on the router
+	 *
+	 * @param string
+	 * @param string|closure
+	 */
+	public static function action($name, $callback) {
+		Router::$actions[$name] = $callback;
 	}
 
-	public function __construct($action, $args = array()) {
-		$this->action = $action;
+	/**
+	 * Start a collection of routes
+	 *
+	 * @param string
+	 * @param string|closure
+	 */
+	public static function collection($actions, $definitions) {
+		//
+	}
+
+	/**
+	 * Create a new instance of the Route class
+	 *
+	 * @param array
+	 * @param array
+	 */
+	public function __construct($callbacks, $args = array()) {
+		$this->callbacks = $callbacks;
 		$this->args = $args;
 	}
 
-	public function call() {
-		$response = null;
+	/**
+	 * Calls before actions
+	 *
+	 * @return object
+	 */
+	public function before() {
+		if( ! isset($this->callbacks['before'])) return;
 
-		if(is_array($this->action)) {
-			if(isset($this->action['before'])) {
-				$response = Filters::run($this->action['before']);
+		foreach(explode(',', $this->callbacks['before']) as $action) {
+			// return the first response object
+			if($response = call_user_func_array(Router::$actions[$action], $this->args)) {
+				return $response;
 			}
+		}
+	}
 
-			$this->action = $this->action['do'];
+	/**
+	 * Calls after actions
+	 *
+	 * @param string
+	 */
+	public function after($response) {
+		if( ! isset($this->actions['after'])) return;
+
+		foreach(explode(',', $this->callbacks['after']) as $action) {
+			call_user_func(Router::$actions[$action], $response);
+		}
+	}
+
+	/**
+	 * Calls the route actions and returns a response object
+	 *
+	 * @return object
+	 */
+	public function run() {
+		// Call before actions
+		$response = $this->before();
+
+		// If we didn't get a response run the main callback
+		if(is_null($response)) {
+			$response = call_user_func_array($this->callbacks['main'], $this->args);
 		}
 
-		if(is_null($response)) $response = call_user_func_array($this->action, $this->args);
+		// Call any after actions
+		$this->after($response);
 
-		if($response instanceof Response) {
-			return $response;
-		}
-
+		// If the response was a view get the output and create response
 		if($response instanceof View) {
-			$response = $response->render();
+			$response = Response::create($response->yield());
 		}
 
-		return new Response($response);
+		// If the output was a string create response
+		if(is_string($response)) {
+			$response = Response::create($response);
+		}
+
+		return $response;
 	}
 
 }

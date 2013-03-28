@@ -4,18 +4,21 @@
 
 	<?php echo $messages; ?>
 
-	<form method="post" action="<?php echo admin_url('amnesia'); ?>">
+	<form method="post" action="<?php echo Uri::to('admin/amnesia'); ?>">
 		<input name="token" type="hidden" value="<?php echo $token; ?>">
 
 		<fieldset>
-			<p><label for="email"><?php echo __('users.email', 'Email'); ?>:</label>
-			<input autofocus placeholder="Email address" autocapitalize="off" name="email" id="email"
-				value="<?php echo Input::old('email'); ?>"></p>
-
+			<p><label for="email"><?php echo __('users.email'); ?>:</label>
+			<?php echo Form::email('email', Input::previous('email'), array(
+				'id' => 'email',
+				'autocapitalize' => 'off',
+				'autofocus' => 'true',
+				'placeholder' => __('users.email')
+			)); ?></p>
 
 			<p class="buttons">
-			    <a href="<?php echo admin_url('login'); ?>"><?php echo __('users.remembered', 'I know my password'); ?></a>
-    			<button type="submit"><?php echo __('users.reset_pass', 'Reset'); ?></button>
+			    <a href="<?php echo Uri::to('admin/login'); ?>"><?php echo __('users.remembered'); ?></a>
+    			<button type="submit"><?php echo __('global.reset'); ?></button>
 			</p>
 		</fieldset>
 	</form>

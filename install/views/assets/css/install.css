@@ -41,6 +41,7 @@ body > small {
 .small {
 	background: #89b92c;
 	color: #86936c;
+	margin: 5% auto;
 }
 
 	.small nav, .small small {
@@ -49,19 +50,12 @@ body > small {
 
 	.small .content {
 		background: #fff;
-
 		width: 360px;
-		height: 100px;
-
-		position: absolute;
-		left: 50%;
-		top: 50%;
-
-		margin: -90px 0 0 -230px;
 	}
 
 	.small .options {
 		margin: 0;
+		overflow: hidden;
 	}
 
 	.small h1 {
@@ -93,8 +87,16 @@ body > small {
 		float: right;
 	}
 
+	.small .code {
+		padding-top: 1em;
+	}
 
-
+		.small .code textarea {
+			width: 320px;
+			background: #ccc;
+			margin: 1em 0;
+			font-family: monospace;
+		}
 
 
 nav {
@@ -108,7 +110,6 @@ nav {
 
 	nav li, nav img {
 		float: left;
-		margin-right: 80px;
 	}
 
 	nav li {
@@ -119,6 +120,7 @@ nav {
 		background: #444f5f;
 		color: #70829b;
 		margin-top: -11px;
+		margin-right: 80px;
 
 		padding: 0 10px;
 	}
@@ -201,10 +203,15 @@ form {
 		position: absolute;
 		left: 0;
 		top: 18px;
+		width: 220px;
 
 		font-size: 11px;
 		font-style: normal;
 		color: #65758c;
+	}
+
+	form .more {
+		margin-left: 220px;
 	}
 
 label {
@@ -220,7 +227,7 @@ label {
 	cursor: pointer;
 }
 
-input, textarea, select {
+input:not([type="checkbox"]), textarea, select {
 	padding: 8px 20px;
 	border: none;
 	border-radius: 5px;
@@ -245,9 +252,11 @@ input, textarea, select {
 	}
 
 select {
-	width: 440px;
+	width: 444px;
 	padding: 10px 20px;
 	background: #fff;
+	border: 2px solid #36404e;
+	margin-left: -2px;
 }
 
 .error {
@@ -283,6 +292,14 @@ select {
 		background: #4680d3;
 	}
 
+	.btn.quiet {
+		color: #ccc;
+	}
+
 form .btn {
 	margin-left: 220px;
+}
+
+form .quiet {
+	margin-right: 25px;
 }

@@ -3,9 +3,11 @@
 class Migration_drop_sessions_ip extends Migration {
 
 	public function up() {
-		if($this->has_table_column('sessions', 'ip')) {
-			$sql = 'ALTER TABLE `sessions` DROP `ip`';
-			DB::query($sql);
+		$table = Base::table('sessions');
+
+		if($this->has_table_column($table, 'ip')) {
+			$sql = 'ALTER TABLE `' . $table . '` DROP `ip`';
+			DB::ask($sql);
 		}
 	}
 

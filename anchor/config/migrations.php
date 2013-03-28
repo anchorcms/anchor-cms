@@ -1,5 +1,8 @@
 <?php
 
 return array(
-	'current' => 90
+	/*
+	 * Latest migration
+	 */
+	'current' => 140
 );

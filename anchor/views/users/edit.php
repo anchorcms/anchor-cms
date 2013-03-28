@@ -1,65 +1,64 @@
 <?php echo $header; ?>
 
 <hgroup class="wrap">
-	<h1><?php echo __('users.editing', 'Editing'); ?>
-	<?php echo $user->username; ?>&rsquo;s <?php echo __('users.profile', 'profile'); ?></h1>
+	<h1><?php echo __('users.editing_user', $user->username); ?></h1>
 </hgroup>
 
 <section class="wrap">
 	<?php echo $messages; ?>
 
-	<form method="post" action="<?php echo admin_url('users/edit/' . $user->id); ?>" novalidate autocomplete="off">
+	<form method="post" action="<?php echo Uri::to('admin/users/edit/' . $user->id); ?>" novalidate autocomplete="off">
 
 		<input name="token" type="hidden" value="<?php echo $token; ?>">
 
 		<fieldset class="half split">
 			<p>
-				<label><?php echo __('users.real_name', 'Real name'); ?>:</label>
-				<?php echo Form::text('real_name', Input::old('real_name', $user->real_name)); ?>
+				<label><?php echo __('users.real_name'); ?>:</label>
+				<?php echo Form::text('real_name', Input::previous('real_name', $user->real_name)); ?>
+				<em><?php echo __('users.real_name_explain'); ?></em>
 			</p>
-
 			<p>
-				<label><?php echo __('users.bio', 'Biography'); ?>:</label>
-				<?php echo Form::textarea('bio', Input::old('bio', $user->bio), array('cols' => 20)); ?>
+				<label><?php echo __('users.bio'); ?>:</label>
+				<?php echo Form::textarea('bio', Input::previous('bio', $user->bio), array('cols' => 20)); ?>
+				<em><?php echo __('users.bio_explain'); ?></em>
 			</p>
-
 			<p>
-				<label><?php echo __('users.status', 'Status'); ?>:</label>
-				<?php echo Form::select('status', $statuses, Input::old('status', $user->status)); ?>
+				<label><?php echo __('users.status'); ?>:</label>
+				<?php echo Form::select('status', $statuses, Input::previous('status', $user->status)); ?>
+				<em><?php echo __('users.status_explain'); ?></em>
 			</p>
-
 			<p>
-				<label><?php echo __('users.role', 'Role'); ?>:</label>
-				<?php echo Form::select('role', $roles, Input::old('role', $user->role)); ?>
+				<label><?php echo __('users.role'); ?>:</label>
+				<?php echo Form::select('role', $roles, Input::previous('role', $user->role)); ?>
+				<em><?php echo __('users.role_explain'); ?></em>
 			</p>
 		</fieldset>
 
 		<fieldset class="half split">
 			<p>
-				<label><?php echo __('users.username', 'Username'); ?>:</label>
-				<?php echo Form::text('username', Input::old('username', $user->username)); ?>
+				<label><?php echo __('users.username'); ?>:</label>
+				<?php echo Form::text('username', Input::previous('username', $user->username)); ?>
+				<em><?php echo __('users.role_explain'); ?></em>
 			</p>
-
 			<p>
-				<label><?php echo __('users.password', 'Password'); ?>:</label>
+				<label><?php echo __('users.password'); ?>:</label>
 				<?php echo Form::password('password'); ?>
+				<em><?php echo __('users.password_explain'); ?></em>
 			</p>
-
 			<p>
-				<label><?php echo __('users.email', 'Email'); ?>:</label>
-				<?php echo Form::text('email', Input::old('email', $user->email)); ?>
+				<label><?php echo __('users.email'); ?>:</label>
+				<?php echo Form::text('email', Input::previous('email', $user->email)); ?>
+				<em><?php echo __('users.email_explain'); ?></em>
 			</p>
 		</fieldset>
 
 		<aside class="buttons">
-			<?php echo Form::button(__('users.update', 'Update'), array(
+			<?php echo Form::button(__('global.update'), array(
 				'class' => 'btn',
 				'type' => 'submit'
 			)); ?>
 
-			<?php echo Html::link(admin_url('users/delete/' . $user->id), __('users.delete', 'Delete'), array(
-				'class' => 'btn delete red'
-			)); ?>
+			<?php echo Html::link('admin/users/delete/' . $user->id, __('global.delete'), array('class' => 'btn delete red')); ?>
 		</aside>
 	</form>
 

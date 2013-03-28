@@ -1,41 +1,56 @@
 <?php
 
-class Post extends Model {
+class Post extends Base {
 
 	public static $table = 'posts';
 
-	public static function paginate($page = 1, $perpage = 10) {
-		$query = query::table(static::$table);
-
-		$count = $query->count();
-
-		$results = $query->take($perpage)->skip(($page - 1) * $perpage)->order_by('created', 'desc')->get();
-
-		return new Paginator($results, $count, $page, $perpage, admin_url('posts'));
-	}
-
 	public static function slug($slug) {
-		return static::where('slug', 'like', $slug)->fetch();
+		return static::left_join(Base::table('users'), Base::table('users.id'), '=', Base::table('posts.author'))
+			->where(Base::table('posts.slug'), '=', $slug)
+			->fetch(array(Base::table('posts.*'),
+				Base::table('users.id as author_id'),
+				Base::table('users.bio as author_bio'),
+				Base::table('users.real_name as author_name')));
 	}
 
-	public static function parse($str) {
-		// process tags
-		//$pattern = '/[\{\{|\[\[]+([a-z]+)[\}\}|\]\]]+/i';
-		$pattern = '/[\{\{]{1}([a-z]+)[\}\}]{1}/i';
+	public static function listing($category = null, $page = 1, $per_page = 10) {
+		// get total
+		$query = static::left_join(Base::table('users'), Base::table('users.id'), '=', Base::table('posts.author'))
+			->where(Base::table('posts.status'), '=', 'published');
 
-		if(preg_match_all($pattern, $str, $matches)) {
-			list($search, $replace) = $matches;
-
-			foreach($replace as $index => $key) {
-				$replace[$index] = Config::get('meta.' . $key);
-			}
-
-			$str = str_replace($search, $replace, $str);
+		if($category) {
+			$query->where(Base::table('posts.category'), '=', $category->id);
 		}
 
-		$md = new Markdown;
+		$total = $query->count();
 
-		return $md->transform($str);
+		// get posts
+		$posts = $query->sort(Base::table('posts.created'), 'desc')
+			->take($per_page)
+			->skip(--$page * $per_page)
+			->get(array(Base::table('posts.*'),
+				Base::table('users.id as author_id'),
+				Base::table('users.bio as author_bio'),
+				Base::table('users.real_name as author_name')));
+
+		return array($total, $posts);
+	}
+
+	public static function search($term, $page = 1, $per_page = 10) {
+		$query = static::left_join(Base::table('users'), Base::table('users.id'), '=', Base::table('posts.author'))
+			->where(Base::table('posts.status'), '=', 'published')
+			->where(Base::table('posts.title'), 'like', '%' . $term . '%');
+
+		$total = $query->count();
+
+		$posts = $query->take($per_page)
+			->skip(--$page * $per_page)
+			->get(array(Base::table('posts.*'),
+				Base::table('users.id as author_id'),
+				Base::table('users.bio as author_bio'),
+				Base::table('users.real_name as author_name')));
+
+		return array($total, $posts);
 	}
 
 }

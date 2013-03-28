@@ -1,13 +1,13 @@
 <?php
 
-class Category extends Model {
+class Category extends Base {
 
 	public static $table = 'categories';
 
 	public static function dropdown() {
 		$items = array();
 
-		foreach(static::all() as $item) {
+		foreach(static::get() as $item) {
 			$items[$item->id] = $item->title;
 		}
 
@@ -19,13 +19,13 @@ class Category extends Model {
 	}
 
 	public static function paginate($page = 1, $perpage = 10) {
-		$query = Query::table(static::$table);
+		$query = Query::table(static::table());
 
 		$count = $query->count();
 
-		$results = $query->take($perpage)->skip(($page - 1) * $perpage)->order_by('title')->get();
+		$results = $query->take($perpage)->skip(($page - 1) * $perpage)->sort('title')->get();
 
-		return new Paginator($results, $count, $page, $perpage, url('categories'));
+		return new Paginator($results, $count, $page, $perpage, Uri::to('categories'));
 	}
 
 }

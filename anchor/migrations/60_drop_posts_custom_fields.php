@@ -3,9 +3,11 @@
 class Migration_drop_posts_custom_fields extends Migration {
 
 	public function up() {
-		if($this->has_table_column('posts', 'custom_fields')) {
-			$sql = 'ALTER TABLE `posts` DROP `custom_fields`';
-			DB::query($sql);
+		$table = Base::table('post_meta');
+
+		if($this->has_table_column($table, 'custom_fields')) {
+			$sql = 'ALTER TABLE `' . $table . '` DROP `custom_fields`';
+			DB::ask($sql);
 		}
 	}
 

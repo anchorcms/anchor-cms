@@ -1,6 +1,6 @@
 <?php echo $header; ?>
 
-<form method="post" action="<?php echo admin_url('posts/add'); ?>" enctype="multipart/form-data" novalidate>
+<form method="post" action="<?php echo Uri::to('admin/posts/add'); ?>" enctype="multipart/form-data" novalidate>
 
 	<input name="token" type="hidden" value="<?php echo $token; ?>">
 
@@ -8,13 +8,13 @@
 		<div class="wrap">
 			<?php echo $messages; ?>
 
-			<?php echo Form::text('title', Input::old('title'), array(
-				'placeholder' => __('posts.title', 'Post title'),
+			<?php echo Form::text('title', Input::previous('title'), array(
+				'placeholder' => __('posts.title'),
 				'autocomplete'=> 'off'
 			)); ?>
 
 			<aside class="buttons">
-				<?php echo Form::button(__('posts.create', 'Create'), array(
+				<?php echo Form::button(__('global.save'), array(
 					'type' => 'submit',
 					'class' => 'btn'
 				)); ?>
@@ -24,51 +24,51 @@
 
 	<fieldset class="main">
 		<div class="wrap">
-			<?php echo Form::textarea('html', Input::old('html'), array(
-				'placeholder' => __('posts.content_explain', 'Just write.')
+			<?php echo Form::textarea('html', Input::previous('html'), array(
+				'placeholder' => __('posts.content_explain')
 			)); ?>
+
+			<?php echo $editor; ?>
 		</div>
 	</fieldset>
 
 	<fieldset class="meta split">
 		<div class="wrap">
 			<p>
-				<label><?php echo __('posts.slug', 'Slug'); ?>:</label>
-				<?php echo Form::text('slug', Input::old('slug')); ?>
+				<label><?php echo __('posts.slug'); ?>:</label>
+				<?php echo Form::text('slug', Input::previous('slug')); ?>
 				<em><?php echo __('posts.slug_explain'); ?></em>
 			</p>
-
 			<p>
-				<label for="description"><?php echo __('posts.description', 'Description'); ?>:</label>
-				<?php echo Form::textarea('description', Input::old('description')); ?>
+				<label for="description"><?php echo __('posts.description'); ?>:</label>
+				<?php echo Form::textarea('description', Input::previous('description')); ?>
+				<em><?php echo __('posts.description_explain'); ?></em>
 			</p>
-
 			<p>
-				<label><?php echo __('posts.status', 'Status'); ?>:</label>
-				<?php echo Form::select('status', $statuses, Input::old('status')); ?>
+				<label><?php echo __('posts.status'); ?>:</label>
+				<?php echo Form::select('status', $statuses, Input::previous('status')); ?>
 				<em><?php echo __('posts.status_explain'); ?></em>
 			</p>
-
 			<p>
-				<label><?php echo __('posts.category', 'Category'); ?>:</label>
-				<?php echo Form::select('category', $categories, Input::old('category')); ?>
+				<label><?php echo __('posts.category'); ?>:</label>
+				<?php echo Form::select('category', $categories, Input::previous('category')); ?>
+				<em><?php echo __('posts.category_explain'); ?></em>
 			</p>
-
 			<p>
-				<label><?php echo __('posts.allow_comments', 'Allow Comments'); ?>:</label>
-				<?php echo Form::checkbox('comments', 1, Input::old('comments', 0) == 1); ?>
+				<label><?php echo __('posts.allow_comments'); ?>:</label>
+				<?php echo Form::checkbox('comments', 1, Input::previous('comments', 0) == 1); ?>
+				<em><?php echo __('posts.allow_comments_explain'); ?></em>
 			</p>
-
 			<p>
-				<label><?php echo __('posts.custom_css', 'Custom CSS'); ?>:</label>
-				<?php echo Form::textarea('css', Input::old('css')); ?>
+				<label><?php echo __('posts.custom_css'); ?>:</label>
+				<?php echo Form::textarea('css', Input::previous('css')); ?>
+				<em><?php echo __('posts.custom_css_explain'); ?></em>
 			</p>
-
 			<p>
 				<label for="js"><?php echo __('posts.custom_js', 'Custom JS'); ?>:</label>
-				<?php echo Form::textarea('js', Input::old('js')); ?>
+				<?php echo Form::textarea('js', Input::previous('js')); ?>
+				<em><?php echo __('posts.custom_js_explain'); ?></em>
 			</p>
-
 			<?php foreach($fields as $field): ?>
 			<p>
 				<label for="extend_<?php echo $field->key; ?>"><?php echo $field->label; ?>:</label>
@@ -77,13 +77,16 @@
 			<?php endforeach; ?>
 		</div>
 	</fieldset>
-
-	<div class="media-upload"></div>
 </form>
 
-<script src="<?php echo admin_asset('js/slug.js'); ?>"></script>
-<script src="<?php echo admin_asset('js/dragdrop.js'); ?>"></script>
-<script src="<?php echo admin_asset('js/focus-mode.js'); ?>"></script>
-<script src="<?php echo admin_asset('js/upload-fields.js'); ?>"></script>
+<script src="<?php echo asset('anchor/views/assets/js/slug.js'); ?>"></script>
+<script src="<?php echo asset('anchor/views/assets/js/dragdrop.js'); ?>"></script>
+<!--<script src="<?php echo asset('anchor/views/assets/js/focus-mode.js'); ?>"></script>-->
+<script src="<?php echo asset('anchor/views/assets/js/upload-fields.js'); ?>"></script>
+<script src="<?php echo asset('anchor/views/assets/js/text-resize.js'); ?>"></script>
+<script src="<?php echo asset('anchor/views/assets/js/editor.js'); ?>"></script>
+<script>
+	$('textarea[name=html]').editor();
+</script>
 
 <?php echo $footer; ?>

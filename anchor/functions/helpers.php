@@ -1,25 +1,28 @@
 <?php
 
 /**
-	Theme helpers functions
-*/
-
-
-// Url helpers
+ * Theme helpers functions
+ */
 function full_url($url = '') {
-	return Uri::build(array('path' => Uri::make($url)));
+	return Uri::full($url);
 }
 
 function base_url($url = '') {
-    return Uri::make($url);
+    return Uri::to($url);
 }
 
 function theme_url($file = '') {
-	return asset('themes/' . Config::get('meta.theme') . '/' . ltrim($file, '/'));
+	$theme_folder = Config::meta('theme');
+	$base = 'themes' . '/' . $theme_folder . '/';
+
+	return asset($base . ltrim($file, '/'));
 }
 
 function theme_include($file) {
-	if(is_readable($path = PATH . 'themes' . DS . Config::get('meta.theme') . DS . ltrim($file, '/') . '.php')) {
+	$theme_folder = Config::meta('theme');
+	$base = PATH . 'themes' . DS . $theme_folder . DS;
+
+	if(is_readable($path = $base . ltrim($file, DS) . EXT)) {
 		return require $path;
 	}
 }
@@ -30,14 +33,6 @@ function asset_url($extra = '') {
 
 function current_url() {
 	return Uri::current();
-}
-
-function admin_url($url = '') {
-    return base_url('admin/' . ltrim($url, '/'));
-}
-
-function search_url() {
-	return base_url('search');
 }
 
 function rss_url() {
@@ -71,17 +66,13 @@ function body_class() {
 
 // page type helpers
 function is_homepage() {
-	if($itm = Registry::get('page')) {
-		return $itm->id == Config::get('meta.home_page');
-	}
-
-	return false;
+	return Registry::prop('page', 'id') == Config::meta('home_page');
 }
 
 function is_postspage() {
-	if($itm = Registry::get('page')) {
-		return $itm->id == Config::get('meta.posts_page');
-	}
+	return Registry::prop('page', 'id') == Config::meta('posts_page');
+}
 
-	return false;
+function is_article() {
+	return Registry::get('article') !== null;
 }

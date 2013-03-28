@@ -1,6 +1,6 @@
 <?php
 
-class User extends Model {
+class User extends Base {
 
 	public static $table = 'users';
 
@@ -15,13 +15,13 @@ class User extends Model {
 	}
 
 	public static function paginate($page = 1, $perpage = 10) {
-		$query = Query::table(static::$table);
+		$query = Query::table(static::table());
 
 		$count = $query->count();
 
-		$results = $query->take($perpage)->skip(($page - 1) * $perpage)->order_by('real_name', 'desc')->get();
+		$results = $query->take($perpage)->skip(($page - 1) * $perpage)->sort('real_name', 'desc')->get();
 
-		return new Paginator($results, $count, $page, $perpage, url('users'));
+		return new Paginator($results, $count, $page, $perpage, Uri::to('users'));
 	}
 
 }

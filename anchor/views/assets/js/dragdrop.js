@@ -1,70 +1,78 @@
-/*
-	Drag and Drop upload
-*/
+/**
+ * Drag and Drop upload
+ *
+ * Allows the drag and drop of single files into posts
+ */
+$(function() {
+	var zone = $(document), body = $('body');
+	var allowed = ['text/css', 'text/javascript', 'application/javascript', 'text/x-markdown'];
 
-/*
-(function() {
-	// Set some useful elements to, uh, use later
-	var doc = $(document), html = $('html'), body = $('body');
+	var cancel = function(event) {
+		event.preventDefault();
+		return false;
+	};
 
-	var Draggy = {
-		supported: window.FileReader && window.File,
-		allowed: ['text/css', 'text/javascript', 'application/javascript'],
+	var open = function(event) {
+		event.preventDefault();
+		body.addClass('draggy');
+		return false;
+	};
 
-		defaultText: 'Upload your file',
+	var close = function(event) {
+		event.preventDefault();
+		body.removeClass('draggy');
+		return false;
+	};
 
-		init: function() {
-			$('.media-upload').hide();
+	var drop = function(event) {
+		event.preventDefault();
 
-			Draggy.el = body.append('<div id="upload-file"><span>' + Draggy.defaultText + '</span></div>').children('#upload-file');
+		var files = event.target.files || event.dataTransfer.files;
 
-			doc.on('dragover', Draggy.hover);
+		for(var i = 0; i < files.length; i++) {
+			var file = files.item(i);
 
-			doc.on('dragleave dragexit', function(e) {
-				if(e.pageX == 0) {
-					Draggy.close();
-				}
-			});
-
-			doc.on('drop', Draggy.handle);
-		},
-
-		close: function() {
-			html.removeClass('draggy');
-			Draggy.el.removeClass('success').children('span').text(Draggy.defaultText);
-		},
-
-		hover: function() {
-			html.addClass('draggy');
-		},
-
-		handle: function(e) {
-			var files = (e.target.files || e.dataTransfer.files)[0];
-
-			if($.inArray(files.type, Draggy.allowed) !== -1) {
-				var reader = new FileReader;
-
-				reader.onloadend = function(e) {
-					if(e.target.readyState == FileReader.DONE) {
-						var type = files.type === 'text/css' ? 'css' : 'js';
-
-						$('#' + type).val(e.target.result);
-						Draggy.el.addClass('success').children('span').text('Custom ' + type.toUpperCase() + ' added!');
-
-						setTimeout(Draggy.close, 1250);
-					}
-				};
-
-				reader.readAsBinaryString(files);
-			} else {
-				Draggy.close();
+			if(allowed.indexOf(file.type) !== -1) {
+				transfer(file);
 			}
+		}
 
-			e.stopPropagation();
-			e.preventDefault();
+		body.removeClass('draggy');
+
+		return false;
+	};
+
+	var transfer = function(file) {
+		var reader = new FileReader();
+		reader.file = file;
+		reader.callback = complete;
+		reader.onload = reader.callback;
+		reader.readAsText(file);
+	};
+
+	var complete = function() {
+		if(['text/css'].indexOf(this.file.type) !== -1) {
+			$('textarea[name=css]').val(this.result);
+		}
+
+		if(['text/javascript', 'application/javascript'].indexOf(this.file.type) !== -1) {
+			$('textarea[name=js]').val(this.result);
+		}
+
+		if(['text/x-markdown'].indexOf(this.file.type) !== -1) {
+			var textarea = $('textarea[name=html]'), value = textarea.val();
+
+			textarea.val(this.result).trigger('keydown');
 		}
 	};
 
-	Draggy.supported && Draggy.init();
-}());
-*/
+	if(window.FileReader && window.FileList && window.File) {
+		zone.on('dragover', open);
+		zone.on('dragenter', cancel);
+		zone.on('drop', drop);
+		zone.on('dragleave', cancel);
+		zone.on('dragexit', close);
+
+		body.append('<div id="upload-file"><span>Upload your file</span></div>');
+	}
+});

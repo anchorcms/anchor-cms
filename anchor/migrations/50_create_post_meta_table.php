@@ -3,8 +3,10 @@
 class Migration_create_post_meta_table extends Migration {
 
 	public function up() {
-		if( ! $this->has_table('post_meta')) {
-			$sql = "CREATE TABLE IF NOT EXISTS `post_meta` (
+		$table = Base::table('post_meta');
+
+		if( ! $this->has_table($table)) {
+			$sql = "CREATE TABLE IF NOT EXISTS `' . $table . '` (
 				`id` int(6) NOT NULL AUTO_INCREMENT,
 				`post` int(6) NOT NULL,
 				`extend` int(6) NOT NULL,
@@ -14,13 +16,10 @@ class Migration_create_post_meta_table extends Migration {
 				KEY `extend` (`extend`)
 			) ENGINE=InnoDB";
 
-			DB::query($sql);
+			DB::ask($sql);
 		}
 	}
 
-	public function down() {
-		$sql = 'DROP TABLE `post_meta`';
-		DB::query($sql);
-	}
+	public function down() {}
 
 }

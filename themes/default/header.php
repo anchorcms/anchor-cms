@@ -47,8 +47,8 @@
 						<label for="term">Search my blog:</label>
 						<input type="search" id="term" name="term" placeholder="To search, type and hit enter&hellip;" value="<?php echo search_term(); ?>">
 					</form>
-					
-					<aside>	
+
+					<aside>
 						<b>Categories</b>
 						<ul>
 						<?php while(categories()): ?>
@@ -62,7 +62,7 @@
 					</aside>
 				</div>
 			</div>
-			
+
 			<header id="top">
 				<a id="logo" href="<?php echo base_url(); ?>"><?php echo site_name(); ?></a>
 
@@ -76,7 +76,7 @@
 							</a>
 						</li>
 						<?php endwhile; ?>
-						
+
 						<li class="tray">
 							<a href="#tray" class="linky"><img src="<?php echo theme_url('img/categories.png'); ?>" alt="Categories" title="View my posts by category"></a>
 						</li>

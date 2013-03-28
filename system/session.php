@@ -3,59 +3,96 @@
 /**
  * Nano
  *
- * Lightweight php framework
+ * Just another php framework
  *
  * @package		nano
- * @author		k. wilson
  * @link		http://madebykieron.co.uk
+ * @copyright	http://unlicense.org/
  */
 
-use Session\Payload;
-use System\Cookie;
+use ErrorException;
+use System\Session\Cargo;
 
 class Session {
 
-	public static $instance;
+	/**
+	 * Holds an instance of the session driver
+	 *
+	 * @var array
+	 */
+	public static $cargo;
 
-	public static function load() {
-		static::start(Config::get('session.driver'));
-
-		static::$instance->load(Cookie::get(Config::get('session.cookie')));
-	}
-
-	public static function start($driver) {
-		static::$instance = new Session\Payload(static::factory($driver));
-	}
-
-	public static function factory($driver) {
-		switch ($driver) {
-			case 'cookie':
-				return new Session\Cookie;
-
-			case 'db':
-			case 'database':
-				return new Session\Database;
-
+	/**
+	 * Create a new session driver object
+	 *
+	 * @param array
+	 */
+	public static function factory($config) {
+		switch($config['driver']) {
 			case 'memcache':
-				return new Session\Memcache;
-
-			default:
-				throw new \Exception("Session driver [$driver] is not supported.");
+				return new Session\Drivers\Memcache($config);
+			case 'memcached':
+				return new Session\Drivers\Memcached($config);
+			case 'cookie':
+				return new Session\Drivers\Cookie($config);
+			case 'database':
+				return new Session\Drivers\Database($config);
+			case 'runtime':
+				return new Session\Drivers\Runtime($config);
 		}
+
+		throw new ErrorException('Unknown session driver');
 	}
 
-	public static function started() {
-		return ! is_null(static::$instance);
-	}
-
+	/**
+	 * Returns the curren instance of the cargo object
+	 *
+	 * @return object Cargo
+	 */
 	public static function instance() {
-		if(static::started()) return static::$instance;
+		if(is_null(static::$cargo)) {
+			$driver = static::factory(Config::session());
 
-		throw new \Exception("A driver must be set before using the session.");
+			static::$cargo = new Cargo($driver, Config::app('key'));
+		}
+
+		return static::$cargo;
 	}
 
-	public static function __callStatic($method, $parameters = array()) {
-		return call_user_func_array(array(static::instance(), $method), $parameters);
+	/**
+	 * Read the current session using the driver set in the config file
+	 */
+	public static function read() {
+		if(is_null(static::$cargo)) {
+			$driver = static::factory(Config::session());
+
+			static::$cargo = new Cargo($driver, Config::app('key'));
+		}
+
+		static::instance()->read();
+	}
+
+	/**
+	 * Write the current session using the driver set in the config file
+	 */
+	public static function write() {
+		static::instance()->write();
+	}
+
+	/**
+	 * Magic method to call a method on the session driver
+	 *
+	 * @param string
+	 * @param array
+	 */
+	public static function __callStatic($method, $arguments) {
+		$cargo = static::instance();
+
+		if(method_exists($cargo, $method)) {
+			return call_user_func_array(array($cargo, $method), $arguments);
+		}
+
+		throw new ErrorException('Unknown session method');
 	}
 
 }

@@ -1,49 +1,14 @@
 <?php
 
 /**
-	Theme functions for posts
-*/
+ * Theme functions for posts
+ */
 function has_posts() {
-	if( ! $total = Registry::get('total_posts')) {
-		$query = Post::where('status', '=', 'published');
-
-		// filter category
-		if($category = Registry::get('post_category')) {
-			$query->where('category', '=', $category->id);
-		}
-
-		$total = $query->count();
-
-		Registry::set('total_posts', $total);
-	}
-
-	return $total;
+	return Registry::get('total_posts', 0) > 0;
 }
 
 function posts() {
-	if( ! $total = Registry::get('total_posts')) {
-		$total = has_posts();
-	}
-
-	if( ! $posts = Registry::get('posts')) {
-		$per_page = Config::get('meta.posts_per_page');
-		$offset = Registry::get('page_offset') ?: 1;
-		$page = $offset - 1;
-
-
-		$query = Post::where('status', '=', 'published');
-
-		// filter category
-		if($category = Registry::get('post_category')) {
-			$query->where('category', '=', $category->id);
-		}
-
-		$posts = $query->order_by('created', 'desc')->take($per_page)->skip($page * $per_page)->get();
-
-		$posts = new Items($posts);
-
-		Registry::set('posts', $posts);
-	}
+	$posts = Registry::get('posts');
 
 	if($result = $posts->valid()) {
 		// register single post
@@ -55,33 +20,44 @@ function posts() {
 	// back to the start
 	else $posts->rewind();
 
+	// back to the start
+	if( ! $result) $posts->rewind();
+
 	return $result;
 }
 
-function posts_prev($text = '&larr; Previous', $default = '') {
-	$per_page = Config::get('meta.posts_per_page');
-	$page = Registry::get('page_offset');
-
-	$offset = ($page - 1) * $per_page;
+function posts_next($text = 'Next &rarr;', $default = '') {
 	$total = Registry::get('total_posts');
-
-	$pages = floor($total / $per_page);
-
-	$posts_page = Registry::get('posts_page');
-	$prev = $page + 1;
-
-	$url = base_url($posts_page->slug . '/' . $prev);
+	$offset = Registry::get('page_offset');
+	$per_page = Config::meta('posts_per_page');
+	$page = Registry::get('page');
+	$url = base_url($page->slug . '/');
 
 	// filter category
 	if($category = Registry::get('post_category')) {
-		$url = base_url('category/' . $category->slug . '/' . $prev);
+		$url = base_url('category/' . $category->slug . '/');
 	}
 
-	if(($page - 1) < $pages) {
-		return '<a class="prev" href="' . $url . '">' . $text . '</a>';
+	$pagination = new Paginator(array(), $total, $offset, $per_page, $url);
+
+	return $pagination->prev_link($text, $default);
+}
+
+function posts_prev($text = '&larr; Previous', $default = '') {
+	$total = Registry::get('total_posts');
+	$offset = Registry::get('page_offset');
+	$per_page = Config::meta('posts_per_page');
+	$page = Registry::get('page');
+	$url = base_url($page->slug . '/');
+
+	// filter category
+	if($category = Registry::get('post_category')) {
+		$url = base_url('category/' . $category->slug . '/');
 	}
 
-	return $default;
+	$pagination = new Paginator(array(), $total, $offset, $per_page, $url);
+
+	return $pagination->next_link($text, $default);
 }
 
 function total_posts() {
@@ -89,35 +65,9 @@ function total_posts() {
 }
 
 function has_pagination() {
-	return total_posts() > Config::get('meta.posts_per_page');
-}
-
-function posts_next($text = 'Next &rarr;', $default = '') {
-	$per_page = Config::get('meta.posts_per_page');
-	$page = Registry::get('page_offset');
-
-	$offset = ($page - 1) * $per_page;
-	$total = Registry::get('total_posts');
-
-	$pages = ceil($total / $per_page);
-
-	$posts_page = Registry::get('posts_page');
-	$next = $page - 1;
-
-	$url = base_url($posts_page->slug . '/' . $next);
-
-	// filter category
-	if($category = Registry::get('post_category')) {
-		$url = base_url('category/' . $category->slug . '/' . $next);
-	}
-
-	if($offset > 0) {
-		return '<a class="next" href="' . $url . '">' . $text . '</a>';
-	}
-
-	return $default;
+	return Registry::get('total_posts') > Config::meta('posts_per_page');
 }
 
 function posts_per_page() {
-	return min(Registry::get('total_posts'), Config::get('meta.posts_per_page'));
+	return min(Registry::get('total_posts'), Config::meta('posts_per_page'));
 }

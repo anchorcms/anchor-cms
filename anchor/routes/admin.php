@@ -1,5 +1,27 @@
 <?php
 
+/**
+ * Admin actions
+ */
+Route::action('auth', function() {
+	if(Auth::guest()) return Response::redirect('admin/login');
+});
+
+Route::action('guest', function() {
+	if(Auth::user()) return Response::redirect('admin/posts');
+});
+
+Route::action('csrf', function() {
+	if( ! Csrf::check(Input::get('token'))) {
+		Notify::error(array('Invalid token'));
+
+		return Response::redirect('admin/login');
+	}
+});
+
+/**
+ * Admin routing
+ */
 Route::get('admin', function() {
 	if(Auth::guest()) return Response::redirect('admin/login');
 	return Response::redirect('admin/posts');
@@ -12,14 +34,16 @@ Route::get('admin/login', function() {
 	$vars['messages'] = Notify::read();
 	$vars['token'] = Csrf::token();
 
-	return View::make('users/login', $vars)
-		->nest('header', 'partials/header')
-		->nest('footer', 'partials/footer');
+	return View::create('users/login', $vars)
+		->partial('header', 'partials/header')
+		->partial('footer', 'partials/footer');
 });
 
-Route::post('admin/login', array('before' => 'csrf', 'do' => function() {
-	if( ! Auth::attempt(Input::get('user'), Input::get('pass'))) {
-		Notify::error(array('Username or password is wrong.'));
+Route::post('admin/login', array('before' => 'csrf', 'main' => function() {
+	$attempt = Auth::attempt(Input::get('user'), Input::get('pass'));
+
+	if( ! $attempt) {
+		Notify::error(__('users.login_error'));
 
 		return Response::redirect('admin/login');
 	}
@@ -39,22 +63,23 @@ Route::post('admin/login', array('before' => 'csrf', 'do' => function() {
 */
 Route::get('admin/logout', function() {
 	Auth::logout();
+	Notify::notice(__('users.logout_notice'));
 	return Response::redirect('admin/login');
 });
 
 /*
 	Amnesia
 */
-Route::get('admin/amnesia', function() {
+Route::get('admin/amnesia', array('before' => 'guest', 'main' => function() {
 	$vars['messages'] = Notify::read();
 	$vars['token'] = Csrf::token();
 
-	return View::make('users/amnesia', $vars)
-		->nest('header', 'partials/header')
-		->nest('footer', 'partials/footer');
-});
+	return View::create('users/amnesia', $vars)
+		->partial('header', 'partials/header')
+		->partial('footer', 'partials/footer');
+}));
 
-Route::post('admin/amnesia', function() {
+Route::post('admin/amnesia', array('before' => 'csrf', 'main' => function() {
 	$email = Input::get('email');
 
 	$validator = new Validator(array('email' => $email));
@@ -65,8 +90,8 @@ Route::post('admin/amnesia', function() {
 	});
 
 	$validator->check('email')
-		->is_email(__('users.invalid_email', 'Please enter a valid email address.'))
-		->is_valid(__('users.invalid_account', 'Account not found.'));
+		->is_email(__('users.email_missing'))
+		->is_valid(__('users.email_not_found'));
 
 	if($errors = $validator->errors()) {
 		Input::flash();
@@ -79,48 +104,46 @@ Route::post('admin/amnesia', function() {
 	$user = $query->fetch();
 	Session::put('user', $user->id);
 
-	$token = Str::random(8);
+	$token = noise(8);
 	Session::put('token', $token);
 
-	$uri = Uri::build(array('path' => Uri::make('admin/reset/' . $token)));
+	$uri = Uri::full('admin/reset/' . $token);
+	$subject = __('users.recovery_subject');
+	$msg = __('users.recovery_message', $uri);
 
-	mail($user->email,
-		__('users.user_subject_recover', 'Password Reset'),
-		__('users.user_email_recover',
-			'You have requested to reset your password. To continue follow the link below.' . PHP_EOL . '%s', $uri));
+	mail($user->email, $subject, $msg);
 
-	Notify::success(__('users.user_notice_recover',
-		'We have sent you an email to confirm your password change.'));
+	Notify::success(__('users.recovery_sent'));
 
 	return Response::redirect('admin/login');
-});
+}));
 
 /*
 	Reset password
 */
-Route::get('admin/reset/(:any)', function($key) {
+Route::get('admin/reset/(:any)', array('before' => 'guest', 'main' => function($key) {
 	$vars['messages'] = Notify::read();
 	$vars['token'] = Csrf::token();
 	$vars['key'] = ($token = Session::get('token'));
 
 	if($token != $key) {
-		Notify::error(__('users.invalid_account', 'Account not found'));
+		Notify::error(__('users.recovery_expired'));
 
 		return Response::redirect('admin/login');
 	}
 
-	return View::make('users/reset', $vars)
-		->nest('header', 'partials/header')
-		->nest('footer', 'partials/footer');
-});
+	return View::create('users/reset', $vars)
+		->partial('header', 'partials/header')
+		->partial('footer', 'partials/footer');
+}));
 
-Route::post('admin/reset/(:any)', function($key) {
+Route::post('admin/reset/(:any)', array('before' => 'csrf', 'main' => function($key) {
 	$password = Input::get('pass');
 	$token = Session::get('token');
 	$user = Session::get('user');
 
 	if($token != $key) {
-		Notify::error(__('users.invalid_account', 'Account not found'));
+		Notify::error(__('users.recovery_expired'));
 
 		return Response::redirect('admin/login');
 	}
@@ -128,7 +151,7 @@ Route::post('admin/reset/(:any)', function($key) {
 	$validator = new Validator(array('password' => $password));
 
 	$validator->check('password')
-		->is_max(6, __('users.password_too_short', 'Your password must be at least %s characters long', 6));
+		->is_max(6, __('users.password_too_short', 6));
 
 	if($errors = $validator->errors()) {
 		Input::flash();
@@ -140,28 +163,40 @@ Route::post('admin/reset/(:any)', function($key) {
 
 	User::update($user, array('password' => Hash::make($password)));
 
-	Session::forget('user');
-	Session::forget('token');
+	Session::erase('user');
+	Session::erase('token');
 
-	Notify::success(__('users.user_success_password', 'Your new password has been set. Go and login now!'));
+	Notify::success(__('users.password_reset'));
 
 	return Response::redirect('admin/login');
-});
+}));
 
 /*
-	update
+	Upgrade
 */
 Route::get('admin/upgrade', function() {
 	$vars['messages'] = Notify::read();
 	$vars['token'] = Csrf::token();
 
-	$version = Config::get('meta.update_version');
+	$version = Config::meta('update_version');
 	$url = 'https://github.com/anchorcms/anchor-cms/archive/%s.zip';
 
 	$vars['version'] = $version;
 	$vars['url'] = sprintf($url, $version);
 
-	return View::make('upgrade', $vars)
-		->nest('header', 'partials/header')
-		->nest('footer', 'partials/footer');
+	return View::create('upgrade', $vars)
+		->partial('header', 'partials/header')
+		->partial('footer', 'partials/footer');
 });
+
+/*
+	List extend
+*/
+Route::get('admin/extend', array('before' => 'auth', 'main' => function($page = 1) {
+	$vars['messages'] = Notify::read();
+	$vars['token'] = Csrf::token();
+
+	return View::create('extend/index', $vars)
+		->partial('header', 'partials/header')
+		->partial('footer', 'partials/footer');
+}));

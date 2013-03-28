@@ -1,85 +1,115 @@
 <?php
 
-/*
-	Home page and posts page
-*/
+/**
+ * Important pages
+ */
+$home_page = Registry::get('home_page');
 $posts_page = Registry::get('posts_page');
 
-$home_page = Registry::get('home_page');
-
-$callback = function($page = 1) use($posts_page) {
-	Registry::set('page', $posts_page);
-
-	Registry::set('page_offset', $page);
-
-	return new Template('posts');
-};
-
-if($home_page->id == $posts_page->id) {
-	/*
-		View home page and posts and paginate through them
-	*/
-	Route::get(array('/', $posts_page->slug, $posts_page->slug . '/(:num)'), $callback);
-}
-else {
-	/*
-		Default home page
-	*/
+/**
+ * The Home page
+ */
+if($home_page->id != $posts_page->id) {
 	Route::get(array('/', $home_page->slug), function() use($home_page) {
 		Registry::set('page', $home_page);
 
 		return new Template('page');
 	});
-
-	/*
-		View posts and paginate through them
-	*/
-	Route::get(array($posts_page->slug, $posts_page->slug . '/(:num)'), $callback);
 }
 
-/*
-	View posts by category
-*/
-Route::get(array('category/(:any)', 'category/(:any)/(:num)'), function($slug, $page = 1) use($posts_page) {
-	if( ! $category = Category::slug($slug)) {
-		return Response::make(new Template('404'), 404);
+/**
+ * Post listings page
+ */
+$routes = array($posts_page->slug, $posts_page->slug . '/(:num)');
+
+if($home_page->id == $posts_page->id) {
+	array_unshift($routes, '/');
+}
+
+Route::get($routes, function($offset = 1) use($posts_page) {
+	// get public listings
+	list($total, $posts) = Post::listing(null, $offset, $per_page = Config::meta('posts_per_page'));
+
+	// get the last page
+	$max_page = ($total > $per_page) ? ceil($total / $per_page) : 1;
+
+	// stop users browsing to non existing ranges
+	if(($offset > $max_page) or ($offset < 1)) {
+		return Response::create(new Template('404'), 404);
 	}
 
+	$posts = new Items($posts);
+
+	Registry::set('posts', $posts);
+	Registry::set('total_posts', $total);
 	Registry::set('page', $posts_page);
+	Registry::set('page_offset', $offset);
 
-	Registry::set('page_offset', $page);
+	return new Template('posts');
+});
 
+/**
+ * View posts by category
+ */
+Route::get(array('category/(:any)', 'category/(:any)/(:num)'), function($slug = '', $offset = 1) use($posts_page) {
+	if( ! $category = Category::slug($slug)) {
+		return Response::create(new Template('404'), 404);
+	}
+
+	// get public listings
+	list($total, $posts) = Post::listing($category, $offset, $per_page = Config::meta('posts_per_page'));
+
+	// get the last page
+	$max_page = ($total > $per_page) ? ceil($total / $per_page) : 1;
+
+	// stop users browsing to non existing ranges
+	if(($offset > $max_page) or ($offset < 1)) {
+		return Response::create(new Template('404'), 404);
+	}
+
+	$posts = new Items($posts);
+
+	Registry::set('posts', $posts);
+	Registry::set('total_posts', $total);
+	Registry::set('page', $posts_page);
+	Registry::set('page_offset', $offset);
 	Registry::set('post_category', $category);
 
 	return new Template('posts');
 });
 
-/*
-	View article
-*/
-Route::get($posts_page->slug . '/(:any)', function($slug) {
+/**
+ * View article
+ */
+Route::get($posts_page->slug . '/(:any)', function($slug) use($posts_page) {
 	if( ! $post = Post::slug($slug)) {
-		return Response::make(new Template('404'), 404);
+		return Response::create(new Template('404'), 404);
 	}
 
+	Registry::set('page', $posts_page);
 	Registry::set('article', $post);
-
 	Registry::set('category', Category::find($post->category));
 
 	return new Template('article');
 });
 
-// add comments
+/**
+ * Post a comment
+ */
 Route::post($posts_page->slug . '/(:any)', function($slug) use($posts_page) {
-	$input = Input::get_array(array('name', 'email', 'text'));
+	if( ! $post = Post::slug($slug) or ! $post->comments) {
+		return Response::create(new Template('404'), 404);
+	}
+
+	$input = Input::get(array('name', 'email', 'text'));
 
 	$validator = new Validator($input);
 
 	$validator->check('email')
-		->is_email(__('comments.missing_email', 'Please enter your email address'));
+		->is_email(__('comments.email_missing'));
 
 	$validator->check('text')
-		->is_max(3, __('comments.missing_text', 'Please enter your comment'));
+		->is_max(3, __('comments.text_missing'));
 
 	if($errors = $validator->errors()) {
 		Input::flash();
@@ -90,8 +120,8 @@ Route::post($posts_page->slug . '/(:any)', function($slug) use($posts_page) {
 	}
 
 	$input['post'] = Post::slug($slug)->id;
-	$input['date'] = date('c');
-	$input['status'] = Config::get('meta.auto_published_comments') ? 'approved' : 'pending';
+	$input['date'] = Date::mysql('now');
+	$input['status'] = Config::meta('auto_published_comments') ? 'approved' : 'pending';
 
 	// remove bad tags
 	$input['text'] = strip_tags($input['text'], '<a>,<b>,<blockquote>,<code>,<em>,<i>,<p>,<pre>');
@@ -101,73 +131,93 @@ Route::post($posts_page->slug . '/(:any)', function($slug) use($posts_page) {
 		$input['status'] = 'spam';
 	}
 
-	$input['id'] = Comment::create($input);
+	$comment = Comment::create($input);
 
-	Notify::success(__('comments.created', 'Your comment has been added.'));
+	Notify::success(__('comments.created'));
 
 	// dont notify if we have marked as spam
-	if( ! $spam and Config::get('meta.comment_notifications')) {
-		Comment::notify($input);
+	if( ! $spam and Config::meta('comment_notifications')) {
+		$comment->notify();
 	}
 
 	return Response::redirect($posts_page->slug . '/' . $slug . '#comment');
 });
 
-/*
-	Rss feed
-*/
-Route::get('feeds/rss', function() {
-	$rss = new Rss(Config::get('meta.sitename'), Config::get('meta.description'), Uri::build(), Config::get('application.language'));
+/**
+ * Rss feed
+ */
+Route::get(array('rss', 'feeds/rss'), function() {
+	$uri = 'http://' . $_SERVER['HTTP_HOST'];
+	$rss = new Rss(Config::meta('sitename'), Config::meta('description'), $uri, Config::app('language'));
 
 	$query = Post::where('status', '=', 'published');
 
 	foreach($query->get() as $article) {
-		$rss->item($article->title, $article->slug, $article->description, $article->created);
+		$rss->item(
+			$article->title,
+			Uri::to(Registry::get('posts_page')->slug . '/' . $article->slug),
+			$article->description,
+			$article->created
+		);
 	}
 
 	$xml = $rss->output();
 
-	return Response::make($xml, 200, array('content-type' => 'application/xml'));
+	return Response::create($xml, 200, array('content-type' => 'application/xml'));
 });
 
+/**
+ * Json feed
+ */
 Route::get('feeds/json', function() {
-	return json_encode(array(
+	$json = Json::encode(array(
 		'meta' => Config::get('meta'),
 		'posts' => Post::where('status', '=', 'published')->get()
 	));
+
+	return Response::create($json, 200, array('content-type' => 'application/json'));
 });
 
-/*
-	Search
-*/
-Route::get(array('search', 'search/(:any)', 'search/(:any)/(:num)'), function($id = '', $offset = 1) {
+/**
+ * Search
+ */
+Route::get(array('search', 'search/(:any)', 'search/(:any)/(:num)'), function($slug = '', $offset = 1) {
+	// mock search page
 	$page = new Page;
+	$page->id = 0;
 	$page->title = 'Search';
+	$page->slug = 'search';
 
+	// get search term
+	$term = Session::get($slug);
+
+	list($total, $posts) = Post::search($term, $offset, Config::meta('posts_per_page'));
+
+	// search templating vars
 	Registry::set('page', $page);
-
 	Registry::set('page_offset', $offset);
-
-	Registry::set('search_term', $id);
+	Registry::set('search_term', $term);
+	Registry::set('search_results', new Items($posts));
+	Registry::set('total_posts', $total);
 
 	return new Template('search');
 });
 
 Route::post('search', function() {
 	// search and save search ID
-	$term = Input::get('term');
+	$term = filter_var(Input::get('term', ''), FILTER_SANITIZE_STRING);
 
-	Session::put('search_term', $term);
+	Session::put(slug($term), $term);
 
-	return Response::redirect('search/' . $term);
+	return Response::redirect('search/' . slug($term));
 });
 
-/*
-	View pages
-*/
-Route::get('(:any)', function($slug) {
-	if( ! $page = Page::slug($slug)) {
-		return Response::make(new Template('404'), 404);
+/**
+ * View pages
+ */
+Route::get('(:all)', function($uri) {
+	if( ! $page = Page::slug($slug = basename($uri))) {
+		return Response::create(new Template('404'), 404);
 	}
 
 	if($page->redirect) {
@@ -180,8 +230,8 @@ Route::get('(:any)', function($slug) {
 });
 
 /*
-	404 catch all
+	404 error
 */
-Route::any('*', function() {
+Route::error('404', function() {
 	return Response::make(new Template('404'), 404);
 });

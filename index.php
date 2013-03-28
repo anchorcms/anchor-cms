@@ -23,11 +23,11 @@
 
 define('DS', DIRECTORY_SEPARATOR);
 define('ENV', getenv('APP_ENV'));
-define('VERSION', '0.8.2');
+define('VERSION', '0.9');
 
 define('PATH', dirname(__FILE__) . DS);
 define('APP', PATH . 'anchor' . DS);
 define('SYS', PATH . 'system' . DS);
 define('EXT', '.php');
 
-require SYS . 'bootstrap' . EXT;
+require SYS . 'start' . EXT;

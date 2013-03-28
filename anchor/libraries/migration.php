@@ -5,31 +5,36 @@ abstract class Migration {
 	abstract public function down();
 
 	public function has_table($table) {
-		$default = Config::get('database.default');
-		$db = Config::get('database.connections.' . $default . '.database');
+		$default = Config::db('default');
+		$db = Config::db('connections.' . $default . '.database');
 
 		$sql = 'SHOW TABLES FROM `' . $db . '`';
-		$result = DB::query($sql);
+		list($result, $statement) = DB::ask($sql);
+		$statement->setFetchMode(PDO::FETCH_NUM);
 
 		$tables = array();
 
-		foreach($result as $row) {
-			$tables[] = $row->{'Tables_in_' . $db};
+		foreach($statement->fetchAll() as $row) {
+			$tables[] = $row[0];
 		}
 
 		return in_array($table, $tables);
 	}
 
 	public function has_table_column($table, $column) {
-		$sql = 'SHOW COLUMNS FROM `' . $table . '`';
-		$result = DB::query($sql);
+		if($this->has_table($table)) {
+			$sql = 'SHOW COLUMNS FROM `' . $table . '`';
+			list($result, $statement) = DB::ask($sql);
+			$statement->setFetchMode(PDO::FETCH_OBJ);
 
-		$columns = array();
+			$columns = array();
 
-		foreach($result as $row) {
-			$columns[] = $row->Field;
+			foreach($statement->fetchAll() as $row) {
+				$columns[] = $row->Field;
+			}
+
+			return in_array($column, $columns);
 		}
-
-		return in_array($column, $columns);
+		else return false;
 	}
 }

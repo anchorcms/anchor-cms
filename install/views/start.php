@@ -9,7 +9,7 @@
 		new blog set up in no time.</p>
 	</article>
 
-	<form method="post" action="<?php echo Uri::make('start'); ?>" autocomplete="off">
+	<form method="post" action="<?php echo uri_to('start'); ?>" autocomplete="off">
 		<?php echo $messages; ?>
 
 		<fieldset>
@@ -19,16 +19,30 @@
 					<span class="info">Anchor's language.</span>
 				</label>
 				<select id="lang" name="language">
-				<?php foreach($languages as $lang): ?>
-					<option><?php echo $lang; ?></option>
-				<?php endforeach; ?>
+					<?php foreach($languages as $lang): ?>
+					<?php $selected = in_array($lang, $prefered_languages) ? ' selected' : ''; ?>
+					<option<?php echo $selected; ?>><?php echo $lang; ?></option>
+					<?php endforeach; ?>
+				</select>
+			</p>
+
+			<p>
+				<label for="timezone">
+					<strong>Timezone</strong>
+					<span class="info">Your current time zone.</span>
+				</label>
+				<select id="timezone" name="timezone">
+					<?php $set = false; ?>
+					<?php foreach($timezones as $zone): ?>
+					<?php $selected = ($set === false and $current_timezone == $zone['offset']) ? ' selected' : ''; ?>
+					<option value="<?php echo $zone['timezone_id']; ?>"<?php echo $selected; ?>>
+						<?php echo $zone['label']; ?>
+					</option>
+					<?php if($selected) $set = true; ?>
+					<?php endforeach; ?>
 				</select>
 			</p>
 		</fieldset>
-
-		<p>
-			<small>You can get more languages by downloading them from <a href="//github.com/anchorcms/anchor-translations">the Anchor translations repository</a>, and placing in the <code>anchor/languages</code> folder.</small>
-		</p>
 
 		<section class="options">
 			<button type="submit" class="btn">Next Step &raquo;</button>

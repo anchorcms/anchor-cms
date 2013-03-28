@@ -1,10 +1,10 @@
 <?php echo $header; ?>
 
 <hgroup class="wrap">
-	<h1><?php echo __('users.users', 'Users'); ?></h1>
+	<h1><?php echo __('users.users'); ?></h1>
 
 	<nav>
-		<?php echo Html::link(admin_url('users/add'), __('users.create_user', 'Create a new user'), array('class' => 'btn')); ?>
+		<?php echo Html::link('admin/users/add', __('users.create_user'), array('class' => 'btn')); ?>
 	</nav>
 </hgroup>
 
@@ -14,9 +14,9 @@
 	<ul class="list">
 		<?php foreach($users->results as $user): ?>
 		<li>
-			<a href="<?php echo admin_url('users/edit/' . $user->id); ?>">
+			<a href="<?php echo Uri::to('admin/users/edit/' . $user->id); ?>">
 				<strong><?php echo $user->real_name; ?></strong>
-				<span>Username: <?php echo $user->username; ?></span>
+				<span><?php echo __('users.username'); ?>: <?php echo $user->username; ?></span>
 
 				<em class="highlight"><?php echo __('users.' . $user->role); ?></em>
 			</a>

@@ -1,12 +1,12 @@
-/*
-	Focus mode
-*/
-(function() {
+/**
+ * Focus mode for post and page main textarea
+ */
+$(function() {
 	var doc = $(document), html = $('html'), body = html.children('body');
 
 	var Focus = {
 		//  Our element to focus
-		target: $('textarea[name=html]'),
+		target: $('textarea[name=html], textarea[name=content]'),
 		exitSpan: '#exit-focus',
 
 		enter: function() {
@@ -32,15 +32,15 @@
 	Focus.target.focus(Focus.enter).blur(Focus.exit);
 
 	//  Bind key events
-	doc.keyup(function(e) {
+	doc.on('keyup', function(event) {
 		//  Pressing the "f" key
-		if($.inArray(e.target.nodeName, ['INPUT', 'TEXTAREA']) === -1 && e.which == 70) {
+		if(event.keyCode == 70) {
 			Focus.enter();
 		}
 
 		//  Pressing the Escape key
-		if(e.which == 27) {
+		if(event.keyCode == 27) {
 			Focus.exit();
 		}
 	});
-}());
+});

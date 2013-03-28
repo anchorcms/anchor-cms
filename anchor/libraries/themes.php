@@ -16,6 +16,8 @@ class Themes {
 			}
 		}
 
+		ksort($themes);
+
 		return $themes;
 	}
 
@@ -69,7 +71,7 @@ class Themes {
 			$base = $file->getBasename('.' . $ext);
 
 			if($file->isFile() and $ext == 'php') {
-				$templates[$base] = Str::title($base);
+				$templates[$base] = $base;
 			}
 		}
 

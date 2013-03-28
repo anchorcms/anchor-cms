@@ -1,21 +1,11 @@
 <?php
 
-class Comment extends Model {
+class Comment extends Base {
 
 	public static $table = 'comments';
 
-	public static function paginate($page = 1, $perpage = 10) {
-		$query = Query::table(static::$table);
-
-		$count = $query->count();
-
-		$results = $query->take($perpage)->skip(($page - 1) * $perpage)->sort('date', 'desc')->get();
-
-		return new Paginator($results, $count, $page, $perpage, url('comments'));
-	}
-
-	public static function notify($comment) {
-		$uri = Uri::build(array('path' => Uri::make('admin/comments/edit/' . $comment['id'])));
+	public function notify() {
+		$uri = Uri::full('admin/comments/edit/' . $this->id);
 
 		$headers  = 'MIME-Version: 1.0' . "\r\n";
 		$headers .= 'Content-type: text/html; charset=utf-8' . "\r\n";
@@ -23,7 +13,7 @@ class Comment extends Model {
 
 		$message = '<html>
 			<head>
-				<title>New comment has been added</title>
+				<title>' . __('comments.notify_subject') . '</title>
 				<style>
 					body {font: 15px/25px "Helvetica Neue", "Open Sans", "DejaVu Sans", "Arial", sans-serif;}
 					table {margin: 1em 0; border-collapse: collapse;}
@@ -32,32 +22,42 @@ class Comment extends Model {
 				</style>
 			</head>
 			<body>
-				<h2>A new comment has been submitted to your site.</h2>
+				<h2>' . __('comments.nofity_heading') . '</h2>
 
 				<table>
 					<tr>
-						<td>Name</td>
-						<td>' . $comment['name'] . '</td>
+						<td>' . __('comments.name') . '</td>
+						<td>' . $this->name . '</td>
 					</tr>
 					<tr>
-						<td>Email</td>
-						<td>' . $comment['email'] . '</td>
+						<td>' . __('comments.email') . '</td>
+						<td>' . $this->email . '</td>
 					</tr>
 					<tr>
-						<td>Comment</td>
-						<td>' . $comment['text'] . '</td>
+						<td>' . __('comments.text') . '</td>
+						<td>' . $this->text . '</td>
 					</tr>
 				</table>
 
-				<p><a href="' . $uri . '">View</a></p>
+				<p><a href="' . $uri . '">' . __('comments.view_comment') . '</a></p>
 			</body>
 		</html>';
 
 		// notify administrators
 		foreach(User::where('role', '=', 'administrator')->get() as $user) {
 			$to = $user->real_name . ' <' . $user->email . '>';
-			mail($to, 'New comment', $message, $headers);
+			mail($to, __('comments.notify_subject'), $message, $headers);
 		}
+	}
+
+	public static function paginate($page = 1, $perpage = 10) {
+		$query = Query::table(static::table());
+
+		$count = $query->count();
+
+		$results = $query->take($perpage)->skip(($page - 1) * $perpage)->sort('date', 'desc')->get();
+
+		return new Paginator($results, $count, $page, $perpage, url('comments'));
 	}
 
 	public static function spam($comment) {
