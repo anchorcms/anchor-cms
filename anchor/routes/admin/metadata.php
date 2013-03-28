@@ -23,10 +23,10 @@ Route::post('admin/extend/metadata', array('before' => 'auth', 'do' => function(
 	$validator = new Validator($input);
 
 	$validator->check('sitename')
-		->is_max(3, __('metadata.missing_sitename'));
+		->is_max(3, __('Your site needs a name!'));
 
 	$validator->check('description')
-		->is_max(3, __('metadata.missing_description'));
+		->is_max(3, __('Your site needs a description!'));
 
 	if($errors = $validator->errors()) {
 		Input::flash();
@@ -40,7 +40,7 @@ Route::post('admin/extend/metadata', array('before' => 'auth', 'do' => function(
 		Query::table('meta')->where('key', '=', $key)->update(array('value' => $value));
 	}
 
-	Notify::success(__('metadata.meta_success_updated'));
+	Notify::success(__('Metadata successfully updated!'));
 
 	return Response::redirect('admin/extend/metadata');
 }));
