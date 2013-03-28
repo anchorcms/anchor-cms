@@ -39,4 +39,11 @@ Anchor::setup();
 /**
  * Import defined routes
  */
-foreach(glob(APP . 'routes/*' . EXT) as $file) require $file;
+if(is_admin()) {
+	foreach(glob(APP . 'routes/*' . EXT) as $file) {
+		require $file;
+	}
+}
+else {
+	require APP . 'routes/site' . EXT;
+}

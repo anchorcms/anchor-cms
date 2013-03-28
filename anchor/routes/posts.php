@@ -88,7 +88,8 @@ Route::post('admin/posts/edit/(:num)', array('before' => 'auth', 'main' => funct
 		->is_max(3, __('posts.title_missing'));
 
 	$validator->check('slug')
-		->is_duplicate(__('posts.slug_duplicate'));
+		->is_duplicate(__('posts.slug_duplicate'))
+		->not_regex('#^[0-9_-]+$#', __('posts.slug_invalid'));
 
 	if($errors = $validator->errors()) {
 		Input::flash();

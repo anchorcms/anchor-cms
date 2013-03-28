@@ -18,6 +18,7 @@ return array(
 	'slug' => 'Slug',
 	'slug_explain' => '',
 	'slug_duplicate' => 'Slug already exists',
+	'slug_invalid' => 'Slug must contain letters',
 
 	'description' => 'Description',
 	'description_explain' => '',
