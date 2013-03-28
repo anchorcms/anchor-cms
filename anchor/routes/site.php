@@ -28,7 +28,15 @@ if($home_page->id == $posts_page->id) {
 
 Route::get($routes, function($offset = 1) use($posts_page) {
 	// get public listings
-	list($total, $posts) = Post::listing(null, $offset, Config::meta('posts_per_page'));
+	list($total, $posts) = Post::listing(null, $offset, $per_page = Config::meta('posts_per_page'));
+
+	// get the last page
+	$max_page = ($total > $per_page) ? ceil($total / $per_page) : 1;
+
+	// stop users browsing to non existing ranges
+	if(($offset > $max_page) or ($offset < 1)) {
+		return Response::create(new Template('404'), 404);
+	}
 
 	$posts = new Items($posts);
 
