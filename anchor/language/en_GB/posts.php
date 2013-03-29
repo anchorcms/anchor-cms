@@ -39,8 +39,8 @@ return array(
 	'custom_js_explain' => '',
 
 	// messages
-	'updated' => 'Your article has been updated.',
-	'created' => 'Your new article was created, <a href="%s">Continue editing</a>.',
+	'updated' => 'Your article has been updated',
+	'created' => 'Your new article was created',
 	'deleted' => 'Your article have been deleted'
 
 );
