@@ -164,3 +164,8 @@ if(count($GLOBALS['errors'])) {
 
 	exit(0);
 }
+
+/**
+ * Import defined routes
+ */
+require APP . 'routes' . EXT;
