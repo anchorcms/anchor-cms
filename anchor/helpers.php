@@ -18,7 +18,7 @@ function slug($str, $separator = '-') {
 	$str = normalize($str);
 
 	// replace non letter or digits by separator
-	$str = preg_replace('#[^\\pL\d]+#u', $separator, $str);
+	$str = preg_replace('#^[^A-z0-9]+$#', $separator, $str);
 
 	return trim(strtolower($str), $separator);
 }

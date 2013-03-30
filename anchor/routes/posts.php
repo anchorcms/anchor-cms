@@ -78,6 +78,14 @@ Route::post('admin/posts/edit/(:num)', array('before' => 'auth', 'main' => funct
 	$input = Input::get(array('title', 'slug', 'description', 'created',
 		'html', 'css', 'js', 'category', 'status', 'comments'));
 
+	// if there is no slug try and create one from the title
+	if(empty($input['slug'])) {
+		$input['slug'] = $input['title'];
+	}
+
+	// convert to ascii
+	$input['slug'] = slug($input['slug']);
+
 	$validator = new Validator($input);
 
 	$validator->add('duplicate', function($str) use($id) {
@@ -88,6 +96,7 @@ Route::post('admin/posts/edit/(:num)', array('before' => 'auth', 'main' => funct
 		->is_max(3, __('posts.title_missing'));
 
 	$validator->check('slug')
+		->is_max(3, __('posts.slug_missing'))
 		->is_duplicate(__('posts.slug_duplicate'))
 		->not_regex('#^[0-9_-]+$#', __('posts.slug_invalid'));
 
@@ -98,12 +107,6 @@ Route::post('admin/posts/edit/(:num)', array('before' => 'auth', 'main' => funct
 
 		return Response::redirect('admin/posts/edit/' . $id);
 	}
-
-	if(empty($input['slug'])) {
-		$input['slug'] = $input['title'];
-	}
-
-	$input['slug'] = slug($input['slug']);
 
 	if($input['created']) {
 		$input['created'] = Date::mysql($input['created']);
@@ -158,6 +161,14 @@ Route::post('admin/posts/add', array('before' => 'auth', 'main' => function() {
 	$input = Input::get(array('title', 'slug', 'description', 'created',
 		'html', 'css', 'js', 'category', 'status', 'comments'));
 
+	// if there is no slug try and create one from the title
+	if(empty($input['slug'])) {
+		$input['slug'] = $input['title'];
+	}
+
+	// convert to ascii
+	$input['slug'] = slug($input['slug']);
+
 	$validator = new Validator($input);
 
 	$validator->add('duplicate', function($str) {
@@ -168,7 +179,9 @@ Route::post('admin/posts/add', array('before' => 'auth', 'main' => function() {
 		->is_max(3, __('posts.title_missing'));
 
 	$validator->check('slug')
-		->is_duplicate(__('posts.slug_duplicate'));
+		->is_max(3, __('posts.slug_missing'))
+		->is_duplicate(__('posts.slug_duplicate'))
+		->not_regex('#^[0-9_-]+$#', __('posts.slug_invalid'));
 
 	if($errors = $validator->errors()) {
 		Input::flash();
@@ -177,12 +190,6 @@ Route::post('admin/posts/add', array('before' => 'auth', 'main' => function() {
 
 		return Response::redirect('admin/posts/add');
 	}
-
-	if(empty($input['slug'])) {
-		$input['slug'] = $input['title'];
-	}
-
-	$input['slug'] = slug($input['slug']);
 
 	if(empty($input['created'])) {
 		$input['created'] = Date::mysql('now');
@@ -219,7 +226,7 @@ Route::post('admin/posts/preview', array('before' => 'auth', 'main' => function(
 	$md = new Markdown;
 	$output = Json::encode(array('html' => $md->transform($html)));
 
-	return Response::create($output, 200, array('Content-Type' => 'application/json'));
+	return Response::create($output, 200, array('content-type' => 'application/json'));
 }));
 
 /*

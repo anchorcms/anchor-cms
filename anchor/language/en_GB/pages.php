@@ -26,7 +26,10 @@ return array(
 	'name_explain' => '',
 
 	'slug' => 'Slug',
-	'slug_explain' => '',
+	'slug_explain' => 'Slug uri to identify your page, should only contain ascii characters',
+	'slug_missing' => 'Please enter a slug uri, slugs can only contain ascii characters',
+	'slug_duplicate' => 'Slug already exists',
+	'slug_invalid' => 'Slug must contain letters',
 
 	'status' => 'Status',
 	'status_explain' => '',

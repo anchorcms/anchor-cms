@@ -71,10 +71,27 @@ Route::get('admin/pages/edit/(:num)', array('before' => 'auth', 'main' => functi
 Route::post('admin/pages/edit/(:num)', array('before' => 'auth', 'main' => function($id) {
 	$input = Input::get(array('parent', 'name', 'title', 'slug', 'content', 'status', 'redirect', 'show_in_menu'));
 
+	// if there is no slug try and create one from the title
+	if(empty($input['slug'])) {
+		$input['slug'] = $input['title'];
+	}
+
+	// convert to ascii
+	$input['slug'] = slug($input['slug']);
+
 	$validator = new Validator($input);
+
+	$validator->add('duplicate', function($str) use($id) {
+		return Page::where('slug', '=', $str)->where('id', '<>', $id)->count() == 0;
+	});
 
 	$validator->check('title')
 		->is_max(3, __('pages.title_missing'));
+
+	$validator->check('slug')
+		->is_max(3, __('pages.slug_missing'))
+		->is_duplicate(__('pages.slug_duplicate'))
+		->not_regex('#^[0-9_-]+$#', __('pages.slug_invalid'));
 
 	if($input['redirect']) {
 		$validator->check('redirect')
@@ -92,15 +109,6 @@ Route::post('admin/pages/edit/(:num)', array('before' => 'auth', 'main' => funct
 	if(empty($input['name'])) {
 		$input['name'] = $input['title'];
 	}
-
-	if(empty($input['slug'])) {
-		$input['slug'] = $input['title'];
-	}
-
-	$input['slug'] = slug($input['slug']);
-
-	// convert html to entities
-	//$input['content'] = e($input['content']);
 
 	$input['show_in_menu'] = is_null($input['show_in_menu']) ? 0 : 1;
 
@@ -140,10 +148,27 @@ Route::post('admin/pages/add', array('before' => 'auth', 'main' => function() {
 	$input = Input::get(array('parent', 'name', 'title', 'slug', 'content',
 		'status', 'redirect', 'show_in_menu'));
 
+	// if there is no slug try and create one from the title
+	if(empty($input['slug'])) {
+		$input['slug'] = $input['title'];
+	}
+
+	// convert to ascii
+	$input['slug'] = slug($input['slug']);
+
 	$validator = new Validator($input);
+
+	$validator->add('duplicate', function($str) {
+		return Page::where('slug', '=', $str)->count() == 0;
+	});
 
 	$validator->check('title')
 		->is_max(3, __('pages.title_missing'));
+
+	$validator->check('slug')
+		->is_max(3, __('pages.slug_missing'))
+		->is_duplicate(__('pages.slug_duplicate'))
+		->not_regex('#^[0-9_-]+$#', __('pages.slug_invalid'));
 
 	if($input['redirect']) {
 		$validator->check('redirect')
@@ -161,15 +186,6 @@ Route::post('admin/pages/add', array('before' => 'auth', 'main' => function() {
 	if(empty($input['name'])) {
 		$input['name'] = $input['title'];
 	}
-
-	if(empty($input['slug'])) {
-		$input['slug'] = $input['title'];
-	}
-
-	$input['slug'] = slug($input['slug']);
-
-	// convert html to entities
-	//$input['content'] = e($input['content']);
 
 	$input['show_in_menu'] = is_null($input['show_in_menu']) ? 0 : 1;
 
