@@ -46,7 +46,7 @@
 			<p>There's a new version of anchor available.</p>
 
 			<a title="Download latest version <?php echo $version; ?>" href="<?php echo $url; ?>">Download Now</a>
-			<a href="<?php echo $base; ?>">Upgrade later</a>
+			<a href="<?php echo $base; ?>/admin">Upgrade later</a>
 		</div>
 	</body>
 </html>
