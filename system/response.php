@@ -105,24 +105,22 @@ class Response {
 	 * Sends the final headers cookies and output
 	 */
 	public function send() {
-		if( ! Request::cli()) {
-			// create a status header
-			Status::create($this->status)->header();
+		// create a status header
+		Status::create($this->status)->header();
 
-			// always make sure we send the content type
-			if( ! array_key_exists('content-type', $this->headers)) {
-				$this->headers['content-type'] = 'text/html; charset=' . Config::app('encoding', 'UTF-8');
-			}
+		// always make sure we send the content type
+		if( ! array_key_exists('content-type', $this->headers)) {
+			$this->headers['content-type'] = 'text/html; charset=' . Config::app('encoding', 'UTF-8');
+		}
 
-			// output headers
-			foreach($this->headers as $name => $value) {
-				header($name . ': ' . $value);
-			}
+		// output headers
+		foreach($this->headers as $name => $value) {
+			header($name . ': ' . $value);
+		}
 
-			// send any cookies we may have stored in the cookie class
-			foreach(Cookie::$bag as $cookie) {
-				call_user_func_array('setcookie', array_values($cookie));
-			}
+		// send any cookies we may have stored in the cookie class
+		foreach(Cookie::$bag as $cookie) {
+			call_user_func_array('setcookie', array_values($cookie));
 		}
 
 		// output the final content
