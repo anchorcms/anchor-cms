@@ -56,12 +56,16 @@ function body_class() {
 	$classes[] = count($parts) ? trim(current($parts)) : 'index';
 
 	//  Is it a posts page?
-	if(is_postspage()) $classes[] = 'posts';
+	if(is_postspage()) {
+		$classes[] = 'posts';
+	}
 
 	//  Is it the homepage?
-	if(is_homepage()) $classes[] = 'home';
+	if(is_homepage()) {
+		$classes[] = 'home';
+	}
 
-	return implode(' ', $classes);
+	return implode(' ', array_unique($classes));
 }
 
 // page type helpers
