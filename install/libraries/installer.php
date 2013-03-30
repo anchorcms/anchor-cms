@@ -13,9 +13,6 @@ class Installer {
 		// session data
 		$settings = Session::get('install');
 
-		// set the timezone before we add dates
-		date_default_timezone_set($settings['i18n']['timezone']);
-
 		// create database connection
 		static::connect($settings);
 
@@ -61,7 +58,7 @@ class Installer {
 		$database = $settings['database'];
 
 		$sql = Braces::compile(APP . 'storage/anchor.sql', array(
-			'now' => date('Y-m-d H:i:s'),
+			'now' => gmdate('Y-m-d H:i:s'),
 			'charset' => 'utf8',
 			'prefix' => $database['prefix']
 		));

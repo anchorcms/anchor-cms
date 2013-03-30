@@ -204,7 +204,7 @@ Route::post('admin/posts/add', array('before' => 'auth', 'main' => function() {
 
 	Extend::process('post', $post->id);
 
-	Notify::success(__('posts.created', Uri::to('posts/edit/' . $post->id)));
+	Notify::success(__('posts.created'));
 
 	return Response::redirect('admin/posts');
 }));

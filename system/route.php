@@ -140,12 +140,12 @@ class Route {
 
 		// If the response was a view get the output and create response
 		if($response instanceof View) {
-			$response = Response::create($response->yield());
+			return Response::create($response->yield());
 		}
 
 		// If the output was a string create response
 		if(is_string($response)) {
-			$response = Response::create($response);
+			return Response::create($response);
 		}
 
 		return $response;

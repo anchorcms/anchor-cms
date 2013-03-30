@@ -11,6 +11,7 @@
  */
 
 use PDO;
+use Closure;
 use System\Database as DB;
 
 class Query extends Builder {
@@ -286,7 +287,7 @@ class Query extends Builder {
 	 * @return object
 	 */
 	public function join($table, $left, $operator, $right, $type = 'INNER') {
-		if(is_callable($table)) {
+		if($table instanceof Closure) {
 			list($query, $alias) = $table();
 
 			$this->bind = array_merge($this->bind, $query->bind);
