@@ -204,6 +204,8 @@ Route::post('admin/pages/add', array('before' => 'auth', 'main' => function() {
 Route::get('admin/pages/delete/(:num)', array('before' => 'auth', 'main' => function($id) {
 	Page::find($id)->delete();
 
+	Query::table(Base::table('page_meta'))->where('page', '=', $id)->delete();
+
 	Notify::success(__('pages.deleted'));
 
 	return Response::redirect('admin/pages');
