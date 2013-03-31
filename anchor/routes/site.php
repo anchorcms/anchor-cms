@@ -155,7 +155,7 @@ Route::get(array('rss', 'feeds/rss'), function() {
 	foreach($query->get() as $article) {
 		$rss->item(
 			$article->title,
-			Uri::to(Registry::get('posts_page')->slug . '/' . $article->slug),
+			Uri::full(Registry::get('posts_page')->slug . '/' . $article->slug),
 			$article->description,
 			$article->created
 		);

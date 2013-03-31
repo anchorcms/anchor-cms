@@ -72,7 +72,7 @@ class Route {
 	}
 
 	/**
-	 * Start a collection of routes
+	 * Start a collection of routes with common actions
 	 *
 	 * @param string
 	 * @param string|closure
@@ -114,7 +114,7 @@ class Route {
 	 * @param string
 	 */
 	public function after($response) {
-		if( ! isset($this->actions['after'])) return;
+		if( ! isset($this->callbacks['after'])) return;
 
 		foreach(explode(',', $this->callbacks['after']) as $action) {
 			call_user_func(Router::$actions[$action], $response);
