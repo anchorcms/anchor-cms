@@ -12,7 +12,7 @@
 	<?php endif; ?>
 
 	<section class="options">
-		<a href="<?php echo $site_uri; ?>index.php/admin" class="button">Visit your admin panel</a>
+		<a href="<?php echo $site_uri; ?>/index.php/admin" class="button">Visit your admin panel</a>
 		<a href="<?php echo $site_uri; ?>" class="right">Visit your new site</a>
 	</section>
 </section>
