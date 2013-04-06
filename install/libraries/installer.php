@@ -138,7 +138,7 @@ class Installer {
 	}
 
 	private static function rewrite($settings) {
-		if(!mod_rewrite() or (is_apache() and $settings['metadata']['rewrite'])) {
+		if(mod_rewrite() or (is_apache() and $settings['metadata']['rewrite'])) {
 			$htaccess = Braces::compile(APP . 'storage/htaccess.distro', array(
 				'base' => $settings['metadata']['site_path'],
 				'index' => (is_cgi() ? 'index.php?/$1' : 'index.php/$1')
