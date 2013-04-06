@@ -26,6 +26,9 @@ return array(
 	'posts_per_page' => 'Posts per page',
 	'posts_per_page_explain' => '',
 
+	'auto_descriptions' => 'Auto post descriptions',
+	'auto_descriptions_explain' => 'Use first text paragraph as a description if custom description is not specified',
+
 	'auto_publish_comments' => 'Auto-allow comments',
 	'auto_publish_comments_explain' => '',
 

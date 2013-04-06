@@ -1,0 +1,20 @@
+<?php
+
+class Migration_add_auto_descriptions extends Migration {
+
+	public function up() {
+		$table = Base::table('meta');
+
+		if($this->has_table($table)) {
+			if( ! Query::table($table)->where('key', '=', 'auto_descriptions')->count()) {
+				Query::table($table)->insert(array(
+					'key' => 'auto_descriptions',
+					'value' => '0'
+				));
+			}
+		}
+	}
+
+	public function down() {}
+
+}
