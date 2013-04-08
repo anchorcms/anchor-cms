@@ -15,27 +15,27 @@ function article_slug() {
 	return Registry::prop('article', 'slug');
 }
 
-function article_previous() {
-	$queryminmax = Post::where('created', '<', Registry::prop('article', 'created'));
-	//if($categoryminmax = Registry::prop('article', 'category')) $queryminmax->where('category', '=', $categoryminmax);
-	$postsminmax = $queryminmax->order_by('created', 'desc')->take('1')->skip('0')->get(array('slug'));
-	$postsminmax = new Items($postsminmax);
-	if($resultminmax = $postsminmax->valid()) {
-		return $postsminmax->current()->slug;
-	}else{
-		return '';
+function article_previous_url() {
+	$page = Registry::get('posts_page');
+	$query = Post::where('created', '<', Registry::prop('article', 'created'));
+
+	if($query->count()) {
+		$article = $query->sort('created', 'desc')->fetch();
+		$page = Registry::get('posts_page');
+
+		return base_url($page->slug . '/' . $article->slug);
 	}
 }
 
-function article_next() {
-	$queryminmax = Post::where('created', '>', Registry::prop('article', 'created'));
-	//if($categoryminmax = Registry::prop('article', 'category')) $queryminmax->where('category', '=', $categoryminmax);
-	$postsminmax = $queryminmax->order_by('created', 'asc')->take('1')->skip('0')->get(array('slug'));
-	$postsminmax = new Items($postsminmax);
-	if($resultminmax = $postsminmax->valid()) {
-		return $postsminmax->current()->slug;
-	}else{
-		return '';
+function article_next_url() {
+	$page = Registry::get('posts_page');
+	$query = Post::where('created', '>', Registry::prop('article', 'created'));
+
+	if($query->count()) {
+		$article = $query->sort('created', 'asc')->fetch();
+		$page = Registry::get('posts_page');
+
+		return base_url($page->slug . '/' . $article->slug);
 	}
 }
 
