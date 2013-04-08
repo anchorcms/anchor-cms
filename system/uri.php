@@ -86,7 +86,7 @@ class Uri {
 	 * @return string
 	 */
 	public static function detect() {
-		$try = array('PATH_INFO', 'ORIG_PATH_INFO', 'REQUEST_URI');
+		$try = array('REQUEST_URI', 'PATH_INFO', 'ORIG_PATH_INFO');
 
 		foreach($try as $method) {
 			if( ! array_key_exists($method, $_SERVER)) continue;
