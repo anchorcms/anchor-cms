@@ -38,6 +38,11 @@
 					array('min' => 1, 'max' => 15)); ?>
 				<em><?php echo __('metadata.posts_per_page_explain'); ?></em>
 			</p>
+			<p>
+				<label><?php echo __('metadata.auto_descriptions'); ?>:</label>
+				<?php echo Form::checkbox('auto_descriptions', 1, Input::previous('auto_descriptions', $meta['auto_descriptions'])); ?>
+				<em><?php echo __('metadata.auto_descriptions_explain'); ?></em>
+			</p>
 		</fieldset>
 
 		<fieldset class="split">

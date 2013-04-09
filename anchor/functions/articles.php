@@ -46,7 +46,22 @@ function article_url() {
 }
 
 function article_description() {
-	return Registry::prop('article', 'description');
+	$custom_description = Registry::prop('article', 'description');
+	if(!empty($custom_description))
+		return $custom_description;
+	else {
+		// Is auto_descriptions turned on?
+		if(Config::meta('auto_descriptions') == 1)
+		{
+			// Stripping html tags, we don't want them
+			$article = strip_tags(article_html());
+
+			// One article for users, an array for PHP!
+			$paragraphs = explode("\n", $article);
+			return $paragraphs[0];
+		} else 
+			return "";
+	}
 }
 
 function article_html() {
