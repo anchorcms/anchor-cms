@@ -1,124 +1,128 @@
 <?php
 
-/*
-	List Categories
-*/
-Route::get(array('admin/categories', 'admin/categories/(:num)'), array('before' => 'auth', 'main' => function($page = 1) {
-	$vars['messages'] = Notify::read();
-	$vars['categories'] = Category::paginate($page, Config::get('meta.posts_per_page'));
+Route::collection(array('before' => 'auth'), function() {
 
-	return View::create('categories/index', $vars)
-		->partial('header', 'partials/header')
-		->partial('footer', 'partials/footer');
-}));
+	/*
+		List Categories
+	*/
+	Route::get(array('admin/categories', 'admin/categories/(:num)'), function($page = 1) {
+		$vars['messages'] = Notify::read();
+		$vars['categories'] = Category::paginate($page, Config::get('meta.posts_per_page'));
 
-/*
-	Edit Category
-*/
-Route::get('admin/categories/edit/(:num)', array('before' => 'auth', 'main' => function($id) {
-	$vars['messages'] = Notify::read();
-	$vars['token'] = Csrf::token();
-	$vars['category'] = Category::find($id);
+		return View::create('categories/index', $vars)
+			->partial('header', 'partials/header')
+			->partial('footer', 'partials/footer');
+	});
 
-	return View::create('categories/edit', $vars)
-		->partial('header', 'partials/header')
-		->partial('footer', 'partials/footer');
-}));
+	/*
+		Edit Category
+	*/
+	Route::get('admin/categories/edit/(:num)', function($id) {
+		$vars['messages'] = Notify::read();
+		$vars['token'] = Csrf::token();
+		$vars['category'] = Category::find($id);
 
-Route::post('admin/categories/edit/(:num)', array('before' => 'auth', 'main' => function($id) {
-	$input = Input::get(array('title', 'slug', 'description'));
+		return View::create('categories/edit', $vars)
+			->partial('header', 'partials/header')
+			->partial('footer', 'partials/footer');
+	});
 
-	$validator = new Validator($input);
+	Route::post('admin/categories/edit/(:num)', function($id) {
+		$input = Input::get(array('title', 'slug', 'description'));
 
-	$validator->check('title')
-		->is_max(3, __('categories.title_missing'));
+		$validator = new Validator($input);
 
-	if($errors = $validator->errors()) {
-		Input::flash();
+		$validator->check('title')
+			->is_max(3, __('categories.title_missing'));
 
-		Notify::error($errors);
+		if($errors = $validator->errors()) {
+			Input::flash();
 
-		return Response::redirect('admin/categories/edit/' . $id);
-	}
+			Notify::error($errors);
 
-	if(empty($input['slug'])) {
-		$input['slug'] = $input['title'];
-	}
+			return Response::redirect('admin/categories/edit/' . $id);
+		}
 
-	$input['slug'] = slug($input['slug']);
+		if(empty($input['slug'])) {
+			$input['slug'] = $input['title'];
+		}
 
-	Category::update($id, $input);
+		$input['slug'] = slug($input['slug']);
 
-	Notify::success(__('categories.updated'));
+		Category::update($id, $input);
 
-	return Response::redirect('admin/categories/edit/' . $id);
-}));
-
-/*
-	Add Category
-*/
-Route::get('admin/categories/add', array('before' => 'auth', 'main' => function() {
-	$vars['messages'] = Notify::read();
-	$vars['token'] = Csrf::token();
-
-	return View::create('categories/add', $vars)
-		->partial('header', 'partials/header')
-		->partial('footer', 'partials/footer');
-}));
-
-Route::post('admin/categories/add', array('before' => 'auth', 'main' => function() {
-	$input = Input::get(array('title', 'slug', 'description'));
-
-	$validator = new Validator($input);
-
-	$validator->check('title')
-		->is_max(3, __('categories.title_missing'));
-
-	if($errors = $validator->errors()) {
-		Input::flash();
-
-		Notify::error($errors);
-
-		return Response::redirect('admin/categories/add');
-	}
-
-	if(empty($input['slug'])) {
-		$input['slug'] = $input['title'];
-	}
-
-	$input['slug'] = slug($input['slug']);
-
-	Category::create($input);
-
-	Notify::success(__('categories.created'));
-
-	return Response::redirect('admin/categories');
-}));
-
-/*
-	Delete Category
-*/
-Route::get('admin/categories/delete/(:num)', array('before' => 'auth', 'main' => function($id) {
-	$total = Query::table(Category::$table)->count();
-
-	if($total == 1) {
-		Notify::error(__('categories.delete_error'));
+		Notify::success(__('categories.updated'));
 
 		return Response::redirect('admin/categories/edit/' . $id);
-	}
+	});
 
-	// move posts
-	$category = Category::where('id', '<>', $id)->fetch();
+	/*
+		Add Category
+	*/
+	Route::get('admin/categories/add', function() {
+		$vars['messages'] = Notify::read();
+		$vars['token'] = Csrf::token();
 
-	// delete selected
-	Category::find($id)->delete();
+		return View::create('categories/add', $vars)
+			->partial('header', 'partials/header')
+			->partial('footer', 'partials/footer');
+	});
 
-	// update posts
-	Post::where('category', '=', $id)->update(array(
-		'category' => $category->id
-	));
+	Route::post('admin/categories/add', function() {
+		$input = Input::get(array('title', 'slug', 'description'));
 
-	Notify::success(__('categories.deleted'));
+		$validator = new Validator($input);
 
-	return Response::redirect('admin/categories');
-}));
+		$validator->check('title')
+			->is_max(3, __('categories.title_missing'));
+
+		if($errors = $validator->errors()) {
+			Input::flash();
+
+			Notify::error($errors);
+
+			return Response::redirect('admin/categories/add');
+		}
+
+		if(empty($input['slug'])) {
+			$input['slug'] = $input['title'];
+		}
+
+		$input['slug'] = slug($input['slug']);
+
+		Category::create($input);
+
+		Notify::success(__('categories.created'));
+
+		return Response::redirect('admin/categories');
+	});
+
+	/*
+		Delete Category
+	*/
+	Route::get('admin/categories/delete/(:num)', function($id) {
+		$total = Query::table(Category::$table)->count();
+
+		if($total == 1) {
+			Notify::error(__('categories.delete_error'));
+
+			return Response::redirect('admin/categories/edit/' . $id);
+		}
+
+		// move posts
+		$category = Category::where('id', '<>', $id)->fetch();
+
+		// delete selected
+		Category::find($id)->delete();
+
+		// update posts
+		Post::where('category', '=', $id)->update(array(
+			'category' => $category->id
+		));
+
+		Notify::success(__('categories.deleted'));
+
+		return Response::redirect('admin/categories');
+	});
+
+});

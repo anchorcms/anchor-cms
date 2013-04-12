@@ -1,26 +1,30 @@
 <?php
 
-/*
-	List Menu Items
-*/
-Route::get('admin/menu', array('before' => 'auth', 'main' => function() {
-	$vars['messages'] = Notify::read();
-	$vars['pages'] = Page::where('show_in_menu', '=', 1)->sort('menu_order')->get();
+Route::collection(array('before' => 'auth'), function() {
 
-	return View::create('menu/index', $vars)
-		->partial('header', 'partials/header')
-		->partial('footer', 'partials/footer');
-}));
+	/*
+		List Menu Items
+	*/
+	Route::get('admin/menu', function() {
+		$vars['messages'] = Notify::read();
+		$vars['pages'] = Page::where('show_in_menu', '=', 1)->sort('menu_order')->get();
 
-/*
-	Update order
-*/
-Route::post('admin/menu/update', array('before' => 'auth', 'main' => function() {
-	$sort = Input::get('sort');
+		return View::create('menu/index', $vars)
+			->partial('header', 'partials/header')
+			->partial('footer', 'partials/footer');
+	});
 
-	foreach($sort as $index => $id) {
-		Page::where('id', '=', $id)->update(array('menu_order' => $index));
-	}
+	/*
+		Update order
+	*/
+	Route::post('admin/menu/update', function() {
+		$sort = Input::get('sort');
 
-	return Response::json(array('result' => true));
-}));
+		foreach($sort as $index => $id) {
+			Page::where('id', '=', $id)->update(array('menu_order' => $index));
+		}
+
+		return Response::json(array('result' => true));
+	});
+
+});
