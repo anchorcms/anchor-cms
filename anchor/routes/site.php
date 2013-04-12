@@ -228,10 +228,3 @@ Route::get('(:all)', function($uri) {
 
 	return new Template('page');
 });
-
-/*
-	404 error
-*/
-Route::error('404', function() {
-	return Response::make(new Template('404'), 404);
-});

@@ -21,14 +21,14 @@ Route::get('admin/users/edit/(:num)', array('before' => 'auth', 'main' => functi
 	$vars['user'] = User::find($id);
 
 	$vars['statuses'] = array(
-		'inactive' => __('users.inactive'),
-		'active' => __('users.active')
+		'inactive' => __('global.inactive'),
+		'active' => __('global.active')
 	);
 
 	$vars['roles'] = array(
-		'administrator' => __('users.administrator'),
-		'editor' => __('users.editor'),
-		'user' => __('users.user')
+		'administrator' => __('global.administrator'),
+		'editor' => __('global.editor'),
+		'user' => __('global.user')
 	);
 
 	return View::create('users/edit', $vars)
@@ -94,9 +94,9 @@ Route::get('admin/users/add', array('before' => 'auth', 'main' => function() {
 	);
 
 	$vars['roles'] = array(
-		'administrator' => __('users.administrator'),
-		'editor' => __('users.editor'),
-		'user' => __('users.user')
+		'administrator' => __('global.administrator'),
+		'editor' => __('global.editor'),
+		'user' => __('global.user')
 	);
 
 	return View::create('users/add', $vars)

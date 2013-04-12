@@ -18,6 +18,13 @@ use Closure;
 class Route {
 
 	/**
+	 * Array of collection actions
+	 *
+	 * @var array
+	 */
+	public static $collection = array();
+
+	/**
 	 * Array of callable functions
 	 *
 	 * @var array
@@ -56,6 +63,9 @@ class Route {
 			$arguments = array('main' => $arguments);
 		}
 
+		// add collection actions
+		$arguments = array_merge($arguments, static::$collection);
+
 		foreach((array) $patterns as $pattern) {
 			Router::$routes[$method][$pattern] = $arguments;
 		}
@@ -78,7 +88,14 @@ class Route {
 	 * @param string|closure
 	 */
 	public static function collection($actions, $definitions) {
-		//
+		// start collection
+		static::$collection = $actions;
+
+		// run definitions
+		call_user_func($definitions);
+
+		// end of collection
+		static::$collection = array();
 	}
 
 	/**
@@ -143,12 +160,12 @@ class Route {
 			return Response::create($response->yield());
 		}
 
-		// If the output was a string create response
-		if(is_string($response)) {
-			return Response::create($response);
+		// If we have a response object return it
+		if($response instanceof Response) {
+			return $response;
 		}
 
-		return $response;
+		return Response::create((string) $response);
 	}
 
 }

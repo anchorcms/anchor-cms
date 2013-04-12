@@ -200,3 +200,10 @@ Route::get('admin/extend', array('before' => 'auth', 'main' => function($page = 
 		->partial('header', 'partials/header')
 		->partial('footer', 'partials/footer');
 }));
+
+/*
+	404 error
+*/
+Route::error('404', function() {
+	return Response::error(404);
+});
