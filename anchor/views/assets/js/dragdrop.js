@@ -52,11 +52,11 @@ $(function() {
 
 	var complete = function() {
 		if(['text/css'].indexOf(this.file.type) !== -1) {
-			$('textarea[name=css]').val(this.result);
+			$('textarea[name=css]').val(this.result).parent().show();
 		}
 
 		if(['text/javascript', 'application/javascript'].indexOf(this.file.type) !== -1) {
-			$('textarea[name=js]').val(this.result);
+			$('textarea[name=js]').val(this.result).parent().show();
 		}
 
 		if(['text/x-markdown'].indexOf(this.file.type) !== -1) {
@@ -74,5 +74,14 @@ $(function() {
 		zone.on('dragexit', close);
 
 		body.append('<div id="upload-file"><span>Upload your file</span></div>');
+
+		// hide drag/drop inputs until populated
+		$('textarea[name=css],textarea[name=js]').each(function(index, item) {
+			var element = $(item);
+
+			if(element.val() == '') {
+				element.parent().hide();
+			}
+		});
 	}
 });
