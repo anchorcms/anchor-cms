@@ -12,6 +12,7 @@
 
 use ErrorException;
 use OverflowException;
+use System\Request\Server;
 
 class Uri {
 
@@ -49,14 +50,17 @@ class Uri {
 	public static function full($uri, $secure = null) {
 		if(strpos($uri, '://')) return $uri;
 
+		// create a server object from global
+		$server = new Server($_SERVER);
+
 		if( ! is_null($secure)) {
 			$scheme = $secure ? 'https://' : 'http://';
 		}
 		else {
-			$scheme = empty($_SERVER['HTTPS']) ? 'http://' : 'https://';
+			$scheme = ($server->has('HTTPS') and $server->get('HTTPS')) !== '' ? 'http://' : 'https://';
 		}
 
-		return $scheme . $_SERVER['HTTP_HOST'] . static::to($uri);
+		return $scheme . $server->get('HTTP_HOST') . static::to($uri);
 	}
 
 	/**
@@ -86,23 +90,31 @@ class Uri {
 	 * @return string
 	 */
 	public static function detect() {
+		// create a server object from global
+		$server = new Server($_SERVER);
+
 		$try = array('REQUEST_URI', 'PATH_INFO', 'ORIG_PATH_INFO');
 
 		foreach($try as $method) {
-			if( ! array_key_exists($method, $_SERVER)) continue;
 
-			if($uri = filter_var($_SERVER[$method], FILTER_SANITIZE_URL)) {
-				// make sure the uri is not malformed and return the pathname
-				if($uri = parse_url($uri, PHP_URL_PATH)) {
-					return static::format($uri);
+			// make sure the server var exists and is not empty
+			if($server->has($method) and $uri = $server->get($method)) {
+
+				// apply a string filter and make sure we still have somthing left
+				if($uri = filter_var($uri, FILTER_SANITIZE_URL)) {
+
+					// make sure the uri is not malformed and return the pathname
+					if($uri = parse_url($uri, PHP_URL_PATH)) {
+						return static::format($uri, $server);
+					}
+
+					// woah jackie, we found a bad'n
+					throw new ErrorException('Malformed URI');
 				}
-
-				// woah jackie, we found a bad'n
-				throw new ErrorException('Malformed URI');
 			}
 		}
 
-		throw new OverflowException('Uri was not detected. Make sure the PATH_INFO or REQUEST_URI is set.');
+		throw new OverflowException('Uri was not detected. Make sure the REQUEST_URI is set.');
 	}
 
 	/**
@@ -112,12 +124,13 @@ class Uri {
 	 * @param string
 	 * @return string
 	 */
-	public static function format($uri) {
-		// Remove all characters except letters, digits and $-_.+!*'(),{}|\\^~[]`<>#%";/?:@&=.
+	public static function format($uri, $server) {
+		// Remove all characters except letters,
+		// digits and $-_.+!*'(),{}|\\^~[]`<>#%";/?:@&=.
 		$uri = filter_var(rawurldecode($uri), FILTER_SANITIZE_URL);
 
 		// remove script path/name
-		$uri = static::remove_script_name($uri);
+		$uri = static::remove_script_name($uri, $server);
 
 		// remove the relative uri
 		$uri = static::remove_relative_uri($uri);
@@ -152,8 +165,8 @@ class Uri {
 	 * @param string
 	 * @return string
 	 */
-	public static function remove_script_name($uri) {
-		return static::remove(Arr::get($_SERVER, 'SCRIPT_NAME'), $uri);
+	public static function remove_script_name($uri, $server) {
+		return static::remove($server->get('SCRIPT_NAME'), $uri);
 	}
 
 	/**
