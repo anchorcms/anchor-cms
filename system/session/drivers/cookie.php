@@ -12,6 +12,7 @@
 
 use System\Cookie as C;
 use System\Session\Driver;
+use Exception;
 
 class Cookie extends Driver {
 
@@ -20,9 +21,15 @@ class Cookie extends Driver {
 
 		// check if the cookie exists
 		if($encoded = C::read($cookie . '_payload')) {
-			// can we decode and unserialize it
-			if($data = @unserialize(base64_decode($encoded))) {
-				return $data;
+			// try decoding first
+			if($decoded = base64_decode($encoded)) {
+				// verify signature
+				$sign = substr($decoded, 0, 32);
+				$serialized = substr($decoded, 32);
+
+				if(hash('md5', $serialized) == $sign) {
+					return unserialize($serialized);
+				}
 			}
 		}
 	}
@@ -36,7 +43,14 @@ class Cookie extends Driver {
 			$lifetime = (3600 * 24 * 365);
 		}
 
-		$data = base64_encode(serialize($cargo));
+		// serialize data into a srting
+		$serialized = serialize($cargo);
+
+		// create a signature to verify content when unpacking
+		$sign = hash('md5', $serialized);
+
+		// encode all the data
+		$data = base64_encode($sign . $serialized);
 
 		C::write($cookie . '_payload', $data, $lifetime, $path, $domain, $secure);
 	}
