@@ -1,56 +1,60 @@
 <?php
 
-/*
-	List Metadata
-*/
-Route::get('admin/extend/metadata', array('before' => 'auth', 'main' => function() {
-	$vars['messages'] = Notify::read();
-	$vars['token'] = Csrf::token();
+Route::collection(array('before' => 'auth'), function() {
 
-	$vars['meta'] = Config::get('meta');
-	$vars['pages'] = Page::dropdown();
-	$vars['themes'] = Themes::all();
+	/*
+		List Metadata
+	*/
+	Route::get('admin/extend/metadata', function() {
+		$vars['messages'] = Notify::read();
+		$vars['token'] = Csrf::token();
 
-	return View::create('extend/metadata/edit', $vars)
-		->partial('header', 'partials/header')
-		->partial('footer', 'partials/footer');
-}));
+		$vars['meta'] = Config::get('meta');
+		$vars['pages'] = Page::dropdown();
+		$vars['themes'] = Themes::all();
 
-/*
-	Update Metadata
-*/
-Route::post('admin/extend/metadata', array('before' => 'auth', 'main' => function() {
-	$input = Input::get(array('sitename', 'description', 'home_page', 'posts_page',
-		'posts_per_page', 'auto_published_comments', 'theme', 'comment_notifications', 'comment_moderation_keys'));
+		return View::create('extend/metadata/edit', $vars)
+			->partial('header', 'partials/header')
+			->partial('footer', 'partials/footer');
+	});
 
-	$validator = new Validator($input);
+	/*
+		Update Metadata
+	*/
+	Route::post('admin/extend/metadata', function() {
+		$input = Input::get(array('sitename', 'description', 'home_page', 'posts_page',
+			'posts_per_page', 'auto_published_comments', 'theme', 'comment_notifications', 'comment_moderation_keys'));
 
-	$validator->check('sitename')
-		->is_max(3, __('metadata.sitename_missing'));
+		$validator = new Validator($input);
 
-	$validator->check('description')
-		->is_max(3, __('metadata.sitedescription_missing'));
+		$validator->check('sitename')
+			->is_max(3, __('metadata.sitename_missing'));
 
-	$validator->check('posts_per_page')
-		->is_regex('#^[0-9]+$#', __('metadata.missing_posts_per_page', 'Please enter a number for posts per page'));
+		$validator->check('description')
+			->is_max(3, __('metadata.sitedescription_missing'));
 
-	if($errors = $validator->errors()) {
-		Input::flash();
+		$validator->check('posts_per_page')
+			->is_regex('#^[0-9]+$#', __('metadata.missing_posts_per_page', 'Please enter a number for posts per page'));
 
-		Notify::error($errors);
+		if($errors = $validator->errors()) {
+			Input::flash();
+
+			Notify::error($errors);
+
+			return Response::redirect('admin/extend/metadata');
+		}
+
+		// convert double quotes so we dont break html
+		$input['sitename'] = htmlspecialchars($input['sitename'], ENT_COMPAT, Config::app('encoding'), false);
+		$input['description'] = htmlspecialchars($input['description'], ENT_COMPAT, Config::app('encoding'), false);
+
+		foreach($input as $key => $value) {
+			Query::table(Base::table('meta'))->where('key', '=', $key)->update(array('value' => $value));
+		}
+
+		Notify::success(__('metadata.updated'));
 
 		return Response::redirect('admin/extend/metadata');
-	}
+	});
 
-	// convert double quotes so we dont break html
-	$input['sitename'] = htmlspecialchars($input['sitename'], ENT_COMPAT, Config::app('encoding'), false);
-	$input['description'] = htmlspecialchars($input['description'], ENT_COMPAT, Config::app('encoding'), false);
-
-	foreach($input as $key => $value) {
-		Query::table(Base::table('meta'))->where('key', '=', $key)->update(array('value' => $value));
-	}
-
-	Notify::success(__('metadata.updated'));
-
-	return Response::redirect('admin/extend/metadata');
-}));
+});

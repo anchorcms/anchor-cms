@@ -142,7 +142,7 @@ class Extend extends Base {
 
 		$ext = pathinfo($file['name'], PATHINFO_EXTENSION);
 
-		$filename = hash('crc32', file_get_contents($file['tmp_name'])) . '.' . $ext;
+		$filename = slug($file['name']) . '.' . $ext;
 		$filepath = $storage . $filename;
 
 		if(move_uploaded_file($file['tmp_name'], $filepath)) {

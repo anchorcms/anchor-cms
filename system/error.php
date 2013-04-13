@@ -29,23 +29,35 @@ class Error {
 			// clear output buffer
 			while(ob_get_level() > 1) ob_end_clean();
 
-			echo '<html>
-				<head>
-					<title>Uncaught Exception</title>
-					<style>
-						body{font-family:"Open Sans",arial,sans-serif;background:#FFF;color:#333;margin:2em}
-						code{background:#D1E751;border-radius:4px;padding:2px 6px}
-					</style>
-				</head>
-				<body>
-					<h1>Uncaught Exception</h1>
-					<p><code>' . $e->getMessage() . '</code></p>
-					<h3>Origin</h3>
-					<p><code>' . substr($e->getFile(), strlen(PATH)) . ' on line ' . $e->getLine() . '</code></p>
-					<h3>Trace</h3>
-					<pre>' . $e->getTraceAsString() . '</pre>
-				</body>
-				</html>';
+			if(Request::cli()) {
+				Cli::write(PHP_EOL . 'Uncaught Exception', 'light_red');
+				Cli::write($e->getMessage() . PHP_EOL);
+
+				Cli::write('Origin', 'light_red');
+				Cli::write(substr($e->getFile(), strlen(PATH)) . ' on line ' . $e->getLine() . PHP_EOL);
+
+				Cli::write('Trace', 'light_red');
+				Cli::write($e->getTraceAsString() . PHP_EOL);
+			}
+			else {
+				echo '<html>
+					<head>
+						<title>Uncaught Exception</title>
+						<style>
+							body{font-family:"Open Sans",arial,sans-serif;background:#FFF;color:#333;margin:2em}
+							code{background:#D1E751;border-radius:4px;padding:2px 6px}
+						</style>
+					</head>
+					<body>
+						<h1>Uncaught Exception</h1>
+						<p><code>' . $e->getMessage() . '</code></p>
+						<h3>Origin</h3>
+						<p><code>' . substr($e->getFile(), strlen(PATH)) . ' on line ' . $e->getLine() . '</code></p>
+						<h3>Trace</h3>
+						<pre>' . $e->getTraceAsString() . '</pre>
+					</body>
+					</html>';
+			}
 		}
 		else {
 			// issue a 500 response

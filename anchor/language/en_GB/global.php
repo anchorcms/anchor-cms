@@ -40,6 +40,11 @@ return array(
 	'inactive' => 'Inactive',
 	'active' => 'Active',
 
+	// roles
+	'administrator' => 'Admin',
+	'editor' => 'Editor',
+	'user' => 'User',
+
 	'log_in' => 'Log in',
 	'login' => 'Login',
 	'log_out' => 'Log out',
