@@ -34,9 +34,6 @@ pre, code, .mono {
 p {
 	padding-bottom: 15px;
 }
-p + p {
-	text-indent: 1em;
-}
 
 pre {
 	padding: 15px 20px;

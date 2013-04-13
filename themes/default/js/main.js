@@ -3,21 +3,20 @@ var Anchor = {
 		Anchor.slidey = $('.slidey');
 		
 		//  Uh, bind to the resizing of the window?
-		Anchor.bindResize();
-		$(window).resize(Anchor.bindResize);
+		$(window).resize(Anchor.bindResize).trigger('resize');
 		
 		//  Set up the toggle link
 		Anchor.linky = $('.linky').click(Anchor.toggleSlidey);
-			  
-		//  Set up the slidey panel
-		Anchor.hideSlidey();
 
 		//  Hide the thingymabob
 		setTimeout(function() {
+		    //  Set up the slidey panel
+		    Anchor.hideSlidey();
+		    
 			$('body').addClass('js-enabled');
 		}, 10);
 		
-		//  Listen for search links
+		//  Listen for search link
 		$('a[href="#search"]').click(function() {
 			if(!Anchor.linky.hasClass('active')) {
 				return Anchor.toggleSlidey.call(Anchor.linky);

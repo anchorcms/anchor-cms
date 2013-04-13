@@ -25,9 +25,11 @@
 		margin-bottom: 25px;
 	}
 	
-#comment p {
+#comment p, .footnote {
 	float: none;
 	width: 100%;
+	
+	white-space: normal;
 }
 	
 #bottom {
