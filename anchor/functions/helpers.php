@@ -80,3 +80,7 @@ function is_postspage() {
 function is_article() {
 	return Registry::get('article') !== null;
 }
+
+function is_page() {
+	return Registry::get('page') !== null;
+}
