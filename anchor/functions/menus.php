@@ -64,7 +64,7 @@ function menu_parent() {
 */
 function menu_render($params = array()) {
 	$html = '';
-	$menu = Registry::get('menu');
+	$menu = clone Registry::get('menu');
 
 	// options
 	$parent = isset($params['parent']) ? $params['parent'] : 0;
@@ -78,7 +78,7 @@ function menu_render($params = array()) {
 
 			$html .= '<li>';
 			$html .= Html::link($item->relative_uri(), $item->name, $attr);
-			//$html .= menu_render(array('parent' => $item->id));
+			$html .= menu_render(array('parent' => $item->id));
 			$html .= '</li>' . PHP_EOL;
 		}
 	}
