@@ -5,7 +5,8 @@
  */
 $(function() {
 	var zone = $(document), body = $('body');
-	var allowed = ['text/css', 'text/javascript', 'application/javascript', 'text/x-markdown'];
+	var allowed = ['text/css', 'text/javascript', 'application/javascript', 'text/x-markdown',
+		'image/jpeg', 'image/gif', 'image/png'];
 
 	var cancel = function(event) {
 		event.preventDefault();
@@ -35,6 +36,9 @@ $(function() {
 			if(allowed.indexOf(file.type) !== -1) {
 				transfer(file);
 			}
+			else if(window.console) {
+				console.log(file.type + ' not supported');
+			}
 		}
 
 		body.removeClass('draggy');
@@ -47,22 +51,74 @@ $(function() {
 		reader.file = file;
 		reader.callback = complete;
 		reader.onload = reader.callback;
-		reader.readAsText(file);
+		//reader.readAsText(file);
+		reader.readAsBinaryString(file);
+	};
+
+	var upload = function(uri, file) {
+		// Uploading - for Firefox, Google Chrome and Safari
+		var xhr = new XMLHttpRequest();
+		xhr.open("post", uri);
+
+		var formData = new FormData();
+    	formData.append('file', file);
+
+		xhr.onreadystatechange = function() {
+			if(this.readyState == 4) {
+				return uploaded(file, this.responseText);
+			}
+		}
+
+		// Send the file (doh)
+		xhr.send(formData);
+	};
+
+	var uploaded = function(file, response) {
+		var data = JSON.parse(response);
+
+		if(data.result) {
+			var textarea = $('.main textarea'),
+				element = textarea[0],
+				start = element.selectionStart,
+				value = element.value,
+				img = "\n\n" + '![' + file.name + '](' + data.uri + ')' + "\n\n";
+
+			element.value = value.substring(0, start) + img + value.substring(start);
+			element.selectionStart = element.selectionEnd = start + img.length;
+			textarea.trigger('keydown');
+		}
 	};
 
 	var complete = function() {
 		if(['text/css'].indexOf(this.file.type) !== -1) {
-			$('textarea[name=css]').val(this.result).parent().show();
+			var element = $('textarea[name=css]');
+
+			if(element.size()) element.val(this.result).parent().show();
 		}
 
 		if(['text/javascript', 'application/javascript'].indexOf(this.file.type) !== -1) {
-			$('textarea[name=js]').val(this.result).parent().show();
+			var element = $('textarea[name=js]');
+
+			if(element.size()) element.val(this.result).parent().show();
 		}
 
 		if(['text/x-markdown'].indexOf(this.file.type) !== -1) {
-			var textarea = $('textarea[name=html]'), value = textarea.val();
+			var textarea = $('.main textarea'), value = textarea.val();
 
 			textarea.val(this.result).trigger('keydown');
+		}
+
+		if(['image/jpeg', 'image/gif', 'image/png'].indexOf(this.file.type) !== -1) {
+			var path = window.location.pathname, uri, parts = path.split('/');
+
+			if(parts[parts.length - 1] == 'add') {
+				uri = path.split('/').slice(0, -1).join('/') + '/upload';
+			}
+			else {
+				uri = path.split('/').slice(0, -2).join('/') + '/upload';
+			}
+
+			upload(uri, this.file);
 		}
 	};
 

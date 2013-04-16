@@ -82,6 +82,7 @@
 </form>
 
 <script src="<?php echo asset('anchor/views/assets/js/slug.js'); ?>"></script>
+<script src="<?php echo asset('anchor/views/assets/js/dragdrop.js'); ?>"></script>
 <script src="<?php echo asset('anchor/views/assets/js/page-name.js'); ?>"></script>
 <script src="<?php echo asset('anchor/views/assets/js/redirect.js'); ?>"></script>
 <!--<script src="<?php echo asset('anchor/views/assets/js/focus-mode.js'); ?>"></script>-->

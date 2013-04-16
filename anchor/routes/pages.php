@@ -214,4 +214,29 @@ Route::collection(array('before' => 'auth'), function() {
 		return Response::redirect('admin/pages');
 	});
 
+	/*
+		Upload a image
+	*/
+	Route::post('admin/pages/upload', function() {
+		$output = array('result' => false);
+
+		if(isset($_FILES['file'])) {
+			$file = $_FILES['file'];
+
+			$storage = PATH . 'content' . DS;
+			$ext = '.' . pathinfo($file['name'], PATHINFO_EXTENSION);
+
+			$filename = slug(rtrim($file['name'], $ext)) . $ext;
+			$filepath = $storage . $filename;
+
+			$uri = Config::app('url', '/') . 'content/' . $filename;
+
+			if(move_uploaded_file($file['tmp_name'], $filepath)) {
+				$output = array('result' => true, 'uri' => $uri);
+			}
+		}
+
+		return Response::json($output);
+	});
+
 });

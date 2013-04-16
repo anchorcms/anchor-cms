@@ -140,9 +140,9 @@ class Extend extends Base {
 
 		if(!is_dir($storage)) mkdir($storage);
 
-		$ext = pathinfo($file['name'], PATHINFO_EXTENSION);
+		$ext = '.' . pathinfo($file['name'], PATHINFO_EXTENSION);
 
-		$filename = slug($file['name']) . '.' . $ext;
+		$filename = slug(rtrim($file['name'], $ext)) . $ext;
 		$filepath = $storage . $filename;
 
 		if(move_uploaded_file($file['tmp_name'], $filepath)) {
