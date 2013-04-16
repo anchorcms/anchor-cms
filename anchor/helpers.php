@@ -11,7 +11,7 @@ function is_admin() {
 }
 
 function is_installed() {
-	return Config::get('db') !== null;
+	return Config::get('db') !== null and Config::get('database') !== null;
 }
 
 function slug($str, $separator = '-') {
