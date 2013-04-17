@@ -2,12 +2,12 @@
 
 class Base extends Record {
 
-	public static function table($name = null) {
+	public static function table($name = '') {
 		if(is_null(static::$prefix)) {
 			static::$prefix = Config::db('prefix', '');
 		}
 
-		if( ! is_null($name)) return static::$prefix . $name;
+		if($name) return static::$prefix . $name;
 
 		return static::$prefix . static::$table;
 	}
