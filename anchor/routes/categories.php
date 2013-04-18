@@ -101,8 +101,7 @@ Route::collection(array('before' => 'auth'), function() {
 		Delete Category
 	*/
 	Route::get('admin/categories/delete/(:num)', function($id) {
-		$table = Base::table(Category::$table);
-		$total = Query::table($table)->count();
+		$total = Category::count();
 
 		if($total == 1) {
 			Notify::error(__('categories.delete_error'));
