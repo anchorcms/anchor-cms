@@ -70,6 +70,4 @@ System\Autoloader::$aliases = (array) System\Config::aliases();
 /**
  * Error handling
  */
-set_exception_handler(array('System\\Error', 'exception'));
-set_error_handler(array('System\\Error', 'native'));
-register_shutdown_function(array('System\\Error', 'shutdown'));
+System\Error::register();

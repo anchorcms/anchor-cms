@@ -17,6 +17,9 @@ class Anchor {
 
 		// check mirgrations are up to date
 		static::migrations();
+
+		// load plugins
+		static::plugins();
 	}
 
 	public static function installation() {
@@ -101,6 +104,24 @@ class Anchor {
 		else if($current < $migrate_to) {
 			$number = $migrations->up($migrate_to);
 			Query::table($table)->where('key', '=', 'current_migration')->update(array('value' => $number));
+		}
+	}
+
+	public static function plugins() {
+		$active = Plugin::where('active', '=', 1)->get();
+
+		foreach($active as $plugin) {
+			$path = PATH . 'plugins/' . strtolower($plugin->path) . '/plugin' . EXT;
+
+			if(file_exists($path)) require $path;
+
+			$plugin = new $plugin->path;
+
+			if(method_exists($plugin, 'register_routes')) {
+				$plugin->register_routes();
+			}
+
+			unset($plugin);
 		}
 	}
 

@@ -72,6 +72,19 @@ class Route {
 	}
 
 	/**
+	 * Register the 404 not found callback
+	 *
+	 * @param closure
+	 */
+	public static function not_found($callbacks) {
+		if($callbacks instanceof Closure) {
+			$callbacks = array('main' => $callbacks);
+		}
+
+		Router::$not_found = $callbacks;
+	}
+
+	/**
 	 * Register a action on the router
 	 *
 	 * @param string

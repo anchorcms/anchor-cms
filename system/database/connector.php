@@ -10,7 +10,7 @@
  * @copyright	http://unlicense.org/
  */
 
-use Exception;
+use PDOException;
 use System\Config;
 
 abstract class Connector {
@@ -47,9 +47,8 @@ abstract class Connector {
 
 			return array($result, $statement);
 		}
-		catch(Exception $e) {
-			$error = 'Database Error: ' . $e->getMessage() . '</code></p><p><code>SQL: ' . trim($sql);
-			throw new Exception($error, 0, $e);
+		catch(PDOException $e) {
+			throw new Exception($sql, $e);
 		}
 	}
 

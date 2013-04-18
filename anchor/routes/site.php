@@ -228,3 +228,10 @@ Route::get('(:all)', function($uri) {
 
 	return new Template('page');
 });
+
+/*
+ * 404 not found
+ */
+Route::not_found(function() {
+	return Response::create(new Template('404'), 404);
+});

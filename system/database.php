@@ -11,7 +11,6 @@
  */
 
 use ErrorException;
-use Exception;
 
 class Database {
 
