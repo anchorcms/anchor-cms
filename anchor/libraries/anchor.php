@@ -6,7 +6,16 @@ class Anchor {
 		// check installation and show intro
 		static::installation();
 
-		// load meta data from the dtabaase to the config
+		// rename config files
+		if(is_writable($src = APP . 'config/application.php')) {
+			@rename($src, APP . 'config/app.php');
+		}
+
+		if(is_writable($src = APP . 'config/database.php')) {
+			@rename($src, APP . 'config/db.php');
+		}
+
+		// load meta data from the db to the config
 		static::meta();
 
 		// import theming functions
