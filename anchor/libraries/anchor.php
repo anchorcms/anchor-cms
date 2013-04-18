@@ -21,11 +21,11 @@ class Anchor {
 		// import theming functions
 		static::functions();
 
-		// populate registry with globals
-		static::register();
-
 		// check mirgrations are up to date
 		static::migrations();
+
+		// populate registry with globals
+		static::register();
 	}
 
 	public static function installation() {
