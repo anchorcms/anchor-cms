@@ -1,0 +1,82 @@
+<?php
+
+return array(
+
+	'posts' => 'Posts',
+	'create_post' => 'Maak een nieuwe post',
+	'created' => 'Gemaakt op',
+	'create' => 'Maak',
+	'by' => 'door',
+	'noposts' => 'Er zijn nog geen posts.',
+	'return_posts' => 'Ga terug naar posts',
+
+	'add_post' => 'Voeg een post toe',
+	'post' => 'Post',
+	'customise' => 'Customise',
+	'customise_explain' => 'Hier kun je je posts customizen. Dit gedeelte is optioneel.',
+	'custom_fields' => 'Eigen velden',
+	'custom_fields_explain' => 'Cree&euml;r hier eigen velden.',
+	'create_custom_field' => 'Cree&euml;r een eigen veld',
+	'comments' => 'Reacties',
+	'comments_explain' => 'Hier kun je geplaatste reacties modereren.',
+	'no_comments' => 'Er zijn nog geen reacties geplaatst.',
+	'edit_comment' => 'Bewerk reactie',
+	'edit_comment_explain' => 'Werk hier de reactie bij.',
+
+	'publish' => 'Publiceer',
+	'edit' => 'Bewerk',
+	'delete' => 'Verwijder',
+	'save' => 'Opslaan',
+	'label' => 'Label',
+	'key' => 'Key',
+	'editing' => 'Bewerken',
+	'editing_explain' => 'Een paar nuttige links.',
+	'view_post' => 'Bekijk deze post op je website',
+
+	'draft' => 'Concept',
+	'archived' => 'Gearchiveerd',
+	'published' => 'Gepubliceerd',
+	'pending' => 'Onbeslist',
+	'spam' => 'Spam',
+	'update' => 'Update',
+	'close' => 'Sluit',
+
+	'custom_field' => 'Eigen veld',
+	'custom_field_explain' => 'Voeg alsjeblieft een label en key voor je veld toe.',
+	'missing_label' => 'Voeg alsjeblieft een veld label toe',
+	'missing_key' => 'Voeg alsjeblieft een veld key toe',
+
+	'title' => 'Titel',
+	'title_explain' => 'De titel van je post.',
+	'date' => 'Datum',
+	'date_explain' => 'De &ldquo;publiceer&rdquo; datum voor je post. Gebruikt <code><a href="http://php.net/manual/en/function.strtotime.php">strtotime()</a></code>.',
+	'slug' => 'Slug',
+	'slug_explain' => 'De slug voor je post (<code id="output">slug</code>).',
+	'description' => 'Beschrijving',
+	'description_explain' => 'Een korte beschrijving waar je post over gaat. Dit komt in de RSS feed te staan.',
+	'content' => 'Inhoud',
+	'content_explain' => 'De inhoud van je post. Houdt van HTML.',
+	'status' => 'Status',
+	'status_explain' => 'Statussen: live (gepubliceerd), draft (schets) of verborgen (gearchiveerd).',
+	'allow_comments' => 'Sta reacties toe',
+	'allow_comments_explain' => 'Dit zorgt ervoor dat gebruikers reacties kunnen plaatsen.',
+	'custom_css' => 'Custom CSS',
+	'custom_css_explain' => 'Custom CSS. Wordt geplaatst in een <code>&lt;style&gt;</code> blok.',
+	'custom_js' => 'Custom JS',
+	'custom_js_explain' => 'Custom Javascript. Wordt geplaatst in een <code>&lt;script&gt;</code> blok.',
+
+	'delete_confirm' => 'Weet je zeker dat je deze post wilt verwijderen?', 
+	'delete_confirm_submit' => 'Ja, verwijder deze post permanent', 
+	'delete_confirm_cancel' => 'Nee, verwijder deze post niet',
+	
+	'invalid_date' => 'Voer een geldige datum in.',
+	'missing_title' => 'Voeg een titel toe',
+	'missing_description' => 'Voeg een beschrijving toe',
+	'missing_html' => 'Voeg je HTML toe',
+	
+	'duplicate_slug' => 'Een post met dezelfde slug bestaat al, wijzig je slug.',
+	'post_success_created' => 'Je nieuwe post is toegevoegd',
+	'post_success_updated' => 'Je post is geupdate.',
+	'post_success_deleted' => 'Je post is verwijderd'
+
+);
