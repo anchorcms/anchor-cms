@@ -3,7 +3,7 @@
 <html>
 	<head>
 		<meta charset="utf-8">
-		<title>Upgrade</title>
+		<title><?php echo __('global.upgrade'); ?></title>
 
 		<style>
 			body {
@@ -42,11 +42,12 @@
 	<body>
 		<div>
 			<img src="<?php echo $base; ?>/anchor/views/assets/img/logo.png" alt="Anchor logo">
-			<h1>Great News!</h1>
-			<p>There's a new version of anchor available.</p>
 
-			<a title="Download latest version <?php echo $version; ?>" href="<?php echo $url; ?>">Download Now</a>
-			<a href="<?php echo $base; ?>/admin">Upgrade later</a>
+			<h1><?php echo __('global.good_news'); ?></h1>
+			<p><?php echo __('global.new_version_available'); ?></p>
+
+			<a href="<?php echo $url; ?>"><?php echo __('global.download_now'); ?></a>
+			<a href="<?php echo $base; ?>/admin"><?php echo __('global.upgrade_later'); ?></a>
 		</div>
 	</body>
 </html>

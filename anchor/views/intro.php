@@ -3,7 +3,7 @@
 <html>
 	<head>
 		<meta charset="utf-8">
-		<title>Welcome to Anchor</title>
+		<title><?php echo __('global.welcome_to_anchor'); ?></title>
 
 		<style>
 			body {
@@ -42,8 +42,8 @@
 	<body>
 		<div>
 			<img src="<?php echo $base; ?>/anchor/views/assets/img/logo.png" alt="Anchor logo">
-			<h1>Welcome to Anchor. Let’s go.</h1>
-			<a href="<?php echo $base . '/install/index.php'; ?>">Run the installer</a>
+			<h1><?php echo __('global.welcome_to_anchor_lets_go'); ?></h1>
+			<a href="<?php echo $base . '/install/index.php'; ?>"><?php echo __('global.run_the_installer'); ?></a>
 		</div>
 
 		<script>

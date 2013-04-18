@@ -55,6 +55,22 @@ return array(
 	'powered_by_anchor' => 'Powered by Anchor, version %s',
 	'make_blogging_beautiful' => 'Make blogging beautiful.',
 
+	// intro
+	'welcome_to_anchor' => 'Welcome to Anchor',
+	'welcome_to_anchor_lets_go' => 'Welcome to Anchor. Let’s go.',
+	'run_the_installer' => 'Run the installer',
+
+	// upgrade
+	'upgrade' => 'Upgrade',
+	'good_news' => 'Great News!',
+	'new_version_available' => 'There\'s a new version of anchor available.',
+	'download_now' => 'Download Now',
+	'upgrade_later' => 'Upgrade later',
+
+	// debug profiler
+	'profile' => 'Profile',
+	'profile_memory_usage' => 'Total memory usage',
+
 	// messages
 	'confirm_delete' => 'Are you sure you want to delete? This can’t be undone!'
 
