@@ -91,7 +91,8 @@ class Html extends Message {
 			if($index == 4) $context .= '<pre class="highlight">';
 			else $context .= '<pre>';
 
-			$context .= $num . ': ' . $this->highlight($text) . '</pre>';
+			$context .= '<span class="num">' . str_pad(' ', 4 - strlen($num)) . $num . '</span> ' .
+				$this->highlight($text) . '</pre>';
 		}
 
 		return $context;
@@ -103,89 +104,18 @@ class Html extends Message {
 	public function response() {
 		$file = substr($this->exception->getFile(), strlen(PATH));
 
-		echo '<html>
-			<head>
-				<title>Uncaught Exception</title>
-				<style>
-					body{
-						font: 15px/25px "Open Sans", arial, sans-serif;
-						margin: 2em
-					}
+		$html = file_get_contents(SYS . 'error/html/body.html');
 
-					.exception {
-						border-radius: 6px;
-						background: #2f2f2f;
-						color: #8ac6f2;
-						margin-bottom: 2em;
-						padding: 1em;
-						word-wrap: break-word;
-					}
+		$vars = array(
+			'{{styles}}' => file_get_contents(SYS . 'error/html/styles.css'),
+			'{{message}}' => $this->exception->getMessage(),
+			'{{file}}' => $file,
+			'{{line}}' => $this->exception->getLine(),
+			'{{trace}}' => $this->trace(),
+			'{{context}}' => $this->context(),
+		);
 
-						.exception .source {
-							font-size: 13px;
-						}
-
-					.trace {
-						background: #F5F5F5;
-						margin-bottom: 2em;
-						color: #412227;
-					}
-
-						.trace pre {
-							border-bottom: 2px solid #E0E0FF;
-							padding: 8px 1em;
-							margin: 0;
-						}
-
-						.trace pre:last-child {
-							border-bottom: none;
-						}
-
-					.context {
-						background: #2f2f2f;
-						color: #f6f3e8;
-					}
-
-						.context pre:nth-child(odd) {
-							background: #2a2a2a;
-						}
-
-						.context pre {
-							margin: 0;
-							padding: 2px 6px;
-							display: block;
-						}
-
-						.context pre.highlight {
-							background: #222222;
-						}
-
-						.context .string {
-							color: #D1E751;
-						}
-
-						.context .keyword {
-							color: #fc7883;
-						}
-				</style>
-			</head>
-			<body>
-				<div class="exception">
-					' . $this->exception->getMessage() . '<br>
-					<span class="source">
-						<em>' . $file . '</em>
-						:
-						<strong>' . $this->exception->getLine() . '</strong>
-					</span>
-				</div>
-				<div class="trace">
-				' . $this->trace() . '
-				</div>
-				<div class="context">
-				' . $this->context() . '
-				</div>
-			</body>
-			</html>';
+		echo str_replace(array_keys($vars), array_values($vars), $html);
 	}
 
 }
