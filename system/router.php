@@ -10,10 +10,6 @@
  * @copyright	http://unlicense.org/
  */
 
-use FilesystemIterator;
-use ErrorException;
-use InvalidArgumentException;
-
 class Router {
 
 	/**
@@ -55,6 +51,13 @@ class Router {
 	 * @var array
 	 */
 	public static $actions = array();
+
+	/**
+	 * Actions to call on not matched routes
+	 *
+	 * @var array|closure
+	 */
+	public static $not_found;
 
 	/**
 	 * Create a new instance of the Router class for chaining
@@ -136,11 +139,10 @@ class Router {
 			}
 		}
 
-		if(isset(static::$routes['ERROR']['404'])) {
-			return new Route(static::$routes['ERROR']['404']);
-		}
+		// call 404 handler
+		if(is_array(static::$not_found)) return new Route(static::$not_found);
 
-		throw new ErrorException('No routes matched');
+		throw new Router\Exception('No routes matched');
 	}
 
 	/**

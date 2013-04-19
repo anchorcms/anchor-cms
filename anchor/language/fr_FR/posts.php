@@ -1,0 +1,82 @@
+<?php
+
+return array(
+
+	'posts' => 'Articles',
+	'create_post' => 'Cr&eacute;er un nouvel article',
+	'created' => 'Cr&eacute;&eacute;',
+	'create' => 'Cr&eacute;er',
+	'by' => 'par',
+	'noposts' => 'Aucun article pour le moment. Pourquoi ne pas en publier un&nbsp;?',
+	'return_posts' => 'Retour aux articles',
+
+	'add_post' => 'Ajouter un article',
+	'post' => 'Article',
+	'customise' => 'Personnalisation',
+	'customise_explain' => 'Ici, vous pouvez personnaliser vos articles. Cette section est facultative.',
+	'custom_fields' => 'Champs personnalis&eacute;s',
+	'custom_fields_explain' => 'Cr&eacute;ez un champs personnalis&eacute; ici.',
+	'create_custom_field' => 'Cr&eacute;er un champs personnalis&eacute;',
+	'comments' => 'Commentaires',
+	'comments_explain' => 'Ici, vous pouvez mod&eacute;rer les commentaires.',
+	'no_comments' => 'Aucun commentaire pour l&rsquo;instant.',
+	'edit_comment' => '&Eacute;diter le commentaire',
+	'edit_comment_explain' => 'Mise &agrave; jour du commentaire ici.',
+
+	'publish' => 'Publier',
+	'edit' => '&Eacute;diter',
+	'delete' => 'Supprimer',
+	'save' => 'Enregistrer',
+	'label' => 'Label',
+	'key' => 'Clé',
+	'editing' => '&Eacute;dition',
+	'editing_explain' => 'Quelques liens utiles.',
+	'view_post' => 'Voir l&rsquo;article sur votre site',
+
+	'draft' => 'Brouillon',
+	'archived' => 'Archiv&eacute;',
+	'published' => 'Publi&eacute;',
+	'pending' => 'En attente',
+	'spam' => 'Spam',
+	'update' => 'Mettre &agrave; jour',
+	'close' => 'Fermer',
+
+	'custom_field' => 'Champs personnalis&eacute;s',
+	'custom_field_explain' => 'Veuillez entrer le label et la valeur du champs personnalis&eacute;.',
+	'missing_label' => 'Merci de fournir le label du champs',
+	'missing_key' => 'Veuillez entrer une clé au champs',
+
+	'title' => 'Titre',
+	'title_explain' => 'Le titre de votre article.',
+	'date' => 'Date',
+	'date_explain' => 'La date de publication de votre article. Utilise <code><a href="http://php.net/manual/en/function.strtotime.php">strtotime()</a></code>.',
+	'slug' => 'Alias',
+	'slug_explain' => 'L&rsquo;alias de votre page (<code id="output">alias</code>).',
+	'description' => 'Description',
+	'description_explain' => 'Un bref aper&ccedil;u de ce que contient votre article. Utilis&eacute; dans le flux RSS.',
+	'content' => 'Contenu',
+	'content_explain' => 'Le contenu principal de votre article. Profite une bonne dose de code HTML valide.',
+    'status' => 'Statut',
+    'status_explain' => 'Voulez-vous que votre page soit visible (publi&eacute;e), en attente (brouillon), ou cach&eacute;e (archiv&eacute;e)&nbsp;?',
+	'allow_comments' => 'Autoriser les commentaires',
+	'allow_comments_explain' => 'Cela permettra aux utilisateurs de commenter votre article.',
+	'custom_css' => 'CSS Personnalis&eacute;e',
+	'custom_css_explain' => 'Styles CSS Personnalis&eacute;s. Sera encadr&eacute; d&rsquo;une balise <code>&lt;style&gt;</code>.',
+	'custom_js' => 'JS Personnalis&eacute;',
+	'custom_js_explain' => 'Javascript Personnalis&eacute;. Sera encadr&eacute; d&rsquo;une balise <code>&lt;script&gt;</code>.',
+
+	'delete_confirm' => 'Etes-vous s&ucirc;r que vous souhaitez supprimer cet article&nbsp;?',
+	'delete_confirm_submit' => 'Oui, je comprends que l&rsquo;article sera d&eacute;finitivement supprim&eacute;',
+	'delete_confirm_cancel' => 'Non, conserver cet article',
+
+	'invalid_date' => 'Veuillez entrer une date valide.',
+	'missing_title' => 'Le titre de l&rsquo;article est requis',
+	'missing_description' => 'Merci d&rsquo;indiquer une description',
+	'missing_html' => 'Veuillez entre le code HTML',
+
+	'duplicate_slug' => 'Un article avec cet alias existe d&eacute;j&agrave;, veuillez fournir un autre alias.',
+	'post_success_created' => 'Votre nouvel article a &eacute;t&eacute; ajout&eacute;e',
+	'post_success_updated' => 'Votre nouvel article a &eacute;t&eacute; mis &agrave; jour',
+	'post_success_deleted' => 'Votre nouvel article a &eacute;t&eacute; supprim&eacute;'
+
+);

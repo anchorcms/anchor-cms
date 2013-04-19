@@ -10,58 +10,52 @@
  * @copyright	http://unlicense.org/
  */
 
+use Exception;
 use ErrorException;
 
 class Error {
 
 	/**
+	 * Register Exception handler
+	 */
+	public static function register() {
+		set_exception_handler(array('Error', 'exception'));
+		set_error_handler(array('Error', 'native'));
+		register_shutdown_function(array('Error', 'shutdown'));
+	}
+
+	/**
+	 * Unregister Exception handler
+	 */
+	public static function unregister() {
+		restore_exception_handler();
+		restore_error_handler();
+	}
+
+	/**
 	 * Exception handler
 	 *
-	 * This will log the exception and output the exception properties
-	 * formatted as html or a 500 response depending on your application config
-	 *
-	 * @param object The uncaught exception
+	 * @param Exception $e
 	 */
-	public static function exception($e) {
+	public static function exception(Exception $e) {
 		static::log($e);
 
 		if(Config::error('report')) {
 			// clear output buffer
-			while(ob_get_level() > 1) ob_end_clean();
+			ob_end_clean();
 
 			if(Request::cli()) {
-				Cli::write(PHP_EOL . 'Uncaught Exception', 'light_red');
-				Cli::write($e->getMessage() . PHP_EOL);
-
-				Cli::write('Origin', 'light_red');
-				Cli::write(substr($e->getFile(), strlen(PATH)) . ' on line ' . $e->getLine() . PHP_EOL);
-
-				Cli::write('Trace', 'light_red');
-				Cli::write($e->getTraceAsString() . PHP_EOL);
+				$output = new Error\Cli($e);
 			}
 			else {
-				echo '<html>
-					<head>
-						<title>Uncaught Exception</title>
-						<style>
-							body{font-family:"Open Sans",arial,sans-serif;background:#FFF;color:#333;margin:2em}
-							code{background:#D1E751;border-radius:4px;padding:2px 6px}
-						</style>
-					</head>
-					<body>
-						<h1>Uncaught Exception</h1>
-						<p><code>' . $e->getMessage() . '</code></p>
-						<h3>Origin</h3>
-						<p><code>' . substr($e->getFile(), strlen(PATH)) . ' on line ' . $e->getLine() . '</code></p>
-						<h3>Trace</h3>
-						<pre>' . $e->getTraceAsString() . '</pre>
-					</body>
-					</html>';
+				$output = new Error\Html($e);
 			}
+
+			$output->response();
 		}
 		else {
-			// issue a 500 response
-			Response::error(500, array('exception' => $e))->send();
+			// output a 500 response
+			Response::error(500)->send();
 		}
 
 		exit(1);
@@ -79,7 +73,7 @@ class Error {
 	 * @param int
 	 * @param array
 	 */
-	public static function native($code, $message, $file, $line, $context) {
+	public static function native($code, $message, $file, $line) {
 		static::exception(new ErrorException($message, $code, 0, $file, $line));
 	}
 
@@ -93,7 +87,7 @@ class Error {
 		if($error = error_get_last()) {
 			extract($error);
 
-			static::exception(new ErrorException($message, $type, 0, $file, $line));
+			static::native($type, $message, $file, $line);
 		}
 	}
 

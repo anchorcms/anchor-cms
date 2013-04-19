@@ -1,0 +1,18 @@
+<html>
+	<head>
+		<title>Uncaught Exception</title>
+		<style>
+			{{styles}}
+		</style>
+	</head>
+	<body>
+		<div class="exception">
+			<span class="message">{{message}}</span><br>
+			<span class="source">
+				<em>{{file}}</em> : <strong>{{line}}</strong>
+			</span>
+		</div>
+		<div class="trace">{{trace}}</div>
+		<div class="context">{{context}}</div>
+	</body>
+</html>

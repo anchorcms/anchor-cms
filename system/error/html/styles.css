@@ -1,0 +1,75 @@
+body{
+	font: 15px/25px sans-serif;
+	margin: 2em
+}
+
+.exception, .trace, .context {
+	border-radius: 3px;
+	overflow: hidden;
+}
+
+.exception {
+	background: #2f2f2f;
+	color: #8ac6f2;
+	margin-bottom: 2em;
+	padding: 1em;
+	word-wrap: break-word;
+}
+
+	.exception .source {
+		font-size: 13px;
+	}
+
+	.exception .message {
+		font-size: 16px;
+	}
+
+.trace {
+	background: #F5F5F5;
+	color: #412227;
+	width: 28%;
+	float: left;
+}
+
+	.trace pre {
+		border-bottom: 2px solid #E0E0FF;
+		padding: 8px 1em;
+		margin: 0;
+	}
+
+	.trace pre:last-child {
+		border-bottom: none;
+	}
+
+.context {
+	background: #2f2f2f;
+	color: #f6f3e8;
+	width: 70%;
+	float: right;
+}
+
+	.context pre:nth-child(odd) {
+		background: #2a2a2a;
+	}
+
+	.context pre {
+		margin: 0;
+		padding: 2px 6px;
+		display: block;
+	}
+
+	.context pre.highlight {
+		background: #222222;
+	}
+
+	.context .string {
+		color: #D1E751;
+	}
+
+	.context .keyword {
+		color: #fc7883;
+	}
+
+	.context .num {
+		font-size: 14px;
+	}

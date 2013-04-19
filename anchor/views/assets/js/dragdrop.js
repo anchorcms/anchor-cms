@@ -51,7 +51,6 @@ $(function() {
 		reader.file = file;
 		reader.callback = complete;
 		reader.onload = reader.callback;
-		//reader.readAsText(file);
 		reader.readAsBinaryString(file);
 	};
 
@@ -69,8 +68,33 @@ $(function() {
 			}
 		}
 
+		if(xhr.upload) {
+			xhr.upload.onprogress = function(e) {
+				upload_progress(e.position || e.loaded, e.totalSize || e.total);
+			};
+		}
+		else {
+			xhr.addEventListener('progress', function(e) {
+				upload_progress(e.position || e.loaded, e.totalSize || e.total);
+			}, false);
+		}
+
 		// Send the file (doh)
 		xhr.send(formData);
+	};
+
+	var upload_progress = function(position, total) {
+		console.log('progress: ' + position + ' / ' + total);
+
+		if(position == total) {
+			$('#upload-file-progress').hide();
+		}
+		else {
+			$('#upload-file-progress').show();
+
+			$('#upload-file-progress progress').prop('value', position);
+			$('#upload-file-progress progress').prop('max', total);
+		}
 	};
 
 	var uploaded = function(file, response) {
@@ -130,6 +154,7 @@ $(function() {
 		zone.on('dragexit', close);
 
 		body.append('<div id="upload-file"><span>Upload your file</span></div>');
+		body.append('<div id="upload-file-progress"><progress value="0"></progress></div>');
 
 		// hide drag/drop inputs until populated
 		$('textarea[name=css],textarea[name=js]').each(function(index, item) {
