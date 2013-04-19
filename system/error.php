@@ -42,7 +42,7 @@ class Error {
 
 		if(Config::error('report')) {
 			// clear output buffer
-			ob_end_clean();
+			if(ob_get_length()) ob_end_clean();
 
 			if(Request::cli()) {
 				$output = new Error\Cli($e);
