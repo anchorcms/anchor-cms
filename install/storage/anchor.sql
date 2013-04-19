@@ -107,6 +107,16 @@ CREATE TABLE `{{prefix}}users` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB CHARSET={{charset}};
 
+CREATE TABLE `{{prefix}}plugins` (
+  `id` int(6) NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) NOT NULL,
+  `folder` varchar(100) NOT NULL,
+  `meta` text NOT NULL,
+  `active` tinyint(1) NOT NULL
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB CHARSET={{charset}};
+
+
 INSERT INTO `{{prefix}}categories` (`title`, `slug`, `description`) VALUES
 ('Uncategorised', 'uncategorised', 'Ain\'t no category here.');
 
