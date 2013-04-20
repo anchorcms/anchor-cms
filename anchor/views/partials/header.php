@@ -4,8 +4,6 @@
 		<meta charset="utf-8">
 		<title><?php echo __('global.manage'); ?> <?php echo Config::meta('sitename'); ?></title>
 
-		<script src="<?php echo asset('anchor/views/assets/js/zepto.js'); ?>"></script>
-
 		<link rel="stylesheet" href="<?php echo asset('anchor/views/assets/css/reset.css'); ?>">
 		<link rel="stylesheet" href="<?php echo asset('anchor/views/assets/css/admin.css'); ?>">
 		<link rel="stylesheet" href="<?php echo asset('anchor/views/assets/css/login.css'); ?>">
@@ -17,6 +15,9 @@
 
 		<meta http-equiv="X-UA-Compatible" content="chrome=1">
 		<meta name="viewport" content="width=600">
+
+        <script src="<?php echo asset('anchor/views/assets/js/zepto.js'); ?>"></script>
+        <script src="<?php echo asset('anchor/views/assets/js/admin.js'); ?>"></script>
 	</head>
 	<body class="<?php echo Auth::guest() ? 'login' : 'admin'; ?>">
 

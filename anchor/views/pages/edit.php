@@ -43,12 +43,11 @@
 			<?php echo Form::textarea('content', Input::previous('content', $page->content), array(
 				'placeholder' => __('pages.content_explain')
 			)); ?>
-
-			<?php echo $editor; ?>
 		</div>
 	</fieldset>
 
-	<fieldset class="meta split">
+	<?php echo $editor; ?>
+	<fieldset class="meta split" id="meta">
 		<div class="wrap">
 			<p>
 				<label><?php echo __('pages.show_in_menu'); ?>:</label>
@@ -88,7 +87,7 @@
 <script src="<?php echo asset('anchor/views/assets/js/slug.js'); ?>"></script>
 <script src="<?php echo asset('anchor/views/assets/js/dragdrop.js'); ?>"></script>
 <script src="<?php echo asset('anchor/views/assets/js/redirect.js'); ?>"></script>
-<!--<script src="<?php echo asset('anchor/views/assets/js/focus-mode.js'); ?>"></script>-->
+<script src="<?php echo asset('anchor/views/assets/js/focus-mode.js'); ?>"></script>
 <script src="<?php echo asset('anchor/views/assets/js/upload-fields.js'); ?>"></script>
 <script src="<?php echo asset('anchor/views/assets/js/editor.js'); ?>"></script>
 <script>

@@ -8,6 +8,8 @@ $(function() {
 		//  Our element to focus
 		target: $('textarea[name=html], textarea[name=content]'),
 		exitSpan: '#exit-focus',
+		
+		a: $('a.focus'),
 
 		enter: function() {
 			html.addClass('focus');
@@ -20,9 +22,12 @@ $(function() {
 
 			//  Set titles and placeholders
 			Focus.target.placeholder = (Focus.target.placeholder || '').split('.')[0] + '.';
+			
+			Focus.a.animate({opacity: 0}, 150);
 		},
 
 		exit: function() {
+		    Focus.a.animate({opacity: 1}, 150);
 			body.children(Focus.exitSpan).animate({opacity: 0}, 250);
 			html.removeClass('focus');
 		}
@@ -30,6 +35,9 @@ $(function() {
 
 	//  Bind textarea events
 	Focus.target.focus(Focus.enter).blur(Focus.exit);
+	
+	//  Click events
+	Focus.a.click(Focus.enter);
 
 	//  Bind key events
 	doc.on('keyup', function(event) {

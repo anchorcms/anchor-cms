@@ -741,6 +741,29 @@ input[type='range'], ::-webkit-slider-thumb {
 	background: #eceef1;
 }
 
+.editor {
+    background: #ccd2d9;
+    overflow: hidden;
+}
+    .editor a {
+        display: inline-block;
+        padding: 10px 16px;
+    }
+    .editor nav {
+        float: left;
+    }
+        .editor nav a {
+            float: left;
+            font-size: 13px;
+        }
+        .editor nav a.list {
+            border-bottom: none;
+            width: auto;
+        }
+    .editor .moar, .editor .focus {
+        float: right;
+    }
+
 /*
 	Drag-n-drop upload
 */
