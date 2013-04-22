@@ -108,21 +108,31 @@ class Anchor {
 	}
 
 	public static function plugins() {
-		$active = Plugin::where('active', '=', 1)->get();
+		$active = Plugin::where('active', '=', 1)->get(array('id', 'path'));
 
-		foreach($active as $plugin) {
-			$path = PATH . 'plugins/' . strtolower($plugin->path) . '/plugin' . EXT;
+		foreach($active as $item) {
+			$path = PATH . 'plugins/' . strtolower($item->path) . '/plugin' . EXT;
 
 			if(file_exists($path)) require $path;
 
-			$plugin = new $plugin->path;
+			$ref = new ReflectionClass($item->path);
 
-			if(method_exists($plugin, 'register_routes')) {
-				$plugin->register_routes();
-			}
+			$instance = $ref->newInstance();
+			$plugin = $instance::find($item->id);
 
-			unset($plugin);
+			// call parent hooks
+			$plugin->apply_routes();
+
+			// call admin only hooks
+			$plugin->apply_protected_routes();
+
+			// content filters
+			$plugin->apply_filters();
+
+			unset($plugin, $instance, $ref);
 		}
+
+		unset($active);
 	}
 
 }

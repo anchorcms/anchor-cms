@@ -12,26 +12,58 @@
 
 use Exception;
 use System\Error\Message;
-use System\Cli as C;
 
 class Cli extends Message {
 
 	/**
-	 * Cli Exception error message
+	 * Check if php is running on windows
 	 *
-	 * @param object
+	 * @return bool
+	 */
+	public function is_windows() {
+		return 'win' === strtolower(substr(php_uname("s"), 0, 3));
+	}
+
+	/**
+	 * Write to stdout
+	 *
+	 * @param string
+	 */
+	public function write($text) {
+		fwrite(STDOUT, $text . PHP_EOL);
+	}
+
+	/**
+	 * Write to stdout in a light red colour
+	 *
+	 * @param string
+	 */
+	public function highlight($text) {
+		if($this->is_windows()) {
+			$this->write($text);
+		}
+		else $this->write(sprintf("\033[1;31m%s\033[0m", $text));
+	}
+
+	/**
+	 * Cli Exception error message
 	 */
 	public function response() {
-		C::write(PHP_EOL . 'Uncaught Exception', 'light_red');
-		C::write($this->exception->getMessage() . PHP_EOL);
+		if($this->detailed) {
+			$this->highlight(PHP_EOL . 'Uncaught Exception');
+			$this->write($this->exception->getMessage() . PHP_EOL);
 
-		C::write('Origin', 'light_red');
+			$this->highlight('Origin');
 
-		$file = substr($this->exception->getFile(), strlen(PATH));
-		C::write($file . ' on line ' . $this->exception->getLine() . PHP_EOL);
+			$file = substr($this->exception->getFile(), strlen(PATH));
+			$this->write($file . ' on line ' . $this->exception->getLine() . PHP_EOL);
 
-		C::write('Trace', 'light_red');
-		C::write($this->exception->getTraceAsString() . PHP_EOL);
+			$this->highlight('Trace');
+			$this->write($this->exception->getTraceAsString() . PHP_EOL);
+		}
+		else {
+			$this->highlight('Internal Server Error');
+		}
 	}
 
 }

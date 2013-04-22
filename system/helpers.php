@@ -53,7 +53,7 @@ function dd() {
  * @return string
  */
 function noise($size = 32) {
-	$pool = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
+	$pool = 'abcefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
 
 	return substr(str_shuffle(str_repeat($pool, 3)), 0, $size);
 }

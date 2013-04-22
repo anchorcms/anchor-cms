@@ -35,29 +35,18 @@ class Error {
 	/**
 	 * Exception handler
 	 *
-	 * @param Exception $e
+	 * @param object
 	 */
 	public static function exception(Exception $e) {
 		static::log($e);
 
-		if(Config::error('report')) {
-			// clear output buffer
-			if(ob_get_length()) ob_end_clean();
+		// get a error response handler
+		$handler = Error\Report::handler($e, Config::error('report'));
 
-			if(Request::cli()) {
-				$output = new Error\Cli($e);
-			}
-			else {
-				$output = new Error\Html($e);
-			}
+		// generate the output
+		$handler->response();
 
-			$output->response();
-		}
-		else {
-			// output a 500 response
-			Response::error(500)->send();
-		}
-
+		// exit with a error code
 		exit(1);
 	}
 
@@ -96,7 +85,7 @@ class Error {
 	 *
 	 * Log the exception depending on the application config
 	 *
-	 * @param object The exception
+	 * @param object
 	 */
 	public static function log($e) {
 		if(is_callable($logger = Config::error('log'))) {

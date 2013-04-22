@@ -8,11 +8,13 @@
 	<body>
 		<div class="exception">
 			<span class="message">{{message}}</span><br>
-			<span class="source">
-				<em>{{file}}</em> : <strong>{{line}}</strong>
-			</span>
 		</div>
-		<div class="trace">{{trace}}</div>
-		<div class="context">{{context}}</div>
+		<div class="rows">
+			<div class="trace">{{trace}}</div>
+			<div class="context">
+				<div class="source"><em>{{file}}</em> : <strong>{{line}}</strong></div>
+				<div class="snippet">{{context}}</div>
+			</div>
+		</div>
 	</body>
 </html>

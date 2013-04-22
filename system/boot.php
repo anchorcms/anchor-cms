@@ -58,7 +58,7 @@ require PATH . 'system/autoloader' . EXT;
 /**
  * Register the autoloader
  */
-spl_autoload_register(array('System\\Autoloader', 'load'));
+System\Autoloader::register();
 
 // set the base path to search
 System\Autoloader::directory(PATH);
