@@ -108,28 +108,21 @@ class Anchor {
 	}
 
 	public static function plugins() {
-		$active = Plugin::where('active', '=', 1)->get(array('id', 'path'));
+		$active = Plugin::installed();
 
 		foreach($active as $item) {
-			$path = PATH . 'plugins/' . strtolower($item->path) . '/plugin' . EXT;
+			if($plugin = $item->instance()) {
+				// call parent hooks
+				$plugin->apply_routes();
 
-			if(file_exists($path)) require $path;
+				// call admin only hooks
+				$plugin->apply_protected_routes();
 
-			$ref = new ReflectionClass($item->path);
+				// content filters
+				$plugin->apply_filters();
 
-			$instance = $ref->newInstance();
-			$plugin = $instance::find($item->id);
-
-			// call parent hooks
-			$plugin->apply_routes();
-
-			// call admin only hooks
-			$plugin->apply_protected_routes();
-
-			// content filters
-			$plugin->apply_filters();
-
-			unset($plugin, $instance, $ref);
+				unset($plugin);
+			}
 		}
 
 		unset($active);

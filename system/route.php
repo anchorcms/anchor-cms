@@ -10,10 +10,11 @@
  * @copyright	http://unlicense.org/
  */
 
-use InvalidArgumentException;
-use Response;
-use View;
 use Closure;
+use InvalidArgumentException;
+use System\Response;
+use System\Router;
+use System\View;
 
 class Route {
 
@@ -168,17 +169,26 @@ class Route {
 		// Call any after actions
 		$this->after($response);
 
-		// If the response was a view get the output and create response
-		if($response instanceof View) {
-			return Response::create($response->yield());
-		}
-
 		// If we have a response object return it
 		if($response instanceof Response) {
 			return $response;
 		}
 
-		return Response::create((string) $response);
+		// If the response was a view get the output and create response
+		if($response instanceof View) {
+			$response = $response->yield();
+		}
+
+		// Invoke object tostring method
+		if(is_object($response) and method_exists($response, '__toString')) {
+			$response = (string) $response;
+		}
+
+		if(ob_get_length()) {
+			$response = ob_get_clean();
+		}
+
+		return Response::create($response);
 	}
 
 }

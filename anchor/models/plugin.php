@@ -2,9 +2,97 @@
 
 class Plugin extends Base {
 
+	public static $folder = 'plugins';
+
 	public static $table = 'plugins';
 
 	public static $hooks = array();
+
+	/**
+	 * Parse the about txt file
+	 */
+	public static function about($pathname) {
+		$info = array(
+			'path' => $pathname,
+			'name' => '',
+			'description' => '',
+			'version' => ''
+		);
+
+		$path = PATH . static::$folder . DS . $pathname . DS . 'about.txt';
+
+		foreach(file($path) as $line) {
+			list($key, $value) = explode(':', $line, 2);
+
+			$info[trim(strtolower($key))] = trim($value);
+		}
+
+		return $info;
+	}
+
+	/**
+	 * Returns a list of installed plugins
+	 */
+	public static function installed() {
+		return static::get();
+	}
+
+	/**
+	 * Returns a list of installed plugins
+	 */
+	public static function valid($pathname) {
+		$base = PATH . static::$folder . DS . $pathname . DS;
+
+		$required = array('about.txt', 'plugin' . EXT);
+
+		foreach($required as $file) {
+			if( ! file_exists($base . $file)) return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Returns a list of available plugins
+	 */
+	public static function available() {
+		$fi = new FilesystemIterator(PATH . static::$folder, FilesystemIterator::SKIP_DOTS);
+		$plugins = array();
+
+		foreach($fi as $fileinfo) {
+			if($fileinfo->isDir()) {
+				$pathname = $fileinfo->getBasename();
+
+				// validate plugin
+				if(static::valid($pathname)) {
+					$plugins[] = static::about($pathname);
+				}
+			}
+		}
+
+		return $plugins;
+	}
+
+	/**
+	 * Create instance of the user plugin
+	 */
+	public function instance() {
+		$path = PATH . static::$folder . DS . $this->path . DS . 'plugin' . EXT;
+
+		if(file_exists($path)) {
+			try {
+				if( ! class_exists($this->path, false)) require $path;
+
+				$ref = new ReflectionClass($this->path);
+
+				$instance = $ref->newInstance();
+
+				return $instance::find($this->id);
+			} catch(Exception $e) {
+				throw new Exception('There was a problem running ' . $this->name, 0, $e);
+			}
+		}
+	}
 
 	/**
 	 * Returns the templates 404 page
@@ -32,6 +120,16 @@ class Plugin extends Base {
 
 		return PATH . 'themes/' . $theme . DS . $file;
 	}
+
+	/**
+	 * Installer placeholder
+	 */
+	public function install() {}
+
+	/**
+	 * Uninstaller placeholder
+	 */
+	public function uninstall() {}
 
 	/**
 	 * Registers routes with router

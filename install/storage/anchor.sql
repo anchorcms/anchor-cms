@@ -109,13 +109,12 @@ CREATE TABLE `{{prefix}}users` (
 
 CREATE TABLE `{{prefix}}plugins` (
   `id` int(6) NOT NULL AUTO_INCREMENT,
-  `name` varchar(100) NOT NULL,
-  `folder` varchar(100) NOT NULL,
-  `meta` text NOT NULL,
-  `active` tinyint(1) NOT NULL
+  `path` varchar(180) NOT NULL,
+  `name` varchar(180) NOT NULL,
+  `description` text NOT NULL,
+  `version` varchar(80) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB CHARSET={{charset}};
-
+) ENGINE=InnoDB DEFAULT CHARSET={{charset}};
 
 INSERT INTO `{{prefix}}categories` (`title`, `slug`, `description`) VALUES
 ('Uncategorised', 'uncategorised', 'Ain\'t no category here.');
