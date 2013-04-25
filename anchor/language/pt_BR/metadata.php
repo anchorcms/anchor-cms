@@ -2,28 +2,44 @@
 
 return array(
 
-	'metadata' => 'Metadados do Site',
+	'metadata' => 'Metadata do site',
+	'metadata_desc' => 'Gerencie a metadata do seu site',
 
-	'sitename' => 'Nome do Site',
-	'sitename_explain' => 'O Nome do seu Site.',
-	'sitedescription' => 'Descri&ccedil;&atilde;o do site',
-	'sitedescription_explain' => 'Um par&aacute;grafo curto que descreve seu site.',
-	'homepage' => 'P&aacute;gina Principal',
-	'homepage_explain' => 'Sua p&aacute;gina principal.',
-	'postspage' => 'P&aacute;gina de posts',
-	'postspage_explain' => 'A p&aacute;gina onde seus posts ser&atilde;o mostrados.',
-	'posts_per_page' => 'Posts por p&aacute;gina',
-	'posts_per_page_explain' => 'O n&uacute;mero de posts a serem exibidos por p&aacute;gina.',
-	'current_theme' => 'Tema Atual',
-	'current_theme_explain' => 'Seu tema atual.',
-	'auto_publish_comments' => 'Publicar coment&aacute;rios autom&aacute;ticamente',
-	'twitter' => 'Twitter',
-	'twitter_explain' => 'Sua conta do twitter. Exibida como @<span id="output"></span>.',
-	'save' => 'Salvar altera&ccedil;&otilde;es',
+	'comment_settings' => 'Comentários',
+	'theme_settings' => 'Aparência',
 
-	'missing_sitename' => 'Voc&ecirc; precisa de um nome para o site',
-	'missing_sitedescription' => 'Voc&ecirc; precisa de uma descri&ccedil;&atilde;o para o site',
-	'missing_theme' => 'Voc&ecirc; precisa de um Tema',
-	'meta_success_updated' => 'Seus metadados foram atualizados'
+	// form fields
+	'sitename' => 'Nome do site',
+	'sitename_explain' => '',
+	'sitename_missing' => 'Seu site precisa de um nome!',
+
+	'sitedescription' => 'Descrição do site',
+	'sitedescription_explain' => '',
+	'sitedescription_missing' => 'Seu site precisa de uma descrição!',
+
+	'homepage' => 'Página Inicial',
+	'homepage_explain' => '',
+
+	'postspage' => 'Página de Posts',
+	'postspage_explain' => '',
+
+	'posts_per_page' => 'Posts por página',
+	'posts_per_page_explain' => '',
+
+	'auto_publish_comments' => 'Permitir automaticamente comentários',
+	'auto_publish_comments_explain' => '',
+
+	'comment_notifications' => 'Notificação por email para novos comentários',
+	'comment_notifications_explain' => '',
+
+	'comment_moderation_keys' => 'Palavras-chave de Spam',
+	'comment_moderation_keys_explain' => 'Separe por vírgulas a lista de palavras-chave.<br>
+		Os comentários que conterem estas palavras serão automaticamente definidos como Spam.',
+
+	'current_theme' => 'Tema atual',
+	'current_theme_explain' => '',
+
+	// messages
+	'updated' => 'Metadata atualizada',
 
 );

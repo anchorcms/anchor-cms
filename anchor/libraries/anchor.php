@@ -128,4 +128,80 @@ class Anchor {
 		unset($active);
 	}
 
+	public static function check_version() {
+		// first time
+		if( ! $last = Config::meta('last_update_check')) {
+			$last = static::setup_version_check();
+		}
+
+		$today = new DateTime('now', new DateTimeZone('GMT'));
+		$last = new DateTime($last, new DateTimeZone('GMT'));
+
+		$interval = $today->diff($last)->format('%d');
+
+		// was update in the last 30 days
+		if($interval > 30) {
+			static::renew_version();
+		}
+	}
+
+	public static function setup_version_check() {
+		$version = static::get_latest_version();
+		$today = gmdate('Y-m-d');
+		$table = Base::table('meta');
+
+		Query::table($table)->insert(array('key' => 'last_update_check', 'value' => $today));
+		Query::table($table)->insert(array('key' => 'update_version', 'value' => $version));
+
+		// reload database metadata
+		foreach(Query::table($table)->get() as $item) {
+			$meta[$item->key] = $item->value;
+		}
+
+		Config::set('meta', $meta);
+
+		return $today;
+	}
+
+	public static function renew_version() {
+		$version = static::get_latest_version();
+		$today = gmdate('Y-m-d');
+		$table = Base::table('meta');
+
+		Query::table($table)->where('key', '=', 'last_update_check')->update(array('value' => $today));
+		Query::table($table)->where('key', '=', 'update_version')->update(array('value' => $version));
+
+		// reload database metadata
+		static::meta();
+	}
+
+	public static function get_latest_version() {
+		$url = 'http://anchorcms.com/version';
+
+		if(in_array(ini_get('allow_url_fopen'), array('true', '1', 'On'))) {
+			try {
+				$context = stream_context_create(array('http' => array('timeout' => 2)));
+				$result = file_get_contents($url, false, $context);
+			} catch(Exception $e) {}
+		}
+		else if(function_exists('curl_init')) {
+			$session = curl_init();
+
+			curl_setopt_array($session, array(
+				CURLOPT_URL => $url,
+				CURLOPT_HEADER => false,
+				CURLOPT_RETURNTRANSFER => true
+			));
+
+			$result = curl_exec($session);
+
+			curl_close($session);
+		}
+		else {
+			$result = false;
+		}
+
+		return $result;
+	}
+
 }

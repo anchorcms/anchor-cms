@@ -65,7 +65,7 @@ class Route {
 		}
 
 		// add collection actions
-		$arguments = array_merge($arguments, static::$collection);
+		$arguments = array_merge($arguments, (array) end(static::$collection));
 
 		foreach((array) $patterns as $pattern) {
 			Router::$routes[$method][$pattern] = $arguments;
@@ -103,13 +103,13 @@ class Route {
 	 */
 	public static function collection($actions, $definitions) {
 		// start collection
-		static::$collection = $actions;
+		static::$collection[] = $actions;
 
 		// run definitions
 		call_user_func($definitions);
 
 		// end of collection
-		static::$collection = array();
+		array_pop(static::$collection);
 	}
 
 	/**
@@ -178,13 +178,12 @@ class Route {
 		if($response instanceof View) {
 			$response = $response->yield();
 		}
-
 		// Invoke object tostring method
-		if(is_object($response) and method_exists($response, '__toString')) {
+		elseif(is_object($response) and method_exists($response, '__toString')) {
 			$response = (string) $response;
 		}
-
-		if(ob_get_length()) {
+		// capture any echo'd output
+		elseif(ob_get_length()) {
 			$response = ob_get_clean();
 		}
 
