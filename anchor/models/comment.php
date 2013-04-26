@@ -92,4 +92,11 @@ class Comment extends Base {
 		return false;
 	}
 
+	public function article() {
+		if($post = Post::where('id', '=', $this->post)->fetch(array('title'))) {
+			return $post;
+		}
+		else return new Post(array('title' => '[post deleted]'));
+	}
+
 }

@@ -8,6 +8,8 @@ $posts_page = Registry::get('posts_page');
 
 /**
  * The Home page
+ *
+ * If the home page is not the post listing page create a home page route
  */
 if($home_page->id != $posts_page->id) {
 	Route::get(array('/', $home_page->slug), function() use($home_page) {
@@ -22,6 +24,7 @@ if($home_page->id != $posts_page->id) {
  */
 $routes = array($posts_page->slug, $posts_page->slug . '/(:num)');
 
+// if the home page is the post listings page add the default '/' route
 if($home_page->id == $posts_page->id) {
 	array_unshift($routes, '/');
 }

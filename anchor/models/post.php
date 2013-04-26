@@ -4,18 +4,28 @@ class Post extends Base {
 
 	public static $table = 'posts';
 
+	private static function query() {
+		return static::left_join(Base::table('users'), Base::table('users.id'), '=', Base::table('posts.author'));
+	}
+
+	private static function select() {
+		return array(
+			Base::table('posts.*'),
+			Base::table('users.id as author_id'),
+			Base::table('users.bio as author_bio'),
+			Base::table('users.real_name as author_name')
+		);
+	}
+
 	public static function slug($slug) {
-		return static::left_join(Base::table('users'), Base::table('users.id'), '=', Base::table('posts.author'))
+		return static::query()
 			->where(Base::table('posts.slug'), '=', $slug)
-			->fetch(array(Base::table('posts.*'),
-				Base::table('users.id as author_id'),
-				Base::table('users.bio as author_bio'),
-				Base::table('users.real_name as author_name')));
+			->fetch(static::select());
 	}
 
 	public static function listing($category = null, $page = 1, $per_page = 10) {
 		// get total
-		$query = static::left_join(Base::table('users'), Base::table('users.id'), '=', Base::table('posts.author'))
+		$query = static::query()
 			->where(Base::table('posts.status'), '=', 'published');
 
 		if($category) {
@@ -28,16 +38,13 @@ class Post extends Base {
 		$posts = $query->sort(Base::table('posts.created'), 'desc')
 			->take($per_page)
 			->skip(--$page * $per_page)
-			->get(array(Base::table('posts.*'),
-				Base::table('users.id as author_id'),
-				Base::table('users.bio as author_bio'),
-				Base::table('users.real_name as author_name')));
+			->get(static::select());
 
 		return array($total, $posts);
 	}
 
 	public static function search($term, $page = 1, $per_page = 10) {
-		$query = static::left_join(Base::table('users'), Base::table('users.id'), '=', Base::table('posts.author'))
+		$query = static::query()
 			->where(Base::table('posts.status'), '=', 'published')
 			->where(Base::table('posts.title'), 'like', '%' . $term . '%');
 
@@ -45,12 +52,13 @@ class Post extends Base {
 
 		$posts = $query->take($per_page)
 			->skip(--$page * $per_page)
-			->get(array(Base::table('posts.*'),
-				Base::table('users.id as author_id'),
-				Base::table('users.bio as author_bio'),
-				Base::table('users.real_name as author_name')));
+			->get(static::select());
 
 		return array($total, $posts);
+	}
+
+	public function total_comments() {
+		return Comment::where('status', '=', 'approved')->where('post', '=', $this->id)->count();
 	}
 
 }

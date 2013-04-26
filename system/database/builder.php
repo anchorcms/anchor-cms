@@ -48,6 +48,11 @@ abstract class Builder {
 			$value = substr($value, 0, $pos);
 		}
 
+		// dont wrap function calls
+		if(preg_match('#([A-Z]+)\((.+)\)#', $value, $matches)) {
+			list($original, $function, $value) = $matches;
+		}
+
 		foreach(explode('.', $value) as $item) {
 			if($item == '*') {
 				$params[] = $item;
@@ -64,6 +69,10 @@ abstract class Builder {
 		}
 
 		$value = implode('.', $params);
+
+		if(isset($function)) {
+			$value = $function . '(' . $value . ')';
+		}
 
 		if($alias) {
 			$value .= ' AS ' . $this->enclose($alias);

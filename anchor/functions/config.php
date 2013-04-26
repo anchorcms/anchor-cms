@@ -1,8 +1,11 @@
 <?php
 
 /**
-	Functions for theme configuration
-*/
+ * Sets a theme value in the config class
+ *
+ * @param string
+ * @param string
+ */
 function set_theme_options($options, $value = null) {
 	if( ! is_array($options)) {
 		$options = array($options => $value);
@@ -15,6 +18,13 @@ function set_theme_options($options, $value = null) {
 	Config::set('theme', array_merge($current, $options));
 }
 
+/**
+ * Retrieves a theme value in the config class
+ *
+ * @param string
+ * @param string
+ * @return string
+ */
 function theme_option($option, $default = '') {
 	return Config::get('theme.' . $option, $default);
 }

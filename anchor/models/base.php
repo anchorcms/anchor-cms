@@ -12,6 +12,10 @@ class Base extends Record {
 		return static::$prefix . static::$table;
 	}
 
+	public static function begin() {
+		return Query::table(static::table())->apply(get_called_class());
+	}
+
 	public static function __callStatic($method, $arguments) {
 		$obj = Query::table(static::table())->apply(get_called_class());
 

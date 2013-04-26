@@ -1,19 +1,46 @@
 <?php
 
+/**
+ * Shortcut to the language class line function
+ * note: if a line is not found the index will be returned
+ *
+ * usage:
+ *	<?php echo __('languagefile.index'); ?>
+ *
+ * @param string
+ * @return string
+ */
 function __($line) {
 	$args = array_slice(func_get_args(), 1);
 
 	return Language::line($line, null, $args);
 }
 
+/**
+ * Uses the current uri to determain if we are accessing a admin route
+ *
+ * @return bool
+ */
 function is_admin() {
 	return strpos(Uri::current(), 'admin') === 0;
 }
 
+/**
+ * Checks if the config class has picked up a db file or for older
+ * versions database.
+ *
+ * @return bool
+ */
 function is_installed() {
 	return Config::get('db') !== null or Config::get('database') !== null;
 }
 
+/**
+ * Converts a string into a uri slug
+ *
+ * @param string
+ * @return string
+ */
 function slug($str, $separator = '-') {
 	$str = normalize($str);
 
@@ -23,7 +50,14 @@ function slug($str, $separator = '-') {
 	return trim(strtolower($str), $separator);
 }
 
-function parse($str, $markdown = true) {
+/**
+ * Parses a string and replaces placeholders with data from the meta table
+ * in the format of {{metakeyword}}
+ *
+ * @param string
+ * @return string
+ */
+function parse($str) {
 	// process tags
 	$pattern = '/[\{\{]{1}([a-z]+)[\}\}]{1}/i';
 
@@ -31,23 +65,23 @@ function parse($str, $markdown = true) {
 		list($search, $replace) = $matches;
 
 		foreach($replace as $index => $key) {
-			$replace[$index] = Config::meta($key);
+			// replace with a empty string for missing matches
+			$replace[$index] = Config::meta($key, '');
 		}
 
 		$str = str_replace($search, $replace, $str);
 	}
 
-	$str = html_entity_decode($str, ENT_NOQUOTES, System\Config::app('encoding'));
-
-	//  Parse Markdown as well?
-	if($markdown === true) {
-		$md = new Markdown;
-		$str = $md->transform($str);
-	}
-
 	return $str;
 }
 
+/**
+ * Converts a large number of bits into a readable size in bytes
+ * rounded to two decimal places
+ *
+ * @param int|string
+ * @return string
+ */
 function readable_size($size) {
 	$unit = array('b','kb','mb','gb','tb','pb');
 

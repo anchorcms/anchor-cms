@@ -6,11 +6,10 @@ Route::collection(array('before' => 'auth'), function() {
 		List Comments
 	*/
 	Route::get(array('admin/comments', 'admin/comments/(:num)'), function($page = 1) {
-		$query = Query::table(Base::table(Comment::$table));
 		$perpage = Config::meta('posts_per_page');
 
-		$count = $query->count();
-		$results = $query->take($perpage)->skip(($page - 1) * $perpage)->sort('date', 'desc')->get();
+		$count = Comment::count();
+		$results = Comment::take($perpage)->skip(($page - 1) * $perpage)->sort('date', 'desc')->get();
 
 		$vars['comments'] = new Paginator($results, $count, $page, $perpage, Uri::to('admin/comments'));
 		$vars['messages'] = Notify::read();
@@ -34,7 +33,7 @@ Route::collection(array('before' => 'auth'), function() {
 		'admin/comments/(pending|approved|spam)',
 		'admin/comments/(pending|approved|spam)/(:num)'), function($status = '', $page = 1) {
 
-		$query = Query::table(Base::table(Comment::$table));
+		$query = Comment::begin();
 		$perpage = Config::meta('posts_per_page');
 
 		if(in_array($status, array('pending', 'approved', 'spam'))) {
