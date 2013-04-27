@@ -1,3 +1,3 @@
-## Anchor CMS
+## Anchor CMS nl_NL
 
-A lightweight content management system for art-directed blogs. [Check out the site](http://anchorcms.com/).
+The dutch AnchorCMS 0.9 translation.
