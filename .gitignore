@@ -1,0 +1,34 @@
+# os/app generated files
+Thumbs.db
+.DS_Store
+*.esproj
+*.log
+*.gz
+
+# env
+/anchor/config/dev
+
+# generated config
+/anchor/config/app.php
+/anchor/config/db.php
+/anchor/config/session.php
+
+# user mod_rewrite
+/.htaccess
+
+# debug and custom themes
+/themes/*
+!/themes/default
+
+# uploaded content
+/content/*
+!/content/index.php
+
+# plugins
+/plugins/*
+
+# phpunit tests
+/tests
+
+# We all love Sublime Text and its awesome plugins, don't we?
+sftp-config.json

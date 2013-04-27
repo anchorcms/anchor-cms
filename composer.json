@@ -1,0 +1,21 @@
+{
+	"name": "anchorcms/anchor-cms",
+	"authors": [
+		{
+			"name": "Idiot",
+			"email": "iam@visualidiot.com"
+		},
+		{
+			"name": "Kieron",
+			"email": "rwarasaurus@gmail.com"
+		}
+	],
+	"require": {
+		"php": ">=5.3.6"
+	},
+	"extra": {
+		"installer-paths": {
+			"anchor/vendor/{$name}": ["vendor/package"]
+		}
+	}
+}

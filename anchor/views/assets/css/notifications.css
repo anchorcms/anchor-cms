@@ -1,0 +1,57 @@
+
+.notifications {
+	margin-bottom: 10px;
+}
+
+	.notifications .notice, .notifications .error, .notifications .success {
+		padding: 10px 18px;
+		margin-bottom: 20px;
+
+		font-size: 13px;
+		line-height: 21px;
+		font-weight: 500;
+
+		border-radius: 5px;
+	}
+
+	.notifications .notice {
+		color: #fff;
+		background: #578cd9;
+	}
+
+	.notifications .error {
+		color: #fff;
+		background: #d34937;
+	}
+
+	.notifications .success {
+		color: #fff;
+		background: #64a524;
+	}
+
+
+.header .notifications {
+	position: absolute;
+	left: 55%;
+	top: 82px;
+	z-index: 1200;
+	width: 320px;
+}
+.header .page .notifications {
+	left: 48%;
+}
+	.header .notifications div:after {
+		content: '';
+		position: absolute;
+		display: block;
+		top: -6px;
+		right: 50px;
+
+		border-bottom: 6px solid #64a524;
+		border-left: 6px solid transparent;
+		border-right: 6px solid transparent;
+	}
+
+	.header .notifications .error:after {
+		border-bottom-color: #d34937;
+	}

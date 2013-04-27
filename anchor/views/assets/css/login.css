@@ -1,0 +1,67 @@
+/*
+	Login
+*/
+body.login {
+    position: absolute;
+    top: 25%;
+    left: 50%;
+    margin-left: -150px;
+	background: #444f5f;
+}
+
+.login .wrap, .login .content {
+	width: 300px;
+}
+	.login h1 {
+		padding-bottom: 25px;
+
+		font-size: 25px;
+		line-height: 60px;
+		font-weight: lighter;
+		color: #fff;
+	}
+
+	.login label {
+		display: none;
+	}
+
+	.login fieldset {
+		border: none;
+	}
+
+	.login input {
+		width: 300px;
+		margin-bottom: 20px;
+
+		padding: 14px 16px;
+	}
+
+	.login .buttons a {
+		float: right;
+		font-size: 13px;
+		line-height: 38px;
+	}
+
+	.login .buttons button {
+		float: left;
+	}
+
+	.login a {
+		color: #8491a5;
+	}
+
+		.login a:hover {
+			color: #fff;
+		}
+
+	.login button {
+		background: #2f3744;
+		color: #96a4bb;
+		font-size: 13px;
+		font-weight: 500;
+	}
+
+	.login .notification {
+		width: 300px;
+	}
+

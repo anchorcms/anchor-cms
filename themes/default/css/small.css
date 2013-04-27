@@ -1,0 +1,48 @@
+/**
+ *   Small device CSS, mostly to fix alignment
+ */
+ 
+#top {
+	position: relative;
+}
+	#top .tray {
+		position: absolute;
+		right: 10px;
+		top: 10px;
+	}
+	#top #logo, #top ul {
+		float: none;
+	}
+		#top ul li {
+			padding: 10px 15px 0 0;
+		}
+	
+.slidey form, .slidey aside {
+	float: none;
+	width: 100%;
+}
+	.slidey form {
+		margin-bottom: 25px;
+	}
+	
+#comment p, .footnote {
+	float: none;
+	width: 100%;
+	
+	white-space: normal;
+}
+	
+#bottom {
+	padding: 20px 0;
+}
+	#bottom small {
+		display: block;
+	}
+		#bottom ul {
+			overflow: hidden;
+			float: none;
+			margin-bottom: 15px;
+		}
+			#bottom li {
+				padding: 15px 15px 0 0;
+			}

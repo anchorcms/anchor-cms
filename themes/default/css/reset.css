@@ -1,0 +1,124 @@
+/**
+ *   Anchor, default reset
+ */
+* {
+	margin: 0;
+	padding: 0;
+	
+	-webkit-font-smoothing: antialiased;
+	
+	/* Don't count padding and borders towards widths */ 
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+/**
+ *   Typographic reset
+ */
+body {
+	/* Use a serif font for nice readability, but not Times */
+	font: 17px/26px Skolar, Tisa, "Chaparral Pro", Merriweather, Georgia, serif;
+}
+
+h1, h2, h3, h4, h5, #logo, #top, .slidey b, .slidey label, .counter, input, textarea, button, .pagination {
+	font-family: "Helvetica Neue", sans-serif;
+	font-weight: 300;
+}
+
+pre, code, .mono {
+	font: 12px/19px "Anonymous Pro", Consolas, monospace;
+	padding: 0 2px;
+}
+
+p {
+	padding-bottom: 15px;
+}
+
+pre {
+	padding: 15px 20px;
+	margin-bottom: 20px;
+	
+	border-radius: 5px;
+	white-space: pre-wrap;
+}
+
+img {
+	max-width: 100%;
+	height: auto;
+}
+
+a {
+	text-decoration: none;
+}
+	a img {
+		border: none;
+	}
+
+/**
+ *   Layout reset
+ */
+.wrap {
+	min-width: 280px;
+	max-width: 750px;
+	width: 60%;
+	
+	margin: 0 auto;
+}
+
+/**
+ *   Default colours
+ */
+body, .items > li:first-child {
+	color: #6e7886;
+}
+a, .items h1 a:hover {
+	color: #4075c3;
+}
+	a:hover {
+		color: #1e4d92;
+	}
+	
+pre, .hilite, mark {
+	background: #f9f6ea;
+	color: #8b7c65;
+	text-shadow: 0 1px 0 rgba(255,255,255,.2);
+}
+
+input, textarea {
+	color: #697281;
+}
+	::-webkit-input-placeholder {
+		color: #b2b9c5;
+	}
+	:-moz-placeholder, :placeholder {
+		color: #b2b9c5;
+	}
+	
+.error, .success {
+	padding: 20px 30px;
+	margin-bottom: 30px;
+
+	background: #e25d47;
+	color: #fff;
+	
+	border-radius: 5px;
+}
+	.success {
+		background: #88be33;
+	}
+	.error p, .success p {
+		float: none !important;
+		width: 100%;
+		padding: 0;
+		margin: 0 !important;
+	}
+
+/**
+ *   Transitions and animations
+ */
+a, a img {
+	-webkit-transition: opacity .2s, color .2s;
+	-moz-transition: opacity .2s, color .2s;
+	transition: opacity .2s, color .2s;
+}

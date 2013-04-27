@@ -1,0 +1,40 @@
+body, html {
+	width: 100%;
+}
+
+.wrap {
+	width: 90%;
+}
+
+.top nav {
+	float: none;
+	overflow: hidden;
+}
+
+.top .btn {
+	display: none;
+}
+
+.list, .list li {
+	width: 100%;
+}
+
+	.list li {
+		float: none;
+		margin-right: 0;
+	}
+
+	.list li p {
+		display: none;
+	}
+
+hgroup h1 {
+	line-height: 80px;
+	margin: 0;
+	float: none;
+}
+
+hgroup nav {
+	float: none;
+	line-height: 80px;
+}
