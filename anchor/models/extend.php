@@ -142,6 +142,7 @@ class Extend extends Base {
 
 		$ext = pathinfo($file['name'], PATHINFO_EXTENSION);
 
+		// Added rtrim to remove file extension before adding again
 		$filename = slug(rtrim($file['name'], '.' . $ext)) . '.' . $ext;
 		$filepath = $storage . $filename;
 
