@@ -40,6 +40,9 @@ return array(
 	// messages
 	'updated' => 'Your page was updated.',
 	'created' => 'Your page was created.',
-	'deleted' => 'Your page was deleted.'
+	'deleted' => 'Your page was deleted.',
+
+	'cannot_delete_home_page' => 'You cannot delete the home page',
+	'cannot_delete_posts_page' => 'You cannot delete the post listings page',
 
 );

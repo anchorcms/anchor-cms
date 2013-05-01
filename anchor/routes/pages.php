@@ -205,9 +205,22 @@ Route::collection(array('before' => 'auth'), function() {
 		Delete Page
 	*/
 	Route::get('admin/pages/delete/(:num)', function($id) {
-		Page::find($id)->delete();
+		$page = Page::find($id);
 
-		Query::table(Base::table('page_meta'))->where('page', '=', $id)->delete();
+		// dont delete pages that are set as the posts page or home page
+		if($page->id == Config::meta('home_page')) {
+			Notify::success(__('pages.cannot_delete_home_page'));
+
+			return Response::redirect('admin/pages');
+		}
+
+		if($page->id == Config::meta('posts_page')) {
+			Notify::success(__('pages.cannot_delete_posts_page'));
+
+			return Response::redirect('admin/pages');
+		}
+
+		$page->delete();
 
 		Notify::success(__('pages.deleted'));
 

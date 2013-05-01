@@ -58,4 +58,9 @@ class Page extends Base {
 		return Registry::prop('page', 'slug') == $this->slug;
 	}
 
+	public function delete() {
+		Query::table(Base::table('page_meta'))->where('page', '=', $this->id)->delete();
+		parent::delete();
+	}
+
 }
