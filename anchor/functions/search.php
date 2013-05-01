@@ -44,8 +44,10 @@ function search_next($text = 'Next', $default = '') {
 
 	$posts_page = Registry::get('page');
 	$next = $page + 1;
+	$term = Registry::get('search_term');
+	Session::put(slug($term), $term);
 
-	$url = base_url($posts_page->slug . '/' . $next);
+	$url = base_url($posts_page->slug . '/' . $term . '/' . $next);
 
 	if(($page - 1) < $pages) {
 		return '<a href="' . $url . '">' . $text . '</a>';
@@ -65,8 +67,10 @@ function search_prev($text = 'Previous', $default = '') {
 
 	$posts_page = Registry::get('posts_page');
 	$prev = $page - 1;
+	$term = Registry::get('search_term');
+	Session::put(slug($term), $term);
 
-	$url = base_url($posts_page->slug . '/' . $prev);
+	$url = base_url($posts_page->slug . '/' . $term . '/' . $prev);
 
 	if($offset > 0) {
 		return '<a href="' . $url . '">' . $text . '</a>';
