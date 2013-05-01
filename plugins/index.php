@@ -1,1 +1,1 @@
-<?php // Nothing to see here move along.
+<?php header('location: ../'); exit; // go away
