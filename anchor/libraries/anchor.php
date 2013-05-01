@@ -121,6 +121,9 @@ class Anchor {
 				// content filters
 				$plugin->apply_filters();
 
+				// include theme functions
+				$plugin->include_functions();
+
 				unset($plugin);
 			}
 		}

@@ -74,6 +74,17 @@ class Plugin extends Base {
 	}
 
 	/**
+	 * Include theming functions
+	 */
+	public function include_functions() {
+		$path = PATH . static::$folder . DS . $this->path . DS . 'functions' . EXT;
+
+		if(file_exists($path)) {
+			return require $path;
+		}
+	}
+
+	/**
 	 * Create instance of the user plugin
 	 */
 	public function instance() {

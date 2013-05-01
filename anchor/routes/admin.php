@@ -202,8 +202,8 @@ Route::get('admin/extend', array('before' => 'auth', 'main' => function($page = 
 }));
 
 /*
-	404 error
-*/
-Route::error('404', function() {
+ * 404 not found
+ */
+Route::not_found(function() {
 	return Response::error(404);
 });
