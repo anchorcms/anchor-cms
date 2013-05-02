@@ -195,7 +195,11 @@ Route::get(array('search', 'search/(:any)', 'search/(:any)/(:num)'), function($s
 	// get search term
 	$term = Session::get($slug);
 
-	list($total, $posts) = Post::search($term, $offset, Config::meta('posts_per_page'));
+	if($offset > 0) {
+		list($total, $posts) = Post::search($term, $offset, Config::meta('posts_per_page'));
+	} else {
+		return Response::create(new Template('404'), 404);
+	}
 
 	// search templating vars
 	Registry::set('page', $page);
