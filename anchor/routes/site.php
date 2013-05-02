@@ -27,8 +27,12 @@ if($home_page->id == $posts_page->id) {
 }
 
 Route::get($routes, function($offset = 1) use($posts_page) {
-	// get public listings
-	list($total, $posts) = Post::listing(null, $offset, $per_page = Config::meta('posts_per_page'));
+	if($offset > 0) {
+		// get public listings
+		list($total, $posts) = Post::listing(null, $offset, $per_page = Config::meta('posts_per_page'));
+	} else {
+		return Response::create(new Template('404'), 404);
+	}
 
 	// get the last page
 	$max_page = ($total > $per_page) ? ceil($total / $per_page) : 1;
@@ -191,7 +195,11 @@ Route::get(array('search', 'search/(:any)', 'search/(:any)/(:num)'), function($s
 	// get search term
 	$term = Session::get($slug);
 
-	list($total, $posts) = Post::search($term, $offset, Config::meta('posts_per_page'));
+	if($offset > 0) {
+		list($total, $posts) = Post::search($term, $offset, Config::meta('posts_per_page'));
+	} else {
+		return Response::create(new Template('404'), 404);
+	}
 
 	// search templating vars
 	Registry::set('page', $page);
