@@ -195,6 +195,9 @@ Route::get(array('search', 'search/(:any)', 'search/(:any)/(:num)'), function($s
 	// get search term
 	$term = Session::get($slug);
 
+	// revert double-dashes back to spaces
+	$term = str_replace('--', ' ', $term);
+
 	if($offset > 0) {
 		list($total, $posts) = Post::search($term, $offset, Config::meta('posts_per_page'));
 	} else {
@@ -214,6 +217,9 @@ Route::get(array('search', 'search/(:any)', 'search/(:any)/(:num)'), function($s
 Route::post('search', function() {
 	// search and save search ID
 	$term = filter_var(Input::get('term', ''), FILTER_SANITIZE_STRING);
+
+	// replace spaces with double-dash to pass through url
+	$term = str_replace(' ', '--', $term);
 
 	Session::put(slug($term), $term);
 
