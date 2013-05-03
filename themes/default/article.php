@@ -3,8 +3,6 @@
 		<section class="content wrap" id="article-<?php echo article_id(); ?>">
 			<h1><?php echo article_title(); ?></h1>
 
-			<img src="<?php echo article_custom_field('Test'); ?>" alt="">
-
 			<article>
 				<?php echo article_markdown(); ?>
 			</article>
