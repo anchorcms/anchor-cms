@@ -282,7 +282,7 @@ hgroup {
 
 	.list li strong {
 		display: block;
-		width: 110%;
+		width: 85%;
 		height: 25px;
 
 		font-size: 19px;
@@ -291,6 +291,7 @@ hgroup {
 		position: relative;
 		overflow: hidden;
 		white-space: nowrap;
+		text-overflow: ellipsis;
 	}
 
 		.list li strong .status {
