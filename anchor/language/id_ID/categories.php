@@ -11,7 +11,7 @@ return array(
 	// form fields
 	'title' => 'Nama',
 	'title_explain' => 'Nama kategori.',
-	'title_missing' => 'Berikan sebuah title',
+	'title_missing' => 'Berikan sebuah judul',
 
 	'slug' => 'Slug',
 	'slug_explain' => 'Slug untuk kategori ini.',

@@ -53,7 +53,7 @@ return array(
 	// pharses
 	'visit_your_site' => 'Kunjungi web anda',
 	'powered_by_anchor' => 'Dibangun dengan Anchor, versi %s',
-	'make_blogging_beautiful' => 'Make blogging beautiful.',
+	'make_blogging_beautiful' => 'Nge-blog jadi indah.',
 
 	// intro
 	'welcome_to_anchor' => 'Selamat datang di Anchor',
@@ -61,7 +61,7 @@ return array(
 	'run_the_installer' => 'Jalankan installer',
 
 	// upgrade
-	'upgrade' => 'Upgrade',
+	'upgrade' => 'Tingkatkan',
 	'good_news' => 'Berita bagus!',
 	'new_version_available' => 'Ada versi baru yang tersedia.',
 	'download_now' => 'Unduh sekarang',
