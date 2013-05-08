@@ -108,6 +108,10 @@ Route::post('database', array('before' => 'check', 'main' => function() {
 
 		return Response::redirect('database');
 	}
+	
+	foreach($database as $key => $val) {
+	    $database[$key] = str_replace('\'', '\\\'', $val);
+	}
 
 	Session::put('install.database', $database);
 
