@@ -33,4 +33,10 @@ $(function() {
         
         return false;
     });
+    
+    //  Are you sure you want to delete this?
+    //  Double check.
+    $('.delete').click(function() {
+        return alert('Final answer? How about just making it archived instead?');
+    });
 });
