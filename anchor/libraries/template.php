@@ -11,6 +11,8 @@ class Template extends View {
 			if($item = Registry::get($template)) {
 				if(is_readable($base . $template . '-' . $item->slug . EXT)) {
 					$template .= '-' . $item->slug;
+				} elseif (is_readable($base . $template. 's/'.$template. '-' . $item->slug . EXT)) {
+					$template .= 's/'.$template.'-' . $item->slug;
 				}
 			}
 		}
