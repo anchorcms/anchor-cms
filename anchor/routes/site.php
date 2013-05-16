@@ -193,7 +193,9 @@ Route::get(array('search', 'search/(:any)', 'search/(:any)/(:num)'), function($s
 	$page->slug = 'search';
 
 	// get search term
-	$term = Session::get($slug);
+	$term = filter_var($slug, FILTER_SANITIZE_STRING);
+	Session::put(slug($term), $term);
+	//$term = Session::get($slug); //this was for POST only searches
 
 	// revert double-dashes back to spaces
 	$term = str_replace('--', ' ', $term);
