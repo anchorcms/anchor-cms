@@ -6,7 +6,7 @@ return array(
 
 	'create_user' => '创建用户',
 	'add_user' => '增加新用户',
-	'editing_user' => '编辑用户 %s&rsquo;s Profile',
+	'editing_user' => '编辑用户 %s',
 	'remembered' => '我知道我的密码',
 	'forgotten_password' => '忘记密码?',
 
@@ -21,10 +21,10 @@ return array(
 	'user_explain' => '',
 
 	// form fields
-	'real_name' => '真实姓名',
+	'real_name' => '昵称',
 	'real_name_explain' => '',
 
-	'bio' => '性别',
+	'bio' => '个人简介',
 	'bio_explain' => '',
 
 	'status' => '状态',
@@ -45,7 +45,7 @@ return array(
 
 	'email' => '邮件',
 	'email_explain' => '',
-	'email_missing' => '请输入合法的邮件地址',
+	'email_missing' => '请输入正确的邮件地址',
 	'email_not_found' => '找不到个人资料.',
 
 	// messages
