@@ -70,6 +70,9 @@ class Update {
 
 			curl_close($session);
 		}
+		else {
+			$result = false;
+		}
 
 		return $result;
 	}
