@@ -16,7 +16,7 @@ return array(
 	'editing' => 'Bearbeitung',
 	'create' => 'Erstellen',
 	'created' => 'Erstellt',
-	'submit' => 'Mitteilen',
+	'submit' => 'Abschicken',
 	'close' => 'Schließen',
 	'status' => 'Status',
 	'manage' => 'Verwalten',
@@ -38,7 +38,7 @@ return array(
 	'spam' => 'Spam',
 
 	'inactive' => 'Inaktiv',
-	'active' => 'Altiv',
+	'active' => 'Aktiv',
 
 	// roles
 	'administrator' => 'Administrator',
