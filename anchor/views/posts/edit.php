@@ -10,7 +10,8 @@
 
 			<?php echo Form::text('title', Input::previous('title', $article->title), array(
 				'placeholder' => __('posts.title'),
-				'autocomplete'=> 'off'
+				'autocomplete'=> 'off',
+				'autofocus' => 'true'
 			)); ?>
 
 			<aside class="buttons">
