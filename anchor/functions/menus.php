@@ -70,6 +70,8 @@ function menu_render($params = array()) {
 	$parent = isset($params['parent']) ? $params['parent'] : 0;
 	$class = isset($params['class']) ? $params['class'] : 'active';
 
+	$menu = asort($menu, SORT_NUMERICAL);
+
 	foreach($menu as $item) {
 		if($item->parent == $parent) {
 			$attr = array();
