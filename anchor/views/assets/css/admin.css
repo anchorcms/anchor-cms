@@ -84,7 +84,7 @@ fieldset, a, img {
 	}
 
 	.top nav a {
-		margin-right: 15px;
+		margin-right: 12px;
 		color: #7b8eaa;
 	}
 
@@ -263,7 +263,7 @@ hgroup {
 .list {
 	list-style: none;
 	width: 100%;
-	
+
 	border-top: 1px solid #dadfe5;
 }
 	.list li a {
@@ -273,7 +273,7 @@ hgroup {
 
 		position: relative;
 		overflow: hidden;
-		
+
 		border-bottom: 1px solid #dadfe5;
 	}
 	    .list li a:hover {
@@ -368,7 +368,7 @@ hgroup {
 		margin: 0 auto 15px;
 		background: url('../img/icons.png') no-repeat;
 	}
-	
+
 .sidebar + .main {
     float: right;
     width: 760px;
@@ -378,7 +378,7 @@ hgroup {
 .sidebar {
     float: left;
     width: 150px;
-    
+
     border-top: 1px solid #dadfe5;
 }
 	.sidebar a {
@@ -387,7 +387,7 @@ hgroup {
 
 		font-size: 13px;
 		color: #616a71;
-		
+
 		-webkit-transition: none;
 
 		border-bottom: 1px solid #dadfe5;
@@ -398,17 +398,17 @@ hgroup {
 		.sidebar a.active {
 			background: #fff;
 		}
-		
+
 .statuses .icon {
     display: inline-block;
     width: 16px;
     height: 16px;
     margin-right: 2px;
-    
+
     position: relative;
     top: 3px;
     left: -7px;
-    
+
     background: url('../img/statuses.png');
 }
     .statuses a:hover .icon { background-position: -16px 0; }
@@ -827,3 +827,44 @@ input[type='range'], ::-webkit-slider-thumb {
 			color: #fff;
 			background-image: url('../img/tick.png');
 		}
+
+#upload-file-progress {
+	display: none;
+	position: fixed;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	z-index: 1000;
+	background: rgba(178,190,208,.75);
+}
+
+	#upload-file-progress progress {
+		display: block;
+		margin: 100px auto;
+
+		/* Turns off styling - not usually needed, but good to know. */
+		appearance: none;
+		-moz-appearance: none;
+		-webkit-appearance: none;
+
+		/* gets rid of default border in Firefox and Opera. */
+		border: none;
+
+		/* Needs to be in here for Safari polyfill so background images work as expected. */
+		background-size: auto;
+
+		/* Dimensions */
+		width: 500px;
+		height: 25px;
+	}
+
+	progress::-webkit-progress-bar {
+		background-color: #f3f3f3;
+		border-radius: 3px;
+	}
+
+	progress::-webkit-progress-value {
+		border-radius: 3px;
+		background: #687993;
+	}

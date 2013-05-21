@@ -5,7 +5,9 @@
  */
 $(function() {
 	var zone = $(document), body = $('body');
-	var allowed = ['text/css', 'text/javascript', 'application/javascript', 'text/x-markdown',
+	var allowed = ['text/css',
+		'text/javascript', 'application/javascript',
+		'text/x-markdown',
 		'image/jpeg', 'image/gif', 'image/png'];
 
 	var cancel = function(event) {
@@ -84,8 +86,6 @@ $(function() {
 	};
 
 	var upload_progress = function(position, total) {
-		console.log('progress: ' + position + ' / ' + total);
-
 		if(position == total) {
 			$('#upload-file-progress').hide();
 		}
