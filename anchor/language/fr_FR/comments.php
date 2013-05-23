@@ -4,7 +4,7 @@ return array(
 
 	'comments' => 'Commentaires',
 	'nocomments_desc' => 'Pas encore de commentaires.',
-	'editing_comment' => 'Edition du commentaire',
+	'editing_comment' => 'Édition du commentaire',
 	'view_comment' => 'Voir le commentaire',
 
 	// form fields

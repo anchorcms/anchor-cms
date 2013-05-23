@@ -11,11 +11,11 @@ return array(
 	'variables_desc' => 'Créer des méta données additionnelles',
 
 	'create_field' => 'Créer un nouveau champ',
-	'editing_custom_field' => 'Edition du champ &ldquo;%s&rdquo;',
+	'editing_custom_field' => 'Édition du champ &ldquo;%s&rdquo;',
 	'nofields_desc' => 'Pas encore de champs',
 
 	'create_variable' => 'Créer une nouvelle variable',
-	'editing_variable' => 'Edition de la variable &ldquo;%s&rdquo;',
+	'editing_variable' => 'Édition de la variable &ldquo;%s&rdquo;',
 	'novars_desc' => 'Pas encore de variables',
 
 	// form fields
@@ -30,9 +30,9 @@ return array(
 	'key_missing' => 'Veuillez entrer un mot-clé',
 	'key_exists' => 'Mot-clé déjà utilisé',
 
-	'label' => 'Etiquette',
-	'label_explain' => 'Nom humainement lisible de votre champ',
-	'label_missing' => 'Veuillez entrer une étiquette',
+	'label' => 'Intitulé',
+	'label_explain' => 'Intitulé humainement lisible du champ',
+	'label_missing' => 'Veuillez entrer un intitulé',
 
 	'attribute_type' => 'Type de fichier',
 	'attribute_type_explain' => 'Liste de types de fichier acceptés(séparé par virgule), laissez vide pour tous les accepter.',

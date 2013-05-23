@@ -6,7 +6,7 @@ return array(
 
 	'create_user' => 'Créer un nouvel utilisateur',
 	'add_user' => 'Ajouter un nouvel utilisateur',
-	'editing_user' => 'Edition du profil de %s ',
+	'editing_user' => 'Édition du profil de %s ',
 	'remembered' => 'Je connais mon mot de passe',
 	'forgotten_password' => 'Mot de passe oublié?',
 
@@ -14,7 +14,7 @@ return array(
 	'administrator' => 'Administrateur',
 	'administrator_explain' => '',
 
-	'editor' => 'Editeur',
+	'editor' => 'Éditeur',
 	'editor_explain' => '',
 
 	'user' => 'Utilisateur',

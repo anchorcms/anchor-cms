@@ -12,7 +12,7 @@ return array(
 	'save' => 'Sauvegarder',
 	'delete' => 'Supprimer',
 	'update' => 'Mettre à jour',
-	'edit' => 'Editer',
+	'edit' => 'Éditer',
 	'editing' => 'Edition',
 	'create' => 'Créer',
 	'created' => 'Crée',
@@ -42,7 +42,7 @@ return array(
 
 	// roles
 	'administrator' => 'Administrateur',
-	'editor' => 'Editeur',
+	'editor' => 'Éditeur',
 	'user' => 'Utilisateur',
 
 	'log_in' => 'Se connecter',
@@ -68,10 +68,10 @@ return array(
 	'upgrade_later' => 'Mettre à jour plus tard',
 
 	// debug profiler
-	'profile' => 'Profile',
+	'profile' => 'Profil',
 	'profile_memory_usage' => 'Usage total de la mémoire',
 
 	// messages
-	'confirm_delete' => 'Etes vous sûr? Impossible de faire marche arrière après!'
+	'confirm_delete' => 'Êtes vous sûr(e) de vouloir supprimer? Aucune restauration possible!'
 
 );

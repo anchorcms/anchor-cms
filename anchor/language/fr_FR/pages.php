@@ -25,11 +25,11 @@ return array(
 	'name' => 'Nom',
 	'name_explain' => '',
 
-	'slug' => 'Annonce',
-	'slug_explain' => 'Annonce pour identifier votre page, ne peut contenir que des charactères ascii',
-	'slug_missing' => 'Veuillez entrer une annonce, ne peut contenir que des charactéres ascii',
-	'slug_duplicate' => 'Annonce déjà utilisée',
-	'slug_invalid' => 'Une annonce doit contenir des lettres',
+	'slug' => 'Alias',
+	'slug_explain' => 'Alias pour identifier votre page, ne peut contenir que des charactères ascii',
+	'slug_missing' => 'Veuillez entrer un alias, ne peut contenir que des charactéres ascii',
+	'slug_duplicate' => 'Alias déjà utilisée',
+	'slug_invalid' => 'Un alias doit contenir des lettres',
 
 	'status' => 'Statut',
 	'status_explain' => '',

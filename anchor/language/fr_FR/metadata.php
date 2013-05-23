@@ -2,7 +2,7 @@
 
 return array(
 
-	'metadata' => 'Méta données du site',
+	'metadata' => 'Métadonnées du site',
 	'metadata_desc' => 'Gérer les données du site',
 
 	'comment_settings' => 'Commentaires',
@@ -40,6 +40,6 @@ return array(
 	'current_theme_explain' => '',
 
 	// messages
-	'updated' => 'Méta données mises à jour',
+	'updated' => 'Métadonnées mises à jour',
 
 );

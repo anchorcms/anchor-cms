@@ -6,15 +6,15 @@ return array(
 	'categories' => 'Catégories',
 
 	'create_category' => 'Créer une nouvelle catégorie',
-	'edit_category' => 'Edition de &ldquo;%s&rdquo;',
+	'edit_category' => 'Édition de &ldquo;%s&rdquo;',
 
 	// form fields
 	'title' => 'Titre',
 	'title_explain' => 'Titre de votre catégorie.',
 	'title_missing' => 'Veuillez entrer un titre',
 
-	'slug' => 'Annonce',
-	'slug_explain' => 'L&rsquo;annonce de votre catégorie.',
+	'slug' => 'Alias',
+	'slug_explain' => 'L&rsquo;alias de votre catégorie.',
 
 	'description' => 'Description',
 	'description_explain' => 'Description de la catégorie.',

@@ -15,11 +15,11 @@ return array(
 	'content' => 'Contenu de l&rsquo;article',
 	'content_explain' => 'Ecrivez juste.',
 
-	'slug' => 'Annonce',
-	'slug_explain' => 'Annonce pour identifier votre page, ne peut contenir que des charactères ascii',
-	'slug_missing' => 'Veuillez entrer une annonce, ne peut contenir que des charactéres ascii',
-	'slug_duplicate' => 'Annonce déjà utilisée',
-	'slug_invalid' => 'Une annonce doit contenir des lettres',
+	'slug' => 'Alias',
+	'slug_explain' => 'Alias pour identifier votre page, ne peut contenir que des charactères ascii',
+	'slug_missing' => 'Veuillez entrer un alias, ne peut contenir que des charactéres ascii',
+	'slug_duplicate' => 'Alias déjà utilisée',
+	'slug_invalid' => 'Un alias doit contenir des lettres',
 
 	'description' => 'Description',
 	'description_explain' => '',
