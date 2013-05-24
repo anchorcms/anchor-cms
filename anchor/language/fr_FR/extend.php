@@ -23,7 +23,7 @@ return array(
 	'type_explain' => 'Le type de contenu que vous voulez ajouter à ce champ.',
 
 	'field' => 'Champ',
-	'field_explain' => 'Type d&pos;entrée html',
+	'field_explain' => 'Type d&rsquo;entrée html',
 
 	'key' => 'Mot-clé',
 	'key_explain' => 'Le mot-clé de votre champ',
