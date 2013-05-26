@@ -97,10 +97,10 @@ Route::collection(array('before' => 'auth'), function() {
 		});
 
 		$validator->check('title')
-			->is_max(3, __('posts.title_missing'));
+			->is_max(1, __('posts.title_missing'));
 
 		$validator->check('slug')
-			->is_max(3, __('posts.slug_missing'))
+			->is_max(1, __('posts.slug_missing'))
 			->is_duplicate(__('posts.slug_duplicate'))
 			->not_regex('#^[0-9_-]+$#', __('posts.slug_invalid'));
 
