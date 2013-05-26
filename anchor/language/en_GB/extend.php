@@ -20,7 +20,7 @@ return array(
 
 	// form fields
 	'type' => 'Type',
-	'type_explain' => 'The type of content your want to add this field to.',
+	'type_explain' => 'The type of content you want to add this field to.',
 
 	'field' => 'Field',
 	'field_explain' => 'Html input type',
