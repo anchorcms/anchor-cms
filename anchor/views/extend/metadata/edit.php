@@ -38,6 +38,12 @@
 					array('min' => 1, 'max' => 15)); ?>
 				<em><?php echo __('metadata.posts_per_page_explain'); ?></em>
 			</p>
+			<p>
+				<label for="posts_per_page"><?php echo __('metadata.admin_posts_per_page'); ?>:</label>
+				<?php echo Form::input('range', 'admin_posts_per_page', Input::previous('admin_posts_per_page', $meta['admin_posts_per_page']),
+					array('min' => 1, 'max' => 15)); ?>
+				<em><?php echo __('metadata.admin_posts_per_page_explain'); ?></em>
+			</p>
 		</fieldset>
 
 		<fieldset class="split">

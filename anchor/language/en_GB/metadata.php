@@ -26,6 +26,9 @@ return array(
 	'posts_per_page' => 'Posts per page',
 	'posts_per_page_explain' => '',
 
+	'admin_posts_per_page' => 'Posts per page in admin area',
+	'admin_posts_per_page_explain' => '',
+
 	'auto_publish_comments' => 'Auto-allow comments',
 	'auto_publish_comments_explain' => '',
 
