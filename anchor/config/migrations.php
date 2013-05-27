@@ -4,5 +4,5 @@ return array(
 	/*
 	 * Latest migration
 	 */
-	'current' => 145
+	'current' => 150
 );
