@@ -44,6 +44,11 @@ class Extend extends Base {
 					$value = asset('content/' . $extend->value->filename);
 				}
 				break;
+			case 'bool':
+				if( ! empty($extend->value->bool)) {
+					$value = $extend->value->bool;
+				}
+				break;
 		}
 
 		return $value;
@@ -97,6 +102,11 @@ class Extend extends Base {
 					<input type="checkbox" name="extend_remove[' . $item->key . ']" value="1">';
 				}
 
+				break;
+
+			case 'bool':
+				$value = isset($item->value->bool) ? $item->value->bool : 0;
+				$html = '<input id="extend_' . $item->key . '" name="extend[' . $item->key . ']" type="checkbox" value="1" ' . ($value? 'checked="checked"': '') .'>';
 				break;
 
 			default:
@@ -212,6 +222,11 @@ class Extend extends Base {
 		return Json::encode(compact('html'));
 	}
 
+	public static function process_bool($extend) {
+		$bool = is_null(Input::get('extend.' . $extend->key))? 0: 1;
+
+		return Json::encode(compact('bool'));
+	}
 	/*
 		Save
 	*/
