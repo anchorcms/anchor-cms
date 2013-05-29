@@ -4,8 +4,8 @@ return array(
 
 	'comments' => 'Comments',
 	'nocomments_desc' => 'No comments yet.',
-	'editing_comment' => 'Editing Comment',
-	'view_comment' => 'View Comment',
+	'editing_comment' => 'Editing comment',
+	'view_comment' => 'View comment',
 
 	// form fields
 	'name' => 'Name',
