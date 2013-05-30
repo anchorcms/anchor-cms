@@ -114,18 +114,6 @@ $(function() {
 	};
 
 	var complete = function() {
-		if(['text/css'].indexOf(this.file.type) !== -1) {
-			var element = $('textarea[name=css]');
-
-			if(element.size()) element.val(this.result).parent().show();
-		}
-
-		if(['text/javascript', 'application/javascript'].indexOf(this.file.type) !== -1) {
-			var element = $('textarea[name=js]');
-
-			if(element.size()) element.val(this.result).parent().show();
-		}
-
 		if(['text/x-markdown'].indexOf(this.file.type) !== -1) {
 			var textarea = $('.main textarea'), value = textarea.val();
 
@@ -155,14 +143,5 @@ $(function() {
 
 		body.append('<div id="upload-file"><span>Upload your file</span></div>');
 		body.append('<div id="upload-file-progress"><progress value="0"></progress></div>');
-
-		// hide drag/drop inputs until populated
-		$('textarea[name=css],textarea[name=js]').each(function(index, item) {
-			var element = $(item);
-
-			if(element.val() == '') {
-				element.parent().hide();
-			}
-		});
 	}
 });
