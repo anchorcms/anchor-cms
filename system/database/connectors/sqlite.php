@@ -16,13 +16,6 @@ use System\Database\Connector;
 class Sqlite extends Connector {
 
 	/**
-	 * Holds the php pdo instance
-	 *
-	 * @var object
-	 */
-	private $pdo;
-
-	/**
 	 * The sqlite left wrapper
 	 *
 	 * @var string
@@ -41,21 +34,11 @@ class Sqlite extends Connector {
 	 *
 	 * @param array
 	 */
-	public function __construct($config) {
+	protected function connect($config) {
 		extract($config);
 
 		$dns = 'sqlite:' . $database;
-		$this->pdo = new PDO($dns);
-		$this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-	}
-
-	/**
-	 * Return the pdo instance
-	 *
-	 * @param object PDO Object
-	 */
-	public function instance() {
-		return $this->pdo;
+		return new PDO($dns);
 	}
 
 }

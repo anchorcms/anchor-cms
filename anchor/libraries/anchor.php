@@ -31,10 +31,8 @@ class Anchor {
 	}
 
 	public static function meta() {
-		$table = Base::table('meta');
-
 		// load database metadata
-		foreach(Query::table($table)->get() as $item) {
+		foreach(Query::table('meta')->get() as $item) {
 			$meta[$item->key] = $item->value;
 		}
 
@@ -89,21 +87,19 @@ class Anchor {
 	public static function migrations() {
 		$current = Config::meta('current_migration');
 		$migrate_to = Config::migrations('current');
-
 		$migrations = new Migrations($current);
-		$table = Base::table('meta');
 
 		if(is_null($current)) {
 			$number = $migrations->up($migrate_to);
 
-			Query::table($table)->insert(array(
+			Query::table('meta')->insert(array(
 				'key' => 'current_migration',
 				'value' => $number
 			));
 		}
 		else if($current < $migrate_to) {
 			$number = $migrations->up($migrate_to);
-			Query::table($table)->where('key', '=', 'current_migration')->update(array('value' => $number));
+			Query::table('meta')->where('key', '=', 'current_migration')->update(array('value' => $number));
 		}
 	}
 
@@ -151,13 +147,12 @@ class Anchor {
 	public static function setup_version_check() {
 		$version = static::get_latest_version();
 		$today = gmdate('Y-m-d');
-		$table = Base::table('meta');
 
-		Query::table($table)->insert(array('key' => 'last_update_check', 'value' => $today));
-		Query::table($table)->insert(array('key' => 'update_version', 'value' => $version));
+		Query::table('meta')->insert(array('key' => 'last_update_check', 'value' => $today));
+		Query::table('meta')->insert(array('key' => 'update_version', 'value' => $version));
 
 		// reload database metadata
-		foreach(Query::table($table)->get() as $item) {
+		foreach(Query::table('meta')->get() as $item) {
 			$meta[$item->key] = $item->value;
 		}
 
@@ -169,10 +164,9 @@ class Anchor {
 	public static function renew_version() {
 		$version = static::get_latest_version();
 		$today = gmdate('Y-m-d');
-		$table = Base::table('meta');
 
-		Query::table($table)->where('key', '=', 'last_update_check')->update(array('value' => $today));
-		Query::table($table)->where('key', '=', 'update_version')->update(array('value' => $version));
+		Query::table('meta')->where('key', '=', 'last_update_check')->update(array('value' => $today));
+		Query::table('meta')->where('key', '=', 'update_version')->update(array('value' => $version));
 
 		// reload database metadata
 		static::meta();

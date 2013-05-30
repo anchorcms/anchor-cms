@@ -16,13 +16,6 @@ use System\Database\Connector;
 class Mysql extends Connector {
 
 	/**
-	 * Holds the php pdo instance
-	 *
-	 * @var object
-	 */
-	private $pdo;
-
-	/**
 	 * The mysql left wrapper
 	 *
 	 * @var string
@@ -41,21 +34,11 @@ class Mysql extends Connector {
 	 *
 	 * @param array
 	 */
-	public function __construct($config) {
+	protected function connect($config) {
 		extract($config);
 
 		$dns = 'mysql:' . implode(';', array('dbname=' . $database, 'host=' . $hostname, 'port=' . $port, 'charset=' . $charset));
-		$this->pdo = new PDO($dns, $username, $password);
-		$this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-	}
-
-	/**
-	 * Return the pdo instance
-	 *
-	 * @param object PDO Object
-	 */
-	public function instance() {
-		return $this->pdo;
+		return new PDO($dns, $username, $password);
 	}
 
 }

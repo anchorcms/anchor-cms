@@ -5,13 +5,13 @@ class Extend extends Base {
 	public static $table = 'extend';
 
 	public static function field($type, $key, $id = -1) {
-		$field = Query::table(static::table())
+		$field = Query::table(static::$table)
 			->where('type', '=', $type)
 			->where('key', '=', $key)
 			->fetch();
 
 		if($field) {
-			$meta = Query::table(static::table($type . '_meta'))
+			$meta = Query::table($type . '_meta')
 				->where($type, '=', $id)
 				->where('extend', '=', $field->id)
 				->fetch();
@@ -50,10 +50,10 @@ class Extend extends Base {
 	}
 
 	public static function fields($type, $id = -1) {
-		$fields = Query::table(static::table())->where('type', '=', $type)->get();
+		$fields = Query::table(static::$table)->where('type', '=', $type)->get();
 
 		foreach(array_keys($fields) as $index) {
-			$meta = Query::table(static::table($type . '_meta'))
+			$meta = Query::table($type . '_meta')
 				->where($type, '=', $id)
 				->where('extend', '=', $fields[$index]->id)
 				->fetch();
@@ -107,7 +107,7 @@ class Extend extends Base {
 	}
 
 	public static function paginate($page = 1, $perpage = 10) {
-		$query = Query::table(static::table());
+		$query = Query::table(static::$table);
 
 		$count = $query->count();
 
@@ -245,7 +245,7 @@ class Extend extends Base {
 			// remove data
 			if(Input::get('extend_remove.' . $extend->key)) {
 				if(isset($extend->value->filename) and strlen($extend->value->filename)) {
-					Query::table(static::table($extend->type . '_meta'))
+					Query::table($extend->type . '_meta')
 						->where('extend', '=', $extend->id)
 						->where($extend->type, '=', $item)->delete();
 

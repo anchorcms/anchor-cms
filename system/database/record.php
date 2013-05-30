@@ -26,14 +26,7 @@ abstract class Record {
 	 *
 	 * @var array
 	 */
-	public $data = array();
-
-	/**
-	 * The database table name prefix
-	 *
-	 * @var string
-	 */
-	public static $prefix;
+	protected $data = array();
 
 	/**
 	 * The database table
@@ -48,21 +41,6 @@ abstract class Record {
 	 * @var array
 	 */
 	public static $primary = 'id';
-
-	/**
-	 * Find a record by primary key and return a new Record object
-	 *
-	 * @param int
-	 * @return object Record
-	 */
-	public static function find($id) {
-		$class = get_called_class();
-		$key = $class . $id;
-
-		if(isset(static::$cache[$key])) return static::$cache[$key];
-
-		return (static::$cache[$key] = static::where(static::$primary, '=', $id)->apply($class)->fetch());
-	}
 
 	/**
 	 * Create a new instance of the record class
@@ -127,6 +105,29 @@ abstract class Record {
 	}
 
 	/**
+	 * Find a record by primary key and return a new object
+	 *
+	 * @param int
+	 * @return object Record
+	 */
+	public static function find($id) {
+		$class = get_called_class();
+		$key = $class . $id;
+
+		// return cached object
+		if(isset(static::$cache[$key])) return static::$cache[$key];
+
+		// find it and cache result
+		$result = static::where(static::$primary, '=', $id)->apply($class)->fetch();
+
+		// if we found a valid row cache it
+		// otherwise dont cache NULL results incase that changes during runtime
+		if($result) static::$cache[$key] = $result;
+
+		return $result;
+	}
+
+	/**
 	 * Create a new instance of the record class for chaining
 	 *
 	 * @param array
@@ -155,7 +156,7 @@ abstract class Record {
 	 * @return mixed
 	 */
 	public static function __callStatic($method, $arguments) {
-		$obj = Query::table(static::$prefix . static::$table)->apply(get_called_class());
+		$obj = Query::table(static::$table)->apply(get_called_class());
 
 		if(method_exists($obj, $method)) {
 			return call_user_func_array(array($obj, $method), $arguments);

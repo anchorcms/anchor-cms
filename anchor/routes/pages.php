@@ -89,10 +89,10 @@ Route::collection(array('before' => 'auth'), function() {
 		});
 
 		$validator->check('title')
-			->is_max(3, __('pages.title_missing'));
+			->is_max(2, __('pages.title_missing'));
 
 		$validator->check('slug')
-			->is_max(3, __('pages.slug_missing'))
+			->is_max(2, __('pages.slug_missing'))
 			->is_duplicate(__('pages.slug_duplicate'))
 			->not_regex('#^[0-9_-]+$#', __('pages.slug_invalid'));
 
@@ -166,10 +166,10 @@ Route::collection(array('before' => 'auth'), function() {
 		});
 
 		$validator->check('title')
-			->is_max(3, __('pages.title_missing'));
+			->is_max(2, __('pages.title_missing'));
 
 		$validator->check('slug')
-			->is_max(3, __('pages.slug_missing'))
+			->is_max(2, __('pages.slug_missing'))
 			->is_duplicate(__('pages.slug_duplicate'))
 			->not_regex('#^[0-9_-]+$#', __('pages.slug_invalid'));
 

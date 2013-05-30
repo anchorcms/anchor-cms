@@ -13,72 +13,81 @@
 abstract class Builder {
 
 	/**
-	 * Wrap database tables and columns names
+	 * Wrap array of column names
 	 *
-	 * @param string|array
+	 * @param array
 	 * @return string
 	 */
-	public function wrap($column) {
-		if(is_array($column)) {
-			$columns = array();
+	public function wrap_columns($columns) {
+		$wrapped = array();
 
-			foreach($column as $c) {
-				$columns[] = $this->wrap($c);
-			}
-
-			return implode(', ', $columns);
+		foreach($columns as $column) {
+			$wrapped[] = $this->wrap_column($column);
 		}
 
-		return $this->enclose($column);
+		return implode(', ', $wrapped);
 	}
 
 	/**
-	 * Enclose value with database connector escape characters
+	 * Wrap a column
 	 *
 	 * @param string
 	 * @return string
 	 */
-	public function enclose($value) {
+	public function wrap_column($value) {
 		$params = array();
-		$alias = '';
-		$alias_keyword = ' as ';
-
-		if($pos = strpos(strtolower($value), $alias_keyword)) {
-			$alias = substr($value, $pos + strlen($alias_keyword));
-			$value = substr($value, 0, $pos);
-		}
 
 		// dont wrap function calls
-		if(preg_match('#([A-Z]+)\((.+)\)#', $value, $matches)) {
-			list($original, $function, $value) = $matches;
+		if(strpos($value, '(')) return $value;
+
+		// separate alias if found
+		if(strpos(strtolower($value), ' as ')) {
+			$parts = explode(' ', $value);
+
+			return $this->wrap_column($parts[0]) . ' AS ' . $this->wrap_column($parts[2]);
 		}
 
-		foreach(explode('.', $value) as $item) {
-			if($item == '*') {
-				$params[] = $item;
+		// enclose items
+		$parts = explode('.', $value);
+
+		foreach($parts as $index => $string) {
+			if($string != '*') {
+				if($index == 0 and count($parts) > 1) {
+					$string = $this->wrap_table($string);
+				}
+				else {
+					$string = $this->wrap_value($string);
+				}
 			}
-			else {
-				// trim left if already escaped
-				$item = $this->connection->lwrap . ltrim($item, $this->connection->lwrap);
 
-				// trim right if already escaped
-				$item = rtrim($item, $this->connection->rwrap) . $this->connection->rwrap;
-
-				$params[] = $item;
-			}
+			$params[] = $string;
 		}
 
-		$value = implode('.', $params);
+		return implode('.', $params);
+	}
 
-		if(isset($function)) {
-			$value = $function . '(' . $value . ')';
-		}
+	/**
+	 * Wrap table and include table prefix
+	 *
+	 * @param string
+	 * @return string
+	 */
+	public function wrap_table($value) {
+		return $this->wrap_value($this->connection->table_prefix . $value);
+	}
 
-		if($alias) {
-			$value .= ' AS ' . $this->enclose($alias);
-		}
+	/**
+	 * Wrap value with database connector escape characters
+	 *
+	 * @param string
+	 * @return string
+	 */
+	public function wrap_value($value) {
+		// trim left if already escaped
+		$value = $this->connection->lwrap . ltrim($value, $this->connection->lwrap);
 
-		return $value;
+		// trim right if already escaped
+		return rtrim($value, $this->connection->rwrap) . $this->connection->rwrap;
 	}
 
 	/**
@@ -98,10 +107,9 @@ abstract class Builder {
 	}
 
 	/**
-	 * Set a row offset on the query
+	 * Build the complete sql query
 	 *
-	 * @param int
-	 * @return object
+	 * @return string
 	 */
 	public function build() {
 		$sql = '';
@@ -144,7 +152,7 @@ abstract class Builder {
 		$values = $this->placeholders(count($row));
 		$this->bind = array_values($row);
 
-		return 'INSERT INTO ' . $this->wrap($this->table) . ' (' . $this->wrap($keys) . ') VALUES(' . $values . ')';
+		return 'INSERT INTO ' . $this->wrap_table($this->table) . ' (' . $this->wrap_columns($keys) . ') VALUES(' . $values . ')';
 	}
 
 	/**
@@ -158,14 +166,14 @@ abstract class Builder {
 		$values = array();
 
 		foreach($row as $key => $value) {
-			$placeholders[] = $this->wrap($key) . ' = ?';
+			$placeholders[] = $this->wrap_column($key) . ' = ?';
 			$values[] = $value;
 		}
 
 		$update = implode(', ', $placeholders);
 		$this->bind = array_merge($values, $this->bind);
 
-		return 'UPDATE ' . $this->wrap($this->table) . ' SET ' . $update . $this->build();
+		return 'UPDATE ' . $this->wrap_table($this->table) . ' SET ' . $update . $this->build();
 	}
 
 	/**
@@ -176,11 +184,11 @@ abstract class Builder {
 	 */
 	public function build_select($columns = null) {
 		if(is_array($columns) and count($columns)) {
-			$columns = $this->wrap($columns);
+			$columns = $this->wrap_columns($columns);
 		}
 		else $columns = '*';
 
-		return 'SELECT ' . $columns . ' FROM ' . $this->wrap($this->table) . $this->build();
+		return 'SELECT ' . $columns . ' FROM ' . $this->wrap_table($this->table) . $this->build();
 	}
 
 	/**
@@ -190,7 +198,7 @@ abstract class Builder {
 	 * @return string
 	 */
 	public function build_delete() {
-		return 'DELETE FROM ' . $this->wrap($this->table) . $this->build();
+		return 'DELETE FROM ' . $this->wrap_table($this->table) . $this->build();
 	}
 
 	/**
@@ -199,7 +207,7 @@ abstract class Builder {
 	 * @return string
 	 */
 	public function build_select_count() {
-		return 'SELECT COUNT(*) FROM ' . $this->wrap($this->table) . $this->build();
+		return 'SELECT COUNT(*) FROM ' . $this->wrap_table($this->table) . $this->build();
 	}
 
 }

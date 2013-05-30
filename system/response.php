@@ -93,7 +93,7 @@ class Response {
 	 * @param array
 	 */
 	public function __construct($output, $status = 200, $headers = array()) {
-		$this->status = $status;
+		$this->status = new Status($status);
 		$this->output = $output;
 
 		foreach($headers as $name => $value) {
@@ -106,7 +106,7 @@ class Response {
 	 */
 	public function send() {
 		// create a status header
-		Status::create($this->status)->header();
+		$this->status->header();
 
 		// always make sure we send the content type
 		if( ! array_key_exists('content-type', $this->headers)) {

@@ -83,16 +83,6 @@ class Status {
 	);
 
 	/**
-	 * Create an instance or the Status class for chaining
-	 *
-	 * @param int
-	 * @return object
-	 */
-	public static function create($status = 200) {
-		return new static($status);
-	}
-
-	/**
 	 * Create an instance or the Status class
 	 *
 	 * @param int

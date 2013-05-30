@@ -101,8 +101,6 @@ class Query extends Builder {
 	 * @return object Query
 	 */
 	public static function table($table, $connection = null) {
-		if(is_null($connection)) $connection = DB::connection();
-
 		return new static($table, $connection);
 	}
 
@@ -239,7 +237,9 @@ class Query extends Builder {
 	 * @return object
 	 */
 	public function where($column, $operator, $value) {
-		$this->where[] = (count($this->where) ? 'AND ' : 'WHERE ') . $this->wrap($column) . ' ' . $operator . ' ?';
+		$this->where[] = (count($this->where) ? 'AND ' : 'WHERE ') .
+			$this->wrap_column($column) . ' ' . $operator . ' ?';
+
 		$this->bind[] = $value;
 
 		return $this;
@@ -254,7 +254,9 @@ class Query extends Builder {
 	 * @return object
 	 */
 	public function or_where($column, $operator, $value) {
-		$this->where[] = (count($this->where) ? 'OR ' : 'WHERE ') . $this->wrap($column) . ' ' . $operator . ' ?';
+		$this->where[] = (count($this->where) ? 'OR ' : 'WHERE ') .
+			$this->wrap($column) . ' ' . $operator . ' ?';
+
 		$this->bind[] = $value;
 
 		return $this;
@@ -292,11 +294,12 @@ class Query extends Builder {
 
 			$this->bind = array_merge($this->bind, $query->bind);
 
-			$table = '(' . $query->build_select() . ') AS ' . $this->wrap($alias);
+			$table = '(' . $query->build_select() . ') AS ' . $this->wrap_column($alias);
 		}
-		else $table = $this->wrap($table);
+		else $table = $this->wrap_table($table);
 
-		$this->join[] = $type . ' JOIN ' . $table . ' ON (' . $this->wrap($left) . ' ' . $operator . ' ' . $this->wrap($right) . ')';
+		$this->join[] = sprintf('%s JOIN %s ON (%s %s %s)',
+			$type, $table, $this->wrap_column($left), $operator, $this->wrap_column($right));
 
 		return $this;
 	}
@@ -322,7 +325,7 @@ class Query extends Builder {
 	 * @return object
 	 */
 	public function sort($column, $mode = 'ASC') {
-		$this->sortby[] = $this->wrap($column) . ' ' . strtoupper($mode);
+		$this->sortby[] = $this->wrap_column($column) . ' ' . strtoupper($mode);
 
 		return $this;
 	}
@@ -334,7 +337,7 @@ class Query extends Builder {
 	 * @return object
 	 */
 	public function group($column) {
-		$this->groupby[] = $this->wrap($column);
+		$this->groupby[] = $this->wrap_column($column);
 
 		return $this;
 	}

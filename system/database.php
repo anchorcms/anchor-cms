@@ -51,8 +51,9 @@ class Database {
 		// if we have already connected just return the instance
 		if(isset(static::$connections[$name])) return static::$connections[$name];
 
-		// connect and return
-		return (static::$connections[$name] = static::factory(Config::db('connections.' . $name)));
+		// return new connection
+		$config = Config::db('connections.' . $name);
+		return (static::$connections[$name] = static::factory($config));
 	}
 
 	/**

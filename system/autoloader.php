@@ -42,7 +42,9 @@ class Autoloader {
 		if( ! is_array($paths)) $paths = array($paths);
 
 		foreach($paths as $path) {
-			static::$directories[] = rtrim($path, DS) . DS;
+			// using realpath() to prevent nullbyte dirs
+			// @see http://php.net/manual/en/security.filesystem.nullbytes.php
+			static::$directories[] = rtrim(realpath($path), DS) . DS;
 		}
 	}
 

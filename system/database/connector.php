@@ -10,10 +10,25 @@
  * @copyright	http://unlicense.org/
  */
 
+use PDO;
 use PDOException;
 use System\Config;
 
 abstract class Connector {
+
+	/**
+	 * Holds the php pdo instance
+	 *
+	 * @var object
+	 */
+	protected $pdo;
+
+	/**
+	 * Table prefix string
+	 *
+	 * @var string
+	 */
+	public $table_prefix = '';
 
 	/**
 	 * Log of all queries
@@ -23,11 +38,32 @@ abstract class Connector {
 	private $queries = array();
 
 	/**
-	 * All connectors will implement a function to return the pdo instance
+	 * Establish new connection
 	 *
-	 * @param object PDO Object
+	 * @param array
 	 */
-	abstract public function instance();
+	public function __construct($config) {
+		try {
+			$this->pdo = $this->connect($config);
+			$this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+			if(isset($config['prefix'])) {
+				$this->table_prefix = $config['prefix'];
+			}
+		} catch(PDOException $e) {
+			// catch a rethrow exception to avoid database
+			// connection string being exposed in the stacktrace
+			throw new ErrorException($e->getMessage());
+		}
+	}
+
+	/**
+	 * Returns a new PDO instance
+	 *
+	 * @param array
+	 * @return object
+	 */
+	abstract protected function connect($config);
 
 	/**
 	 * A simple database query wrapper
@@ -42,7 +78,7 @@ abstract class Connector {
 				$this->queries[] = compact('sql', 'binds');
 			}
 
-			$statement = $this->instance()->prepare($sql);
+			$statement = $this->pdo->prepare($sql);
 			$result = $statement->execute($binds);
 
 			return array($result, $statement);
@@ -69,7 +105,7 @@ abstract class Connector {
 	 * @return mixed
 	 */
 	public static function __callStatic($method, $arguments) {
-		return call_user_func_array(array($this->instance(), $method), $arguments);
+		return call_user_func_array(array($this->pdo, $method), $arguments);
 	}
 
 }

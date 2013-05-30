@@ -161,6 +161,15 @@ function is_article() {
 }
 
 /**
+ * Returns true if a post_category object has been set in the Registry
+ *
+ * @return bool
+ */
+function is_category() {
+	return Registry::get('post_category') !== null;
+}
+
+/**
  * Returns true if a page object has been set in the Registry
  *
  * @return bool

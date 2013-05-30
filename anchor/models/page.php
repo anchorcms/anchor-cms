@@ -59,7 +59,7 @@ class Page extends Base {
 	}
 
 	public function delete() {
-		Query::table(Base::table('page_meta'))->where('page', '=', $this->id)->delete();
+		Query::table('page_meta')->where('page', '=', $this->id)->delete();
 		parent::delete();
 	}
 
