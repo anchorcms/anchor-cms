@@ -79,9 +79,9 @@ select {
 	display: block;
 	float: left;
 	height: 39px;
-	padding-left: 20px;
+	padding: 9px 0 8px 20px;
 
-	font: 15px/39px "Helvetica Neue", sans-serif;
+	font: 15px/22px "Helvetica Neue", sans-serif;
 
 	border: none;
 	border-radius: 0 5px 5px 0;

@@ -48,7 +48,7 @@
 				<label for="description"><?php echo __('posts.description'); ?>:</label>
 				<?php echo Form::textarea('description', Input::previous('description', $article->description)); ?>
 				<em><?php echo __('posts.description_explain'); ?></em>
-			</p
+			</p>
 			<p>
 				<label for="status"><?php echo __('posts.status'); ?>:</label>
 				<?php echo Form::select('status', $statuses, Input::previous('status', $article->status)); ?>
