@@ -122,12 +122,12 @@ Route::post($posts_page->slug . '/(:any)', function($slug) use($posts_page) {
 		return Response::redirect($posts_page->slug . '/' . $slug . '#comment');
 	}
 
-	$input['post'] = Post::slug($slug)->id;
+	$input['post'] = $post->id;
 	$input['date'] = Date::mysql('now');
 	$input['status'] = Config::meta('auto_published_comments') ? 'approved' : 'pending';
 
 	// remove bad tags
-	$input['text'] = strip_tags($input['text'], '<a>,<b>,<blockquote>,<code>,<em>,<i>,<p>,<pre>');
+	$input['text'] = strip_tags($input['text'], '<a>,<b>,<blockquote>,<code>,<em>,<i>,<p>,<pre>,<br>');
 
 	// check if the comment is possibly spam
 	if($spam = Comment::spam($input)) {

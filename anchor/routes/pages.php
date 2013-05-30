@@ -72,7 +72,8 @@ Route::collection(array('before' => 'auth'), function() {
 	});
 
 	Route::post('admin/pages/edit/(:num)', function($id) {
-		$input = Input::get(array('parent', 'name', 'title', 'slug', 'content', 'status', 'redirect', 'show_in_menu'));
+		$input = Input::get(array('parent', 'name', 'title', 'slug', 'content',
+			'status', 'redirect', 'show_in_menu'));
 
 		// if there is no slug try and create one from the title
 		if(empty($input['slug'])) {
