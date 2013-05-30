@@ -8,7 +8,7 @@
 		var defaults = {};
 
 		var settings = $.extend({}, defaults, options);
-		var textarea = $(this), container = textarea.parent();
+		var textarea = $(this), container = $('.editor');
 
 		var insert = function(str) {
 			var element = textarea[0];
@@ -162,7 +162,8 @@
 		});
 
 		container.on('click', 'nav a', function(event) {
-			var a = $(event.target), method = a.attr('href').split('#').pop();
+			var a = $(event.target),
+				method = a.attr('href').split('#').pop();
 
 			if(controls[method]) controls[method]();
 
