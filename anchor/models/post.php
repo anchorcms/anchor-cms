@@ -45,13 +45,18 @@ class Post extends Base {
 
 	public static function search($term, $page = 1, $per_page = 10) {
 		$query = static::query()
+			->left_join('post_meta', 'post_meta.post', '=', 'posts.id')
 			->where('posts.status', '=', 'published')
-			->where('posts.title', 'like', '%' . $term . '%');
+			->where('posts.title', 'like', '%' . $term . '%')
+			->or_where('posts.description', 'like', '%' . $term . '%')
+			->or_where('posts.html', 'like', '%' . $term . '%')
+			->or_where('post_meta.data', 'like', '%' . $term . '%');
 
 		$total = $query->count();
 
 		$posts = $query->take($per_page)
 			->skip(--$page * $per_page)
+			->group('posts.id')
 			->get(static::select());
 
 		return array($total, $posts);

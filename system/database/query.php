@@ -255,7 +255,7 @@ class Query extends Builder {
 	 */
 	public function or_where($column, $operator, $value) {
 		$this->where[] = (count($this->where) ? 'OR ' : 'WHERE ') .
-			$this->wrap($column) . ' ' . $operator . ' ?';
+			$this->wrap_column($column) . ' ' . $operator . ' ?';
 
 		$this->bind[] = $value;
 
@@ -271,7 +271,7 @@ class Query extends Builder {
 	 */
 	public function where_in($column, $values) {
 		$this->where[] = (count($this->where) ? 'OR ' : 'WHERE ') .
-			$this->wrap($column) . ' IN (' . $this->placeholders(count($values)) . ')';
+			$this->wrap_column($column) . ' IN (' . $this->placeholders(count($values)) . ')';
 
 		$this->bind = array_merge($this->bind, $values);
 
