@@ -26,7 +26,7 @@
 			<p>
 				<label for="field"><?php echo __('extend.field'); ?>:</label>
 				<select id="field" name="field">
-					<?php foreach(array('text', 'html', 'image', 'file') as $type): ?>
+					<?php foreach(array('text', 'html', 'image', 'file', 'bool') as $type): ?>
 					<?php $selected = (Input::previous('field') == $type) ? ' selected' : ''; ?>
 					<option<?php echo $selected; ?>><?php echo $type; ?></option>
 					<?php endforeach; ?>
