@@ -22,7 +22,7 @@ CREATE TABLE `{{prefix}}comments` (
 CREATE TABLE `{{prefix}}extend` (
   `id` int(6) NOT NULL AUTO_INCREMENT,
   `type` enum('post','page') NOT NULL,
-  `field` enum('text','html','image','file') NOT NULL,
+  `field` enum('text','html','image','file','bool') NOT NULL,
   `key` varchar(160) NOT NULL,
   `label` varchar(160) NOT NULL,
   `attributes` text NOT NULL,
@@ -126,6 +126,7 @@ INSERT INTO `{{prefix}}meta` (`key`, `value`) VALUES
 ('date_format', 'jS M, Y'),
 ('home_page', '1'),
 ('posts_page',  '1'),
+('posts_per_page',  '10');
 ('posts_per_page',  '6');
 
 INSERT INTO `{{prefix}}pages` (`slug`, `name`, `title`, `content`, `status`, `redirect`, `show_in_menu`, `menu_order`) VALUES

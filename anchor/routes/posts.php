@@ -6,7 +6,7 @@ Route::collection(array('before' => 'auth'), function() {
 		List all posts and paginate through them
 	*/
 	Route::get(array('admin/posts', 'admin/posts/(:num)'), function($page = 1) {
-		$perpage = Config::meta('posts_per_page');
+		$perpage = Config::meta('admin_posts_per_page');
 		$total = Post::count();
 		$posts = Post::sort('created', 'desc')->take($perpage)->skip(($page - 1) * $perpage)->get();
 		$url = Uri::to('admin/posts');
