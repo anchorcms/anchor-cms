@@ -83,6 +83,17 @@ Route::get(array('category/(:any)', 'category/(:any)/(:num)'), function($slug = 
 });
 
 /**
+ * Redirect by article ID
+ */
+Route::get('(:num)', function($id) use($posts_page) {
+	if( ! $post = Post::id($id)) {
+		return Response::create(new Template('404'), 404);
+	}
+
+	return Response::redirect($posts_page->slug . '/' . $post->data['slug']);
+});
+
+/**
  * View article
  */
 Route::get($posts_page->slug . '/(:any)', function($slug) use($posts_page) {
