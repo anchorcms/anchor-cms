@@ -2,16 +2,20 @@
  * Textarea auto resize
  */
 $(function() {
-	$text = $('textarea').first();
+	var $text = $('textarea').first();
 	
-	function resize () {
-		$text.css({height: 'auto'});
-		$text.css({height: $text.prop('scrollHeight') + 'px'});
+	function resize(e) {
+		var bodyScrollPos = $('body').prop('scrollTop');
+		$text.height('auto');
+		$text.height($text.prop('scrollHeight') + 'px');
+		$('body').prop('scrollTop', bodyScrollPos);
 	}
 	
 	/* 0-timeout to get the already changed text */
-	function delayedResize () {
-		window.setTimeout(resize, 0);
+	function delayedResize (e) {
+		window.setTimeout(function(){
+			resize(e);
+		}, 0);
 	}
 	
 	$text.on('change', resize);
