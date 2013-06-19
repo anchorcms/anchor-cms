@@ -44,7 +44,8 @@ class Anchor {
 			$fi = new FilesystemIterator(APP . 'functions', FilesystemIterator::SKIP_DOTS);
 
 			foreach($fi as $file) {
-				if($file->isFile() and $file->isReadable() and '.' . $file->getExtension() == EXT) {
+				$ext = (version_compare(PHP_VERSION, '5.3.6') < 0) ? pathinfo($file, PATHINFO_EXTENSION) : $file->getExtension();
+				if($file->isFile() and $file->isReadable() and '.' . $ext == EXT) {
 					require $file->getPathname();
 				}
 			}
