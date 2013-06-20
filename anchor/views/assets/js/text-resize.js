@@ -2,11 +2,26 @@
  * Textarea auto resize
  */
 $(function() {
-	var textarea = $('textarea').first(), limit = 1080;
+	var $text = $('textarea').first();
 
-	var resize = function() {
-		textarea.height(textarea[0].scrollHeight);
-	};
+	function resize(e) {
+		var bodyScrollPos = $('body').prop('scrollTop');
+		$text.height('auto');
+		$text.height($text.prop('scrollHeight') + 'px');
+		$('body').prop('scrollTop', bodyScrollPos);
+	}
 
-	textarea.bind('keydown', resize).trigger('keydown');
+	/* 0-timeout to get the already changed text */
+	function delayedResize (e) {
+		window.setTimeout(function(){
+			resize(e);
+		}, 0);
+	}
+
+	$text.on('change', resize);
+	$text.on('cut paste drop keydown', delayedResize);
+
+	$text.focus();
+	$text.select();
+	resize();
 });

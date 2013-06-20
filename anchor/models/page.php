@@ -55,7 +55,7 @@ class Page extends Base {
 	}
 
 	public function active() {
-		return Registry::prop('page', 'slug') == $this->slug;
+		return (Registry::prop('page', 'slug') == $this->slug or Registry::prop('page', 'parent') == $this->id);
 	}
 
 	public function delete() {

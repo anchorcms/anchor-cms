@@ -82,6 +82,17 @@ Route::get(array('category/(:any)', 'category/(:any)/(:num)'), function($slug = 
 });
 
 /**
+ * Redirect by article ID
+ */
+Route::get('(:num)', function($id) use($posts_page) {
+	if( ! $post = Post::find($id)) {
+		return Response::create(new Template('404'), 404);
+	}
+
+	return Response::redirect($posts_page->slug . '/' . $post->data['slug']);
+});
+
+/**
  * View article
  */
 Route::get($posts_page->slug . '/(:any)', function($slug) use($posts_page) {
@@ -153,7 +164,7 @@ Route::get(array('rss', 'feeds/rss'), function() {
 	$uri = 'http://' . $_SERVER['HTTP_HOST'];
 	$rss = new Rss(Config::meta('sitename'), Config::meta('description'), $uri, Config::app('language'));
 
-	$query = Post::where('status', '=', 'published');
+	$query = Post::where('status', '=', 'published')->sort('created', 'desc');
 
 	foreach($query->get() as $article) {
 		$rss->item(
@@ -175,7 +186,7 @@ Route::get(array('rss', 'feeds/rss'), function() {
 Route::get('feeds/json', function() {
 	$json = Json::encode(array(
 		'meta' => Config::get('meta'),
-		'posts' => Post::where('status', '=', 'published')->get()
+		'posts' => Post::where('status', '=', 'published')->sort('created', 'desc')->get()
 	));
 
 	return Response::create($json, 200, array('content-type' => 'application/json'));

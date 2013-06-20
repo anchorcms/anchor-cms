@@ -34,7 +34,7 @@ function article_slug() {
  */
 function article_previous_url() {
 	$page = Registry::get('posts_page');
-	$query = Post::where('created', '<', Registry::prop('article', 'created'));
+	$query = Post::where('created', '<', Registry::prop('article', 'created'))->where('status', '=', 'published');
 
 	if($query->count()) {
 		$article = $query->sort('created', 'desc')->fetch();
@@ -51,7 +51,7 @@ function article_previous_url() {
  */
 function article_next_url() {
 	$page = Registry::get('posts_page');
-	$query = Post::where('created', '>', Registry::prop('article', 'created'));
+	$query = Post::where('created', '>', Registry::prop('article', 'created'))->where('status', '=', 'published');
 
 	if($query->count()) {
 		$article = $query->sort('created', 'asc')->fetch();
