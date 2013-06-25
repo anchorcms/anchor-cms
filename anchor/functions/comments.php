@@ -52,7 +52,7 @@ function comment_id() {
 
 function comment_time() {
 	if($time = Registry::prop('comment', 'date')) {
-		return Date::format($time);
+		return Date::format($time,'U');
 	}
 }
 
