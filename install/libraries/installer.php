@@ -63,7 +63,7 @@ class Installer {
 			'prefix' => $database['prefix']
 		));
 
-		static::$connection->instance()->query($sql);
+		static::$connection->ask($sql);
 	}
 
 	private static function metadata($settings) {
