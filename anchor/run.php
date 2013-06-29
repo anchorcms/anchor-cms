@@ -53,5 +53,8 @@ if(is_admin()) {
 	require APP . 'routes/variables' . EXT;
 }
 else {
+	if ($custom_route = file_exists(PATH . 'themes' . DS . Config::meta('theme') . DS . 'routes' . EXT)) {
+		require $custom_route;
+	}
 	require APP . 'routes/site' . EXT;
 }
