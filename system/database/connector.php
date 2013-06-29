@@ -58,6 +58,15 @@ abstract class Connector {
 	}
 
 	/**
+	 * Returns the PDO instance
+	 *
+	 * @return object
+	 */
+	public function instance() {
+		return $this->pdo;
+	}
+
+	/**
 	 * Returns a new PDO instance
 	 *
 	 * @param array
