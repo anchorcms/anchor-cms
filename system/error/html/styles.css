@@ -3,10 +3,6 @@ body{
 	margin: 2em;
 }
 
-.rows {
-	overflow: hidden;
-}
-
 .exception, .trace, .context {
 	border-radius: 3px;
 	overflow: hidden;
@@ -24,26 +20,8 @@ body{
 		font-size: 16px;
 	}
 
-.trace {
-	background: #F5F5F5;
-	color: #412227;
-	width: 28%;
-	float: left;
-}
-
-	.trace pre {
-		border-bottom: 2px solid #E0E0FF;
-		padding: 8px 1em;
-		margin: 0;
-	}
-
-	.trace pre:last-child {
-		border-bottom: none;
-	}
-
 .context {
-	width: 70%;
-	float: right;
+	margin-bottom: 1em;
 }
 
 	.context .snippet {

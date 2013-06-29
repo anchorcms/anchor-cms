@@ -42,53 +42,39 @@ class Html extends Message {
 	 *
 	 * @return string
 	 */
-	private function trace() {
-		$trace = '';
+	private function frames() {
+		$frames = '';
 
 		foreach($this->exception->getTrace() as $frame) {
-			$trace .= '<pre>';
-
-			if(isset($frame['class']) or isset($frame['function'])) {
-				if(isset($frame['class'])) {
-					$trace .= $frame['class'] . ' ';
-				}
-
-				if(isset($frame['function'])) {
-					$trace .= '<strong>' . $frame['function'] . '</strong>';
-				}
-			}
-
-			if(isset($frame['file'])) {
-				$file = substr($frame['file'], strlen(PATH));
-			}
-			else {
-				$file = '[internal function]';
-			}
-
-			$trace .= '<br><em>' . $file;
-
-			if(isset($frame['line'])) {
-				$trace .= ':<strong>' . $frame['line'] . '</strong>';
-			}
-
-			$trace .= '</em>';
-			$trace .= '</pre>';
+			$frames .= $this->context($frame);
 		}
 
-		return $trace;
+		return $frames;
 	}
 
 	/**
-	 * Get the context form the file
+	 * Get the context from a frame
 	 *
 	 * @param int
 	 * @return string
 	 */
-	private function context($padding = 6) {
-		$lines = file($this->exception->getFile());
-		$total = count($lines);
+	private function context($frame) {
+		if( ! isset($frame['file'])) {
+			$html = file_get_contents(SYS . 'error/html/frame.html');
+			$vars = array(
+				'{{file}}' => 'internal',
+				'{{line}}' => '0',
+				'{{context}}' => '<pre>' . $frame['function'] . '</pre>'
+			);
 
-		$line = $this->exception->getLine();
+			return str_replace(array_keys($vars), array_values($vars), $html);
+		}
+
+		$padding = 6;
+		$lines = file($frame['file']);
+		$total = count($lines);
+		$file = substr($frame['file'], strlen(PATH));
+		$line = $frame['line'];
 
 		$start = ($line > $padding) ? $line - $padding : 0;
 		$end = (($line + $padding) > $total) ? $total : $line + $padding;
@@ -108,7 +94,10 @@ class Html extends Message {
 			);
 		}
 
-		return $context;
+		$html = file_get_contents(SYS . 'error/html/frame.html');
+		$vars = array('{{file}}' => $file, '{{line}}' => $line, '{{context}}' => $context);
+
+		return str_replace(array_keys($vars), array_values($vars), $html);
 	}
 
 	/**
@@ -116,20 +105,17 @@ class Html extends Message {
 	 */
 	public function response() {
 		if($this->detailed) {
-			$file = substr($this->exception->getFile(), strlen(PATH));
-
 			$html = file_get_contents(SYS . 'error/html/body.html');
 
 			$vars = array(
 				'{{styles}}' => file_get_contents(SYS . 'error/html/styles.css'),
 				'{{message}}' => $this->exception->getMessage(),
-				'{{file}}' => $file,
-				'{{line}}' => $this->exception->getLine(),
-				'{{trace}}' => $this->trace(),
-				'{{context}}' => $this->context(),
+				'{{frames}}' => $this->frames(),
 			);
 
-			Response::create(str_replace(array_keys($vars), array_values($vars), $html), 500)->send();
+			$html = str_replace(array_keys($vars), array_values($vars), $html);
+
+			Response::create($html, 500)->send();
 		}
 		else {
 			Response::error(500)->send();

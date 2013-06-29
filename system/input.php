@@ -28,7 +28,10 @@ class Input {
 	public static function detect($method) {
 		switch($method) {
 			case 'GET':
-				$query = parse_url(Arr::get($_SERVER, 'REQUEST_URI'), PHP_URL_QUERY);
+				if( ! $query = Arr::get($_SERVER, 'QUERY_STRING')) {
+					$uri = Arr::get($_SERVER, 'REQUEST_URI');
+					$query = parse_url($uri, PHP_URL_QUERY);
+				}
 				parse_str($query, static::$array);
 				break;
 
@@ -48,7 +51,9 @@ class Input {
 	 * @param mixed
 	 * @return mixed
 	 */
-	public static function get($key, $fallback = null) {
+	public static function get($key = null, $fallback = null) {
+		if(is_null($key)) return static::$array;
+
 		if(is_array($key)) return static::get_array($key, $fallback);
 
 		return Arr::get(static::$array, $key, $fallback);

@@ -65,9 +65,15 @@ class Route {
 		}
 
 		// add collection actions
-		$arguments = array_merge($arguments, (array) end(static::$collection));
+		if(count(static::$collection)) {
+			$arguments = array_merge($arguments, end(static::$collection));
+		}
 
-		foreach((array) $patterns as $pattern) {
+		if( ! is_array($patterns)) {
+			$patterns = array($patterns);
+		}
+
+		foreach($patterns as $pattern) {
 			Router::$routes[$method][$pattern] = $arguments;
 		}
 	}
@@ -127,28 +133,33 @@ class Route {
 	 * Calls before actions
 	 *
 	 * @return object
+	 * @return object|null
 	 */
 	public function before() {
-		if( ! isset($this->callbacks['before'])) return;
-
-		foreach(explode(',', $this->callbacks['before']) as $action) {
-			// return the first response object
-			if($response = call_user_func_array(Router::$actions[$action], $this->args)) {
-				return $response;
-			}
-		}
+		return $this->callback(__METHOD__);
 	}
 
 	/**
 	 * Calls after actions
 	 *
 	 * @param string
+	 * @return object|null
 	 */
 	public function after($response) {
-		if( ! isset($this->callbacks['after'])) return;
+		return $this->callback(__METHOD__);
+	}
 
-		foreach(explode(',', $this->callbacks['after']) as $action) {
-			call_user_func(Router::$actions[$action], $response);
+	/**
+	 * Run actions
+	 *
+	 * @param string
+	 * @return object|null
+	 */
+	public function callback($name) {
+		if(isset($this->callbacks[$name])) {
+			foreach(explode(',', $this->callbacks[$name]) as $action) {
+				return call_user_func(Router::$actions[$action], $response);
+			}
 		}
 	}
 

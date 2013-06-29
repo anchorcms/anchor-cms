@@ -26,7 +26,7 @@ class Report {
 		// clear output buffer
 		ob_get_level() and ob_end_clean();
 
-		if(Request::cli()) {
+		if(defined('STDIN')) {
 			return new Cli($exception, $detailed);
 		}
 

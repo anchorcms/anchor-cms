@@ -65,15 +65,6 @@ class Router {
 	 * @return object
 	 */
 	public static function create() {
-		if(Request::cli()) {
-			// get cli arguments
-			$args = Arr::get($_SERVER, 'argv', array());
-
-			$uri = implode('/', array_slice($args, 1));
-
-			return new static('cli', trim($uri, '/') ?: '/');
-		}
-
 		return new static(Request::method(), Uri::current());
 	}
 

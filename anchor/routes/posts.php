@@ -10,7 +10,6 @@ Route::collection(array('before' => 'auth'), function() {
 		$total = Post::count();
 		$posts = Post::sort('created', 'desc')->take($perpage)->skip(($page - 1) * $perpage)->get();
 		$url = Uri::to('admin/posts');
-
 		$pagination = new Paginator($posts, $total, $page, $perpage, $url);
 
 		$vars['messages'] = Notify::read();

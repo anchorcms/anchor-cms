@@ -1,4 +1,4 @@
-<?php
+<?php namespace System;
 
 /**
  * Nano
@@ -13,8 +13,8 @@
 /**
  * Check php version
  */
-if(version_compare(PHP_VERSION, '5.3.6') < 0) {
-	echo 'We need PHP 5.3.6 or higher, you are running ' . PHP_VERSION;
+if(version_compare(PHP_VERSION, '5.3') < 0) {
+	echo 'We need PHP 5.3 or higher, you are running ' . PHP_VERSION;
 	exit;
 }
 
@@ -58,16 +58,16 @@ require PATH . 'system/autoloader' . EXT;
 /**
  * Register the autoloader
  */
-System\Autoloader::register();
+Autoloader::register();
 
 // set the base path to search
-System\Autoloader::directory(PATH);
+Autoloader::directory(PATH);
 
 // map application aliases to autoloader so we dont
 // have to fully specify the class namespaces each time.
-System\Autoloader::$aliases = (array) System\Config::aliases();
+Autoloader::$aliases = Config::get('aliases', array());
 
 /**
  * Error handling
  */
-System\Error::register();
+Error::register();

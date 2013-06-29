@@ -6,15 +6,16 @@
 		</style>
 	</head>
 	<body>
+		<h1>Uncaught Exception</h1>
+
 		<div class="exception">
 			<span class="message">{{message}}</span><br>
 		</div>
-		<div class="rows">
-			<div class="trace">{{trace}}</div>
-			<div class="context">
-				<div class="source"><em>{{file}}</em> : <strong>{{line}}</strong></div>
-				<div class="snippet">{{context}}</div>
-			</div>
+
+		<h2>Stack Trace</h2>
+
+		<div class="frames">
+			{{frames}}
 		</div>
 	</body>
 </html>
