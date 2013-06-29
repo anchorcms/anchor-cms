@@ -92,7 +92,7 @@ function category_url() {
  * @return string
  */
 function category_count() {
-	return Query::table(Base::table('posts'))
+	return Query::table('posts')
 		->where('category', '=', category_id())
 		->where('status', '=', 'published')->count();
 }

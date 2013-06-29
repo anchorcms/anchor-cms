@@ -49,7 +49,7 @@ Route::collection(array('before' => 'auth'), function() {
 		$input['description'] = htmlspecialchars($input['description'], ENT_COMPAT, Config::app('encoding'), false);
 
 		foreach($input as $key => $value) {
-			Query::table(Base::table('meta'))->where('key', '=', $key)->update(array('value' => $value));
+			Query::table('meta')->where('key', '=', $key)->update(array('value' => $value));
 		}
 
 		Notify::success(__('metadata.updated'));
