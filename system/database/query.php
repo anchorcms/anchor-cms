@@ -118,6 +118,15 @@ class Query extends Builder {
 	}
 
 	/**
+	 * Returns the table name when the class is stringified
+	 *
+	 * @return string
+	 */
+	public function __toString(){
+		return $this->table;
+	}
+
+	/**
 	 * Set the class name for fetch queries, return self for chaining
 	 *
 	 * @param string
