@@ -20,7 +20,7 @@ class Template extends View {
 	}
 
 	public function __toString() {
-		return $this->yield();
+		return $this->render();
 	}
 
 }

@@ -69,7 +69,7 @@ class View {
 	 * @return string
 	 */
 	public function partial($name, $path, $vars = array()) {
-		$this->vars[$name] = static::create($path, $vars)->yield();
+		$this->vars[$name] = static::create($path, $vars)->render();
 
 		return $this;
 	}
@@ -79,7 +79,7 @@ class View {
 	 *
 	 * @return string
 	 */
-	public function yield() {
+	public function render() {
 		ob_start();
 
 		extract($this->vars);

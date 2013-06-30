@@ -70,7 +70,7 @@ class Response {
 	 * @return object
 	 */
 	public static function error($status, $vars = array()) {
-		return static::create(View::create('error/' . $status, $vars)->yield(), $status);
+		return static::create(View::create('error/' . $status, $vars)->render(), $status);
 	}
 
 	/**

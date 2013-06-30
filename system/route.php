@@ -187,7 +187,7 @@ class Route {
 
 		// If the response was a view get the output and create response
 		if($response instanceof View) {
-			$response = $response->yield();
+			$response = $response->render();
 		}
 		// Invoke object tostring method
 		elseif(is_object($response) and method_exists($response, '__toString')) {
