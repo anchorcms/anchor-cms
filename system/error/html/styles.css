@@ -20,8 +20,13 @@ body{
 		font-size: 16px;
 	}
 
+	.exception .info {
+		color: #ddd;
+	}
+
 .context {
 	margin-bottom: 1em;
+	border-radius: 3px;
 }
 
 	.context .snippet {
@@ -64,4 +69,8 @@ body{
 		background: #F5F5F5;
 		color: #2a2a2a;
 		font-size: 14px;
+	}
+
+	.context.trigger .source {
+		background: #ccc;
 	}

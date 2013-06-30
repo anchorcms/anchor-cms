@@ -63,7 +63,7 @@ class Installer {
 			'prefix' => $database['prefix']
 		));
 
-		static::$connection->instance()->query($sql);
+		static::$connection->instance()->ask($sql);
 	}
 
 	private static function metadata($settings) {
@@ -76,7 +76,7 @@ class Installer {
 			'theme' => $metadata['theme']
 		);
 
-		$query = Query::table($database['prefix'] . 'meta', static::$connection);
+		$query = Query::table('meta', static::$connection);
 
 		foreach($config as $key => $value) {
 			$query->insert(array('key' => $key, 'value' => $value));
@@ -87,7 +87,7 @@ class Installer {
 		$account = $settings['account'];
 		$database = $settings['database'];
 
-		$query = Query::table($database['prefix'] . 'users', static::$connection);
+		$query = Query::table('users', static::$connection);
 
 		$query->insert(array(
 			'username' => $account['username'],

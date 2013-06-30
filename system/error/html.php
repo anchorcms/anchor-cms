@@ -95,7 +95,12 @@ class Html extends Message {
 		}
 
 		$html = file_get_contents(SYS . 'error/html/frame.html');
-		$vars = array('{{file}}' => $file, '{{line}}' => $line, '{{context}}' => $context);
+		$vars = array(
+			'{{file}}' => $file,
+			'{{line}}' => $line,
+			'{{context}}' => $context,
+			'{{trigger}}' => ($frame['file'] == $this->exception->getFile()) ? 'trigger' : ''
+		);
 
 		return str_replace(array_keys($vars), array_values($vars), $html);
 	}
@@ -106,10 +111,13 @@ class Html extends Message {
 	public function response() {
 		if($this->detailed) {
 			$html = file_get_contents(SYS . 'error/html/body.html');
+			$file = substr($this->exception->getFile(), strlen(PATH));
 
 			$vars = array(
 				'{{styles}}' => file_get_contents(SYS . 'error/html/styles.css'),
 				'{{message}}' => $this->exception->getMessage(),
+				'{{file}}' => $file,
+				'{{line}}' => $this->exception->getLine(),
 				'{{frames}}' => $this->frames(),
 			);
 
