@@ -48,7 +48,8 @@ class Installer {
 			'port' => $database['port'],
 			'username' => $database['user'],
 			'password' => $database['pass'],
-			'charset' => 'utf8'
+			'charset' => 'utf8',
+			'prefix' => $database['prefix']
 		);
 
 		static::$connection = DB::factory($config);
