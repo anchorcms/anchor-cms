@@ -240,7 +240,7 @@ Route::collection(array('before' => 'auth'), function() {
 
 		Comment::where('post', '=', $id)->delete();
 
-		Query::table(Base::table('post_meta'))->where('post', '=', $id)->delete();
+		Query::table('post_meta')->where('post', '=', $id)->delete();
 
 		Notify::success(__('posts.deleted'));
 

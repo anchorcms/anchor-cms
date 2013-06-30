@@ -11,7 +11,7 @@ Route::collection(array('before' => 'auth'), function() {
 
 		$variables = array();
 
-		foreach(Query::table(Base::table('meta'))->sort('key')->get() as $meta) {
+		foreach(Query::table('meta')->sort('key')->get() as $meta) {
 			if(strpos($meta->key, 'custom_') === 0) $variables[] = $meta;
 		}
 
@@ -43,7 +43,7 @@ Route::collection(array('before' => 'auth'), function() {
 
 		$validator->add('valid_key', function($str) {
 			if(strlen($str) > 7) {
-				return Query::table(Base::table('meta'))
+				return Query::table('meta')
 					->where('key', '=', $str)
 					->count() == 0;
 			}
@@ -64,7 +64,7 @@ Route::collection(array('before' => 'auth'), function() {
 			return Response::redirect('admin/extend/variables/add');
 		}
 
-		Query::table(Base::table('meta'))->insert($input);
+		Query::table('meta')->insert($input);
 
 		Notify::success(__('extend.variable_created'));
 
@@ -77,7 +77,7 @@ Route::collection(array('before' => 'auth'), function() {
 	Route::get('admin/extend/variables/edit/(:any)', function($key) {
 		$vars['messages'] = Notify::read();
 		$vars['token'] = Csrf::token();
-		$vars['variable'] = Query::table(Base::table('meta'))->where('key', '=', $key)->fetch();
+		$vars['variable'] = Query::table('meta')->where('key', '=', $key)->fetch();
 
 		// remove prefix
 		$vars['variable']->user_key = substr($vars['variable']->key, strlen('custom_'));
@@ -99,7 +99,7 @@ Route::collection(array('before' => 'auth'), function() {
 			if($str == $key) return true;
 
 			// check the new key $str is available
-			return Query::table(Base::table('meta'))->where('key', '=', $str)->count() == 0;
+			return Query::table('meta')->where('key', '=', $str)->count() == 0;
 		});
 
 		$validator->check('key')
@@ -115,7 +115,7 @@ Route::collection(array('before' => 'auth'), function() {
 			return Response::redirect('admin/extend/variables/edit/' . $key);
 		}
 
-		Query::table(Base::table('meta'))->where('key', '=', $key)->update($input);
+		Query::table('meta')->where('key', '=', $key)->update($input);
 
 		Notify::success(__('extend.variable_updated'));
 
@@ -126,7 +126,7 @@ Route::collection(array('before' => 'auth'), function() {
 		Delete Var
 	*/
 	Route::get('admin/extend/variables/delete/(:any)', function($key) {
-		Query::table(Base::table('meta'))->where('key', '=', $key)->delete();
+		Query::table('meta')->where('key', '=', $key)->delete();
 
 		Notify::success(__('extend.variable_deleted'));
 
