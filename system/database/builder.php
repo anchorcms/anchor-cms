@@ -73,8 +73,10 @@ abstract class Builder {
 	 * @return string
 	 */
 	public function wrap_table($value) {
-		if(strpos($value, $this->connection->table_prefix) === 0) {
-			return $this->wrap_value($value);
+		if($this->connection->table_prefix) {
+			if(strpos($value, $this->connection->table_prefix) === 0) {
+				return $this->wrap_value($value);
+			}
 		}
 
 		return $this->wrap_value($this->connection->table_prefix . $value);

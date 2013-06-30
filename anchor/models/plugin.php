@@ -80,7 +80,7 @@ class Plugin extends Base {
 		$path = PATH . static::$folder . DS . $this->path . DS . 'functions' . EXT;
 
 		if(file_exists($path)) {
-			return require $path;
+			return require_once $path;
 		}
 	}
 
@@ -92,9 +92,13 @@ class Plugin extends Base {
 
 		if(file_exists($path)) {
 			try {
-				if( ! class_exists($this->path, false)) require $path;
+				$class = preg_replace('/\W+/', '', $this->path);
 
-				$ref = new ReflectionClass($this->path);
+				if( ! class_exists($class, false)) {
+					require $path;
+				}
+
+				$ref = new ReflectionClass($class);
 
 				$instance = $ref->newInstance();
 

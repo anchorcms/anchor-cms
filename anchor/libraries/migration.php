@@ -8,8 +8,10 @@ abstract class Migration {
 		$default = Config::db('default');
 		$prefix = Config::db('connections.' . $default . '.prefix');
 
-		if(strpos($name, $prefix) === 0) {
-			return $name;
+		if($prefix) {
+			if(strpos($name, $prefix) === 0) {
+				return $name;
+			}
 		}
 
 		return $prefix . $name;
