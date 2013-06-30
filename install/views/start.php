@@ -32,13 +32,8 @@
 					<span class="info">Your current time zone.</span>
 				</label>
 				<select id="timezone" name="timezone">
-					<?php $set = false; ?>
-					<?php foreach($timezones as $zone): ?>
-					<?php $selected = ($set === false and $current_timezone == $zone['offset']) ? ' selected' : ''; ?>
-					<option value="<?php echo $zone['timezone_id']; ?>"<?php echo $selected; ?>>
-						<?php echo $zone['label']; ?>
-					</option>
-					<?php if($selected) $set = true; ?>
+					<?php foreach($timezones as $ident): ?>
+					<option value="<?php echo $ident; ?>"><?php echo $ident; ?></option>
 					<?php endforeach; ?>
 				</select>
 			</p>

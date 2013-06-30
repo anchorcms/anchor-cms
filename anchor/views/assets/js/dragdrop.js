@@ -115,9 +115,21 @@ $(function() {
 
 	var complete = function() {
 		if(['text/x-markdown'].indexOf(this.file.type) !== -1) {
-			var textarea = $('.main textarea'), value = textarea.val();
+			var textarea = $('.main textarea');
 
 			textarea.val(this.result).trigger('keydown');
+		}
+
+		if(['text/javascript', 'application/javascript'].indexOf(this.file.type) !== -1) {
+			var textarea = $('textarea[name=js]');
+
+			textarea.val(this.result);
+		}
+
+		if(['text/css'].indexOf(this.file.type) !== -1) {
+			var textarea = $('textarea[name=css]');
+
+			textarea.val(this.result);
 		}
 
 		if(['image/jpeg', 'image/gif', 'image/png'].indexOf(this.file.type) !== -1) {

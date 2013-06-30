@@ -16,18 +16,11 @@ use System\Database\Connector;
 class Mysql extends Connector {
 
 	/**
-	 * The mysql left wrapper
+	 * The mysql wrapper
 	 *
 	 * @var string
 	 */
-	public $lwrap = '`';
-
-	/**
-	 * The mysql right wrapper
-	 *
-	 * @var string
-	 */
-	public $rwrap = '`';
+	public $wrapper = '`%s`';
 
 	/**
 	 * Create a new mysql connector

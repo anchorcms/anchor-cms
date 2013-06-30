@@ -69,24 +69,80 @@ class Installer {
 
 	private static function metadata($settings) {
 		$metadata = $settings['metadata'];
-		$database = $settings['database'];
 
-		$config = array(
+		// insert basic meta data
+		$meta = array(
+			'auto_published_comments' => 0,
+			'comment_moderation_keys' => '',
+			'comment_notifications' => 0,
+			'date_format' => 'jS M, Y',
+			'home_page' => '1',
+			'posts_page' => '1',
+			'posts_per_page' => '10',
+			'admin_posts_per_page' => '6',
+
 			'sitename' => $metadata['site_name'],
 			'description' => $metadata['site_description'],
 			'theme' => $metadata['theme']
 		);
 
-		$query = Query::table('meta', static::$connection);
+		foreach($meta as $key => $value) {
+			$query = Query::table('meta', static::$connection)->where('key', '=', $key);
 
-		foreach($config as $key => $value) {
-			$query->insert(array('key' => $key, 'value' => $value));
+			if($query->count() == 0) {
+				$query->insert(compact('key', 'value'));
+			}
+		}
+
+		// create the first category
+		$query = Query::table('categories', static::$connection);
+
+		if($query->count() == 0) {
+			$query->insert(array(
+				'title' => 'Uncategorised',
+				'slug' => 'uncategorised',
+				'description' => 'Ain\'t no category here.'
+			));
+		}
+
+		// create the first page
+		$query = Query::table('pages', static::$connection);
+
+		if($query->count() == 0) {
+			$query->insert(array(
+				'slug' => 'posts',
+				'name' => 'Posts',
+				'title' => 'My posts and thoughts',
+				'content' => 'Welcome!',
+				'status' => 'published',
+				'redirect' => '',
+				'show_in_menu' => 1,
+				'menu_order' => 0
+			));
+		}
+
+		// create the first post
+		$query = Query::table('posts', static::$connection);
+
+		if($query->count() == 0) {
+			$query->insert(array(
+				'title' => 'Hello World',
+				'slug' => 'hello-world',
+				'description' => 'This is the first post.',
+				'html' => 'Hello World!\r\n\r\nThis is the first post.',
+				'css' => '',
+				'js' => '',
+				'created' => gmdate('Y-m-d H:i:s'),
+				'author' => 1,
+				'category' => 1,
+				'status' => 'published',
+				'comments' => 0
+			));
 		}
 	}
 
 	private static function account($settings) {
 		$account = $settings['account'];
-		$database = $settings['database'];
 
 		$query = Query::table('users', static::$connection);
 
@@ -129,10 +185,8 @@ class Installer {
 	}
 
 	private static function session($settings) {
-		$database = $settings['database'];
-
 		$distro = Braces::compile(APP . 'storage/session.distro.php', array(
-			'table' => $database['prefix'] . 'sessions'
+			'table' => 'sessions'
 		));
 
 		file_put_contents(PATH . 'anchor/config/session.php', $distro);

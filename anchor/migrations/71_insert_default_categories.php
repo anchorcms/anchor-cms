@@ -3,7 +3,7 @@
 class Migration_insert_default_categories extends Migration {
 
 	public function up() {
-		$table = Base::table('categories');
+		$table = $this->prefix('categories');
 
 		if($this->has_table($table)) {
 			if( ! Query::table($table)->count()) {

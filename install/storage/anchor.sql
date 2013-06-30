@@ -1,4 +1,4 @@
-CREATE TABLE `{{prefix}}categories` (
+CREATE TABLE IF NOT EXISTS `{{prefix}}categories` (
   `id` int(6) NOT NULL AUTO_INCREMENT,
   `title` varchar(150) NOT NULL,
   `slug` varchar(40) NOT NULL,
@@ -6,7 +6,7 @@ CREATE TABLE `{{prefix}}categories` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB CHARSET={{charset}};
 
-CREATE TABLE `{{prefix}}comments` (
+CREATE TABLE IF NOT EXISTS `{{prefix}}comments` (
   `id` int(6) NOT NULL AUTO_INCREMENT,
   `post` int(6) NOT NULL,
   `status` enum('pending','approved','spam') NOT NULL,
@@ -19,7 +19,7 @@ CREATE TABLE `{{prefix}}comments` (
   KEY `status` (`status`)
 ) ENGINE=InnoDB CHARSET={{charset}};
 
-CREATE TABLE `{{prefix}}extend` (
+CREATE TABLE IF NOT EXISTS `{{prefix}}extend` (
   `id` int(6) NOT NULL AUTO_INCREMENT,
   `type` enum('post','page') NOT NULL,
   `field` enum('text','html','image','file','bool') NOT NULL,
@@ -29,13 +29,13 @@ CREATE TABLE `{{prefix}}extend` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB CHARSET={{charset}};
 
-CREATE TABLE `{{prefix}}meta` (
+CREATE TABLE IF NOT EXISTS `{{prefix}}meta` (
   `key` varchar(140) NOT NULL,
   `value` text NOT NULL,
   PRIMARY KEY (`key`)
 ) ENGINE=InnoDB CHARSET={{charset}};
 
-CREATE TABLE `{{prefix}}page_meta` (
+CREATE TABLE IF NOT EXISTS `{{prefix}}page_meta` (
   `id` int(6) NOT NULL AUTO_INCREMENT,
   `page` int(6) NOT NULL,
   `extend` int(6) NOT NULL,
@@ -45,7 +45,7 @@ CREATE TABLE `{{prefix}}page_meta` (
   KEY `extend` (`extend`)
 ) ENGINE=InnoDB CHARSET={{charset}};
 
-CREATE TABLE `{{prefix}}pages` (
+CREATE TABLE IF NOT EXISTS `{{prefix}}pages` (
   `id` int(6) NOT NULL AUTO_INCREMENT,
   `slug` varchar(150) NOT NULL,
   `name` varchar(64) NOT NULL,
@@ -60,7 +60,7 @@ CREATE TABLE `{{prefix}}pages` (
   KEY `slug` (`slug`)
 ) ENGINE=InnoDB CHARSET={{charset}};
 
-CREATE TABLE `{{prefix}}post_meta` (
+CREATE TABLE IF NOT EXISTS `{{prefix}}post_meta` (
   `id` int(6) NOT NULL AUTO_INCREMENT,
   `post` int(6) NOT NULL,
   `extend` int(6) NOT NULL,
@@ -70,7 +70,7 @@ CREATE TABLE `{{prefix}}post_meta` (
   KEY `extend` (`extend`)
 ) ENGINE=InnoDB CHARSET={{charset}};
 
-CREATE TABLE `{{prefix}}posts` (
+CREATE TABLE IF NOT EXISTS `{{prefix}}posts` (
   `id` int(6) NOT NULL AUTO_INCREMENT,
   `title` varchar(150) NOT NULL,
   `slug` varchar(150) NOT NULL,
@@ -88,14 +88,14 @@ CREATE TABLE `{{prefix}}posts` (
   KEY `slug` (`slug`)
 ) ENGINE=InnoDB CHARSET={{charset}};
 
-CREATE TABLE `{{prefix}}sessions` (
+CREATE TABLE IF NOT EXISTS `{{prefix}}sessions` (
   `id` char(32) NOT NULL,
   `expire` int(10) NOT NULL,
   `data` text NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB CHARSET={{charset}};
 
-CREATE TABLE `{{prefix}}users` (
+CREATE TABLE IF NOT EXISTS `{{prefix}}users` (
   `id` int(6) NOT NULL AUTO_INCREMENT,
   `username` varchar(100) NOT NULL,
   `password` text NOT NULL,
@@ -107,7 +107,7 @@ CREATE TABLE `{{prefix}}users` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB CHARSET={{charset}};
 
-CREATE TABLE `{{prefix}}plugins` (
+CREATE TABLE IF NOT EXISTS `{{prefix}}plugins` (
   `id` int(6) NOT NULL AUTO_INCREMENT,
   `path` varchar(180) NOT NULL,
   `name` varchar(180) NOT NULL,
@@ -115,22 +115,3 @@ CREATE TABLE `{{prefix}}plugins` (
   `version` varchar(80) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET={{charset}};
-
-INSERT INTO `{{prefix}}categories` (`title`, `slug`, `description`) VALUES
-('Uncategorised', 'uncategorised', 'Ain\'t no category here.');
-
-INSERT INTO `{{prefix}}meta` (`key`, `value`) VALUES
-('auto_published_comments', '0'),
-('comment_moderation_keys', ''),
-('comment_notifications', '0'),
-('date_format', 'jS M, Y'),
-('home_page', '1'),
-('posts_page', '1'),
-('posts_per_page', '10');
-('admin_posts_per_page', '6');
-
-INSERT INTO `{{prefix}}pages` (`slug`, `name`, `title`, `content`, `status`, `redirect`, `show_in_menu`, `menu_order`) VALUES
-('posts', 'Posts', 'My posts and thoughts', 'Welcome!', 'published', '', '1', '0');
-
-INSERT INTO `{{prefix}}posts` (`title`, `slug`, `description`, `html`, `css`, `js`, `created`, `author`, `category`, `status`, `comments`) VALUES
-('Hello World', 'hello-world', 'This is the first post.', 'Hello World!\r\n\r\nThis is the first post.', '', '', '{{now}}', '1', '1', 'published', '0');

@@ -45,12 +45,5 @@
 			<h1>Welcome to Anchor. Let’s go.</h1>
 			<a href="<?php echo $base . '/install/index.php'; ?>">Run the installer</a>
 		</div>
-
-		<script>
-			(function(d) {
-				var v = new Date().getTimezoneOffset();
-				d.cookie = "anchor-install-timezone=" + v + "; path=/";
-			}(document));
-		</script>
 	</body>
 </html>

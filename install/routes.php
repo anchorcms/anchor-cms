@@ -15,9 +15,7 @@ Route::get(array('/', 'start'), array('before' => 'check', 'main' => function() 
 
 	$vars['languages'] = languages();
 	$vars['prefered_languages'] = prefered_languages();
-
 	$vars['timezones'] = timezones();
-	$vars['current_timezone'] = current_timezone();
 
 	return Layout::create('start', $vars);
 }));
@@ -108,7 +106,7 @@ Route::post('database', array('before' => 'check', 'main' => function() {
 
 		return Response::redirect('database');
 	}
-	
+
 	foreach($database as $key => $val) {
 	    $database[$key] = str_replace('\'', '\\\'', $val);
 	}

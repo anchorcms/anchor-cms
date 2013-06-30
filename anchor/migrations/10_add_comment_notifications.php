@@ -3,14 +3,14 @@
 class Migration_add_comment_notifications extends Migration {
 
 	public function up() {
-		$table = Base::table('meta');
+		$table = $this->prefix('meta');
 
 		if($this->has_table($table)) {
-			if( ! Query::table($table)->where('key', '=', 'comment_notifications')->count()) {
-				Query::table($table)->insert(array(
-					'key' => 'comment_notifications',
-					'value' => 0
-				));
+			$key = 'comment_notifications';
+			$query = Query::table($table)->where('key', '=', $key);
+
+			if($query->count() == 0) {
+				Query::table($table)->insert(array('key' => $key, 'value' => 0));
 			}
 		}
 	}

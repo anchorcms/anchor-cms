@@ -4,6 +4,17 @@ abstract class Migration {
 	abstract public function up();
 	abstract public function down();
 
+	public function prefix($name) {
+		$default = Config::db('default');
+		$prefix = Config::db('connections.' . $default . '.prefix');
+
+		if(strpos($name, $prefix) === 0) {
+			return $name;
+		}
+
+		return $prefix . $name;
+	}
+
 	public function has_table($table) {
 		$default = Config::db('default');
 		$db = Config::db('connections.' . $default . '.database');

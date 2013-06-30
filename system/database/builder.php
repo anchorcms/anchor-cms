@@ -73,6 +73,10 @@ abstract class Builder {
 	 * @return string
 	 */
 	public function wrap_table($value) {
+		if(strpos($value, $this->connection->table_prefix) === 0) {
+			return $this->wrap_value($value);
+		}
+
 		return $this->wrap_value($this->connection->table_prefix . $value);
 	}
 
@@ -83,11 +87,7 @@ abstract class Builder {
 	 * @return string
 	 */
 	public function wrap_value($value) {
-		// trim left if already escaped
-		$value = $this->connection->lwrap . ltrim($value, $this->connection->lwrap);
-
-		// trim right if already escaped
-		return rtrim($value, $this->connection->rwrap) . $this->connection->rwrap;
+		return sprintf($this->connection->wrapper, $value);
 	}
 
 	/**

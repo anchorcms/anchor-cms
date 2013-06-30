@@ -16,18 +16,11 @@ use System\Database\Connector;
 class Sqlite extends Connector {
 
 	/**
-	 * The sqlite left wrapper
+	 * The sqlite wrapper
 	 *
 	 * @var string
 	 */
-	public $lwrap = '[';
-
-	/**
-	 * The sqlite right wrapper
-	 *
-	 * @var string
-	 */
-	public $rwrap = ']';
+	public $wrapper = '[%s]';
 
 	/**
 	 * Create a new sqlite connector

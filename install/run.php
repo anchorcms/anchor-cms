@@ -15,6 +15,7 @@ switch(constant('ENV')) {
 		break;
 
 	default:
+		ini_set('display_errors', true);
 		error_reporting(E_ERROR | E_WARNING | E_PARSE | E_NOTICE);
 }
 
@@ -38,47 +39,7 @@ if($route = Arr::get($_GET, 'route', '/')) {
 	Helper functions
 */
 function timezones() {
-	$list = DateTimeZone::listAbbreviations();
-	$idents = DateTimeZone::listIdentifiers();
-
-	$data = array();
-
-	foreach($list as $key => $zones) {
-		foreach($zones as $id => $zone) {
-			if($zone['timezone_id'] and in_array($zone['timezone_id'], $idents)) {
-				$offset = round(abs($zone['offset'] / 3600));
-				$sign = $zone['offset'] > 0 ? '+' : '-';
-
-				if($offset == 0) {
-					$sign = ' ';
-					$offset = '';
-				}
-
-				$zone['label'] = 'GMT' . $sign . $offset . ' '  . $zone['timezone_id'];
-
-				$data[$zone['offset']][$zone['timezone_id']] = $zone;
-			}
-		}
-	}
-
-	ksort($data);
-
-	$timezones = array();
-
-	foreach($data as $offsets) {
-
-		ksort($offsets);
-
-		foreach($offsets as $zone) {
-			$timezones[] = $zone;
-		}
-	}
-
-	return $timezones;
-}
-
-function current_timezone() {
-	return Cookie::read('anchor-install-timezone', 0) * 3600;
+	return DateTimeZone::listIdentifiers(DateTimeZone::ALL);
 }
 
 function languages() {
