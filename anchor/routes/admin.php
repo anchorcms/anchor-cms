@@ -161,7 +161,9 @@ Route::post('admin/reset/(:any)', array('before' => 'csrf', 'main' => function($
 		return Response::redirect('admin/reset/' . $key);
 	}
 
-	User::update($user, array('password' => Hash::make($password)));
+	User::update($user, array(
+		'password' => password_hash($password, PASSWORD_BCRYPT)
+	));
 
 	Session::erase('user');
 	Session::erase('token');

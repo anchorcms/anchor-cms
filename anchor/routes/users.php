@@ -73,7 +73,7 @@ Route::collection(array('before' => 'auth'), function() {
 		}
 
 		if($password_reset) {
-			$input['password'] = Hash::make($input['password']);
+			$input['password'] = password_hash($input['password'], PASSWORD_BCRYPT);
 		}
 
 		User::update($id, $input);
@@ -128,7 +128,7 @@ Route::collection(array('before' => 'auth'), function() {
 			return Response::redirect('admin/users/add');
 		}
 
-		$input['password'] = Hash::make($input['password']);
+		$input['password'] = password_hash($input['password'], PASSWORD_BCRYPT);
 
 		User::create($input);
 

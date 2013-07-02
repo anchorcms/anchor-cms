@@ -37,6 +37,8 @@ function categories() {
 		// move to next
 		$items->next();
 	}
+	// back to the start
+	else $items->rewind();
 
 	return $result;
 }

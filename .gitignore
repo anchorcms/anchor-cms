@@ -4,6 +4,9 @@ Thumbs.db
 *.esproj
 *.log
 *.gz
+composer.lock
+anchor/vendor/*
+!anchor/vendor/.gitkeep
 
 # env
 /anchor/config/dev

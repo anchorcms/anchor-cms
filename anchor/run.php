@@ -27,6 +27,11 @@ Autoloader::directory(array(
 ));
 
 /**
+ * Load password hash compat
+ */
+require APP . 'libraries/password' . EXT;
+
+/**
  * Helpers
  */
 require APP . 'helpers' . EXT;

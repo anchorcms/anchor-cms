@@ -10,12 +10,10 @@
 			"email": "rwarasaurus@gmail.com"
 		}
 	],
+	"config": {
+		"vendor-dir": "anchor/vendor"
+	},
 	"require": {
 		"php": ">=5.3.6"
-	},
-	"extra": {
-		"installer-paths": {
-			"anchor/vendor/{$name}": ["vendor/package"]
-		}
 	}
 }
