@@ -126,7 +126,7 @@ INSERT INTO `{{prefix}}meta` (`key`, `value`) VALUES
 ('date_format', 'jS M, Y'),
 ('home_page', '1'),
 ('posts_page', '1'),
-('posts_per_page', '10');
+('posts_per_page', '10'),
 ('admin_posts_per_page', '6');
 
 INSERT INTO `{{prefix}}pages` (`slug`, `name`, `title`, `content`, `status`, `redirect`, `show_in_menu`, `menu_order`) VALUES
