@@ -17,7 +17,9 @@ function has_posts() {
  * @return bool
  */
 function posts() {
-	if($posts = Registry::get('posts') and is_object($posts)) {
+	$posts = Registry::get('posts');
+
+	if($posts instanceof Items) {
 		if($result = $posts->valid()) {
 			// register single post
 			Registry::set('article', $posts->current());
@@ -30,7 +32,7 @@ function posts() {
 
 		return $result;
 	}
-	
+
 	return false;
 }
 

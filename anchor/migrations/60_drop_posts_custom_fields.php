@@ -1,6 +1,6 @@
 <?php
 
-class Migration_drop_posts_custom_fields extends Migration {
+class Migration_drop_posts_custom_fields extends Migrations\Migration {
 
 	public function up() {
 		$table = $this->prefix('post_meta');

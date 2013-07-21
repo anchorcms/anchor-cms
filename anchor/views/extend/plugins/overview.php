@@ -5,10 +5,14 @@
 </hgroup>
 
 <section class="wrap">
-	<fieldset class="split">
-		<p><?php echo $info['description']; ?></p>
-		<p><code>Version <?php echo $info['version']; ?></code></p>
-	</fieldset>
+	<?php echo $messages; ?>
+
+	<nav class="sidebar">
+		<?php echo Html::link('test'); ?>
+	</nav>
+
+	<p><?php echo $info['description']; ?></p>
+	<p><code>Version <?php echo $info['version']; ?></code></p>
 
 	<aside class="buttons">
 	<?php if($plugin): ?>

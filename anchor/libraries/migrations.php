@@ -9,7 +9,7 @@ class Migrations {
 	}
 
 	public function files($reverse = false) {
-		$iterator = new FilesystemIterator(APP . 'migrations', FilesystemIterator::SKIP_DOTS);
+		$iterator = new Filesystem(APP . 'migrations', Filesystem::SKIP_DOTS);
 		$files = array();
 
 		foreach($iterator as $file) {

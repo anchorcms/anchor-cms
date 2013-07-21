@@ -1,6 +1,6 @@
 <?php
 
-class Migration_drop_sessions_ua extends Migration {
+class Migration_drop_sessions_ua extends Migrations\Migration {
 
 	public function up() {
 		$table = $this->prefix('sessions');

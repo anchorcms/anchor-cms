@@ -1,6 +1,6 @@
 <?php
 
-class Migration_rename_config_files extends Migration {
+class Migration_rename_config_files extends Migrations\Migration {
 
 	public function up() {
 		if(is_writable($src = APP . 'config/application.php')) {

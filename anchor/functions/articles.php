@@ -82,34 +82,50 @@ function article_description() {
 }
 
 /**
- * Returns the article content
- * (raw content that was entered into the database)
+ * Returns the article description or the first n characters on the content
+ * if there is no description
+ *
+ * @param int
+ * @param string
+ * @return string
+ */
+function article_excerpt($word_length = 50, $elips = '...') {
+	$content = Registry::prop('article', 'description');
+
+	if(empty($content)) {
+		$content = Registry::prop('article', 'html');
+	}
+
+	$words = preg_split('#\s+#', strip_tags($content), $word_length, PREG_SPLIT_NO_EMPTY);
+
+	return implode(' ', $words) . $elips;
+}
+
+/**
+ * Alias article content
  *
  * @return string
  */
 function article_html() {
-	$raw = Registry::prop('article', 'html');
-
-	// swap out shortcodes {{meta_key}}
-	$parsed = parse($raw);
-
-	return $parsed;
+	return article_content();
 }
 
 /**
- * Returns the article markdown
- * (content is parsed with markdown)
+ * Alias article content
  *
  * @return string
  */
 function article_markdown() {
-	$raw = Registry::prop('article', 'html');
+	return article_content();
+}
 
-	// swap out shortcodes {{meta_key}}
-	$parsed = parse($raw);
-
-	$md = new Markdown;
-	return $md->transform($parsed);
+/**
+ * Returns the article content
+ *
+ * @return string
+ */
+function article_content() {
+	return Registry::get('article')->content();
 }
 
 /**
@@ -246,13 +262,7 @@ function article_author_bio() {
  * @return string
  */
 function article_custom_field($key, $default = '') {
-	$id = Registry::prop('article', 'id');
-
-	if($extend = Extend::field('post', $key, $id)) {
-		return Extend::value($extend, $default);
-	}
-
-	return $default;
+	return Registry::get('article')->custom_field($key, $default);
 }
 
 /**

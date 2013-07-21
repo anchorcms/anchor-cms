@@ -1,6 +1,6 @@
 <?php
 
-Route::collection(array('before' => 'auth'), function() {
+Route::collection(array('before' => 'auth,csrf'), function() {
 
 	/*
 		List Fields
@@ -30,29 +30,9 @@ Route::collection(array('before' => 'auth'), function() {
 	});
 
 	Route::post('admin/extend/fields/add', function() {
-		$input = Input::get(array('type', 'field', 'key', 'label', 'attributes'));
+		$input = Input::get(array('data_type', 'field_type', 'key', 'label', 'attributes'));
 
-		if(empty($input['key'])) {
-			$input['key'] = $input['label'];
-		}
-
-		$input['key'] = slug($input['key'], '_');
-
-		$validator = new Validator($input);
-
-		$validator->add('valid_key', function($str) use($input) {
-			return Extend::where('key', '=', $str)
-				->where('type', '=', $input['type'])->count() == 0;
-		});
-
-		$validator->check('key')
-			->is_max(1, __('extend.key_missing'))
-			->is_valid_key(__('extend.key_exists'));
-
-		$validator->check('label')
-			->is_max(1, __('extend.label_missing'));
-
-		if($errors = $validator->errors()) {
+		if($errors = Extend::validate($input)) {
 			Input::flash();
 
 			Notify::error($errors);
@@ -60,27 +40,7 @@ Route::collection(array('before' => 'auth'), function() {
 			return Response::redirect('admin/extend/fields/add');
 		}
 
-		if($input['field'] == 'image') {
-			$attributes = Json::encode($input['attributes']);
-		}
-		else if($input['field'] == 'file') {
-			$attributes = Json::encode(array(
-				'attributes' => array(
-					'type' => $input['attributes']['type']
-				)
-			));
-		}
-		else {
-			$attributes = '';
-		}
-
-		Extend::create(array(
-			'type' => $input['type'],
-			'field' => $input['field'],
-			'key' => $input['key'],
-			'label' => $input['label'],
-			'attributes' => $attributes
-		));
+		Extend::create($input);
 
 		Notify::success(__('extend.field_created'));
 
@@ -108,30 +68,9 @@ Route::collection(array('before' => 'auth'), function() {
 	});
 
 	Route::post('admin/extend/fields/edit/(:num)', function($id) {
-		$input = Input::get(array('type', 'field', 'key', 'label', 'attributes'));
+		$input = Input::get(array('data_type', 'field_type', 'key', 'label', 'attributes'));
 
-		if(empty($input['key'])) {
-			$input['key'] = $input['label'];
-		}
-
-		$input['key'] = slug($input['key'], '_');
-
-		$validator = new Validator($input);
-
-		$validator->add('valid_key', function($str) use($id, $input) {
-			return Extend::where('key', '=', $str)
-				->where('type', '=', $input['type'])
-				->where('id', '<>', $id)->count() == 0;
-		});
-
-		$validator->check('key')
-			->is_max(1, __('extend.key_missing'))
-			->is_valid_key(__('extend.key_exists'));
-
-		$validator->check('label')
-			->is_max(1, __('extend.label_missing'));
-
-		if($errors = $validator->errors()) {
+		if($errors = Extend::validate($input, $id)) {
 			Input::flash();
 
 			Notify::error($errors);
@@ -139,27 +78,7 @@ Route::collection(array('before' => 'auth'), function() {
 			return Response::redirect('admin/extend/fields/add');
 		}
 
-		if($input['field'] == 'image') {
-			$attributes = Json::encode($input['attributes']);
-		}
-		else if($input['field'] == 'file') {
-			$attributes = Json::encode(array(
-				'attributes' => array(
-					'type' => $input['attributes']['type']
-				)
-			));
-		}
-		else {
-			$attributes = '';
-		}
-
-		Extend::update($id, array(
-			'type' => $input['type'],
-			'field' => $input['field'],
-			'key' => $input['key'],
-			'label' => $input['label'],
-			'attributes' => $attributes
-		));
+		Extend::update($id, $input);
 
 		Notify::success(__('extend.field_updated'));
 
@@ -172,7 +91,7 @@ Route::collection(array('before' => 'auth'), function() {
 	Route::get('admin/extend/fields/delete/(:num)', function($id) {
 		$field = Extend::find($id);
 
-		Query::table($field->type . '_meta')->where('extend', '=', $field->id)->delete();
+		Query::table($field->data_type . '_meta')->where('extend', '=', $field->id)->delete();
 
 		$field->delete();
 

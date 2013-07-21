@@ -20,8 +20,13 @@ class Registry {
 		return $default;
 	}
 
-	public static function set($key, $value) {
-		static::$data[$key] = $value;
+	public static function set($key, $value = null) {
+		if(is_array($key)) {
+			foreach($key as $k => $v) {
+				static::set($k, $v);
+			}
+		}
+		else static::$data[$key] = $value;
 	}
 
 	public static function has($key) {

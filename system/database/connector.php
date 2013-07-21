@@ -12,6 +12,8 @@
 
 use PDO;
 use PDOException;
+use ErrorException;
+use Exception;
 use System\Config;
 
 abstract class Connector {
@@ -51,8 +53,6 @@ abstract class Connector {
 				$this->table_prefix = $config['prefix'];
 			}
 		} catch(PDOException $e) {
-			// catch a rethrow exception to avoid database
-			// connection string being exposed in the stacktrace
 			throw new ErrorException($e->getMessage());
 		}
 	}
@@ -73,19 +73,14 @@ abstract class Connector {
 	 * @return array
 	 */
 	public function ask($sql, $binds = array()) {
-		try {
-			if(Config::db('profiling')) {
-				$this->queries[] = compact('sql', 'binds');
-			}
-
-			$statement = $this->pdo->prepare($sql);
-			$result = $statement->execute($binds);
-
-			return array($result, $statement);
+		if(Config::db('profiling')) {
+			$this->queries[] = compact('sql', 'binds');
 		}
-		catch(PDOException $e) {
-			throw new Exception($sql, $e);
-		}
+
+		$statement = $this->pdo->prepare($sql);
+		$result = $statement->execute($binds);
+
+		return array($result, $statement);
 	}
 
 	/**

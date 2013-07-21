@@ -8,10 +8,8 @@ $posts_page = Registry::get('posts_page');
 
 /**
  * The Home page
- *
- * If the home page is not the post listing page create a home page route
  */
-if($home_page->id != $posts_page->id) {
+if($home_page->id != $posts_page->id) { // home page is different to the posts page
 	Route::get(array('/', $home_page->slug), function() use($home_page) {
 		Registry::set('page', $home_page);
 
@@ -24,29 +22,26 @@ if($home_page->id != $posts_page->id) {
  */
 $routes = array($posts_page->slug, $posts_page->slug . '/(:num)');
 
-// if the home page is the post listings page add the default '/' route
-if($home_page->id == $posts_page->id) {
-	array_unshift($routes, '/');
-}
+// home page is the posts page
+if($home_page->id == $posts_page->id) $routes[] = '/';
 
-Route::get($routes, function($offset = 1) use($posts_page) {
+Route::get($routes, function($page_number = 1) use($posts_page) {
 	// get public listings
-	list($total, $posts) = Post::listing(null, $offset, $per_page = Config::meta('posts_per_page'));
+	list($total, $posts) = Post::listing(null, $page_number, $per_page = Config::meta('posts_per_page'));
 
 	// get the last page
 	$max_page = ($total > $per_page) ? ceil($total / $per_page) : 1;
 
 	// stop users browsing to non existing ranges
-	if(($offset > $max_page) or ($offset < 1)) {
-		return Response::create(new Template('404'), 404);
+	if(($page_number > $max_page) or ($page_number < 1)) {
+		return Anchor::page_not_found();
 	}
 
-	$posts = new Items($posts);
-
-	Registry::set('posts', $posts);
-	Registry::set('total_posts', $total);
-	Registry::set('page', $posts_page);
-	Registry::set('page_offset', $offset);
+	Registry::set(array(
+		'posts' => new Items($posts),
+		'total_posts' => $total,
+		'page' => $posts_page,
+		'page_offset' => $page_number));
 
 	return new Template('posts');
 });
@@ -54,31 +49,40 @@ Route::get($routes, function($offset = 1) use($posts_page) {
 /**
  * View posts by category
  */
-Route::get(array('category/(:any)', 'category/(:any)/(:num)'), function($slug = '', $offset = 1) use($posts_page) {
+Route::get(array('category/(:any)', 'category/(:any)/(:num)'), function($slug = '', $page_number = 1) use($posts_page) {
+
 	if( ! $category = Category::slug($slug)) {
-		return Response::create(new Template('404'), 404);
+		return Anchor::page_not_found();
 	}
 
 	// get public listings
-	list($total, $posts) = Post::listing($category, $offset, $per_page = Config::meta('posts_per_page'));
+	list($total, $posts) = Post::listing($category, $page_number, $per_page = Config::meta('posts_per_page'));
 
 	// get the last page
 	$max_page = ($total > $per_page) ? ceil($total / $per_page) : 1;
 
 	// stop users browsing to non existing ranges
-	if(($offset > $max_page) or ($offset < 1)) {
+	if(($page_number > $max_page) or ($page_number < 1)) {
 		return Response::create(new Template('404'), 404);
 	}
 
-	$posts = new Items($posts);
+	Registry::set(array(
+		'posts' => new Items($posts),
+		'total_posts' => $total,
+		'page' => $posts_page,
+		'page_offset' => $page_number,
+		'post_category' => $category));
 
-	Registry::set('posts', $posts);
-	Registry::set('total_posts', $total);
-	Registry::set('page', $posts_page);
-	Registry::set('page_offset', $offset);
-	Registry::set('post_category', $category);
+	$template = new Template('posts');
 
-	return new Template('posts');
+	if($template->exists('category')) {
+		$template->set('category');
+	}
+	elseif($template->exists('category-' . $category->slug)) {
+		$template->set('category-' . $category->slug);
+	}
+
+	return $template;
 });
 
 /**
@@ -86,10 +90,10 @@ Route::get(array('category/(:any)', 'category/(:any)/(:num)'), function($slug = 
  */
 Route::get('(:num)', function($id) use($posts_page) {
 	if( ! $post = Post::find($id)) {
-		return Response::create(new Template('404'), 404);
+		return Anchor::page_not_found();
 	}
 
-	return Response::redirect($posts_page->slug . '/' . $post->data['slug']);
+	return Response::redirect($posts_page->slug . '/' . $post->slug);
 });
 
 /**
@@ -97,33 +101,38 @@ Route::get('(:num)', function($id) use($posts_page) {
  */
 Route::get($posts_page->slug . '/(:any)', function($slug) use($posts_page) {
 	if( ! $post = Post::slug($slug)) {
-		return Response::create(new Template('404'), 404);
+		return Anchor::page_not_found();
 	}
 
 	Registry::set('page', $posts_page);
 	Registry::set('article', $post);
 	Registry::set('category', Category::find($post->category));
 
-	return new Template('article');
+	$template = new Template('article');
+
+	if($template->exists('article-' . $post->slug)) {
+		$template->set('article-' . $post->slug);
+	}
+
+	return $template;
 });
 
 /**
  * Post a comment
  */
 Route::post($posts_page->slug . '/(:any)', function($slug) use($posts_page) {
-	if( ! $post = Post::slug($slug) or ! $post->comments) {
-		return Response::create(new Template('404'), 404);
+	if( ! $post = Post::slug($slug)) {
+		return Anchor::page_not_found();
 	}
 
-	$input = Input::get(array('name', 'email', 'text'));
+	// comments disabled
+	if( ! $post->comments) {
+		return Response::redirect($posts_page->slug . '/' . $slug);
+	}
 
-	$validator = new Validator($input);
+	$input = Comment::input();
 
-	$validator->check('email')
-		->is_email(__('comments.email_missing'));
-
-	$validator->check('text')
-		->is_max(3, __('comments.text_missing'));
+	$validator = Comment::validate($input);
 
 	if($errors = $validator->errors()) {
 		Input::flash();
@@ -133,19 +142,7 @@ Route::post($posts_page->slug . '/(:any)', function($slug) use($posts_page) {
 		return Response::redirect($posts_page->slug . '/' . $slug . '#comment');
 	}
 
-	$input['post'] = $post->id;
-	$input['date'] = Date::mysql('now');
-	$input['status'] = Config::meta('auto_published_comments') ? 'approved' : 'pending';
-
-	// remove bad tags
-	$input['text'] = strip_tags($input['text'], '<a>,<b>,<blockquote>,<code>,<em>,<i>,<p>,<pre>,<br>');
-
-	// check if the comment is possibly spam
-	if($spam = Comment::spam($input)) {
-		$input['status'] = 'spam';
-	}
-
-	$comment = Comment::create($input);
+	$comment = Comment::create($post->id, $input);
 
 	Notify::success(__('comments.created'));
 
@@ -170,7 +167,7 @@ Route::get(array('rss', 'feeds/rss'), function() {
 		$rss->item(
 			$article->title,
 			Uri::full(Registry::get('posts_page')->slug . '/' . $article->slug),
-			$article->description,
+			$article->content(),
 			$article->created
 		);
 	}
@@ -195,7 +192,7 @@ Route::get('feeds/json', function() {
 /**
  * Search
  */
-Route::get(array('search', 'search/(:any)', 'search/(:any)/(:num)'), function($slug = '', $offset = 1) {
+Route::get('search', function() {
 	// mock search page
 	$page = new Page;
 	$page->id = 0;
@@ -203,35 +200,38 @@ Route::get(array('search', 'search/(:any)', 'search/(:any)/(:num)'), function($s
 	$page->slug = 'search';
 
 	// get search term
-	$term = Session::get($slug);
-
-	list($total, $posts) = Post::search($term, $offset, Config::meta('posts_per_page'));
-
-	// search templating vars
-	Registry::set('page', $page);
-	Registry::set('page_offset', $offset);
-	Registry::set('search_term', $term);
-	Registry::set('search_results', new Items($posts));
-	Registry::set('total_posts', $total);
-
-	return new Template('search');
-});
-
-Route::post('search', function() {
-	// search and save search ID
+	$page_number = Input::get('page', 1);
 	$term = filter_var(Input::get('term', ''), FILTER_SANITIZE_STRING);
 
-	Session::put(slug($term), $term);
+	list($total, $posts) = Post::search($term, $page_number, Config::meta('posts_per_page'));
 
-	return Response::redirect('search/' . slug($term));
+	// pagination
+	$per_page = Config::get('meta.posts_per_page');
+	$pages = floor($total / $per_page);
+
+	$page_prev = ($page_number > 0) ? $page_number - 1 : 0;
+	$page_next = (($page_number - 1) < $pages) ? $page_number + 1 : 0;
+
+	// search templating vars
+	Registry::set(array(
+		'page' => $page,
+		'page_next' => $page_next,
+		'page_prev' => $page_prev,
+		'search_term' => $term,
+		'search_results' => new Items($posts),
+		'total_posts' => $total));
+
+	return new Template('search');
 });
 
 /**
  * View pages
  */
 Route::get('(:all)', function($uri) {
-	if( ! $page = Page::slug($slug = basename($uri))) {
-		return Response::create(new Template('404'), 404);
+	$slug = basename($uri);
+
+	if( ! $page = Page::slug($slug)) {
+		return Anchor::page_not_found();
 	}
 
 	if($page->redirect) {
@@ -240,12 +240,18 @@ Route::get('(:all)', function($uri) {
 
 	Registry::set('page', $page);
 
-	return new Template('page');
+	$template = new Template('page');
+
+	if($template->exists('page-' . $page->slug)) {
+		$template->set('page-' . $page->slug);
+	}
+
+	return $template;
 });
 
 /*
  * 404 not found
  */
 Route::not_found(function() {
-	return Response::create(new Template('404'), 404);
+	return Anchor::page_not_found();
 });

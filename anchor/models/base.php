@@ -8,13 +8,16 @@ class Base extends Record {
 
 	public function __get($key) {
 		if(array_key_exists($key, $this->data)) {
-			$object = strtolower(get_called_class());
+			$index = strtolower(get_called_class()) . '.' . $key;
+			$value = $this->data[$key];
 
-			if(isset(Plugin::$hooks[$object][$key])) {
-				return call_user_func(Plugin::$hooks[$object][$key], $this->data[$key]);
+			if(isset(Plugin::$callbacks[$index])) {
+				foreach(Plugin::$callbacks[$index] as $callback) {
+					$value = call_user_func($callback, $value);
+				}
 			}
 
-			return $this->data[$key];
+			return $value;
 		}
 	}
 

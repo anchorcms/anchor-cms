@@ -1,6 +1,6 @@
 <?php
 
-class Migration_add_comment_notifications extends Migration {
+class Migration_add_comment_notifications extends Migrations\Migration {
 
 	public function up() {
 		$table = $this->prefix('meta');

@@ -20,7 +20,7 @@
 				</label>
 				<select id="lang" name="language">
 					<?php foreach($languages as $lang): ?>
-					<?php $selected = in_array($lang, $prefered_languages) ? ' selected' : ''; ?>
+					<?php $selected = ($lang == $prefered_language) ? ' selected' : ''; ?>
 					<option<?php echo $selected; ?>><?php echo $lang; ?></option>
 					<?php endforeach; ?>
 				</select>

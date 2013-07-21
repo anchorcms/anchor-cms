@@ -70,4 +70,7 @@ Autoloader::$aliases = Config::get('aliases', array());
 /**
  * Error handling
  */
-Error::register();
+Error::setup(function($error) {
+	$error->logger(Config::error('log'));
+	$error->register();
+});

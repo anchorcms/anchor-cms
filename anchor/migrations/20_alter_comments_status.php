@@ -1,6 +1,6 @@
 <?php
 
-class Migration_alter_comments_status extends Migration {
+class Migration_alter_comments_status extends Migrations\Migration {
 
 	public function up() {
 		$table = $this->prefix('comments');

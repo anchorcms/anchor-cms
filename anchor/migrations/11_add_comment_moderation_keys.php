@@ -1,6 +1,6 @@
 <?php
 
-class Migration_add_comment_moderation_keys extends Migration {
+class Migration_add_comment_moderation_keys extends Migrations\Migration {
 
 	public function up() {
 		$table = $this->prefix('meta');

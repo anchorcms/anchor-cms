@@ -6,12 +6,12 @@ class Plugin extends Base {
 
 	public static $table = 'plugins';
 
-	public static $hooks = array();
+	public static $callbacks = array();
 
 	/**
 	 * Parse the about txt file
 	 */
-	public static function about($pathname) {
+	final public static function about($pathname) {
 		$info = array(
 			'path' => $pathname,
 			'name' => '',
@@ -33,14 +33,14 @@ class Plugin extends Base {
 	/**
 	 * Returns a list of installed plugins
 	 */
-	public static function installed() {
+	final public static function installed() {
 		return static::get();
 	}
 
 	/**
 	 * Returns a list of installed plugins
 	 */
-	public static function valid($pathname) {
+	final public static function valid($pathname) {
 		$base = PATH . static::$folder . DS . $pathname . DS;
 
 		$required = array('about.txt', 'plugin' . EXT);
@@ -55,8 +55,8 @@ class Plugin extends Base {
 	/**
 	 * Returns a list of available plugins
 	 */
-	public static function available() {
-		$fi = new FilesystemIterator(PATH . static::$folder, FilesystemIterator::SKIP_DOTS);
+	final public static function available() {
+		$fi = new Filesystem(PATH . static::$folder, Filesystem::SKIP_DOTS);
 		$plugins = array();
 
 		foreach($fi as $fileinfo) {
@@ -76,18 +76,20 @@ class Plugin extends Base {
 	/**
 	 * Include theming functions
 	 */
-	public function include_functions() {
+	final public function include_functions() {
 		$path = PATH . static::$folder . DS . $this->path . DS . 'functions' . EXT;
 
 		if(file_exists($path)) {
 			return require_once $path;
 		}
+
+		return $this;
 	}
 
 	/**
 	 * Create instance of the user plugin
 	 */
-	public function instance() {
+	final public function instance() {
 		$path = PATH . static::$folder . DS . $this->path . DS . 'plugin' . EXT;
 
 		if(file_exists($path)) {
@@ -107,13 +109,6 @@ class Plugin extends Base {
 				throw new Exception('There was a problem running ' . $this->name, 0, $e);
 			}
 		}
-	}
-
-	/**
-	 * Returns the templates 404 page
-	 */
-	protected function page_not_found() {
-		return Response::create(new Template('404'), 404);
 	}
 
 	/**
@@ -137,52 +132,65 @@ class Plugin extends Base {
 	}
 
 	/**
-	 * Installer placeholder
+	 * Placeholders
 	 */
 	public function install() {}
-
-	/**
-	 * Uninstaller placeholder
-	 */
 	public function uninstall() {}
+	public function register_routes() {}
+	public function register_protected_routes() {}
+	public function register_filters() {}
 
 	/**
 	 * Registers routes with router
 	 */
 	final function apply_routes() {
-		if( ! method_exists($this, 'register_routes')) return;
+		$routes = $this->register_routes();
 
-		foreach($this->register_routes() as $verb => $actions) {
-			foreach($actions as $patterns => $action) {
-				Route::register($verb, $patterns, array('main' => $action));
+		if(is_array($routes) and count($routes)) {
+			foreach($routes as $verb => $actions) {
+				foreach($actions as $pattern => $action) {
+					Route::register($verb, $pattern, array('main' => $action));
+				}
 			}
 		}
+
+		return $this;
 	}
 
 	/**
 	 * Registers routes with router
 	 */
 	final function apply_protected_routes() {
-		if( ! method_exists($this, 'register_protected_routes')) return;
+		$routes = $this->register_protected_routes();
 
-		foreach($this->register_protected_routes() as $verb => $actions) {
-			foreach($actions as $patterns => $action) {
-				Route::register($verb, $patterns, array('before' => 'auth', 'main' => $action));
+		if(is_array($routes) and count($routes)) {
+			foreach($routes as $verb => $actions) {
+				foreach($actions as $pattern => $action) {
+					$pattern = 'admin/extend/plugins/' . $this->path . '/' . ltrim($pattern, '/');
+
+					Route::register($verb, $pattern, array('before' => 'auth', 'main' => $action));
+				}
 			}
 		}
+
+		return $this;
 	}
 
 	/**
 	 * Registers content filters
 	 */
 	final function apply_filters() {
-		if( ! method_exists($this, 'register_filters')) return;
+		$filters = $this->register_filters();
 
-		foreach($this->register_filters() as $object => $properties) {
-			foreach($properties as $property => $action) {
-				static::$hooks[$object][$property] = $action;
+		if(is_array($filters) and count($filters)) {
+			foreach($filters as $object => $properties) {
+				foreach($properties as $property => $action) {
+					static::$callbacks[$object . '.' . $property][] = $action;
+				}
 			}
 		}
+
+		return $this;
 	}
 
 }

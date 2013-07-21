@@ -4,6 +4,42 @@ class Comment extends Base {
 
 	public static $table = 'comments';
 
+	public static function input() {
+		return filter_var_array(Input::get(), array(
+			'name' => FILTER_SANITIZE_STRING,
+			'email' => FILTER_SANITIZE_EMAIL,
+			'text' => FILTER_SANITIZE_SPECIAL_CHARS
+		));
+	}
+
+	public static function validate($input) {
+		$validator = new Validator($input);
+
+		$validator->check('email')
+			->is_email(__('comments.email_missing'));
+
+		$validator->check('text')
+			->is_max(3, __('comments.text_missing'));
+
+		 return $validator;
+	}
+
+	public static function create_($post, $input) {
+		$input['post'] = $post;
+		$input['date'] = Date::mysql('now');
+		$input['status'] = Config::meta('auto_published_comments') ? 'approved' : 'pending';
+
+		// remove bad tags
+		$input['text'] = strip_tags($input['text'], '<a>,<b>,<blockquote>,<code>,<em>,<i>,<p>,<pre>,<br>');
+
+		// check if the comment is possibly spam
+		if($spam = static::spam($input)) {
+			$input['status'] = 'spam';
+		}
+
+		return parent::create($input);
+	}
+
 	public function notify() {
 		$uri = Uri::full('admin/comments/edit/' . $this->id);
 
@@ -93,7 +129,7 @@ class Comment extends Base {
 	}
 
 	public function article() {
-		if($post = Post::where('id', '=', $this->post)->fetch(array('title'))) {
+		if($post = Post::find($this->post)) {
 			return $post;
 		}
 		else return new Post(array('title' => '[post deleted]'));

@@ -1,6 +1,6 @@
 <?php
 
-class Migration_alter_posts_created extends Migration {
+class Migration_alter_posts_created extends Migrations\Migration {
 
 	public function up() {
 		$table = $this->prefix('posts');

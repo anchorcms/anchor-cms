@@ -99,13 +99,7 @@ abstract class Builder {
 	 * @return string
 	 */
 	public function placeholders($length, $holder = '?') {
-		$holders = array();
-
-		for($i = 0; $i < $length; $i++) {
-			$holders[] = $holder;
-		}
-
-		return implode(', ', $holders);
+		return implode(', ', array_fill(0, $length, $holder));
 	}
 
 	/**

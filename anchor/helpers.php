@@ -59,7 +59,7 @@ function slug($str, $separator = '-') {
  */
 function parse($str) {
 	// process tags
-	$pattern = '/[\{\{]{1}([a-z]+)[\}\}]{1}/i';
+	$pattern = '#\{\{([A-z0-9_-]+)\}\}#';
 
 	if(preg_match_all($pattern, $str, $matches)) {
 		list($search, $replace) = $matches;

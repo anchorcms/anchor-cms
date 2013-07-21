@@ -10,24 +10,69 @@
  * @copyright	http://unlicense.org/
  */
 
+use Closure;
 use Exception;
 use ErrorException;
 
 class Error {
 
 	/**
+	 * Holds function to logger
+	 *
+	 * @var mixed
+	 */
+	protected $logger;
+
+	/**
+	 * Exception output handler
+	 *
+	 * @var object
+	 */
+	protected $handler;
+
+	/**
+	 * Holds callback for reporting
+	 *
+	 * @var callable
+	 */
+	public static $callback;
+
+	/**
+	 * Setup error handler
+	 */
+	public static function setup(Closure $callback) {
+		$callback(new static);
+	}
+
+	/**
+	 * Set exception logger callback
+	 *
+	 * @param mixed
+	 */
+	public function logger($logger) {
+		$this->logger = $logger;
+	}
+
+	/**
+	 * Register callback
+	 */
+	public static function callback($callback) {
+		static::$callback = $callback;
+	}
+
+	/**
 	 * Register Exception handler
 	 */
-	public static function register() {
-		set_exception_handler(array('Error', 'exception'));
-		set_error_handler(array('Error', 'native'));
-		register_shutdown_function(array('Error', 'shutdown'));
+	public function register() {
+		set_exception_handler(array($this, 'exception'));
+		set_error_handler(array($this, 'native'));
+		register_shutdown_function(array($this, 'shutdown'));
 	}
 
 	/**
 	 * Unregister Exception handler
 	 */
-	public static function unregister() {
+	public function unregister() {
 		restore_exception_handler();
 		restore_error_handler();
 	}
@@ -37,14 +82,29 @@ class Error {
 	 *
 	 * @param object
 	 */
-	public static function exception(Exception $e) {
-		static::log($e);
+	public function exception(Exception $e) {
+		$this->log($e);
 
-		// get a error response handler
-		$handler = Error\Report::handler($e, Config::error('report'));
+		if(Config::error('report')) {
+			// try and clear any previous output
+			ob_get_level() and ob_end_clean();
 
-		// generate the output
-		$handler->response();
+			// generate the output
+			if(defined('STDIN')) {
+				$handler = new Error\Handlers\Cli($e);
+			}
+			elseif(isset($_SERVER['HTTP_X_REQUESTED_WITH']) and strcasecmp($_SERVER['HTTP_X_REQUESTED_WITH'], 'xmlhttprequest') == 0) {
+				$handler = new Error\Handlers\Json($e);
+			}
+			else {
+				$handler = new Error\Handlers\Candy($e);
+			}
+
+			$handler->response();
+		}
+		elseif(static::$callback instanceof Closure) {
+			call_user_func(static::$callback);
+		}
 
 		// exit with a error code
 		exit(1);
@@ -62,8 +122,10 @@ class Error {
 	 * @param int
 	 * @param array
 	 */
-	public static function native($code, $message, $file, $line) {
-		static::exception(new ErrorException($message, $code, 0, $file, $line));
+	public function native($code, $message, $file, $line) {
+		if($code & error_reporting()) {
+			$this->exception(new ErrorException($message, $code, 0, $file, $line));
+		}
 	}
 
 	/**
@@ -72,11 +134,11 @@ class Error {
 	 * This will catch errors that are generated at the
 	 * shutdown level of execution
 	 */
-	public static function shutdown() {
+	public function shutdown() {
 		if($error = error_get_last()) {
 			extract($error);
 
-			static::native($type, $message, $file, $line);
+			$this->native($type, $message, $file, $line);
 		}
 	}
 
@@ -87,9 +149,9 @@ class Error {
 	 *
 	 * @param object
 	 */
-	public static function log($e) {
-		if(is_callable($logger = Config::error('log'))) {
-			call_user_func($logger, $e);
+	public function log(Exception $e) {
+		if(is_callable($this->logger)) {
+			call_user_func($this->logger, $e);
 		}
 	}
 

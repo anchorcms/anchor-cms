@@ -1,6 +1,6 @@
 <?php
 
-class Migration_add_posts_per_page_in_admin_area extends Migration {
+class Migration_add_posts_per_page_in_admin_area extends Migrations\Migration {
 
 	public function up() {
 		$table = $this->prefix('meta');

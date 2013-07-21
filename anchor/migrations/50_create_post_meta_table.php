@@ -1,6 +1,6 @@
 <?php
 
-class Migration_create_post_meta_table extends Migration {
+class Migration_create_post_meta_table extends Migrations\Migration {
 
 	public function up() {
 		$table = $this->prefix('post_meta');

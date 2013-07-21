@@ -136,7 +136,7 @@ class Route {
 	 * @return object|null
 	 */
 	public function before() {
-		return $this->callback(__METHOD__);
+		return $this->callback('before');
 	}
 
 	/**
@@ -146,7 +146,7 @@ class Route {
 	 * @return object|null
 	 */
 	public function after($response) {
-		return $this->callback(__METHOD__);
+		return $this->callback('after', array($response));
 	}
 
 	/**
@@ -155,10 +155,10 @@ class Route {
 	 * @param string
 	 * @return object|null
 	 */
-	public function callback($name) {
+	public function callback($name, $args = array()) {
 		if(isset($this->callbacks[$name])) {
 			foreach(explode(',', $this->callbacks[$name]) as $action) {
-				return call_user_func(Router::$actions[$action], $response);
+				return call_user_func_array(Router::$actions[$action], $args);
 			}
 		}
 	}

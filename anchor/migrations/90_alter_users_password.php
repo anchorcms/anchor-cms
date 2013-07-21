@@ -1,6 +1,6 @@
 <?php
 
-class Migration_alter_users_password extends Migration {
+class Migration_alter_users_password extends Migrations\Migration {
 
 	public function up() {
 		$table = $this->prefix('users');

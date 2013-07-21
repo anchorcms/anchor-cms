@@ -1,6 +1,6 @@
 <?php
 
-class Migration_insert_default_categories extends Migration {
+class Migration_insert_default_categories extends Migrations\Migration {
 
 	public function up() {
 		$table = $this->prefix('categories');

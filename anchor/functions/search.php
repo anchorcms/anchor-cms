@@ -6,7 +6,7 @@
  * @return bool
  */
 function has_search_results() {
-	return Registry::get('total_posts', 0) > 0;
+	return total_search_results() > 0;
 }
 
 /**
@@ -64,20 +64,10 @@ function has_search_pagination() {
  * @return string
  */
 function search_next($text = 'Next', $default = '') {
-	$per_page = Config::meta('posts_per_page');
-	$page = Registry::get('page_offset');
+	if($page_next = Registry::get('page_next')) {
+		$page = Registry::get('page');
+		$url = base_url($page->slug . '?term=' . Registry::get('search_term') . '&amp;page=' . $page_next);
 
-	$offset = ($page - 1) * $per_page;
-	$total = Registry::get('total_posts');
-
-	$pages = floor($total / $per_page);
-
-	$posts_page = Registry::get('page');
-	$next = $page + 1;
-
-	$url = base_url($posts_page->slug . '/' . $next);
-
-	if(($page - 1) < $pages) {
 		return '<a href="' . $url . '">' . $text . '</a>';
 	}
 
@@ -90,20 +80,10 @@ function search_next($text = 'Next', $default = '') {
  * @return string
  */
 function search_prev($text = 'Previous', $default = '') {
-	$per_page = Config::get('meta.posts_per_page');
-	$page = Registry::get('page_offset');
+	if($page_prev = Registry::get('page_prev')) {
+		$page = Registry::get('page');
+		$url = base_url($page->slug . '?term=' . Registry::get('search_term') . '&amp;page=' . $page_prev);
 
-	$offset = ($page - 1) * $per_page;
-	$total = Registry::get('total_posts');
-
-	$pages = ceil($total / $per_page);
-
-	$posts_page = Registry::get('posts_page');
-	$prev = $page - 1;
-
-	$url = base_url($posts_page->slug . '/' . $prev);
-
-	if($offset > 0) {
 		return '<a href="' . $url . '">' . $text . '</a>';
 	}
 

@@ -76,7 +76,7 @@ function comment_id() {
  */
 function comment_time() {
 	if($time = Registry::prop('comment', 'date')) {
-		return strtotime($time);
+		return Date::format($time, 'U');
 	}
 }
 

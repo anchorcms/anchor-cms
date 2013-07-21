@@ -43,7 +43,7 @@
 		<div class="main-wrap">
 			<div class="slidey" id="tray">
 				<div class="wrap">
-					<form id="search" action="<?php echo search_url(); ?>" method="post">
+					<form id="search" action="<?php echo search_url(); ?>" method="get">
 						<label for="term">Search my blog:</label>
 						<input type="search" id="term" name="term" placeholder="To search, type and hit enter&hellip;" value="<?php echo search_term(); ?>">
 					</form>

@@ -50,21 +50,21 @@
 				<label for="rewrite">Clean Urls</label>
 				<i>Url rewiting</i>
 
-			<?php if(mod_rewrite()): ?>
+			<?php if($support->has_mod_rewrite()): ?>
 
 				<div class="more">Looks like you are running apache with <code>mod_rewrite</code> enabled.<br>
 				The installer will create the htaccess for you.</div>
 
-			<?php elseif(is_apache()): ?>
+			<?php elseif($support->is_apache()): ?>
 
 				<div class="more">Looks like you are running apache, but <code>mod_rewrite</code> is not enabled.</div>
 
 				<div class="more"><input id="rewrite" name="rewrite" type="checkbox" value="1">
 				Create the htaccess file for me anyway.</div>
 
-			<?php elseif(is_cgi()): ?>
+			<?php elseif($support->is_cgi()): ?>
 
-				<div class="more">Looks like you are running <code>PHP</code> as a fastcgi process.<br>
+				<div class="more">Looks like you are running <code>PHP</code> as a fastcgi process (<?php echo PHP_SAPI; ?>).<br>
 				You will have to setup your own url rewriting.</div>
 
 			<?php endif; ?>

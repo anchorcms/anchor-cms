@@ -106,7 +106,13 @@ class Status {
 		}
 		// overwise we just send a normal status header
 		else {
-			header($this->protocol . ' ' . $this->status .  ' ' . $message);
+			// use http_response_code in 5.4
+			if(function_exists('http_response_code')) {
+				http_response_code($this->status);
+			}
+			else {
+				header($this->protocol . ' ' . $this->status .  ' ' . $message);
+			}
 		}
 	}
 

@@ -14,9 +14,9 @@
 		<fieldset class="split">
 			<p>
 				<label for="type"><?php echo __('extend.type'); ?>:</label>
-				<select id="type" name="type">
+				<select id="type" name="data_type">
 					<?php foreach(array('post', 'page') as $type): ?>
-					<?php $selected = (Input::previous('type') == $type) ? ' selected' : ''; ?>
+					<?php $selected = (Input::previous('data_type') == $type) ? ' selected' : ''; ?>
 					<option<?php echo $selected; ?>><?php echo $type; ?></option>
 					<?php endforeach; ?>
 				</select>
@@ -25,9 +25,9 @@
 
 			<p>
 				<label for="field"><?php echo __('extend.field'); ?>:</label>
-				<select id="field" name="field">
+				<select id="field" name="field_type">
 					<?php foreach(array('text', 'html', 'image', 'file', 'bool') as $type): ?>
-					<?php $selected = (Input::previous('field') == $type) ? ' selected' : ''; ?>
+					<?php $selected = (Input::previous('field_type') == $type) ? ' selected' : ''; ?>
 					<option<?php echo $selected; ?>><?php echo $type; ?></option>
 					<?php endforeach; ?>
 				</select>

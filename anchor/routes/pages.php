@@ -1,6 +1,6 @@
 <?php
 
-Route::collection(array('before' => 'auth'), function() {
+Route::collection(array('before' => 'auth,csrf'), function() {
 
 	/*
 		List Pages
@@ -62,8 +62,8 @@ Route::collection(array('before' => 'auth'), function() {
 			'archived' => __('global.archived')
 		);
 
-		// extended fields
-		$vars['fields'] = Extend::fields('page', $id);
+		// custom fields
+		$vars['fields'] = Extend::fields('page');
 
 		return View::create('pages/edit', $vars)
 			->partial('header', 'partials/header')
@@ -72,37 +72,9 @@ Route::collection(array('before' => 'auth'), function() {
 	});
 
 	Route::post('admin/pages/edit/(:num)', function($id) {
-		$input = Input::get(array('parent', 'name', 'title', 'slug', 'content',
-			'status', 'redirect', 'show_in_menu'));
+		$input = Page::input();
 
-		// if there is no slug try and create one from the title
-		if(empty($input['slug'])) {
-			$input['slug'] = $input['title'];
-		}
-
-		// convert to ascii
-		$input['slug'] = slug($input['slug']);
-
-		$validator = new Validator($input);
-
-		$validator->add('duplicate', function($str) use($id) {
-			return Page::where('slug', '=', $str)->where('id', '<>', $id)->count() == 0;
-		});
-
-		$validator->check('title')
-			->is_max(2, __('pages.title_missing'));
-
-		$validator->check('slug')
-			->is_max(2, __('pages.slug_missing'))
-			->is_duplicate(__('pages.slug_duplicate'))
-			->not_regex('#^[0-9_-]+$#', __('pages.slug_invalid'));
-
-		if($input['redirect']) {
-			$validator->check('redirect')
-				->is_url( __('pages.redirect_missing'));
-		}
-
-		if($errors = $validator->errors()) {
+		if($errors = Page::validate($input, $id)) {
 			Input::flash();
 
 			Notify::error($errors);
@@ -110,15 +82,7 @@ Route::collection(array('before' => 'auth'), function() {
 			return Response::redirect('admin/pages/edit/' . $id);
 		}
 
-		if(empty($input['name'])) {
-			$input['name'] = $input['title'];
-		}
-
-		$input['show_in_menu'] = is_null($input['show_in_menu']) ? 0 : 1;
-
 		Page::update($id, $input);
-
-		Extend::process('page', $id);
 
 		Notify::success(__('pages.updated'));
 
@@ -149,37 +113,9 @@ Route::collection(array('before' => 'auth'), function() {
 	});
 
 	Route::post('admin/pages/add', function() {
-		$input = Input::get(array('parent', 'name', 'title', 'slug', 'content',
-			'status', 'redirect', 'show_in_menu'));
+		$input = Page::input();
 
-		// if there is no slug try and create one from the title
-		if(empty($input['slug'])) {
-			$input['slug'] = $input['title'];
-		}
-
-		// convert to ascii
-		$input['slug'] = slug($input['slug']);
-
-		$validator = new Validator($input);
-
-		$validator->add('duplicate', function($str) {
-			return Page::where('slug', '=', $str)->count() == 0;
-		});
-
-		$validator->check('title')
-			->is_max(2, __('pages.title_missing'));
-
-		$validator->check('slug')
-			->is_max(2, __('pages.slug_missing'))
-			->is_duplicate(__('pages.slug_duplicate'))
-			->not_regex('#^[0-9_-]+$#', __('pages.slug_invalid'));
-
-		if($input['redirect']) {
-			$validator->check('redirect')
-				->is_url(__('pages.redirect_missing'));
-		}
-
-		if($errors = $validator->errors()) {
+		if($errors = Page::validate($input)) {
 			Input::flash();
 
 			Notify::error($errors);
@@ -187,15 +123,7 @@ Route::collection(array('before' => 'auth'), function() {
 			return Response::redirect('admin/pages/add');
 		}
 
-		if(empty($input['name'])) {
-			$input['name'] = $input['title'];
-		}
-
-		$input['show_in_menu'] = is_null($input['show_in_menu']) ? 0 : 1;
-
-		$page = Page::create($input);
-
-		Extend::process('page', $page->id);
+		Page::create($input);
 
 		Notify::success(__('pages.created'));
 
@@ -232,23 +160,11 @@ Route::collection(array('before' => 'auth'), function() {
 		Upload a image
 	*/
 	Route::post('admin/pages/upload', function() {
-		$output = array('result' => false);
+		$uploader = new Uploader(PATH . 'content', array('png', 'jpg', 'bmp', 'gif'));
+		$filepath = $uploader->upload($_FILES['file']);
 
-		if(isset($_FILES['file'])) {
-			$file = $_FILES['file'];
-
-			$storage = PATH . 'content' . DS;
-			$ext = '.' . pathinfo($file['name'], PATHINFO_EXTENSION);
-
-			$filename = slug(rtrim($file['name'], $ext)) . $ext;
-			$filepath = $storage . $filename;
-
-			$uri = Config::app('url', '/') . 'content/' . $filename;
-
-			if(move_uploaded_file($file['tmp_name'], $filepath)) {
-				$output = array('result' => true, 'uri' => $uri);
-			}
-		}
+		$uri = Config::app('url', '/') . 'content/' . basename($filepath);
+		$output = array('uri' => $uri);
 
 		return Response::json($output);
 	});

@@ -68,10 +68,10 @@
 				<?php echo Form::textarea('js', Input::previous('js')); ?>
 				<em><?php echo __('posts.custom_js_explain'); ?></em>
 			</p>
-			<?php foreach($fields as $field): ?>
+			<?php foreach($fields as $itm): $field = $itm->type(); ?>
 			<p>
 				<label for="extend_<?php echo $field->key; ?>"><?php echo $field->label; ?>:</label>
-				<?php echo Extend::html($field); ?>
+				<?php echo $field->html(); ?>
 			</p>
 			<?php endforeach; ?>
 		</div>

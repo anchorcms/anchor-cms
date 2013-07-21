@@ -70,10 +70,10 @@
 				<?php echo Form::select('parent', $pages, Input::previous('parent')); ?>
 				<em><?php echo __('pages.parent_explain'); ?></em>
 			</p>
-			<?php foreach($fields as $field): ?>
+			<?php foreach($fields as $itm): $field = $itm->type(); ?>
 			<p>
 				<label for="extend_<?php echo $field->key; ?>"><?php echo $field->label; ?>:</label>
-				<?php echo Extend::html($field); ?>
+				<?php echo $field->html(); ?>
 			</p>
 			<?php endforeach; ?>
 		</div>

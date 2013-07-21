@@ -1,6 +1,6 @@
 <?php
 
-class Migration_add_posts_category extends Migration {
+class Migration_add_posts_category extends Migrations\Migration {
 
 	public function up() {
 		$table = $this->prefix('posts');

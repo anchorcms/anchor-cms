@@ -4,269 +4,111 @@ class Extend extends Base {
 
 	public static $table = 'extend';
 
-	public static function field($type, $key, $id = -1) {
-		$field = Query::table(static::$table)
-			->where('type', '=', $type)
-			->where('key', '=', $key)
-			->fetch();
-
-		if($field) {
-			$meta = Query::table($type . '_meta')
-				->where($type, '=', $id)
-				->where('extend', '=', $field->id)
-				->fetch();
-
-			$field->value = Json::decode($meta ? $meta->data : '{}');
+	public static function validate(&$input, $existing_id = 0) {
+		if(empty($input['key'])) {
+			$input['key'] = $input['label'];
 		}
 
-		return $field;
+		$input['key'] = slug($input['key'], '_');
+
+		$validator = new Validator($input);
+
+		$validator->add('valid_key', function($str) use($existing_id) {
+			return Extend::where('key', '=', $str)
+				->where('id', '<>', $existing_id)->count() == 0;
+		});
+
+		$validator->check('key')
+			->is_max(1, __('extend.key_missing'))
+			->is_valid_key(__('extend.key_exists'));
+
+		$validator->check('label')
+			->is_max(1, __('extend.label_missing'));
+
+		return $validator->errors();
 	}
 
-	public static function value($extend, $value = null) {
-		switch($extend->field) {
-			case 'text':
-				if( ! empty($extend->value->text)) {
-					$value = $extend->value->text;
-				}
-				break;
+	public static function create($input) {
+		$class = Type::create($input['field_type'], $input);
+		$input['attributes'] = $class::attributes($input);
 
-			case 'html':
-				if( ! empty($extend->value->html)) {
-					$md = new Markdown;
-
-					$value = $md->transform($extend->value->html);
-				}
-				break;
-
-			case 'image':
-			case 'file':
-				if( ! empty($extend->value->filename)) {
-					$value = asset('content/' . $extend->value->filename);
-				}
-				break;
-            case 'bool': 
-                if( ! empty($extend->value->bool)) { 
-                    $value = $extend->value->bool; 
-                } 
-                break;
-		}
-
-		return $value;
+		return parent::create($input);
 	}
 
-	public static function fields($type, $id = -1) {
-		$fields = Query::table(static::$table)->where('type', '=', $type)->get();
+	public static function update($id, $input) {
+		$class = Type::create($input['field_type'], $input);
+		$input['attributes'] = $class::attributes($input);
 
-		foreach(array_keys($fields) as $index) {
-			$meta = Query::table($type . '_meta')
-				->where($type, '=', $id)
-				->where('extend', '=', $fields[$index]->id)
-				->fetch();
-
-			$fields[$index]->value = Json::decode($meta ? $meta->data : '{}');
-		}
-
-		return $fields;
-	}
-
-	public static function html($item) {
-		switch($item->field) {
-			case 'text':
-				$value = isset($item->value->text) ? $item->value->text : '';
-				$html = '<input id="extend_' . $item->key . '" name="extend[' . $item->key . ']" type="text" value="' . $value . '">';
-				break;
-
-			case 'html':
-				$value = isset($item->value->html) ? $item->value->html : '';
-				$html = '<textarea id="extend_' . $item->key . '" name="extend[' . $item->key . ']" type="text">' . $value . '</textarea>';
-				break;
-
-			case 'image':
-			case 'file':
-				$value = isset($item->value->filename) ? $item->value->filename : '';
-
-				$html = '<span class="current-file">';
-
-				if($value) {
-					$html .= '<a href="' . asset('content/' . $value) . '" target="_blank">' . $value . '</a>';
-				}
-
-				$html .= '</span>
-					<span class="file">
-					<input id="extend_' . $item->key . '" name="extend[' . $item->key . ']" type="file">
-					</span>';
-
-				if($value) {
-					$html .= '</p><p>
-					<label>Remove ' . $item->label . ':</label>
-					<input type="checkbox" name="extend_remove[' . $item->key . ']" value="1">';
-				}
-
-				break;
-
-            case 'bool':
-                $value = isset($item->value->bool) ? $item->value->bool : 0;
-                $html = '<input id="extend_' . $item->key . '" name="extend[' . $item->key . ']" type="checkbox" value="1" ' . ($value? 'checked="checked"': '') .'>';
-                break;
-
-                
-			default:
-				$html = '';
-		}
-
-		return $html;
+		return parent::update($id, $input);
 	}
 
 	public static function paginate($page = 1, $perpage = 10) {
-		$query = Query::table(static::$table);
-
-		$count = $query->count();
-
-		$results = $query->take($perpage)->skip(($page - 1) * $perpage)->get();
+		$count = static::count();
+		$results = static::take($perpage)->skip(($page - 1) * $perpage)->get();
 
 		return new Paginator($results, $count, $page, $perpage, Uri::to('admin/extend/fields'));
 	}
 
-	/*
-		Process field types
-	*/
+	/**
+	 * Get all custom fields for a data type
+	 *
+	 * @param string
+	 * @param int
+	 * @return array
+	 */
+	public static function fields($type) {
+		return static::where('data_type', '=', $type)->get();
+	}
 
-	public static function files() {
-		// format file array
-		$files = array();
+	/**
+	 * Get field type
+	 *
+	 * @return object
+	 */
+	public function type($id = 0) {
+		// get custom field data
+		$meta = Query::table($this->data_type . '_meta')->where($this->data_type, '=', $id)
+			->where('extend', '=', $this->id)->fetch();
 
-		if(isset($_FILES['extend'])) {
-			foreach($_FILES['extend'] as $label => $items) {
-				foreach($items as $key => $value) {
-					$files[$key][$label] = $value;
-				}
+		// only set the value if we have data
+		if($meta) $this->value = Json::decode($meta->data);
+
+		return Type::create($this->field_type, $this);
+	}
+
+	/**
+	 * Save posted data in data type meta table
+	 *
+	 * @param string
+	 * @param int
+	 */
+	public static function save_custom_fields($data_type, $existing_id) {
+
+		// loop custom fields from data type (`post`, `page`)
+		foreach(static::fields($data_type) as $custom_field) {
+			// build query for data type metadata
+			$query = Query::table($custom_field->data_type . '_meta')
+				->where('extend', '=', $custom_field->id)
+				->where($custom_field->data_type, '=', $existing_id);
+
+			// remove data if requested
+			if(Input::get('extend_remove.' . $custom_field->key)) {
+				$query->delete();
 			}
-		}
+			else {
+				// run custom field save method
+				$custom_field_type = Type::create($custom_field->field_type, $custom_field);
+				$data = $custom_field_type->save();
 
-		return $files;
-	}
-
-	public static function upload($file) {
-		$storage = PATH . 'content' . DS;
-
-		if(!is_dir($storage)) mkdir($storage);
-
-		$ext = '.' . pathinfo($file['name'], PATHINFO_EXTENSION);
-
-		$filename = slug(rtrim($file['name'], $ext)) . $ext;
-		$filepath = $storage . $filename;
-
-		if(move_uploaded_file($file['tmp_name'], $filepath)) {
-			return $filepath;
-		}
-
-		return false;
-	}
-
-	public static function process_image($extend) {
-		$file = Arr::get(static::files(), $extend->key);
-
-		if($file and $file['error'] === UPLOAD_ERR_OK) {
-			$name = basename($file['name']);
-			$ext = pathinfo($file['name'], PATHINFO_EXTENSION);
-
-			if($filepath = static::upload($file)) {
-				$filename = basename($filepath);
-
-				// resize image
-				if(isset($extend->attributes->size->width) and isset($extend->attributes->size->height)) {
-					$image = Image::open($filepath);
-
-					$width = intval($extend->attributes->size->width);
-					$height = intval($extend->attributes->size->height);
-
-					// resize larger images
-					if(
-						($width and $height) and
-						($image->width() > $width or $image->height() > $height)
-					) {
-						$image->resize($width, $height);
-
-						$image->output($ext, $filepath);
-					}
-				}
-
-				return Json::encode(compact('name', 'filename'));
-			}
-		}
-	}
-
-	public static function process_file($extend) {
-		$file = Arr::get(static::files(), $extend->key);
-
-		if($file and $file['error'] === UPLOAD_ERR_OK) {
-			$name = basename($file['name']);
-
-			if($filepath = static::upload($file)) {
-				$filename = basename($filepath);
-
-				return Json::encode(compact('name', 'filename'));
-			}
-		}
-	}
-
-	public static function process_text($extend) {
-		$text = Input::get('extend.' . $extend->key);
-
-		return Json::encode(compact('text'));
-	}
-
-	public static function process_html($extend) {
-		$html = Input::get('extend.' . $extend->key);
-
-		return Json::encode(compact('html'));
-	}
-
-    public static function process_bool($extend) {
-        $bool = is_null(Input::get('extend.' . $extend->key))? 0: 1;
-
-        return Json::encode(compact('bool'));
-    }
-	/*
-		Save
-	*/
-
-	public static function process($type, $item) {
-		foreach(static::fields($type, $item) as $extend) {
-			if($extend->attributes) {
-				$extend->attributes = Json::decode($extend->attributes);
-			}
-
-			$data = call_user_func_array(array('Extend', 'process_' . $extend->field), array($extend, $item));
-
-			// save data
-			if( ! is_null($data)) {
-				$table = static::table($extend->type . '_meta');
-				$query = Query::table($table)
-					->where('extend', '=', $extend->id)
-					->where($extend->type, '=', $item);
-
+				// save output (should be a json string)
 				if($query->count()) {
 					$query->update(array('data' => $data));
 				}
 				else {
 					$query->insert(array(
-						'extend' => $extend->id,
-						$extend->type => $item,
-						'data' => $data
-					));
-				}
-			}
-
-			// remove data
-			if(Input::get('extend_remove.' . $extend->key)) {
-				if(isset($extend->value->filename) and strlen($extend->value->filename)) {
-					Query::table($extend->type . '_meta')
-						->where('extend', '=', $extend->id)
-						->where($extend->type, '=', $item)->delete();
-
-					$resource = PATH . 'content' . DS . $extend->value->filename;
-					file_exists($resource) and unlink(PATH . 'content' . DS . $extend->value->filename);
+						'extend' => $custom_field->id,
+						$custom_field->data_type => $existing_id,
+						'data' => $data));
 				}
 			}
 		}

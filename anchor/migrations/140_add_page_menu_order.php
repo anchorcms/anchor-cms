@@ -1,6 +1,6 @@
 <?php
 
-class Migration_add_page_menu_order extends Migration {
+class Migration_add_page_menu_order extends Migrations\Migration {
 
 	public function up() {
 		$table = $this->prefix('pages');

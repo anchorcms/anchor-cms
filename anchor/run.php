@@ -1,6 +1,11 @@
 <?php
 
 /*
+ * Set your applications locale
+ */
+setlocale(LC_ALL, Config::app('language', 'en_GB'));
+
+/*
  * Set your applications current timezone
  */
 date_default_timezone_set(Config::app('timezone', 'UTC'));
@@ -10,12 +15,14 @@ date_default_timezone_set(Config::app('timezone', 'UTC'));
  */
 switch(constant('ENV')) {
 	case 'dev':
-		ini_set('display_errors', true);
+		ini_set('display_error', true);
 		error_reporting(-1);
 		break;
 
 	default:
+		ini_set('display_error', false);
 		error_reporting(E_ERROR | E_WARNING | E_PARSE | E_NOTICE);
+		break;
 }
 
 /*
@@ -25,6 +32,21 @@ Autoloader::directory(array(
 	APP . 'models',
 	APP . 'libraries'
 ));
+
+/**
+ * Handle errors when detailed reporting is disabled
+ */
+Error::callback(function() {
+	// try and clear any previous output
+	ob_get_level() and ob_end_clean();
+
+	Response::error(500, View::create('error/500')->render())->send();
+});
+
+/**
+ * Register composer autoloader
+ */
+file_exists($composer = APP . 'vendor/autoload' . EXT) and require $composer;
 
 /**
  * Load password hash compat

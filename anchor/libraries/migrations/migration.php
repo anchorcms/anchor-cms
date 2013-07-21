@@ -1,7 +1,13 @@
-<?php
+<?php namespace Migrations;
+
+use Config;
+use DB;
+use PDO;
 
 abstract class Migration {
+
 	abstract public function up();
+
 	abstract public function down();
 
 	public function prefix($name) {
@@ -18,6 +24,7 @@ abstract class Migration {
 	}
 
 	public function has_table($table) {
+		$table = $this->prefix($table);
 		$default = Config::db('default');
 		$db = Config::db('connections.' . $default . '.database');
 
@@ -36,6 +43,7 @@ abstract class Migration {
 
 	public function has_table_column($table, $column) {
 		if($this->has_table($table)) {
+			$table = $this->prefix($table);
 			$sql = 'SHOW COLUMNS FROM `' . $table . '`';
 			list($result, $statement) = DB::ask($sql);
 			$statement->setFetchMode(PDO::FETCH_OBJ);
@@ -50,4 +58,5 @@ abstract class Migration {
 		}
 		else return false;
 	}
+
 }

@@ -57,44 +57,30 @@ function page_title($default = '') {
 }
 
 /**
- * Returns the page content
- * (depreciated: should use either page_html or page_markdown)
- *
- * @return string
- */
-function page_content() {
-	return page_markdown();
-}
-
-/**
- * Returns the page content
- * (raw content that was entered into the database)
+ * Alias page content
  *
  * @return string
  */
 function page_html() {
-	$raw = Registry::prop('page', 'content');
-
-	// swap out shortcodes {{meta_key}}
-	$parsed = parse($raw);
-
-	return $parsed;
+	return page_content();
 }
 
 /**
- * Returns the page markdown
- * (content is parsed with markdown)
+ * Alias page content
  *
  * @return string
  */
 function page_markdown() {
-	$raw = Registry::prop('page', 'content');
+	return page_content();
+}
 
-	// swap out shortcodes {{meta_key}}
-	$parsed = parse($raw);
-
-	$md = new Markdown;
-	return $md->transform($parsed);
+/**
+ * Returns the page content
+ *
+ * @return string
+ */
+function page_content() {
+	return Registry::get('page')->content();
 }
 
 /**
@@ -114,11 +100,5 @@ function page_status() {
  * @return string
  */
 function page_custom_field($key, $default = '') {
-	$id = Registry::prop('page', 'id');
-
-	if($extend = Extend::field('page', $key, $id)) {
-		return Extend::value($extend, $default);
-	}
-
-	return $default;
+	return Registry::get('page')->custom_field($key, $default);
 }

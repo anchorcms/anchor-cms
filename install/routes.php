@@ -1,10 +1,23 @@
 <?php
 
-/*
-	Filters
-*/
 Route::action('check', function() {
+	if($errors = Support::run_checks()) {
+		Session::put('errors', $errors);
 
+		return Response::redirect('woops');
+	}
+});
+
+/*
+	Requirements
+*/
+Route::get('woops', function() {
+	$vars['errors'] = Session::get('errors');
+	Session::erase('errors');
+
+	if(empty($vars['errors'])) return Response::redirect('start');
+
+	return Layout::create('halt', $vars);
 });
 
 /*
@@ -13,9 +26,9 @@ Route::action('check', function() {
 Route::get(array('/', 'start'), array('before' => 'check', 'main' => function() {
 	$vars['messages'] = Notify::read();
 
-	$vars['languages'] = languages();
-	$vars['prefered_languages'] = prefered_languages();
-	$vars['timezones'] = timezones();
+	$vars['languages'] = Support::languages();
+	$vars['prefered_language'] = Support::prefered_language();
+	$vars['timezones'] = Support::timezones();
 
 	return Layout::create('start', $vars);
 }));
@@ -58,25 +71,7 @@ Route::get('database', array('before' => 'check', 'main' => function() {
 	$vars['messages'] = Notify::read();
 	$vars['collations'] = array(
 		'utf8_bin' => 'Unicode (multilingual), Binary',
-		'utf8_czech_ci' => 'Czech, case-insensitive',
-		'utf8_danish_ci' => 'Danish, case-insensitive',
-		'utf8_esperanto_ci' => 'Esperanto, case-insensitive',
-		'utf8_estonian_ci' => 'Estonian, case-insensitive',
 		'utf8_general_ci' => 'Unicode (multilingual), case-insensitive',
-		'utf8_hungarian_ci' => 'Hungarian, case-insensitive',
-		'utf8_icelandic_ci' => 'Icelandic, case-insensitive',
-		'utf8_latvian_ci' => 'Latvian, case-insensitive',
-		'utf8_lithuanian_ci' => 'Lithuanian, case-insensitive',
-		'utf8_persian_ci' => 'Persian, case-insensitive',
-		'utf8_polish_ci' => 'Polish, case-insensitive',
-		'utf8_roman_ci' => 'West European, case-insensitive',
-		'utf8_romanian_ci' => 'Romanian, case-insensitive',
-		'utf8_slovak_ci' => 'Slovak, case-insensitive',
-		'utf8_slovenian_ci' => 'Slovenian, case-insensitive',
-		'utf8_spanish2_ci' => 'Traditional Spanish, case-insensitive',
-		'utf8_spanish_ci' => 'Spanish, case-insensitive',
-		'utf8_swedish_ci' => 'Swedish, case-insensitive',
-		'utf8_turkish_ci' => 'Turkish, case-insensitive',
 		'utf8_unicode_ci' => 'Unicode (multilingual), case-insensitive'
 	);
 
@@ -99,16 +94,12 @@ Route::post('database', array('before' => 'check', 'main' => function() {
 			'prefix' => $database['prefix']
 		));
 	}
-	catch(PDOException $e) {
+	catch(Exception $e) {
 		Input::flash();
 
 		Notify::error($e->getMessage());
 
 		return Response::redirect('database');
-	}
-
-	foreach($database as $key => $val) {
-	    $database[$key] = str_replace('\'', '\\\'', $val);
 	}
 
 	Session::put('install.database', $database);
@@ -130,6 +121,7 @@ Route::get('metadata', array('before' => 'check', 'main' => function() {
 	$vars['messages'] = Notify::read();
 	$vars['site_path'] = dirname(dirname($_SERVER['SCRIPT_NAME']));
 	$vars['themes'] = Themes::all();
+	$vars['support'] = new Support;
 
 	return Layout::create('metadata', $vars);
 }));
@@ -206,7 +198,8 @@ Route::post('account', array('before' => 'check', 'main' => function() {
 
 	// run install process
 	try {
-		Installer::run();
+		$installer = new Installer;
+		$installer->run();
 	}
 	catch(Exception $e) {
 		Input::flash();
@@ -244,6 +237,6 @@ Route::get('complete', function() {
 /*
 	404 catch all
 */
-Route::any(':all', function() {
+Route::not_found(function() {
 	return Response::error(404);
 });
