@@ -2,19 +2,12 @@
 <html lang="en">
 	<head>
 		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width">
 		<title><?php echo __('global.manage'); ?> <?php echo Config::meta('sitename'); ?></title>
 
-		<link rel="stylesheet" href="<?php echo asset('anchor/views/assets/css/reset.css'); ?>">
-		<link rel="stylesheet" href="<?php echo asset('anchor/views/assets/css/admin.css'); ?>">
-		<link rel="stylesheet" href="<?php echo asset('anchor/views/assets/css/login.css'); ?>">
-		<link rel="stylesheet" href="<?php echo asset('anchor/views/assets/css/notifications.css'); ?>">
-		<link rel="stylesheet" href="<?php echo asset('anchor/views/assets/css/forms.css'); ?>">
-
-		<link rel="stylesheet" media="(max-width: 980px), (max-device-width: 480px)"
-			href="<?php echo asset('anchor/views/assets/css/small.css'); ?>">
-
-		<meta http-equiv="X-UA-Compatible" content="chrome=1">
-		<meta name="viewport" content="width=600">
+		<link rel="stylesheet" href="<?php echo asset('anchor/views/assets/css/styles.css'); ?>">
+		<link rel="stylesheet" media="(max-width: 980px), (max-device-width: 480px)" href="<?php echo asset('anchor/views/assets/css/small.css'); ?>">
 
         <script src="<?php echo asset('anchor/views/assets/js/zepto.js'); ?>"></script>
         <script src="<?php echo asset('anchor/views/assets/js/admin.js'); ?>"></script>

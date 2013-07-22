@@ -10,10 +10,8 @@
  * @param string
  * @return string
  */
-function __($line) {
-	$args = array_slice(func_get_args(), 1);
-
-	return Language::line($line, null, $args);
+function __($message) {
+	return i18n\Translation::__($message, array_slice(func_get_args(), 1));
 }
 
 /**

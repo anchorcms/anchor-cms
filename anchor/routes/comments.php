@@ -14,6 +14,7 @@ Route::collection(array('before' => 'auth'), function() {
 		$vars['comments'] = new Paginator($results, $count, $page, $perpage, Uri::to('admin/comments'));
 		$vars['messages'] = Notify::read();
 
+		$vars['status'] = 'all';
 		$vars['statuses'] = array(
 			array('url' => '', 'lang' => 'global.all', 'class' => 'active'),
 			array('url' => 'pending', 'lang' => 'global.pending', 'class' => 'pending'),

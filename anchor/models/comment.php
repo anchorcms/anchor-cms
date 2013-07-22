@@ -24,8 +24,7 @@ class Comment extends Base {
 		 return $validator;
 	}
 
-	public static function create_($post, $input) {
-		$input['post'] = $post;
+	public static function create($input) {
 		$input['date'] = Date::mysql('now');
 		$input['status'] = Config::meta('auto_published_comments') ? 'approved' : 'pending';
 

@@ -24,3 +24,18 @@ To determine your PHP version, create a new file with this PHP code: `<?php echo
 ### Problems?
 
 If you can't install Anchor, check the [forums](http://forums.anchorcms.com/); there's probably someone there who's had the same problem as you, and the community is always happy to help. Additionally, check out the [documentation](http://anchorcms.com/docs).
+
+## Contribution Guidelines
+
+Please submit issues to anchorcms/anchor-cms and pull requests to *-dev branches.
+
+Checking out out Anchor
+
+	mkdir anchor-dev
+	cd anchor-dev
+	git init
+	git remote add origin git@github.com:anchorcms/anchor-cms.git
+	git checkout VERSION-dev
+	git pull origin VERSION-dev
+
+Replacing VERSION with the corisponding branch.

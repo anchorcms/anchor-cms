@@ -34,6 +34,11 @@
 	<fieldset class="meta split" id="meta">
 		<div class="wrap">
 			<p>
+				<label><?php echo __('posts.date'); ?>:</label>
+				<?php echo Form::text('created', Input::previous('created', Date::format('now', 'Y-m-d H:i:s'))); ?>
+				<em><?php echo __('posts.date_explain'); ?></em>
+			</p>
+			<p>
 				<label><?php echo __('posts.slug'); ?>:</label>
 				<?php echo Form::text('slug', Input::previous('slug')); ?>
 				<em><?php echo __('posts.slug_explain'); ?></em>

@@ -7,6 +7,7 @@ class Post extends Base {
 	public static function input() {
 		return filter_var_array(Input::get(), array(
 			'title' => FILTER_SANITIZE_STRING,
+			'created' => FILTER_SANITIZE_STRING,
 			'slug' => FILTER_SANITIZE_URL,
 			'description' => FILTER_SANITIZE_STRING,
 			'created' => FILTER_SANITIZE_STRING,
@@ -35,8 +36,15 @@ class Post extends Base {
 				->where(Post::$primary, '<>', $existing_id)->count() == 0;
 		});
 
+		$validator->add('datetime', function($str) {
+			return preg_match('#^[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}-[0-9]{2}-[0-9]{2}$#', $str) == 0;
+		});
+
 		$validator->check('title')
 			->is_max(2, __('posts.title_missing'));
+
+		$validator->check('created')
+			->is_datetime(__('posts.date_missing'));
 
 		$validator->check('slug')
 			->is_max(2, __('posts.slug_missing'))
@@ -47,20 +55,12 @@ class Post extends Base {
 	}
 
 	public static function create($input) {
-		if(empty($input['created'])) {
-			$input['created'] = Date::mysql('now');
-		}
-
 		$user = Auth::user();
 
 		$input['author'] = $user->id;
 
 		if(is_null($input['comments'])) {
 			$input['comments'] = 0;
-		}
-
-		if(empty($input['html'])) {
-			$input['status'] = 'draft';
 		}
 
 		$post = parent::create($input);
@@ -71,19 +71,8 @@ class Post extends Base {
 	}
 
 	public static function update($id, $input) {
-		if($input['created']) {
-			$input['created'] = Date::mysql($input['created']);
-		}
-		else {
-			unset($input['created']);
-		}
-
 		if(is_null($input['comments'])) {
 			$input['comments'] = 0;
-		}
-
-		if(empty($input['html'])) {
-			$input['status'] = 'draft';
 		}
 
 		Extend::save_custom_fields('post', $id);

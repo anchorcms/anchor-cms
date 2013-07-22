@@ -1,11 +1,6 @@
 <?php
 
 /*
- * Set your applications locale
- */
-setlocale(LC_ALL, Config::app('language', 'en_GB'));
-
-/*
  * Set your applications current timezone
  */
 date_default_timezone_set(Config::app('timezone', 'UTC'));
@@ -43,15 +38,15 @@ Error::callback(function() {
 	Response::error(500, View::create('error/500')->render())->send();
 });
 
+/*
+ * Set application locale
+ */
+i18n\Locale::setDefault(Config::app('language', 'en_GB'));
+
 /**
  * Register composer autoloader
  */
 file_exists($composer = APP . 'vendor/autoload' . EXT) and require $composer;
-
-/**
- * Load password hash compat
- */
-require APP . 'libraries/password' . EXT;
 
 /**
  * Helpers

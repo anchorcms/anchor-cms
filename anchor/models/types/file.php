@@ -51,6 +51,9 @@ class File extends Type {
 			'size' => $_FILES['extend']['size'][$this->field->key]
 		);
 
+		// skip empty files
+		if($file['size'] == 0) return '';
+
 		$uploader = new Uploader(PATH . 'content');
 		$filepath = $uploader->upload($file);
 

@@ -26,6 +26,9 @@ Route::collection(array('before' => 'auth'), function() {
 		$vars['info'] = Plugin::about($slug);
 		$vars['plugin'] = Plugin::where('path', '=', $slug)->fetch();
 
+		$action = ($vars['plugin']) ? '/uninstall' : '/install';
+		$vars['url'] = 'admin/extend/plugins/' . $vars['info']['path'] . '/' . $action;
+
 		return View::create('extend/plugins/overview', $vars)
 			->partial('header', 'partials/header')
 			->partial('footer', 'partials/footer');

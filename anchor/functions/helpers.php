@@ -115,9 +115,7 @@ function body_class() {
 
 	//  Get the URL slug
 	foreach(explode('/', Uri::current()) as $segment) {
-		if($segment = trim($segment)) {
-			$classes[] = $segment;
-		}
+		$classes[] = filter_var($segment, FILTER_SANITIZE_SPECIAL_CHARS);
 	}
 
 	//  Is it a posts page?

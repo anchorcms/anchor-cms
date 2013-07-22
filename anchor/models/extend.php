@@ -98,17 +98,18 @@ class Extend extends Base {
 			else {
 				// run custom field save method
 				$custom_field_type = Type::create($custom_field->field_type, $custom_field);
-				$data = $custom_field_type->save();
 
-				// save output (should be a json string)
-				if($query->count()) {
-					$query->update(array('data' => $data));
-				}
-				else {
-					$query->insert(array(
-						'extend' => $custom_field->id,
-						$custom_field->data_type => $existing_id,
-						'data' => $data));
+				if($data = $custom_field_type->save()) {
+					// save output (should be a json string)
+					if($query->count()) {
+						$query->update(array('data' => $data));
+					}
+					else {
+						$query->insert(array(
+							'extend' => $custom_field->id,
+							$custom_field->data_type => $existing_id,
+							'data' => $data));
+					}
 				}
 			}
 		}

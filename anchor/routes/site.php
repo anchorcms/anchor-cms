@@ -142,7 +142,10 @@ Route::post($posts_page->slug . '/(:any)', function($slug) use($posts_page) {
 		return Response::redirect($posts_page->slug . '/' . $slug . '#comment');
 	}
 
-	$comment = Comment::create($post->id, $input);
+	// set the post ID
+	$input['post'] = $post->id;
+
+	$comment = Comment::create($input);
 
 	Notify::success(__('comments.created'));
 

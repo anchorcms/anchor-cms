@@ -8,20 +8,24 @@
 	<?php echo $messages; ?>
 
 	<nav class="sidebar">
-		<?php echo Html::link('test'); ?>
+		<ul>
+			<li><a href="#">Link</a></li>
+		</ul>
 	</nav>
 
-	<p><?php echo $info['description']; ?></p>
-	<p><code>Version <?php echo $info['version']; ?></code></p>
+	<div class="main">
+		<p><?php echo $info['description']; ?></p>
+		<p><code>Version <?php echo $info['version']; ?></code></p>
 
-	<aside class="buttons">
-	<?php if($plugin): ?>
-	<?php echo Html::link('admin/extend/plugins/' . $info['path'] . '/uninstall', 'Uninstall', array('class' => 'btn red delete')); ?>
-	<?php else: ?>
-	<?php echo Html::link('admin/extend/plugins/' . $info['path'] . '/install', 'Install', array('class' => 'btn')); ?>
-	<?php endif; ?>
-	<?php echo Html::link('admin/extend/plugins', 'Return to plugins', array('class' => 'btn blue')); ?>
-	</aside>
+		<aside class="buttons">
+		<?php if($plugin): ?>
+			<?php echo Html::link($url, 'Uninstall', array('class' => 'btn red delete')); ?>
+		<?php else: ?>
+			<?php echo Html::link($url, 'Install', array('class' => 'btn')); ?>
+		<?php endif; ?>
+			<?php echo Html::link('admin/extend/plugins', 'Return to plugins', array('class' => 'btn blue')); ?>
+		</aside>
+	</div>
 </section>
 
 <?php echo $footer; ?>

@@ -5,10 +5,15 @@
  */
 $(function() {
 	var zone = $(document), body = $('body');
+
 	var allowed = ['text/css',
 		'text/javascript', 'application/javascript',
 		'text/x-markdown',
 		'image/jpeg', 'image/gif', 'image/png'];
+
+	var debug = function(message) {
+		if(window.console) console.log(message);
+	}
 
 	var cancel = function(event) {
 		event.preventDefault();
@@ -38,8 +43,8 @@ $(function() {
 			if(allowed.indexOf(file.type) !== -1) {
 				transfer(file);
 			}
-			else if(window.console) {
-				console.log(file.type + ' not supported');
+			else {
+				debug(file.type + ' not supported');
 			}
 		}
 
@@ -56,13 +61,46 @@ $(function() {
 		reader.readAsBinaryString(file);
 	};
 
+	var complete = function() {
+		if(['text/x-markdown'].indexOf(this.file.type) !== -1) {
+			var textarea = $('.main textarea');
+
+			textarea.val(this.result).trigger('keydown');
+		}
+
+		if(['text/javascript', 'application/javascript'].indexOf(this.file.type) !== -1) {
+			var textarea = $('textarea[name=js]');
+
+			textarea.val(this.result);
+		}
+
+		if(['text/css'].indexOf(this.file.type) !== -1) {
+			var textarea = $('textarea[name=css]');
+
+			textarea.val(this.result);
+		}
+
+		if(['image/jpeg', 'image/gif', 'image/png'].indexOf(this.file.type) !== -1) {
+			var path = window.location.pathname, uri, parts = path.split('/');
+
+			if(parts[parts.length - 1] == 'add') {
+				uri = path.split('/').slice(0, -1).join('/') + '/upload';
+			}
+			else {
+				uri = path.split('/').slice(0, -2).join('/') + '/upload';
+			}
+
+			upload(uri, this.file);
+		}
+	};
+
 	var upload = function(uri, file) {
 		// Uploading - for Firefox, Google Chrome and Safari
 		var xhr = new XMLHttpRequest();
 		xhr.open("post", uri);
 
 		var formData = new FormData();
-    	formData.append('file', file);
+		formData.append('file', file);
 
 		xhr.onreadystatechange = function() {
 			if(this.readyState == 4) {
@@ -100,7 +138,7 @@ $(function() {
 	var uploaded = function(file, response) {
 		var data = JSON.parse(response);
 
-		if(data.result) {
+		if(data.uri) {
 			var textarea = $('.main textarea'),
 				element = textarea[0],
 				start = element.selectionStart,
@@ -110,39 +148,6 @@ $(function() {
 			element.value = value.substring(0, start) + img + value.substring(start);
 			element.selectionStart = element.selectionEnd = start + img.length;
 			textarea.trigger('keydown');
-		}
-	};
-
-	var complete = function() {
-		if(['text/x-markdown'].indexOf(this.file.type) !== -1) {
-			var textarea = $('.main textarea');
-
-			textarea.val(this.result).trigger('keydown');
-		}
-
-		if(['text/javascript', 'application/javascript'].indexOf(this.file.type) !== -1) {
-			var textarea = $('textarea[name=js]');
-
-			textarea.val(this.result);
-		}
-
-		if(['text/css'].indexOf(this.file.type) !== -1) {
-			var textarea = $('textarea[name=css]');
-
-			textarea.val(this.result);
-		}
-
-		if(['image/jpeg', 'image/gif', 'image/png'].indexOf(this.file.type) !== -1) {
-			var path = window.location.pathname, uri, parts = path.split('/');
-
-			if(parts[parts.length - 1] == 'add') {
-				uri = path.split('/').slice(0, -1).join('/') + '/upload';
-			}
-			else {
-				uri = path.split('/').slice(0, -2).join('/') + '/upload';
-			}
-
-			upload(uri, this.file);
 		}
 	};
 
