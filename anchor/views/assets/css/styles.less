@@ -262,6 +262,9 @@ hgroup {
 	border: none;
 	border-radius: 5px;
 
+	background-repeat: no-repeat;
+	background-position: 10px 10px;
+
 	/* span.btn */
 	cursor: pointer;
 	.transition(all .25s);
@@ -289,6 +292,13 @@ hgroup {
 		&:hover {
 			background: @dark-red;
 		}
+	}
+
+	&.loading {
+		background-repeat: no-repeat;
+		background-position: 12px 10px;
+		background-image: url('../img/4.gif');
+		padding-left: 40px;
 	}
 }
 
@@ -1092,3 +1102,7 @@ input[type='range'] {
 		}
 	}
 }
+
+
+
+

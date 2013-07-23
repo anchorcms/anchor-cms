@@ -4,7 +4,12 @@
  * Admin actions
  */
 Route::action('auth', function() {
-	if(Auth::guest()) return Response::redirect('admin/login');
+	if(Auth::guest()) {
+		if(Request::ajax()) {
+			return Response::json(array('result' => false, 'messages' => 'Please login'));
+		}
+		return Response::redirect('admin/login');
+	}
 });
 
 Route::action('guest', function() {

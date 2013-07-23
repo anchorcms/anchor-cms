@@ -81,6 +81,10 @@ Route::collection(array('before' => 'auth,csrf'), function() {
 		$input = Post::input();
 
 		if($errors = Post::validate($input, $id)) {
+			if(Request::ajax()) {
+				return Response::json(array('result' => false, 'messages' => $errors));
+			}
+
 			Input::flash();
 
 			Notify::error($errors);
@@ -89,6 +93,10 @@ Route::collection(array('before' => 'auth,csrf'), function() {
 		}
 
 		Post::update($id, $input);
+
+		if(Request::ajax()) {
+			return Response::json(array('result' => true, 'messages' => array(__('posts.updated'))));
+		}
 
 		Notify::success(__('posts.updated'));
 
