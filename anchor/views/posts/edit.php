@@ -96,32 +96,4 @@
 	$('textarea[name=html]').editor();
 </script>
 
-<script>
-	var button = $('button[type=submit]'), form = $('form');
-
-	button.on('click', function() {
-		button.addClass('loading');
-
-		$.ajax({
-			type: 'POST',
-			url: form.attr('action'),
-			data: form.serialize(),
-			dataType: 'json',
-			success: function(data) {
-				if( ! data.result) {
-					alert(data.messages.join("\n"));
-				}
-			},
-			error: function(xhr, type) {},
-			complete: function() {
-				setTimeout(function() {
-					button.removeClass('loading');
-				}, 500);
-			}
-		});
-
-		return false;
-	});
-</script>
-
 <?php echo $footer; ?>
