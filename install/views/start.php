@@ -33,7 +33,8 @@
 				</label>
 				<select id="timezone" name="timezone">
 					<?php foreach($timezones as $ident): ?>
-					<option value="<?php echo $ident; ?>"><?php echo $ident; ?></option>
+					<?php $selected = ($ident == $prefered_timezone) ? ' selected' : ''; ?>
+					<option<?php echo $selected; ?>><?php echo $ident; ?></option>
 					<?php endforeach; ?>
 				</select>
 			</p>

@@ -100,7 +100,6 @@
 	var button = $('button[type=submit]'), form = $('form');
 
 	button.on('click', function() {
-
 		button.addClass('loading');
 
 		$.ajax({
@@ -109,13 +108,15 @@
 			data: form.serialize(),
 			dataType: 'json',
 			success: function(data) {
-				console.log(data);
+				if( ! data.result) {
+					alert(data.messages.join("\n"));
+				}
 			},
-			error: function(xhr, type){
-				console.log(xhr, type);
-			},
+			error: function(xhr, type) {},
 			complete: function() {
-				button.removeClass('loading');
+				setTimeout(function() {
+					button.removeClass('loading');
+				}, 500);
 			}
 		});
 

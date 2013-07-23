@@ -6,6 +6,14 @@ class Support {
 		return DateTimeZone::listIdentifiers(DateTimeZone::ALL);
 	}
 
+	public static function prefered_timezone($default = 'Europe/London') {
+		if($tz = date_default_timezone_get()) {
+			return $tz;
+		}
+
+		return $default;
+	}
+
 	public static function languages() {
 		$languages = array();
 
@@ -22,7 +30,7 @@ class Support {
 	}
 
 	public static function prefered_language($default = 'en_GB') {
-		if($locale = Locale::acceptFromHttp(Arr::get($_SERVER, 'HTTP_ACCEPT_LANGUAGE'))) {
+		if($locale = i18n\Locale::acceptFromHttp(Arr::get($_SERVER, 'HTTP_ACCEPT_LANGUAGE'))) {
 			return $locale;
 		}
 

@@ -14,7 +14,6 @@
 		"vendor-dir": "anchor/vendor"
 	},
 	"require": {
-		"php": ">=5.3",
-		"ircmaxell/password-compat": "1.0.*@dev"
+		"php": ">=5.3"
 	}
 }

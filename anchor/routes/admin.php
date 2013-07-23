@@ -6,18 +6,30 @@
 Route::action('auth', function() {
 	if(Auth::guest()) {
 		if(Request::ajax()) {
-			return Response::json(array('result' => false, 'messages' => 'Please login'));
+			return Response::json(array(
+				'result' => false,
+				'messages' => array('Please login')
+			));
 		}
 		return Response::redirect('admin/login');
 	}
 });
 
 Route::action('guest', function() {
-	if(Auth::user()) return Response::redirect('admin/posts');
+	if(Auth::user()) {
+		return Response::redirect('admin/posts');
+	}
 });
 
 Route::action('csrf', function() {
 	if( ! Csrf::check(Input::get('token'))) {
+		if(Request::ajax()) {
+			return Response::json(array(
+				'result' => false,
+				'messages' => array('Invalid token')
+			));
+		}
+
 		Notify::error(array('Invalid token'));
 
 		return Response::redirect('admin/login');
@@ -28,7 +40,10 @@ Route::action('csrf', function() {
  * Admin routing
  */
 Route::get('admin', function() {
-	if(Auth::guest()) return Response::redirect('admin/login');
+	if(Auth::guest()) {
+		return Response::redirect('admin/login');
+	}
+
 	return Response::redirect('admin/posts');
 });
 

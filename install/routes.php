@@ -29,6 +29,7 @@ Route::get(array('/', 'start'), array('before' => 'check', 'main' => function() 
 	$vars['languages'] = Support::languages();
 	$vars['prefered_language'] = Support::prefered_language();
 	$vars['timezones'] = Support::timezones();
+	$vars['prefered_timezone'] = Support::prefered_timezone();
 
 	return Layout::create('start', $vars);
 }));

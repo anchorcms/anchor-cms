@@ -1,14 +1,11 @@
 <?php
 
 /*
- * Set your applications locale
- */
-setlocale(LC_ALL, Config::app('language', 'en_GB'));
-
-/*
  * Set your applications current timezone
  */
-date_default_timezone_set(Config::app('timezone', 'UTC'));
+if( ! date_default_timezone_get()) {
+	date_default_timezone_set(Config::app('timezone'));
+}
 
 /*
  * Define the application error reporting level based on your environment

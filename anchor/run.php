@@ -49,6 +49,11 @@ i18n\Locale::setDefault(Config::app('language', 'en_GB'));
 file_exists($composer = APP . 'vendor/autoload' . EXT) and require $composer;
 
 /**
+ * Password compat
+ */
+require APP . 'libraries/password' . EXT;
+
+/**
  * Helpers
  */
 require APP . 'helpers' . EXT;
