@@ -15,7 +15,7 @@
 				<label for="site_name">Site Name</label>
 				<i>What’s your blog called?.</i>
 
-				<input id="site_name" name="site_name" value="<?php echo Input::previous('site_name', 'My First Anchor Blog'); ?>">
+				<input id="site_name" name="site_name" value="<?php echo Input::previous('site_name', 'My First Anchor Blog'); ?>" autofocus>
 			</p>
 
 			<p>
