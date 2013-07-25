@@ -29,7 +29,7 @@ If you can't install Anchor, check the [forums](http://forums.anchorcms.com/); t
 
 Please submit issues to anchorcms/anchor-cms and pull requests to *-dev branches.
 
-Checking out out Anchor
+Checking out Anchor
 
 	mkdir anchor-dev
 	cd anchor-dev
@@ -38,4 +38,4 @@ Checking out out Anchor
 	git checkout VERSION-dev
 	git pull origin VERSION-dev
 
-Replacing VERSION with the corisponding branch.
+Replacing VERSION with the corresponding branch.
