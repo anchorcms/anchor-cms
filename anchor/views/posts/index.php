@@ -48,11 +48,11 @@
 
 	<?php else: ?>
 
-	<p class="empty posts">
+	<div class="empty posts">
 		<span class="icon"></span>
-		<?php echo __('posts.noposts_desc'); ?><br>
+		<p><?php echo __('posts.noposts_desc'); ?></p>
 		<?php echo Html::link('admin/posts/add', __('posts.create_post'), array('class' => 'btn')); ?>
-	</p>
+	</div>
 
 	<?php endif; ?>
 </section>
