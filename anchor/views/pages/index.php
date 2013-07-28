@@ -46,11 +46,11 @@
 	<aside class="paging"><?php echo $pages->links(); ?></aside>
 
 	<?php else: ?>
-	<aside class="empty pages">
+	<div class="empty pages">
 		<span class="icon"></span>
-		<?php echo __('pages.nopages_desc'); ?><br>
-		<?php echo Html::link('admin/pages/add', __('pages.create_page'), array('class' => 'btn')); ?>
-	</aside>
+		<p><?php echo __('pages.nopages_desc'); ?></p>
+		<p><?php echo Html::link('admin/pages/add', __('pages.create_page'), array('class' => 'btn')); ?></p>
+	</div>
 	<?php endif; ?>
 </section>
 
