@@ -58,6 +58,7 @@ class Installer {
 		$this->categories();
 		$this->pages();
 		$this->posts();
+		$this->user();
 	}
 
 	private function metadata() {
@@ -187,6 +188,22 @@ class Installer {
 				'category' => 1,
 				'status' => 'published',
 				'comments' => 0
+			));
+		}
+	}
+
+	private function user() {
+		$query = Query::table('users', $this->connection);
+
+		if($query->count() == 0) {
+			$query->insert(array(
+				'username' => $this->session['account']['username'],
+				'password' => password_hash($this->session['account']['password']),
+				'email' => $this->session['account']['email'],
+				'real_name' => 'Administrator',
+				'bio' => 'The bouse',
+				'status' => 'active',
+				'role' => 'administrator'
 			));
 		}
 	}

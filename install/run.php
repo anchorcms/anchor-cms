@@ -31,6 +31,11 @@ Autoloader::directory(array(
 ));
 
 /**
+ * Password compat
+ */
+require PATH . 'anchor/libraries/password' . EXT;
+
+/**
  * Set the current uri from get
  */
 if($route = Arr::get($_GET, 'route', '/')) {
