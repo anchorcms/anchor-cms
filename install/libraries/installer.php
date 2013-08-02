@@ -198,7 +198,7 @@ class Installer {
 		if($query->count() == 0) {
 			$query->insert(array(
 				'username' => $this->session['account']['username'],
-				'password' => password_hash($this->session['account']['password']),
+				'password' => password_hash($this->session['account']['password'], PASSWORD_BCRYPT),
 				'email' => $this->session['account']['email'],
 				'real_name' => 'Administrator',
 				'bio' => 'The bouse',
