@@ -13,7 +13,11 @@ if($home_page->id != $posts_page->id) { // home page is different to the posts p
 	Route::get(array('/', $home_page->slug), function() use($home_page) {
 		Registry::set('page', $home_page);
 
-		return new Template('page');
+		$template = new Template('page');
+    	if($template->exists('page-' . $home_page->slug)) {
+   			$template->set('page-' . $home_page->slug);
+   		}
+		return $template;
 	});
 }
 
