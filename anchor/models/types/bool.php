@@ -2,6 +2,7 @@
 
 use Type;
 use Input;
+use Json;
 
 class Bool extends Type {
 
@@ -23,7 +24,7 @@ class Bool extends Type {
 	}
 
 	public function save() {
-		$bool = Input::get('extend.' . $this->field->key) ? 0 : 1;
+		$bool = Input::get('extend.' . $this->field->key) ? 1 : 0;
 
 		return Json::encode(compact('bool'));
 	}
