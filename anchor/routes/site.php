@@ -163,7 +163,7 @@ Route::post($posts_page->slug . '/(:any)', function($slug) use($posts_page) {
 
 Route::get('like/(:any)', function($slug) {
 	if (Post::like($slug)) {
-		return Response::redirect('posts/' . $slug);
+		return Response::redirect($posts_page->slug . '/' . $slug);
 	}
 });
 
