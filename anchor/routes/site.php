@@ -161,6 +161,12 @@ Route::post($posts_page->slug . '/(:any)', function($slug) use($posts_page) {
 	return Response::redirect($posts_page->slug . '/' . $slug . '#comment');
 });
 
+Route::get('like/(:any)', function($slug) {
+	if (Post::like($slug)) {
+		return Response::redirect('posts/' . $slug);
+	}
+});
+
 /**
  * Rss feed
  */
