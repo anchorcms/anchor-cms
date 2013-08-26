@@ -41,7 +41,7 @@
 		<?php endif; ?>
 
 	<?php else: ?>
-		<p>Looks like you have some writing to do!</p>
+		<p class="noposts">Looks like you have some writing to do!</p>
 	<?php endif; ?>
 
 </section>
