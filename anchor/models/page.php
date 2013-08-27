@@ -154,7 +154,7 @@ class Page extends Base {
 			->where('extend', '=', $custom_field->id)->fetch();
 
 		// only set the value if we have data
-		if($data) $custom_field->value = Json::decode($data);
+		if($data) $custom_field->value = Json::decode($data->data);
 
 		$custom_field_type = Type::create($custom_field->field_type, $custom_field);
 
