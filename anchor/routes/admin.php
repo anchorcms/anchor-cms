@@ -220,6 +220,7 @@ Route::get('admin/extend', array('before' => 'auth', 'main' => function($page = 
 	$vars['token'] = Csrf::token();
 
 	return View::create('extend/index', $vars)
+		->partial('nav', 'extend/nav')
 		->partial('header', 'partials/header')
 		->partial('footer', 'partials/footer');
 }));
