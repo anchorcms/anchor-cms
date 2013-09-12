@@ -11,7 +11,6 @@ $(function() {
 		slidingMeta = false,
 		metaObj = {
 			height: '0px', // height: 0 doesn't work
-			overflow: 'hidden',
 			padding: 0
 		};
 
