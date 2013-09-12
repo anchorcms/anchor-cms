@@ -154,6 +154,8 @@ img {
 		}
 
 		a {
+
+			text-shadow: 0 1px 0 rgba(0, 0, 0, 0.3);
 			margin-right: 11px;
 			color: #7b8eaa;
 
@@ -163,6 +165,7 @@ img {
 		}
 
 		.active a {
+			text-shadow: none;
 			color: #38414f;
 			background: #687993;
 			border-radius: 5px;
@@ -170,6 +173,8 @@ img {
 	}
 
 	.btn {
+
+		text-shadow: 0 1px 0 rgba(0, 0, 0, 0.3);
 		float: right;
 		padding: 0 16px;
 		margin-left: 20px;
@@ -225,7 +230,22 @@ hgroup {
 
 	position: absolute;
 	right: 30px;
-	top: 30px;
+	top: 45px;
+}
+
+.published {
+	background-color: @light-green;
+	color: white;
+}
+
+.archived {
+	background-color: @light-red;
+	color: white;
+}
+
+.draft {
+	background-color: #848F9F;
+	color: white;
 }
 
 .disabled, [disabled] {
@@ -267,7 +287,7 @@ hgroup {
 
 	/* span.btn */
 	cursor: pointer;
-	.transition(background-color .25s);
+	transition: 0.25s ease-in-out;
 
 	&:hover {
 		background: @dark-green;
@@ -408,7 +428,6 @@ hgroup {
 
 .empty {
 	text-align: center;
-	padding: 60px 0;
 
 	.icon {
 		display: block;
@@ -419,26 +438,37 @@ hgroup {
 	}
 
 	a {
-		margin-top: 80px;
+		margin: 15px 0 30px 0;
 	}
 }
 
 .posts.empty .icon {
-	width: 52px;
-	background-position: -204px 0;
-}
+			padding-bottom: 15px;
+			display: inline-block;
+			margin: 0 auto;
+			width: 52px;
+			background-position: -204px 0;
+		}
 
 .comments.empty .icon {
+	padding-bottom: 15px;
+	display: inline-block;
+	margin: 0 auto;
 	width: 55px;
 	background-position: -256px 0;
 }
 
 .pages.empty .icon {
+	padding-bottom: 15px;
+	display: inline-block;
+	margin: 0 auto;
 	width: 45px;
 	background-position: -311px 0;
 }
 
 .sidebar {
+	font-weight: 500;
+	text-transform: capitalize;
 	float: left;
 	width: 150px;
 	border-top: 1px solid #dadfe5;
@@ -850,7 +880,7 @@ input, textarea, button {
 }
 
 textarea {
-	font-size: 17px;
+	font-size: @font-size;
 	line-height: 25px;
 	resize: vertical;
 }
@@ -881,7 +911,7 @@ select {
 	display: block;
 	float: left;
 	height: 39px;
-	padding: 9px 0 8px 20px;
+	padding: 9px 0 0 13px;
 
 	border: none;
 	border-radius: 0 5px 5px 0;
@@ -913,7 +943,7 @@ input[type='range'],
 
 input[type='range'] {
 	background: #cdd3db;
-	padding: 0 5px 0 0 !important;
+	padding: 0 0 0 15px !important;
 	cursor: col-resize;
 	overflow: hidden;
 }
@@ -971,7 +1001,7 @@ input[type='range'] {
 		height: 39px;
 		padding: 0 18px;
 
-		text-align: center;
+		text-align: right;
 		line-height: 39px;
 
 		-webkit-user-select: none;

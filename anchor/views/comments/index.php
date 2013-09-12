@@ -31,10 +31,10 @@
 	<aside class="paging"><?php echo $comments->links(); ?></aside>
 
 	<?php else: ?>
-	<p class="empty comments">
+	<div class="empty comments">
 		<span class="icon"></span>
-		<?php echo __('comments.nocomments_desc'); ?>
-	</p>
+		<p><?php echo __('comments.nocomments_desc'); ?></p>
+	</div>
 	<?php endif; ?>
 </section>
 
