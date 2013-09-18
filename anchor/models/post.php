@@ -128,6 +128,21 @@ class Post extends Base {
 		return array($total, $posts);
 	}
 
+	public static function like($slug) {
+		$post = static::slug($slug)->id;
+		$likes = static::slug($slug)->likes + 1;
+
+		$data = array('likes' => $likes);
+
+		if (static::update($post, $data)) {
+			Session::put($slug, 'liked');
+		} else {
+			return false;
+		}
+
+		return true;
+	}
+
 	public static function search($term, $page = 1, $per_page = 10) {
 		$query = static::left_join('users', 'users.id', '=', 'posts.author')
 			->left_join('post_meta', 'post_meta.post', '=', 'posts.id')
