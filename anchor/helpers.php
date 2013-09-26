@@ -15,6 +15,23 @@ function __($message) {
 }
 
 /**
+ * Fallback a string
+ *
+ * usage:
+ *	<?php echo __($test, 'in case $test doesnt exist'); ?>
+ *
+ * @param string
+ * @return string
+ */
+function fallback($str, $fallback = '', $not = false) {
+    if(!$str or $str == $not) {
+        return $fallback;
+    }
+    
+	return $str;
+}
+
+/**
  * Uses the current uri to determain if we are accessing a admin route
  *
  * @return bool

@@ -2,7 +2,7 @@
  *   Anchor, general admin stuff
  */
 $(function() {
-	var body = $('body').addClass('js-enabled');
+	var body = $('body');
 
 	//  Meta toggling
 	var meta = $('.meta'),

@@ -10,13 +10,13 @@
 
 		<link rel="stylesheet" href="<?php echo asset('anchor/views/assets/css/styles.css'); ?>">
 		<link rel="stylesheet" media="(max-width: 980px), (max-device-width: 480px)" href="<?php echo asset('anchor/views/assets/css/small.css'); ?>">
-
-        <script src="<?php echo asset('anchor/views/assets/js/zepto.js'); ?>"></script>
-        <script src="<?php echo asset('anchor/views/assets/js/admin.js'); ?>"></script>
-        <script src="<?php echo asset('anchor/views/assets/js/notify.js'); ?>"></script>
 	</head>
 	<body class="<?php echo Auth::guest() ? 'login' : 'admin'; ?>">
-
+	
+        <!-- Add loading class for preloader -->
+        <script>document.body.className += ' js loading';</script> 
+	
+	<div class="star">
 		<header class="top">
 			<div class="wrap">
 				<?php if(Auth::user()): ?>

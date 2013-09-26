@@ -30,7 +30,7 @@ class Themes {
 
 		// read file into a array
 		$contents = explode("\n", trim(file_get_contents($file)));
-		$about = array();
+		$about = array('slug' => $theme);
 
 		foreach(array('name', 'description', 'author', 'site', 'license') as $index => $key) {
 			// temp value

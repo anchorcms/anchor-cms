@@ -1,32 +1,12 @@
 <ul class="items">
-	<li>
-		<a href="<?php echo Uri::to('admin/extend/fields'); ?>">
-			<strong><?php echo __('extend.fields'); ?></strong>
-			<span><?php echo __('extend.fields_desc'); ?>.</span>
+    <?php $pages = array('fields', 'variables', 'metadata', 'themes', 'plugins'); ?>
+    
+    <?php foreach($pages as $page): $slug = 'admin/extend/' . $page; ?>
+	<li class="<?php if(Uri::current() == $slug) echo 'active'; ?>">
+		<a href="<?php echo Uri::to('admin/extend/' . $page); ?>">
+			<strong><?php echo fallback(__('extend.' . $page), __($page . '.' . $page), 'extend.' . $page); ?></strong>
+			<span><?php echo fallback(__('extend.' . $page . '_desc'), __($page . '.' . $page . '_desc'), 'extend.' . $page . '_desc'); ?>.</span>
 		</a>
 	</li>
-	<li>
-		<a href="<?php echo Uri::to('admin/extend/variables'); ?>">
-			<strong><?php echo __('extend.variables'); ?></strong>
-			<span><?php echo __('extend.variables_desc'); ?>.</span>
-		</a>
-	</li>
-	<li>
-		<a href="<?php echo Uri::to('admin/extend/metadata'); ?>">
-			<strong><?php echo __('metadata.metadata'); ?></strong>
-			<span><?php echo __('metadata.metadata_desc'); ?>.</span>
-		</a>
-	</li>
-	<li>
-		<a href="<?php echo Uri::to('admin/extend/themes'); ?>">
-			<strong><?php echo __('themes.themes'); ?></strong>
-			<span><?php echo __('themes.themes_desc'); ?>.</span>
-		</a>
-	</li>
-	<li>
-		<a href="<?php echo Uri::to('admin/extend/plugins'); ?>">
-			<strong><?php echo __('plugins.plugins'); ?></strong>
-			<span><?php echo __('plugins.plugins_desc'); ?>.</span>
-		</a>
-	</li>
+	<?php endforeach; ?>
 </ul>
