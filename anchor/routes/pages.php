@@ -163,7 +163,7 @@ Route::collection(array('before' => 'auth,csrf'), function() {
 		$uploader = new Uploader(PATH . 'content', array('png', 'jpg', 'bmp', 'gif'));
 		$filepath = $uploader->upload($_FILES['file']);
 
-		$uri = Config::app('url', '/') . 'content/' . basename($filepath);
+		$uri = Config::app('url', '/') . '/content/' . basename($filepath);
 		$output = array('uri' => $uri);
 
 		return Response::json($output);
