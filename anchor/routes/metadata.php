@@ -14,6 +14,7 @@ Route::collection(array('before' => 'auth'), function() {
 		$vars['themes'] = Themes::all();
 
 		return View::create('extend/metadata/edit', $vars)
+			->partial('nav', 'extend/nav')
 			->partial('header', 'partials/header')
 			->partial('footer', 'partials/footer');
 	});

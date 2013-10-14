@@ -13,6 +13,7 @@ Route::collection(array('before' => 'auth,csrf'), function() {
 		$vars['extend'] = Extend::paginate($page, $perpage);
 
 		return View::create('extend/fields/index', $vars)
+			->partial('nav', 'extend/nav')
 			->partial('header', 'partials/header')
 			->partial('footer', 'partials/footer');
 	});
@@ -25,6 +26,7 @@ Route::collection(array('before' => 'auth,csrf'), function() {
 		$vars['token'] = Csrf::token();
 
 		return View::create('extend/fields/add', $vars)
+			->partial('nav', 'extend/nav')
 			->partial('header', 'partials/header')
 			->partial('footer', 'partials/footer');
 	});

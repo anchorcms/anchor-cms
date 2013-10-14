@@ -21,6 +21,19 @@ class Themes {
 		return $themes;
 	}
 
+
+
+	/**
+	 * Get the details of a theme by its slug
+	 * @return array
+	 */
+	public static function by_slug($slug)
+	{
+		return ($about = static::parse($slug)) ? $about : array();
+	}
+
+
+
 	public static function parse($theme) {
 		$file = PATH . 'themes/' . $theme . '/about.txt';
 
@@ -54,7 +67,7 @@ class Themes {
 			array_shift($parts);
 
 			// in case there was a colon in our value part glue it back together
-			$value = implode('', $parts);
+			$value = implode(':', $parts);
 
 			$about[$key] = trim($value);
 		}

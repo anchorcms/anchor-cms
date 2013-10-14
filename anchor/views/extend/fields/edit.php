@@ -1,5 +1,7 @@
 <?php echo $header; ?>
 
+<?php echo $nav; ?>
+
 <hgroup class="wrap">
 	<h1><?php echo __('extend.editing_custom_field', $field->label); ?></h1>
 </hgroup>

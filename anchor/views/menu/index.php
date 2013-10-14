@@ -23,6 +23,7 @@
 	<?php endif; ?>
 </section>
 
+<script src="<?php echo asset('anchor/views/assets/js/zepto.js'); ?>"></script>
 <script src="<?php echo asset('anchor/views/assets/js/sortable.js'); ?>"></script>
 <script>
 	$('.sortable').sortable({

@@ -1,5 +1,7 @@
 <?php echo $header; ?>
 
+<?php echo $nav; ?>
+
 <hgroup class="wrap">
 	<h1><?php echo __('plugins.plugins'); ?></h1>
 </hgroup>

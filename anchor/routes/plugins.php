@@ -12,6 +12,7 @@ Route::collection(array('before' => 'auth'), function() {
 		$vars['plugins'] = Plugin::available();
 
 		return View::create('extend/plugins/index', $vars)
+			->partial('nav', 'extend/nav')
 			->partial('header', 'partials/header')
 			->partial('footer', 'partials/footer');
 	});
@@ -30,6 +31,7 @@ Route::collection(array('before' => 'auth'), function() {
 		$vars['url'] = 'admin/extend/plugins/' . $vars['info']['path'] . '/' . $action;
 
 		return View::create('extend/plugins/overview', $vars)
+			->partial('nav', 'extend/nav')
 			->partial('header', 'partials/header')
 			->partial('footer', 'partials/footer');
 	});
