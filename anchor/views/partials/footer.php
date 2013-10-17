@@ -1,6 +1,5 @@
         </div>
 
-        <script src="<?php echo asset('anchor/views/assets/js/zepto.js'); ?>"></script>
         <script src="<?php echo asset('anchor/views/assets/js/admin.js'); ?>"></script>
         <script src="<?php echo asset('anchor/views/assets/js/notify.js'); ?>"></script>
         <script src="<?php echo asset('anchor/views/assets/js/preloader.js'); ?>"></script>

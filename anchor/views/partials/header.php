@@ -9,7 +9,11 @@
 		<link rel="shortcut icon" href="<?php echo asset('anchor/views/assets/img/favicon.ico'); ?>">
 
 		<link rel="stylesheet" href="<?php echo asset('anchor/views/assets/css/styles.css'); ?>">
+		
 		<link rel="stylesheet" media="(max-width: 980px), (max-device-width: 480px)" href="<?php echo asset('anchor/views/assets/css/small.css'); ?>">
+		
+		<script src="<?php echo asset('anchor/views/assets/js/zepto.js'); ?>"></script>
+		
 	</head>
 	<body class="<?php echo Auth::guest() ? 'login' : 'admin'; ?>">
 	
