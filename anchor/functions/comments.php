@@ -115,7 +115,7 @@ function comment_email() {
  * @return string
  */
 function comment_text() {
-	return Registry::prop('comment', 'text');
+	return parse(Registry::prop('comment', 'text'));
 }
 
 /**
