@@ -174,7 +174,7 @@ h1 {
 	.pagination a {
 		float: left;
 		text-decoration: none;
-
+		margin-left:10px;
 		font-size: 13px;
 		font-weight: 500;
 
@@ -185,6 +185,10 @@ h1 {
 		}
 	.pagination a.next {
 		float: right;
+	}
+	
+	.pagination a:first-child {
+		margin: 0;
 	}
 
 /**
