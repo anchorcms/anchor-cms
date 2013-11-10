@@ -24,13 +24,13 @@ class Config {
 
 	private function app() {
 		$distro = Braces::compile(APP . 'storage/application.distro.php', array(
-			'url' => $this->session['metadata']['site_path'],
+			'url' => $this->session['metadata']['site_path'] . ( (substr($this->session['metadata']['site_path'], -1) != '/') ? '/' : '' ), //add trailing slash if not present
 			'index' => ($this->support->has_mod_rewrite() ? '' : 'index.php'),
 			'key' => noise(),
 			'language' => $this->session['i18n']['language'],
 			'timezone' => $this->session['i18n']['timezone']
 		));
-
+		
 		file_put_contents(PATH . 'anchor/config/app.php', $distro);
 	}
 
