@@ -20,6 +20,20 @@
 			element.selectionStart = element.selectionEnd = start + str.length;
 		};
 
+		var select = function(start, end) {
+			var element = textarea[0];
+			if (element.setSelectionRange) {
+				element.focus();
+				element.setSelectionRange(start, end);
+			} else if (element.createTextRange) {
+				var range = element.createTextRange();
+				element.collapse(true);
+				element.moveEnd('character', end);
+				element.moveStart('character', start);
+				element.select();
+			}
+		};
+
 		var wrap = function(left, right) {
 			var element = textarea[0];
 			var start = element.selectionStart, end = element.selectionEnd;
@@ -28,6 +42,8 @@
 			element.value = value.substring(0, start) + left + value.substring(start, end) + right + value.substring(end);
 
 			element.selectionStart = end + left.length + right.length;
+
+			select(left.length + start, left.length + end);
 		};
 
 		var tab = function(event) {
