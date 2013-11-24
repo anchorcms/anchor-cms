@@ -124,7 +124,7 @@ class Installer {
 				'title' => 'Hello World',
 				'slug' => 'hello-world',
 				'description' => 'This is the first post.',
-				'html' => 'Hello World!\r\n\r\nThis is the first post.',
+				'html' => "Hello World!\r\n\r\nThis is the first post.",
 				'css' => '',
 				'js' => '',
 				'created' => gmdate('Y-m-d H:i:s'),
