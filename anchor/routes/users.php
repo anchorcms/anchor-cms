@@ -1,6 +1,6 @@
 <?php
 
-Route::collection(array('before' => 'auth'), function() {
+Route::collection(array('before' => 'auth,csrf'), function() {
 
 	/*
 		List users

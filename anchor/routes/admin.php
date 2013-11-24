@@ -12,10 +12,12 @@ Route::action('guest', function() {
 });
 
 Route::action('csrf', function() {
-	if( ! Csrf::check(Input::get('token'))) {
-		Notify::error(array('Invalid token'));
+	if(Request::method() == 'POST') {
+		if( ! Csrf::check(Input::get('token'))) {
+			Notify::error(array('Invalid token'));
 
-		return Response::redirect('admin/login');
+			return Response::redirect('admin/login');
+		}
 	}
 });
 
