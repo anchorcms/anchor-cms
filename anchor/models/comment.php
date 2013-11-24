@@ -14,6 +14,9 @@ class Comment extends Base {
 
 	public static function validate($input) {
 		$validator = new Validator($input);
+		
+		$validator->check('name')
+		        ->is_max(3, __('comments.name_missing'));
 
 		$validator->check('email')
 			->is_email(__('comments.email_missing'));
