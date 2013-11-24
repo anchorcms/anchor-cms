@@ -45,7 +45,7 @@ class Session {
 	}
 
 	/**
-	 * Returns the curren instance of the cargo object
+	 * Returns the current instance of the cargo object
 	 *
 	 * @return object Cargo
 	 */

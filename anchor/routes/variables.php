@@ -18,6 +18,7 @@ Route::collection(array('before' => 'auth'), function() {
 		$vars['variables'] = $variables;
 
 		return View::create('extend/variables/index', $vars)
+			->partial('nav', 'extend/nav')
 			->partial('header', 'partials/header')
 			->partial('footer', 'partials/footer');
 	});
@@ -30,6 +31,7 @@ Route::collection(array('before' => 'auth'), function() {
 		$vars['token'] = Csrf::token();
 
 		return View::create('extend/variables/add', $vars)
+			->partial('nav', 'extend/nav')
 			->partial('header', 'partials/header')
 			->partial('footer', 'partials/footer');
 	});
@@ -83,6 +85,7 @@ Route::collection(array('before' => 'auth'), function() {
 		$vars['variable']->user_key = substr($vars['variable']->key, strlen('custom_'));
 
 		return View::create('extend/variables/edit', $vars)
+			->partial('nav', 'extend/nav')
 			->partial('header', 'partials/header')
 			->partial('footer', 'partials/footer');
 	});

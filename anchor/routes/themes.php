@@ -23,6 +23,7 @@ Route::collection(array('before' => 'auth'), function() {
 	Route::get('admin/extend/themes/(:any)', function($slug) {
 		$vars['messages'] = Notify::read();
 		$vars['token'] = Csrf::token();
+		$vars['theme'] = Themes::by_slug($slug);
 
 		return View::create('extend/themes/overview', $vars)
     		->partial('nav', 'extend/nav')
