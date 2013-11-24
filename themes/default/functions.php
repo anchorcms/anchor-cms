@@ -62,3 +62,7 @@ function twitter_account() {
 function twitter_url() {
 	return 'https://twitter.com/' . twitter_account();
 }
+
+function total_articles() {
+	return Post::where(Base::table('posts.status'), '=', 'published')->count();
+}
