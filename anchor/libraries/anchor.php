@@ -30,7 +30,7 @@ class Anchor {
 
 	public static function installation() {
 		if( ! is_installed()) {
-			echo View::create('intro')->yield();
+			echo View::create('intro')->render();
 
 			exit(0);
 		}

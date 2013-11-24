@@ -160,7 +160,7 @@ check('Anchor requires the php module <code>GD</code> to be installed.', functio
 if(count($GLOBALS['errors'])) {
 	$vars['errors'] = $GLOBALS['errors'];
 
-	echo Layout::create('halt', $vars)->yield();
+	echo Layout::create('halt', $vars)->render();
 
 	exit(0);
 }

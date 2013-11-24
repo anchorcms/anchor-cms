@@ -157,7 +157,7 @@ class Route {
 
 		// If the response was a view get the output and create response
 		if($response instanceof View) {
-			return Response::create($response->yield());
+			return Response::create($response->render());
 		}
 
 		// If we have a response object return it
