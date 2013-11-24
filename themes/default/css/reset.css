@@ -114,6 +114,11 @@ input, textarea {
 		margin: 0 !important;
 	}
 
+p.noposts {
+  text-align: center;
+  margin-top: 100px;
+}
+
 /**
  *   Transitions and animations
  */
