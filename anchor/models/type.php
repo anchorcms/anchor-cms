@@ -19,7 +19,9 @@ class Type {
 
 	public function delete() {}
 
-	public static function attributes($input) {}
+	public static function attributes($input) {
+      return "{}";
+  }
 
 	public function __get($key) {
 		return $this->field->{$key};
