@@ -38,6 +38,10 @@ class User extends Base {
 			$input['password'] = password_hash($input['password'], PASSWORD_BCRYPT);
 		}
 
+		if($input['password']==='') {
+			unset($input['password']);
+		}
+
 		parent::update($id, $input);
 	}
 
