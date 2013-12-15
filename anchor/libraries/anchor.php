@@ -52,7 +52,9 @@ class Anchor {
 			$fi = new FilesystemIterator(APP . 'functions', FilesystemIterator::SKIP_DOTS);
 
 			foreach($fi as $file) {
-				if($file->isFile() and $file->isReadable() and '.' . $file->getExtension() == EXT) {
+				$ext = pathinfo($file->getFilename(), PATHINFO_EXTENSION);
+
+				if($file->isFile() and $file->isReadable() and '.' . $ext == EXT) {
 					require $file->getPathname();
 				}
 			}

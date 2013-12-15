@@ -75,6 +75,6 @@ function normalize($str) {
 /**
  * Encode html to entities
  */
-function e($str) {
-	return htmlspecialchars($str, ENT_NOQUOTES, Config::app('encoding'), false);
+function e($str, $quotes = ENT_NOQUOTES) {
+	return htmlspecialchars($str, $quotes, Config::app('encoding'), false);
 }

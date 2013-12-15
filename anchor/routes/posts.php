@@ -91,7 +91,7 @@ Route::collection(array('before' => 'auth,csrf'), function() {
 		$input['slug'] = slug($input['slug']);
 
 		// encode title
-		$input['title'] = htmlspecialchars($input['title'], ENT_QUOTES, Config::app('encoding'), false);
+		$input['title'] = e($input['title'], ENT_COMPAT);
 
 		$validator = new Validator($input);
 
@@ -177,7 +177,7 @@ Route::collection(array('before' => 'auth,csrf'), function() {
 		$input['slug'] = slug($input['slug']);
 
 		// encode title
-		$input['title'] = htmlspecialchars($input['title'], ENT_QUOTES, Config::app('encoding'), false);
+		$input['title'] = e($input['title'], ENT_COMPAT);
 
 		$validator = new Validator($input);
 
