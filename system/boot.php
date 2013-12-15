@@ -13,8 +13,8 @@
 /**
  * Check php version
  */
-if(version_compare(PHP_VERSION, '5.3.6') < 0) {
-	echo 'We need PHP 5.3.6 or higher, you are running ' . PHP_VERSION;
+if(version_compare(PHP_VERSION, '5.3') < 0) {
+	echo 'We need PHP 5.3 or higher, you are running ' . PHP_VERSION;
 	exit;
 }
 
