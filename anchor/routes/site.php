@@ -116,7 +116,11 @@ Route::post($posts_page->slug . '/(:any)', function($slug) use($posts_page) {
 		return Response::create(new Template('404'), 404);
 	}
 
-	$input = Input::get(array('name', 'email', 'text'));
+	$input = filter_var_array(Input::get(array('name', 'email', 'text')), array(
+		'name' => FILTER_SANITIZE_STRING,
+		'email' => FILTER_SANITIZE_EMAIL,
+		'text' => FILTER_SANITIZE_SPECIAL_CHARS
+	));
 
 	$validator = new Validator($input);
 
