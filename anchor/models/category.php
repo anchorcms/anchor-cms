@@ -14,8 +14,9 @@ class Category extends Base {
 		return $items;
 	}
 
-	public static function slug($slug) {
-		return static::where('slug', 'like', $slug)->fetch();
+	
+	public static function slug($slug, $comparison = 'like') {
+		return static::where('slug', $comparison, $slug)->fetch();
 	}
 
 	public static function paginate($page = 1, $perpage = 10) {
