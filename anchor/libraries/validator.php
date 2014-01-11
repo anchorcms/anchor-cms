@@ -15,11 +15,11 @@ class Validator {
 		};
 
 		$this->methods['min'] = function($str, $length) {
-			return strlen($str) <= $length;
+			return strlen($str) >= $length;
 		};
 
 		$this->methods['max'] = function($str, $length) {
-			return strlen($str) >= $length;
+			return strlen($str) <= $length;
 		};
 
 		$this->methods['float'] = function($str) {
