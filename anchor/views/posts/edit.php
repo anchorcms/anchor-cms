@@ -45,6 +45,11 @@
 				<em><?php echo __('posts.slug_explain'); ?></em>
 			</p>
 			<p>
+				<label><?php echo __('posts.time'); ?>:</label>
+				<?php echo Form::text('created', Input::previous('created', $article->created)); ?>
+				<em><?php echo __('posts.time_explain'); ?></em>
+			</p>
+			<p>
 				<label for="description"><?php echo __('posts.description'); ?>:</label>
 				<?php echo Form::textarea('description', Input::previous('description', $article->description)); ?>
 				<em><?php echo __('posts.description_explain'); ?></em>
