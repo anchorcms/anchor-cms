@@ -16,7 +16,7 @@ b, strong {
     font-weight: 500;
 }
 
-a {
+a, button, input[type="button"], input[type="reset"], input[type="submit"] {
 	color: #486899;
 	text-decoration: none;
 
@@ -360,6 +360,7 @@ hgroup {
 .empty {
 	text-align: center;
 	padding: 60px 0;
+	margin-left: 150px;
 }
 
 	.empty .icon {
