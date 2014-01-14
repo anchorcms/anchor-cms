@@ -107,6 +107,9 @@ Route::collection(array('before' => 'auth,csrf'), function() {
 			->is_duplicate(__('posts.slug_duplicate'))
 			->not_regex('#^[0-9_-]+$#', __('posts.slug_invalid'));
 
+		$validator->check('created')
+			->is_regex('#^[0-9]{4}\-[0-9]{2}\-[0-9]{2} [0-9]{2}\:[0-9]{2}\:[0-9]{2}$#', __('posts.time_invalid'));
+
 		if($errors = $validator->errors()) {
 			Input::flash();
 
