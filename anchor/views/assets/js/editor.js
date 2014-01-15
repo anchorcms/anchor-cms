@@ -170,3 +170,83 @@
 		});
 	};
 }(Zepto));
+
+/**
+ * AJAX form and keyboard shortcuts
+ */
+;(function($) {
+	var zone = $(document),
+		form = $('form').first(),
+		submit = form.find('button[type=submit]'),
+		submitText = submit.html(),
+		submitProgress = submit.data('loading'),
+		logo = $('.logo a'),
+		wrapper = $('.header .wrap'),
+		title = document.title;
+
+	// Press `CTRL + S` to `Save`
+	zone.on('keydown', function(event) {
+		if (event.ctrlKey && event.keyCode == 83) {
+			form.trigger('submit');
+			return false;
+		}
+	});
+
+	// AJAX form submit
+	form.on('submit', function() {
+		var data = $(this).serializeArray();
+
+		submit.prop('disabled', true).css('cursor', 'wait').html(submitProgress);
+
+		document.title = submitProgress;
+
+		$.ajax({
+			url: form.attr('action'),
+			type: "POST",
+			data: data,
+			success: function(data, textStatus, jqXHR) {
+				var notification = $(data).find('.notifications').clone(true),
+					message = notification.children().first().text();
+
+				wrapper.prepend(notification);
+
+				document.title = message;
+
+				setTimeout(function() {
+					notification.animate({
+						opacity: 0
+					}, 600, "ease-out", function() {
+						if (/\/add/i.test(form.attr('action')) && $(this).find('.error').length === 0) {
+							// redirect to posts list on success if we are not in edit/update mode
+							window.location.href = logo.attr('href');
+						}
+						$(this).remove();
+					});
+					document.title = title;
+				}, 3000);
+
+				submit.prop('disabled', false).html(submitText).removeAttr('style');
+			},
+			error: function(jqXHR, textStatus, errorThrown) {
+				var notification = $('<div class="notifications"><p class="error">Error</p></div>');
+
+				wrapper.prepend(notification);
+
+				document.title = "Error";
+
+				setTimeout(function() {
+					notification.animate({
+						opacity: 0
+					}, 600, "ease-out", function() {
+						$(this).remove();
+					});
+					document.title = title;
+				}, 3000);
+
+				submit.prop('disabled', false).html(submitText).removeAttr('style');
+			}
+		});
+
+		return false;
+	});
+}(Zepto));
