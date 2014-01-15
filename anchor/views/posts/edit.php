@@ -15,9 +15,10 @@
 			)); ?>
 
 			<aside class="buttons">
-				<?php echo Form::button(__('global.save'), array(
+				<?php echo Form::button(__('global.update'), array(
 					'type' => 'submit',
-					'class' => 'btn'
+					'class' => 'btn',
+					'data-loading' => __('global.updating')
 				)); ?>
 
 				<?php echo Html::link('admin/posts/delete/' . $article->id, __('global.delete'), array(
@@ -43,6 +44,11 @@
 				<label><?php echo __('posts.slug'); ?>:</label>
 				<?php echo Form::text('slug', Input::previous('slug', $article->slug)); ?>
 				<em><?php echo __('posts.slug_explain'); ?></em>
+			</p>
+			<p>
+				<label><?php echo __('posts.time'); ?>:</label>
+				<?php echo Form::text('created', Input::previous('created', $article->created)); ?>
+				<em><?php echo __('posts.time_explain'); ?></em>
 			</p>
 			<p>
 				<label for="description"><?php echo __('posts.description'); ?>:</label>
