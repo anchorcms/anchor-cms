@@ -10,7 +10,7 @@ $(function() {
 		str = str.replace(/^\s+|\s+$/g, '').toLowerCase();
 
 		// remove accents
-		var from = "àáäâèéëêìíïîòóöôùúüûñç·/_,:;", to = "aaaaeeeeiiiioooouuuunc------";
+		var from = "àáäâèéëêìíïîòóöôùúüûñç·/ľščťžýňn_,:;", to = "aaaaeeeeiiiioooouuuunc--lsctzy----";
 
 		for(var i = 0, l = from.length; i < l; i++) {
 			str = str.replace(new RegExp(from.charAt(i), 'g'), to.charAt(i));
