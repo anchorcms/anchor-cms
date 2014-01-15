@@ -17,7 +17,8 @@
 			<aside class="buttons">
 				<?php echo Form::button(__('global.save'), array(
 					'type' => 'submit',
-					'class' => 'btn'
+					'class' => 'btn',
+					'data-loading' => __('global.saving')
 				)); ?>
 			</aside>
 		</div>
