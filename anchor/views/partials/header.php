@@ -18,7 +18,7 @@
 		<meta http-equiv="X-UA-Compatible" content="chrome=1">
 		<meta name="viewport" content="width=600">
 	</head>
-	<body class="<?php echo Auth::guest() ? 'login' : 'admin'; ?>">
+	<body class="<?php echo Auth::guest() ? 'login' : 'admin'; ?>" spellcheck="false">
 
 		<header class="top">
 			<div class="wrap">
