@@ -11,6 +11,10 @@ $posts_page = Registry::get('posts_page');
  */
 if($home_page->id != $posts_page->id) {
 	Route::get(array('/', $home_page->slug), function() use($home_page) {
+    if($home_page->redirect) {
+      return Response::redirect($home_page->redirect);
+    }
+
 		Registry::set('page', $home_page);
 
 		return new Template('page');
