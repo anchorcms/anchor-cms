@@ -5,10 +5,10 @@ $(function() {
 	var $text = $('textarea').first();
 	
 	function resize(e) {
-		var bodyScrollPos = $('body').prop('scrollTop');
+		var bodyScrollPos = window.pageYOffset;
 		$text.height('auto');
 		$text.height($text.prop('scrollHeight') + 'px');
-		$('body').prop('scrollTop', bodyScrollPos);
+		window.scrollTo(0,bodyScrollPos);
 	}
 	
 	/* 0-timeout to get the already changed text */
