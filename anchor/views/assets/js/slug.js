@@ -3,8 +3,10 @@
  * Disabled if the slug is manually changed
  */
 $(function() {
-	var input = $('input[name=title]'), output = $('input[name=slug]');
-	var changed = false;
+	var input = $('input[name=title]'),
+		output = $('input[name=slug]');
+	var slugHasValue = output.val(),
+		slugOldValue = false;
 
 	var slugify = function(str) {
 		str = String(str);
@@ -284,13 +286,24 @@ $(function() {
 		str = str.replace(RegExp('(^-|-$)', 'g'), '');
 
 		return str.toLowerCase();
-	}
+	};
 
-	output.bind('keyup', function() {
-		changed = true;
+	output.bind('focus', function() {
+		slugOldValue = output.val();
+		slugHasValue = output.val();
+	});
+
+	output.bind('blur', function() {
+		if (output.val() == '') {
+			output.val(slugify(input.val()));
+		} else {
+			output.val(slugify(output.val()));
+		}
 	});
 
 	input.bind('keyup', function() {
-		if( ! changed) output.val(slugify(input.val()));
+		if (slugHasValue == '') {
+			output.val(slugify(input.val()));
+		}
 	});
 });
