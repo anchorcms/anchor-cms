@@ -70,11 +70,22 @@ function body_class() {
 
 // page type helpers
 function is_homepage() {
-	return Registry::prop('page', 'id') == Config::meta('home_page');
+	if(Config::meta('home_page') != Config::meta('posts_page')) {
+		return Registry::prop('page', 'id') == Config::meta('home_page');
+	} else {
+		return current_url() == '' or current_url() == '/';
+	}
 }
 
 function is_postspage() {
-	return Registry::prop('page', 'id') == Config::meta('posts_page');
+	$posts_page = Registry::get('posts_page');
+	$offset = Registry::get('page_offset');
+
+	if(Config::meta('posts_page') != Config::meta('home_page')) {
+		return Registry::prop('page', 'id') == Config::meta('posts_page');
+	} else {
+		return current_url() == $posts_page->slug or current_url() == $posts_page->slug . '/' . $offset;
+	}
 }
 
 function is_article() {
