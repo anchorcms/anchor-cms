@@ -2,11 +2,9 @@
 
 return array(
 	/*
-	 * Session driver
-	 *
-	 * Available options are: cookie, database, memcache, memcached, runtime
+	 * Session driver (pdo, memcached, memcache)
 	 */
-	'driver' => 'database',
+	'driver' => 'pdo',
 
 	/*
 	 * Session cookie name
@@ -17,6 +15,22 @@ return array(
 	 * Session database table name when used with the 'database' driver
 	 */
 	'table' => 'sessions',
+
+	/*
+	 * Memcache Servers
+	 */
+	'servers' => array(
+		array(
+			'host' => '127.0.0.1',
+			'port' => 11211,
+			'weight' => 10
+		),
+	),
+
+	/*
+	 * Session directory
+	 */
+	'dir' => dirname(__DIR__) . '/sessions',
 
 	/*
 	 * Session lifespan in seconds
@@ -41,5 +55,10 @@ return array(
 	/*
 	 * Session cookie secure (only available via https)
 	 */
-	'secure' => false
+	'secure' => false,
+
+	/*
+	 * Accessible only through the HTTP protocol
+	 */
+	'httponly' => false
 );

@@ -14,5 +14,9 @@ return array(
 	 *
 	 * The log function is always called regardless of the error detail report.
 	 */
-	'log' => function($exception) {}
+	'log' => function($e) {
+		$prefix = date('H:i:s').PHP_EOL.str_repeat('-', 80).PHP_EOL;
+		$filename = php_sapi_name().'-'.date('Y-m-d').'.log';
+		file_put_contents(__DIR__.'/../logs/'.$filename, $prefix.$e.PHP_EOL.PHP_EOL, FILE_APPEND);
+	}
 );

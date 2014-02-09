@@ -1,0 +1,90 @@
+body {
+	font-family: "Droid Serif", serif;
+	color: #3A4145;
+	margin: 0;
+	padding: 0;
+	line-height: 180%;
+}
+
+figure {
+	margin: 0;
+	padding: 0;
+}
+
+	.gravatar img {
+		border-radius: 50%;
+		width: 128px;
+		height: 128px;
+	}
+
+main {
+	width: 48rem;
+	margin: 4rem auto;
+}
+
+header, footer {
+	text-align: center;
+}
+
+	header nav {
+		padding: 1.2rem 0;
+		margin: 2rem 0;
+
+		border-bottom: 1px solid #eee;
+		border-top: 1px solid #eee;
+	}
+
+	nav a {
+		margin: 0 0.5rem;
+	}
+
+footer {
+	color: #9EABB3;
+	font-size: 0.875rem;
+}
+
+	footer nav a {
+		color: #9EABB3;
+	}
+
+h1, h2 {
+	margin: 2rem 0;
+	font-family: "Open Sans", sans-serif;
+	line-height: 2.8rem;
+}
+
+a {
+	color: #3A4145;
+	text-decoration: none;
+}
+
+a:hover {
+	color: #26ADE4;
+}
+
+article {
+	border-bottom: 1px solid #eee;
+}
+
+	article h2 {
+		margin-top: 0;
+	}
+
+time {
+	margin: 1rem 0 0 0;
+	color: #9EABB3;
+	display: inline-block;
+}
+
+pre, code {
+	background: #f3f3f3;
+	font-size: 1.125rem;
+}
+
+code {
+	padding: 0.1rem 0.3rem;
+}
+
+pre {
+	padding: 0.5rem 1rem;
+}

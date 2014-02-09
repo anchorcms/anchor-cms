@@ -1,19 +1,44 @@
 {
 	"name": "anchorcms/anchor-cms",
+	"description": "Just another cms",
+	"license": "GPL-3.0",
+	"version": "0.1.0",
+	"type": "project",
+	"repositories": [
+		{
+			"type": "vcs",
+			"url": "git@github.com:rwarasaurus/ship.git"
+		},
+		{
+			"type": "vcs",
+			"url": "git@github.com:anchorcms/anchor-core.git"
+		}
+	],
 	"authors": [
 		{
 			"name": "Idiot",
-			"email": "iam@visualidiot.com"
+			"email": "iam@visualidiot.com",
+			"homepage": "http://visualidiot.com/",
+			"role": "Designer"
 		},
 		{
 			"name": "Kieron",
-			"email": "rwarasaurus@gmail.com"
+			"email": "hello@madebykieron.co.uk",
+			"homepage": "http://madebykieron.co.uk",
+			"role": "Developer"
 		}
 	],
-	"config": {
-		"vendor-dir": "anchor/vendor"
-	},
 	"require": {
-		"php": ">=5.3"
+		"php": ">=5.3",
+		"anchorcms/anchor-core": "dev-master",
+		"leafo/lessphp": "dev-master"
+	},
+	"scripts": {
+		"post-install-cmd": [
+			"php anchor/publish.php"
+		],
+		"post-update-cmd": [
+			"php anchor/publish.php"
+		]
 	}
 }

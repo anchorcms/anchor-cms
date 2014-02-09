@@ -1,3 +1,0 @@
-[submodule "anchor/language"]
-	path = anchor/language
-	url = git://github.com/anchorcms/anchor-translations.git
