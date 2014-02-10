@@ -1,7 +1,7 @@
 <?php 
 	echo $header;
 	$values=[];
-	if($article){
+	if(isset($article) && $article){
 		$values=[
 			'title'=>$article->title,
 			'html'=>$article->html,
