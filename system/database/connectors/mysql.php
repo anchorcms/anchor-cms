@@ -64,4 +64,15 @@ class Mysql extends Connector {
 		return $this->pdo;
 	}
 
+	public function beginTransaction(){
+		$this->pdo->beginTransaction();
+	}
+
+	public function commit(){
+		$this->pdo->commit();
+	}
+
+	public function rollBack(){
+		$this->pdo->rollBack();
+	}
 }
