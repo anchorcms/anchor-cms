@@ -40,5 +40,6 @@
 		"post-update-cmd": [
 			"php anchor/publish.php"
 		]
-	}
+	},
+	"minimum-stability": "dev"
 }
