@@ -1,4 +1,33 @@
-<?php echo $header; ?>
+<?php 
+	echo $header;
+	$values=[];
+	if($article){
+		$values=[
+			'title'=>$article->title,
+			'html'=>$article->html,
+			'slug'=>$article->slug,
+			'description'=>$article->description,
+			'status'=>$article->status,
+			'category'=>$article->category,
+			'comments'=>$article->comments==1,
+			'css'=>$article->css,
+			'js'=>$article->css,
+		];
+	}
+	else{
+		$values=[
+			'title'=>null,
+			'html'=>null,
+			'slug'=>null,
+			'description'=>null,
+			'status'=>null,
+			'category'=>null,
+			'comments'=>0,
+			'css'=>null,
+			'js'=>null,
+		];
+	}
+ ?>
 
 <form method="post" action="<?php echo $uri;?>" enctype="multipart/form-data" novalidate>
 
@@ -8,7 +37,7 @@
 		<div class="wrap">
 			<?php echo $messages; ?>
 
-			<?php echo Form::text('title', Input::previous('title'), array(
+			<?php echo Form::text('title', Input::previous('title',$values['title']), array(
 				'placeholder' => __('posts.title'),
 				'autocomplete'=> 'off',
 				'autofocus' => 'true'
@@ -33,7 +62,7 @@
 
 	<fieldset class="main">
 		<div class="wrap">
-			<?php echo Form::textarea('html', Input::previous('html'), array(
+			<?php echo Form::textarea('html', Input::previous('html',$values['html']), array(
 				'placeholder' => __('posts.content_explain')
 			)); ?>
 
@@ -44,40 +73,45 @@
 	<fieldset class="meta split">
 		<div class="wrap">
 			<p>
+				<label><?php echo __('posts.language','Language'); ?>:</label>
+				<?php  echo Form::select('language',$languages); ?>
+			</p>
+			<p>
 				<label><?php echo __('posts.slug'); ?>:</label>
-				<?php echo Form::text('slug', Input::previous('slug')); ?>
+				<?php echo Form::text('slug', Input::previous('slug',$values['slug'])); ?>
 				<em><?php echo __('posts.slug_explain'); ?></em>
 			</p>
 			<p>
 				<label for="description"><?php echo __('posts.description'); ?>:</label>
-				<?php echo Form::textarea('description', Input::previous('description')); ?>
+				<?php echo Form::textarea('description', Input::previous('description',$values['description'])); ?>
 				<em><?php echo __('posts.description_explain'); ?></em>
 			</p>
 			<p>
 				<label><?php echo __('posts.status'); ?>:</label>
-				<?php echo Form::select('status', $statuses, Input::previous('status')); ?>
+				<?php echo Form::select('status', $statuses, Input::previous('status',$values['status'])); ?>
 				<em><?php echo __('posts.status_explain'); ?></em>
 			</p>
 			<p>
 				<label><?php echo __('posts.category'); ?>:</label>
-				<?php echo Form::select('category', $categories, Input::previous('category')); ?>
+				<?php echo Form::select('category', $categories, Input::previous('category',$values['category'])); ?>
 				<em><?php echo __('posts.category_explain'); ?></em>
 			</p>
 			<p>
 				<label><?php echo __('posts.allow_comments'); ?>:</label>
-				<?php echo Form::checkbox('comments', 1, Input::previous('comments', 0) == 1); ?>
+				<?php echo Form::checkbox('comments', 1, Input::previous('comments', $values['comments']) == 1); ?>
 				<em><?php echo __('posts.allow_comments_explain'); ?></em>
 			</p>
 			<p>
 				<label><?php echo __('posts.custom_css'); ?>:</label>
-				<?php echo Form::textarea('css', Input::previous('css')); ?>
+				<?php echo Form::textarea('css', Input::previous('css',$values['css'])); ?>
 				<em><?php echo __('posts.custom_css_explain'); ?></em>
 			</p>
 			<p>
 				<label for="js"><?php echo __('posts.custom_js', 'Custom JS'); ?>:</label>
-				<?php echo Form::textarea('js', Input::previous('js')); ?>
+				<?php echo Form::textarea('js', Input::previous('js',$values['js'])); ?>
 				<em><?php echo __('posts.custom_js_explain'); ?></em>
 			</p>
+		
 			<?php foreach($fields as $field): ?>
 			<p>
 				<label for="extend_<?php echo $field->key; ?>"><?php echo $field->label; ?>:</label>
