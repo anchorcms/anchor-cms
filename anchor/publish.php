@@ -10,11 +10,11 @@ $assets = new Anchor\Services\Assets($l);
 $packages = array('anchorcms/anchor-core');
 
 foreach($packages as $package) {
-	$src = __DIR__ . '/../vendor/'.$package.'/public';
-	$dest = __DIR__ . '/../public/vendor/'.$package;
+	$src = dirname(__DIR__) . '/vendor/'.$package.'/public';
+	$dest = dirname(__DIR__) . '/public/vendor/'.$package;
 
 	if( ! is_dir($dest)) {
-		mkdir($dest, 701, true);
+		mkdir($dest, 0755, true);
 	}
 
 	$assets->copy($src, $dest);
