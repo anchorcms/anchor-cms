@@ -33,6 +33,9 @@
 		"anchorcms/anchor-core": "dev-master",
 		"leafo/lessphp": "dev-master"
 	},
+	"require-dev": {
+		"monolog/monolog": "dev-master"
+	},
 	"scripts": {
 		"post-install-cmd": [
 			"php anchor/publish.php"

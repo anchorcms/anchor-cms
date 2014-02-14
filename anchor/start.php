@@ -5,7 +5,12 @@ $time_start = microtime(true);
 /**
  * Setup autoloader
  */
-require __DIR__ . '/autoload.php';
+if( ! is_file(__DIR__ . '/../vendor/autoload.php')) {
+	echo 'Composer is not installed or cannot be found!';
+	exit;
+}
+
+require __DIR__ . '/../vendor/autoload.php';
 
 /**
  * Application container
@@ -31,39 +36,9 @@ if($app['env']->current() == 'local') {
 date_default_timezone_set($app['timezone']->getName());
 
 /**
- * Error handlers
+ * Error logging
  */
-$app['error']->handler(function(Exception $e) use($app) {
-	ob_get_level() and ob_end_clean();
-
-	if( ! headers_Sent()) {
-		header('HTTP/1.1 500 Internal Server Error', true, 500);
-	}
-
-	$index = $e->getFile().$e->getLine();
-
-	$frames[$index] = array(
-		'file' => $e->getFile(),
-		'line' => $e->getLine()
-	);
-
-	foreach($e->getTrace() as $frame) {
-		if(isset($frame['file']) and isset($frame['line'])) {
-			$index = $frame['file'].$frame['line'];
-
-			$frames[$index] = array(
-				'file' => $frame['file'],
-				'line' => $frame['line']
-			);
-		}
-	}
-
-	require __DIR__ . '/error.php';
-});
-
-$app['error']->logger($app['config']->get('error.log', function() {
-	// fallback error logger
-}));
+$app['error']->logger($app['config']->get('error.log'));
 
 $app['error']->register();
 
