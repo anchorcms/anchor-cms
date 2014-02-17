@@ -2,27 +2,27 @@
 
 return array(
 
-	'category' => 'Category',
-	'categories' => 'Categories',
+	'category' => 'Категория',
+	'categories' => 'Категории',
 
-	'create_category' => 'Create a new category',
-	'edit_category' => 'Editing &ldquo;%s&rdquo;',
+	'create_category' => 'Создать новую категорию',
+	'edit_category' => 'Изменить &ldquo;%s&rdquo;',
 
 	// form fields
-	'title' => 'Title',
-	'title_explain' => 'Your category title.',
-	'title_missing' => 'Please enter a title',
+	'title' => 'Заголовок',
+	'title_explain' => 'Название Вашей категории',
+	'title_missing' => 'Пожалуйста введите название',
 
-	'slug' => 'Slug',
-	'slug_explain' => 'The slug for your category.',
+	'slug' => 'Постфикс',
+	'slug_explain' => 'Уникальный идентификатор Вашей категории.',
 
-	'description' => 'Description',
-	'description_explain' => 'What your category is about.',
+	'description' => 'Описание',
+	'description_explain' => 'Что объединяет записи в категории.',
 
 	// messages
-	'created' => 'Your new category has been added.',
-	'updated' => 'Your category has been updated.',
-	'deleted' => 'Your category has been deleted.',
-	'delete_error' => 'You must have at least one category.',
+	'created' => 'Новая категория добавлена.',
+	'updated' => 'Категория обновлена.',
+	'deleted' => 'Категория удалена.',
+	'delete_error' => 'У Вас должна быть хотя-бы одна категория.',
 
 );
