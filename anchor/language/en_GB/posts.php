@@ -42,6 +42,6 @@ return array(
 	// messages
 	'updated' => 'Your article has been updated',
 	'created' => 'Your new article was created',
-	'deleted' => 'Your article have been deleted'
+	'deleted' => 'Your article has been deleted'
 
 );
