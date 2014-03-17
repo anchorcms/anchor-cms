@@ -15,7 +15,7 @@ To determine your PHP version, create a new file with this PHP code: `<?php echo
 
 ### Install
 
-1. Insure that you have the required components.
+1. Ensure that you have the required components.
 2. Download Anchor either from [here](http://anchorcms.com/download) or by cloning this Github repo.
 3. Upload Anchor through FTP/SFTP or whatever upload method you prefer to the public-facing directory of your site.
 4. Ensure that the permissions for the `content` and `anchor/config` folders are set to `0777`.
