@@ -48,28 +48,28 @@
 	<fieldset class="meta split">
 		<div class="wrap">
 			<p>
-				<label><?php echo __('pages.show_in_menu'); ?>:</label>
-				<?php echo Form::checkbox('show_in_menu', 1, Input::previous('show_in_menu', 0) == 1); ?>
+				<label for="label-show_in_menu"><?php echo __('pages.show_in_menu'); ?>:</label>
+				<?php echo Form::checkbox('show_in_menu', 1, Input::previous('show_in_menu', 0) == 1, array('id' => 'label-show_in_menu')); ?>
 				<em><?php echo __('pages.show_in_menu_explain'); ?></em>
 			</p>
 			<p>
-				<label><?php echo __('pages.name'); ?>:</label>
-				<?php echo Form::text('name', Input::previous('name')); ?>
+				<label for="label-name"><?php echo __('pages.name'); ?>:</label>
+				<?php echo Form::text('name', Input::previous('name'), array('id' => 'label-name')); ?>
 				<em><?php echo __('pages.name_explain'); ?></em>
 			</p>
 			<p>
-				<label><?php echo __('pages.slug'); ?>:</label>
-				<?php echo Form::text('slug', Input::previous('slug')); ?>
+				<label for="label-slug"><?php echo __('pages.slug'); ?>:</label>
+				<?php echo Form::text('slug', Input::previous('slug'), array('id' => 'label-slug')); ?>
 				<em><?php echo __('pages.slug_explain'); ?></em>
 			</p>
 			<p>
-				<label><?php echo __('pages.status'); ?>:</label>
-				<?php echo Form::select('status', $statuses, Input::previous('status')); ?>
+				<label for="label-status"><?php echo __('pages.status'); ?>:</label>
+				<?php echo Form::select('status', $statuses, Input::previous('status'), array('id' => 'label-status')); ?>
 				<em><?php echo __('pages.status_explain'); ?></em>
 			</p>
 			<p>
-				<label><?php echo __('pages.parent'); ?>:</label>
-				<?php echo Form::select('parent', $pages, Input::previous('parent')); ?>
+				<label for="label-parent"><?php echo __('pages.parent'); ?>:</label>
+				<?php echo Form::select('parent', $pages, Input::previous('parent'), array('id' => 'label-parent')); ?>
 				<em><?php echo __('pages.parent_explain'); ?></em>
 			</p>
 			<?php foreach($fields as $field): ?>

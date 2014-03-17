@@ -13,29 +13,29 @@
 
 		<fieldset class="split">
 			<p>
-				<label><?php echo __('metadata.sitename'); ?>:</label>
-				<?php echo Form::text('sitename', Input::previous('sitename', $meta['sitename'])); ?>
+				<label for="label-sitename"><?php echo __('metadata.sitename'); ?>:</label>
+				<?php echo Form::text('sitename', Input::previous('sitename', $meta['sitename']), array('id' => 'label-sitename')); ?>
 				<em><?php echo __('metadata.sitename_explain'); ?></em>
 			</p>
 			<p>
-				<label><?php echo __('metadata.sitedescription'); ?>:</label>
-				<?php echo Form::textarea('description', Input::previous('description', $meta['description'])); ?>
+				<label for="label-sitedescription"><?php echo __('metadata.sitedescription'); ?>:</label>
+				<?php echo Form::textarea('description', Input::previous('description', $meta['description']), array('id' => 'label-sitedescription')); ?>
 				<em><?php echo __('metadata.sitedescription_explain'); ?></em>
 			</p>
 			<p>
-				<label><?php echo __('metadata.homepage'); ?>:</label>
-				<?php echo Form::select('home_page', $pages, Input::previous('home_page', $meta['home_page'])); ?>
+				<label for="label-homepage"><?php echo __('metadata.homepage'); ?>:</label>
+				<?php echo Form::select('home_page', $pages, Input::previous('home_page', $meta['home_page']), array('id' => 'label-homepage')); ?>
 				<em><?php echo __('metadata.homepage_explain'); ?></em>
 			</p>
 			<p>
-				<label><?php echo __('metadata.postspage'); ?>:</label>
-				<?php echo Form::select('posts_page', $pages, Input::previous('posts_page', $meta['posts_page'])); ?>
+				<label for="label-postspage"><?php echo __('metadata.postspage'); ?>:</label>
+				<?php echo Form::select('posts_page', $pages, Input::previous('posts_page', $meta['posts_page']), array('id' => 'label-postspage')); ?>
 				<em><?php echo __('metadata.postspage_explain'); ?></em>
 			</p>
 			<p>
-				<label for="posts_per_page"><?php echo __('metadata.posts_per_page'); ?>:</label>
+				<label for="label-posts_per_page"><?php echo __('metadata.posts_per_page'); ?>:</label>
 				<?php echo Form::input('range', 'posts_per_page', Input::previous('posts_per_page', $meta['posts_per_page']),
-					array('min' => 1, 'max' => 15)); ?>
+					array('min' => 1, 'max' => 15, 'id' => 'label-posts_per_page')); ?>
 				<em><?php echo __('metadata.posts_per_page_explain'); ?></em>
 			</p>
 		</fieldset>
@@ -43,21 +43,20 @@
 		<fieldset class="split">
 			<legend><?php echo __('metadata.comment_settings'); ?></legend>
 			<p>
-				<label for="auto_published_comments"><?php echo __('metadata.auto_publish_comments'); ?>:</label>
+				<label for="label-auto_published_comments"><?php echo __('metadata.auto_publish_comments'); ?>:</label>
 				<?php $checked = Input::previous('auto_published_comments', $meta['auto_published_comments']) ? ' checked' : ''; ?>
-				<input id="auto_published_comments" name="auto_published_comments" type="checkbox" value="1"<?php echo $checked; ?>>
+				<input id="label-auto_published_comments" name="auto_published_comments" type="checkbox" value="1"<?php echo $checked; ?>>
 				<em><?php echo __('metadata.auto_publish_comments_explain'); ?></em>
 			</p>
 			<p>
-				<label for="comment_notifications"><?php echo __('metadata.comment_notifications'); ?>:</label>
+				<label for="label-comment_notifications"><?php echo __('metadata.comment_notifications'); ?>:</label>
 				<?php $checked = Input::previous('comment_notifications', $meta['comment_notifications']) ? ' checked' : ''; ?>
-				<input id="comment_notifications" name="comment_notifications" type="checkbox" value="1"<?php echo $checked; ?>>
+				<input id="label-comment_notifications" name="comment_notifications" type="checkbox" value="1"<?php echo $checked; ?>>
 				<em><?php echo __('metadata.comment_notifications_explain'); ?></em>
 			</p>
 			<p>
-				<label><?php echo __('metadata.comment_moderation_keys'); ?>:</label>
-				<?php echo Form::textarea('comment_moderation_keys',
-					Input::previous('comment_moderation_keys', $meta['comment_moderation_keys'])); ?>
+				<label for="label-comment_moderation_keys"><?php echo __('metadata.comment_moderation_keys'); ?>:</label>
+				<?php echo Form::textarea('comment_moderation_keys', Input::previous('comment_moderation_keys', $meta['comment_moderation_keys']), array('id' => 'label-comment_moderation_keys')); ?>
 				<em><?php echo __('metadata.comment_moderation_keys_explain'); ?></em>
 			</p>
 		</fieldset>
@@ -65,8 +64,8 @@
 		<fieldset class="split">
 			<legend><?php echo __('metadata.theme_settings'); ?></legend>
 			<p>
-				<label for="theme"><?php echo __('metadata.current_theme'); ?>:</label>
-				<select id="theme" name="theme">
+				<label for="label-theme"><?php echo __('metadata.current_theme'); ?>:</label>
+				<select id="label-theme" name="theme">
 					<?php foreach($themes as $theme => $about): ?>
 					<?php $selected = (Input::previous('theme', $meta['theme']) == $theme) ? ' selected' : ''; ?>
 					<option value="<?php echo $theme; ?>"<?php echo $selected; ?>>
