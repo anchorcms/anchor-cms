@@ -42,7 +42,10 @@
 		<?php endif; ?>
 
 	<?php else: ?>
-		<p>Looks like you have some writing to do!</p>
+		<div class="wrap">
+			<h1>No posts yet!</h1>
+			<p>Looks like you have some writing to do!</p>
+		</div>
 	<?php endif; ?>
 
 </section>
