@@ -6,6 +6,10 @@
 
 		<meta name="description" content="<?php echo site_description(); ?>">
 
+		<?php if(article_status() === 'draft'): ?>
+			<meta name="robots" content="noindex, nofollow">
+		<?php endif; ?>
+
 		<link rel="stylesheet" href="<?php echo theme_url('/css/reset.css'); ?>">
 		<link rel="stylesheet" href="<?php echo theme_url('/css/style.css'); ?>">
 		<link rel="stylesheet" href="<?php echo theme_url('/css/small.css'); ?>" media="(max-width: 400px)">
