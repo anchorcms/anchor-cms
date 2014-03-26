@@ -32,3 +32,6 @@ Thumbs.db
 
 # We all love Sublime Text and its awesome plugins, don't we?
 sftp-config.json
+
+# User robots.txt
+robots.txt
