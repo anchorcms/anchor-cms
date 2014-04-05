@@ -38,11 +38,10 @@ if($route = Arr::get($_GET, 'route', '/')) {
 	Helper functions
 */
 function timezones() {
-	$list = DateTimeZone::listAbbreviations();
-	$idents = DateTimeZone::listIdentifiers();
+	$list = DateTimeZone::listIdentifiers();
 
 	$data = array();
-    foreach($idents as $id => $zone){
+    foreach($list as $id => $zone){
         $now = new DateTime(null, new DateTimeZone($zone));
         $offset = $now->getOffset();
         $offset_round = round(abs($offset / 3600), 2);
