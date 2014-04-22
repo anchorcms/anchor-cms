@@ -19,7 +19,7 @@ return array(
 	'content' => 'Contenuto',
 	'content_explain' => 'Il contenuto della tua pagina. Usa il MarkDown.',
 
-	'show_in_menu' => 'Visualizza nel Menu',
+	'show_in_menu' => 'Mostra nel Menu',
 	'show_in_menu_explain' => '',
 
 	'name' => 'Nome',
@@ -28,7 +28,7 @@ return array(
 	'slug' => 'Slug',
 	'slug_explain' => 'URI Slug per identificare la tua pagina, dovrebbe contenere solo caratteri ASCII',
 	'slug_missing' => 'Perfavore inserisci un URI Slug, dovrebbe contenere solo caratteri ASCII',
-	'slug_duplicate' => 'Questo Slug già esiste',
+	'slug_duplicate' => 'Questo Slug esiste già',
 	'slug_invalid' => 'Lo Slug deve contenere delle lettere',
 
 	'status' => 'Stato',
@@ -38,8 +38,8 @@ return array(
 	'parent_explain' => '',
 
 	// messages
-	'updated' => 'La tua pagina è stata aggiornata.',
-	'created' => 'La tua pagina è stata creata.',
-	'deleted' => 'La tua pagina è stata eliminata.'
+	'updated' => 'La pagina è stata aggiornata.',
+	'created' => 'La pagina è stata creata.',
+	'deleted' => 'La pagina è stata eliminata.'
 
 );
