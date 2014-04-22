@@ -20,7 +20,7 @@ return array(
 	'close' => 'Chiudi',
 	'status' => 'Stato',
 	'manage' => 'Gestisci',
-	'reset' => 'Resetta',
+	'reset' => 'Reimposta',
 	'all' => 'Tutto',
 
 	// pagination
@@ -42,7 +42,7 @@ return array(
 
 	// roles
 	'administrator' => 'Amministratore',
-	'editor' => 'Editor',
+	'editor' => 'Editore',
 	'user' => 'Utente',
 
 	'log_in' => 'Log in',
@@ -51,14 +51,14 @@ return array(
 	'logout' => 'Logout',
 
 	// pharses
-	'visit_your_site' => 'Guarda il tuo sito',
-	'powered_by_anchor' => 'Creato con Anchor, version %s',
-	'make_blogging_beautiful' => 'Fai del blog un esperienza bellissima.',
+	'visit_your_site' => 'Visita il sito',
+	'powered_by_anchor' => 'Creato con Anchor, versione %s',
+	'make_blogging_beautiful' => 'Fai del blogging un esperienza bellissima.',
 
 	// intro
 	'welcome_to_anchor' => 'Benvenuto su Anchor',
 	'welcome_to_anchor_lets_go' => 'Benvenuto su Anchor. Iniziamo.',
-	'run_the_installer' => 'Esegui l\'installer',
+	'run_the_installer' => 'Esegui l\'installazione',
 
 	// upgrade
 	'upgrade' => 'Aggiorna',
@@ -68,10 +68,10 @@ return array(
 	'upgrade_later' => 'Aggiorna più tardi',
 
 	// debug profiler
-	'profile' => 'Profile',
-	'profile_memory_usage' => 'Memoria utilizzata',
+	'profile' => 'Profilo',
+	'profile_memory_usage' => 'Memoria totale utilizzata',
 
 	// messages
-	'confirm_delete' => 'Sei sicuro di voler eliminare questo? Non può essere annullato!'
+	'confirm_delete' => 'Sei sicuro di volere eliminare? Non può essere annullato!'
 
 );
