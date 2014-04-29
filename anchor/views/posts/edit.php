@@ -94,18 +94,7 @@
 <script src="<?php echo asset('anchor/views/assets/js/text-resize.js'); ?>"></script>
 <script src="<?php echo asset('anchor/views/assets/js/editor.js'); ?>"></script>
 <script>
-$('textarea[name=html]').editor();
-
-$(document).keydown(function(e) {
-   if ((String.fromCharCode(e.which).toLowerCase() == 's' && e.ctrlKey) || (e.which == 19)) {
-      e.preventDefault();
-      $('form')[0].submit();
-      return true;
-   } else {
-      false;
-   }
-});
-
+   $('textarea[name=html]').editor();
 </script>
 
 <?php echo $footer; ?>
