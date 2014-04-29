@@ -94,7 +94,7 @@
 <script src="<?php echo asset('anchor/views/assets/js/text-resize.js'); ?>"></script>
 <script src="<?php echo asset('anchor/views/assets/js/editor.js'); ?>"></script>
 <script>
-   $('textarea[name=html]').editor();
+	$('textarea[name=html]').editor();
 </script>
 
 <?php echo $footer; ?>
