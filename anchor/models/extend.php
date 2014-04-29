@@ -93,7 +93,7 @@ class Extend extends Base {
 
 				if($value) {
 					$html .= '</p><p>
-					<label>Remove ' . $item->label . ':</label>
+					<label>' . __('global.delete') . ' ' . $item->label . ':</label>
 					<input type="checkbox" name="extend_remove[' . $item->key . ']" value="1">';
 				}
 
