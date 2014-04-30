@@ -18,7 +18,7 @@
 					<strong>Language</strong>
 					<span class="info">Anchor's language.</span>
 				</label>
-				<select id="lang" name="language">
+				<select id="lang" class="chosen-select" name="language">
 					<?php foreach($languages as $lang): ?>
 					<?php $selected = in_array($lang, $prefered_languages) ? ' selected' : ''; ?>
 					<option<?php echo $selected; ?>><?php echo $lang; ?></option>
@@ -31,7 +31,7 @@
 					<strong>Timezone</strong>
 					<span class="info">Your current time zone.</span>
 				</label>
-				<select id="timezone" name="timezone">
+				<select id="timezone" class="chosen-select" name="timezone">
 					<?php $set = false; ?>
 					<?php foreach($timezones as $zone): ?>
 					<?php $selected = ($set === false and $current_timezone == $zone['offset']) ? ' selected' : ''; ?>
