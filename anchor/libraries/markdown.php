@@ -455,7 +455,7 @@ class Markdown {
 
 		"doItalicsAndBold"    =>  50,
 		"doHardBreaks"        =>  60,
-        "doEmoji"             =>  70,
+		"doEmoji"             =>  70,
 		);
 
 	function runSpanGamut($text) {
@@ -1156,7 +1156,7 @@ class Markdown {
 
             $icon = '<img width="24" height="24" style="position:relative; top:5px;" src="http://www.emoji-cheat-sheet.com/graphics/emojis/'.str_replace(':', '', $emoticon).'.png" />';
             $text = str_replace($emoticon, $icon, $text);
-        
+
         endforeach;
 
         return $text;
