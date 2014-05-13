@@ -38,30 +38,33 @@ if($route = Arr::get($_GET, 'route', '/')) {
 	Helper functions
 */
 function timezones() {
-	$list = DateTimeZone::listAbbreviations();
-	$idents = DateTimeZone::listIdentifiers();
+	$list = DateTimeZone::listIdentifiers();
 
 	$data = array();
+    foreach($list as $id => $zone){
+        $now = new DateTime(null, new DateTimeZone($zone));
+        $offset = $now->getOffset();
+        $offset_round = round(abs($offset / 3600), 2);
+        $minutes = fmod($offset_round, 1);
 
-	foreach($list as $key => $zones) {
-		foreach($zones as $id => $zone) {
-			if($zone['timezone_id'] and in_array($zone['timezone_id'], $idents)) {
-				$offset = round(abs($zone['offset'] / 3600));
-				$sign = $zone['offset'] > 0 ? '+' : '-';
+        if($minutes == 0) {
+            $offset_label = $offset_round.'&nbsp;&nbsp;';
+        } elseif ($minutes == 0.5) {
+            $offset_label = (int)$offset_round.'.30';
+        } elseif ($minutes == 0.75) {
+            $offset_label = (int)$offset_round.'.45';
+        }
 
-				if($offset == 0) {
-					$sign = ' ';
-					$offset = '';
-				}
+        $sign = $offset > 0 ? '+' : '-';
 
-				$zone['label'] = 'GMT' . $sign . $offset . ' '  . $zone['timezone_id'];
-
-				$data[$zone['offset']][$zone['timezone_id']] = $zone;
-			}
-		}
-	}
-
-	ksort($data);
+        if($offset == 0) {
+            $sign = ' ';
+            $offset = '';
+        }
+        $label = 'GMT' . $sign . $offset_label . '&nbsp;'  . $zone;
+        $data[$offset][$zone] = array('offset'=> $offset, 'label' => $label, 'timezone_id' => $zone);
+    }
+    ksort($data);
 
 	$timezones = array();
 
@@ -75,6 +78,7 @@ function timezones() {
 	}
 
 	return $timezones;
+
 }
 
 function current_timezone() {
