@@ -10,15 +10,15 @@ return array(
 	// form fields
 	'title' => 'Titolo Articolo',
 	'title_explain' => '',
-	'title_missing' => 'Perfavore inserisci un titolo',
+	'title_missing' => 'Inserisci un titolo',
 
 	'content' => 'Contenuto del tuo articolo',
 	'content_explain' => 'Scrivi...',
 
 	'slug' => 'Slug',
 	'slug_explain' => 'URI Slug per identificare la tua pagina, dovrebbe contenere solo caratteri ASCII',
-	'slug_missing' => 'Perfavore inserisci un URI Slug, dovrebbe contenere solo caratteri ASCII',
-	'slug_duplicate' => 'Questo Slug già esiste',
+	'slug_missing' => 'Inserisci un URI Slug, dovrebbe contenere solo caratteri ASCII',
+	'slug_duplicate' => 'Questo Slug0 esiste già',
 	'slug_invalid' => 'Lo Slug deve contenere delle lettere',
 
 	'description' => 'Descrizione',
@@ -40,8 +40,8 @@ return array(
 	'custom_js_explain' => '',
 
 	// messages
-	'updated' => 'Il tuo articolo è stato aggiornato',
-	'created' => 'Il tuo articolo è stato creato',
-	'deleted' => 'Il tuo articolo è stato eliminato'
+	'updated' => 'L\'articolo è stato aggiornato',
+	'created' => 'L\'articolo è stato creato',
+	'deleted' => 'A\'articolo è stato eliminato'
 
 );

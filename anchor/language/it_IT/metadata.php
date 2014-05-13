@@ -17,16 +17,16 @@ return array(
 	'sitedescription_explain' => '',
 	'sitedescription_missing' => 'Il tuo sito ha bisogno di una descrizione!',
 
-	'homepage' => 'Home Page',
+	'homepage' => 'Homepage',
 	'homepage_explain' => '',
 
-	'postspage' => 'Posts Page',
+	'postspage' => 'Pagina post',
 	'postspage_explain' => '',
 
 	'posts_per_page' => 'Posts per pagina',
 	'posts_per_page_explain' => '',
 
-	'auto_publish_comments' => 'Abilitazione automatica dei commenti',
+	'auto_publish_comments' => 'Pubblica automaticamente commenti',
 	'auto_publish_comments_explain' => '',
 
 	'comment_notifications' => 'Notifica Email per i nuovi commenti',

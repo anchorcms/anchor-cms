@@ -14,7 +14,7 @@ return array(
 	'administrator' => 'Amministratore',
 	'administrator_explain' => '',
 
-	'editor' => 'Editor',
+	'editor' => 'Editore',
 	'editor_explain' => '',
 
 	'user' => 'Utente',
@@ -33,9 +33,9 @@ return array(
 	'role' => 'Ruolo',
 	'role_explain' => '',
 
-	'username' => 'Username',
+	'username' => 'Nome utente',
 	'username_explain' => '',
-	'username_missing' => 'Perfavore inserisci uno Username, deve essere almeno lungo  %s caratteri',
+	'username_missing' => 'Perfavore inserisci un nome utente, deve essere almeno lungo  %s caratteri',
 
 	'password' => 'Password',
 	'password_explain' => '',
@@ -45,7 +45,7 @@ return array(
 
 	'email' => 'Email',
 	'email_explain' => '',
-	'email_missing' => 'Inserisci un Emai valida',
+	'email_missing' => 'Inserisci una Email valida',
 	'email_not_found' => 'Profilo non trovato.',
 
 	// messages
@@ -53,9 +53,9 @@ return array(
 	'created' => 'Profilo utente creato.',
 	'deleted' => 'Profilo utente eliminato.',
 	'delete_error' => 'Non puoi eliminare il tuo profilo',
-	'login_error' => 'Username e/o password sbagliati.',
+	'login_error' => 'Username o password sbagliata.',
 	'logout_notice' => 'Hai effettuato il Logout.',
-	'recovery_sent' => 'Ti abbiamo inviato un Email per confermare il cambiamento della password.',
+	'recovery_sent' => 'Ti abbiamo inviato una Email per confermare il cambiamento della password.',
 	'recovery_expired' => 'Il Token recupero Password è scaduto, riprova.',
 	'password_reset' => 'La tua nuova password è stata salvata. Effettua il Login!',
 

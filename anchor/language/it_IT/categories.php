@@ -10,7 +10,7 @@ return array(
 
 	// form fields
 	'title' => 'Titolo',
-	'title_explain' => 'Il titolo della categorie.',
+	'title_explain' => 'Il titolo della categoria.',
 	'title_missing' => 'Per favore inserisci un titolo',
 
 	'slug' => 'Slug',
