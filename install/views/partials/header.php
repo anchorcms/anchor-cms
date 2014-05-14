@@ -6,10 +6,11 @@
 		<meta name="robots" content="noindex, nofollow">
 
 		<link rel="stylesheet" href="<?php echo asset('views/assets/css/install.css'); ?>">
+		<link rel="stylesheet" href="<?php echo asset('views/assets/css/chosen.css'); ?>">
 	</head>
 	<body>
 
-    	<nav>
+		<nav>
 			<img src="<?php echo asset('views/assets/img/logo.png'); ?>">
 
 			<ul>
