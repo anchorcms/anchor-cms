@@ -1,9 +1,7 @@
 anchor/config/local
-anchor/logs
 public/content
 public/vendor
 vendor
 composer.lock
 composer.phar
-*.db
 *.sqlite

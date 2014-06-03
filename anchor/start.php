@@ -72,9 +72,9 @@ $app['events']->attach('beforeResponse', function() use($app, $time_start) {
 	$app['response']->setBody($body);
 });
 
-$app['events']->attach('beforeResponse', function() use($app, $time_start) {
+$app['events']->attach('beforeResponse', function() use($app) {
 	if($app['admin'] or $app['env']->current() == 'local') {
-		$app['response']->setHeader('expires', gmdate('D, d M Y H:i:s', time() - 84600) . ' GMT');
+		$app['response']->setHeader('expires', gmdate('D, d M Y H:i:s', time() - 86400) . ' GMT');
 	}
 });
 
