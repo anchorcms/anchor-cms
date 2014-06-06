@@ -20,7 +20,7 @@
 		<?php foreach($comments->results as $comment): ?>
 		<li>
 			<a href="<?php echo Uri::to('admin/comments/edit/' . $comment->id); ?>">
-				<strong><?php echo strip_tags($comment->text); ?></strong>
+				<strong><?php echo htmlspecialchars(strip_tags($comment->text)); ?></strong>
 				<span><time><?php echo Date::format($comment->date); ?></time></span>
 				<span class="highlight"><?php echo $comment->status; ?></span>
 			</a>
