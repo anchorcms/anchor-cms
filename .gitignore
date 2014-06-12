@@ -1,4 +1,5 @@
 anchor/config/local
+anchor/config/prod
 public/content
 public/vendor
 vendor

@@ -2,7 +2,7 @@
 
 return array(
 	/**
-	 * Session driver (pdo, memcached, memcache)
+	 * Session driver (pdo, memcached, cookies)
 	 */
 	'driver' => 'pdo',
 

@@ -17,6 +17,9 @@ require __DIR__ . '/../vendor/autoload.php';
  */
 $app = require __DIR__ . '/container.php';
 
+// set start time for profiling
+$app['time_start'] = $time_start;
+
 /**
  * Setup environment
  */
@@ -54,29 +57,6 @@ foreach($app['config']->get('app.providers', array()) as $className) {
 
 	$provider->register($app);
 }
-
-/**
- * Event listeners
- */
-$app['events']->attach('beforeResponse', function() use($app, $time_start) {
-	// Append elapsed time and memory usage
-	$time_end = microtime(true);
-	$elapsed_time = round(($time_end - $time_start) * 1000);
-	$memory = round(memory_get_peak_usage(true) / 1024 / 1024, 2);
-
-	$tags = array('{elapsed_time}', '{memory_usage}');
-	$values = array($elapsed_time, $memory);
-
-	$body = str_replace($tags, $values, $app['response']->getBody());
-
-	$app['response']->setBody($body);
-});
-
-$app['events']->attach('beforeResponse', function() use($app) {
-	if($app['admin'] or $app['env']->current() == 'local') {
-		$app['response']->setHeader('expires', gmdate('D, d M Y H:i:s', time() - 86400) . ' GMT');
-	}
-});
 
 /**
  * Start session for admin only, this way we can use a
