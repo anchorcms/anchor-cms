@@ -1,0 +1,479 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        
+        <title>Comments — Anchor</title>
+        
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+		<!-- Compiles from LESS -->
+        <link rel="stylesheet" href="css/admin.css">
+        <link rel="stylesheet" href="js/pen/pen.css">
+        
+        <!-- Compiles from current theme, if it exists -->
+        <link rel="stylesheet" href="/themes/current/admin-custom.css">
+    </head>
+    <body>
+		<!--<p class="success">Invalid CSRF token — please reload the page and try again.</p>-->
+
+    	<nav class="main-nav">
+			<ul class="actions">
+				<li>
+					<a class="flaticon feather-1" href="http://localhost:1005/admin/posts">Posts</a>
+				</li>
+				
+				<li class="active">
+					<a class="flaticon writing-comment-2" href="http://localhost:1005/admin/comments">Comments</a>
+				</li>
+				
+				<li>
+					<a class="flaticon multiple-documents-1" href="http://localhost:1005/admin/pages">Pages</a>
+				</li>
+				
+				<li>
+					<a class="flaticon menu-list-4" href="http://localhost:1005/admin/menu">Menu</a>
+				</li>
+				
+				<li>
+					<a class="flaticon tag-1" href="http://localhost:1005/admin/categories">Categories</a>
+				</li>
+			</ul>
+    		
+    		<a class="anchor-logo">Anchor CMS</a>
+    		
+    		<ul class="results">
+    			<li>
+    				<a href="/">Visit site</a>
+    			</li>
+    			
+    			<li>
+    				<a class="flaticon user-1" href="http://localhost:1005/admin/users">Users</a>
+    			</li>
+    			
+    			<li>
+    				<a class="flaticon cube-1" href="http://localhost:1005/admin/extend">Extend</a>
+    			</li>
+    			
+    			<li>
+    				<a href="/admin/logout">Logout</a>
+    			</li>
+    		</ul>
+    	</nav>
+    	
+    	<nav class="filter">
+    		<h2>Filter</h2>
+    		
+			<a class="active" href="admin/comments/">All</a>
+			<a class="pending" href="admin/comments/pending">Pending</a>
+			<a class="approved" href="admin/comments/approved">Approved <span class="keycode">&#8997; + E</span></a>
+			<a class="spam" href="admin/comments/spam">Spam</a>
+			
+			<h2>Actions</h2>
+			
+			<a class="delete" href="#"><span class="label">Delete all comments</span> <span class="keycode">&#9003;</span></a>
+			<a class="pending" href="admin/comments/pending">Mark as Pending</a>
+			<a class="approved" href="admin/comments/approved">Mark as Approved <span class="keycode">&#8984; + E</span></a>
+			<a class="spam" href="admin/comments/spam">Mark as Spam</a>
+    	</nav>
+    	
+		<section class="list comments">
+			<ul>
+				<li>
+					<img src="https://s3.amazonaws.com/uifaces/faces/twitter/calebogden/128.jpg" class="avatar">
+					
+					<b class="title">On <a href="">My Awesome Blog Post</a></b>
+					<nav class="actions">
+						<a href class="approve">Approve</a>
+						<a href class="approve">Spam</a>
+					</nav>
+					
+					<p class="comment">This is a comment, number one. Lorem ipsum dolor and all that.</p>
+				</li>
+				
+				<li>
+					<img src="https://s3.amazonaws.com/uifaces/faces/twitter/idiot/128.jpg" class="avatar">
+					
+					<b class="title">On <a href="">My Awesome Blog Post</a></b>
+					<nav class="actions">
+						<a href class="approve">Approve</a>
+						<a href class="approve">Spam</a>
+					</nav>					
+					<p class="comment">A bit more filler text here, nothing interesting.</p>
+				</li>
+				
+				<li>
+					<img src="https://s3.amazonaws.com/uifaces/faces/twitter/mutlu82/128.jpg" class="avatar">
+					
+					<b class="title">On <a href="">My Awesome Blog Post</a></b>
+					<nav class="actions">
+						<a href class="approve">Approve</a>
+						<a href class="approve">Spam</a>
+					</nav>					
+					<p class="comment">I totally disagree with you, you massive plonker Rodney. What’s going on here, aw hell naw that didn’t just happen seriously wadderfug.</p>
+				</li>
+				
+				<li>
+					<img alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAMAAAD04JH5AAABX1BMVEXs6+i1sq26t7K4tbC3tK+5trHr6ufq6ebOzMi2s67Ny8e7uLPd29i8ubTDwbzm5eLp6OXLycXS0Mzh4Nzh4N3Ewb3b2dXp5+S9urW9urba2NTT0c3HxcHFw77Fwr7m5OHEwr3PzcnBvrnBvrq+u7fl5OHU08/U0s7LycTY1tLg3tvg39vQzsrg39zc2tff3trj4t/V08+3tLC6t7Pb2tbNysbKx8PIxcHOy8fKyMTGw7/LyMTe3NnGxMDi4d7m5eG/vLe/vbjo5+S4trHe3dm8urXIxsHk4+DW1NHa2NW7ubTAvbnAvbjMysbi4N3T0s7j4d7n5eLZ2NTo5+O6uLPl5ODMycXc29e7uLTR0MzY1tPJx8LBv7rRz8vf3tvAvrnHxcC5trLW1NDl4+DCwLvIxsLU0s/HxMDn5uLDwLzQzcnj4t7V1NDi4d3X1dG8ubXNy8bZ19Pd3Ni9u7a/vLg+G2GrAAACoElEQVR4Ae3UVW9cSRTE8fpfHGaPZ8x2zHaMYdwwZ5mZmff7a7VZ5/ZM5Iyt6Lafzu+p3upIrWoZY4wxxhhjjDHGGGOMeWU795tj/TiK4v5Y86sdnbDTpTJDyqXTOjkTpzjEqQmdjO2svlqbWl2dqlWzE7blX1o6KC9sNXSgsfX8RUqpPJt9DMBMRS+ozADweEledQKAhXUdYvtzgKAjj9oxEL2uwyWTERC35U09AMoj9vbZPhDU5Ul6A+gtaYSvq8CNVH7MA+W6RroXAAV58bQIUUdHWC9CsSMf5oAVHelDYE4ebACPdLRkEdhQ/s4BV5RJCsEH88mzVIrDJ6kyZ4Bzyl0awYKcAsB8li7I6UGUKm8VYFdOAHArS6GcFlDxssFZOTFAeOgB17wscRoeakAJ4L3sCYYKYx876MG0BiRnw71m+iwV4vhsogHfQE95C+CijukuBMpbBE90TE0IlbcQLuuYvoVYebsDl3RMNfhdeRuDqgYwrKgB+/Cj8lYCluR8yZB9ObPAH8pbF1iR8wlD5uTsAg+Ut/EIFuVsMqQlZwGKDeXuKtBVZjbCIfpBmXVgWvmrAP1UmUkc7supAWfkwSOgIOe7iAPhmpy3gMVEHlwBilty3vy09k60V56ZvCmnHgNdefExEHY0UroA1OTHeBWIr2uEdAYI35Un1/aAiVEnjgF05c0K8Ite6o2/AVry58KoPy5pRQCb8uftEKhL0vhvDQ1L1noATMqjzed/3M//EK7elvPrT2UAbnXl0yLQVuP9qwAQnF/+q92+PdG6W+Z/Y9flVR+Kd2Je5uGf8uwymWKRF7y2lsi3pYADl3bGP/oixLUXnuok3DsfEPa/X67rP8nGcnNq6mJpt3JTr8wYY4wxxhhjjDHGGGPMvyw2MzTQl7cyAAAAAElFTkSuQmCC" class="avatar">
+					
+					<b class="title">On <a href="">My Awesome Blog Post</a></b>
+					<nav class="actions">
+						<a href class="approve">Approve</a>
+						<a href class="approve">Spam</a>
+					</nav>					
+					<p class="comment">The new Casey Crezenco - or however you spell his name - is really damn good. Proper classical vibes.</p>
+				</li>
+				
+				<li>
+					<img src="https://s3.amazonaws.com/uifaces/faces/twitter/joelcannon/128.jpg" class="avatar">
+					
+					<b class="title">On <a href="">My Awesome Blog Post</a></b>
+					<nav class="actions">
+						<a href class="approve">Approve</a>
+						<a href class="approve">Spam</a>
+					</nav>					
+					<p class="comment">Here's another comment.</p>
+				</li>
+				
+				<li>
+					<img src="https://s3.amazonaws.com/uifaces/faces/twitter/9lessons/128.jpg" class="avatar">
+					
+					<b class="title">On <a href="">My Awesome Blog Post</a></b>
+					<nav class="actions">
+						<a href class="approve">Approve</a>
+						<a href class="approve">Spam</a>
+					</nav>					
+					<p class="comment">What the fuck did you just fucking say about me, you little bitch? I'll have you know I graduated top of my class in the Navy Seals…</p>
+				</li>
+				
+				<li>
+					<img src="https://s3.amazonaws.com/uifaces/faces/twitter/draganbabic/128.jpg" class="avatar">
+					
+					<b class="title">On <a href="">My Awesome Blog Post</a></b>
+					<nav class="actions">
+						<a href class="approve">Approve</a>
+						<a href class="approve">Spam</a>
+					</nav>					
+					<p class="comment">Look who it is again, ID Heaven. I'm fed up with your shit faggot. The other day when you called me a newfag, yeah, haven't forgotten about that yet.</p>
+				</li>
+				
+				<li>
+					<img alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAMAAAD04JH5AAABX1BMVEXs6+i1sq26t7K4tbC3tK+5trHr6ufq6ebOzMi2s67Ny8e7uLPd29i8ubTDwbzm5eLp6OXLycXS0Mzh4Nzh4N3Ewb3b2dXp5+S9urW9urba2NTT0c3HxcHFw77Fwr7m5OHEwr3PzcnBvrnBvrq+u7fl5OHU08/U0s7LycTY1tLg3tvg39vQzsrg39zc2tff3trj4t/V08+3tLC6t7Pb2tbNysbKx8PIxcHOy8fKyMTGw7/LyMTe3NnGxMDi4d7m5eG/vLe/vbjo5+S4trHe3dm8urXIxsHk4+DW1NHa2NW7ubTAvbnAvbjMysbi4N3T0s7j4d7n5eLZ2NTo5+O6uLPl5ODMycXc29e7uLTR0MzY1tPJx8LBv7rRz8vf3tvAvrnHxcC5trLW1NDl4+DCwLvIxsLU0s/HxMDn5uLDwLzQzcnj4t7V1NDi4d3X1dG8ubXNy8bZ19Pd3Ni9u7a/vLg+G2GrAAACoElEQVR4Ae3UVW9cSRTE8fpfHGaPZ8x2zHaMYdwwZ5mZmff7a7VZ5/ZM5Iyt6Lafzu+p3upIrWoZY4wxxhhjjDHGGGOMeWU795tj/TiK4v5Y86sdnbDTpTJDyqXTOjkTpzjEqQmdjO2svlqbWl2dqlWzE7blX1o6KC9sNXSgsfX8RUqpPJt9DMBMRS+ozADweEledQKAhXUdYvtzgKAjj9oxEL2uwyWTERC35U09AMoj9vbZPhDU5Ul6A+gtaYSvq8CNVH7MA+W6RroXAAV58bQIUUdHWC9CsSMf5oAVHelDYE4ebACPdLRkEdhQ/s4BV5RJCsEH88mzVIrDJ6kyZ4Bzyl0awYKcAsB8li7I6UGUKm8VYFdOAHArS6GcFlDxssFZOTFAeOgB17wscRoeakAJ4L3sCYYKYx876MG0BiRnw71m+iwV4vhsogHfQE95C+CijukuBMpbBE90TE0IlbcQLuuYvoVYebsDl3RMNfhdeRuDqgYwrKgB+/Cj8lYCluR8yZB9ObPAH8pbF1iR8wlD5uTsAg+Ut/EIFuVsMqQlZwGKDeXuKtBVZjbCIfpBmXVgWvmrAP1UmUkc7supAWfkwSOgIOe7iAPhmpy3gMVEHlwBilty3vy09k60V56ZvCmnHgNdefExEHY0UroA1OTHeBWIr2uEdAYI35Un1/aAiVEnjgF05c0K8Ite6o2/AVry58KoPy5pRQCb8uftEKhL0vhvDQ1L1noATMqjzed/3M//EK7elvPrT2UAbnXl0yLQVuP9qwAQnF/+q92+PdG6W+Z/Y9flVR+Kd2Je5uGf8uwymWKRF7y2lsi3pYADl3bGP/oixLUXnuok3DsfEPa/X67rP8nGcnNq6mJpt3JTr8wYY4wxxhhjjDHGGGPMvyw2MzTQl7cyAAAAAElFTkSuQmCC" class="avatar">
+					
+					<b class="title">On <a href="">My Awesome Blog Post</a></b>
+					<nav class="actions">
+						<a href class="approve">Approve</a>
+						<a href class="approve">Spam</a>
+					</nav>					
+					<p class="comment">I personally do not mind bees, but I do hate wasps, which is due to two things: my mother's hysteria toward them, and my being stung by them, especially one time.</p>
+				</li>
+				
+				<li class="approved">
+					<img src="https://s3.amazonaws.com/uifaces/faces/twitter/calebogden/128.jpg" class="avatar">
+					
+					<b class="title">On <a href="">My Awesome Blog Post</a></b>
+					<nav class="actions">
+						<a href class="approve">Unapprove</a>
+						<a href class="approve">Spam</a>
+					</nav>					
+					<p class="comment">This is a comment, number one. Lorem ipsum dolor and all that.</p>
+				</li>
+				
+				<li>
+					<img src="https://s3.amazonaws.com/uifaces/faces/twitter/idiot/128.jpg" class="avatar">
+					
+					<b class="title">On <a href="">My Awesome Blog Post</a></b>
+					<nav class="actions">
+						<a href class="approve">Approve</a>
+						<a href class="approve">Spam</a>
+					</nav>					
+					<p class="comment">A bit more filler text here, nothing interesting.</p>
+				</li>
+				
+				<li>
+					<img src="https://s3.amazonaws.com/uifaces/faces/twitter/mutlu82/128.jpg" class="avatar">
+					
+					<b class="title">On <a href="">My Awesome Blog Post</a></b>
+					<nav class="actions">
+						<a href class="approve">Approve</a>
+						<a href class="approve">Spam</a>
+					</nav>					
+					<p class="comment">I totally disagree with you, you massive plonker Rodney. What’s going on here, aw hell naw that didn’t just happen seriously wadderfug.</p>
+				</li>
+				
+				<li>
+					<img alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAMAAAD04JH5AAABX1BMVEXs6+i1sq26t7K4tbC3tK+5trHr6ufq6ebOzMi2s67Ny8e7uLPd29i8ubTDwbzm5eLp6OXLycXS0Mzh4Nzh4N3Ewb3b2dXp5+S9urW9urba2NTT0c3HxcHFw77Fwr7m5OHEwr3PzcnBvrnBvrq+u7fl5OHU08/U0s7LycTY1tLg3tvg39vQzsrg39zc2tff3trj4t/V08+3tLC6t7Pb2tbNysbKx8PIxcHOy8fKyMTGw7/LyMTe3NnGxMDi4d7m5eG/vLe/vbjo5+S4trHe3dm8urXIxsHk4+DW1NHa2NW7ubTAvbnAvbjMysbi4N3T0s7j4d7n5eLZ2NTo5+O6uLPl5ODMycXc29e7uLTR0MzY1tPJx8LBv7rRz8vf3tvAvrnHxcC5trLW1NDl4+DCwLvIxsLU0s/HxMDn5uLDwLzQzcnj4t7V1NDi4d3X1dG8ubXNy8bZ19Pd3Ni9u7a/vLg+G2GrAAACoElEQVR4Ae3UVW9cSRTE8fpfHGaPZ8x2zHaMYdwwZ5mZmff7a7VZ5/ZM5Iyt6Lafzu+p3upIrWoZY4wxxhhjjDHGGGOMeWU795tj/TiK4v5Y86sdnbDTpTJDyqXTOjkTpzjEqQmdjO2svlqbWl2dqlWzE7blX1o6KC9sNXSgsfX8RUqpPJt9DMBMRS+ozADweEledQKAhXUdYvtzgKAjj9oxEL2uwyWTERC35U09AMoj9vbZPhDU5Ul6A+gtaYSvq8CNVH7MA+W6RroXAAV58bQIUUdHWC9CsSMf5oAVHelDYE4ebACPdLRkEdhQ/s4BV5RJCsEH88mzVIrDJ6kyZ4Bzyl0awYKcAsB8li7I6UGUKm8VYFdOAHArS6GcFlDxssFZOTFAeOgB17wscRoeakAJ4L3sCYYKYx876MG0BiRnw71m+iwV4vhsogHfQE95C+CijukuBMpbBE90TE0IlbcQLuuYvoVYebsDl3RMNfhdeRuDqgYwrKgB+/Cj8lYCluR8yZB9ObPAH8pbF1iR8wlD5uTsAg+Ut/EIFuVsMqQlZwGKDeXuKtBVZjbCIfpBmXVgWvmrAP1UmUkc7supAWfkwSOgIOe7iAPhmpy3gMVEHlwBilty3vy09k60V56ZvCmnHgNdefExEHY0UroA1OTHeBWIr2uEdAYI35Un1/aAiVEnjgF05c0K8Ite6o2/AVry58KoPy5pRQCb8uftEKhL0vhvDQ1L1noATMqjzed/3M//EK7elvPrT2UAbnXl0yLQVuP9qwAQnF/+q92+PdG6W+Z/Y9flVR+Kd2Je5uGf8uwymWKRF7y2lsi3pYADl3bGP/oixLUXnuok3DsfEPa/X67rP8nGcnNq6mJpt3JTr8wYY4wxxhhjjDHGGGPMvyw2MzTQl7cyAAAAAElFTkSuQmCC" class="avatar">
+					
+					<b class="title">On <a href="">My Awesome Blog Post</a></b>
+					<nav class="actions">
+						<a href class="approve">Approve</a>
+						<a href class="approve">Spam</a>
+					</nav>					
+					<p class="comment">The new Casey Crezenco - or however you spell his name - is really damn good. Proper classical vibes.</p>
+				</li>
+				
+				<li>
+					<img src="https://s3.amazonaws.com/uifaces/faces/twitter/joelcannon/128.jpg" class="avatar">
+					
+					<b class="title">On <a href="">My Awesome Blog Post</a></b>
+					<nav class="actions">
+						<a href class="approve">Approve</a>
+						<a href class="approve">Spam</a>
+					</nav>					
+					<p class="comment">Here's another comment.</p>
+				</li>
+				
+				<li>
+					<img src="https://s3.amazonaws.com/uifaces/faces/twitter/9lessons/128.jpg" class="avatar">
+					
+					<b class="title">On <a href="">My Awesome Blog Post</a></b>
+					<nav class="actions">
+						<a href class="approve">Approve</a>
+						<a href class="approve">Spam</a>
+					</nav>					
+					<p class="comment">What the fuck did you just fucking say about me, you little bitch? I'll have you know I graduated top of my class in the Navy Seals…</p>
+				</li>
+				
+				<li>
+					<img src="https://s3.amazonaws.com/uifaces/faces/twitter/draganbabic/128.jpg" class="avatar">
+					
+					<b class="title">On <a href="">My Awesome Blog Post</a></b>
+					<nav class="actions">
+						<a href class="approve">Approve</a>
+						<a href class="approve">Spam</a>
+					</nav>					
+					<p class="comment">Look who it is again, ID Heaven. I'm fed up with your shit faggot. The other day when you called me a newfag, yeah, haven't forgotten about that yet.</p>
+				</li>
+				
+				<li>
+					<img alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAMAAAD04JH5AAABX1BMVEXs6+i1sq26t7K4tbC3tK+5trHr6ufq6ebOzMi2s67Ny8e7uLPd29i8ubTDwbzm5eLp6OXLycXS0Mzh4Nzh4N3Ewb3b2dXp5+S9urW9urba2NTT0c3HxcHFw77Fwr7m5OHEwr3PzcnBvrnBvrq+u7fl5OHU08/U0s7LycTY1tLg3tvg39vQzsrg39zc2tff3trj4t/V08+3tLC6t7Pb2tbNysbKx8PIxcHOy8fKyMTGw7/LyMTe3NnGxMDi4d7m5eG/vLe/vbjo5+S4trHe3dm8urXIxsHk4+DW1NHa2NW7ubTAvbnAvbjMysbi4N3T0s7j4d7n5eLZ2NTo5+O6uLPl5ODMycXc29e7uLTR0MzY1tPJx8LBv7rRz8vf3tvAvrnHxcC5trLW1NDl4+DCwLvIxsLU0s/HxMDn5uLDwLzQzcnj4t7V1NDi4d3X1dG8ubXNy8bZ19Pd3Ni9u7a/vLg+G2GrAAACoElEQVR4Ae3UVW9cSRTE8fpfHGaPZ8x2zHaMYdwwZ5mZmff7a7VZ5/ZM5Iyt6Lafzu+p3upIrWoZY4wxxhhjjDHGGGOMeWU795tj/TiK4v5Y86sdnbDTpTJDyqXTOjkTpzjEqQmdjO2svlqbWl2dqlWzE7blX1o6KC9sNXSgsfX8RUqpPJt9DMBMRS+ozADweEledQKAhXUdYvtzgKAjj9oxEL2uwyWTERC35U09AMoj9vbZPhDU5Ul6A+gtaYSvq8CNVH7MA+W6RroXAAV58bQIUUdHWC9CsSMf5oAVHelDYE4ebACPdLRkEdhQ/s4BV5RJCsEH88mzVIrDJ6kyZ4Bzyl0awYKcAsB8li7I6UGUKm8VYFdOAHArS6GcFlDxssFZOTFAeOgB17wscRoeakAJ4L3sCYYKYx876MG0BiRnw71m+iwV4vhsogHfQE95C+CijukuBMpbBE90TE0IlbcQLuuYvoVYebsDl3RMNfhdeRuDqgYwrKgB+/Cj8lYCluR8yZB9ObPAH8pbF1iR8wlD5uTsAg+Ut/EIFuVsMqQlZwGKDeXuKtBVZjbCIfpBmXVgWvmrAP1UmUkc7supAWfkwSOgIOe7iAPhmpy3gMVEHlwBilty3vy09k60V56ZvCmnHgNdefExEHY0UroA1OTHeBWIr2uEdAYI35Un1/aAiVEnjgF05c0K8Ite6o2/AVry58KoPy5pRQCb8uftEKhL0vhvDQ1L1noATMqjzed/3M//EK7elvPrT2UAbnXl0yLQVuP9qwAQnF/+q92+PdG6W+Z/Y9flVR+Kd2Je5uGf8uwymWKRF7y2lsi3pYADl3bGP/oixLUXnuok3DsfEPa/X67rP8nGcnNq6mJpt3JTr8wYY4wxxhhjjDHGGGPMvyw2MzTQl7cyAAAAAElFTkSuQmCC" class="avatar">
+					
+					<b class="title">On <a href="">My Awesome Blog Post</a></b>
+					<nav class="actions">
+						<a href class="approve">Approve</a>
+						<a href class="approve">Spam</a>
+					</nav>					
+					<p class="comment">I personally do not mind bees, but I do hate wasps, which is due to two things: my mother's hysteria toward them, and my being stung by them, especially one time.</p>
+				</li>
+				
+				<li>
+					<img src="https://s3.amazonaws.com/uifaces/faces/twitter/calebogden/128.jpg" class="avatar">
+					
+					<b class="title">On <a href="">My Awesome Blog Post</a></b>
+					<nav class="actions">
+						<a href class="approve">Approve</a>
+						<a href class="approve">Spam</a>
+					</nav>					
+					<p class="comment">This is a comment, number one. Lorem ipsum dolor and all that.</p>
+				</li>
+				
+				<li>
+					<img src="https://s3.amazonaws.com/uifaces/faces/twitter/idiot/128.jpg" class="avatar">
+					
+					<b class="title">On <a href="">My Awesome Blog Post</a></b>
+					<nav class="actions">
+						<a href class="approve">Approve</a>
+						<a href class="approve">Spam</a>
+					</nav>					
+					<p class="comment">A bit more filler text here, nothing interesting.</p>
+				</li>
+				
+				<li>
+					<img alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAMAAAD04JH5AAABX1BMVEXs6+i1sq26t7K4tbC3tK+5trHr6ufq6ebOzMi2s67Ny8e7uLPd29i8ubTDwbzm5eLp6OXLycXS0Mzh4Nzh4N3Ewb3b2dXp5+S9urW9urba2NTT0c3HxcHFw77Fwr7m5OHEwr3PzcnBvrnBvrq+u7fl5OHU08/U0s7LycTY1tLg3tvg39vQzsrg39zc2tff3trj4t/V08+3tLC6t7Pb2tbNysbKx8PIxcHOy8fKyMTGw7/LyMTe3NnGxMDi4d7m5eG/vLe/vbjo5+S4trHe3dm8urXIxsHk4+DW1NHa2NW7ubTAvbnAvbjMysbi4N3T0s7j4d7n5eLZ2NTo5+O6uLPl5ODMycXc29e7uLTR0MzY1tPJx8LBv7rRz8vf3tvAvrnHxcC5trLW1NDl4+DCwLvIxsLU0s/HxMDn5uLDwLzQzcnj4t7V1NDi4d3X1dG8ubXNy8bZ19Pd3Ni9u7a/vLg+G2GrAAACoElEQVR4Ae3UVW9cSRTE8fpfHGaPZ8x2zHaMYdwwZ5mZmff7a7VZ5/ZM5Iyt6Lafzu+p3upIrWoZY4wxxhhjjDHGGGOMeWU795tj/TiK4v5Y86sdnbDTpTJDyqXTOjkTpzjEqQmdjO2svlqbWl2dqlWzE7blX1o6KC9sNXSgsfX8RUqpPJt9DMBMRS+ozADweEledQKAhXUdYvtzgKAjj9oxEL2uwyWTERC35U09AMoj9vbZPhDU5Ul6A+gtaYSvq8CNVH7MA+W6RroXAAV58bQIUUdHWC9CsSMf5oAVHelDYE4ebACPdLRkEdhQ/s4BV5RJCsEH88mzVIrDJ6kyZ4Bzyl0awYKcAsB8li7I6UGUKm8VYFdOAHArS6GcFlDxssFZOTFAeOgB17wscRoeakAJ4L3sCYYKYx876MG0BiRnw71m+iwV4vhsogHfQE95C+CijukuBMpbBE90TE0IlbcQLuuYvoVYebsDl3RMNfhdeRuDqgYwrKgB+/Cj8lYCluR8yZB9ObPAH8pbF1iR8wlD5uTsAg+Ut/EIFuVsMqQlZwGKDeXuKtBVZjbCIfpBmXVgWvmrAP1UmUkc7supAWfkwSOgIOe7iAPhmpy3gMVEHlwBilty3vy09k60V56ZvCmnHgNdefExEHY0UroA1OTHeBWIr2uEdAYI35Un1/aAiVEnjgF05c0K8Ite6o2/AVry58KoPy5pRQCb8uftEKhL0vhvDQ1L1noATMqjzed/3M//EK7elvPrT2UAbnXl0yLQVuP9qwAQnF/+q92+PdG6W+Z/Y9flVR+Kd2Je5uGf8uwymWKRF7y2lsi3pYADl3bGP/oixLUXnuok3DsfEPa/X67rP8nGcnNq6mJpt3JTr8wYY4wxxhhjjDHGGGPMvyw2MzTQl7cyAAAAAElFTkSuQmCC" class="avatar">
+					
+					<b class="title">On <a href="">My Awesome Blog Post</a></b>
+					<nav class="actions">
+						<a href class="approve">Approve</a>
+						<a href class="approve">Spam</a>
+					</nav>					
+					<p class="comment">The new Casey Crezenco - or however you spell his name - is really damn good. Proper classical vibes.</p>
+				</li>
+				
+				<li class="approved">
+					<img src="https://s3.amazonaws.com/uifaces/faces/twitter/joelcannon/128.jpg" class="avatar">
+					
+					<b class="title">On <a href="">My Awesome Blog Post</a></b>
+					<nav class="actions">
+						<a href class="approve">Unapprove</a>
+						<a href class="approve">Spam</a>
+					</nav>					
+					<p class="comment">Here's another comment.</p>
+				</li>
+				
+				<li>
+					<img src="https://s3.amazonaws.com/uifaces/faces/twitter/9lessons/128.jpg" class="avatar">
+					
+					<b class="title">On <a href="">My Awesome Blog Post</a></b>
+					<nav class="actions">
+						<a href class="approve">Approve</a>
+						<a href class="approve">Spam</a>
+					</nav>					
+					<p class="comment">What the fuck did you just fucking say about me, you little bitch? I'll have you know I graduated top of my class in the Navy Seals…</p>
+				</li>
+				
+				<li>
+					<img src="https://s3.amazonaws.com/uifaces/faces/twitter/draganbabic/128.jpg" class="avatar">
+					
+					<b class="title">On <a href="">My Awesome Blog Post</a></b>
+					<nav class="actions">
+						<a href class="approve">Approve</a>
+						<a href class="approve">Spam</a>
+					</nav>					
+					<p class="comment">Look who it is again, ID Heaven. I'm fed up with your shit faggot. The other day when you called me a newfag, yeah, haven't forgotten about that yet.</p>
+				</li>
+				
+				<li>
+					<img alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAMAAAD04JH5AAABX1BMVEXs6+i1sq26t7K4tbC3tK+5trHr6ufq6ebOzMi2s67Ny8e7uLPd29i8ubTDwbzm5eLp6OXLycXS0Mzh4Nzh4N3Ewb3b2dXp5+S9urW9urba2NTT0c3HxcHFw77Fwr7m5OHEwr3PzcnBvrnBvrq+u7fl5OHU08/U0s7LycTY1tLg3tvg39vQzsrg39zc2tff3trj4t/V08+3tLC6t7Pb2tbNysbKx8PIxcHOy8fKyMTGw7/LyMTe3NnGxMDi4d7m5eG/vLe/vbjo5+S4trHe3dm8urXIxsHk4+DW1NHa2NW7ubTAvbnAvbjMysbi4N3T0s7j4d7n5eLZ2NTo5+O6uLPl5ODMycXc29e7uLTR0MzY1tPJx8LBv7rRz8vf3tvAvrnHxcC5trLW1NDl4+DCwLvIxsLU0s/HxMDn5uLDwLzQzcnj4t7V1NDi4d3X1dG8ubXNy8bZ19Pd3Ni9u7a/vLg+G2GrAAACoElEQVR4Ae3UVW9cSRTE8fpfHGaPZ8x2zHaMYdwwZ5mZmff7a7VZ5/ZM5Iyt6Lafzu+p3upIrWoZY4wxxhhjjDHGGGOMeWU795tj/TiK4v5Y86sdnbDTpTJDyqXTOjkTpzjEqQmdjO2svlqbWl2dqlWzE7blX1o6KC9sNXSgsfX8RUqpPJt9DMBMRS+ozADweEledQKAhXUdYvtzgKAjj9oxEL2uwyWTERC35U09AMoj9vbZPhDU5Ul6A+gtaYSvq8CNVH7MA+W6RroXAAV58bQIUUdHWC9CsSMf5oAVHelDYE4ebACPdLRkEdhQ/s4BV5RJCsEH88mzVIrDJ6kyZ4Bzyl0awYKcAsB8li7I6UGUKm8VYFdOAHArS6GcFlDxssFZOTFAeOgB17wscRoeakAJ4L3sCYYKYx876MG0BiRnw71m+iwV4vhsogHfQE95C+CijukuBMpbBE90TE0IlbcQLuuYvoVYebsDl3RMNfhdeRuDqgYwrKgB+/Cj8lYCluR8yZB9ObPAH8pbF1iR8wlD5uTsAg+Ut/EIFuVsMqQlZwGKDeXuKtBVZjbCIfpBmXVgWvmrAP1UmUkc7supAWfkwSOgIOe7iAPhmpy3gMVEHlwBilty3vy09k60V56ZvCmnHgNdefExEHY0UroA1OTHeBWIr2uEdAYI35Un1/aAiVEnjgF05c0K8Ite6o2/AVry58KoPy5pRQCb8uftEKhL0vhvDQ1L1noATMqjzed/3M//EK7elvPrT2UAbnXl0yLQVuP9qwAQnF/+q92+PdG6W+Z/Y9flVR+Kd2Je5uGf8uwymWKRF7y2lsi3pYADl3bGP/oixLUXnuok3DsfEPa/X67rP8nGcnNq6mJpt3JTr8wYY4wxxhhjjDHGGGPMvyw2MzTQl7cyAAAAAElFTkSuQmCC" class="avatar">
+					
+					<b class="title">On <a href="">My Awesome Blog Post</a></b>
+					<nav class="actions">
+						<a href class="approve">Approve</a>
+						<a href class="approve">Spam</a>
+					</nav>					
+					<p class="comment">I personally do not mind bees, but I do hate wasps, which is due to two things: my mother's hysteria toward them, and my being stung by them, especially one time.</p>
+				</li>
+				
+				<li>
+					<img src="https://s3.amazonaws.com/uifaces/faces/twitter/calebogden/128.jpg" class="avatar">
+					
+					<b class="title">On <a href="">My Awesome Blog Post</a></b>
+					<nav class="actions">
+						<a href class="approve">Approve</a>
+						<a href class="approve">Spam</a>
+					</nav>					
+					<p class="comment">This is a comment, number one. Lorem ipsum dolor and all that.</p>
+				</li>
+				
+				<li>
+					<img src="https://s3.amazonaws.com/uifaces/faces/twitter/idiot/128.jpg" class="avatar">
+					
+					<b class="title">On <a href="">My Awesome Blog Post</a></b>
+					<nav class="actions">
+						<a href class="approve">Approve</a>
+						<a href class="approve">Spam</a>
+					</nav>					
+					<p class="comment">A bit more filler text here, nothing interesting.</p>
+				</li>
+				
+				<li>
+					<img src="https://s3.amazonaws.com/uifaces/faces/twitter/mutlu82/128.jpg" class="avatar">
+					
+					<b class="title">On <a href="">My Awesome Blog Post</a></b>
+					<nav class="actions">
+						<a href class="approve">Approve</a>
+						<a href class="approve">Spam</a>
+					</nav>					
+					<p class="comment">I totally disagree with you, you massive plonker Rodney. What’s going on here, aw hell naw that didn’t just happen seriously wadderfug.</p>
+				</li>
+				
+				<li>
+					<img alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAMAAAD04JH5AAABX1BMVEXs6+i1sq26t7K4tbC3tK+5trHr6ufq6ebOzMi2s67Ny8e7uLPd29i8ubTDwbzm5eLp6OXLycXS0Mzh4Nzh4N3Ewb3b2dXp5+S9urW9urba2NTT0c3HxcHFw77Fwr7m5OHEwr3PzcnBvrnBvrq+u7fl5OHU08/U0s7LycTY1tLg3tvg39vQzsrg39zc2tff3trj4t/V08+3tLC6t7Pb2tbNysbKx8PIxcHOy8fKyMTGw7/LyMTe3NnGxMDi4d7m5eG/vLe/vbjo5+S4trHe3dm8urXIxsHk4+DW1NHa2NW7ubTAvbnAvbjMysbi4N3T0s7j4d7n5eLZ2NTo5+O6uLPl5ODMycXc29e7uLTR0MzY1tPJx8LBv7rRz8vf3tvAvrnHxcC5trLW1NDl4+DCwLvIxsLU0s/HxMDn5uLDwLzQzcnj4t7V1NDi4d3X1dG8ubXNy8bZ19Pd3Ni9u7a/vLg+G2GrAAACoElEQVR4Ae3UVW9cSRTE8fpfHGaPZ8x2zHaMYdwwZ5mZmff7a7VZ5/ZM5Iyt6Lafzu+p3upIrWoZY4wxxhhjjDHGGGOMeWU795tj/TiK4v5Y86sdnbDTpTJDyqXTOjkTpzjEqQmdjO2svlqbWl2dqlWzE7blX1o6KC9sNXSgsfX8RUqpPJt9DMBMRS+ozADweEledQKAhXUdYvtzgKAjj9oxEL2uwyWTERC35U09AMoj9vbZPhDU5Ul6A+gtaYSvq8CNVH7MA+W6RroXAAV58bQIUUdHWC9CsSMf5oAVHelDYE4ebACPdLRkEdhQ/s4BV5RJCsEH88mzVIrDJ6kyZ4Bzyl0awYKcAsB8li7I6UGUKm8VYFdOAHArS6GcFlDxssFZOTFAeOgB17wscRoeakAJ4L3sCYYKYx876MG0BiRnw71m+iwV4vhsogHfQE95C+CijukuBMpbBE90TE0IlbcQLuuYvoVYebsDl3RMNfhdeRuDqgYwrKgB+/Cj8lYCluR8yZB9ObPAH8pbF1iR8wlD5uTsAg+Ut/EIFuVsMqQlZwGKDeXuKtBVZjbCIfpBmXVgWvmrAP1UmUkc7supAWfkwSOgIOe7iAPhmpy3gMVEHlwBilty3vy09k60V56ZvCmnHgNdefExEHY0UroA1OTHeBWIr2uEdAYI35Un1/aAiVEnjgF05c0K8Ite6o2/AVry58KoPy5pRQCb8uftEKhL0vhvDQ1L1noATMqjzed/3M//EK7elvPrT2UAbnXl0yLQVuP9qwAQnF/+q92+PdG6W+Z/Y9flVR+Kd2Je5uGf8uwymWKRF7y2lsi3pYADl3bGP/oixLUXnuok3DsfEPa/X67rP8nGcnNq6mJpt3JTr8wYY4wxxhhjjDHGGGPMvyw2MzTQl7cyAAAAAElFTkSuQmCC" class="avatar">
+					
+					<b class="title">On <a href="">My Awesome Blog Post</a></b>
+					<nav class="actions">
+						<a href class="approve">Approve</a>
+						<a href class="approve">Spam</a>
+					</nav>					
+					<p class="comment">The new Casey Crezenco - or however you spell his name - is really damn good. Proper classical vibes.</p>
+				</li>
+				
+				<li>
+					<img src="https://s3.amazonaws.com/uifaces/faces/twitter/joelcannon/128.jpg" class="avatar">
+					
+					<b class="title">On <a href="">My Awesome Blog Post</a></b>
+					<nav class="actions">
+						<a href class="approve">Approve</a>
+						<a href class="approve">Spam</a>
+					</nav>					
+					<p class="comment">Here's another comment.</p>
+				</li>
+				
+				<li>
+					<img src="https://s3.amazonaws.com/uifaces/faces/twitter/9lessons/128.jpg" class="avatar">
+					
+					<b class="title">On <a href="">My Awesome Blog Post</a></b>
+					<nav class="actions">
+						<a href class="approve">Approve</a>
+						<a href class="approve">Spam</a>
+					</nav>					
+					<p class="comment">What the fuck did you just fucking say about me, you little bitch? I'll have you know I graduated top of my class in the Navy Seals…</p>
+				</li>
+				
+				<li>
+					<img src="https://s3.amazonaws.com/uifaces/faces/twitter/draganbabic/128.jpg" class="avatar">
+					
+					<b class="title">On <a href="">My Awesome Blog Post</a></b>
+					<nav class="actions">
+						<a href class="approve">Approve</a>
+						<a href class="approve">Spam</a>
+					</nav>					
+					<p class="comment">Look who it is again, ID Heaven. I'm fed up with your shit faggot. The other day when you called me a newfag, yeah, haven't forgotten about that yet.</p>
+				</li>
+				
+				<li>
+					<img alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAMAAAD04JH5AAABX1BMVEXs6+i1sq26t7K4tbC3tK+5trHr6ufq6ebOzMi2s67Ny8e7uLPd29i8ubTDwbzm5eLp6OXLycXS0Mzh4Nzh4N3Ewb3b2dXp5+S9urW9urba2NTT0c3HxcHFw77Fwr7m5OHEwr3PzcnBvrnBvrq+u7fl5OHU08/U0s7LycTY1tLg3tvg39vQzsrg39zc2tff3trj4t/V08+3tLC6t7Pb2tbNysbKx8PIxcHOy8fKyMTGw7/LyMTe3NnGxMDi4d7m5eG/vLe/vbjo5+S4trHe3dm8urXIxsHk4+DW1NHa2NW7ubTAvbnAvbjMysbi4N3T0s7j4d7n5eLZ2NTo5+O6uLPl5ODMycXc29e7uLTR0MzY1tPJx8LBv7rRz8vf3tvAvrnHxcC5trLW1NDl4+DCwLvIxsLU0s/HxMDn5uLDwLzQzcnj4t7V1NDi4d3X1dG8ubXNy8bZ19Pd3Ni9u7a/vLg+G2GrAAACoElEQVR4Ae3UVW9cSRTE8fpfHGaPZ8x2zHaMYdwwZ5mZmff7a7VZ5/ZM5Iyt6Lafzu+p3upIrWoZY4wxxhhjjDHGGGOMeWU795tj/TiK4v5Y86sdnbDTpTJDyqXTOjkTpzjEqQmdjO2svlqbWl2dqlWzE7blX1o6KC9sNXSgsfX8RUqpPJt9DMBMRS+ozADweEledQKAhXUdYvtzgKAjj9oxEL2uwyWTERC35U09AMoj9vbZPhDU5Ul6A+gtaYSvq8CNVH7MA+W6RroXAAV58bQIUUdHWC9CsSMf5oAVHelDYE4ebACPdLRkEdhQ/s4BV5RJCsEH88mzVIrDJ6kyZ4Bzyl0awYKcAsB8li7I6UGUKm8VYFdOAHArS6GcFlDxssFZOTFAeOgB17wscRoeakAJ4L3sCYYKYx876MG0BiRnw71m+iwV4vhsogHfQE95C+CijukuBMpbBE90TE0IlbcQLuuYvoVYebsDl3RMNfhdeRuDqgYwrKgB+/Cj8lYCluR8yZB9ObPAH8pbF1iR8wlD5uTsAg+Ut/EIFuVsMqQlZwGKDeXuKtBVZjbCIfpBmXVgWvmrAP1UmUkc7supAWfkwSOgIOe7iAPhmpy3gMVEHlwBilty3vy09k60V56ZvCmnHgNdefExEHY0UroA1OTHeBWIr2uEdAYI35Un1/aAiVEnjgF05c0K8Ite6o2/AVry58KoPy5pRQCb8uftEKhL0vhvDQ1L1noATMqjzed/3M//EK7elvPrT2UAbnXl0yLQVuP9qwAQnF/+q92+PdG6W+Z/Y9flVR+Kd2Je5uGf8uwymWKRF7y2lsi3pYADl3bGP/oixLUXnuok3DsfEPa/X67rP8nGcnNq6mJpt3JTr8wYY4wxxhhjjDHGGGPMvyw2MzTQl7cyAAAAAElFTkSuQmCC" class="avatar">
+					
+					<b class="title">On <a href="">My Awesome Blog Post</a></b>
+					<nav class="actions">
+						<a href class="approve">Approve</a>
+						<a href class="approve">Spam</a>
+					</nav>					
+					<p class="comment">I personally do not mind bees, but I do hate wasps, which is due to two things: my mother's hysteria toward them, and my being stung by them, especially one time.</p>
+				</li>
+			</ul>
+		</section>
+		
+
+		<!-- JS wankery -->
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+        <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.10.2.js"><\/script>')</script>
+        
+        <!-- Editor JS -->
+        <script src="js/pen/pen.js"></script>
+        <script src="js/pen/markdown.js"></script>
+
+        <script src="js/vendor/jquery-hotkeys.min.js"></script>
+        <script src="js/vendor/jquery-ui-1.10.4.custom.min.js"></script>
+				
+		<script>
+			var count = function() {
+				var len = $('li.ui-selected').length;
+				var target = $('.delete .label');
+				
+				if(len == 0) {
+					target.text('Delete all comments');
+				} else {
+					if(len == 1) {
+						return target.text('Delete selected comment');
+					}
+					
+					target.text('Delete ' + len + ' selected comments');
+				}
+			};
+				
+			$('.list ul').bind('contextmenu', function(e) {
+				return false;
+			}).selectable({
+				stop: count
+			});
+			
+			$(document).bind('keydown', 'meta+a', function() {
+				$('.list li').addClass('ui-selected');
+				count();
+			}).mousedown(function() {
+				$('.list li').removeClass('ui-selected');
+				count();
+			});
+			
+			$(document).on('keydown', function(e) {
+				if(e.which == 8) {
+					e.preventDefault();
+					
+					$('.ui-selected').remove();
+				}
+			});
+		</script>
+    </body>
+</html>

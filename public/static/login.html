@@ -1,0 +1,72 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        
+        <title>Log in — Anchor</title>
+        
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+		<!-- Compiles from LESS -->
+        <link rel="stylesheet" href="css/admin.css">
+        <link rel="stylesheet" href="js/pen/pen.css">
+        
+        <!-- Compiles from current theme, if it exists -->
+        <link rel="stylesheet" href="/themes/current/admin-custom.css">
+    </head>
+    <body class="inverse auth">
+    
+    	<form method="post" action="http://localhost:1005/admin/login/attempt" accept-charset="utf-8">
+    		<!--<p class="warning">Invalid CSRF token — please reload the page and try again. <span class="close">&times;</span></p>-->
+    		
+    		<i class="anchor-logo">Anchor CMS</i>
+    		
+    		<input name="token" type="hidden" value="538dec8dbd782">
+    	
+    		<p>
+    			<label for="user" class="flaticon user-1">Username:</label>
+    			<input placeholder="Username" autofocus="autofocus" name="user" type="text" value="">
+    		</p>
+    	
+    		<p>
+    			<label for="pass" class="flaticon password">Password:</label>
+    			<input placeholder="Password" name="pass" type="password">
+    		</p>
+    	
+    		<p>
+    			<button class="btn" type="submit">Log In</button>
+    		</p>
+    	</form>
+    	
+		<!-- JS wankery -->
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+        <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.11.1.min.js"><\/script>')</script>
+        <script src="js/plugins.js"></script>
+        <script src="js/main.js"></script>
+        
+        <!-- Editor JS -->
+        <script src="js/pen/pen.js"></script>
+        <script src="js/pen/markdown.js"></script>
+        
+		<script>
+			target = document.querySelector('[data-editor]');
+			
+			editor = new Pen({
+				editor: target,
+				list: ['blockquote', 'h2', 'h3', /*'p',*/ 'insertorderedlist', 'insertunorderedlist',
+					   /*'indent', 'outdent',*/ 'bold', 'italic', /*'underline',*/ 'createlink'],
+				stay: false /* Ask before quitting, turn back on once dev is done */
+			});
+			
+			//  Get placeholder to work
+			placeholder = ' initial';
+			
+			target.className += placeholder;
+			target.onfocus = function() {
+				target.className = target.className.slice(0, placeholder.length);
+			}
+		</script>
+    </body>
+</html>

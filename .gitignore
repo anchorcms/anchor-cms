@@ -5,3 +5,6 @@ vendor
 composer.lock
 composer.phar
 *.sqlite
+*.espressostorage
+
+anchor/config/db.php

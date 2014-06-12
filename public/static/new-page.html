@@ -1,0 +1,271 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        
+        <title>Create a new page — Anchor</title>
+        
+        <meta name="description" content="">
+        <meta name="viewport" content="width=1400, initial-scale=1">
+
+		<!-- Compiles from LESS -->
+        <link rel="stylesheet" href="css/admin.css">
+        <link rel="stylesheet" href="js/pen/pen.css">
+        
+        <!-- Compiles from current theme, if it exists -->
+        <link rel="stylesheet" href="/themes/current/admin-custom.css">
+    </head>
+    <body>
+    	<nav class="main-nav">
+			<ul class="actions">
+				<li class="active">
+					<a class="flaticon feather-1" href="http://localhost:1005/admin/posts">Posts</a>
+				</li>
+				
+				<li>
+					<a class="flaticon writing-comment-2" href="http://localhost:1005/admin/comments">Comments</a>
+				</li>
+				
+				<li>
+					<a class="flaticon multiple-documents-1" href="http://localhost:1005/admin/pages">Pages</a>
+				</li>
+				
+				<li>
+					<a class="flaticon menu-list-4" href="http://localhost:1005/admin/menu">Menu</a>
+				</li>
+				
+				<li>
+					<a class="flaticon tag-1" href="http://localhost:1005/admin/categories">Categories</a>
+				</li>
+			</ul>
+    		
+    		<a class="anchor-logo">Anchor CMS</a>
+    		
+    		<ul class="results">
+    			<li>
+    				<a href="/">Visit site</a>
+    			</li>
+    			
+    			<li>
+    				<a class="flaticon user-1" href="http://localhost:1005/admin/users">Users</a>
+    			</li>
+    			
+    			<li>
+    				<a class="flaticon cube-1" href="http://localhost:1005/admin/extend">Extensions</a>
+    			</li>
+    			
+    			<li>
+    				<a href="/admin/logout">Logout</a>
+    			</li>
+    		</ul>
+    	</nav>
+    	
+    	
+        <section class="editor panel">
+        	<nav class="tabs">
+        		<a class="tab active" href="">Editor</a>
+        		<a class="tab" href="">Options</a>
+        		
+        		<a class="tab right" href="">Custom CSS</a>
+        		<a class="tab right" href="">Custom JS</a>
+        	</nav>
+        	
+        	<div class="content">
+	        	<div class="tab-editor">
+		        	<div class="actions">
+		        		<button class="secondary" type="submit">Save draft</button>
+			        	<button class="save" type="submit" disabled>Create post</button>
+			        </div>
+		        	
+		        	<!-- Page title -->
+		        	<input class="title" autofocus placeholder="What’s your post called?">
+		        	
+		        	<!-- Main post content -->
+		        	<div data-editor placeholder="Write your post here. Select text to modify it."></div>
+		        	
+		        	<dl class="post-stats">
+		        		<dt>Word count:</dt>
+		        			<dd class="words">0</dd>
+		        		
+		        		<dt>Character count:</dt>
+		        			<dd class="characters">0</dd>
+		        			
+		        		<dt>Reading time:</dt>
+		        			<dd>~<span class="min">0</span> min, <span class="sec">0</span> sec</dd>
+		        	</dl>
+		        </div>
+		        
+		        <div class="tab-options split-fields" style="display: none;">
+		        	<p>
+		        		<label for="slug">Page slug:</label>
+		        		<input id="slug" type="code" data-slugify value="my-awesome-slug" placeholder="my-awesome-slug">
+		        	</p>
+		        	
+		        	<p class="multi-select">
+		        		<label for="published-day">Publish date:</label>
+		        		<select id="published-day">
+		        			<option>1st</option>
+		        			<option>2nd</option>
+		        			<option>3rd</option>
+		        			<option>4th</option>
+		        			<option>5th</option>
+		        			<option>6th</option>
+		        			<option>7th</option>
+		        			<option>8th</option>
+		        			<option selected>9th</option>
+		        			<option>10th</option>
+		        			<option>11th</option>
+		        			<option>12th</option>
+		        			<option>13th</option>
+		        			<option>14th</option>
+		        			<option>15th</option>
+		        			<option>16th</option>
+		        			<option>17th</option>
+		        		</select>
+		        		
+		        		<select id="published-month">
+		        		    <option value="01">January</option>
+		        		    <option value="02">February</option>
+		        		    <option value="03">March</option>
+		        		    <option value="04">April</option>
+		        		    <option value="05">May</option>
+		        		    <option selected value="06">June</option>
+		        		    <option value="07">July</option>
+		        		    <option value="08">August</option>
+		        		    <option value="09">September</option>
+		        		    <option value="10">October</option>
+		        		    <option value="11">November</option>
+		        		    <option value="12">December</option>
+		        		</select>
+		        		
+		        		<select id="year">
+		        			<option>2014</option>
+		        			<option>2013</option>
+		        			<option>2012</option>
+		        			<option>2011</option>
+		        			<option>2010</option>
+		        			<option>2009</option>
+		        			<option>2008</option>
+		        			<option>2007</option>
+		        			<option>2006</option>
+		        			<option>2005</option>
+		        		</select>
+		        	</p>
+		        	
+		        	<div>
+						<label for="description">Description:</label>
+						<textarea name="description">This is the first post.</textarea>
+					</div>
+					
+					<div>
+						<p>
+							<label for="status">Status:</label>
+							<select id="status" name="status"><option value="published" selected="selected">Published</option><option value="draft">Draft</option><option value="archived">Archived</option></select>
+						</p>
+						<p>
+							<label for="category">Category:</label>
+							<select id="category" name="category"><option value="1" selected="selected">Uncategorised</option></select>
+						</p>
+						<p>
+							<label for="comments">Allow Comments:</label>
+							<input type="checkbox" id="comments" name="comments" value="1">
+							
+							<span class="custom-checkbox"></span>
+						</p>
+					</div>
+		        </div>
+		        
+		        <div class="tab-custom" style="display: none;">
+	        		<textarea class="code custom" name="css" placeholder="* { background: #f0f; }"></textarea>
+		        </div>
+			</div>
+			
+        </section>
+
+		<!-- JS wankery -->
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+        <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.11.1.min.js"><\/script>')</script>
+        <script src="js/plugins.js"></script>
+        <script src="js/main.js"></script>
+        
+        <!-- Editor JS -->
+        <script src="js/pen/pen.js"></script>
+        <script src="js/pen/markdown.js"></script>
+
+        <script src="js/vendor/jquery-hotkeys.min.js"></script>
+        
+		<script>
+			target = document.querySelector('[data-editor]');
+			
+			editor = new Pen({
+				editor: target,
+				list: ['blockquote', 'h2', 'h3', /*'p',*/ 'insertorderedlist', 'insertunorderedlist',
+					   /*'indent', 'outdent',*/ 'bold', 'italic', /*'underline',*/ 'createlink'],
+				stay: false /* Ask before quitting, turn back on once dev is done */
+			});
+			
+			//  Get placeholder to work
+			placeholder = ' initial';
+			
+			target.className += placeholder;
+			target.onfocus = function() {
+				target.className = target.className.slice(0, placeholder.length);
+				
+				document.body.className = 'editing';
+			};
+			target.onkeyup = function() {
+				var text = target.innerText;
+				
+				var characters = text.length;
+				var words = text.replace(/\s{2,}/g, '').split(' ').length;
+				
+				var readingTime = words / 175;
+				var readingMin = Math.round(readingTime);
+				var readingSec = Math.round((readingTime % 60) * 60);
+				
+				// need sleep
+				if(readingSec > 60) readingSec= 59;
+				
+				$('.characters').text(characters);
+				$('.words').text(words);
+				$('.min').text(readingMin);
+				$('.sec').text(readingSec);
+			};
+			
+			target.onblur = function() {
+				document.body.className = '';
+			};
+			
+			slug = $('[data-slugify]');
+			slugify = function(input) {
+				if(input.charAt(0) == '-') {
+					input = input.substr(1);
+				}
+				
+				return input.toLowerCase().replace(/ /g,'-').replace(/[^\w-]+/g,'');
+			};
+			
+			slug.on('keyup', function(e) {
+				slug.val(slugify(slug.val()));
+			});
+			
+			tabs = $('.tabs a');
+			
+			tabs.click(function() {
+				var me = $(this);
+				var target = me.text().split(' ')[0].toLowerCase();
+				
+				me.addClass('active').siblings().removeClass('active');
+				
+				$('.tab-' + target).show().siblings().hide();
+				
+				return false;
+			});
+			
+			$(document).bind('keydown', 'alt+f', function() {
+				$('body').toggleClass('editing');
+			})
+		</script>
+    </body>
+</html>
