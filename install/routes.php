@@ -101,7 +101,7 @@ Route::post('database', array('before' => 'check', 'main' => function() {
 			'prefix' => $database['prefix']
 		));
 	}
-	catch(PDOException $e) {
+	catch(ErrorException $e) {
 		Input::flash();
 
 		Notify::error($e->getMessage());
