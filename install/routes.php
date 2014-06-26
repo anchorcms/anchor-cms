@@ -112,6 +112,15 @@ Route::post('database', array('before' => 'check', 'main' => function() {
 
 	// test connection
 	try {
+		
+		// It is technically valid for a user to leave an empty port
+		// Thus, to fix db.php write issues, we need to replace an empty
+		// string with quotations.
+
+		if(!$database['port']){
+			$database['port'] = "''";
+		} 
+		
 		$connection = DB::factory(array(
 			'driver' => 'mysql',
 			'database' => $database['name'],
