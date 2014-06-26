@@ -66,6 +66,13 @@
 
 				<i>Change if <b>utf8_general_ci</b> doesn’t work.</i>
 			</p>
+
+			<p>
+				<label for="dbCreate">Create Database</label>
+				<input id="dbCreate" name="dbCreate" type="checkbox" value="1" checked>
+
+				<i>If it doesn't already exist.</i>
+			</p>
 		</fieldset>
 
 		<section class="options">
