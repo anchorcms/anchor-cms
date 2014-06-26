@@ -86,7 +86,29 @@ Route::get('database', array('before' => 'check', 'main' => function() {
 }));
 
 Route::post('database', array('before' => 'check', 'main' => function() {
-	$database = Input::get(array('host', 'port', 'user', 'pass', 'name', 'collation', 'prefix'));
+	$database = Input::get(array('host', 'port', 'user', 'pass', 'name', 'collation', 'prefix', 'dbCreate'));
+
+	// If the user grants us access to create the database
+	// if it doesn't exist, we will try, and throw an error
+	// if the user doesn't have enough permissions.
+	if($database['dbCreate']){
+		try {
+			$pdo = new PDO(
+				"mysql:host=$database[host]", 
+				$database['user'], 
+				$database['pass']
+			);
+			$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+			$pdo->query("CREATE DATABASE IF NOT EXISTS $database[name]");
+		} catch (PDOException $e){
+			Input::flash();
+
+			Notify::error($e->getMessage());
+
+			return Response::redirect('database');
+		}
+	}
 
 	// test connection
 	try {
@@ -102,6 +124,7 @@ Route::post('database', array('before' => 'check', 'main' => function() {
 		));
 	}
 	catch(ErrorException $e) {
+
 		Input::flash();
 
 		Notify::error($e->getMessage());
