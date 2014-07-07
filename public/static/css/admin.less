@@ -67,6 +67,10 @@ body, html {
 .wrap, .editor {
 	width: 1280px;
 	margin: 0 auto;
+	
+	&.narrow {
+		width: 1000px;
+	}
 }
 
 ::selection {
@@ -182,14 +186,32 @@ button, .btn {
 	line-height: 15px;
 	
 	cursor: pointer;
-}
-	button.secondary, .btn.secondary {
+	
+	&:active {
+		box-shadow: inset 0 2px 2px rgba(0,0,0,.1);
+	}
+	
+	&.secondary {
 		background: @foreground-subdued;
 	}
-	button[disabled], .btn[disabled] {
+	
+	&[disabled] {
 		cursor: not-allowed;
 		background: @foreground-ghosted;
+		
+		&:active {
+			box-shadow: none;
+		}
 	}
+	
+	&.positive, &.primary {
+		background: @success;
+	}
+	
+	&.delete, &.negative {
+		background: @failure;
+	}
+}
 	
 select {
 	display: inline-block;
@@ -214,6 +236,10 @@ select {
 	/* Firefox be cray */
 	text-indent: 0.01px;
 	text-overflow: '';
+
+	.filter & {
+		background-color: darken(@background, 4%);
+	}
 }
 
 .warning, .error, .msg, .success {
@@ -244,6 +270,20 @@ select {
 	.success {
 		background: fade(@success, 90%);
 	}
+	
+.flash-message {
+	left: 50%;
+	right: auto;
+	top: 0;
+	
+	padding: 12px 24px;
+
+	-webkit-transform: translateX(-50%);
+	-moz-transform: translateX(-50%);
+	transform: translateX(-50%);
+	
+	border-radius: 0 0 4px 4px;
+}
 
 a {
 	color: @hilite;
@@ -402,14 +442,14 @@ h1, h2, h3, h4 {
 	border-radius: 4px;
 }
 
-.filter {
+.filter-list {
 	position: fixed;
 	float: left;
 	width: 25%;
 	height: 100%;
 	margin-top: -40px;
 }
-	.filter h2 {
+	.filter-list h2 {
 		padding: 33px 40px 20px;
 		margin-bottom: 0;
 		
@@ -417,7 +457,7 @@ h1, h2, h3, h4 {
 		
 		border-bottom: 1px solid fade(@foreground-subdued, 25%);
 	}
-	.filter a {
+	.filter-list a {
 		display: block;
 		padding: 10px 20px 10px 40px;
 		
@@ -427,10 +467,10 @@ h1, h2, h3, h4 {
 		
 		border-bottom: 1px solid fade(@foreground-subdued, 25%);
 	}
-		.filter a.active {
+		.filter-list a.active {
 			color: @hilite;
 		}
-		.filter .keycode {
+		.filter-list .keycode {
 			float: right;
 			line-height: 28px;
 			opacity: .2;
@@ -440,7 +480,7 @@ h1, h2, h3, h4 {
 	position: relative;
 	padding: 50px 100px;
 }
-	.filter + .list {
+	.filter-list + .list {
 		float: right;
 		width: 75%;
 	}
@@ -483,11 +523,6 @@ h1, h2, h3, h4 {
 		position: absolute;
 		left: 30px;
 		top: 30px;
-		
-		width: 64px;
-		height: 64px;
-		
-		border-radius: 5px;
 	}
 	.list .comment {
 		padding-top: 10px;
@@ -591,6 +626,7 @@ h1, h2, h3, h4 {
 	.editor .title {
 		width: 100%;
 		width: ~"-webkit-calc(100% - 300px)";
+		width: ~"-moz-calc(100% - 300px)";
 		width: ~"calc(100% - 300px)";
 		
 		padding: 0;
@@ -621,6 +657,7 @@ h1, h2, h3, h4 {
 		position: absolute;
 		bottom: 25px;
 		left: 135px;
+		right: 135px;
 		
 		font: 11px/18px @monospace;
 		color: @foreground-ghosted;
@@ -633,9 +670,30 @@ h1, h2, h3, h4 {
 		dd {
 			padding-right: 50px;
 		}
+		
+		a {
+			float: right;
+			color: #77726d;
+			text-decoration: none;
+			
+			opacity: .25;
+			
+			img {
+				vertical-align: middle;
+				margin-right: 10px;
+			}
+			
+			span {
+				opacity: .5;
+			}
+		}
 	}
 		.editor:hover .post-stats {
 			color: @foreground-subdued;
+			
+			a {
+				opacity: .75;
+			}
 		}
 
 .split-fields {
@@ -644,7 +702,7 @@ h1, h2, h3, h4 {
 	
 	margin-bottom: -60px;
 }
-	.split-fields p, .split-fields > div {
+	.split-fields p, .split-fields > div, .split-fields .split-fields p {
 		float: left;
 		width: 47.5%;
 		margin-right: 5%;
@@ -656,6 +714,15 @@ h1, h2, h3, h4 {
 		.split-fields > div p {
 			float: none;
 			width: 100%;
+			margin-right: 0;
+		}
+		
+	.split-fields .inline-fields p {
+		float: left;
+		width: auto;
+		margin-right: 60px;
+	}
+		.split-fields .inline-fields p:last-child {
 			margin-right: 0;
 		}
 
@@ -741,4 +808,120 @@ h1, h2, h3, h4 {
 	text-align: left;
 	
 	border-radius: 3px;
+}
+
+.avatar {
+	vertical-align: middle;
+	
+	width: 48px;
+	height: 48px;
+	
+	border-radius: 24px;
+}
+
+.badge {
+	display: inline-block;
+	padding: 4px 8px;
+	margin-left: 10px;
+	vertical-align: middle;
+	
+	font-size: 10px;
+	line-height: 10px;
+	font-weight: bold;
+	text-transform: uppercase;
+	
+	border-radius: 3px;
+	
+	background: @foreground-subdued;
+	color: @white;
+}
+
+.filter {
+	position: relative;
+	top: 10px;
+
+	select {
+		width: 180px;
+		padding: 12px 40px 12px 22px;
+	}
+
+	input {
+		width: 610px;
+		
+		padding: 9px 20px 8px 42px;
+		margin-right: 15px;
+		
+		border-radius: 4px;
+		box-shadow: inset 0 2px 2px rgba(0,0,0,.05);
+		
+		background-color: #e9e7e4;
+		background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAcCAYAAAByDd+UAAABaUlEQVR42rWWMU7DQBBFEYhQkDM4gQajHAIRqBFdQKJHSgqHKlwIfAW7p0C0cUSFhIQbKLECCSKBX0yBvmbtXZwtXuOdmSevZ9a79nB/V0YArkEKXsAMFOARJLK2I7FWlIluwTf4qWAhscF/hSfg3ULEFODcVRiBhYOEWYIrW2FPErjIRIqEYEvYl2cTg7RXJQxAQYlzMADrpmRZuwQfyvYGZcIbRXbs0H1dMKcasUnYUr5b30LCDJTubWnCEQVmYMNVKDkZ1RppwoSChg4SZki1Ek2YU1BYQxhSrVwTziioUUPY4ObzLWyy0PeWdmy2NF1h00TcNDZjMa4xFmObsWivaPD7yuC3TUdbXPNou9CONp+H96fT4S2cGX5PmTTDHtgE29KN0Z9vxkxB1/MPWJf6vmJMNantJSq2eVuJiSXnqErqck3MwZeQg1TWdinHLBWhB4zSAwr0Ln2iIO/SVx8S5hA8gzdw+gu2uEaoUcW4vgAAAABJRU5ErkJggg==);
+		background-size: 14px 14px;
+		background-repeat: no-repeat;
+		background-position: 20px 50%;
+	}
+	
+	button {
+		width: 172px;
+		
+		position: relative;
+		top: -1px; /* no idea */
+	}
+}
+
+.drilldown {
+	padding: 0;
+
+	ol {
+		list-style: none;
+		
+		> li {
+			border-bottom: 1px solid @foreground-ghosted;
+			
+			.avatar, .user-name {
+				float: left;
+				margin-right: 40px;
+				
+				font-size: 16px;
+				line-height: 20px;
+				
+				.realname {
+					display: inline-block;
+					padding-top: 4px;
+				}
+				
+				.username {
+					display: block;
+					
+					font-size: 14px;
+					font-weight: normal;
+					
+					color: lighten(@foreground, 15%);
+				}
+			}
+			
+			ul {
+				float: right;
+				list-style: none;
+				
+				li {
+					float: left;
+					margin-left: 40px;
+					
+					line-height: 48px;
+				}
+			}
+		}
+		
+		a {
+			display: block;
+			padding: 30px 40px 28px;
+			
+			position: relative;
+			overflow: hidden;
+			
+			text-decoration: none;
+			color: @foreground;
+		}
+	}
 }

@@ -17,6 +17,10 @@
         <link rel="stylesheet" href="/themes/current/admin-custom.css">
     </head>
     <body>
+    	<div class="flash-message success">
+    		Post updated!
+    	</div>
+    	
     	<nav class="main-nav">
 			<ul class="actions">
 				<li class="active">
@@ -93,6 +97,10 @@
 		        			
 		        		<dt>Reading time:</dt>
 		        			<dd>~<span class="min">0</span> min, <span class="sec">0</span> sec</dd>
+		        			
+		        		<a class="focus-toggle" href="#">
+		        			<img width="18" height="12" alt="Toggle Focus Mode (Cmd + E)" title="Toggle Focus Mode (Cmd + E)" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAYCAYAAACSuF9OAAABnUlEQVR4AdXWTwsSYRDH8cFDgXn15sFDtkKYEoJ7W/LUyaIirPfQpUs36yW4HqJexF6zQ+e6xBL4DmyDoj9mYWia0zfYk7A1j+4eEj5z0uGHu888I8d8Hty/dxEjPEOCHX7hHaZ4iBbElcuXSxjiNdQoxh2U8g4UIIYeKUaQR6AyHmMPPdEeT1A+NlAdMTRnM5x3DXQFH6EF+YzAGug6NoamG4TwUUn5CI2/X+PavwLdxk9DswQdSIYOEkOfLW5mBRpgZ/xnOhA0EGGZitCAoI21sd/Vw0A9rKAGEwg8LKAHFvAgmEANVuhChFLDe6iRD0EEzRBB4EON5qgK5SXUwRkIltAM3yE4C3XwQv6UAgNVoA5eCaWKt1CjXkGP7ANqQhG08BVqEELQ/MtL3YQgdHipe4fHvu8w0NoQeIjwLRXBg+CS8djvMMgajLewzWEwth0G49BydVgH2hhdnEt1MXa4em5YL9cAX6AF+YS+6/pxATNozt6gfsqC9rSABe3/WmGtSriL2DHI0H3Jd3cZj/AcCX5ghTmmGKEFcfUb8qFwyc2boUMAAAAASUVORK5CYII="> Toggle Focus Mode <span title="You can also use Cmd/Ctrl + E">(&#x2318; + E)</span>
+		        		</a>
 		        	</dl>
 		        </div>
 		        
@@ -167,12 +175,20 @@
 							<label for="category">Category:</label>
 							<select id="category" name="category"><option value="1" selected="selected">Uncategorised</option></select>
 						</p>
-						<p>
-							<label for="comments">Allow Comments:</label>
-							<input type="checkbox" id="comments" name="comments" value="1">
+						
+						<div class="inline-fields">
+							<p>
+								<label for="comments">Allow Comments:</label>
+								<input type="checkbox" id="comments" name="comments" value="1">
+								
+								<span class="custom-checkbox"></span>
+							</p>
 							
-							<span class="custom-checkbox"></span>
-						</p>
+							<p>
+								<label for="delete-post">Permanently delete post:</label>
+								<button type="submit" id="delete-post" class="delete">Yes, delete this post forever</button>
+							</p>
+						</div>
 					</div>
 		        </div>
 		        
@@ -225,7 +241,7 @@
 				var readingSec = Math.round((readingTime % 60) * 60);
 				
 				// need sleep
-				if(readingSec > 60) readingSec= 59;
+				if(readingSec > 60) readingSec = 59;
 				
 				$('.characters').text(characters);
 				$('.words').text(words);
@@ -263,9 +279,19 @@
 				return false;
 			});
 			
-			$(document).bind('keydown', 'alt+f', function() {
+			if(location.hash) {
+				tabs.filter(':contains("' + location.hash[1].toUpperCase() + location.hash.substr(2) + '")')
+					.click();
+			}
+			
+			function toggleFocusMode(e) {
+				e.preventDefault();
+				
 				$('body').toggleClass('editing');
-			})
+			};
+			
+			$('.focus-toggle').click(toggleFocusMode);
+			$(document).bind('keydown', 'meta+e', toggleFocusMode);
 		</script>
     </body>
 </html>

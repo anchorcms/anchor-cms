@@ -459,6 +459,10 @@
 				stop: count
 			});
 			
+			$('.approve').click(function() {
+				$(this).parents('li').toggleClass('approved');
+			});
+			
 			$(document).bind('keydown', 'meta+a', function() {
 				$('.list li').addClass('ui-selected');
 				count();
