@@ -44,7 +44,7 @@
 
 				<?php $home = Registry::get('home_page'); ?>
 
-				<?php echo Html::link($home->slug, __('global.visit_your_site'), array('class' => 'btn', 'target' => '_blank')); ?>
+				<?php if (isset($home)) echo Html::link($home->slug, __('global.visit_your_site'), array('class' => 'btn', 'target' => '_blank')); ?>
 
 				<?php else: ?>
 				<aside class="logo">
