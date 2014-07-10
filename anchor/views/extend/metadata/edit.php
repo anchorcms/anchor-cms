@@ -22,6 +22,11 @@
 				<?php echo Form::textarea('description', Input::previous('description', $meta['description'])); ?>
 				<em><?php echo __('metadata.sitedescription_explain'); ?></em>
 			</p>
+            <p>
+				<label><?php echo __('metadata.keywords'); ?>:</label>
+				<?php echo Form::textarea('keywords', Input::previous('keywords', $meta['keywords'])); ?>
+				<em><?php echo __('metadata.keywords_explain'); ?></em>
+			</p>
 			<p>
 				<label><?php echo __('metadata.homepage'); ?>:</label>
 				<?php echo Form::select('home_page', $pages, Input::previous('home_page', $meta['home_page'])); ?>

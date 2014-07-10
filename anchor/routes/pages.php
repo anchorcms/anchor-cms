@@ -199,7 +199,7 @@ Route::collection(array('before' => 'auth,csrf'), function() {
 			$input['name'] = $input['title'];
 		}
 
-		$input['show_in_menu'] = is_null($input['show_in_menu']) ? 0 : 1;
+        $input['show_in_menu'] = is_null($input['show_in_menu']) ? 0 : 1;
 
 		$page = Page::create($input);
 
