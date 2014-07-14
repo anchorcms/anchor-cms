@@ -92,9 +92,8 @@ class Anchor {
             static::get_children($pages);
 			
             $pages = new Items($pages);
-            print_r($pages);
-
-			Registry::set('menu', $pages);
+            
+            Registry::set('menu', $pages);
 			Registry::set('total_menu_items', $pages->length());
 		}
     }
