@@ -92,6 +92,7 @@ class Anchor {
             static::get_children($pages);
 			
             $pages = new Items($pages);
+            print_r($pages);
 
 			Registry::set('menu', $pages);
 			Registry::set('total_menu_items', $pages->length());
@@ -110,8 +111,8 @@ class Anchor {
 
             // Add the children to the parent if they were found.
             if (count($children) !== 0)
-                $page->children = new Items($children);
-            	static::get_children($children);    
+                $page->children = $children;
+            	static::get_children($children);   
         }
     }
 
