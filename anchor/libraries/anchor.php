@@ -84,15 +84,36 @@ class Anchor {
 			// register menu items
 			$pages = Page::where('status', '=', 'published')
 				->where('show_in_menu', '=', '1')
+                ->where('parent', '=', 0)
 				->sort('menu_order')
 				->get();
-
-			$pages = new Items($pages);
+            
+            // register all menu children
+            static::get_children($pages);
+			
+            $pages = new Items($pages);
 
 			Registry::set('menu', $pages);
 			Registry::set('total_menu_items', $pages->length());
 		}
-	}
+    }
+    
+    public static function get_children($pages) {
+        
+        // Loop though each of the pages.
+        foreach($pages as $page) {
+            
+            // Grab any children belonging to that page.
+            $children = Page::where('parent', '=', $page->id)
+                ->sort('menu_order')
+                ->get();
+
+            // Add the children to the parent if they were found.
+            if (count($children) !== 0)
+                $page->children = new Items($children);
+            	static::get_children($children);    
+        }
+    }
 
 	public static function migrations() {
 		$current = Config::meta('current_migration');
