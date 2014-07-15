@@ -7,6 +7,7 @@ return array(
 
 	'comment_settings' => 'Comments',
 	'theme_settings' => 'Appearance',
+    'post_settings' => 'Posts',
 
 	// form fields
 	'sitename' => 'Site name',

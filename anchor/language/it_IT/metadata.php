@@ -7,6 +7,7 @@ return array(
 
 	'comment_settings' => 'Commenti',
 	'theme_settings' => 'Aspetto',
+    'post_settings' => 'Messaggi',
 
 	// form fields
 	'sitename' => 'Nome del sito',

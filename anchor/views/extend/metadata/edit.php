@@ -35,7 +35,7 @@
 		</fieldset>
         
         <fieldset class="split">
-			<legend>Posts</legend>
+			<legend><?php echo __('metadata.post_settings'); ?></legend>
             <p>
 				<label><?php echo __('metadata.postspage'); ?>:</label>
 				<?php echo Form::select('posts_page', $pages, Input::previous('posts_page', $meta['posts_page'])); ?>
