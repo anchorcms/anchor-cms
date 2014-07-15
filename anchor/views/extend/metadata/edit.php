@@ -32,7 +32,11 @@
 				<?php echo Form::select('home_page', $pages, Input::previous('home_page', $meta['home_page'])); ?>
 				<em><?php echo __('metadata.homepage_explain'); ?></em>
 			</p>
-			<p>
+		</fieldset>
+        
+        <fieldset class="split">
+			<legend>Posts</legend>
+            <p>
 				<label><?php echo __('metadata.postspage'); ?>:</label>
 				<?php echo Form::select('posts_page', $pages, Input::previous('posts_page', $meta['posts_page'])); ?>
 				<em><?php echo __('metadata.postspage_explain'); ?></em>
@@ -43,7 +47,7 @@
 					array('min' => 1, 'max' => 15)); ?>
 				<em><?php echo __('metadata.posts_per_page_explain'); ?></em>
 			</p>
-		</fieldset>
+        </fieldset>
 
 		<fieldset class="split">
 			<legend><?php echo __('metadata.comment_settings'); ?></legend>
