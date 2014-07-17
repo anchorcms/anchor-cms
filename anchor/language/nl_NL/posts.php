@@ -2,50 +2,50 @@
 
 return array(
 
-	'posts' => 'Posts',
+	'posts' => 'Berichten',
 
-	'create_post' => 'Create a new post',
-	'noposts_desc' => 'You don’t have any posts!',
+	'create_post' => 'Maak een nieuw bericht',
+	'noposts_desc' => 'Je hebt geen berichten!',
 
-	// form fields
-	'title' => 'Post title',
+	// form fields - formulier velden
+	'title' => 'Titel bericht',
 	'title_explain' => '',
-	'title_missing' => 'Please enter a title',
+	'title_missing' => 'Voer een titel in',
 
-	'content' => 'Post Content',
+	'content' => 'Inhoud bericht',
 	'content_explain' => 'Just write.',
 
 	'slug' => 'Slug',
-	'slug_explain' => 'Slug uri to identify your post, should only contain ascii characters',
-	'slug_missing' => 'Please enter a slug uri, slugs can only contain ascii characters',
-	'slug_duplicate' => 'Slug already exists',
-	'slug_invalid' => 'Slug must contain letters',
+	'slug_explain' => 'Slug uri om je bericht te identificeren, mag alleen ascii tekens bevatten',
+	'slug_missing' => 'Voer een slug uri in, slugs mogen alleen ascii tekens bevatten',
+	'slug_duplicate' => 'Slug bestaat al',
+	'slug_invalid' => 'Slug moet letters bevatten',
 
-	'time' => 'Published on (GMT)',
-	'time_explain' => 'Pattern: YYYY-MM-DD HH:MM:SS',
-	'time_invalid' => 'Invalid time pattern',
+	'time' => 'Gepubliceerd op (GMT)',
+	'time_explain' => 'Patroon: JJJJ-MM-DD HH:MM:SS',
+	'time_invalid' => 'Ongeldig tijdspatroon',
 
-	'description' => 'Description',
+	'description' => 'Beschrijving',
 	'description_explain' => '',
 
 	'status' => 'Status',
 	'status_explain' => '',
 
-	'category' => 'Category',
+	'category' => 'Categorie',
 	'category_explain' => '',
 
-	'allow_comments' => 'Allow Comments',
+	'allow_comments' => 'Sta reacties toe',
 	'allow_comments_explain' => '',
 
-	'custom_css' => 'Custom CSS',
+	'custom_css' => 'Aangepaste CSS',
 	'custom_css_explain' => '',
 
-	'custom_js' => 'Custom JS',
+	'custom_js' => 'Aangepast JS',
 	'custom_js_explain' => '',
 
-	// messages
-	'updated' => 'Your article has been updated',
-	'created' => 'Your new article was created',
-	'deleted' => 'Your article has been deleted'
+	// messages - berichten
+	'updated' => 'Je bericht is bijgewerkt.',
+	'created' => 'Je baricht is gecre&#235;erd.',
+	'deleted' => 'Je bericht is verwijderd.'
 
 );

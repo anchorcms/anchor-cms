@@ -2,27 +2,27 @@
 
 return array(
 
-	'category' => 'Category',
-	'categories' => 'Categories',
+	'category' => 'Categorie',
+	'categories' => 'Categorieën',
 
-	'create_category' => 'Create a new category',
-	'edit_category' => 'Editing &ldquo;%s&rdquo;',
+	'create_category' => 'Maak een nieuwe categorie',
+	'edit_category' => 'Bewerk &ldquo;%s&rdquo;',
 
-	// form fields
-	'title' => 'Title',
-	'title_explain' => 'Your category title.',
-	'title_missing' => 'Please enter a title',
+	// form fields - formulier velden
+	'title' => 'Titel',
+	'title_explain' => 'Titel van jouw categorie.',
+	'title_missing' => 'Vul een titel in',
 
 	'slug' => 'Slug',
-	'slug_explain' => 'The slug for your category.',
+	'slug_explain' => 'De slug voor je categorie.',
 
-	'description' => 'Description',
-	'description_explain' => 'What your category is about.',
+	'description' => 'Beschrijvong',
+	'description_explain' => 'Waar jouw categorie over gaat.',
 
-	// messages
-	'created' => 'Your new category has been added.',
-	'updated' => 'Your category has been updated.',
-	'deleted' => 'Your category has been deleted.',
-	'delete_error' => 'You must have at least one category.',
+	// messages - berichten
+	'created' => 'Je nieuwe categorie is toegevoegd.',
+	'updated' => 'Je categorie is bijgewerkt.',
+	'deleted' => 'Je categorie is verwijderd.',
+	'delete_error' => 'Je hebt minimaal &#233;&#233;n categorie nodig.',
 
 );

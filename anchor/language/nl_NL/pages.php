@@ -2,44 +2,44 @@
 
 return array(
 
-	'pages' => 'Pages',
+	'pages' => 'Pagina\'s',
 
-	'create_page' => 'Create a new page',
-	'nopages_desc' => 'You don’t have any pages.',
-	'redirect' => 'Redirect',
+	'create_page' => 'Nieuwe pagina',
+	'nopages_desc' => 'Je hebt geen pagina\'s',
+	'redirect' => 'Doorsturen',
 
-	// form fields
-	'redirect_url' => 'Redirect Url',
-	'redirect_missing' => 'Please enter a valid url',
+	// form fields - formulier velden
+	'redirect_url' => 'Doorstuur Url',
+	'redirect_missing' => 'Voer een geldig URL in',
 
-	'title' => 'Page title',
+	'title' => 'Pagina titel',
 	'title_explain' => '',
-	'title_missing' => 'Please enter a page title',
+	'title_missing' => 'Voer een pagina titel in',
 
-	'content' => 'Content',
-	'content_explain' => 'Your page’s content. Uses Markdown.',
+	'content' => 'Inhoud',
+	'content_explain' => 'De inhoud van je pagina. Gebruikt Markdown',
 
-	'show_in_menu' => 'Show In Menu',
+	'show_in_menu' => 'Geef weer in menu',
 	'show_in_menu_explain' => '',
 
-	'name' => 'Name',
+	'name' => 'Naam',
 	'name_explain' => '',
 
 	'slug' => 'Slug',
-	'slug_explain' => 'Slug uri to identify your page, should only contain ascii characters',
-	'slug_missing' => 'Please enter a slug uri, slugs can only contain ascii characters',
-	'slug_duplicate' => 'Slug already exists',
-	'slug_invalid' => 'Slug must contain letters',
+	'slug_explain' => 'Slug uri om je pagina te identificeren, mag alleen ascii tekens bevatten',
+	'slug_missing' => 'Voer een slug uri in, slugs mogen alleen ascii tekens bevatten',
+	'slug_duplicate' => 'Slug bestaat al',
+	'slug_invalid' => 'Slug moet letters bevatten',
 
 	'status' => 'Status',
 	'status_explain' => '',
 
-	'parent' => 'Parent',
+	'parent' => 'Bovenliggend',
 	'parent_explain' => '',
 
-	// messages
-	'updated' => 'Your page was updated.',
-	'created' => 'Your page was created.',
-	'deleted' => 'Your page was deleted.'
+	// messages - berichten
+	'updated' => 'Je pagina is bijgewerkt.',
+	'created' => 'Je pagina is gecre&#235;erd.',
+	'deleted' => 'Je pagina is verwijderd.'
 
 );

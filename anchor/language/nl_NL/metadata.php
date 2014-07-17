@@ -3,48 +3,48 @@
 return array(
 
 	'metadata' => 'Site Metadata',
-	'metadata_desc' => 'Manage your site data',
+	'metadata_desc' => 'Beheer de data van je site',
 
-	'comment_settings' => 'Comments',
-	'theme_settings' => 'Appearance',
-    'post_settings' => 'Posts',
+	'comment_settings' => 'Reacties',
+	'theme_settings' => 'Uiterlijk',
+    'post_settings' => 'Berichten',
 
-	// form fields
-	'sitename' => 'Site name',
+	// form fields - formulier velden
+	'sitename' => 'Site naam',
 	'sitename_explain' => '',
-	'sitename_missing' => 'Your site needs a name!',
+	'sitename_missing' => 'Je site heeft een naam nodig!',
     
-    'keywords' => 'Keywords',
-	'keywords_explain' => 'Comma separated list of keywords.',
-	'keywords_missing' => 'Your site needs some keywords',
+    'keywords' => 'Trefwoorden',
+	'keywords_explain' => 'Door komma\'s gescheiden lijst van trefwoorden',
+	'keywords_missing' => 'Je site heeft wat trefwoorden nodig',
 
-	'sitedescription' => 'Site description',
+	'sitedescription' => 'Site beschrijving',
 	'sitedescription_explain' => '',
-	'sitedescription_missing' => 'Your site needs a description!',
+	'sitedescription_missing' => 'Je site heeft een beschrijving nodig!',
 
-	'homepage' => 'Home Page',
+	'homepage' => 'Homepagina',
 	'homepage_explain' => '',
 
-	'postspage' => 'Posts Page',
+	'postspage' => 'Berichten Pagina',
 	'postspage_explain' => '',
 
-	'posts_per_page' => 'Posts per page',
+	'posts_per_page' => 'Berichten per pagina',
 	'posts_per_page_explain' => '',
 
-	'auto_publish_comments' => 'Auto-allow comments',
+	'auto_publish_comments' => 'Sta automaties reacties toe',
 	'auto_publish_comments_explain' => '',
 
-	'comment_notifications' => 'Email notification for new comments',
+	'comment_notifications' => 'E-mail notificatie voor nieuwe reacties',
 	'comment_notifications_explain' => '',
 
-	'comment_moderation_keys' => 'Spam keywords',
-	'comment_moderation_keys_explain' => 'Comma separated list of keywords to blacklist against.
-		Comments will automatically be set as spam.',
+	'comment_moderation_keys' => 'Spam sleutelwoorden',
+	'comment_moderation_keys_explain' => 'Door komma\'s gescheiden lijst van trefwoorden om te markeren als spam.
+		Reacties worden automatisch gemarkeerd als spam.',
 
-	'current_theme' => 'Current theme',
+	'current_theme' => 'Huidig thema',
 	'current_theme_explain' => '',
 
-	// messages
-	'updated' => 'Metadata updated',
+	// messages - berichten
+	'updated' => 'Metadata bijgewerkt',
 
 );

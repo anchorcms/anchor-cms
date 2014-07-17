@@ -2,66 +2,66 @@
 
 return array(
 
-	'users' => 'Users',
+	'users' => 'Gebruikers',
 
-	'create_user' => 'Create a new user',
-	'add_user' => 'Add a new user',
-	'editing_user' => 'Editing %s&rsquo;s Profile',
-	'remembered' => 'I know my password',
-	'forgotten_password' => 'Forgotten your password?',
+	'create_user' => 'Nieuwe gebruiker',
+	'add_user' => 'Voeg een nieuwe gebruiker toe',
+	'editing_user' => 'Bewerk %s&rsquo;s profiel',
+	'remembered' => 'Ik weet mijn wachtwoord',
+	'forgotten_password' => 'Wachtwoord vergeten?',
 
 	// roles
-	'administrator' => 'Admin',
+	'administrator' => 'Administrator',
 	'administrator_explain' => '',
 
-	'editor' => 'Editor',
+	'editor' => 'Bewerker',
 	'editor_explain' => '',
 
-	'user' => 'User',
+	'user' => 'Gebruiker',
 	'user_explain' => '',
 
 	// form fields
-	'real_name' => 'Real Name',
+	'real_name' => 'Echte naam',
 	'real_name_explain' => '',
 
-	'bio' => 'Biography',
+	'bio' => 'Biografie',
 	'bio_explain' => '',
 
 	'status' => 'Status',
 	'status_explain' => '',
 
-	'role' => 'Role',
+	'role' => 'Rol',
 	'role_explain' => '',
 
-	'username' => 'Username',
+	'username' => 'Gebruikersnaam',
 	'username_explain' => '',
-	'username_missing' => 'Please enter a username, must be at least %s characters',
+	'username_missing' => 'Voer een gebruikersnaam in, moet minimaal %s tekens lang zijn',
 
-	'password' => 'Password',
+	'password' => 'Wachtwoord',
 	'password_explain' => '',
-	'password_too_short' => 'Password must be at least %s characters',
+	'password_too_short' => 'Wachtwoord moet minimaal %s tekens lang zijn',
 
-	'new_password' => 'New Password',
+	'new_password' => 'Nieuw Wachtwoord',
 
-	'email' => 'Email',
+	'email' => 'E-mail',
 	'email_explain' => '',
-	'email_missing' => 'Please enter a valid email address',
-	'email_not_found' => 'Profile not found.',
+	'email_missing' => 'Voer een geldig e-mailadres in',
+	'email_not_found' => 'Profiel niet gevonden.',
 
 	// messages
-	'updated' => 'User profile updated.',
-	'created' => 'User profile created.',
-	'deleted' => 'User profile deleted.',
-	'delete_error' => 'You cannot delete your own profile',
-	'login_error' => 'Username or password is wrong.',
-	'logout_notice' => 'You are now logged out.',
-	'recovery_sent' => 'We have sent you an email to confirm your password change.',
-	'recovery_expired' => 'Password recovery token has expired, please try again.',
-	'password_reset' => 'Your new password has been set. Go and login now!',
+	'updated' => 'Gebruiker bijgewerkt.',
+	'created' => 'Gebruiker gecre&#235;erd.',
+	'deleted' => 'Gebruiker verwijderd.',
+	'delete_error' => 'Je kan je eigen profiel niet verwijderen',
+	'login_error' => 'Gebruikersnaam of wachtwoord is onjuist',
+	'logout_notice' => 'Je bent nu uitgelogd.',
+	'recovery_sent' => 'We hebben je een e-mail gestuurd om je wachtwoord te bevestigen.',
+	'recovery_expired' => 'Wachtwoord herstel token is verlopen, probeer opnieuw.',
+	'password_reset' => 'Je nieuwe wachtwoord is ingesteld. Log maar in!',
 
 	// password recovery email
-	'recovery_subject' => 'Password Reset',
-	'recovery_message' => 'You have requested to reset your password.' .
-		'To continue follow the link below.' . PHP_EOL . '%s',
+	'recovery_subject' => 'Wachtwoord herstel',
+	'recovery_message' => 'Je hebt gevraagd je wachtwoord te herstellen.' .
+		'Om verder te gaan, volg onderstaande link.' . PHP_EOL . '%s',
 
 );

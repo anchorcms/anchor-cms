@@ -8,70 +8,70 @@
  */
 return array(
 
-	// words
-	'save' => 'Save',
-	'delete' => 'Delete',
-	'update' => 'Update',
-	'edit' => 'Edit',
-	'editing' => 'Editing',
-	'create' => 'Create',
-	'created' => 'Created',
-	'submit' => 'Submit',
-	'close' => 'Close',
+	// words - woorden
+	'save' => 'Opslaan',
+	'delete' => 'Verwijderd',
+	'update' => 'Werk bij',
+	'edit' => 'Bewerk',
+	'editing' => 'Bewerken',
+	'create' => 'Cre&#235;er',
+	'created' => 'Gecre&#235;erd',
+	'submit' => 'Verzend',
+	'close' => 'Sluit',
 	'status' => 'Status',
-	'manage' => 'Manage',
-	'reset' => 'Reset',
-	'all' => 'All',
+	'manage' => 'Beheer',
+	'reset' => 'Herstel',
+	'all' => 'Alles',
 
-	// pagination
-	'next' => 'Next',
-	'previous' => 'Previous',
-	'first' => 'First',
-	'last' => 'Last',
+	// pagination - paginatie
+	'next' => 'Volgende',
+	'previous' => 'Vorige',
+	'first' => 'Eerste',
+	'last' => 'Laatste',
 
-	// statuses
-	'draft' => 'Draft',
-	'archived' => 'Archived',
-	'published' => 'Published',
-	'pending' => 'Pending',
-	'approved' => 'Approved',
+	// statuses - statussen
+	'draft' => 'Concept',
+	'archived' => 'Gearchiveerd',
+	'published' => 'Gepubliceert',
+	'pending' => 'Wachtend',
+	'approved' => 'Toegelaten',
 	'spam' => 'Spam',
 
-	'inactive' => 'Inactive',
-	'active' => 'Active',
+	'inactive' => 'Inactief',
+	'active' => 'Actief',
 
-	// roles
-	'administrator' => 'Admin',
-	'editor' => 'Editor',
-	'user' => 'User',
+	// roles - rollen
+	'administrator' => 'Administrator',
+	'editor' => 'Bewerker',
+	'user' => 'Gebruiker',
 
 	'log_in' => 'Log in',
-	'login' => 'Login',
-	'log_out' => 'Log out',
-	'logout' => 'Logout',
+	'login' => 'Inloggen',
+	'log_out' => 'Log uit',
+	'logout' => 'Uitloggen',
 
-	// pharses
-	'visit_your_site' => 'Visit your site',
+	// pharses 
+	'visit_your_site' => 'Bezoek je site',
 	'powered_by_anchor' => 'Powered by Anchor, version %s',
 	'make_blogging_beautiful' => 'Make blogging beautiful.',
 
 	// intro
-	'welcome_to_anchor' => 'Welcome to Anchor',
-	'welcome_to_anchor_lets_go' => 'Welcome to Anchor. Let’s go.',
-	'run_the_installer' => 'Run the installer',
+	'welcome_to_anchor' => 'Welkom bij Anchor',
+	'welcome_to_anchor_lets_go' => 'Welkom bij Anchor. Laten we beginnen.',
+	'run_the_installer' => 'Start de installatie',
 
-	// upgrade
-	'upgrade' => 'Upgrade',
-	'good_news' => 'Great News!',
-	'new_version_available' => 'There\'s a new version of anchor available.',
-	'download_now' => 'Download Now',
-	'upgrade_later' => 'Upgrade later',
+	// upgrade - bijwerken
+	'upgrade' => 'Bijwerken',
+	'good_news' => 'Goed nieus!',
+	'new_version_available' => 'Er is een niewe versie van Anchor beschikbaar',
+	'download_now' => 'Download Nu',
+	'upgrade_later' => 'Later bijwerken',
 
 	// debug profiler
-	'profile' => 'Profile',
-	'profile_memory_usage' => 'Total memory usage',
+	'profile' => 'Profiel',
+	'profile_memory_usage' => 'Totaal geheugen in gebruik',
 
 	// messages
-	'confirm_delete' => 'Are you sure you want to delete? This can’t be undone!'
+	'confirm_delete' => 'Weet je zeker dat je dit wilt verwijderen? Dit kan niet ongedaan worden gemaakt!'
 
 );

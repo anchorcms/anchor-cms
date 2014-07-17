@@ -2,34 +2,34 @@
 
 return array(
 
-	'comments' => 'Comments',
-	'nocomments_desc' => 'No comments yet.',
-	'editing_comment' => 'Editing comment',
-	'view_comment' => 'View comment',
+	'comments' => 'Reacties',
+	'nocomments_desc' => 'Nog geen reacties.',
+	'editing_comment' => 'Bewerk reactie',
+	'view_comment' => 'Bekijk reactie',
 
 	// form fields
-	'name' => 'Name',
-	'name_explain' => 'Author name',
-	'name_missing' => 'Please enter a name',
+	'name' => 'Naam',
+	'name_explain' => 'Naam van de Auteur',
+	'name_missing' => 'Voer een naam in',
 
-	'email' => 'Email address',
-	'email_explain' => 'Author email',
-	'email_missing' => 'Please enter a valid email address', // frontend message (appears on your site!)
+	'email' => 'E-mailadres',
+	'email_explain' => 'E-mail van auteur',
+	'email_missing' => 'Voer een geldig e-mailadres in', // frontend message (appears on your site!)
 
-	'text' => 'Comment',
+	'text' => 'Reactie',
 	'text_explain' => '',
-	'text_missing' => 'Please enter comment text', // frontend message (appears on your site!)
+	'text_missing' => 'Voer een reactie in', // frontend message (appears on your site!)
 
 	'status' => 'Status',
 	'status_explain' => '',
 
 	// messages
-	'created' => 'Your comment has been added', // frontend message (appears on your site!)
-	'updated' => 'Your comment has been updated',
-	'deleted' => 'Your comment has been deleted',
+	'created' => 'Je reactie is toegevoegd', // frontend message (appears on your site!)
+	'updated' => 'Je reactie is bijgewerkt',
+	'deleted' => 'Je reactie is verwijderd',
 
 	// email notification
-	'notify_subject' => 'New comment has been added',
-	'nofity_heading' => 'A new comment has been submitted to your site.'
+	'notify_subject' => 'Niewe reactie geplaatst',
+	'nofity_heading' => 'Een nieuwe reactie is geplaatst op je site.'
 
 );
