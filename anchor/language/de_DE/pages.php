@@ -2,44 +2,44 @@
 
 return array(
 
-	'pages' => 'Pages',
+	'pages' => 'Seiten',
 
-	'create_page' => 'Create a new page',
-	'nopages_desc' => 'You don’t have any pages.',
-	'redirect' => 'Redirect',
+	'create_page' => 'Erstelle eine neue Seite',
+	'nopages_desc' => 'Du hast noch keine Seiten.',
+	'redirect' => 'Weiterleitung',
 
 	// form fields
-	'redirect_url' => 'Redirect Url',
-	'redirect_missing' => 'Please enter a valid url',
+	'redirect_url' => 'Weiterleitungs Url',
+	'redirect_missing' => 'Bitte gib eine valide Url ein',
 
-	'title' => 'Page title',
+	'title' => 'Seitentitel',
 	'title_explain' => '',
-	'title_missing' => 'Please enter a page title',
+	'title_missing' => 'Bitte einen Titel für die Seite angeben',
 
-	'content' => 'Content',
-	'content_explain' => 'Your page’s content. Uses Markdown.',
+	'content' => 'Inhalt',
+	'content_explain' => 'Der Inhalt deiner Seite. Verwendet Markdown.',
 
-	'show_in_menu' => 'Show In Menu',
+	'show_in_menu' => 'Im Menü anzeigen',
 	'show_in_menu_explain' => '',
 
 	'name' => 'Name',
 	'name_explain' => '',
 
 	'slug' => 'Slug',
-	'slug_explain' => 'Slug uri to identify your page, should only contain ascii characters',
-	'slug_missing' => 'Please enter a slug uri, slugs can only contain ascii characters',
-	'slug_duplicate' => 'Slug already exists',
-	'slug_invalid' => 'Slug must contain letters',
+	'slug_explain' => 'Slug uri um deine Seite anzuzeigen; sollte nur ascii Zeichen enthalten',
+	'slug_missing' => 'Bitte gib eine slug uri an: Slugs dürfen nur ascii Zeichen enthalten',
+	'slug_duplicate' => 'Slug existiert schon',
+	'slug_invalid' => 'Slug muss Buchstaben enthalten',
 
 	'status' => 'Status',
 	'status_explain' => '',
 
-	'parent' => 'Parent',
+	'parent' => 'Elternelement',
 	'parent_explain' => '',
 
 	// messages
-	'updated' => 'Your page was updated.',
-	'created' => 'Your page was created.',
-	'deleted' => 'Your page was deleted.'
+	'updated' => 'Deine Seite wurde aktualisiert.',
+	'created' => 'Deine Seite wurde erstellt.',
+	'deleted' => 'Deine Seite wurde gelöscht.'
 
 );

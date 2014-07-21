@@ -3,34 +3,34 @@ exit<?php
 
 return array(
 
-	'comments' => 'Comments',
-	'nocomments_desc' => 'No comments yet.',
-	'editing_comment' => 'Editing comment',
-	'view_comment' => 'View comment',
+	'comments' => 'Kommentare',
+	'nocomments_desc' => 'Noch keine Kommentare.',
+	'editing_comment' => 'Kommentar bearbeiten',
+	'view_comment' => 'Kommentar öffnen',
 
 	// form fields
 	'name' => 'Name',
-	'name_explain' => 'Author name',
-	'name_missing' => 'Please enter a name',
+	'name_explain' => 'Name des Autors',
+	'name_missing' => 'Bitt einen Namen eingeben',
 
-	'email' => 'Email address',
-	'email_explain' => 'Author email',
-	'email_missing' => 'Please enter a valid email address', // frontend message (appears on your site!)
+	'email' => 'Email Adresse',
+	'email_explain' => 'Email des Autors',
+	'email_missing' => 'Bitte eine valide Email Adresse eingeben', // frontend message (appears on your site!)
 
-	'text' => 'Comment',
+	'text' => 'Kommentieren',
 	'text_explain' => '',
-	'text_missing' => 'Please enter comment text', // frontend message (appears on your site!)
+	'text_missing' => 'Bitte Kommentar-Text eingeben', // frontend message (appears on your site!)
 
 	'status' => 'Status',
 	'status_explain' => '',
 
 	// messages
-	'created' => 'Your comment has been added', // frontend message (appears on your site!)
-	'updated' => 'Your comment has been updated',
-	'deleted' => 'Your comment has been deleted',
+	'created' => 'Dein Kommentar wurde hinzugefügt', // frontend message (appears on your site!)
+	'updated' => 'Dein Kommentar wurde geändert',
+	'deleted' => 'Dein Kommentar wurde gelöscht',
 
 	// email notification
-	'notify_subject' => 'New comment has been added',
-	'nofity_heading' => 'A new comment has been submitted to your site.'
+	'notify_subject' => 'Ein neuer Kommentar wurde hinzugefügt',
+	'nofity_heading' => 'Ein neuer Kommentar wurde auf deiner Seite hinzugefügt.'
 
 );

@@ -2,50 +2,50 @@
 
 return array(
 
-	'posts' => 'Posts',
+	'posts' => 'Einträge',
 
-	'create_post' => 'Create a new post',
-	'noposts_desc' => 'You don’t have any posts!',
+	'create_post' => 'Neuen Eintrag erstellen',
+	'noposts_desc' => 'Du hast noch keine Einträge!',
 
 	// form fields
-	'title' => 'Post title',
+	'title' => 'Titel des Eintrags',
 	'title_explain' => '',
-	'title_missing' => 'Please enter a title',
+	'title_missing' => 'Bitte einen Titel eingeben',
 
-	'content' => 'Post Content',
-	'content_explain' => 'Just write.',
+	'content' => 'Inhalt des Eintrags',
+	'content_explain' => 'Schreib einfach.',
 
 	'slug' => 'Slug',
-	'slug_explain' => 'Slug uri to identify your post, should only contain ascii characters',
-	'slug_missing' => 'Please enter a slug uri, slugs can only contain ascii characters',
-	'slug_duplicate' => 'Slug already exists',
-	'slug_invalid' => 'Slug must contain letters',
+	'slug_explain' => 'Slug uri um deine Seite anzuzeigen; sollte nur ascii Zeichen enthalten',
+	'slug_missing' => 'Bitte gib eine slug uri an: Slugs dürfen nur ascii Zeichen enthalten',
+	'slug_duplicate' => 'Slug existiert schon',
+	'slug_invalid' => 'Slug muss Buchstaben enthalten',
 
-	'time' => 'Published on (GMT)',
-	'time_explain' => 'Pattern: YYYY-MM-DD HH:MM:SS',
-	'time_invalid' => 'Invalid time pattern',
+	'time' => 'Veröffentlicht am (GMT)',
+	'time_explain' => 'Schema: YYYY-MM-DD HH:MM:SS',
+	'time_invalid' => 'Falsches Schema',
 
-	'description' => 'Description',
+	'description' => 'Beschreibung',
 	'description_explain' => '',
 
 	'status' => 'Status',
 	'status_explain' => '',
 
-	'category' => 'Category',
+	'category' => 'Kategorie',
 	'category_explain' => '',
 
-	'allow_comments' => 'Allow Comments',
+	'allow_comments' => 'Kommentare erlauben',
 	'allow_comments_explain' => '',
 
-	'custom_css' => 'Custom CSS',
+	'custom_css' => 'Benutzerdefiniertes CSS',
 	'custom_css_explain' => '',
 
-	'custom_js' => 'Custom JS',
+	'custom_js' => 'Benutzerdefiniertes JS',
 	'custom_js_explain' => '',
 
 	// messages
-	'updated' => 'Your article has been updated',
-	'created' => 'Your new article was created',
-	'deleted' => 'Your article has been deleted'
+	'updated' => 'Dein Eintrag wurde aktualisiert',
+	'created' => 'Dein Eintrag wurde erstellt',
+	'deleted' => 'Dein Eintrag wurde gelöscht'
 
 );

@@ -2,20 +2,20 @@
 
 return array(
 
-	'metadata' => 'Site Metadata',
-	'metadata_desc' => 'Manage your site data',
+	'metadata' => 'Metadaten der Seite',
+	'metadata_desc' => 'Metadaten der Seite verwalten',
 
-	'comment_settings' => 'Comments',
-	'theme_settings' => 'Appearance',
+	'comment_settings' => 'Kommentare',
+	'theme_settings' => 'Theme',
 
 	// form fields
-	'sitename' => 'Site name',
+	'sitename' => 'Seitenname',
 	'sitename_explain' => '',
-	'sitename_missing' => 'Your site needs a name!',
+	'sitename_missing' => 'Deine Seite braucht einen Namen!',
 
-	'sitedescription' => 'Site description',
+	'sitedescription' => 'Beschreibung der Seite',
 	'sitedescription_explain' => '',
-	'sitedescription_missing' => 'Your site needs a description!',
+	'sitedescription_missing' => 'Deine Seite braucht eine Beschreibung!',
 
 	'homepage' => 'Home Page',
 	'homepage_explain' => '',
@@ -23,23 +23,23 @@ return array(
 	'postspage' => 'Posts Page',
 	'postspage_explain' => '',
 
-	'posts_per_page' => 'Posts per page',
+	'posts_per_page' => 'Posts pro Seite',
 	'posts_per_page_explain' => '',
 
-	'auto_publish_comments' => 'Auto-allow comments',
+	'auto_publish_comments' => 'Kommentare automatisch erlauben',
 	'auto_publish_comments_explain' => '',
 
-	'comment_notifications' => 'Email notification for new comments',
+	'comment_notifications' => 'Email Benachrichtigung bei neuen Kommentaren',
 	'comment_notifications_explain' => '',
 
 	'comment_moderation_keys' => 'Spam keywords',
-	'comment_moderation_keys_explain' => 'Comma separated list of keywords to blacklist against.
-		Comments will automatically be set as spam.',
+	'comment_moderation_keys_explain' => 'Komma getrennte Liste von Begriffen die gebrüft werden sollen (Blacklist).
+		Kommentare werden automatisch als Spam markiert.',
 
-	'current_theme' => 'Current theme',
+	'current_theme' => 'Aktuelles Theme',
 	'current_theme_explain' => '',
 
 	// messages
-	'updated' => 'Metadata updated',
+	'updated' => 'Metadaten aktualisiert',
 
 );
