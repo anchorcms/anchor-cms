@@ -119,6 +119,17 @@
 				element.value = value.substring(0, start) + link + value.substring(end);
 				element.selectionStart = element.selectionEnd = end + link.length;
 			},
+			img: function() {
+				var element = textarea[0];
+				var start = element.selectionStart, end = element.selectionEnd;
+				var value = element.value;
+
+				var selection = value.substring(start, end);
+				var link = '![' + selection + '](' + selection + ')';
+
+				element.value = value.substring(0, start) + link + value.substring(end);
+				element.selectionStart = element.selectionEnd = end + link.length;
+			},
 			list: function() {
 				var element = textarea[0];
 				var start = element.selectionStart, end = element.selectionEnd;
