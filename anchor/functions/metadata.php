@@ -11,6 +11,10 @@ function site_description() {
 	return Config::meta('description');
 }
 
+function site_keywords() {
+	return Config::meta('keywords');
+}
+
 function site_meta($key, $default = '') {
 	return Config::meta('custom_' . $key, $default);
 }
