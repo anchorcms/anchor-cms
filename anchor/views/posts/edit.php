@@ -89,8 +89,10 @@
 <script src="<?php echo asset('anchor/views/assets/js/upload-fields.js'); ?>"></script>
 <script src="<?php echo asset('anchor/views/assets/js/text-resize.js'); ?>"></script>
 <script src="<?php echo asset('anchor/views/assets/js/editor.js'); ?>"></script>
+<script src="<?php echo asset('anchor/views/assets/js/change-saver.js'); ?>"></script>
 <script>
-	$('textarea[name=html]').editor();
+    $('textarea[name=html]').editor();
+    $('form').changeSaver('textarea[name=html]');
 </script>
 
 <?php echo $footer; ?>
