@@ -36,6 +36,9 @@ return array(
 
 	'allow_comments' => 'Sta reacties toe',
 	'allow_comments_explain' => '',
+    
+    'featured' => 'Aanbevolen',
+    'featured_explain' => 'Wordt het bericht verschijnt?',
 
 	'custom_css' => 'Aangepaste CSS',
 	'custom_css_explain' => '',

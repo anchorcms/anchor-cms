@@ -69,6 +69,11 @@
 				<?php echo Form::checkbox('comments', 1, Input::previous('comments', $article->comments) == 1); ?>
 				<em><?php echo __('posts.allow_comments_explain'); ?></em>
 			</p>
+            <p>
+				<label><?php echo __('posts.featured'); ?>:</label>
+				<?php echo Form::checkbox('featured', 1, Input::previous('featured', $article->featured) == 1); ?>
+				<em><?php echo __('posts.featured_explain'); ?></em>
+			</p>
 			<p>
 				<label><?php echo __('posts.custom_css'); ?>:</label>
 				<?php echo Form::textarea('css', Input::previous('css', $article->css)); ?>

@@ -80,7 +80,7 @@ Route::collection(array('before' => 'auth,csrf'), function() {
 
 	Route::post('admin/posts/edit/(:num)', function($id) {
 		$input = Input::get(array('title', 'slug', 'description', 'created',
-			'html', 'css', 'js', 'category', 'status', 'comments'));
+			'html', 'css', 'js', 'category', 'status', 'comments', 'featured'));
 
 		// if there is no slug try and create one from the title
 		if(empty($input['slug'])) {
@@ -128,6 +128,10 @@ Route::collection(array('before' => 'auth,csrf'), function() {
 		if(is_null($input['comments'])) {
 			$input['comments'] = 0;
 		}
+        
+        if(is_null($input['featured'])) {
+			$input['featured'] = 0;
+		}
 
 		if(empty($input['html'])) {
 			$input['status'] = 'draft';
@@ -169,7 +173,7 @@ Route::collection(array('before' => 'auth,csrf'), function() {
 
 	Route::post('admin/posts/add', function() {
 		$input = Input::get(array('title', 'slug', 'description', 'created',
-			'html', 'css', 'js', 'category', 'status', 'comments'));
+			'html', 'css', 'js', 'category', 'status', 'comments', 'featured'));
 
 		// if there is no slug try and create one from the title
 		if(empty($input['slug'])) {
@@ -214,6 +218,10 @@ Route::collection(array('before' => 'auth,csrf'), function() {
 
 		if(is_null($input['comments'])) {
 			$input['comments'] = 0;
+		}
+        
+        if(is_null($input['featured'])) {
+			$input['featured'] = 0;
 		}
 
 		if(empty($input['html'])) {

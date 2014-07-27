@@ -32,6 +32,9 @@ return array(
 
 	'allow_comments' => 'Permetti Commenti',
 	'allow_comments_explain' => '',
+    
+    'featured' => 'In primo piano',
+    'featured_explain' => 'È il post in evidenza?',
 
 	'custom_css' => 'CSS personalizzato',
 	'custom_css_explain' => '',
