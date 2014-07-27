@@ -53,14 +53,17 @@
 		</fieldset>
 
 		<aside class="buttons">
-			<?php echo Form::button(__('global.update'), array(
+			
+            <?php echo Form::button(__('global.update'), array(
 				'class' => 'btn',
 				'type' => 'submit'
 			)); ?>
 
-			<?php echo Html::link('admin/users/delete/' . $user->id, __('global.delete'), array('class' => 'btn delete red')); ?>
-		</aside>
-	</form>
+			<?php if (Auth::user()->id !== $user->id) echo Html::link('admin/users/delete/' . $user->id, __('global.delete'), array('class' => 'btn delete red')); ?>
+		
+        </aside>
+	
+    </form>
 
 </section>
 
