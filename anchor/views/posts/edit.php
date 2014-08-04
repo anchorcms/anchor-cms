@@ -64,6 +64,11 @@
 				<?php echo Form::checkbox('comments', 1, Input::previous('comments', $article->comments) == 1, array('id' => 'label-comments')); ?>
 				<em><?php echo __('posts.allow_comments_explain'); ?></em>
 			</p>
+            <p>
+				<label><?php echo __('posts.featured'); ?>:</label>
+				<?php echo Form::checkbox('featured', 1, Input::previous('featured', $article->featured) == 1); ?>
+				<em><?php echo __('posts.featured_explain'); ?></em>
+			</p>
 			<p>
 				<label for="label-css"><?php echo __('posts.custom_css'); ?>:</label>
 				<?php echo Form::textarea('css', Input::previous('css', $article->css), array('id' => 'label-css')); ?>
@@ -89,10 +94,8 @@
 <script src="<?php echo asset('anchor/views/assets/js/upload-fields.js'); ?>"></script>
 <script src="<?php echo asset('anchor/views/assets/js/text-resize.js'); ?>"></script>
 <script src="<?php echo asset('anchor/views/assets/js/editor.js'); ?>"></script>
-<script src="<?php echo asset('anchor/views/assets/js/change-saver.js'); ?>"></script>
 <script>
-    $('textarea[name=html]').editor();
-    $('form').changeSaver('textarea[name=html]');
+	$('textarea[name=html]').editor();
 </script>
 
 <?php echo $footer; ?>

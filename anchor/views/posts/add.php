@@ -37,38 +37,43 @@
 	<fieldset class="meta split">
 		<div class="wrap">
 			<p>
-				<label for="label-slug"><?php echo __('posts.slug'); ?>:</label>
-				<?php echo Form::text('slug', Input::previous('slug'), array('id' => 'label-slug')); ?>
+				<label><?php echo __('posts.slug'); ?>:</label>
+				<?php echo Form::text('slug', Input::previous('slug')); ?>
 				<em><?php echo __('posts.slug_explain'); ?></em>
 			</p>
 			<p>
-				<label for="label-description"><?php echo __('posts.description'); ?>:</label>
-				<?php echo Form::textarea('description', Input::previous('description'), array('id' => 'label-description')); ?>
+				<label for="description"><?php echo __('posts.description'); ?>:</label>
+				<?php echo Form::textarea('description', Input::previous('description')); ?>
 				<em><?php echo __('posts.description_explain'); ?></em>
 			</p>
 			<p>
-				<label for="label-status"><?php echo __('posts.status'); ?>:</label>
-				<?php echo Form::select('status', $statuses, Input::previous('status'), array('id' => 'label-status')); ?>
+				<label><?php echo __('posts.status'); ?>:</label>
+				<?php echo Form::select('status', $statuses, Input::previous('status')); ?>
 				<em><?php echo __('posts.status_explain'); ?></em>
 			</p>
 			<p>
-				<label for="label-category"><?php echo __('posts.category'); ?>:</label>
-				<?php echo Form::select('category', $categories, Input::previous('category'), array('id' => 'label-category')); ?>
+				<label><?php echo __('posts.category'); ?>:</label>
+				<?php echo Form::select('category', $categories, Input::previous('category')); ?>
 				<em><?php echo __('posts.category_explain'); ?></em>
 			</p>
 			<p>
-				<label for="label-comments"><?php echo __('posts.allow_comments'); ?>:</label>
-				<?php echo Form::checkbox('comments', 1, Input::previous('comments', 0) == 1, array('id' => 'label-comments')); ?>
+				<label><?php echo __('posts.allow_comments'); ?>:</label>
+				<?php echo Form::checkbox('comments', 1, Input::previous('comments', 0) == 1); ?>
 				<em><?php echo __('posts.allow_comments_explain'); ?></em>
 			</p>
+            <p>
+				<label><?php echo __('posts.featured'); ?>:</label>
+				<?php echo Form::checkbox('featured', 1, Input::previous('featured', 0) == 1); ?>
+				<em><?php echo __('posts.featured_explain'); ?></em>
+			</p>
 			<p>
-				<label for="label-css"><?php echo __('posts.custom_css'); ?>:</label>
-				<?php echo Form::textarea('css', Input::previous('css'), array('id' => 'label-css')); ?>
+				<label><?php echo __('posts.custom_css'); ?>:</label>
+				<?php echo Form::textarea('css', Input::previous('css')); ?>
 				<em><?php echo __('posts.custom_css_explain'); ?></em>
 			</p>
 			<p>
-				<label for="label-js"><?php echo __('posts.custom_js', 'Custom JS'); ?>:</label>
-				<?php echo Form::textarea('js', Input::previous('js'), array('id' => 'label-js')); ?>
+				<label for="js"><?php echo __('posts.custom_js', 'Custom JS'); ?>:</label>
+				<?php echo Form::textarea('js', Input::previous('js')); ?>
 				<em><?php echo __('posts.custom_js_explain'); ?></em>
 			</p>
 			<?php foreach($fields as $field): ?>

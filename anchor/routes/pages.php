@@ -181,6 +181,10 @@ Route::collection(array('before' => 'auth,csrf'), function() {
 			->is_max(3, __('pages.slug_missing'))
 			->is_duplicate(__('pages.slug_duplicate'))
 			->not_regex('#^[0-9_-]+$#', __('pages.slug_invalid'));
+        
+        if(!isset($input['menu_order'])) {
+            $input['menu_order'] = Page::count();
+        }
 
 		if($input['redirect']) {
 			$validator->check('redirect')
@@ -199,7 +203,7 @@ Route::collection(array('before' => 'auth,csrf'), function() {
 			$input['name'] = $input['title'];
 		}
 
-		$input['show_in_menu'] = is_null($input['show_in_menu']) ? 0 : 1;
+        $input['show_in_menu'] = is_null($input['show_in_menu']) ? 0 : 1;
 
 		$page = Page::create($input);
 

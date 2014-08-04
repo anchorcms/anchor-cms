@@ -58,9 +58,9 @@
 				'type' => 'submit'
 			)); ?>
 
-			<?php echo Html::link('admin/users/delete/' . $user->id, __('global.delete'), array('class' => 'btn delete red')); ?>
+			<?php if (Auth::user()->id !== $user->id) echo Html::link('admin/users/delete/' . $user->id, __('global.delete'), array('class' => 'btn delete red')); ?>
 		</aside>
-	</form>
+    </form>
 
 </section>
 

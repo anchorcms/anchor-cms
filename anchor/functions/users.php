@@ -1,7 +1,7 @@
 <?php
 
 /**
-	Theme functions for logged in user
+*	Theme functions for logged in user
 */
 function user_authed() {
 	return ! Auth::guest();

@@ -80,7 +80,7 @@ Route::collection(array('before' => 'auth,csrf'), function() {
 
 	Route::post('admin/posts/edit/(:num)', function($id) {
 		$input = Input::get(array('title', 'slug', 'description', 'created',
-			'html', 'css', 'js', 'category', 'status', 'comments'));
+			'html', 'css', 'js', 'category', 'status', 'comments', 'featured'));
 
 		// if there is no slug try and create one from the title
 		if(empty($input['slug'])) {
@@ -107,6 +107,9 @@ Route::collection(array('before' => 'auth,csrf'), function() {
 			->is_duplicate(__('posts.slug_duplicate'))
 			->not_regex('#^[0-9_-]+$#', __('posts.slug_invalid'));
 
+		$validator->check('created')
+			->is_regex('#^[0-9]{4}\-[0-9]{2}\-[0-9]{2} [0-9]{2}\:[0-9]{2}\:[0-9]{2}$#', __('posts.time_invalid'));
+
 		if($errors = $validator->errors()) {
 			Input::flash();
 
@@ -124,6 +127,10 @@ Route::collection(array('before' => 'auth,csrf'), function() {
 
 		if(is_null($input['comments'])) {
 			$input['comments'] = 0;
+		}
+        
+        if(is_null($input['featured'])) {
+			$input['featured'] = 0;
 		}
 
 		if(empty($input['html'])) {
@@ -166,7 +173,7 @@ Route::collection(array('before' => 'auth,csrf'), function() {
 
 	Route::post('admin/posts/add', function() {
 		$input = Input::get(array('title', 'slug', 'description', 'created',
-			'html', 'css', 'js', 'category', 'status', 'comments'));
+			'html', 'css', 'js', 'category', 'status', 'comments', 'featured'));
 
 		// if there is no slug try and create one from the title
 		if(empty($input['slug'])) {
@@ -211,6 +218,10 @@ Route::collection(array('before' => 'auth,csrf'), function() {
 
 		if(is_null($input['comments'])) {
 			$input['comments'] = 0;
+		}
+        
+        if(is_null($input['featured'])) {
+			$input['featured'] = 0;
 		}
 
 		if(empty($input['html'])) {

@@ -7,19 +7,45 @@ function has_menu_items() {
 	return Registry::get('total_menu_items');
 }
 
+function has_children() {
+    return (Registry::prop('menu_item', 'children')) ? true : false;
+}
+
 function menu_items() {
 	$pages = Registry::get('menu');
 
 	if($result = $pages->valid()) {
-		Registry::set('menu_item', $pages->current());
-
+        Registry::set('menu_item', $pages->current());
 		$pages->next();
 	}
 
 	// back to the start
-	if( ! $result) $pages->rewind();
+	if (!$result)
+        $pages->rewind();
+	
+    return $result;
+}
 
-	return $result;
+function render_children($children = null) {
+    $children = ($children) ? $children : Registry::prop('menu_item', 'children');
+    $html = '';
+
+    if (count($children) !== 0) {
+
+        foreach($children as $child) {
+
+            $html .= ($child->active()) ? '<li class="active">' : '<li>';
+            $html .= HTML::link($child->uri(), $child->name, array('title' => $child->name));
+
+            // handle nested children.
+            if ($child->children)
+                $html .= render_children($child->children);
+
+            $html .= '</li>' . PHP_EOL;
+        }
+
+        return '<ul>' . PHP_EOL . $html . PHP_EOL . '</ul>';
+    }
 }
 
 /*

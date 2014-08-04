@@ -21,6 +21,10 @@ return array(
 	'slug_duplicate' => 'Slug already exists',
 	'slug_invalid' => 'Slug must contain letters',
 
+	'time' => 'Published on (GMT)',
+	'time_explain' => 'Pattern: YYYY-MM-DD HH:MM:SS',
+	'time_invalid' => 'Invalid time pattern',
+
 	'description' => 'Description',
 	'description_explain' => '',
 
@@ -32,6 +36,9 @@ return array(
 
 	'allow_comments' => 'Allow Comments',
 	'allow_comments_explain' => '',
+    
+    'featured' => 'Featured',
+    'featured_explain' => 'Is the post featured?',
 
 	'custom_css' => 'Custom CSS',
 	'custom_css_explain' => '',
@@ -42,6 +49,6 @@ return array(
 	// messages
 	'updated' => 'Your article has been updated',
 	'created' => 'Your new article was created',
-	'deleted' => 'Your article have been deleted'
+	'deleted' => 'Your article has been deleted'
 
 );

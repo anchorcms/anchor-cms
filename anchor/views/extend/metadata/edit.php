@@ -13,23 +13,32 @@
 
 		<fieldset class="split">
 			<p>
-				<label for="label-sitename"><?php echo __('metadata.sitename'); ?>:</label>
-				<?php echo Form::text('sitename', Input::previous('sitename', $meta['sitename']), array('id' => 'label-sitename')); ?>
+				<label><?php echo __('metadata.sitename'); ?>:</label>
+				<?php echo Form::text('sitename', Input::previous('sitename', $meta['sitename'])); ?>
 				<em><?php echo __('metadata.sitename_explain'); ?></em>
 			</p>
 			<p>
-				<label for="label-sitedescription"><?php echo __('metadata.sitedescription'); ?>:</label>
-				<?php echo Form::textarea('description', Input::previous('description', $meta['description']), array('id' => 'label-sitedescription')); ?>
+				<label><?php echo __('metadata.sitedescription'); ?>:</label>
+				<?php echo Form::textarea('description', Input::previous('description', $meta['description'])); ?>
 				<em><?php echo __('metadata.sitedescription_explain'); ?></em>
+			</p>
+            <p>
+				<label><?php echo __('metadata.keywords'); ?>:</label>
+				<?php echo Form::textarea('keywords', Input::previous('keywords', $meta['keywords'])); ?>
+				<em><?php echo __('metadata.keywords_explain'); ?></em>
 			</p>
 			<p>
 				<label for="label-homepage"><?php echo __('metadata.homepage'); ?>:</label>
 				<?php echo Form::select('home_page', $pages, Input::previous('home_page', $meta['home_page']), array('id' => 'label-homepage')); ?>
 				<em><?php echo __('metadata.homepage_explain'); ?></em>
 			</p>
-			<p>
-				<label for="label-postspage"><?php echo __('metadata.postspage'); ?>:</label>
-				<?php echo Form::select('posts_page', $pages, Input::previous('posts_page', $meta['posts_page']), array('id' => 'label-postspage')); ?>
+		</fieldset>
+        
+        <fieldset class="split">
+			<legend><?php echo __('metadata.post_settings'); ?></legend>
+            <p>
+				<label><?php echo __('metadata.postspage'); ?>:</label>
+				<?php echo Form::select('posts_page', $pages, Input::previous('posts_page', $meta['posts_page'])); ?>
 				<em><?php echo __('metadata.postspage_explain'); ?></em>
 			</p>
 			<p>
