@@ -1,0 +1,82 @@
+<?php
+
+return array(
+
+	'posts' => 'Bejegyzések',
+	'create_post' => 'Új bejegyzés',
+	'created' => 'Létrehozva',
+	'create' => 'Létrehoz',
+	'by' => 'által',
+	'noposts' => 'Nincs még bejegyzés. Miért nem írsz egyet?',
+	'return_posts' => 'Vissza a bejegyzésekhez',
+
+	'add_post' => 'Bejegyzés hozzáadása',
+	'post' => 'Bejegyzés',
+	'customise' => 'Testreszab',
+	'customise_explain' => 'Itt testreszabhatod a bejegyzést. Ez opcionális.',
+	'custom_fields' => 'Egyéni mezők',
+	'custom_fields_explain' => 'Egyéni mezők létrehozása itt.',
+	'create_custom_field' => 'Egyéni mező létrehozása',
+	'comments' => 'Hozzászólások',
+	'comments_explain' => 'Itt moderálhatod a hozzászólásokat.',
+	'no_comments' => 'Nincs még hozzászólás.',
+	'edit_comment' => 'Hozzászólás szerkesztése',
+	'edit_comment_explain' => 'Itt frissítheted a hozzászólás szövegét.',
+
+	'publish' => 'Publikus',
+	'edit' => 'Szerkeszt',
+	'delete' => 'Töröl',
+	'save' => 'Ment',
+	'label' => 'Címke',
+	'key' => 'Kulcs',
+	'editing' => 'Szerkesztés',
+	'editing_explain' => 'Néhány hasznos link.',
+	'view_post' => 'A hozzászólás megtekintése a honlapon',
+
+	'draft' => 'Piszkozat',
+	'archived' => 'Archivált',
+	'published' => 'Publikált',
+	'pending' => 'Függő',
+	'spam' => 'Spam',
+	'update' => 'Frissít',
+	'close' => 'Bezár',
+
+	'custom_field' => 'Egyéni mező',
+	'custom_field_explain' => 'Kérlek add meg a mező címkéjét és kulcsát.',
+	'missing_label' => 'Kérlek add meg a mező címkéjét',
+	'missing_key' => 'Kérlek add meg a mező kulcsát',
+
+	'title' => 'Cím',
+	'title_explain' => 'A bejegyzés címe.',
+	'date' => 'Dátum',
+	'date_explain' => 'A &ldquo;publikált&rdquo; bejegyzések dátuma. Használd a <code><a href="http://php.net/manual/en/function.strtotime.php">strtotime()</a></code> kódot.',
+	'slug' => 'Slug',
+	'slug_explain' => 'A bejegyzés linkje.',
+	'description' => 'Leírás',
+	'description_explain' => 'Egy rövid vázlat, amiről a bejegyzés szól. Az RSS feed használja.',
+	'content' => 'Tartalom',
+	'content_explain' => 'A bejegyzésed fő tartalma. Érvényes Markdown kóddal.',
+	'status' => 'Státusz',
+	'status_explain' => 'Státusz: elő (publikált), szerkesztett (piszkozat), vagy rejtett (archivált).',
+	'allow_comments' => 'Hozzászólások engedélyezése',
+	'allow_comments_explain' => 'Ez lehetővé teszi, hogy hozzászoljanak a bejegyzésekhez.',
+	'custom_css' => 'Egyéni CSS',
+	'custom_css_explain' => 'Egyéni CSS. Meg fog jelenni a <code>&lt;style&gt;</code> blokkban.',
+	'custom_js' => 'Egyéni JS',
+	'custom_js_explain' => 'Egyéni Javascript. Meg fog jelenni a <code>&lt;script&gt;</code> blokkban.',
+	
+	'delete_confirm' => 'Biztos hogy szeretnéd törölni ezt a bejegyzést?', 
+	'delete_confirm_submit' => 'Igen, tisztában vagyok a végleges törléssel kapcsolatban', 
+	'delete_confirm_cancel' => 'Ne, tartsuk meg ezt a bejegyzést',
+
+	'invalid_date' => 'Kérlek érvényes dátumot adj meg.',
+	'missing_title' => 'Kérlek add meg a címet',
+	'missing_description' => 'Kérlek add meg a leírást',
+	'missing_html' => 'Kérlek addj meg html kódot',
+	
+	'duplicate_slug' => 'Az oldal azonos slug-gal már létezik, kérlek válassz másikat.',
+	'post_success_created' => 'Az új bejegyzés hozzáadva',
+	'post_success_updated' => 'A bejegyzés frissítve.',
+	'post_success_deleted' => 'A bejegyzés törölve.'
+
+);
