@@ -11,6 +11,10 @@ $posts_page = Registry::get('posts_page');
  */
 if($home_page->id != $posts_page->id) {
 	Route::get(array('/', $home_page->slug), function() use($home_page) {
+    if($home_page->redirect) {
+      return Response::redirect($home_page->redirect);
+    }
+
 		Registry::set('page', $home_page);
 
 		return new Template('page');
@@ -106,6 +110,28 @@ Route::get($posts_page->slug . '/(:any)', function($slug) use($posts_page) {
 	Registry::set('category', Category::find($post->category));
 
 	return new Template('article');
+});
+
+/**
+ * Edit posts
+*/
+Route::get($posts_page->slug . '/(:any)/edit', function($slug) use($posts_page) {
+    if (!$post = Post::slug($slug) or Auth::guest()) {
+        return Response::create(new Template('404'), 404);
+    }
+    
+    return Response::redirect('/admin/posts/edit/' . $post->id);
+});
+
+/**
+ * Edit pages
+*/
+Route::get('(:all)/edit', function($slug) use($posts_page) {
+    if (!$page = Page::slug($slug) or Auth::guest()) {
+        return Response::create(new Template('404'), 404);
+    }
+    
+    return Response::redirect('/admin/pages/edit/' . $page->id);
 });
 
 /**
