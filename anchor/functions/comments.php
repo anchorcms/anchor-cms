@@ -1,7 +1,7 @@
 <?php
 
 /**
-	Theme functions for comments
+*	Theme functions for comments
 */
 
 function has_comments() {
@@ -100,5 +100,5 @@ function comment_form_input_text($extra = '') {
 }
 
 function comment_form_button($text = 'Post Comment', $extra = '') {
-	return '<button type="submit" ' . $extra . '>' . $text . '</button>';
+	return '<button class="btn" type="submit" ' . $extra . '>' . $text . '</button>';
 }

@@ -19,20 +19,20 @@
 			</p>
 
 			<p>
-				<label for="label-email"><?php echo __('comments.email'); ?>:</label>
-				<?php echo Form::email('email', Input::previous('email', $comment->email), array('id' => 'label-email')); ?>
+				<label><?php echo __('comments.email'); ?>:</label>
+				<?php echo Form::email('email', Input::previous('email', $comment->email)); ?>
 				<em><?php echo __('comments.email_explain'); ?></em>
 			</p>
 
 			<p>
-				<label for="label-text"><?php echo __('comments.text'); ?>:</label>
-				<?php echo Form::textarea('text', Input::previous('text', $comment->text), array('id' => 'label-text')); ?>
+				<label><?php echo __('comments.text'); ?>:</label>
+				<?php echo Form::textarea('text', Input::previous('text', $comment->text)); ?>
 				<em><?php echo __('comments.text_explain'); ?></em>
 			</p>
 
 			<p>
-				<label for="label-status"><?php echo __('comments.status', 'Status'); ?>:</label>
-				<?php echo Form::select('status', $statuses, Input::previous('status', $comment->status), array('id' => 'label-status')); ?>
+				<label><?php echo __('comments.status', 'Status'); ?>:</label>
+				<?php echo Form::select('status', $statuses, Input::previous('status', $comment->status)); ?>
 				<em><?php echo __('comments.status_explain'); ?></em>
 			</p>
 		</fieldset>

@@ -111,6 +111,10 @@ function article_total_comments() {
 	return Registry::prop('article', 'total_comments');
 }
 
+function article_featured() {
+    return Registry::prop('article', 'featured');
+}
+
 function article_author() {
 	return Registry::prop('article', 'author_name');
 }

@@ -22,7 +22,7 @@ Route::collection(array('before' => 'auth,csrf'), function() {
 		Update Metadata
 	*/
 	Route::post('admin/extend/metadata', function() {
-		$input = Input::get(array('sitename', 'description', 'home_page', 'posts_page',
+		$input = Input::get(array('sitename', 'keywords', 'description', 'home_page', 'posts_page',
 			'posts_per_page', 'auto_published_comments', 'theme', 'comment_notifications', 'comment_moderation_keys'));
 
 		$validator = new Validator($input);
