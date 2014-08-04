@@ -6,12 +6,17 @@ return array(
 	'metadata_desc' => 'Manage your site data',
 
 	'comment_settings' => 'Comments',
-	'theme_settings' => 'Apperance',
+	'theme_settings' => 'Appearance',
+    'post_settings' => 'Posts',
 
 	// form fields
 	'sitename' => 'Site name',
 	'sitename_explain' => '',
 	'sitename_missing' => 'Your site needs a name!',
+    
+    'keywords' => 'Keywords',
+	'keywords_explain' => 'Comma separated list of keywords.',
+	'keywords_missing' => 'Your site needs some keywords',
 
 	'sitedescription' => 'Site description',
 	'sitedescription_explain' => '',
