@@ -34,7 +34,7 @@
 
 			<p>
 				<label for="pass">Password</label>
-				<input id="pass" name="pass" value="<?php echo Input::previous('pass'); ?>">
+				<input id="pass" name="pass" type="password" value="<?php echo Input::previous('pass'); ?>">
 
 				<i>Leave blank for empty password.</i>
 			</p>
@@ -55,7 +55,7 @@
 
 			<p>
 				<label for="collation">Collation</label>
-				<select id="collation" name="collation">
+				<select id="collation" class="chosen-select" name="collation">
 					<?php foreach($collations as $code => $collation): ?>
 					<?php $selected = ($code == Input::previous('collation', 'utf8_general_ci')) ? ' selected' : ''; ?>
 					<option value="<?php echo $code; ?>" <?php echo $selected; ?>>
