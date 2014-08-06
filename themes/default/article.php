@@ -3,7 +3,7 @@
 		<section class="content wrap" id="article-<?php echo article_id(); ?>">
 			<h1><?php echo article_title(); ?></h1>
 
-			<article>
+			<article <?php if(article_featured()) echo 'class="featured"'; ?>
 				<?php echo article_markdown(); ?>
 			</article>
 

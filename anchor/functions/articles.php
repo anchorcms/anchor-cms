@@ -11,6 +11,10 @@ function article_title() {
 	return Registry::prop('article', 'title');
 }
 
+function article_featured() {
+	return Registry::prop('article', 'featured');
+}
+
 function article_slug() {
 	return Registry::prop('article', 'slug');
 }

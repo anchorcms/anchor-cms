@@ -33,6 +33,9 @@ return array(
 	'allow_comments' => 'Allow Comments',
 	'allow_comments_explain' => '',
 
+	'featured' => 'Featured',
+	'featured_explain' => 'Is this post featured?',
+
 	'custom_css' => 'Custom CSS',
 	'custom_css_explain' => '',
 
