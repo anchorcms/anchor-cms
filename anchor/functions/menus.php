@@ -22,6 +22,32 @@ function menu_items() {
 	return $result;
 }
 
+function has_children() {
+    return (Registry::prop('menu_item', 'children')) ? true : false;
+}
+
+function render_children($children = null) {
+    $children = ($children) ? $children : Registry::prop('menu_item', 'children');
+    $html = '';
+
+    if (count($children) !== 0) {
+
+        foreach($children as $child) {
+
+            $html .= ($child->active()) ? '<li class="active">' : '<li>';
+            $html .= HTML::link($child->uri(), $child->name, array('title' => $child->name));
+
+            // handle nested children.
+            if ($child->children)
+                $html .= render_children($child->children);
+
+            $html .= '</li>' . PHP_EOL;
+        }
+
+        return '<ul>' . PHP_EOL . $html . PHP_EOL . '</ul>';
+    }
+}
+
 /*
 	Object props
 */
