@@ -27,6 +27,10 @@
 				<?php echo Form::select('home_page', $pages, Input::previous('home_page', $meta['home_page']), array('id' => 'label-homepage')); ?>
 				<em><?php echo __('metadata.homepage_explain'); ?></em>
 			</p>
+		</fieldset>
+
+		<fieldset class="split">
+			<legend><?php echo __('metadata.post_settings'); ?></legend>
 			<p>
 				<label for="label-postspage"><?php echo __('metadata.postspage'); ?>:</label>
 				<?php echo Form::select('posts_page', $pages, Input::previous('posts_page', $meta['posts_page']), array('id' => 'label-postspage')); ?>

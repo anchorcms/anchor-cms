@@ -5,6 +5,7 @@ return array(
 	'metadata' => 'Site Metadata',
 	'metadata_desc' => 'Manage your site data',
 
+	'post_settings' => 'Posts',
 	'comment_settings' => 'Comments',
 	'theme_settings' => 'Apperance',
 
