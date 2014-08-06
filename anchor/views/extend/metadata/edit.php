@@ -34,7 +34,7 @@
 			</p>
 			<p>
 				<label for="label-posts_per_page"><?php echo __('metadata.posts_per_page'); ?>:</label>
-				<?php echo Form::input('range', 'posts_per_page', Input::previous('posts_per_page', $meta['posts_per_page']),
+				<?php echo Form::input('number', 'posts_per_page', Input::previous('posts_per_page', $meta['posts_per_page']),
 					array('min' => 1, 'max' => 15, 'id' => 'label-posts_per_page')); ?>
 				<em><?php echo __('metadata.posts_per_page_explain'); ?></em>
 			</p>
