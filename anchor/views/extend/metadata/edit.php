@@ -23,6 +23,11 @@
 				<em><?php echo __('metadata.sitedescription_explain'); ?></em>
 			</p>
 			<p>
+				<label for="label-sitekeywords"><?php echo __('metadata.sitekeywords'); ?>:</label>
+				<?php echo Form::textarea('keywords', Input::previous('keywords', $meta['keywords']), array('id' => 'label-sitekeywords')); ?>
+				<em><?php echo __('metadata.sitekeywords_explain'); ?></em>
+			</p>
+			<p>
 				<label for="label-homepage"><?php echo __('metadata.homepage'); ?>:</label>
 				<?php echo Form::select('home_page', $pages, Input::previous('home_page', $meta['home_page']), array('id' => 'label-homepage')); ?>
 				<em><?php echo __('metadata.homepage_explain'); ?></em>

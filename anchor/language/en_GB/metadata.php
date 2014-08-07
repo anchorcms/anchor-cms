@@ -18,6 +18,9 @@ return array(
 	'sitedescription_explain' => '',
 	'sitedescription_missing' => 'Your site needs a description!',
 
+	'sitekeywords' = 'Site keywords',
+	'sitekeywords_explain' => '',
+
 	'homepage' => 'Home Page',
 	'homepage_explain' => '',
 
