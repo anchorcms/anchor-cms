@@ -217,8 +217,8 @@ Route::collection(array('before' => 'auth,csrf'), function() {
 			$input['comments'] = 0;
 		}
 
-		if(is_null($input['comments'])) {
-			$input['comments'] = 0;
+		if(is_null($input['featured'])) {
+			$input['featured'] = 0;
 		}
 
 		if(empty($input['html'])) {
