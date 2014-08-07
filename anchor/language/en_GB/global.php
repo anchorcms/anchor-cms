@@ -9,7 +9,8 @@
 return array(
 
 	// words
-	'save' => 'Save',
+    'view' => 'View',
+    'save' => 'Save',
 	'saving' => 'Saving...',
 	'delete' => 'Delete',
 	'deleting' => 'Deleting...',

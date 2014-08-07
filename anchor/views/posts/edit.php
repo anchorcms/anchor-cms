@@ -1,4 +1,5 @@
 <?php echo $header; ?>
+<?php $posts_page = Registry::get('posts_page'); ?>
 
 <form method="post" action="<?php echo Uri::to('admin/posts/edit/' . $article->id); ?>" enctype="multipart/form-data" novalidate>
 
@@ -15,7 +16,12 @@
 			)); ?>
 
 			<aside class="buttons">
-				<?php echo Form::button(__('global.save'), array(
+				
+                <?php echo Html::link($posts_page->slug . '/' . $article->slug, __('global.view'), array(
+					'class' => 'btn view blue'
+				)); ?>
+                
+                <?php echo Form::button(__('global.save'), array(
 					'type' => 'submit',
 					'class' => 'btn'
 				)); ?>

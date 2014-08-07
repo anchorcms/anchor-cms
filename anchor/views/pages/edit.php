@@ -15,6 +15,11 @@
 			)); ?>
 
 			<aside class="buttons">
+                
+<!--                 <?php echo Html::link($page->slug, __('global.view'), array(
+					'class' => 'btn view blue'
+				)); ?> -->
+                
 				<?php echo Form::button(__('global.save'), array(
 					'type' => 'submit',
 					'class' => 'btn'
