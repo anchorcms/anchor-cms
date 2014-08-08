@@ -87,18 +87,23 @@ function comment_form_url() {
 	return Uri::to(Uri::current());
 }
 
-function comment_form_input_name($extra = '') {
-	return '<input name="name" id="name" type="text" ' . $extra . ' value="' . Input::previous('name') . '">';
+function comment_form_input_name() {
+	return Form::text('name', Input::previous('name'), array('id' => 'name', 'placeholder' => __('comments.name')));
 }
 
-function comment_form_input_email($extra = '') {
-	return '<input name="email" id="email" type="email" ' . $extra . ' value="' . Input::previous('email') . '">';
+function comment_form_input_email() {
+	return Form::email('email', Input::previous('email'), array('id' => 'email', 'placeholder' => __('comments.email')));
 }
 
-function comment_form_input_text($extra = '') {
-	return '<textarea name="text" id="text" ' . $extra . '>' . Input::previous('text') . '</textarea>';
+function comment_form_input_text() {
+    return Form::textarea('text', Input::previous('text'), array('id' => 'text', 'placeholder' => __('comments.text')));
 }
 
+<<<<<<< HEAD
 function comment_form_button($text = 'Post Comment', $extra = '') {
 	return '<button class="btn" type="submit" ' . $extra . '>' . $text . '</button>';
+=======
+function comment_form_button() {
+    return Form::button(__('comments.button'), array('type' => 'submit'));
+>>>>>>> 1f84e39... Improved comment form
 }
