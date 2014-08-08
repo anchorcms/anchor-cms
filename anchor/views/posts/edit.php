@@ -1,4 +1,5 @@
 <?php echo $header; ?>
+<?php $posts_page = Registry::get('posts_page'); ?>
 
 <form method="post" action="<?php echo Uri::to('admin/posts/edit/' . $article->id); ?>" enctype="multipart/form-data" novalidate>
 
@@ -15,7 +16,12 @@
 			)); ?>
 
 			<aside class="buttons">
-				<?php echo Form::button(__('global.save'), array(
+				
+                <?php echo Html::link($posts_page->slug . '/' . $article->slug, __('global.view'), array(
+					'class' => 'btn view blue'
+				)); ?>
+                
+                <?php echo Form::button(__('global.save'), array(
 					'type' => 'submit',
 					'class' => 'btn'
 				)); ?>
@@ -63,6 +69,11 @@
 				<label for="label-comments"><?php echo __('posts.allow_comments'); ?>:</label>
 				<?php echo Form::checkbox('comments', 1, Input::previous('comments', $article->comments) == 1, array('id' => 'label-comments')); ?>
 				<em><?php echo __('posts.allow_comments_explain'); ?></em>
+			</p>
+			<p>
+				<label for="label-featured"><?php echo __('posts.featured'); ?>:</label>
+				<?php echo Form::checkbox('featured', 1, Input::previous('featured', $article->featured) == 1, array('id' => 'label-featured')); ?>
+				<em><?php echo __('posts.featured_explain'); ?></em>
 			</p>
 			<p>
 				<label for="label-css"><?php echo __('posts.custom_css'); ?>:</label>

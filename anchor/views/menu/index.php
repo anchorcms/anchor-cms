@@ -16,7 +16,7 @@
 		<?php endforeach; ?>
 	</ul>
 	<?php else: ?>
-	<p class="empty">
+	<p class="empty main">
 		<span class="icon"></span>
 		No menu items yet.
 	</p>

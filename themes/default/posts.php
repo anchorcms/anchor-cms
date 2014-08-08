@@ -6,7 +6,7 @@
 		<ul class="items">
 			<?php posts(); ?>
 			<li>
-				<article class="wrap">
+				<article class="wrap <?php if(article_featured()) echo 'featured'; ?>">
 					<h1>
 						<a href="<?php echo article_url(); ?>" title="<?php echo article_title(); ?>"><?php echo article_title(); ?></a>
 					</h1>
@@ -23,7 +23,7 @@
 			<?php $i = 0; while(posts()): ?>
 			<?php $bg = sprintf('background: hsl(215, 28%%, %d%%);', round(((++$i / posts_per_page()) * 20) + 20)); ?>
 			<li style="<?php echo $bg; ?>">
-				<article class="wrap">
+				<article class="wrap <?php if(article_featured()) echo 'featured'; ?>">
 					<h2>
 						<a href="<?php echo article_url(); ?>" title="<?php echo article_title(); ?>"><?php echo article_title(); ?></a>
 					</h2>

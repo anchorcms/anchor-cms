@@ -5,6 +5,7 @@ return array(
 	'metadata' => 'Site Metadata',
 	'metadata_desc' => 'Manage your site data',
 
+	'post_settings' => 'Posts',
 	'comment_settings' => 'Comments',
 	'theme_settings' => 'Apperance',
 
@@ -16,6 +17,9 @@ return array(
 	'sitedescription' => 'Site description',
 	'sitedescription_explain' => '',
 	'sitedescription_missing' => 'Your site needs a description!',
+
+	'sitekeywords' => 'Site keywords',
+	'sitekeywords_explain' => '',
 
 	'homepage' => 'Home Page',
 	'homepage_explain' => '',

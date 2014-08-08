@@ -62,6 +62,11 @@
 				<em><?php echo __('posts.allow_comments_explain'); ?></em>
 			</p>
 			<p>
+				<label for="label-featured"><?php echo __('posts.featured'); ?>:</label>
+				<?php echo Form::checkbox('featured', 1, Input::previous('featured', 0) == 1, array('id' => 'label-featured')); ?>
+				<em><?php echo __('posts.featured_explain'); ?></em>
+			</p>
+			<p>
 				<label for="label-css"><?php echo __('posts.custom_css'); ?>:</label>
 				<?php echo Form::textarea('css', Input::previous('css'), array('id' => 'label-css')); ?>
 				<em><?php echo __('posts.custom_css_explain'); ?></em>

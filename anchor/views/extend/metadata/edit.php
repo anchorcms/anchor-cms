@@ -23,10 +23,19 @@
 				<em><?php echo __('metadata.sitedescription_explain'); ?></em>
 			</p>
 			<p>
+				<label for="label-sitekeywords"><?php echo __('metadata.sitekeywords'); ?>:</label>
+				<?php echo Form::textarea('keywords', Input::previous('keywords', $meta['keywords']), array('id' => 'label-sitekeywords')); ?>
+				<em><?php echo __('metadata.sitekeywords_explain'); ?></em>
+			</p>
+			<p>
 				<label for="label-homepage"><?php echo __('metadata.homepage'); ?>:</label>
 				<?php echo Form::select('home_page', $pages, Input::previous('home_page', $meta['home_page']), array('id' => 'label-homepage')); ?>
 				<em><?php echo __('metadata.homepage_explain'); ?></em>
 			</p>
+		</fieldset>
+
+		<fieldset class="split">
+			<legend><?php echo __('metadata.post_settings'); ?></legend>
 			<p>
 				<label for="label-postspage"><?php echo __('metadata.postspage'); ?>:</label>
 				<?php echo Form::select('posts_page', $pages, Input::previous('posts_page', $meta['posts_page']), array('id' => 'label-postspage')); ?>
@@ -34,7 +43,7 @@
 			</p>
 			<p>
 				<label for="label-posts_per_page"><?php echo __('metadata.posts_per_page'); ?>:</label>
-				<?php echo Form::input('range', 'posts_per_page', Input::previous('posts_per_page', $meta['posts_per_page']),
+				<?php echo Form::input('number', 'posts_per_page', Input::previous('posts_per_page', $meta['posts_per_page']),
 					array('min' => 1, 'max' => 15, 'id' => 'label-posts_per_page')); ?>
 				<em><?php echo __('metadata.posts_per_page_explain'); ?></em>
 			</p>

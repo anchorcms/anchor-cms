@@ -20,7 +20,9 @@ return array(
 	'text_explain' => '',
 	'text_missing' => 'Please enter comment text', // frontend message (appears on your site!)
 
-	'status' => 'Status',
+    'button' => 'Comment',
+
+    'status' => 'Status',
 	'status_explain' => '',
 
 	// messages

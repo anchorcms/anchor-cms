@@ -22,9 +22,10 @@ Route::collection(array('before' => 'auth,csrf'), function() {
 		Update Metadata
 	*/
 	Route::post('admin/extend/metadata', function() {
-		$input = Input::get(array('sitename', 'description', 'home_page', 'posts_page',
+		$input = Input::get(array('sitename', 'description', 'keywords', 'home_page', 'posts_page',
 			'posts_per_page', 'auto_published_comments', 'theme', 'comment_notifications', 'comment_moderation_keys'));
 
+        $keywords = array();
 		$validator = new Validator($input);
 
 		$validator->check('sitename')
@@ -47,6 +48,20 @@ Route::collection(array('before' => 'auth,csrf'), function() {
 		// convert double quotes so we dont break html
 		$input['sitename'] = e($input['sitename'], ENT_COMPAT);
 		$input['description'] = e($input['description'], ENT_COMPAT);
+		$input['keywords'] = explode(',', $input['keywords']);
+
+		// loop though the keywords and clean it up.
+		for($index = 0; $index < count($input['keywords']); $index++) {
+			$keyword = trim(strtolower($input['keywords'][$index]));
+            
+            // if the keyword is not empty and is at least 3 characters in length.
+            if (strlen($keyword) >= 3) {
+               	$keywords[$index] = $keyword;
+            }
+		}
+
+		// convert the keywords back into a delimited string.
+		$input['keywords'] = implode(', ', $keywords);
 
 		foreach($input as $key => $value) {
 			Query::table(Base::table('meta'))->where('key', '=', $key)->update(array('value' => $value));
