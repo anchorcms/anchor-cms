@@ -184,7 +184,7 @@ Route::post('account', array('before' => 'check', 'main' => function() {
 	$validator = new Validator($account);
 
 	$validator->check('username')
-		->is_max(4, 'Please enter a username');
+		->is_max(3, 'Please enter a username');
 
 	$validator->check('email')
 		->is_email('Please enter a valid email address');
