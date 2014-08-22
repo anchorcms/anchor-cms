@@ -48,7 +48,8 @@ class Post extends Base {
 	public static function search($term, $page = 1, $per_page = 10) {
 		$query = static::left_join(Base::table('users'), Base::table('users.id'), '=', Base::table('posts.author'))
 			->where(Base::table('posts.status'), '=', 'published')
-			->where(Base::table('posts.title'), 'like', '%' . $term . '%');
+			->where(Base::table('posts.title'), 'like', '%' . $term . '%')
+			->or_where(Base::table('posts.html'), 'like', '%' . $term . '%');
 
 		$total = $query->count();
 
