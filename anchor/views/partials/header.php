@@ -48,7 +48,7 @@
 
 				<?php else: ?>
 				<aside class="logo">
-					<a href="<?php echo Uri::to('admin/users/login'); ?>">Anchor CMS</a>
+					<a href="<?php echo Uri::to('admin/login'); ?>">Anchor CMS</a>
 				</aside>
 				<?php endif; ?>
 			</div>
