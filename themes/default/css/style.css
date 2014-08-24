@@ -183,7 +183,7 @@ h1 {
 		.pagination a:hover {
 			color: #3c4857;
 		}
-	.pagination a.next {
+	.pagination .next {
 		float: right;
 	}
 

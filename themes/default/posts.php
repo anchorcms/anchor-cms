@@ -35,8 +35,12 @@
 		<?php if(has_pagination()): ?>
 		<nav class="pagination">
 			<div class="wrap">
-				<?php echo posts_prev(); ?>
-				<?php echo posts_next(); ?>
+				<div class="previous">
+					<?php echo posts_prev(); ?>
+				</div>
+				<div class="next">
+					<?php echo posts_next(); ?>
+				</div>
 			</div>
 		</nav>
 		<?php endif; ?>
