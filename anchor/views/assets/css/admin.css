@@ -164,6 +164,8 @@ hgroup {
 
 .paging {
 	clear: both;
+	text-align: center;
+	padding-top: 25px;
 }
 
 .paging a, .paging strong {
