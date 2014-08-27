@@ -37,7 +37,6 @@
 			array_push($outerarray,$innerarray);
 		endforeach; ?>
 		<?php
-			print_r("<br / >");
 			foreach($outerarray as $in => $arr):
         		if ($arr['parent'] != 0){
         			$temp = $arr;
