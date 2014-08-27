@@ -53,10 +53,10 @@ return array(
 	'log_out' => 'Log out',
 	'logout' => 'Logout',
 
-	// pharses
+	// phrases
 	'visit_your_site' => 'Visit your site',
 	'powered_by_anchor' => 'Powered by Anchor, version %s',
-	'make_blogging_beautiful' => 'Make blogging beautiful.',
+	'make_blogging_beautiful' => 'Make blogging beautiful',
 
 	// intro
 	'welcome_to_anchor' => 'Welcome to Anchor',
