@@ -25,9 +25,12 @@
 			var start = element.selectionStart, end = element.selectionEnd;
 			var value = element.value;
 
-			element.value = value.substring(0, start) + left + value.substring(start, end) + right + value.substring(end);
-
-			element.selectionStart = end + left.length + right.length;
+            element.value = value.substring(0, start) + left + value.substring(start, end) + right + value.substring(end);
+            if (start != end) {
+                element.selectionStart = end + left.length + right.length;
+            } else {
+                element.selectionStart = end + left.length;
+            }
 		};
 
 		var tab = function(event) {
@@ -107,6 +110,8 @@
 			},
 			code: function() {
 				wrap('`', '`');
+                var element = textarea[0];
+                element.value = element.value + '\n';
 			},
 			link: function() {
 				var element = textarea[0];
@@ -139,11 +144,20 @@
 
 				var selections = value.substring(start, end).split("\n");
 
-				for(var i = 0; i < selections.length; i++) {
-					selections[i] = '> ' + selections[i];
-				}
-
-				element.value = value.substring(0, start) + selections.join("\n") + value.substring(end);
+                if (selections.length == 0 || selections.length == 1 && selections[0].length == 0) {
+                    element.value = value.substr(0, start) + '> ' + value.substring(end);
+                    element.selectionStart = start + 2;
+                } else {
+                    for(var i = 0; i < selections.length; i++) {
+                        selections[i] = '> ' + selections[i];
+                    }
+                    var lineBreak = '';
+                    if (value.substring(end).length == 0) {
+                        lineBreak = '\n';
+                    }
+                    element.value = value.substring(0, start) + selections.join("\n") + lineBreak + value.substring(end);
+                    element.selectionStart = element.value.length;
+                }
 			}
 		};
 
