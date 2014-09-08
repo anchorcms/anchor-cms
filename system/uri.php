@@ -81,7 +81,8 @@ class Uri {
 	public static function current() {
 		if(is_null(static::$current)) static::$current = static::detect();
 
-		return static::$current;
+//		return static::$current;
+        return strip_tags(static::$current); // README prevented XSS injection, removing tags
 	}
 
 	/**
