@@ -44,6 +44,7 @@ class Cargo {
 	 */
 	public function __construct($driver) {
 		$this->driver = $driver;
+        $this->data['attempts'] = 0;
 	}
 
 	/**
@@ -86,6 +87,8 @@ class Cargo {
 
 		// rotate flash data
 		$this->put('_out', $this->get('_in', array()));
+        $this->put('max_attempts', $max_attempts);
+        $this->put('max_attempts_timeout', $max_attempts_timeout);
 		$this->put('_in', array());
 
 		// write payload to storage driver
@@ -136,4 +139,45 @@ class Cargo {
 		$this->put('_in', $data);
 	}
 
+    public function incrementAttempts()
+    {
+        if (!array_key_exists('attempts', $this->data)) {
+            $this->data['attempts'] = 0;
+        }
+        $this->data['attempts'] += 1;
+        if ($this->reachedMaxAttempts()) {
+            $nextTry = new \DateTime();
+            $nextTry->modify('+'.$this->data['max_attempts_timeout'].' minutes');
+            $this->data['attempts_next_try'] = $nextTry;
+        }
+    }
+
+    public function resetAttempts()
+    {
+        $this->data['attempts_next_try'] = new \DateTime();
+        $this->data['attempts'] = 0;
+    }
+
+    private function reachedMaxAttempts()
+    {
+        return $this->data['attempts'] >= $this->data['max_attempts'];
+    }
+
+    public function canAttempt()
+    {
+        if ($this->reachedMaxAttempts()) {
+            $currentDatetime = new \DateTime();
+            $can = $currentDatetime >= $this->data['attempts_next_try'];
+            if ($can) {
+                $this->resetAttempts();
+            }
+            return $can;
+        }
+        return true;
+    }
+
+    public function getMaxAttemptsTimeout()
+    {
+        return $this->data['max_attempts_timeout'];
+    }
 }

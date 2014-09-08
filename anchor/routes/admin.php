@@ -33,8 +33,13 @@ Route::get('admin', function() {
 	Log in
 */
 Route::get('admin/login', function() {
+    $canAttempt = Auth::canAttempt();
+    if ( ! $canAttempt) {
+        Notify::error(__('users.login_attempts_reached', Auth::getMaxAttemptsTimeout()));
+    }
 	$vars['messages'] = Notify::read();
 	$vars['token'] = Csrf::token();
+    $vars['canAttempt'] = $canAttempt;
 
 	return View::create('users/login', $vars)
 		->partial('header', 'partials/header')
@@ -42,22 +47,28 @@ Route::get('admin/login', function() {
 });
 
 Route::post('admin/login', array('before' => 'csrf', 'main' => function() {
-	$attempt = Auth::attempt(Input::get('user'), Input::get('pass'));
+    if (Auth::canAttempt()) {
+        $attempt = Auth::attempt(Input::get('user'), Input::get('pass'));
+        if( ! $attempt) {
+            Notify::error(__('users.login_error'));
+            Auth::incrementAttempts();
+            return Response::redirect('admin/login');
+        } else {
+            // check for updates
+            Update::version();
 
-	if( ! $attempt) {
-		Notify::error(__('users.login_error'));
+            if(version_compare(Config::get('meta.update_version'), VERSION, '>')) {
+                return Response::redirect('admin/upgrade');
+            }
 
-		return Response::redirect('admin/login');
-	}
+            Auth::resetAttempts();
 
-	// check for updates
-	Update::version();
-
-	if(version_compare(Config::get('meta.update_version'), VERSION, '>')) {
-		return Response::redirect('admin/upgrade');
-	}
-
-	return Response::redirect('admin/posts');
+            return Response::redirect('admin/posts');
+        }
+    } else {
+        Notify::error(__('users.login_attempts_reached', Auth::getMaxAttemptsTimeout()));
+        return Response::redirect('admin/login');
+    }
 }));
 
 /*
