@@ -24,9 +24,35 @@ class Auth {
 				return true;
 			}
 		}
+        Session::incrementAttempts();
 
 		return false;
 	}
+
+    public static function incrementAttempts()
+    {
+        Session::incrementAttempts();
+    }
+
+    public static function reachedMaxAttempts()
+    {
+        return Session::reachedMaxAttempts();
+    }
+
+    public static function resetAttempts()
+    {
+        Session::resetAttempts();
+    }
+
+    public static function canAttempt()
+    {
+        return Session::canAttempt();
+    }
+
+    public static function getMaxAttemptsTimeout()
+    {
+        return Session::getMaxAttemptsTimeout();
+    }
 
 	public static function logout() {
 		Session::erase(static::$session);
