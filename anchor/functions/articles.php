@@ -7,6 +7,10 @@ function article_id() {
 	return Registry::prop('article', 'id');
 }
 
+function article_number() {
+	return Post::where(Base::table('posts.status'), '=', 'published')->where(Base::table('posts.id'), '<=', article_id())->count();
+}
+
 function article_title() {
 	return Registry::prop('article', 'title');
 }
