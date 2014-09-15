@@ -1,5 +1,4 @@
-
-exit<?php
+<?php
 
 return array(
 
