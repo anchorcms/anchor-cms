@@ -127,7 +127,14 @@ class Uri {
 	public static function format($uri, $server) {
 		// Remove all characters except letters,
 		// digits and $-_.+!*'(),{}|\\^~[]`<>#%";/?:@&=.
-		$uri = filter_var(rawurldecode($uri), FILTER_SANITIZE_URL);
+		if(Config::app('language', 'en_GB') == 'ru_RU') {
+			// filter var doesn't like the Russian language using
+			// the previous setting.
+			$uri = filter_var(rawurldecode($uri));
+		} else {
+			$uri = filter_var(rawurldecode($uri), FILTER_SANITIZE_URL);
+		}
+
 
 		// remove script path/name
 		$uri = static::remove_script_name($uri, $server);
