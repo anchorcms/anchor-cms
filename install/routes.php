@@ -88,6 +88,9 @@ Route::get('database', array('before' => 'check', 'main' => function() {
 Route::post('database', array('before' => 'check', 'main' => function() {
 	$database = Input::get(array('host', 'port', 'user', 'pass', 'name', 'collation', 'prefix'));
 
+	// Escape the password input
+	$database['pass'] = mysql_real_escape_string($database['pass']);
+
 	// test connection
 	try {
 		$connection = DB::factory(array(
