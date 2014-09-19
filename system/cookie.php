@@ -29,10 +29,10 @@ class Cookie {
 	 * @param string
 	 * @param bool
 	 */
-	public static function write($name, $value, $expiration = 0, $path = '/', $domain = null, $secure = false) {
+	public static function write($name, $value, $expiration = 0, $path = '/', $domain = null, $secure = false, $HttpOnly = true) {
 		if($expiration !== 0) $expiration = time() + $expiration;
 
-		static::$bag[$name] = compact('name', 'value', 'expiration', 'path', 'domain', 'secure');
+		static::$bag[$name] = compact('name', 'value', 'expiration', 'path', 'domain', 'secure', 'HttpOnly');
 	}
 
 	/**
