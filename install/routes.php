@@ -90,7 +90,6 @@ Route::post('database', array('before' => 'check', 'main' => function() {
 
 	// Escape the password input
 	$database['pass'] = addslashes($database['pass']);
-	dd($database['pass']);
 
 	// test connection
 	try {
