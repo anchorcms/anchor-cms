@@ -3,7 +3,7 @@ We're currently in the process of developing `v1.0` but there are still issues t
 
 ### First
 
-1. Find an [issue](issues) that needs fixing your fancy, or create one if you've got a bug that needs fixing, don't worry, simply making us aware of bugs is a big help!
+1. Find an [issues](https://github.com/anchorcms/anchor-cms/issues) that needs fixing your fancy, or create one if you've got a bug that needs fixing, don't worry, simply making us aware of bugs is a big help!
 
 ### Getting Anchor set up locally (If you haven't already)
 
