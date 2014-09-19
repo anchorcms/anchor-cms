@@ -1,5 +1,5 @@
 # Contributing to Anchor
-We're currently in the process of developing `v1.0` but there are still issues to iron out with the existing distro: `v0.9.x`. So we've compiled this short document to help you guys *help* us!
+We're currently in the process of developing `v1.0` but there are still issues to iron out with the existing distro: `v0.9.x`. So we've compiled this short document to help you guys help *us*!
 
 ### First
 
@@ -20,7 +20,7 @@ We're currently in the process of developing `v1.0` but there are still issues t
 
 1. Push your changes to your fork by running `git push origin your-branch-name`.
 1. Open a [pull request](https://help.github.com/articles/creating-a-pull-request), give it a clear title and explain what your changes do. Even provide a code snippet if you can!
-1. Be prepared to update your PR based on feedback. If you make updates, run `git push origin your-branch-name -f` on your branch branch to update the PR on Github.
+1. Be prepared to update your PR based on feedback. If you make updates, run `git push origin your-branch-name -f` on your branch to update the PR on Github.
 
 ### Keeping unmerged forks up to date with master
 
