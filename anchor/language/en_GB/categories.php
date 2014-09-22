@@ -11,7 +11,7 @@ return array(
 	// form fields
 	'title' => 'Title',
 	'title_explain' => 'Your category title.',
-	'title_missing' => 'Please enter a title',
+	'title_missing' => 'Please enter a title, it must be a minimum of 3 characters.',
 
 	'slug' => 'Slug',
 	'slug_explain' => 'The slug for your category.',

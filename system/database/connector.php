@@ -73,4 +73,34 @@ abstract class Connector {
 		return call_user_func_array(array($this->instance(), $method), $arguments);
 	}
 
+	/**
+	 * showQuery method from issue #695 by apmuthu
+	 *
+	 * Show a formatted query given some parameters
+	 *
+	 * @param string
+	 * @param array
+	 */
+    public function showQuery($query, $params) {
+        $keys = array();
+        $values = array();
+
+        // build a regular expression for each parameter
+        foreach ($params as $key => $value) {
+			if (is_string($key)) {
+                $keys[] = '/:'.$key.'/';
+            } else {
+                $keys[] = '/[?]/';
+            }
+
+            if(is_numeric($value)) {
+                $values[] = intval($value);
+            } else {
+                $values[] = '"'.$value .'"';
+            }
+        }
+
+        return preg_replace($keys, $values, $query, 1, $count);
+    }
+
 }

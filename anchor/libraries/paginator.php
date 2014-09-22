@@ -7,10 +7,10 @@ class Paginator {
 	public $page = 1;
 	public $perpage = 10;
 
-	public $first = 'First';
-	public $last = 'Last';
-	public $next = 'Next';
-	public $prev = 'Previous';
+	public $first;
+	public $last;
+	public $next;
+	public $prev;
 
 	public function __construct($results, $count, $page, $perpage, $url) {
 		$this->results = $results;
@@ -18,7 +18,12 @@ class Paginator {
 		$this->page = $page;
 		$this->perpage = $perpage;
 		$this->url = rtrim($url, '/');
-	}
+
+      $this->first = __('global.first');
+      $this->last = __('global.last');
+      $this->next = __('global.next');
+      $this->prev = __('global.previous');
+   }
 
 	public function next_link($text = null, $default = '') {
 		if(is_null($text)) $text = $this->next;

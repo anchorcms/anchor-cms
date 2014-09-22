@@ -1,6 +1,6 @@
 <?php
 
-Route::collection(array('before' => 'auth,csrf'), function() {
+Route::collection(array('before' => 'auth'), function() {
 
 	/*
 		List Menu Items

@@ -1,7 +1,7 @@
 <?php
 
 /**
-	Theme functions for comments
+*	Theme functions for comments
 */
 
 function has_comments() {

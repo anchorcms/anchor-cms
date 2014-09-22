@@ -21,6 +21,12 @@ html {
 		margin: 40px auto;
 	}
 
+	@media ( max-width: 1023px ) {
+		body {
+			width: 748px;
+		}
+	}
+
 body > small {
 	display: block;
 	padding-top: 30px;
@@ -105,7 +111,7 @@ nav {
 }
 
 	nav ul {
-		float: right;
+		float: left;
 	}
 
 	nav li, nav img {
@@ -135,8 +141,14 @@ nav {
 
 	nav ul {
 		height: 1px;
-		margin-top: 10px;
+		margin: 10px 0 0 10px;
 		border-bottom: 1px solid #576477;
+	}
+
+	@media ( max-width: 1023px ) {
+		nav li {
+			margin-right: 28px;
+		}
 	}
 
 a {
@@ -212,6 +224,12 @@ form {
 
 	form .more {
 		margin-left: 220px;
+	}
+
+	@media (max-width: 1023px) {
+		form {
+			width: 688px;
+		}
 	}
 
 label {

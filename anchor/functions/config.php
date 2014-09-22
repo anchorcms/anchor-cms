@@ -1,7 +1,7 @@
 <?php
 
 /**
-	Functions for theme configuration
+*	Functions for theme configuration
 */
 function set_theme_options($options, $value = null) {
 	if( ! is_array($options)) {

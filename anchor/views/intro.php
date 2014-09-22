@@ -13,12 +13,11 @@
 				color: #fff;
 			}
 			div {
-				width: 400px;
-				height: 160px;
+				width: 300px;
 				position: absolute;
 				left: 50%;
 				top: 30%;
-				margin: -80px 0 0 -200px;
+				margin: -80px 0 0 -150px;
 			}
 			h1 {
 				font-size: 29px;
@@ -36,6 +35,20 @@
 				font-weight: bold;
 				text-decoration: none;
 				border-radius: 5px;
+			}
+			@media (max-width: 300px) {
+				div {
+					width: 128px;
+					margin-left: -64px;
+				}
+				h1 {
+					font-size: 12px;
+					line-height: 14px;
+				}
+				a {
+					padding: 0 10px;
+					font-size: 10px;
+				}
 			}
 		</style>
 	</head>

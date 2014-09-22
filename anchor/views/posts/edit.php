@@ -29,7 +29,7 @@
 
 	<fieldset class="main">
 		<div class="wrap">
-			<?php echo Form::textarea('html', Input::previous('html', $article->html), array(
+			<?php echo Form::textarea('html', Input::previous('html', htmlentities($article->html, ENT_QUOTES, 'UTF-8')), array(
 				'placeholder' => __('posts.content_explain')
 			)); ?>
 
@@ -45,8 +45,13 @@
 				<em><?php echo __('posts.slug_explain'); ?></em>
 			</p>
 			<p>
-				<label for="label-description"><?php echo __('posts.description'); ?>:</label>
-				<?php echo Form::textarea('description', Input::previous('description', $article->description), array('id' => 'label-description')); ?>
+				<label><?php echo __('posts.time'); ?>:</label>
+				<?php echo Form::text('created', Input::previous('created', $article->created)); ?>
+				<em><?php echo __('posts.time_explain'); ?></em>
+			</p>
+			<p>
+				<label for="description"><?php echo __('posts.description'); ?>:</label>
+				<?php echo Form::textarea('description', Input::previous('description', $article->description)); ?>
 				<em><?php echo __('posts.description_explain'); ?></em>
 			</p>
 			<p>

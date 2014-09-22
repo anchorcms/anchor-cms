@@ -41,7 +41,7 @@
 
 	<fieldset class="main">
 		<div class="wrap">
-			<?php echo Form::textarea('content', Input::previous('content', $page->content), array(
+			<?php echo Form::textarea('content', Input::previous('content', htmlentities($page->content, ENT_QUOTES, 'UTF-8')), array(
 				'placeholder' => __('pages.content_explain')
 			)); ?>
 

@@ -88,6 +88,9 @@ Route::get('database', array('before' => 'check', 'main' => function() {
 Route::post('database', array('before' => 'check', 'main' => function() {
 	$database = Input::get(array('host', 'port', 'user', 'pass', 'name', 'collation', 'prefix'));
 
+	// Escape the password input
+	$database['pass'] = addslashes($database['pass']);
+
 	// test connection
 	try {
 		$connection = DB::factory(array(
@@ -184,7 +187,7 @@ Route::post('account', array('before' => 'check', 'main' => function() {
 	$validator = new Validator($account);
 
 	$validator->check('username')
-		->is_max(4, 'Please enter a username');
+		->is_max(3, 'Please enter a username');
 
 	$validator->check('email')
 		->is_email('Please enter a valid email address');

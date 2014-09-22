@@ -25,7 +25,7 @@ class Category extends Base {
 
 		$results = $query->take($perpage)->skip(($page - 1) * $perpage)->sort('title')->get();
 
-		return new Paginator($results, $count, $page, $perpage, Uri::to('categories'));
+		return new Paginator($results, $count, $page, $perpage, Uri::to('admin/categories'));
 	}
 
 }
