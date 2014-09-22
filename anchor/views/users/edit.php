@@ -7,6 +7,7 @@
 <section class="wrap">
 	<?php echo $messages; ?>
 
+	<?php if(Auth::admin() || Auth::me($user->id)) : ?>
 	<form method="post" action="<?php echo Uri::to('admin/users/edit/' . $user->id); ?>" novalidate autocomplete="off">
 
 		<input name="token" type="hidden" value="<?php echo $token; ?>">
@@ -27,11 +28,13 @@
 				<?php echo Form::select('status', $statuses, Input::previous('status', $user->status), array('id' => 'label-status')); ?>
 				<em><?php echo __('users.status_explain'); ?></em>
 			</p>
+			<?php if(Auth::admin()) : ?>
 			<p>
 				<label for="label-role"><?php echo __('users.role'); ?>:</label>
 				<?php echo Form::select('role', $roles, Input::previous('role', $user->role), array('id' => 'label-role')); ?>
 				<em><?php echo __('users.role_explain'); ?></em>
 			</p>
+			<?php endif; ?>
 		</fieldset>
 
 		<fieldset class="half split">
@@ -51,7 +54,6 @@
 				<em><?php echo __('users.email_explain'); ?></em>
 			</p>
 		</fieldset>
-
 		<aside class="buttons">
 			<?php echo Form::button(__('global.update'), array(
 				'class' => 'btn',
@@ -61,7 +63,10 @@
 			<?php echo Html::link('admin/users/delete/' . $user->id, __('global.delete'), array('class' => 'btn delete red')); ?>
 		</aside>
 	</form>
-
+	<?php else : ?>
+		<p>You do not have the required privileges to modify this users information, you must be an Administrator. Please contact the Administrator of the site if you are supposed to have these privileges.</p>
+		<br><a class="btn" href="<?php echo Uri::to('admin/users'); ?>">Go back</a>
+	<?php endif; ?>
 </section>
 
 <?php echo $footer; ?>

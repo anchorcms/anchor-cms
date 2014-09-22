@@ -6,7 +6,7 @@
 
 <section class="wrap">
 	<?php echo $messages; ?>
-
+	<?php if(Auth::admin()) : ?>
 	<form method="post" action="<?php echo Uri::to('admin/users/add'); ?>" novalidate autocomplete="off">
 
 		<input name="token" type="hidden" value="<?php echo $token; ?>">
@@ -56,7 +56,10 @@
 			<?php echo Form::button(__('global.create'), array('class' => 'btn', 'type' => 'submit')); ?>
 		</aside>
 	</form>
-
+	<?php else : ?>
+		<p>You do not have the required privileges to add users, you must be an Administrator. Please contact the Administrator of the site if you are supposed to have these privileges.</p>
+		<br><a class="btn" href="<?php echo Uri::to('admin/users'); ?>">Go back</a>
+	<?php endif; ?>
 </section>
 
 <?php echo $footer; ?>

@@ -31,3 +31,7 @@ function user_authed_real_name() {
 function user_object() {
 	return Auth::user();
 }
+
+function user_is_admin() {
+	return user_authed_role() == 'adminisrtator';
+}
