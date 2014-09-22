@@ -15,7 +15,7 @@
 			<p>
 				<label for="label-type"><?php echo __('extend.type'); ?>:</label>
 				<select id="label-type" name="type">
-					<?php foreach(array('post', 'page') as $type): ?>
+					<?php foreach(array('post', 'page', 'category') as $type): ?>
 					<?php $selected = (Input::previous('type') == $type) ? ' selected' : ''; ?>
 					<option<?php echo $selected; ?>><?php echo $type; ?></option>
 					<?php endforeach; ?>
