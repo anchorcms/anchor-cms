@@ -8,9 +8,9 @@
 		<input name="token" type="hidden" value="<?php echo $token; ?>">
 
 		<fieldset>
-			<p><label for="email"><?php echo __('users.email'); ?>:</label>
+			<p><label for="label-email"><?php echo __('users.email'); ?>:</label>
 			<?php echo Form::email('email', Input::previous('email'), array(
-				'id' => 'email',
+				'id' => 'label-email',
 				'autocapitalize' => 'off',
 				'autofocus' => 'true',
 				'placeholder' => __('users.email')

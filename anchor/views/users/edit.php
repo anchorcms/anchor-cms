@@ -13,41 +13,41 @@
 
 		<fieldset class="half split">
 			<p>
-				<label><?php echo __('users.real_name'); ?>:</label>
-				<?php echo Form::text('real_name', Input::previous('real_name', $user->real_name)); ?>
+				<label for="label-real_name"><?php echo __('users.real_name'); ?>:</label>
+				<?php echo Form::text('real_name', Input::previous('real_name', $user->real_name), array('id' => 'label-real_name')); ?>
 				<em><?php echo __('users.real_name_explain'); ?></em>
 			</p>
 			<p>
-				<label><?php echo __('users.bio'); ?>:</label>
-				<?php echo Form::textarea('bio', Input::previous('bio', $user->bio), array('cols' => 20)); ?>
+				<label for="label-bio"><?php echo __('users.bio'); ?>:</label>
+				<?php echo Form::textarea('bio', Input::previous('bio', $user->bio), array('cols' => 20, 'id' => 'label-bio')); ?>
 				<em><?php echo __('users.bio_explain'); ?></em>
 			</p>
 			<p>
-				<label><?php echo __('users.status'); ?>:</label>
-				<?php echo Form::select('status', $statuses, Input::previous('status', $user->status)); ?>
+				<label for="label-status"><?php echo __('users.status'); ?>:</label>
+				<?php echo Form::select('status', $statuses, Input::previous('status', $user->status), array('id' => 'label-status')); ?>
 				<em><?php echo __('users.status_explain'); ?></em>
 			</p>
 			<p>
-				<label><?php echo __('users.role'); ?>:</label>
-				<?php echo Form::select('role', $roles, Input::previous('role', $user->role)); ?>
+				<label for="label-role"><?php echo __('users.role'); ?>:</label>
+				<?php echo Form::select('role', $roles, Input::previous('role', $user->role), array('id' => 'label-role')); ?>
 				<em><?php echo __('users.role_explain'); ?></em>
 			</p>
 		</fieldset>
 
 		<fieldset class="half split">
 			<p>
-				<label><?php echo __('users.username'); ?>:</label>
-				<?php echo Form::text('username', Input::previous('username', $user->username)); ?>
+				<label for="label-username"><?php echo __('users.username'); ?>:</label>
+				<?php echo Form::text('username', Input::previous('username', $user->username), array('id' => 'label-username')); ?>
 				<em><?php echo __('users.role_explain'); ?></em>
 			</p>
 			<p>
-				<label><?php echo __('users.password'); ?>:</label>
-				<?php echo Form::password('password'); ?>
+				<label for="label-password"><?php echo __('users.password'); ?>:</label>
+				<?php echo Form::password('password', array('id' => 'label-password')); ?>
 				<em><?php echo __('users.password_explain'); ?></em>
 			</p>
 			<p>
-				<label><?php echo __('users.email'); ?>:</label>
-				<?php echo Form::text('email', Input::previous('email', $user->email)); ?>
+				<label for="label-email"><?php echo __('users.email'); ?>:</label>
+				<?php echo Form::text('email', Input::previous('email', $user->email), array('id' => 'label-email')); ?>
 				<em><?php echo __('users.email_explain'); ?></em>
 			</p>
 		</fieldset>

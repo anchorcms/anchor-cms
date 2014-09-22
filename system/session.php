@@ -33,8 +33,6 @@ class Session {
 				return new Session\Drivers\Memcache($config);
 			case 'memcached':
 				return new Session\Drivers\Memcached($config);
-			case 'cookie':
-				return new Session\Drivers\Cookie($config);
 			case 'database':
 				return new Session\Drivers\Database($config);
 			case 'runtime':

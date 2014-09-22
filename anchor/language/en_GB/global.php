@@ -10,8 +10,11 @@ return array(
 
 	// words
 	'save' => 'Save',
+	'saving' => 'Saving...',
 	'delete' => 'Delete',
+	'deleting' => 'Deleting...',
 	'update' => 'Update',
+	'updating' => 'Updating...',
 	'edit' => 'Edit',
 	'editing' => 'Editing',
 	'create' => 'Create',
@@ -65,7 +68,7 @@ return array(
 	'good_news' => 'Great News!',
 	'new_version_available' => 'There\'s a new version of anchor available.',
 	'download_now' => 'Download Now',
-	'upgrade_later' => 'Upgrade later',
+	'upgrade_later' => 'Upgrade Later',
 
 	// debug profiler
 	'profile' => 'Profile',
