@@ -12,9 +12,9 @@ class Registry {
 		return $default;
 	}
 
-	public static function prop($object, $key, $default = null) {
+	public static function prop($object, $key = false, $default = null) {
 		if($obj = static::get($object)) {
-			return $obj->{$key};
+			return ($key != false ? $obj->{$key} : $obj);
 		}
 
 		return $default;

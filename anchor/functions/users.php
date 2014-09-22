@@ -3,6 +3,7 @@
 /**
 *	Theme functions for logged in user
 */
+
 function user_authed() {
 	return ! Auth::guest();
 }
@@ -25,4 +26,8 @@ function user_authed_role() {
 
 function user_authed_real_name() {
 	if($user = Auth::user()) return $user->real_name;
+}
+
+function user_object() {
+	return Auth::user();
 }
