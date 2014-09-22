@@ -170,7 +170,7 @@ Route::collection(array('before' => 'auth,csrf'), function() {
 	Route::get('admin/extend/fields/delete/(:num)', function($id) {
 		$field = Extend::find($id);
 
-		Query::table(Base::table($field->type . 'extend'))->where('id', '=', $field->id)->delete();
+		Query::table(Base::table($field->type . '_meta'))->where('extend', '=', $field->id)->delete();
 
 		$field->delete();
 
