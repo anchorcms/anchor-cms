@@ -109,6 +109,12 @@ Route::get($posts_page->slug . '/(:any)', function($slug) use($posts_page) {
 	Registry::set('article', $post);
 	Registry::set('category', Category::find($post->category));
 
+	if($post->status != 'published') {
+		if(!Auth::user()) {
+			return Response::create(new Template('404'), 404);
+		}
+	}
+
 	return new Template('article');
 });
 
@@ -260,6 +266,12 @@ Route::get('(:all)', function($uri) {
 	}
 
 	Registry::set('page', $page);
+
+	if($page->status != 'published') {
+		if(!Auth::user()) {
+			return Response::create(new Template('404'), 404);
+		}
+	}
 
 	return new Template('page');
 });
