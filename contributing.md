@@ -32,7 +32,7 @@ If your fork is taking a while to get merged, you might end up getting behind An
 ### When coding, always use coding standards
 If you're familiar with open source software, you probably know how important coding guidelines and standards are. Most common are (in order of appearance) PEAR, Zend(Framework) and [PSR-1](http://www.php-fig.org/psr/psr-1)/[PSR-2](http://www.php-fig.org/psr/psr-2).
 
-Since the [PHP-FIG](http://www.php-fig.org) and their standards gain more and more followers and anchor uses composer, which supports PSR-0 and PSR-4, all code should follow [PSR-1](http://www.php-fig.org/psr/psr-1) and [PSR-2](http://www.php-fig.org/psr/psr-2).
-More help on best practices for php development can be found on [php the right way](http://www.phptherightway.com).
+Since the [PHP-FIG](http://www.php-fig.org) and their standards gain more and more followers and Anchor uses composer, which supports PSR-0 and PSR-4, all code should follow [PSR-1](http://www.php-fig.org/psr/psr-1) and [PSR-2](http://www.php-fig.org/psr/psr-2).
+More help on best practices for PHP development can be found on [PHP the right way](http://www.phptherightway.com).
 
 When working on a file, always enforce coding standards for the whole file. This increases the consistency of the code with every contribution!
