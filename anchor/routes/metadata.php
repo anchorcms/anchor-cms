@@ -23,7 +23,7 @@ Route::collection(array('before' => 'auth'), function() {
 	*/
 	Route::post('admin/extend/metadata', function() {
 		$input = Input::get(array('sitename', 'description', 'home_page', 'posts_page',
-			'posts_per_page', 'auto_published_comments', 'theme', 'comment_notifications', 'comment_moderation_keys'));
+			'posts_per_page', 'auto_published_comments', 'theme', 'comment_notifications', 'comment_moderation_keys', 'show_all_posts'));
 
 		$validator = new Validator($input);
 

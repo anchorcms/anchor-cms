@@ -38,6 +38,12 @@
 					array('min' => 1, 'max' => 15, 'id' => 'label-posts_per_page')); ?>
 				<em><?php echo __('metadata.posts_per_page_explain'); ?></em>
 			</p>
+			<p>
+				<label for="label-all_posts"><?php echo __('metadata.show_all_posts'); ?>:</label>
+				<?php $checked = Input::previous('show_all_posts', $meta['show_all_posts']) ? ' checked' : ''; ?>
+				<input id="label-show_all_posts" name="show_all_posts" type="checkbox" value="1" <?php echo $checked; ?>>
+				<em><?php echo __('metadata.show_all_posts_explain'); ?></em>
+			</p>
 		</fieldset>
 
 		<fieldset class="split">

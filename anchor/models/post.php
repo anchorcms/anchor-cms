@@ -63,4 +63,8 @@ class Post extends Base {
 		return array($total, $posts);
 	}
 
+	public static function perPage() {
+		return (Config::meta('show_all_posts') ? self::count() : Config::meta('posts_per_page'));
+	}
+
 }
