@@ -16,6 +16,7 @@ Route::collection(array('before' => 'auth,csrf'), function() {
 		$vars['messages'] = Notify::read();
 		$vars['posts'] = $pagination;
 		$vars['categories'] = Category::sort('title')->get();
+		$vars['status'] = 'all';
 
 		return View::create('posts/index', $vars)
 			->partial('header', 'partials/header')
@@ -34,7 +35,6 @@ Route::collection(array('before' => 'auth,csrf'), function() {
 		}
 
 		$query = Post::where('category', '=', $category->id);
-
 		$perpage = Post::perPage();
 		$total = $query->count();
 		$posts = $query->sort('created', 'desc')->take($perpage)->skip(($page - 1) * $perpage)->get();
@@ -46,11 +46,39 @@ Route::collection(array('before' => 'auth,csrf'), function() {
 		$vars['posts'] = $pagination;
 		$vars['category'] = $category;
 		$vars['categories'] = Category::sort('title')->get();
+		$vars['status']	= 'all';
 
 		return View::create('posts/index', $vars)
 			->partial('header', 'partials/header')
 			->partial('footer', 'partials/footer');
 	});
+
+	/*
+		List posts by status and paginate through them
+	*/
+	Route::get(array(
+		'admin/posts/status/(:any)',
+		'admin/posts/status/(:any)/(:num)'), function($status, $post = 1) {
+
+		$query = Post::where('status', '=', $status);
+
+		$perpage = Config::meta('posts_per_page');
+		$total = $query->count();
+		$posts = $query->sort('title')->take($perpage)->skip(($post - 1) * $perpage)->get();
+		$url = Uri::to('admin/posts/status');
+
+		$pagination = new Paginator($posts, $total, $post, $perpage, $url);
+
+		$vars['messages'] = Notify::read();
+		$vars['posts'] = $pagination;
+		$vars['status'] = $status;
+		$vars['categories'] = Category::sort('title')->get();
+
+		return View::create('posts/index', $vars)
+			->partial('header', 'partials/header')
+			->partial('footer', 'partials/footer');
+	});
+
 
 	/*
 		Edit post
