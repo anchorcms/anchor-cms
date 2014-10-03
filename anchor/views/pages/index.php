@@ -6,6 +6,7 @@
 	<?php if($pages->count): ?>
 	<nav>
 		<?php echo Html::link('admin/pages/add', __('pages.create_page'), array('class' => 'btn')); ?>
+		<?php echo Html::link('admin/menu', __('menu.edit_menu'), array('class' => 'btn')); ?>
 	</nav>
 	<?php endif; ?>
 </hgroup>
@@ -26,10 +27,10 @@
 
 	<?php if($pages->count): ?>
 	<ul class="main list">
-		<?php 
+		<?php
 		$outerarray = array();
 		$i = 0;
-		foreach($pages->results as $page): 
+		foreach($pages->results as $page):
 			if ($page->parent == 0)
 				$innerarray = array('id' => $page->id,'name' => $page->name,'slug' => $page->slug,'status' => $page->status,'parent' => $page->parent);
 			else
@@ -49,14 +50,14 @@
 	        				break;
 	        			}
 	        		endforeach;
-        		}    		
+        		}
     		endforeach;
     	foreach($outerarray as $in => $arr): ?>
 		<li>
 
 			<a href="<?php echo Uri::to('admin/pages/edit/' . $arr['id']); ?>">
-				<?php 
-						if ($arr['parent'] != 0) 
+				<?php
+						if ($arr['parent'] != 0)
 							echo '<div class="indent">';
 						else
 							echo '<div>';
