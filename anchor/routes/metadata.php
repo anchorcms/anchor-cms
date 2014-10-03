@@ -49,6 +49,7 @@ Route::collection(array('before' => 'auth'), function() {
 		$input['description'] = e($input['description'], ENT_COMPAT);
 
 		foreach($input as $key => $value) {
+			$value = is_null($value) ? 0 : $value;
 			Query::table(Base::table('meta'))->where('key', '=', $key)->update(array('value' => $value));
 		}
 
