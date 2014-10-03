@@ -29,15 +29,12 @@
 	<ul class="main list">
 		<?php
 		$outerarray = array();
-		$i = 0;
 		foreach($pages->results as $page):
-			if ($page->parent == 0)
-				$innerarray = array('id' => $page->id,'name' => $page->name,'slug' => $page->slug,'status' => $page->status,'parent' => $page->parent);
-			else
-				$innerarray = array('id' => $page->id,'name' => $page->name,'slug' => $page->slug,'status' => $page->status,'parent' => $page->parent);
+			$innerarray = array('id' => $page->id,'name' => $page->name,'slug' => $page->slug,'status' => $page->status,'parent' => $page->parent);
 			array_push($outerarray,$innerarray);
 		endforeach; ?>
 		<?php
+			$i = 0;
 			foreach($outerarray as $in => $arr):
         		if ($arr['parent'] != 0){
         			$temp = $arr;
