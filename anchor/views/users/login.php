@@ -5,6 +5,7 @@
 	<?php echo $messages; ?>
 	<?php $user = filter_var(Input::previous('user'), FILTER_SANITIZE_STRING); ?>
 
+    <?php if ($canAttempt) { ?>
 	<form method="post" action="<?php echo Uri::to('admin/login'); ?>">
 
 		<input name="token" type="hidden" value="<?php echo $token; ?>">
@@ -28,6 +29,7 @@
 			<button type="submit"><?php echo __('global.login'); ?></button></p>
 		</fieldset>
 	</form>
+    <?php } ?>
 
 </section>
 

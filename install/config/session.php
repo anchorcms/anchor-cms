@@ -8,5 +8,7 @@ return array(
 	'expire_on_close' => true,
 	'path' => '/',
 	'domain' => '',
-	'secure' => false
+	'secure' => false,
+    'max_attempts' => 4,
+    'max_attempts_timeout' => 1 // minutes
 );

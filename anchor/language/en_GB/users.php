@@ -54,6 +54,7 @@ return array(
 	'deleted' => 'User profile deleted.',
 	'delete_error' => 'You cannot delete your own profile',
 	'login_error' => 'Username or password is wrong.',
+    'login_attempts_reached' => 'Login attempts reached. Wait %s minutes to try again.',
 	'logout_notice' => 'You are now logged out.',
 	'recovery_sent' => 'We have sent you an email to confirm your password change.',
 	'recovery_expired' => 'Password recovery token has expired, please try again.',
