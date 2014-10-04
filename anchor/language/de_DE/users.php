@@ -54,6 +54,7 @@ return array(
 	'deleted' => 'Beutzerprofil gelöscht.',
 	'delete_error' => 'Du kannst dein eigenes Profil nicht löschen',
 	'login_error' => 'Benutzername oder Passwort falsch.',
+    'login_attempts_reached' => 'Login-Versuche erreicht. %s Minuten warten, um erneut zu versuchen.',
 	'logout_notice' => 'Du bist jetzt ausgeloggt.',
 	'recovery_sent' => 'Wir haben dir eine Email geschickt um die Passwortänderung zu bestätigen.',
 	'recovery_expired' => 'Der Passwort Wiederherstellungs-Token ist leider abgelaufen. Bitte versuche es erneut.',

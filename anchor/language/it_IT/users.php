@@ -54,6 +54,7 @@ return array(
 	'deleted' => 'Profilo utente eliminato.',
 	'delete_error' => 'Non puoi eliminare il tuo profilo',
 	'login_error' => 'Username o password sbagliata.',
+    'login_attempts_reached' => 'Entra tentativi raggiunto. Attendere %s minuti per riprovare.',
 	'logout_notice' => 'Hai effettuato il Logout.',
 	'recovery_sent' => 'Ti abbiamo inviato una Email per confermare il cambiamento della password.',
 	'recovery_expired' => 'Il Token recupero Password è scaduto, riprova.',
