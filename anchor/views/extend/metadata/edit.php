@@ -41,7 +41,7 @@
 			<p>
 				<label for="label-all_posts"><?php echo __('metadata.show_all_posts'); ?>:</label>
 				<?php $checked = Input::previous('show_all_posts', $meta['show_all_posts']) ? ' checked' : ''; ?>
-				<input id="label-show_all_posts" name="show_all_posts" type="checkbox" value="1" <?php echo $checked; ?>>
+				<?php echo Form::checkbox('show_all_posts', 1, $checked, array('id' => 'label-show_all_posts')); ?>
 				<em><?php echo __('metadata.show_all_posts_explain'); ?></em>
 			</p>
 		</fieldset>
@@ -51,13 +51,13 @@
 			<p>
 				<label for="label-auto_published_comments"><?php echo __('metadata.auto_publish_comments'); ?>:</label>
 				<?php $checked = Input::previous('auto_published_comments', $meta['auto_published_comments']) ? ' checked' : ''; ?>
-				<input id="label-auto_published_comments" name="auto_published_comments" type="checkbox" value="1"<?php echo $checked; ?>>
+				<?php echo Form::checkbox('auto_published_comments', 1, $checked, array('id' => 'label-auto_published_comments')); ?>
 				<em><?php echo __('metadata.auto_publish_comments_explain'); ?></em>
 			</p>
 			<p>
 				<label for="label-comment_notifications"><?php echo __('metadata.comment_notifications'); ?>:</label>
 				<?php $checked = Input::previous('comment_notifications', $meta['comment_notifications']) ? ' checked' : ''; ?>
-				<input id="label-comment_notifications" name="comment_notifications" type="checkbox" value="1"<?php echo $checked; ?>>
+				<?php echo Form::checkbox('comment_notifications', 1, $checked, array('id' => 'label-comment_notifications')); ?>
 				<em><?php echo __('metadata.comment_notifications_explain'); ?></em>
 			</p>
 			<p>
