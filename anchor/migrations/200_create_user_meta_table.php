@@ -22,7 +22,7 @@ class Migration_create_user_meta_table extends Migration {
 		$table2 = Base::table('extend');
 
 		if( ! $this->has_table($table2)) {
-			$sql2 = "ALTER TABLE `" . $table2 . "` CHANGE `type` `type` ENUM('post','page','user') NOT NULL";
+			$sql2 = "ALTER TABLE `" . $table2 . "` CHANGE `type` `type` ENUM('post','page','category','user') NOT NULL";
 
 			DB::ask($sql2);
 		}
