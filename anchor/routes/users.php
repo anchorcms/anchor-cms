@@ -81,6 +81,8 @@ Route::collection(array('before' => 'auth,csrf'), function() {
 
 		User::update($id, $input);
 
+		Extend::process('user', $id);
+
 		Notify::success(__('users.updated'));
 
 		return Response::redirect('admin/users/edit/' . $id);

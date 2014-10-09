@@ -7,7 +7,7 @@
 <section class="wrap">
 	<?php echo $messages; ?>
 
-	<form method="post" action="<?php echo Uri::to('admin/users/edit/' . $user->id); ?>" novalidate autocomplete="off">
+	<form method="post" action="<?php echo Uri::to('admin/users/edit/' . $user->id); ?>" novalidate autocomplete="off" enctype="multipart/form-data">
 
 		<input name="token" type="hidden" value="<?php echo $token; ?>">
 
@@ -69,5 +69,7 @@
 	</form>
 
 </section>
+
+<script src="<?php echo asset('anchor/views/assets/js/upload-fields.js'); ?>"></script>
 
 <?php echo $footer; ?>
