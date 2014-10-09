@@ -3,7 +3,7 @@ We're currently in the process of developing `v1.0` but there are still issues t
 
 ### First
 
-1. Find an [issue](https://github.com/anchorcms/anchor-cms/issues) that needs fixing, or create one if you've got a bug, don't worry, simply making us aware of bugs is a big help!
+1. Find an [issue](https://github.com/anchorcms/anchor-cms/issues) that needs fixing, or create one if you've got a bug, don't worry, simply making us aware of bugs is a big help! Please [follow these guidelines](#how-to-submit-issues) when submitting an issue.
 
 ### Getting Anchor set up locally (If you haven't already)
 
@@ -24,12 +24,25 @@ We're currently in the process of developing `v1.0` but there are still issues t
 
 ### Keeping unmerged forks up to date with master
 
-If your fork is taking a while to get merged, you might end up getting behind Anchor's master branch as other changes get added. Stay up to date in the following way:
+If your fork is taking a while to get merged, you might end up getting behind Anchor's dev branch as other changes get added. Stay up to date in the following way:
 
-1. `git fetch upstream master` This will give you all the latest updates from Anchor's master branch.
-1. Run `git rebase upstream/master` while inside your feature branch. This will add all the new commits **before** yours, so it's as if you made the changes to the latest codebase.
+1. `git fetch upstream 0.9-dev` This will give you all the latest updates from Anchor's dev branch.
+1. Run `git rebase upstream/0.9-dev` while inside your feature branch. This will add all the new commits **before** yours, so it's as if you made the changes to the latest codebase.
 
-### When coding, always use coding standards
+### How to submit issues
+
+Please follow the below points:
+- Check if bug is consistent in different environments
+- Check if its been reported and solved in the Anchor forum
+- Check if there is an issue that already covers or relates to it
+- Give an accurate and concise title to issue
+- Prefix title of issue with `Bug:` or `Feature:`
+- Explain bug briefly but in detail
+- Give guidance on how to reproduce bug
+- Add screenshots when possible
+
+### When writing your code, always follow standards
+
 If you're familiar with open source software, you probably know how important coding guidelines and standards are. Most common are (in order of appearance) PEAR, Zend(Framework) and [PSR-1](http://www.php-fig.org/psr/psr-1)/[PSR-2](http://www.php-fig.org/psr/psr-2).
 
 Since the [PHP-FIG](http://www.php-fig.org) and their standards gain more and more followers and Anchor uses composer, which supports PSR-0 and PSR-4, all code should follow [PSR-1](http://www.php-fig.org/psr/psr-1) and [PSR-2](http://www.php-fig.org/psr/psr-2).

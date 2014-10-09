@@ -24,7 +24,8 @@ Route::collection(array('before' => 'auth,csrf'), function() {
 		$vars['types'] = array(
 			'post' => 'post',
 			'page' => 'page',
-			'category' => 'category'
+			'category' => 'category',
+			'user' => 'user'
 		);
 		$vars['fields'] = array(
 			'text' => 'text',
@@ -105,7 +106,8 @@ Route::collection(array('before' => 'auth,csrf'), function() {
 		$vars['types'] = array(
 			'post' => 'post',
 			'page' => 'page',
-			'category' => 'category'
+			'category' => 'category',
+			'user' => 'user'
 		);
 		$vars['fields'] = array(
 			'text' => 'text',

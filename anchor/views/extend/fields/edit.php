@@ -51,7 +51,7 @@
 
 				<?php $value = isset($field->attributes->size->width) ? $field->attributes->size->width : ''; ?>
 
-				<?php echo Form::text('attributes[size][width]', Input::previous('attributes.size.width', $value), array('id' => 'label-attributes_size_width')); ?>	
+				<?php echo Form::text('attributes[size][width]', Input::previous('attributes.size.width', $value), array('id' => 'label-attributes_size_width')); ?>
 
 				<em><?php echo __('extend.attributes_size_width_explain'); ?></em>
 			</p>
@@ -61,8 +61,8 @@
 
 				<?php $value = isset($field->attributes->size->height) ? $field->attributes->size->height : ''; ?>
 
-				<?php echo Form::text('attributes[size][height]', Input::previous('attributes.size.height', $value), array('id' => 'label-attributes_size_height')); ?>	
-				
+				<?php echo Form::text('attributes[size][height]', Input::previous('attributes.size.height', $value), array('id' => 'label-attributes_size_height')); ?>
+
 				<em><?php echo __('extend.attributes_size_height_explain'); ?></em>
 			</p>
 		</fieldset>
