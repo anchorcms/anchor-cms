@@ -35,6 +35,12 @@
 		</fieldset>
 
 		<fieldset class="half split">
+			<?php foreach($fields as $field): ?>
+			<p>
+				<label for="extend_<?php echo $field->key; ?>"><?php echo $field->label; ?>:</label>
+				<?php echo Extend::html($field); ?>
+			</p>
+			<?php endforeach; ?>
 			<p>
 				<label><?php echo __('users.username'); ?>:</label>
 				<?php echo Form::text('username', Input::previous('username', $user->username)); ?>
