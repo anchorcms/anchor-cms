@@ -76,16 +76,18 @@
 				<?php echo Form::select('parent', $pages, Input::previous('parent', $page->parent)); ?>
 				<em><?php echo __('pages.parent_explain'); ?></em>
 			</p>
+			<?php if(count($pagetypes) > 1): ?>
 			<p>
 				<label for="pagetype"><?php echo __('pages.pagetype'); ?>:</label>
 				<select id="pagetype" name="pagetype">
 					<?php foreach($pagetypes as $pagetype): ?>
-					<?php $selected = (Input::previous('pagetype') == $pagetype->key || $page->pagetype == $pagetype->key) ? ' selected="selected"' : ''; ?>
+					<?php $selected = (Input::previous('pagetype') == $pagetype->key) ? ' selected="selected"' : ''; ?>
 					<option value="<?php echo $pagetype->key; ?>" <?php echo $selected; ?>><?php echo $pagetype->value; ?></option>
 					<?php endforeach; ?>
 				</select>
 				<em><?php echo __('pages.pagetype_explain'); ?></em>
 			</p>
+			<?php endif; ?>
 			<?php foreach($fields as $field): ?>
 			<p>
 				<label for="extend_<?php echo $field->key; ?>"><?php echo $field->label; ?>:</label>
