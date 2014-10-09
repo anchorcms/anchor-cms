@@ -9,13 +9,7 @@ Route::collection(array('before' => 'auth,csrf'), function() {
 		$vars['messages'] = Notify::read();
 		$vars['token'] = Csrf::token();
 
-		$pagetypes = array();
-
-		foreach(Query::table(Base::table('pagetypes'))->sort('key')->get() as $paget) {
-			$pagetypes[] = $paget;
-		}
-
-		$vars['pagetypes'] = $pagetypes;
+		$vars['pagetypes'] = Query::table(Base::table('pagetypes'))->sort('key')->get();
 
 		return View::create('extend/pagetypes/index', $vars)
 			->partial('header', 'partials/header')
