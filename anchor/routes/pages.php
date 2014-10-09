@@ -53,6 +53,7 @@ Route::collection(array('before' => 'auth,csrf'), function() {
 	Route::get('admin/pages/edit/(:num)', function($id) {
 		$vars['messages'] = Notify::read();
 		$vars['token'] = Csrf::token();
+		$vars['deletable'] = (Page::count() < 1);
 		$vars['page'] = Page::find($id);
 		$vars['pages'] = Page::dropdown(array('exclude' => array($id), 'show_empty_option' => true));
 
@@ -214,11 +215,13 @@ Route::collection(array('before' => 'auth,csrf'), function() {
 		Delete Page
 	*/
 	Route::get('admin/pages/delete/(:num)', function($id) {
-		Page::find($id)->delete();
-
-		Query::table(Base::table('page_meta'))->where('page', '=', $id)->delete();
-
-		Notify::success(__('pages.deleted'));
+		if(Page::count() > 1) {
+			Page::find($id)->delete();
+			Query::table(Base::table('page_meta'))->where('page', '=', $id)->delete();
+			Notify::success(__('pages.deleted'));
+		} else {
+			Notify::error(['Unable to delete page, you must have at least 1 page.']);
+		}
 
 		return Response::redirect('admin/pages');
 	});

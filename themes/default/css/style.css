@@ -183,7 +183,7 @@ h1 {
 		.pagination a:hover {
 			color: #3c4857;
 		}
-	.pagination a.next {
+	.pagination .next {
 		float: right;
 	}
 
@@ -199,6 +199,11 @@ h1 {
 		.content.wrap ul ul, .content.wrap ol ol, .items li ul ul {
 			padding: 0 20px;
 		}
+	.content.wrap blockquote {
+		border-left: 3px solid #98a2b1;
+		padding-left: 15px;
+		margin: 15px 0;
+	}
 
 /**
  *   Footnotes and straplines

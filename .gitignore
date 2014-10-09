@@ -35,3 +35,6 @@ sftp-config.json
 
 # User robots.txt
 robots.txt
+
+# User humans.txt [http://humanstxt.org/]
+humans.txt

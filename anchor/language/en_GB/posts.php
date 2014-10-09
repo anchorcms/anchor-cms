@@ -10,14 +10,14 @@ return array(
 	// form fields
 	'title' => 'Post title',
 	'title_explain' => '',
-	'title_missing' => 'Please enter a title',
+	'title_missing' => 'The title of this post must be atleast 3 characters',
 
 	'content' => 'Post Content',
 	'content_explain' => 'Just write.',
 
 	'slug' => 'Slug',
 	'slug_explain' => 'Slug uri to identify your post, should only contain ascii characters',
-	'slug_missing' => 'Please enter a slug uri, slugs can only contain ascii characters',
+	'slug_missing' => 'The slug must be atleast 3 characters, slugs can only contain ascii characters',
 	'slug_duplicate' => 'Slug already exists',
 	'slug_invalid' => 'Slug must contain letters',
 

@@ -10,7 +10,7 @@
 	<nav class="sidebar statuses">
 		<?php foreach($statuses as $data): extract($data); ?>
 		<?php echo Html::link('admin/comments/' . $url, '<span class="icon"></span> ' . __($lang), array(
-			'class' => $class . (isset($status) and $status == $url ? ' active' : '')
+			'class' => $class . (isset($status) && $status == $url ? ' active' : '')
 		)); ?>
 		<?php endforeach; ?>
 	</nav>

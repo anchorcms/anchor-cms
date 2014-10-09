@@ -21,7 +21,7 @@ class User extends Base {
 
 		$results = $query->take($perpage)->skip(($page - 1) * $perpage)->sort('real_name', 'desc')->get();
 
-		return new Paginator($results, $count, $page, $perpage, Uri::to('users'));
+		return new Paginator($results, $count, $page, $perpage, Uri::to('admin/users'));
 	}
 
 }
