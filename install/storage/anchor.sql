@@ -21,7 +21,7 @@ CREATE TABLE `{{prefix}}comments` (
 
 CREATE TABLE `{{prefix}}extend` (
   `id` int(6) NOT NULL AUTO_INCREMENT,
-  `type` enum('post','page') NOT NULL,
+  `type` enum('post','page','user') NOT NULL,
   `field` enum('text','html','image','file') NOT NULL,
   `key` varchar(160) NOT NULL,
   `label` varchar(160) NOT NULL,
@@ -105,6 +105,16 @@ CREATE TABLE `{{prefix}}users` (
   `status` enum('inactive','active') NOT NULL,
   `role` enum('administrator','editor','user') NOT NULL,
   PRIMARY KEY (`id`)
+) ENGINE=InnoDB CHARSET={{charset}};
+
+CREATE TABLE `{{prefix}}user_meta` (
+  `id` int(6) NOT NULL AUTO_INCREMENT,
+  `user` int(6) NOT NULL,
+  `extend` int(6) NOT NULL,
+  `data` text NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `user` (`user`),
+  KEY `extend` (`extend`)
 ) ENGINE=InnoDB CHARSET={{charset}};
 
 INSERT INTO `{{prefix}}categories` (`title`, `slug`, `description`) VALUES

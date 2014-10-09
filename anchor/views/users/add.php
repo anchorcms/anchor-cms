@@ -7,7 +7,7 @@
 <section class="wrap">
 	<?php echo $messages; ?>
 
-	<form method="post" action="<?php echo Uri::to('admin/users/add'); ?>" novalidate autocomplete="off">
+	<form method="post" action="<?php echo Uri::to('admin/users/add'); ?>" novalidate autocomplete="off" enctype="multipart/form-data">
 
 		<input name="token" type="hidden" value="<?php echo $token; ?>">
 
@@ -35,6 +35,12 @@
 		</fieldset>
 
 		<fieldset class="half split">
+			<?php foreach($fields as $field): ?>
+			<p>
+				<label for="extend_<?php echo $field->key; ?>"><?php echo $field->label; ?>:</label>
+				<?php echo Extend::html($field); ?>
+			</p>
+			<?php endforeach; ?>
 			<p>
 				<label><?php echo __('users.username'); ?>:</label>
 				<?php echo Form::text('username', Input::previous('username')); ?>
@@ -58,5 +64,7 @@
 	</form>
 
 </section>
+
+<script src="<?php echo asset('anchor/views/assets/js/upload-fields.js'); ?>"></script>
 
 <?php echo $footer; ?>
