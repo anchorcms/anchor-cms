@@ -22,6 +22,8 @@ Route::collection(array('before' => 'auth,csrf'), function() {
 		$vars['messages'] = Notify::read();
 		$vars['token'] = Csrf::token();
 
+		$vars['pagetypes'] = Query::table(Base::table('pagetypes'))->sort('key')->get();
+
 		return View::create('extend/fields/add', $vars)
 			->partial('header', 'partials/header')
 			->partial('footer', 'partials/footer');

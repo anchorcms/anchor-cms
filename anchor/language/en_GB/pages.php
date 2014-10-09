@@ -37,6 +37,9 @@ return array(
 	'parent' => 'Parent',
 	'parent_explain' => '',
 
+	'pagetype' => 'Page Type',
+	'pagetype_explain' => 'Select the set of field this page belong too.',
+
 	// messages
 	'updated' => 'Your page was updated.',
 	'created' => 'Your page was created.',

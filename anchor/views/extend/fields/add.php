@@ -24,6 +24,17 @@
 			</p>
 
 			<p>
+				<label for="pagetype"><?php echo __('extend.pagetype'); ?>:</label>
+				<select id="pagetype" name="pagetype">
+					<?php foreach($pagetypes as $pagetype): ?>
+					<?php $selected = (Input::previous('pagetype') == $pagetype->key) ? ' selected' : ''; ?>
+					<option value="<?php echo $pagetype->key; ?>" <?php echo $selected; ?>><?php echo $pagetype->value; ?></option>
+					<?php endforeach; ?>
+				</select>
+				<em><?php echo __('extend.pagetype_explain'); ?></em>
+			</p>
+
+			<p>
 				<label for="field"><?php echo __('extend.field'); ?>:</label>
 				<select id="field" name="field">
 					<?php foreach(array('text', 'html', 'image', 'file') as $type): ?>

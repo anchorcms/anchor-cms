@@ -28,6 +28,9 @@ return array(
 	'type' => 'Type',
 	'type_explain' => 'The type of content you want to add this field to.',
 
+	'pagetype' => 'Page Type',
+	'pagetype_explain' => 'The type of page you want to add this field to.',
+
 	'field' => 'Field',
 	'field_explain' => 'Html input type',
 
