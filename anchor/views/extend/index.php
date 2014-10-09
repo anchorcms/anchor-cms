@@ -9,6 +9,12 @@
 
 	<ul class="list">
 		<li>
+			<a href="<?php echo Uri::to('admin/extend/pagetypes'); ?>">
+				<strong><?php echo __('extend.pagetypes'); ?></strong>
+				<span><?php echo __('extend.pagetypes_desc'); ?></span>
+			</a>
+		</li>
+		<li>
 			<a href="<?php echo Uri::to('admin/extend/fields'); ?>">
 				<strong><?php echo __('extend.fields'); ?></strong>
 				<span><?php echo __('extend.fields_desc'); ?></span>

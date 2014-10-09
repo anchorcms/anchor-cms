@@ -208,6 +208,21 @@ Route::get('admin/extend', array('before' => 'auth', 'main' => function($page = 
 		->partial('footer', 'partials/footer');
 }));
 
+Route::post('admin/get_fields', array('before' => 'auth', 'main' => function() {
+	$input = Input::get(array('id', 'pagetype'));
+
+	// get the extended fields
+	$vars['fields'] = Extend::fields('page', -1, $input['pagetype']);
+
+	$html = View::create('pages/fields', $vars)->render();
+	$token = '<input name="token" type="hidden" value="' . Csrf::token() . '">';
+
+	return Response::json(array(
+		'token' => $token,
+		'html' => $html
+	));
+}));
+
 /*
 	404 error
 */
