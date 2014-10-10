@@ -33,7 +33,7 @@ if($home_page->id == $posts_page->id) {
 Route::get($routes, function($offset = 1) use($posts_page) {
 	if($offset > 0) {
 		// get public listings
-		list($total, $posts) = Post::listing(null, $offset, $per_page = Config::meta('posts_per_page'));
+		list($total, $posts) = Post::listing(null, $offset, $per_page = Post::perPage());
 	} else {
 		return Response::create(new Template('404'), 404);
 	}
@@ -65,7 +65,7 @@ Route::get(array('category/(:any)', 'category/(:any)/(:num)'), function($slug = 
 	}
 
 	// get public listings
-	list($total, $posts) = Post::listing($category, $offset, $per_page = Config::meta('posts_per_page'));
+	list($total, $posts) = Post::listing($category, $offset, $per_page = Post::perPage());
 
 	// get the last page
 	$max_page = ($total > $per_page) ? ceil($total / $per_page) : 1;
@@ -108,6 +108,12 @@ Route::get($posts_page->slug . '/(:any)', function($slug) use($posts_page) {
 	Registry::set('page', $posts_page);
 	Registry::set('article', $post);
 	Registry::set('category', Category::find($post->category));
+
+	if($post->status != 'published') {
+		if(!Auth::user()) {
+			return Response::create(new Template('404'), 404);
+		}
+	}
 
 	return new Template('article');
 });
@@ -173,7 +179,7 @@ Route::get(array('rss', 'feeds/rss'), function() {
 	$uri = 'http://' . $_SERVER['HTTP_HOST'];
 	$rss = new Rss(Config::meta('sitename'), Config::meta('description'), $uri, Config::app('language'));
 
-	$query = Post::where('status', '=', 'published')->sort(Base::table('posts.created'), 'desc');
+	$query = Post::where('status', '=', 'published')->sort(Base::table('posts.created')->take(25), 'desc');
 
 	foreach($query->get() as $article) {
 		$rss->item(
@@ -195,7 +201,7 @@ Route::get(array('rss', 'feeds/rss'), function() {
 Route::get('feeds/json', function() {
 	$json = Json::encode(array(
 		'meta' => Config::get('meta'),
-		'posts' => Post::where('status', '=', 'published')->sort(Base::table('posts.created'), 'desc')->get()
+		'posts' => Post::where('status', '=', 'published')->sort(Base::table('posts.created')->take(25), 'desc')->get()
 	));
 
 	return Response::create($json, 200, array('content-type' => 'application/json'));
@@ -220,7 +226,7 @@ Route::get(array('search', 'search/(:any)', 'search/(:any)/(:num)'), function($s
 	$term = str_replace('--', ' ', $term);
 
 	if($offset > 0) {
-		list($total, $posts) = Post::search($term, $offset, Config::meta('posts_per_page'));
+		list($total, $posts) = Post::search($term, $offset, Post::perPage());
 	} else {
 		return Response::create(new Template('404'), 404);
 	}
@@ -260,6 +266,12 @@ Route::get('(:all)', function($uri) {
 	}
 
 	Registry::set('page', $page);
+
+	if($page->status != 'published') {
+		if(!Auth::user()) {
+			return Response::create(new Template('404'), 404);
+		}
+	}
 
 	return new Template('page');
 });

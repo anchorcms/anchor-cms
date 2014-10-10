@@ -21,6 +21,14 @@ Route::collection(array('before' => 'auth,csrf'), function() {
 	Route::get('admin/extend/fields/add', function() {
 		$vars['messages'] = Notify::read();
 		$vars['token'] = Csrf::token();
+		$vars['types'] = Extend::$types;
+
+		$vars['fields'] = array(
+			'text' => 'text',
+			'html' => 'html',
+			'image' => 'image',
+			'file' => 'file'
+		);
 
 		$vars['pagetypes'] = Query::table(Base::table('pagetypes'))->sort('key')->get();
 
@@ -94,6 +102,13 @@ Route::collection(array('before' => 'auth,csrf'), function() {
 	Route::get('admin/extend/fields/edit/(:num)', function($id) {
 		$vars['messages'] = Notify::read();
 		$vars['token'] = Csrf::token();
+		$vars['types'] = Extend::$types;
+		$vars['fields'] = array(
+			'text' => 'text',
+			'html' => 'html',
+			'image' => 'image',
+			'file' => 'file'
+		);
 
 		$extend = Extend::find($id);
 

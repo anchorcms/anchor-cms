@@ -21,6 +21,11 @@ Route::action('csrf', function() {
 	}
 });
 
+Route::action('install_exists', function() {
+	if(file_exists('install'))
+		Notify::error(array('Please remove the install directory before publishing your site'));
+});
+
 /**
  * Admin routing
  */
@@ -32,14 +37,14 @@ Route::get('admin', function() {
 /*
 	Log in
 */
-Route::get('admin/login', function() {
+Route::get('admin/login', array('before' => 'install_exists', 'main' => function() {
 	$vars['messages'] = Notify::read();
 	$vars['token'] = Csrf::token();
 
 	return View::create('users/login', $vars)
 		->partial('header', 'partials/header')
 		->partial('footer', 'partials/footer');
-});
+}));
 
 Route::post('admin/login', array('before' => 'csrf', 'main' => function() {
 	$attempt = Auth::attempt(Input::get('user'), Input::get('pass'));

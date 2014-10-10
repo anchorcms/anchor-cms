@@ -4,6 +4,13 @@ class Extend extends Base {
 
 	public static $table = 'extend';
 
+	public static $types = array(
+		'post' => 'post',
+		'page' => 'page',
+		'category' => 'category',
+		'user' => 'user'
+	);
+
 	public static function field($type, $key, $id = -1) {
 		$field = Query::table(static::table())
 			->where('type', '=', $type)

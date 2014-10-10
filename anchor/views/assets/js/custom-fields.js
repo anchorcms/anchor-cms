@@ -4,7 +4,7 @@
  * Show/hide fields depending on type
  */
 $(function() {
-	var select = $('#field'), attrs = $('.hide');
+	var select = $('#label-field'), attrs = $('.hide');
 
 	var update = function() {
 		var value = select.val();

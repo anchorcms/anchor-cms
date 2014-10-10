@@ -14,9 +14,17 @@
 	<?php echo $messages; ?>
 
 	<nav class="sidebar">
-		<?php echo Html::link('admin/posts', __('global.all'), array(
-			'class' => isset($category) ? '' : 'active'
-		)); ?>
+		<nav class="statuses">
+			<?php echo Html::link('admin/posts', '<span class="icon"></span> ' . __('global.all'), array(
+				'class' => isset($category) ? '' : 'active'
+			)); ?>
+			<?php foreach(array('published', 'draft', 'archived') as $type): ?>
+			<?php echo Html::link('admin/posts/status/' . $type, '<span class="icon"></span> ' . __('global.' . $type), array(
+				'class' => ($status == $type) ? 'active' : ''
+			)); ?>
+			<?php endforeach; ?>
+		</nav>
+
 	    <?php foreach($categories as $cat): ?>
 		<?php echo Html::link('admin/posts/category/' . $cat->slug, $cat->title, array(
 			'class' => (isset($category) and $category->id == $cat->id) ? 'active' : ''
