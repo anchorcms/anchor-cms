@@ -65,7 +65,7 @@ Route::collection(array('before' => 'auth,csrf'), function() {
 		);
 
 		// extended fields
-		$vars['fields'] = Extend::fields('page', $id);
+		$vars['fields'] = Extend::fields('page', $id, $vars['page']->pagetype);
 
 		return View::create('pages/edit', $vars)
 			->partial('header', 'partials/header')
