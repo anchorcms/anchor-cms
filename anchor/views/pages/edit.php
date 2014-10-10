@@ -81,19 +81,21 @@
 				<label for="pagetype"><?php echo __('pages.pagetype'); ?>:</label>
 				<select id="pagetype" name="pagetype">
 					<?php foreach($pagetypes as $pagetype): ?>
-					<?php $selected = (Input::previous('pagetype') == $pagetype->key) ? ' selected="selected"' : ''; ?>
+					<?php $selected = (Input::previous('pagetype') == $pagetype->key || $page->pagetype == $pagetype->key) ? ' selected="selected"' : ''; ?>
 					<option value="<?php echo $pagetype->key; ?>" <?php echo $selected; ?>><?php echo $pagetype->value; ?></option>
 					<?php endforeach; ?>
 				</select>
 				<em><?php echo __('pages.pagetype_explain'); ?></em>
 			</p>
 			<?php endif; ?>
+			<div id="extended-fields">
 			<?php foreach($fields as $field): ?>
-			<p>
-				<label for="extend_<?php echo $field->key; ?>"><?php echo $field->label; ?>:</label>
-				<?php echo Extend::html($field); ?>
-			</p>
+				<p>
+					<label for="extend_<?php echo $field->key; ?>"><?php echo $field->label; ?>:</label>
+					<?php echo Extend::html($field); ?>
+				</p>
 			<?php endforeach; ?>
+			</div>
 		</div>
 	</fieldset>
 </form>
@@ -104,6 +106,16 @@
 <script src="<?php echo asset('anchor/views/assets/js/editor.js'); ?>"></script>
 <script>
 	$('textarea[name=content]').editor();
+	$('#pagetype').on('change', function() {
+		var $this = $(this);
+		$.post("<?php echo Uri::to('admin/get_fields'); ?>", {
+			id: <?php echo $page->id ?>,
+			pagetype: $this.val(),
+			token: "<?php echo $token; ?>"
+		}, function(res){
+			$('#extended-fields').html(res);
+		});
+	});
 </script>
 
 <?php echo $footer; ?>

@@ -84,12 +84,16 @@
 				<em><?php echo __('pages.pagetype_explain'); ?></em>
 			</p>
 			<?php endif; ?>
+			<div id="extended-fields">
 			<?php foreach($fields as $field): ?>
-			<p>
-				<label for="extend_<?php echo $field->key; ?>"><?php echo $field->label; ?>:</label>
-				<?php echo Extend::html($field); ?>
-			</p>
+				<?php if($field->pagetype == 'all'): ?>
+				<p>
+					<label for="extend_<?php echo $field->key; ?>"><?php echo $field->label; ?>:</label>
+					<?php echo Extend::html($field); ?>
+				</p>
+				<?php endif; ?>
 			<?php endforeach; ?>
+			</div>
 		</div>
 	</fieldset>
 </form>
@@ -102,6 +106,15 @@
 <script src="<?php echo asset('anchor/views/assets/js/editor.js'); ?>"></script>
 <script>
 	$('textarea[name=content]').editor();
+	$('#pagetype').on('change', function() {
+		var $this = $(this);
+		$.post("<?php echo Uri::to('admin/get_fields'); ?>", {
+			pagetype: $this.val(),
+			token: "<?php echo $token; ?>"
+		}, function(res){
+			$('#extended-fields').html(res);
+		});
+	});
 </script>
 
 <?php echo $footer; ?>
