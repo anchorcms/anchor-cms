@@ -27,7 +27,7 @@
 				<label for="pagetype"><?php echo __('extend.pagetype'); ?>:</label>
 				<select id="pagetype" name="pagetype">
 					<?php foreach($pagetypes as $pagetype): ?>
-					<?php $selected = (Input::previous('pagetype') == $pagetype->key) ? ' selected' : ''; ?>
+					<?php $selected = (Input::previous('pagetype') == $pagetype->key || $field->pagetype == $pagetype->key) ? ' selected="selected"' : ''; ?>
 					<option value="<?php echo $pagetype->key; ?>" <?php echo $selected; ?>><?php echo $pagetype->value; ?></option>
 					<?php endforeach; ?>
 				</select>
