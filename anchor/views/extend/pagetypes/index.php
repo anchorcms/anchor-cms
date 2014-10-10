@@ -11,7 +11,7 @@
 <section class="wrap">
 	<?php echo $messages; ?>
 
-	<?php if(count($pagetypes)): ?>
+	<?php if(count($pagetypes) > 1): ?>
 	<ul class="list">
 		<?php foreach($pagetypes as $type): ?>
 		<li>
