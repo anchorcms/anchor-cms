@@ -27,8 +27,10 @@
 
 		<aside class="buttons">
 			<?php echo Form::button(__('global.update'), array('class' => 'btn', 'type' => 'submit')); ?>
+			<?php if($pagetype->key != 'all'): ?>
 			<?php echo Html::link('admin/extend/pagetypes/delete/' . $pagetype->key,
 				__('global.delete'), array('class' => 'btn delete red')); ?>
+			<?php endif; ?>
 		</aside>
 	</form>
 </section>
