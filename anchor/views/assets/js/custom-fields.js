@@ -31,7 +31,7 @@ $(function() {
 			pagetype.parent().hide();
 			pagetype.val('all');
 		}
-	}
+	};
 
 	fieldtype.bind('change', typechange);
 
