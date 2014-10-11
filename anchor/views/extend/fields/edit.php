@@ -18,7 +18,7 @@
 				<em><?php echo __('extend.type_explain'); ?></em>
 			</p>
 
-			<p>
+			<p <?php if($field->type != 'page'): ?>style="display: none"<?php endif; ?>>
 				<label for="pagetype"><?php echo __('extend.pagetype'); ?>:</label>
 				<select id="pagetype" name="pagetype">
 					<?php foreach($pagetypes as $pagetype): ?>
