@@ -57,6 +57,8 @@ Route::collection(array('before' => 'auth,csrf'), function() {
 		$vars['page'] = Page::find($id);
 		$vars['pages'] = Page::dropdown(array('exclude' => array($id), 'show_empty_option' => true));
 
+		$vars['pagetypes'] = Query::table(Base::table('pagetypes'))->sort('key')->get();
+
 		$vars['statuses'] = array(
 			'published' => __('global.published'),
 			'draft' => __('global.draft'),
@@ -64,7 +66,7 @@ Route::collection(array('before' => 'auth,csrf'), function() {
 		);
 
 		// extended fields
-		$vars['fields'] = Extend::fields('page', $id);
+		$vars['fields'] = Extend::fields('page', $id, $vars['page']->pagetype);
 
 		return View::create('pages/edit', $vars)
 			->partial('header', 'partials/header')
@@ -73,7 +75,7 @@ Route::collection(array('before' => 'auth,csrf'), function() {
 	});
 
 	Route::post('admin/pages/edit/(:num)', function($id) {
-		$input = Input::get(array('parent', 'name', 'title', 'slug', 'content', 'status', 'redirect', 'show_in_menu'));
+		$input = Input::get(array('parent', 'name', 'title', 'slug', 'content', 'status', 'redirect', 'show_in_menu', 'pagetype'));
 
 		// if there is no slug try and create one from the title
 		if(empty($input['slug'])) {
@@ -139,6 +141,8 @@ Route::collection(array('before' => 'auth,csrf'), function() {
 		$vars['token'] = Csrf::token();
 		$vars['pages'] = Page::dropdown(array('exclude' => array(), 'show_empty_option' => true));
 
+		$vars['pagetypes'] = Query::table(Base::table('pagetypes'))->sort('key')->get();
+
 		$vars['statuses'] = array(
 			'published' => __('global.published'),
 			'draft' => __('global.draft'),
@@ -155,8 +159,7 @@ Route::collection(array('before' => 'auth,csrf'), function() {
 	});
 
 	Route::post('admin/pages/add', function() {
-		$input = Input::get(array('parent', 'name', 'title', 'slug', 'content',
-			'status', 'redirect', 'show_in_menu'));
+		$input = Input::get(array('parent', 'name', 'title', 'slug', 'content', 'status', 'redirect', 'show_in_menu', 'pagetype'));
 
 		// if there is no slug try and create one from the title
 		if(empty($input['slug'])) {

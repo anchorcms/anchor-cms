@@ -51,6 +51,7 @@ if(is_admin()) {
 	require APP . 'routes/posts' . EXT;
 	require APP . 'routes/users' . EXT;
 	require APP . 'routes/variables' . EXT;
+	require APP . 'routes/pagetypes' . EXT;
 }
 else {
 	require APP . 'routes/site' . EXT;

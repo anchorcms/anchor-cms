@@ -22,11 +22,18 @@ CREATE TABLE `{{prefix}}comments` (
 CREATE TABLE `{{prefix}}extend` (
   `id` int(6) NOT NULL AUTO_INCREMENT,
   `type` enum('post','page','user') NOT NULL,
+  `pagetype` varchar(140) NOT NULL DEFAULT 'all',
   `field` enum('text','html','image','file') NOT NULL,
   `key` varchar(160) NOT NULL,
   `label` varchar(160) NOT NULL,
   `attributes` text NOT NULL,
   PRIMARY KEY (`id`)
+) ENGINE=InnoDB CHARSET={{charset}};
+
+CREATE TABLE `{{prefix}}pagetypes` (
+  `key` varchar(140) NOT NULL,
+  `value` text NOT NULL,
+  PRIMARY KEY (`key`)
 ) ENGINE=InnoDB CHARSET={{charset}};
 
 CREATE TABLE `{{prefix}}meta` (
@@ -48,6 +55,7 @@ CREATE TABLE `{{prefix}}page_meta` (
 CREATE TABLE `{{prefix}}pages` (
   `id` int(6) NOT NULL AUTO_INCREMENT,
   `slug` varchar(150) NOT NULL,
+  `pagetype` varchar(140) NOT NULL DEFAULT 'all',
   `name` varchar(64) NOT NULL,
   `title` varchar(150) NOT NULL,
   `content` text NOT NULL,
