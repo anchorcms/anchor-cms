@@ -77,7 +77,7 @@
 				<label for="pagetype"><?php echo __('pages.pagetype'); ?>:</label>
 				<select id="pagetype" name="pagetype">
 					<?php foreach($pagetypes as $pagetype): ?>
-					<?php $selected = (Input::previous('pagetype') == $pagetype->key) ? ' selected="selected"' : ''; ?>
+					<?php $selected = ($pagetype->key == 'all') ? ' selected="selected"' : ''; ?>
 					<option value="<?php echo $pagetype->key; ?>" <?php echo $selected; ?>><?php echo $pagetype->value; ?></option>
 					<?php endforeach; ?>
 				</select>
@@ -112,7 +112,9 @@
 			pagetype: $this.val(),
 			token: "<?php echo $token; ?>"
 		}, function(res){
-			$('#extended-fields').html(res);
+			res = JSON.parse(res);
+			$('#extended-fields').html(res.html);
+			$('input[name="token"]').replaceWith(res.token);
 		});
 	});
 </script>
