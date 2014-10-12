@@ -118,7 +118,9 @@
 			pagetype: $this.val(),
 			token: "<?php echo $token; ?>"
 		}, function(res){
-			$('#extended-fields').html(res);
+			res = JSON.parse(res);
+			$('#extended-fields').html(res.html);
+			$('input[name="token"]').replaceWith(res.token);
 		});
 	});
 </script>

@@ -214,7 +214,13 @@ Route::post('admin/get_fields', array('before' => 'auth', 'main' => function() {
 	// get the extended fields
 	$vars['fields'] = Extend::fields('page', -1, $input['pagetype']);
 
-	return View::create('pages/fields', $vars);
+	$html = View::create('pages/fields', $vars)->render();
+	$token = '<input name="token" type="hidden" value="' . Csrf::token() . '">';
+
+	return Response::json(array(
+		'token' => $token,
+		'html' => $html
+	));
 }));
 
 /*
