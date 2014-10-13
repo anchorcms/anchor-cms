@@ -1,4 +1,5 @@
 ## Anchor CMS
+[![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/anchorcms/anchor-cms?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 Anchor is a super-simple, lightweight blog system, made to let you just write. [Check out the site](http://anchorcms.com/). 
 
