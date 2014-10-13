@@ -27,6 +27,10 @@ var Anchor = {
 				return Anchor.toggleSlidey.call(Anchor.linky);
 			}
 		});
+
+        $('.comment .btn').on('click', Anchor.reply);
+        $('#cancel-reply').on('click', Anchor.replyCancel);
+
 	},
 
 	keyup: function(event) {
@@ -80,7 +84,31 @@ var Anchor = {
 	bindResize: function() {
 		Anchor._slideyHeight = -(Anchor.slidey.height() + 1);
 		Anchor.hideSlidey();
-	}
+	},
+
+    reply: function() {
+
+        var
+            that = $(this),
+            comment = that.parents('.comment')[0]
+        ;
+
+        $('#reply_to').val(comment.id.replace(/comment\-/, ''));
+        $('#comment input').eq(0).focus();
+
+
+        $('#comment-reply-notification').addClass('active');
+        $('#comment-reply-username').text($(comment).find('h2').text());
+
+    },
+
+    replyCancel: function() {
+
+        $('#reply_to').val(0);
+        $('#comment-reply-notification').removeClass('active');
+        $('#comment-reply-username').text('nobody');
+
+    }
 };
 
 //  And bind loading

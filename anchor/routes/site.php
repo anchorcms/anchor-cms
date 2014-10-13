@@ -120,10 +120,11 @@ Route::post($posts_page->slug . '/(:any)', function($slug) use($posts_page) {
 		return Response::create(new Template('404'), 404);
 	}
 
-	$input = filter_var_array(Input::get(array('name', 'email', 'text')), array(
+	$input = filter_var_array(Input::get(array('name', 'email', 'text', 'reply_to')), array(
 		'name' => FILTER_SANITIZE_STRING,
 		'email' => FILTER_SANITIZE_EMAIL,
-		'text' => FILTER_SANITIZE_SPECIAL_CHARS
+		'text' => FILTER_SANITIZE_SPECIAL_CHARS,
+		'reply_to' => FILTER_SANITIZE_NUMBER_INT
 	));
 
 	$validator = new Validator($input);
@@ -147,7 +148,7 @@ Route::post($posts_page->slug . '/(:any)', function($slug) use($posts_page) {
 	$input['status'] = Config::meta('auto_published_comments') ? 'approved' : 'pending';
 
 	// remove bad tags
-	$input['text'] = strip_tags($input['text'], '<a>,<b>,<blockquote>,<code>,<em>,<i>,<p>,<pre>');
+	$input['text'] = strip_tags($input['text'], '<a><b><blockquote><code><em><i><p><pre>');
 
 	// check if the comment is possibly spam
 	if($spam = Comment::spam($input)) {
