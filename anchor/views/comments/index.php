@@ -31,7 +31,7 @@
 	<aside class="paging"><?php echo $comments->links(); ?></aside>
 
 	<?php else: ?>
-	<p class="empty main comments">
+	<p class="empty comments">
 		<span class="icon"></span>
 		<?php echo __('comments.nocomments_desc'); ?>
 	</p>

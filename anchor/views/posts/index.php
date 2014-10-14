@@ -48,7 +48,7 @@
 
 	<?php else: ?>
 
-	<p class="empty main posts">
+	<p class="empty posts">
 		<span class="icon"></span>
 		<?php echo __('posts.noposts_desc'); ?><br>
 		<?php echo Html::link('admin/posts/add', __('posts.create_post'), array('class' => 'btn')); ?>
