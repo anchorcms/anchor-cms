@@ -27,6 +27,7 @@ return array(
 	// form fields
 	'type' => 'Type',
 	'type_explain' => 'The type of content you want to add this field to.',
+	'notypes_desc' => 'No page types yet',
 
 	'pagetype' => 'Page Type',
 	'pagetype_explain' => 'The type of page you want to add this field to.',

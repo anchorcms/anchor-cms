@@ -7,8 +7,8 @@ class Migration_enable_pagetypes extends Migration {
 
 		if(!$this->has_table($table)) {
 			$sql = "CREATE TABLE IF NOT EXISTS `" . $table . "` (
-				`key` varchar(6) NOT NULL,
-				`value` varchar(6) NOT NULL
+				`key` varchar(32) NOT NULL,
+				`value` varchar(32) NOT NULL
 			) ENGINE=InnoDB";
 
 			DB::ask($sql);

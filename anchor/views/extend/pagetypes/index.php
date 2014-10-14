@@ -24,7 +24,7 @@
 	</ul>
 	<?php else: ?>
 	<p class="empty">
-		<span class="icon"></span> <?php echo __('extend.novars_desc'); ?>
+		<span class="icon"></span> <?php echo __('extend.notypes_desc'); ?>
 	</p>
 	<?php endif; ?>
 </section>
