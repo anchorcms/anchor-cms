@@ -18,9 +18,25 @@
 				<em><?php echo __('extend.type_explain'); ?></em>
 			</p>
 
+			<p <?php if($field->type != 'page'): ?>style="display: none"<?php endif; ?>>
+				<label for="pagetype"><?php echo __('extend.pagetype'); ?>:</label>
+				<select id="pagetype" name="pagetype">
+					<?php foreach($pagetypes as $pagetype): ?>
+					<?php $selected = (Input::previous('pagetype') == $pagetype->key || $field->pagetype == $pagetype->key) ? ' selected="selected"' : ''; ?>
+					<option value="<?php echo $pagetype->key; ?>" <?php echo $selected; ?>><?php echo $pagetype->value; ?></option>
+					<?php endforeach; ?>
+				</select>
+				<em><?php echo __('extend.pagetype_explain'); ?></em>
+			</p>
+
 			<p>
-				<label for="label-field"><?php echo __('extend.field'); ?>:</label>
-				<?php echo Form::select('field', $fields, Input::previous('field', $field->field), array('id' => 'label-field')); ?>
+				<label for="field"><?php echo __('extend.field'); ?>:</label>
+				<select id="label-field" name="field">
+					<?php foreach(array('text', 'html', 'image', 'file') as $type): ?>
+					<?php $selected = (Input::previous('field', $field->field) == $type) ? ' selected' : ''; ?>
+					<option<?php echo $selected; ?>><?php echo $type; ?></option>
+					<?php endforeach; ?>
+				</select>
 				<em><?php echo __('extend.field_explain'); ?></em>
 			</p>
 
