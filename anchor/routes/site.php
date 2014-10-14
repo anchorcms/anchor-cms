@@ -119,6 +119,28 @@ Route::get($posts_page->slug . '/(:any)', function($slug) use($posts_page) {
 });
 
 /**
+ * Edit posts
+*/
+Route::get($posts_page->slug . '/(:any)/edit', function($slug) use($posts_page) {
+    if (!$post = Post::slug($slug) or Auth::guest()) {
+        return Response::create(new Template('404'), 404);
+    }
+    
+    return Response::redirect('/admin/posts/edit/' . $post->id);
+});
+
+/**
+ * Edit pages
+*/
+Route::get('(:all)/edit', function($slug) use($posts_page) {
+    if (!$page = Page::slug($slug) or Auth::guest()) {
+        return Response::create(new Template('404'), 404);
+    }
+    
+    return Response::redirect('/admin/pages/edit/' . $page->id);
+});
+
+/**
  * Post a comment
  */
 Route::post($posts_page->slug . '/(:any)', function($slug) use($posts_page) {
