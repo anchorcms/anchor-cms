@@ -34,15 +34,20 @@
 
 			<p>
 				<label for="pass">Password</label>
-				<input id="pass" name="pass" type="password" value="<?php echo Input::previous('pass'); ?>">
-
+				<input id="pass" name="pass" type="password" value="<?php echo Input::previous('pass'); ?>" class="db-password-field">
 				<i>Leave blank for empty password.</i>
 			</p>
 
 			<p>
+				<label for="show-hide">Show or hide password</label>
+				<input name="show-hide" type="checkbox" value="Show/Hide password" class="show-hide-password">
+				<i>Check the box to show the password.</i>
+			</p>
+			<br>
+
+			<p>
 				<label for="name">Database Name</label>
 				<input id="name" name="name" value="<?php echo Input::previous('name', 'anchor'); ?>">
-
 				<i>Your database’s name.</i>
 			</p>
 
