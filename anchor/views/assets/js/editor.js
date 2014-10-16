@@ -180,13 +180,13 @@
 		submit = form.find('button[type=submit]'),
 		submitText = submit.html(),
 		submitProgress = submit.data('loading'),
-		logo = $('.logo a'),
+		activeMenu = $('.top nav .active a'),
 		wrapper = $('.header .wrap'),
 		title = document.title;
 
 	// Press `CTRL + S` to `Save`
 	zone.on('keydown', function(event) {
-		if (event.ctrlKey && event.keyCode == 83) {
+		if(event.ctrlKey && event.keyCode == 83) {
 			form.trigger('submit');
 			return false;
 		}
@@ -217,9 +217,9 @@
 					notification.animate({
 						opacity: 0
 					}, 600, "ease-out", function() {
-						if (/\/add/i.test(form.attr('action')) && $(this).find('.error').length === 0) {
-							// redirect to posts list on success if we are not in edit/update mode
-							window.location.href = window.location.href.replace('/add', '');
+						if ($('.btn.delete').length === 0 && $(this).find('.error').length === 0) {
+							// redirect to posts or pages list on success if we are not in edit/update mode
+							window.location.href = activeMenu.attr('href');
 						}
 						$(this).remove();
 					});
@@ -229,20 +229,7 @@
 				submit.prop('disabled', false).html(submitText).removeAttr('style');
 			},
 			error: function(jqXHR, textStatus, errorThrown) {
-				var notification = $('<div class="notifications"><p class="error">Error</p></div>');
-
-				wrapper.prepend(notification);
-
-				document.title = "Error";
-
-				setTimeout(function() {
-					notification.animate({
-						opacity: 0
-					}, 600, "ease-out", function() {
-						$(this).remove();
-					});
-					document.title = title;
-				}, 3000);
+				alert('Error.');
 
 				submit.prop('disabled', false).html(submitText).removeAttr('style');
 			}
