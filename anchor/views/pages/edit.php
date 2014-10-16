@@ -80,7 +80,7 @@
 				<?php echo Form::select('parent', $pages, Input::previous('parent', $page->parent), array('id' => 'label-parent')); ?>
 				<em><?php echo __('pages.parent_explain'); ?></em>
 			</p>
-			<?php if(count($pagetypes) > 1): ?>
+			<?php if(count($pagetypes) > 0): ?>
 			<p>
 				<label for="pagetype"><?php echo __('pages.pagetype'); ?>:</label>
 				<select id="pagetype" name="pagetype">

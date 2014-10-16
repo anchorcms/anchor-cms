@@ -53,7 +53,7 @@ Route::collection(array('before' => 'auth,csrf'), function() {
 	Route::get('admin/pages/edit/(:num)', function($id) {
 		$vars['messages'] = Notify::read();
 		$vars['token'] = Csrf::token();
-		$vars['deletable'] = (Page::count() < 1);
+		$vars['deletable'] = (Page::count() > 1) && (Page::home()->id != $id) && (Page::posts()->id != $id);
 		$vars['page'] = Page::find($id);
 		$vars['pages'] = Page::dropdown(array('exclude' => array($id), 'show_empty_option' => true));
 

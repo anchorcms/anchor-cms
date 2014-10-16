@@ -205,6 +205,7 @@
 			type: "POST",
 			data: data,
 			success: function(data, textStatus, jqXHR) {
+
 				var notification = $(data).find('.notifications').clone(true),
 					message = notification.children().first().text();
 
