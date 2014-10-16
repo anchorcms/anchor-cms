@@ -12,7 +12,7 @@ class Migration_create_user_meta_table extends Migration {
 				`extend` int(6) NOT NULL,
 				`data` text NOT NULL,
 				PRIMARY KEY (`id`),
-				KEY `item` (`category`),
+				KEY `item` (`user`),
 				KEY `extend` (`extend`)
 			) ENGINE=InnoDB";
 
