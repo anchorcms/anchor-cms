@@ -219,7 +219,7 @@
 					}, 600, "ease-out", function() {
 						if (/\/add/i.test(form.attr('action')) && $(this).find('.error').length === 0) {
 							// redirect to posts list on success if we are not in edit/update mode
-							window.location.href = logo.attr('href');
+							window.location.href = window.location.href.replace('/add', '');
 						}
 						$(this).remove();
 					});
