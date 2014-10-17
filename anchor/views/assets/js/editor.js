@@ -229,7 +229,20 @@
 				submit.prop('disabled', false).html(submitText).removeAttr('style');
 			},
 			error: function(jqXHR, textStatus, errorThrown) {
-				alert('Error.');
+				var notification = $('<div class="notifications"><p class="error">Error</p></div>');
+
+				wrapper.prepend(notification);
+
+				document.title = "Error";
+
+				setTimeout(function() {
+					notification.animate({
+						opacity: 0
+					}, 600, "ease-out", function() {
+						$(this).remove();
+					});
+					document.title = title;
+				}, 3000);
 
 				submit.prop('disabled', false).html(submitText).removeAttr('style');
 			}
