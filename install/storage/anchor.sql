@@ -14,7 +14,6 @@ CREATE TABLE `{{prefix}}comments` (
   `name` varchar(140) NOT NULL,
   `email` varchar(140) NOT NULL,
   `text` text NOT NULL,
-  `reply_to` int(6) unsigned DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `post` (`post`),
   KEY `status` (`status`)
