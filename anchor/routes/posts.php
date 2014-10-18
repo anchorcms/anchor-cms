@@ -170,6 +170,14 @@ Route::collection(array('before' => 'auth,csrf'), function() {
 		return Response::redirect('admin/posts/edit/' . $id);
 	});
 
+	Route::get('admin/posts/edit/preview', function() {
+
+		$preview = parse(Input::get('html'));
+
+		return View::create('posts/preview', array('html' => $preview));
+
+	});
+
 	/*
 		Add new post
 	*/

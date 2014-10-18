@@ -1,8 +1,10 @@
-<nav>
-	<a class="icon bold" href="#bold">Bold</a>
-	<a class="icon italic" href="#italic">Italic</a>
-	<a class="icon list" href="#list">List</a>
-	<a class="icon quote" href="#quote">Quote</a>
-	<a class="icon code" href="#code">Code</a>
-	<a class="icon link" href="#link">Link</a>
+<nav id="editor-buttons">
+	<a class="btn secondary bold" href="#bold" title="**Important!**">Bold</a>
+	<a class="btn secondary italic" href="#italic" title="*italics intensifies*">Italic</a>
+	<a class="btn secondary list" href="#list" title="* profit">List</a>
+	<a class="btn secondary quote" href="#quote" title="> - Bill Murray">Quote</a>
+	<a class="btn secondary code" href="#code" title="`$foo = 'bar'`">Code</a>
+	<a class="btn secondary link" href="#link" title="[text](url)">Link</a>
+	<a class="btn secondary image" href="#image" title="[alt](url)">Image</a>
+	<a class="btn secondary help" href="//daringfireball.net/projects/markdown/syntax" target="_blank" title="Help">?</a>
 </nav>

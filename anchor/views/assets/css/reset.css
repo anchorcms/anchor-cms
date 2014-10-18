@@ -26,3 +26,8 @@
 ::placeholder {
 	color: #bec8d4;
 }
+
+img {
+    max-width: 100%;
+    height: auto;
+}

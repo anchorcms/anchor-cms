@@ -15,6 +15,11 @@
 			)); ?>
 
 			<aside class="buttons">
+
+				<?php echo Html::link('#', 'Preview', array(
+					'class' => 'btn secondary preview show'
+				)); ?>
+
 				<?php echo Form::button(__('global.save'), array(
 					'type' => 'submit',
 					'class' => 'btn'

@@ -567,6 +567,32 @@ body.login {
 		resize: none;
 	}
 
+    .main .content.wrap.preview ul, .main .content.wrap.preview ol {
+        padding: 20px 30px;
+    }
+    .main .content.wrap.preview ul ul, .main .content.wrap.preview ol ol {
+        padding: 0 20px;
+    }
+    .main .content.wrap.preview blockquote {
+        border-left: 3px solid #98a2b1;
+        padding-left: 15px;
+        margin: 15px 0;
+    }
+
+    #editor-buttons .btn {
+        line-height: 25px;
+        padding: 0 15px;
+    }
+
+    #editor-buttons .btn.help {
+        float: right;
+    }
+
+    #editor-buttons .btn.list {
+        width: inherit;
+        border-top: none;
+    }
+
 .meta {
 	padding: 30px 0;
 	background: #ccd2d9;
