@@ -11,6 +11,13 @@ class Extend extends Base {
 		'user' => 'user'
 	);
 
+	public static $field_types = array(
+		'text' => 'text',
+		'html' => 'html',
+		'image' => 'image',
+		'file' => 'file'
+	);
+
 	public static function field($type, $key, $id = -1) {
 		$field = Query::table(static::table())
 			->where('type', '=', $type)

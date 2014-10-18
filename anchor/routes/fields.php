@@ -23,12 +23,7 @@ Route::collection(array('before' => 'auth,csrf'), function() {
 		$vars['token'] = Csrf::token();
 		$vars['types'] = Extend::$types;
 
-		$vars['fields'] = array(
-			'text' => 'text',
-			'html' => 'html',
-			'image' => 'image',
-			'file' => 'file'
-		);
+		$vars['fields'] = Extend::$field_types;
 
 		$vars['pagetypes'] = Query::table(Base::table('pagetypes'))->sort('key')->get();
 
@@ -103,12 +98,7 @@ Route::collection(array('before' => 'auth,csrf'), function() {
 		$vars['messages'] = Notify::read();
 		$vars['token'] = Csrf::token();
 		$vars['types'] = Extend::$types;
-		$vars['fields'] = array(
-			'text' => 'text',
-			'html' => 'html',
-			'image' => 'image',
-			'file' => 'file'
-		);
+		$vars['fields'] = Extend::$field_types;
 
 		$extend = Extend::find($id);
 
