@@ -2,6 +2,7 @@
 Thumbs.db
 .DS_Store
 *.esproj
+.idea
 *.log
 *.gz
 

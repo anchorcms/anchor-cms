@@ -10,7 +10,16 @@ function has_comments() {
 	}
 
 	if( ! $comments = Registry::get('comments')) {
-		$comments = Comment::where('status', '=', 'approved')->where('post', '=', $itm->id)->get();
+		$comments = Comment::where('status', '=', 'approved')->where('post', '=', $itm->id)->where('reply_to', '=', 0)->get();
+
+        foreach ($comments as $key => $comment) {
+
+            $replies = Comment::where('status', '=', 'approved')->where('post', '=', $itm->id)->where('reply_to', '=', $comment->data['id'])->get();
+
+            $comments[$key]->data['replies'] = new Items($replies);
+
+
+        }
 
 		$comments = new Items($comments);
 
@@ -18,6 +27,13 @@ function has_comments() {
 	}
 
 	return $comments->length();
+}
+
+function has_replies() {
+
+    $replies = Registry::prop('comment', 'replies');
+
+    return $replies->length();
 }
 
 function total_comments() {
@@ -43,6 +59,23 @@ function comments() {
 	}
 
 	return $result;
+}
+
+function replies() {
+    if( ! has_replies()) return false;
+
+    $replies = Registry::prop('comment', 'replies');
+
+    if ($result = $replies->valid()) {
+
+        Registry::set('reply', $replies->current());
+
+        $replies->next();
+
+    }
+
+    return $result;
+
 }
 
 // single comments
@@ -99,6 +132,38 @@ function comment_form_input_text($extra = '') {
 	return '<textarea name="text" id="text" ' . $extra . '>' . Input::previous('text') . '</textarea>';
 }
 
+function comment_form_reply_to() {
+    return '<input type="hidden" name="reply_to" id="reply_to" />';
+}
+
 function comment_form_button($text = 'Post Comment', $extra = '') {
-	return '<button type="submit" ' . $extra . '>' . $text . '</button>';
+	return '<button class="btn" type="submit" ' . $extra . '>' . $text . '</button>';
+}
+
+function reply_id() {
+    return Registry::prop('reply', 'id');
+}
+
+function reply_time() {
+    if($time = Registry::prop('reply', 'date')) {
+        return Date::format($time,'U');
+    }
+}
+
+function reply_date() {
+    if($date = Registry::prop('reply', 'date')) {
+        return Date::format($date);
+    }
+}
+
+function reply_name() {
+    return Registry::prop('reply', 'name');
+}
+
+function reply_email() {
+    return Registry::prop('reply', 'email');
+}
+
+function reply_text() {
+    return Registry::prop('reply', 'text');
 }
