@@ -18,9 +18,25 @@
 				<em><?php echo __('extend.type_explain'); ?></em>
 			</p>
 
+			<p <?php if($field->type != 'page'): ?>style="display: none"<?php endif; ?>>
+				<label for="pagetype"><?php echo __('extend.pagetype'); ?>:</label>
+				<select id="pagetype" name="pagetype">
+					<?php foreach($pagetypes as $pagetype): ?>
+					<?php $selected = (Input::previous('pagetype') == $pagetype->key || $field->pagetype == $pagetype->key) ? ' selected="selected"' : ''; ?>
+					<option value="<?php echo $pagetype->key; ?>" <?php echo $selected; ?>><?php echo $pagetype->value; ?></option>
+					<?php endforeach; ?>
+				</select>
+				<em><?php echo __('extend.pagetype_explain'); ?></em>
+			</p>
+
 			<p>
-				<label for="label-field"><?php echo __('extend.field'); ?>:</label>
-				<?php echo Form::select('field', $fields, Input::previous('field', $field->field), array('id' => 'label-field')); ?>
+				<label for="field"><?php echo __('extend.field'); ?>:</label>
+				<select id="label-field" name="field">
+					<?php foreach($fields as $type): ?>
+					<?php $selected = (Input::previous('field', $field->field) == $type) ? ' selected' : ''; ?>
+					<option<?php echo $selected; ?>><?php echo $type; ?></option>
+					<?php endforeach; ?>
+				</select>
 				<em><?php echo __('extend.field_explain'); ?></em>
 			</p>
 
@@ -51,7 +67,7 @@
 
 				<?php $value = isset($field->attributes->size->width) ? $field->attributes->size->width : ''; ?>
 
-				<?php echo Form::text('attributes[size][width]', Input::previous('attributes.size.width', $value), array('id' => 'label-attributes_size_width')); ?>	
+				<?php echo Form::text('attributes[size][width]', Input::previous('attributes.size.width', $value), array('id' => 'label-attributes_size_width')); ?>
 
 				<em><?php echo __('extend.attributes_size_width_explain'); ?></em>
 			</p>
@@ -61,8 +77,8 @@
 
 				<?php $value = isset($field->attributes->size->height) ? $field->attributes->size->height : ''; ?>
 
-				<?php echo Form::text('attributes[size][height]', Input::previous('attributes.size.height', $value), array('id' => 'label-attributes_size_height')); ?>	
-				
+				<?php echo Form::text('attributes[size][height]', Input::previous('attributes.size.height', $value), array('id' => 'label-attributes_size_height')); ?>
+
 				<em><?php echo __('extend.attributes_size_height_explain'); ?></em>
 			</p>
 		</fieldset>

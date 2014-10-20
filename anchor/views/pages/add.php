@@ -72,12 +72,28 @@
 				<?php echo Form::select('parent', $pages, Input::previous('parent'), array('id' => 'label-parent')); ?>
 				<em><?php echo __('pages.parent_explain'); ?></em>
 			</p>
-			<?php foreach($fields as $field): ?>
+			<?php if(count($pagetypes) > 0): ?>
 			<p>
-				<label for="extend_<?php echo $field->key; ?>"><?php echo $field->label; ?>:</label>
-				<?php echo Extend::html($field); ?>
+				<label for="pagetype"><?php echo __('pages.pagetype'); ?>:</label>
+				<select id="pagetype" name="pagetype">
+					<?php foreach($pagetypes as $pagetype): ?>
+					<?php $selected = ($pagetype->key == 'all') ? ' selected="selected"' : ''; ?>
+					<option value="<?php echo $pagetype->key; ?>" <?php echo $selected; ?>><?php echo $pagetype->value; ?></option>
+					<?php endforeach; ?>
+				</select>
+				<em><?php echo __('pages.pagetype_explain'); ?></em>
 			</p>
+			<?php endif; ?>
+			<div id="extended-fields">
+			<?php foreach($fields as $field): ?>
+				<?php if($field->pagetype == 'all'): ?>
+				<p>
+					<label for="extend_<?php echo $field->key; ?>"><?php echo $field->label; ?>:</label>
+					<?php echo Extend::html($field); ?>
+				</p>
+				<?php endif; ?>
 			<?php endforeach; ?>
+			</div>
 		</div>
 	</fieldset>
 </form>
@@ -90,6 +106,17 @@
 <script src="<?php echo asset('anchor/views/assets/js/editor.js'); ?>"></script>
 <script>
 	$('textarea[name=content]').editor();
+	$('#pagetype').on('change', function() {
+		var $this = $(this);
+		$.post("<?php echo Uri::to('admin/get_fields'); ?>", {
+			pagetype: $this.val(),
+			token: "<?php echo $token; ?>"
+		}, function(res){
+			res = JSON.parse(res);
+			$('#extended-fields').html(res.html);
+			$('input[name="token"]').replaceWith(res.token);
+		});
+	});
 </script>
 
 <?php echo $footer; ?>

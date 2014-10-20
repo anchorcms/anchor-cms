@@ -18,9 +18,25 @@
 				<em><?php echo __('extend.type_explain'); ?></em>
 			</p>
 
+			<p style="display: none">
+				<label for="pagetype"><?php echo __('extend.pagetype'); ?>:</label>
+				<select id="pagetype" name="pagetype">
+					<?php foreach($pagetypes as $pagetype): ?>
+					<?php $selected = (Input::previous('pagetype') == $pagetype->key) ? ' selected' : ''; ?>
+					<option value="<?php echo $pagetype->key; ?>" <?php echo $selected; ?>><?php echo $pagetype->value; ?></option>
+					<?php endforeach; ?>
+				</select>
+				<em><?php echo __('extend.pagetype_explain'); ?></em>
+			</p>
+
 			<p>
-				<label for="label-field"><?php echo __('extend.field'); ?>:</label>
-				<?php echo Form::select('field', $fields, Input::previous('type'), array('id' => 'label-field')); ?>
+				<label for="field"><?php echo __('extend.field'); ?>:</label>
+				<select id="label-field" name="field">
+					<?php foreach($fields as $type): ?>
+					<?php $selected = (Input::previous('field') == $type) ? ' selected' : ''; ?>
+					<option<?php echo $selected; ?>><?php echo $type; ?></option>
+					<?php endforeach; ?>
+				</select>
 				<em><?php echo __('extend.field_explain'); ?></em>
 			</p>
 

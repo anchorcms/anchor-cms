@@ -21,17 +21,11 @@ Route::collection(array('before' => 'auth,csrf'), function() {
 	Route::get('admin/extend/fields/add', function() {
 		$vars['messages'] = Notify::read();
 		$vars['token'] = Csrf::token();
-		$vars['types'] = array(
-			'post' => 'post',
-			'page' => 'page',
-			'category' => 'category'
-		);
-		$vars['fields'] = array(
-			'text' => 'text',
-			'html' => 'html',
-			'image' => 'image',
-			'file' => 'file'
-		);
+		$vars['types'] = Extend::$types;
+
+		$vars['fields'] = Extend::$field_types;
+
+		$vars['pagetypes'] = Query::table(Base::table('pagetypes'))->sort('key')->get();
 
 		return View::create('extend/fields/add', $vars)
 			->partial('header', 'partials/header')
@@ -39,7 +33,7 @@ Route::collection(array('before' => 'auth,csrf'), function() {
 	});
 
 	Route::post('admin/extend/fields/add', function() {
-		$input = Input::get(array('type', 'field', 'key', 'label', 'attributes'));
+		$input = Input::get(array('type', 'field', 'key', 'label', 'attributes', 'pagetype'));
 
 		if(empty($input['key'])) {
 			$input['key'] = $input['label'];
@@ -85,6 +79,7 @@ Route::collection(array('before' => 'auth,csrf'), function() {
 
 		Extend::create(array(
 			'type' => $input['type'],
+			'pagetype' => $input['pagetype'],
 			'field' => $input['field'],
 			'key' => $input['key'],
 			'label' => $input['label'],
@@ -102,17 +97,8 @@ Route::collection(array('before' => 'auth,csrf'), function() {
 	Route::get('admin/extend/fields/edit/(:num)', function($id) {
 		$vars['messages'] = Notify::read();
 		$vars['token'] = Csrf::token();
-		$vars['types'] = array(
-			'post' => 'post',
-			'page' => 'page',
-			'category' => 'category'
-		);
-		$vars['fields'] = array(
-			'text' => 'text',
-			'html' => 'html',
-			'image' => 'image',
-			'file' => 'file'
-		);
+		$vars['types'] = Extend::$types;
+		$vars['fields'] = Extend::$field_types;
 
 		$extend = Extend::find($id);
 
@@ -122,13 +108,15 @@ Route::collection(array('before' => 'auth,csrf'), function() {
 
 		$vars['field'] = $extend;
 
+		$vars['pagetypes'] = Query::table(Base::table('pagetypes'))->sort('key')->get();
+
 		return View::create('extend/fields/edit', $vars)
 			->partial('header', 'partials/header')
 			->partial('footer', 'partials/footer');
 	});
 
 	Route::post('admin/extend/fields/edit/(:num)', function($id) {
-		$input = Input::get(array('type', 'field', 'key', 'label', 'attributes'));
+		$input = Input::get(array('type', 'field', 'key', 'label', 'attributes', 'pagetype'));
 
 		if(empty($input['key'])) {
 			$input['key'] = $input['label'];
@@ -175,6 +163,7 @@ Route::collection(array('before' => 'auth,csrf'), function() {
 
 		Extend::update($id, array(
 			'type' => $input['type'],
+			'pagetype' => $input['pagetype'],
 			'field' => $input['field'],
 			'key' => $input['key'],
 			'label' => $input['label'],
