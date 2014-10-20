@@ -91,7 +91,7 @@ var Anchor = {
 		var
 			that = $(this),
 			comment = that.parents('.comment')[0]
-			;
+		;
 
 		$('#reply_to').val(comment.id.replace(/comment\-/, ''));
 		$('#comment input').eq(0).focus();
