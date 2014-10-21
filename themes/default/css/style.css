@@ -30,9 +30,7 @@ h1 {
 		display: block;
 		font-weight: 500;
 		padding-bottom: 15px;
-
 		font-size: 15px;
-		font-weight: 500;
 	}
 	.slidey form, .slidey aside {
 		float: left;
@@ -210,7 +208,7 @@ h1 {
 	color: #98a2b1;
 	font-size: 14px;
 	font-style: italic;
-	
+
 	white-space: nowrap;
 }
 	.footnote {
