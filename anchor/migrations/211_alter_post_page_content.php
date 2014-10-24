@@ -1,6 +1,6 @@
 <?php
 
-class Migration_save_html extends Migration {
+class Migration_alter_post_page_content extends Migration {
 
     public function up() {
         $table = Base::table('pages');
