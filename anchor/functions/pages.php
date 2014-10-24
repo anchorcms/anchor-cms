@@ -34,7 +34,7 @@ function page_title($default = '') {
 }
 
 function page_content() {
-	return parse(Registry::prop('page', 'content'));
+	return Registry::prop('page', 'html');
 }
 
 function page_status() {
