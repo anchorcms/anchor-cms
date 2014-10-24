@@ -75,7 +75,7 @@ function article_description() {
  * @return string
  */
 function article_html() {
-	return parse(Registry::prop('article', 'html'), false);
+	return Registry::prop('article', 'markdown');
 }
 
 /**
@@ -83,7 +83,7 @@ function article_html() {
  * @return string
  */
 function article_markdown() {
-	return parse(Registry::prop('article', 'html'));
+	return Registry::prop('article', 'html');
 }
 
 /**
