@@ -108,7 +108,7 @@ Route::collection(array('before' => 'auth,csrf'), function() {
 
 	Route::post('admin/posts/edit/(:num)', function($id) {
 		$input = Input::get(array('title', 'slug', 'description', 'created',
-			'html', 'css', 'js', 'category', 'status', 'comments'));
+			'markdown', 'css', 'js', 'category', 'status', 'comments'));
 
 		// if there is no slug try and create one from the title
 		if(empty($input['slug'])) {
@@ -157,9 +157,11 @@ Route::collection(array('before' => 'auth,csrf'), function() {
 			$input['comments'] = 0;
 		}
 
-		if(empty($input['html'])) {
+		if(empty($input['markdown'])) {
 			$input['status'] = 'draft';
 		}
+
+		$input['html'] = parse($input['markdown']);
 
 		Post::update($id, $input);
 
@@ -197,7 +199,7 @@ Route::collection(array('before' => 'auth,csrf'), function() {
 
 	Route::post('admin/posts/add', function() {
 		$input = Input::get(array('title', 'slug', 'description', 'created',
-			'html', 'css', 'js', 'category', 'status', 'comments'));
+			'markdown', 'css', 'js', 'category', 'status', 'comments'));
 
 		// if there is no slug try and create one from the title
 		if(empty($input['slug'])) {
@@ -244,9 +246,11 @@ Route::collection(array('before' => 'auth,csrf'), function() {
 			$input['comments'] = 0;
 		}
 
-		if(empty($input['html'])) {
+		if(empty($input['markdown'])) {
 			$input['status'] = 'draft';
 		}
+
+		$input['html'] = parse($input['markdown']);
 
 		$post = Post::create($input);
 
@@ -261,11 +265,11 @@ Route::collection(array('before' => 'auth,csrf'), function() {
 		Preview post
 	*/
 	Route::post('admin/posts/preview', function() {
-		$html = Input::get('html');
+		$markdown = Input::get('markdown');
 
 		// apply markdown processing
 		$md = new Markdown;
-		$output = Json::encode(array('html' => $md->transform($html)));
+		$output = Json::encode(array('markdown' => $md->transform($markdown)));
 
 		return Response::create($output, 200, array('content-type' => 'application/json'));
 	});
