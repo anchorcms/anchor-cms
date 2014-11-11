@@ -7,7 +7,7 @@ return array(
 		'mysql' => array(
 			'driver' => 'mysql',
 			'hostname' => '{{hostname}}',
-			'port' => {{port}},
+			'port' => '{{port}}',
 			'username' => '{{username}}',
 			'password' => '{{password}}',
 			'database' => '{{database}}',

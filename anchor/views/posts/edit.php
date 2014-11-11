@@ -29,7 +29,7 @@
 
 	<fieldset class="main">
 		<div class="wrap">
-			<?php echo Form::textarea('html', Input::previous('html', $article->html), array(
+			<?php echo Form::textarea('html', Input::previous('html', htmlentities($article->html, ENT_QUOTES, 'UTF-8')), array(
 				'placeholder' => __('posts.content_explain')
 			)); ?>
 

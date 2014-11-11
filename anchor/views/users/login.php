@@ -21,7 +21,8 @@
 			<p><label for="pass"><?php echo __('users.password'); ?>:</label>
 			<?php echo Form::password('pass', array(
 				'id' => 'pass',
-				'placeholder' => __('users.password')
+				'placeholder' => __('users.password'),
+				'autocomplete' => 'off'
 			)); ?></p>
 
 			<p class="buttons"><a href="<?php echo Uri::to('admin/amnesia'); ?>"><?php echo __('users.forgotten_password'); ?></a>

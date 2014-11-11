@@ -1,8 +1,8 @@
 <?php
 
 /**
-	Theme functions for search
-*/
+ * 	Theme functions for search
+ */
 function has_search_results() {
 	return Registry::get('total_posts', 0) > 0;
 }
@@ -57,7 +57,7 @@ function search_next($text = 'Next', $default = '') {
 }
 
 function search_prev($text = 'Previous', $default = '') {
-	$per_page = Config::get('meta.posts_per_page');
+	$per_page = Config::meta('posts_per_page');
 	$page = Registry::get('page_offset');
 
 	$offset = ($page - 1) * $per_page;

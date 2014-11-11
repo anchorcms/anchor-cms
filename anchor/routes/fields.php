@@ -134,7 +134,7 @@ Route::collection(array('before' => 'auth,csrf'), function() {
 
 			Notify::error($errors);
 
-			return Response::redirect('admin/extend/fields/add');
+			return Response::redirect('admin/extend/fields/edit/' . $id);
 		}
 
 		if($input['field'] == 'image') {

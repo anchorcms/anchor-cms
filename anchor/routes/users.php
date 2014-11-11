@@ -54,7 +54,7 @@ Route::collection(array('before' => 'auth,csrf'), function() {
 		});
 
 		$validator->check('username')
-			->is_max(3, __('users.username_missing', 2));
+			->is_max(2, __('users.username_missing', 2));
 
 		$validator->check('email')
 			->is_email(__('users.email_missing'));

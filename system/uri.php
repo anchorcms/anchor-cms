@@ -129,6 +129,7 @@ class Uri {
 		// digits and $-_.+!*'(),{}|\\^~[]`<>#%";/?:@&=.
 		$uri = filter_var(rawurldecode($uri), FILTER_SANITIZE_URL);
 
+
 		// remove script path/name
 		$uri = static::remove_script_name($uri, $server);
 
