@@ -117,13 +117,8 @@ Route::collection(array('before' => 'auth,csrf'), function() {
 
 			return Response::redirect('admin/posts/edit/' . $id);
 		}
-
-		if($input['created']) {
-			$input['created'] = Date::mysql($input['created']);
-		}
-		else {
-			unset($input['created']);
-		}
+		
+		$input['created'] = Date::mysql('now');
 
 		if(is_null($input['comments'])) {
 			$input['comments'] = 0;
