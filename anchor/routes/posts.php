@@ -118,10 +118,10 @@ Route::collection(array('before' => 'auth,csrf'), function() {
 			return Response::redirect('admin/posts/edit/' . $id);
 		}
 
-		if($input['created']) {
-			$input['created'] = Date::mysql($input['created']);
-		}
-		else {
+		$current_post = Post::find($id);
+		if($current_post->status == 'draft') {
+			$input['created'] = Date::mysql('now');
+		} else {
 			unset($input['created']);
 		}
 
