@@ -1,0 +1,36 @@
+<?php
+return array(
+	'posts' => 'Posts',
+	'create_post' => 'Plaats een post',
+	'noposts_desc' => 'U heeft nog geen posts!',
+	// form fields
+	'title' => 'Post titel',
+	'title_explain' => '',
+	'title_missing' => 'Voer een titel in',
+	'content' => 'Post Inhoud',
+	'content_explain' => 'SChrijf iets',
+	'slug' => 'Slug',
+	'slug_explain' => 'Slug uri om uw bericht te identificeren, mag alleen ASCII-tekens bevatten',
+	'slug_missing' => 'Vul een slug uri in, slugs kunnen alleen ASCII-tekens bevatten',
+	'slug_duplicate' => 'Slug bestaat al',
+	'slug_invalid' => 'Slug moet letters bevatten',
+	'time' => 'Gepubliceerd op (GMT)',
+	'time_explain' => 'Patroon: JJJJ-MM-DD UU:MM:SS',
+	'time_invalid' => 'Onjuist tijd patroon',
+	'description' => 'Omschrijving',
+	'description_explain' => '',
+	'status' => 'Status',
+	'status_explain' => '',
+	'category' => 'Categorie',
+	'category_explain' => '',
+	'allow_comments' => 'Sta reacties toe',
+	'allow_comments_explain' => '',
+	'custom_css' => 'Eigen CSS',
+	'custom_css_explain' => '',
+	'custom_js' => 'Eigen JS',
+	'custom_js_explain' => '',
+	// messages
+	'updated' => 'Uw artikel is bijgewerkt',
+	'created' => 'Uw nieuwe artikel is gemaakt',
+	'deleted' => 'Uw artikel is verwijderd'
+);
