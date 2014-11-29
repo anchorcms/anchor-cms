@@ -1,0 +1,30 @@
+<?php
+return array(
+	'metadata' => 'Site Meta data',
+	'metadata_desc' => 'Beheer uw site gegevens',
+	'comment_settings' => 'Reacties',
+	'theme_settings' => 'Uiterlijk',
+	// form fields
+	'sitename' => 'Site naam',
+	'sitename_explain' => '',
+	'sitename_missing' => 'Uw site heeft een naam nodig!',
+	'sitedescription' => 'Site beschrijving',
+	'sitedescription_explain' => '',
+	'sitedescription_missing' => 'Uw site heeft een beschrijving nodig!',
+	'homepage' => 'Home Pagina',
+	'homepage_explain' => '',
+	'postspage' => 'Posts Pagina',
+	'postspage_explain' => '',
+	'posts_per_page' => 'Posts per pagina',
+	'posts_per_page_explain' => '',
+	'auto_publish_comments' => 'Automatisch het toestaan reacties',
+	'auto_publish_comments_explain' => '',
+	'comment_notifications' => 'E-mail notificatie voor nieuwe reacties',
+	'comment_notifications_explain' => '',
+	'comment_moderation_keys' => 'Spam trefwoorden',
+	'comment_moderation_keys_explain' => 'Commas gescheiden lijst van trefwoorden om automatisch reacties te blacklisten. Reacties die deze woorden bevatten worden automatisch ingesteld als spam.',
+	'current_theme' => 'Huidig thema',
+	'current_theme_explain' => '',
+	// messages
+	'updated' => 'Meta data bijgewerkt',
+);
