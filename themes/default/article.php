@@ -24,7 +24,7 @@
 						<time><?php echo relative_time(comment_time()); ?></time>
 
 						<div class="content">
-							<?php echo comment_text(); ?>
+							<?php echo htmlspecialchars(comment_text()); ?>
 						</div>
 
 						<span class="counter"><?php echo $i; ?></span>
