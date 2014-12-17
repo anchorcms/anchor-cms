@@ -619,7 +619,8 @@ body.login {
 	transition: opacity .25s;
 }
 
-	.split input:focus + em, .split textarea:focus + em, .split select:focus + em {
+	.split em.visible, .split input:focus + em, 
+	.split textarea:focus + em, .split select:focus + em {
 		opacity: 1;
 	}
 
