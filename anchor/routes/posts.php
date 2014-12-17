@@ -1,6 +1,6 @@
 <?php
 
-Route::collection(array('before' => 'auth,csrf'), function() {
+Route::collection(array('before' => 'auth'), function() {
 
 	/*
 		List all posts and paginate through them
@@ -106,9 +106,6 @@ Route::collection(array('before' => 'auth,csrf'), function() {
 			->is_max(3, __('posts.slug_missing'))
 			->is_duplicate(__('posts.slug_duplicate'))
 			->not_regex('#^[0-9_-]+$#', __('posts.slug_invalid'));
-
-		$validator->check('created')
-			->is_regex('#^[0-9]{4}\-[0-9]{2}\-[0-9]{2} [0-9]{2}\:[0-9]{2}\:[0-9]{2}$#', __('posts.time_invalid'));
 
 		if($errors = $validator->errors()) {
 			Input::flash();
@@ -256,5 +253,16 @@ Route::collection(array('before' => 'auth,csrf'), function() {
 
 		return Response::redirect('admin/posts');
 	});
+    /*
+    Upload a image
+    */
+    Route::post('admin/(pages|posts)/upload', function() {
+        $uploader = new Uploader(PATH . 'content', array('png', 'jpg', 'bmp', 'gif'));
+        $filepath = $uploader->upload($_FILES['file']);
 
+        $uri = Config::app('url', '/') . 'content/' . basename($filepath);
+        $output = array('uri' => $uri);
+
+        return Response::json($output);
+    });
 });
