@@ -95,7 +95,6 @@ Route::post('database', array('before' => 'check', 'main' => function() {
 	try {
 		$connection = DB::factory(array(
 			'driver' => 'mysql',
-			'database' => $database['name'],
 			'hostname' => $database['host'],
 			'port' => $database['port'],
 			'username' => $database['user'],
