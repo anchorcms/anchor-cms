@@ -27,6 +27,7 @@
 					<h2>
 						<a href="<?php echo article_url(); ?>" title="<?php echo article_title(); ?>"><?php echo article_title(); ?></a>
 					</h2>
+					<?php if (!empty(article_description())) echo '<p>'.article_description().'</p>'; ?>
 				</article>
 			</li>
 			<?php endwhile; ?>
