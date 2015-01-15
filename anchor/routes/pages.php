@@ -223,7 +223,7 @@ Route::collection(array('before' => 'auth,csrf'), function() {
 			Query::table(Base::table('page_meta'))->where('page', '=', $id)->delete();
 			Notify::success(__('pages.deleted'));
 		} else {
-			Notify::error(['Unable to delete page, you must have at least 1 page.']);
+			Notify::error(array('Unable to delete page, you must have at least 1 page.'));
 		}
 
 		return Response::redirect('admin/pages');
