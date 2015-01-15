@@ -222,7 +222,7 @@ Route::get(array('rss', 'feeds/rss'), function() {
 	$uri = 'http://' . $_SERVER['HTTP_HOST'];
 	$rss = new Rss(Config::meta('sitename'), Config::meta('description'), $uri, Config::app('language'));
 
-    $query = Post::where('status', '=', 'published')->sort(Base::table('posts.created'), 'desc')->take(25);
+	$query = Post::where('status', '=', 'published')->sort(Base::table('posts.created'), 'desc')->take(25);
 
 	foreach($query->get() as $article) {
 		$rss->item(
@@ -259,7 +259,7 @@ Route::get('feeds/json/category/(:any)', function($slug) {
 Route::get('feeds/json', function() {
 	$json = Json::encode(array(
 		'meta' => Config::get('meta'),
-        'posts' => Post::where('status', '=', 'published')->sort(Base::table('posts.created'), 'desc')->take(25)->get()
+		'posts' => Post::where('status', '=', 'published')->sort(Base::table('posts.created'), 'desc')->take(25)->get()
 	));
 
 	return Response::create($json, 200, array('content-type' => 'application/json'));
