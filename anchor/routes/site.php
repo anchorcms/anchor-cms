@@ -125,7 +125,7 @@ Route::get($posts_page->slug . '/(:any)/edit', function($slug) use($posts_page) 
     if (!$post = Post::slug($slug) or Auth::guest()) {
         return Response::create(new Template('404'), 404);
     }
-    
+
     return Response::redirect('/admin/posts/edit/' . $post->id);
 });
 
@@ -136,7 +136,7 @@ Route::get('(:all)/edit', function($slug) use($posts_page) {
     if (!$page = Page::slug($slug) or Auth::guest()) {
         return Response::create(new Template('404'), 404);
     }
-    
+
     return Response::redirect('/admin/pages/edit/' . $page->id);
 });
 
@@ -195,13 +195,34 @@ Route::post($posts_page->slug . '/(:any)', function($slug) use($posts_page) {
 });
 
 /**
+ * Rss feed => Showing posts by specific category
+ * Example => http://localhost/feeds/rss/category/code-snippet
+ */
+Route::get('feeds/rss/category/(:any)', function($slug) {
+    $uri = 'http://' . $_SERVER['HTTP_HOST'];
+    $rss = new Rss(Config::meta('sitename'),Config::meta('description'), $uri, Config::app('language'));
+    $category = Category::where('slug', '=', $slug)->get();
+    $query = Post::where('status', '=', 'published')->where('category', '=', $category[0]->id)->sort('created', 'desc')->get();
+    foreach($query as $article) {
+        $rss->item(
+            $article->title,
+            Uri::full(Registry::get('posts_page')->slug . '/' . $article->slug),
+            $article->description,
+            $article->created
+         );
+    }
+    $xml = $rss->output();
+    return Response::create($xml, 200, array('content-type' => 'application/xml'));
+});
+
+/**
  * Rss feed
  */
 Route::get(array('rss', 'feeds/rss'), function() {
 	$uri = 'http://' . $_SERVER['HTTP_HOST'];
 	$rss = new Rss(Config::meta('sitename'), Config::meta('description'), $uri, Config::app('language'));
 
-	$query = Post::where('status', '=', 'published')->sort(Base::table('posts.created')->take(25), 'desc');
+	$query = Post::where('status', '=', 'published')->sort(Base::table('posts.created'), 'desc')->take(25);
 
 	foreach($query->get() as $article) {
 		$rss->item(
@@ -218,12 +239,27 @@ Route::get(array('rss', 'feeds/rss'), function() {
 });
 
 /**
+ * Json feed => Showing posts by specific category
+ * Example => http://localhost/feeds/json/category/code-snippet
+ */
+Route::get('feeds/json/category/(:any)', function($slug) {
+    $category = Category::where('slug', '=', $slug)->get();
+    $query = Post::where('status', '=', 'published')->where('category', '=', $category[0]->id)->sort('created', 'desc')->get();
+    $json = Json::encode(array(
+        'meta' => Config::get('meta'),
+        'posts' => $query
+    ));
+    return Response::create($json, 200, array('content-type' => 'application/json'));
+});
+
+
+/**
  * Json feed
  */
 Route::get('feeds/json', function() {
 	$json = Json::encode(array(
 		'meta' => Config::get('meta'),
-		'posts' => Post::where('status', '=', 'published')->sort(Base::table('posts.created')->take(25), 'desc')->get()
+		'posts' => Post::where('status', '=', 'published')->sort(Base::table('posts.created'), 'desc')->take(25)->get()
 	));
 
 	return Response::create($json, 200, array('content-type' => 'application/json'));
