@@ -6,8 +6,8 @@ class Category extends Base {
 
 	public static function dropdown() {
 		$items = array();
-
-		foreach(static::get() as $item) {
+		$query = Query::table(static::table());
+		foreach($query->sort('title')->get() as $item) {
 			$items[$item->id] = $item->title;
 		}
 

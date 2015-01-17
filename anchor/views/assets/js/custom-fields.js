@@ -4,7 +4,7 @@
  * Show/hide fields depending on type
  */
 $(function() {
-	var select = $('#field'), attrs = $('.hide');
+	var select = $('#label-field'), attrs = $('.hide'), fieldtype = $('#label-type'), pagetype = $('#pagetype');
 
 	var update = function() {
 		var value = select.val();
@@ -20,6 +20,20 @@ $(function() {
 	};
 
 	select.bind('change', update);
+
+	var typechange = function() {
+		var value = fieldtype.val();
+
+		if (value == 'page') {
+			pagetype.parent().show();
+		}
+		else {
+			pagetype.parent().hide();
+			pagetype.val('all');
+		}
+	};
+
+	fieldtype.bind('change', typechange);
 
 	update();
 });
