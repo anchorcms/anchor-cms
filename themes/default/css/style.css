@@ -238,6 +238,14 @@ ul.commentlist {
 		padding: 40px 0;
 		border-bottom: 1px solid rgba(22,36,54,.1);
 	}
+	ul.commentlist li.reply {
+		padding: 40px 0 0;
+		border-bottom: 0;
+	}
+	ul.commentlist li.reply .wrap {
+		padding-left: 2.5%;
+	}
+
 		ul.commentlist time {
 			font-size: 13px;
 		}
@@ -254,10 +262,48 @@ ul.commentlist {
 			font-weight: 300;
 			color: #cdd2da;
 		}
+		ul.commentlist .counter .btn {
+			/*display: none;*/
+			display: inline-block;
+			padding: 5px 10px;
+			background: #4e82ce;
+			color: #fff;
+			border: none;
+			border-radius: 5px;
+			cursor: pointer;
+			font-size: 19px; /* matches 25px counter #'s box */
+			font-weight: 500;
+		}
 
 #comment {
 	overflow: hidden;
 }
+
+	#comment-reply-notification {
+		display: none;
+		background: rgba(22, 36, 54, .1);
+		padding: 5px;
+		position: relative;
+		margin-bottom: 10px;
+		border-radius: 4px;
+	}
+
+	#comment-reply-notification.active {
+		display: block;
+	}
+
+		#comment-reply-notification > div {
+			display: inline-block;
+		}
+
+		#comment-reply-notification #cancel-reply {
+			position: absolute;
+			right: 5px;
+			top: 3px;
+			font-size: 25px;
+			cursor: pointer;
+		}
+
 	#comment label[for] {
 		display: none;
 	}

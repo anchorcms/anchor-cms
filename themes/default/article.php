@@ -27,14 +27,44 @@
 							<?php echo comment_text(); ?>
 						</div>
 
-						<span class="counter"><?php echo $i; ?></span>
+						<span class="counter">
+							<input class="btn" type="button" value="Reply"/>
+							<?php echo $i; ?>
+						</span>
 					</div>
+
+					<?php if (has_replies()) : ?>
+						<ul>
+							<?php $j = 0;
+							while (replies()) : $j++; ?>
+								<li class="comment reply" id="comment-<?php echo reply_id(); ?>">
+									<div class="wrap">
+										<h2><?php echo reply_name(); ?></h2>
+										<time><?php echo relative_time(reply_time()); ?></time>
+
+										<div class="content">
+											<?php echo reply_text(); ?>
+										</div>
+
+										<span class="counter"><?php echo "{$i}.{$j}"; ?></span>
+									</div>
+								</li>
+							<?php endwhile; ?>
+						</ul>
+					<?php endif; ?>
+
 				</li>
 				<?php endwhile; ?>
 			</ul>
 			<?php endif; ?>
 
 			<form id="comment" class="commentform wrap" method="post" action="<?php echo comment_form_url(); ?>#comment">
+
+				<div id="comment-reply-notification">
+					<div>You are replying to @<span id="comment-reply-username">nobody</span>.</div>
+					<span id="cancel-reply" title="cancel">&times;</span>
+				</div>
+
 				<?php echo comment_form_notifications(); ?>
 
 				<p class="name">
@@ -53,6 +83,7 @@
 				</p>
 
 				<p class="submit">
+					<?php echo comment_form_reply_to(); ?>
 					<?php echo comment_form_button(); ?>
 				</p>
 			</form>
