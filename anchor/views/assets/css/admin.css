@@ -16,7 +16,7 @@ b, strong {
     font-weight: 500;
 }
 
-a {
+a, button, input[type="button"], input[type="reset"], input[type="submit"] {
 	color: #486899;
 	text-decoration: none;
 
@@ -164,6 +164,8 @@ hgroup {
 
 .paging {
 	clear: both;
+	text-align: center;
+	padding-top: 25px;
 }
 
 .paging a, .paging strong {
@@ -360,6 +362,7 @@ hgroup {
 .empty {
 	text-align: center;
 	padding: 60px 0;
+	margin-left: 150px;
 }
 
 	.empty .icon {
@@ -805,3 +808,7 @@ input[type='range'], ::-webkit-slider-thumb {
 			color: #fff;
 			background-image: url('../img/tick.png');
 		}
+
+	.indent{
+		padding-left: 40px;
+	}

@@ -53,8 +53,11 @@ Route::collection(array('before' => 'auth,csrf'), function() {
 	Route::get('admin/pages/edit/(:num)', function($id) {
 		$vars['messages'] = Notify::read();
 		$vars['token'] = Csrf::token();
+		$vars['deletable'] = (Page::count() > 1) && (Page::home()->id != $id) && (Page::posts()->id != $id);
 		$vars['page'] = Page::find($id);
 		$vars['pages'] = Page::dropdown(array('exclude' => array($id), 'show_empty_option' => true));
+
+		$vars['pagetypes'] = Query::table(Base::table('pagetypes'))->sort('key')->get();
 
 		$vars['statuses'] = array(
 			'published' => __('global.published'),
@@ -63,7 +66,7 @@ Route::collection(array('before' => 'auth,csrf'), function() {
 		);
 
 		// extended fields
-		$vars['fields'] = Extend::fields('page', $id);
+		$vars['fields'] = Extend::fields('page', $id, $vars['page']->pagetype);
 
 		return View::create('pages/edit', $vars)
 			->partial('header', 'partials/header')
@@ -72,7 +75,7 @@ Route::collection(array('before' => 'auth,csrf'), function() {
 	});
 
 	Route::post('admin/pages/edit/(:num)', function($id) {
-		$input = Input::get(array('parent', 'name', 'title', 'slug', 'content', 'status', 'redirect', 'show_in_menu'));
+		$input = Input::get(array('parent', 'name', 'title', 'slug', 'content', 'status', 'redirect', 'show_in_menu', 'pagetype'));
 
 		// if there is no slug try and create one from the title
 		if(empty($input['slug'])) {
@@ -138,6 +141,8 @@ Route::collection(array('before' => 'auth,csrf'), function() {
 		$vars['token'] = Csrf::token();
 		$vars['pages'] = Page::dropdown(array('exclude' => array(), 'show_empty_option' => true));
 
+		$vars['pagetypes'] = Query::table(Base::table('pagetypes'))->sort('key')->get();
+
 		$vars['statuses'] = array(
 			'published' => __('global.published'),
 			'draft' => __('global.draft'),
@@ -154,8 +159,7 @@ Route::collection(array('before' => 'auth,csrf'), function() {
 	});
 
 	Route::post('admin/pages/add', function() {
-		$input = Input::get(array('parent', 'name', 'title', 'slug', 'content',
-			'status', 'redirect', 'show_in_menu'));
+		$input = Input::get(array('parent', 'name', 'title', 'slug', 'content', 'status', 'redirect', 'show_in_menu', 'pagetype'));
 
 		// if there is no slug try and create one from the title
 		if(empty($input['slug'])) {
@@ -214,11 +218,13 @@ Route::collection(array('before' => 'auth,csrf'), function() {
 		Delete Page
 	*/
 	Route::get('admin/pages/delete/(:num)', function($id) {
-		Page::find($id)->delete();
-
-		Query::table(Base::table('page_meta'))->where('page', '=', $id)->delete();
-
-		Notify::success(__('pages.deleted'));
+		if(Page::count() > 1) {
+			Page::find($id)->delete();
+			Query::table(Base::table('page_meta'))->where('page', '=', $id)->delete();
+			Notify::success(__('pages.deleted'));
+		} else {
+			Notify::error(['Unable to delete page, you must have at least 1 page.']);
+		}
 
 		return Response::redirect('admin/pages');
 	});

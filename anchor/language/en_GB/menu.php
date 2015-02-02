@@ -2,6 +2,7 @@
 
 return array(
 
-	'menu' => 'Menu',
+	'menu' 		=> 'Menu',
+	'edit_menu' => 'Edit menu'
 
 );

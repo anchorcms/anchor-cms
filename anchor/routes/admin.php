@@ -21,6 +21,11 @@ Route::action('csrf', function() {
 	}
 });
 
+Route::action('install_exists', function() {
+	if(file_exists('install'))
+		Notify::error(array('Please remove the install directory before publishing your site'));
+});
+
 /**
  * Admin routing
  */
@@ -32,14 +37,14 @@ Route::get('admin', function() {
 /*
 	Log in
 */
-Route::get('admin/login', function() {
+Route::get('admin/login', array('before' => 'install_exists', 'main' => function() {
 	$vars['messages'] = Notify::read();
 	$vars['token'] = Csrf::token();
 
 	return View::create('users/login', $vars)
 		->partial('header', 'partials/header')
 		->partial('footer', 'partials/footer');
-});
+}));
 
 Route::post('admin/login', array('before' => 'csrf', 'main' => function() {
 	$attempt = Auth::attempt(Input::get('user'), Input::get('pass'));
@@ -201,6 +206,21 @@ Route::get('admin/extend', array('before' => 'auth', 'main' => function($page = 
 	return View::create('extend/index', $vars)
 		->partial('header', 'partials/header')
 		->partial('footer', 'partials/footer');
+}));
+
+Route::post('admin/get_fields', array('before' => 'auth', 'main' => function() {
+	$input = Input::get(array('id', 'pagetype'));
+
+	// get the extended fields
+	$vars['fields'] = Extend::fields('page', -1, $input['pagetype']);
+
+	$html = View::create('pages/fields', $vars)->render();
+	$token = '<input name="token" type="hidden" value="' . Csrf::token() . '">';
+
+	return Response::json(array(
+		'token' => $token,
+		'html' => $html
+	));
 }));
 
 /*
