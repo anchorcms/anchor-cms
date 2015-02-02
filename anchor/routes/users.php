@@ -22,6 +22,9 @@ Route::collection(array('before' => 'auth,csrf'), function() {
 		$vars['token'] = Csrf::token();
 		$vars['user'] = User::find($id);
 
+		// extended fields
+		$vars['fields'] = Extend::fields('user', $id);
+
 		$vars['statuses'] = array(
 			'inactive' => __('global.inactive'),
 			'active' => __('global.active')
@@ -78,6 +81,8 @@ Route::collection(array('before' => 'auth,csrf'), function() {
 
 		User::update($id, $input);
 
+		Extend::process('user', $id);
+
 		Notify::success(__('users.updated'));
 
 		return Response::redirect('admin/users/edit/' . $id);
@@ -89,6 +94,9 @@ Route::collection(array('before' => 'auth,csrf'), function() {
 	Route::get('admin/users/add', function() {
 		$vars['messages'] = Notify::read();
 		$vars['token'] = Csrf::token();
+
+		// extended fields
+		$vars['fields'] = Extend::fields('user');
 
 		$vars['statuses'] = array(
 			'inactive' => __('global.inactive'),
@@ -130,7 +138,9 @@ Route::collection(array('before' => 'auth,csrf'), function() {
 
 		$input['password'] = Hash::make($input['password']);
 
-		User::create($input);
+		$user = User::create($input);
+
+		Extend::process('user', $user->id);
 
 		Notify::success(__('users.created'));
 
@@ -150,6 +160,8 @@ Route::collection(array('before' => 'auth,csrf'), function() {
 		}
 
 		User::where('id', '=', $id)->delete();
+
+		Query::table(Base::table('user_meta'))->where('user', '=', $id)->delete();
 
 		Notify::success(__('users.deleted'));
 

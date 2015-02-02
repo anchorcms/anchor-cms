@@ -25,7 +25,7 @@ class Paginator {
       $this->prev = __('global.previous');
    }
 
-	public function next_link($text = null, $default = '') {
+	public function prev_link($text = null, $default = '') {
 		if(is_null($text)) $text = $this->next;
 
 		$pages = ceil($this->count / $this->perpage);
@@ -39,7 +39,7 @@ class Paginator {
 		return $default;
 	}
 
-	public function prev_link($text = null, $default = '') {
+	public function next_link($text = null, $default = '') {
 		if(is_null($text)) $text = $this->prev;
 
 		if($this->page > 1) {

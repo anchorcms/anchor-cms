@@ -15,7 +15,6 @@ class Post extends Base {
 	private static function get($row, $val) {
 		return static::left_join(Base::table('users'), Base::table('users.id'), '=', Base::table('posts.author'))
 			->where(Base::table('posts.'.$row), '=', $val)
-			->where(Base::table('posts.status'), '!=', 'draft')
 			->fetch(array(Base::table('posts.*'),
 				Base::table('users.id as author_id'),
 				Base::table('users.bio as author_bio'),
@@ -70,6 +69,10 @@ class Post extends Base {
 		}
 
 		return array($total, $posts);
+	}
+
+	public static function perPage() {
+		return (Config::meta('show_all_posts') ? self::count() + 1 : Config::meta('posts_per_page'));
 	}
 
 }

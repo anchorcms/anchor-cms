@@ -57,7 +57,7 @@ class Comment extends Base {
 
 		$results = $query->take($perpage)->skip(($page - 1) * $perpage)->sort('date', 'desc')->get();
 
-		return new Paginator($results, $count, $page, $perpage, url('comments'));
+		return new Paginator($results, $count, $page, $perpage, Uri::to('admin/comments'));
 	}
 
 	public static function spam($comment) {
