@@ -45,7 +45,7 @@
 
 	<fieldset class="main">
 		<div class="wrap">
-			<?php echo Form::textarea('content', Input::previous('content', htmlentities($page->content, ENT_QUOTES, 'UTF-8')), array(
+			<?php echo Form::textarea('content', Input::previous('content', $page->content), array(
 				'placeholder' => __('pages.content_explain')
 			)); ?>
 
@@ -108,7 +108,11 @@
 <script src="<?php echo asset('anchor/views/assets/js/upload-fields.js'); ?>"></script>
 <script src="<?php echo asset('anchor/views/assets/js/text-resize.js'); ?>"></script>
 <script src="<?php echo asset('anchor/views/assets/js/editor.js'); ?>"></script>
+<<<<<<< HEAD
 <script src="<?php echo asset('anchor/views/assets/js/change-saver.js'); ?>"></script>
+=======
+<script src="<?php echo asset('anchor/views/assets/js/dragdrop.js'); ?>"></script>
+>>>>>>> master
 <script>
 	$('textarea[name=content]').editor();
 	$('#pagetype').on('change', function() {
