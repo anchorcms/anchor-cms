@@ -35,8 +35,7 @@
 
 					<?php if (has_replies()) : ?>
 						<ul>
-							<?php $j = 0;
-							while (replies()) : $j++; ?>
+							<?php $j = 0; while (replies()) : $j++; ?>
 								<li class="comment reply" id="comment-<?php echo reply_id(); ?>">
 									<div class="wrap">
 										<h2><?php echo reply_name(); ?></h2>
