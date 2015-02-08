@@ -36,6 +36,9 @@ These have been supplied by [@tk421](https://github.com/tk421) to help you get s
 
  - Ubuntu 14.04: view the [configuration summary](https://manageacloud.com/cookbook/848chc151i3kbj79q1qtnqng3u), [try this application](https://manageacloud.com/cookbook/848chc151i3kbj79q1qtnqng3u/deploy#test_deployment) or [deploy an instance](https://manageacloud.com/cookbook/848chc151i3kbj79q1qtnqng3u/deploy)
 
+ - Ubuntu 14.10: view the [configuration summary](https://manageacloud.com/cookbook/anchor_cms_ubuntu_utopic_unicorn_1410), [try this application](https://manageacloud.com/cookbook/
+j85v7rqni00vh2f453udl02ka7/deploy#test_deployment) or [deploy an instance](https://manageacloud.com/cookbook/j85v7rqni00vh2f453udl02ka7/deploy)
+
  - Debian Wheezy: view the [configuration summary](https://manageacloud.com/cookbook/s57arpb6m2sqsho287emeksoql), [try this application](https://manageacloud.com/cookbook/s57arpb6m2sqsho287emeksoql/deploy#test_deployment) or [deploy an instance](https://manageacloud.com/cookbook/s57arpb6m2sqsho287emeksoql/deploy)
 
  - Amazon Linux: view the [configuration summary](https://manageacloud.com/cookbook/32tmgkt2rf7alk4tp1or312efp), [try this application](https://manageacloud.com/cookbook/32tmgkt2rf7alk4tp1or312efp/deploy#test_deployment) or [deploy an instance](https://manageacloud.com/cookbook/32tmgkt2rf7alk4tp1or312efp/deploy)
