@@ -49,32 +49,36 @@ class Update {
 	public static function touch() {
 		$url = 'http://anchorcms.com/version';
 
-		if(in_array(ini_get('allow_url_fopen'), array('true', '1', 'On'))) {
-			try {
+		$updateable = @fsockopen("http://anchorcms.com/version", 80);
+
+		if ($updateable){
+			if(in_array(ini_get('allow_url_fopen'), array('true', '1', 'On'))) {
 				$context = stream_context_create(array('http' => array('timeout' => 2)));
 				$result = file_get_contents($url, false, $context);
-			} catch(Exception $e) {
+			}
+			else if(function_exists('curl_init')) {
+				$session = curl_init();
+
+				curl_setopt_array($session, array(
+					CURLOPT_URL => $url,
+					CURLOPT_HEADER => false,
+					CURLOPT_RETURNTRANSFER => true
+				));
+
+				$result = curl_exec($session);
+
+				curl_close($session);
+			}
+			else {
 				$result = false;
 			}
 		}
-		else if(function_exists('curl_init')) {
-			$session = curl_init();
-
-			curl_setopt_array($session, array(
-				CURLOPT_URL => $url,
-				CURLOPT_HEADER => false,
-				CURLOPT_RETURNTRANSFER => true
-			));
-
-			$result = curl_exec($session);
-
-			curl_close($session);
-		}
 		else {
-			$result = false;
+				$result = false;
 		}
 
 		return $result;
 	}
 
 }
+

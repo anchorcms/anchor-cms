@@ -59,6 +59,15 @@ class Post extends Base {
 				Base::table('users.bio as author_bio'),
 				Base::table('users.real_name as author_name')));
 
+		foreach ($posts as $key => $post) {
+			if ($post->data['status'] !== 'published') {
+				unset($posts[$key]);
+			}
+		}
+		if (count($posts) < 1) {
+			$total = 0;
+		}
+
 		return array($total, $posts);
 	}
 
