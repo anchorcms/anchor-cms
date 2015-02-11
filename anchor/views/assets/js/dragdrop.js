@@ -5,15 +5,7 @@
  */
 $(function() {
 	var zone = $(document), body = $('body');
-
-	var allowed = ['text/css',
-		'text/javascript', 'application/javascript',
-		'text/x-markdown',
-		'image/jpeg', 'image/gif', 'image/png'];
-
-	var debug = function(message) {
-		if(window.console) console.log(message);
-	}
+	var allowed = ['text/css', 'text/javascript', 'application/javascript', 'text/x-markdown'];
 
 	var cancel = function(event) {
 		event.preventDefault();
@@ -43,9 +35,6 @@ $(function() {
 			if(allowed.indexOf(file.type) !== -1) {
 				transfer(file);
 			}
-			else {
-				debug(file.type + ' not supported');
-			}
 		}
 
 		body.removeClass('draggy');
@@ -58,96 +47,22 @@ $(function() {
 		reader.file = file;
 		reader.callback = complete;
 		reader.onload = reader.callback;
-		reader.readAsBinaryString(file);
+		reader.readAsText(file);
 	};
 
 	var complete = function() {
-		if(['text/x-markdown'].indexOf(this.file.type) !== -1) {
-			var textarea = $('.main textarea');
-
-			textarea.val(this.result).trigger('keydown');
+		if(['text/css'].indexOf(this.file.type) !== -1) {
+			$('textarea[name=css]').val(this.result).parent().show();
 		}
 
 		if(['text/javascript', 'application/javascript'].indexOf(this.file.type) !== -1) {
-			var textarea = $('textarea[name=js]');
-
-			textarea.val(this.result);
+			$('textarea[name=js]').val(this.result).parent().show();
 		}
 
-		if(['text/css'].indexOf(this.file.type) !== -1) {
-			var textarea = $('textarea[name=css]');
+		if(['text/x-markdown'].indexOf(this.file.type) !== -1) {
+			var textarea = $('textarea[name=html]'), value = textarea.val();
 
-			textarea.val(this.result);
-		}
-
-		if(['image/jpeg', 'image/gif', 'image/png'].indexOf(this.file.type) !== -1) {
-			var path = window.location.pathname, uri, parts = path.split('/');
-
-			if(parts[parts.length - 1] == 'add') {
-				uri = path.split('/').slice(0, -1).join('/') + '/upload';
-			}
-			else {
-				uri = path.split('/').slice(0, -2).join('/') + '/upload';
-			}
-
-			upload(uri, this.file);
-		}
-	};
-
-	var upload = function(uri, file) {
-		// Uploading - for Firefox, Google Chrome and Safari
-		var xhr = new XMLHttpRequest();
-		xhr.open("post", uri);
-
-		var formData = new FormData();
-		formData.append('file', file);
-
-		xhr.onreadystatechange = function() {
-			if(this.readyState == 4) {
-				return uploaded(file, this.responseText);
-			}
-		}
-
-		if(xhr.upload) {
-			xhr.upload.onprogress = function(e) {
-				upload_progress(e.position || e.loaded, e.totalSize || e.total);
-			};
-		}
-		else {
-			xhr.addEventListener('progress', function(e) {
-				upload_progress(e.position || e.loaded, e.totalSize || e.total);
-			}, false);
-		}
-
-		// Send the file (doh)
-		xhr.send(formData);
-	};
-
-	var upload_progress = function(position, total) {
-		if(position == total) {
-			$('#upload-file-progress').hide();
-		}
-		else {
-			$('#upload-file-progress').show();
-
-			$('#upload-file-progress progress').prop('value', position);
-			$('#upload-file-progress progress').prop('max', total);
-		}
-	};
-
-	var uploaded = function(file, response) {
-		var data = JSON.parse(response);
-
-		if(data.uri) {
-			var textarea = $('.main textarea'),
-				element = textarea[0],
-				start = element.selectionStart,
-				value = element.value,
-				img = "\n\n" + '![' + file.name + '](' + data.uri + ')' + "\n\n";
-
-			element.value = value.substring(0, start) + img + value.substring(start);
-			element.selectionStart = element.selectionEnd = start + img.length;
-			textarea.trigger('keydown');
+			textarea.val(this.result).trigger('keydown');
 		}
 	};
 
@@ -159,6 +74,14 @@ $(function() {
 		zone.on('dragexit', close);
 
 		body.append('<div id="upload-file"><span>Upload your file</span></div>');
-		body.append('<div id="upload-file-progress"><progress value="0"></progress></div>');
+
+		// hide drag/drop inputs until populated
+		$('textarea[name=css],textarea[name=js]').each(function(index, item) {
+			var element = $(item);
+
+			if(element.val() == '') {
+				element.parent().hide();
+			}
+		});
 	}
 });
