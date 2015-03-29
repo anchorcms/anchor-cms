@@ -48,11 +48,15 @@ class Update {
 
 	public static function touch() {
 		$url = 'http://anchorcms.com/version';
+		$result = false;
 
 		if(in_array(ini_get('allow_url_fopen'), array('true', '1', 'On'))) {
 			try {
 				$context = stream_context_create(array('http' => array('timeout' => 2)));
-				$result = file_get_contents($url, false, $context);
+				$result = @file_get_contents($url, false, $context);
+				if ( !$result ) {
+					$result = false;
+				}
 			} catch(Exception $e) {
 				$result = false;
 			}
@@ -69,9 +73,6 @@ class Update {
 			$result = curl_exec($session);
 
 			curl_close($session);
-		}
-		else {
-			$result = false;
 		}
 
 		return $result;
