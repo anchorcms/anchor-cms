@@ -284,5 +284,4 @@ Route::collection(array('before' => 'auth,csrf'), function() {
 
 		return Response::redirect('admin/posts');
 	});
-
 });

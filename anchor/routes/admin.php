@@ -224,6 +224,20 @@ Route::post('admin/get_fields', array('before' => 'auth', 'main' => function() {
 }));
 
 /*
+	Upload an image
+*/
+Route::post('admin/upload', function() {
+
+	$uploader = new Uploader(PATH . 'content', array('png', 'jpg', 'bmp', 'gif'));
+	$filepath = $uploader->upload($_FILES['file']);
+
+	$uri = Config::app('url', '/') . '/content/' . basename($filepath);
+	$output = array('uri' => $uri);
+
+	return Response::json($output);
+});
+
+/*
 	404 error
 */
 Route::error('404', function() {
