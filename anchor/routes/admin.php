@@ -228,7 +228,7 @@ Route::post('admin/get_fields', array('before' => 'auth', 'main' => function() {
 */
 Route::post('admin/upload', array('before' => 'auth', 'main' => function() {
 
-	$uploader = new Uploader(PATH . 'content', array('png', 'jpg', 'bmp', 'gif'));
+	$uploader = new Uploader(PATH . 'content', array('png', 'jpg', 'bmp', 'gif', 'pdf'));
 	$filepath = $uploader->upload($_FILES['file']);
 
 	$uri = Config::app('url', '/') . '/content/' . basename($filepath);

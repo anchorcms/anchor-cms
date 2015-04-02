@@ -8,7 +8,7 @@ $(function() {
 
 	var allowed = ['text/css',
 		'text/javascript', 'application/javascript',
-		'text/x-markdown',
+		'text/x-markdown', 'application/pdf',
 		'image/jpeg', 'image/gif', 'image/png', 'image/bmp'];
 
 	var debug = function(message) {
@@ -80,7 +80,7 @@ $(function() {
 			textarea.val(this.result);
 		}
 
-		if(['image/jpeg', 'image/gif', 'image/png', 'image/bmp'].indexOf(this.file.type) !== -1) {
+		if(['image/jpeg', 'image/gif', 'image/png', 'image/bmp', 'application/pdf'].indexOf(this.file.type) !== -1) {
 			var path = window.location.pathname, uri, parts = path.split('/');
 
 			if(parts[parts.length - 1] == 'add') {
@@ -143,9 +143,15 @@ $(function() {
 				element = textarea[0],
 				start = element.selectionStart,
 				value = element.value,
-				img = "\n\n" + '![' + file.name + '](' + data.uri + ')' + "\n\n";
+				fileOutput = '[' + file.name + '](' + data.uri + ')' + "\n\n";
 
-			element.value = value.substring(0, start) + img + value.substring(start);
+			if(['image/jpeg', 'image/gif', 'image/png', 'image/bmp'].indexOf(file.type) !== -1) {
+				fileOutput = "\n\n!" + fileOutput;
+			} else {
+				fileOutput = "\n\n" + fileOutput;
+			}
+
+			element.value = value.substring(0, start) + fileOutput + value.substring(start);
 			element.selectionStart = element.selectionEnd = start + img.length;
 			textarea.trigger('keydown');
 		}
