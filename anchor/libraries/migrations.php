@@ -57,7 +57,7 @@ class Migrations {
 		return $num;
 	}
 
-	public function down() {
+	public function down($to) {
 		// reverse sorted migration files
 		$files = $this->files(true);
 
