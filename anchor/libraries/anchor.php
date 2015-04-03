@@ -113,6 +113,10 @@ class Anchor {
 			$number = $migrations->up($migrate_to);
 			Query::table($table)->where('key', '=', 'current_migration')->update(array('value' => $number));
 		}
+		else if($current > $migrate_to) {
+			$number = $migrations->down($migrate_to);
+			Query::table($table)->where('key', '=', 'current_migration')->update(array('value' => $number));
+		}
 	}
 
 }
