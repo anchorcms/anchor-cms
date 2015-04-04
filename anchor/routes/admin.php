@@ -231,7 +231,7 @@ Route::post('admin/upload', array('before' => 'auth', 'main' => function() {
 	$uploader = new Uploader(PATH . 'content', array('png', 'jpg', 'bmp', 'gif', 'pdf'));
 	$filepath = $uploader->upload($_FILES['file']);
 
-	$uri = Config::app('url', '/') . '/content/' . basename($filepath);
+	$uri = Config::app('url', '/') . 'content/' . basename($filepath);
 	$output = array('uri' => $uri);
 
 	return Response::json($output);
