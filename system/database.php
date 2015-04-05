@@ -32,6 +32,8 @@ class Database {
 		switch($config['driver']) {
 			case 'mysql':
 				return new Database\Connectors\Mysql($config);
+			case 'pgsql':
+				return new Database\Connectors\Pgsql($config);
 			case 'sqlite':
 				return new Database\Connectors\Sqlite($config);
 		}
