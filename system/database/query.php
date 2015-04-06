@@ -287,7 +287,7 @@ class Query extends Builder {
 	 * @return object
 	 */
 	public function join($table, $left, $operator, $right, $type = 'INNER') {
-		if($table instanceof Closure) {
+		if($table instanceof \Closure) {
 			list($query, $alias) = $table();
 
 			$this->bind = array_merge($this->bind, $query->bind);

@@ -59,7 +59,7 @@ class Route {
 	public static function register($method, $patterns, $arguments) {
 		$method = strtoupper($method);
 
-		if($arguments instanceof Closure) {
+		if($arguments instanceof \Closure) {
 			$arguments = array('main' => $arguments);
 		}
 
@@ -156,12 +156,12 @@ class Route {
 		$this->after($response);
 
 		// If the response was a view get the output and create response
-		if($response instanceof View) {
+		if($response instanceof \System\View) {
 			return Response::create($response->render());
 		}
 
 		// If we have a response object return it
-		if($response instanceof Response) {
+		if($response instanceof \System\Response) {
 			return $response;
 		}
 
