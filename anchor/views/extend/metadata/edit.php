@@ -36,6 +36,7 @@
 				<label for="posts_per_page"><?php echo __('metadata.posts_per_page'); ?>:</label>
 				<?php echo Form::input('range', 'posts_per_page', Input::previous('posts_per_page', $meta['posts_per_page']),
 					array('min' => 1, 'max' => 15)); ?>
+				<span class="value-posts_per_page"><script>document.write( $("#label-posts_per_page").val() );</script></span>	
 				<em><?php echo __('metadata.posts_per_page_explain'); ?></em>
 			</p>
 		</fieldset>
@@ -84,5 +85,10 @@
 		</aside>
 	</form>
 </section>
-
+<script>
+	$("#label-posts_per_page").change(function(){
+		var ppp = $(this).val();
+		$('.value-posts_per_page').html(ppp);
+	});
+</script>
 <?php echo $footer; ?>
