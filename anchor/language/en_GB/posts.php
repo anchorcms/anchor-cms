@@ -44,8 +44,8 @@ return array(
 	'custom_js_explain' => '',
 
 	// messages
-	'updated' => 'Your article has been updated',
-	'created' => 'Your new article was created',
-	'deleted' => 'Your article has been deleted'
+	'updated' => 'Your post has been updated',
+	'created' => 'Your new post was created',
+	'deleted' => 'Your post has been deleted'
 
 );
