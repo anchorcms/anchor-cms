@@ -1,0 +1,20 @@
+<?php
+
+$age = $this->posts->where('status', '=', 'published')->where('id', '<', $content->id)->count() + 1;
+
+$ordinal = ordinal($age);
+$words = wordCount($content);
+
+?><div class="items">
+	<div class="item">
+		<div class="wrap">
+			<h1><?php echo $content->title; ?></h1>
+
+			<div class="content"><?php echo $content->body(); ?></div>
+
+			<p>This article is my <?php echo ($age > 1 ? $ordinal . ' oldest' : $ordinal); ?>. It is <?php echo $words; ?> words long.</p>
+
+			<?php echo $this->events->triggerOutput('theme_article_footer', $content); ?>
+		</div>
+	</div>
+</div>

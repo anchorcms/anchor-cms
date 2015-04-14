@@ -1,0 +1,35 @@
+/**
+ *   Anchor CMS
+ *   Default theme (for version 1.0)
+ *
+ *   There's no actual CSS here. This file just makes the main theme folder
+ *   slightly cleaner to look at. All the theme-related assets (images, CSS,
+ *   JavaScript, etc.) are in the "assets" folder.
+ */
+
+
+ 
+/**
+ *   Remove all the default browser styles.
+ */
+@import 'assets/css/reset.css';
+
+/**
+ *   The theme's styles
+ */
+@import 'assets/css/main.css';
+
+/**
+ *   Responsive tweaks
+ */
+@import 'assets/css/mobile.css' (max-width: 1100px);
+
+
+
+/**
+ *   If you'd like to add any custom styles, tweaks or site-specific fixes,
+ *   here's where to put them here. Anything here will over-ride EVERYTHING
+ *   above.
+ *
+ *   If things start breaking, it's probably due to whatever's below here.
+ */

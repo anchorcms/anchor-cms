@@ -1,0 +1,317 @@
+* {
+	margin: 0;
+	padding: 0;
+	
+	-webkit-font-smoothing: antialiased;
+	
+	/* Emulates IE's box model. The one thing they did right... */
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+body, html, .page {
+	height: 100%;
+}
+	body {
+		font: 15px/25px "Open Sans", sans-serif;
+		color: #606467;
+		
+		background-image: linear-gradient(30deg, rgb(25,52,81) 0%, rgb(137,182,188) 60%, rgb(229,238,235) 85%, rgb(255,255,255) 100%);
+		background-size: 100% 100%;
+		background-attachment: fixed;
+		
+		overflow: hidden;
+	}
+	
+::selection {
+	background: #bbe3fa;
+	color: #588097;
+}
+
+a, .sidebar nav a.active {
+	color: #208dea;
+	text-decoration: none;
+}
+	a:hover, .sidebar nav a.active:hover {
+		color: #126ebc;
+	}
+
+h1, h2, h3, h4, p, ol, ul {
+	font-weight: normal;
+	margin-bottom: 1em;
+}
+	h1, h2, h3, h4 {
+		color: #333538;
+		margin: 1em 0 .5em;
+	}
+	h1, h2 {
+		font-size: 32px;
+		line-height: 42px;
+	}
+	h3 {
+		font-size: 26px;
+		line-height: 36px;
+	}
+	h4 {
+		font-size: 21px;
+		line-height: 30px;
+		font-weight: 500;
+	}
+
+pre {
+	display: block;
+	padding: 20px 25px;
+	margin: 10px 0 20px;
+
+	font-size: 13px;
+	line-height: 20px;
+
+	background: #f2f4f5;
+	border-radius: 4px;
+}
+
+/**
+ *   Alternate colour schemes
+ */
+.scheme-1 { background: linear-gradient(30deg, #f2548b 0%, #f7ab49 100%) }
+	.scheme-1 a, .scheme-1 .sidebar nav a.active { color: #f2548b }
+	
+.scheme-2 { background: linear-gradient(30deg, #5b40d0 0%, #26e6b7 100%) }
+	.scheme-2 a, .scheme-2 .sidebar nav a.active { color: #5a3bdf }
+	
+.scheme-3 { background: linear-gradient(30deg, #e08620 0%, #eab620 40%, #f4e21f 100%) }
+	.scheme-3 a, .scheme-3 .sidebar nav a.active { color: #eab620 }
+	
+.scheme-4 { background: linear-gradient(30deg, #f0866a 0%, #cfa2cb 100%) }
+	.scheme-4 a, .scheme-4 .sidebar nav a.active { color: #d86472 }
+
+
+.wrap {
+	width: 1140px;
+	margin: 0 auto;
+}
+
+.accessible {
+	position: absolute;
+	left: 50px;
+	top: 10px;
+	
+	display: inline-block;
+	padding: 3px 9px 2px 14px;
+	
+	outline: none;
+	
+	clip: rect(1px 1px 1px 1px); /* IE6, IE7 */
+	clip: rect(1px, 1px, 1px, 1px);
+	
+	border-radius: 3px 0 0 3px;
+	
+	font-size: 13px;
+	font-weight: 500;
+	
+	color: #fff;
+	background: rgba(0,0,0,.1);
+	text-shadow: 0 2px 3px rgba(0,0,0,.2);
+}
+	.accessible:focus {
+		clip: auto;
+	}
+	.accessible:after {
+		content: '';
+		position: absolute;
+		right: -12px;
+		top: 0;
+		
+		display: block;
+		border-left: 12px solid rgba(0,0,0,.1);
+		border-top: 15px solid transparent;
+		border-bottom: 15px solid transparent;
+	}
+
+.page {
+	margin: 50px;
+	padding: 50px 50px 50px 0;
+	
+	height: -webkit-calc(100% - 100px);
+	height: -moz-calc(100% - 100px);
+	height: calc(100% - 100px);
+	
+	background: #fff;
+	box-shadow: 0 4px 7px rgba(0,0,0,.1);
+	
+	/*border-radius: 3px; <- makes the page pretty laggy in chrome, do not enable*/
+}
+
+.sidebar {
+	position: relative;
+	overflow: auto;
+
+	float: left;
+	width: 25%;
+	width: calc(300px);
+	height: 100%;
+	padding: 0 50px;
+	
+	border-right: 1px solid #f2f4f5;
+}
+	.sidebar .avatar {
+		display: block;
+		width: 96px;
+		height: 96px;
+		margin-bottom: 25px;
+		
+		background-color: #f2f4f5;
+		border-radius: 48px;
+
+		transition: background .2s;
+	}
+	.sidebar hgroup {
+		margin-bottom: 25px;
+	}
+		.sidebar h1 {
+			margin-bottom: 12px;
+			
+			font-size: 32px;
+			line-height: 40px;
+			font-weight: lighter;
+			
+			color: #292b2d;
+		}
+	.sidebar nav {
+		display: block;
+		padding: 15px 0 30px;
+	}
+		.sidebar nav a {
+			position: relative;
+			display: block;
+			padding: 6px 0;
+			
+			font-weight: 600;
+			
+			color: #505659;
+		}
+			.sidebar nav a:hover {
+				color: #4bacff;
+			}
+			.sidebar nav a.active {
+				color: #208dea;
+			}
+				.sidebar nav a.active:before {
+					content: '';
+					position: absolute;
+					left: -22px;
+					top: 50%;
+					
+					display: block;
+					width: 6px;
+					height: 6px;
+					margin-top: -3px;
+					
+					background: currentColor;
+					border-radius: 5px;
+				}
+	.sidebar .copyright {
+		position: absolute;
+		bottom: 0;
+		left: 50px;
+		right: 50px;
+		
+		display: block;
+		
+		font-size: 11px;
+		line-height: 16px;
+	}
+		.sidebar .attribution {
+			display: block;
+			color: #bbbec0;
+		}
+		.sidebar .copyright a {
+			padding-bottom: 1px;
+			
+			color: #909498;
+			border-bottom: 1px solid #f1f2f2;
+		}
+		.sidebar .float-right {
+			position: absolute;
+			right: 0;
+			bottom: 0;
+		}
+
+@media (max-height: 700px) {
+	.sidebar .copyright {
+		display: none;
+	}
+}
+
+.right-aligned {
+	position: relative;
+	
+	float: right;
+	width: 75%;
+	width: calc(100% - 300px);
+	height: 100%;
+	
+	overflow-x: hidden;
+	overflow-y: auto;
+	
+	-webkit-overflow-scrolling: touch;
+}
+	.right-aligned:after {
+		content: '';
+		position: fixed;
+		left: 400px;
+		right: 150px;
+		bottom: 100px;
+		
+		display: block;
+		height: 35px;
+		
+		background: linear-gradient(rgba(255,255,255,0), #fff);
+	}
+	
+.content {
+	width: 850px;
+	margin: 0 auto;
+}
+	.content img {
+		max-width: 100%;
+		height: auto;
+	}
+	.content ul, .content ol {
+		margin: 10px 30px 1.2em;
+	}
+
+
+.post {
+	position: relative;
+	padding: 80px 0;
+}
+	.post-title {
+		margin-bottom: 40px;
+	}
+		.post-title h1 {
+			margin-bottom: 5px;
+			
+			font-size: 40px;
+			line-height: 52px;
+			font-weight: lighter;
+		}
+		.post-title .post-meta {
+			font-size: 13px;
+			
+			color: #aeb0b4;
+		}
+			.post-title .post-meta a {
+				color: #888b90;
+			}
+	.post-content {
+		
+	}
+		.post-content p:first-child {
+			font-size: 22px;
+			line-height: 32px;
+			font-weight: 300;
+			
+			color: #4d5154;
+		}
