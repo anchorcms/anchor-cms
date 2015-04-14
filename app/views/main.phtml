@@ -1,0 +1,40 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title><?php echo $title; ?></title>
+
+		<script src="//code.jquery.com/jquery-2.1.3.min.js"></script>
+		<script src="/app/views/assets/js/admin.js"></script>
+
+		<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Open+Sans">
+		<link rel="stylesheet" type="text/css" href="/app/views/assets/css/styles.css">
+	</head>
+	<body>
+		<header>
+			<nav class="wrap clearfix">
+				<ul class="menu flat pull-left">
+					<li><a class="logo" href="/admin/posts">Anchor CMS</a></li>
+					<li><a class="active" href="/admin/posts">Posts</a></li>
+					<li><a href="/admin/pages">Pages</a></li>
+				</ul>
+
+				<ul class="menu flat pull-right">
+					<li><a class="dark" href="/admin/auth/logout">Logout</a></li>
+					<li><a class="dark" href="/">Visit Your Site</a></li>
+				</ul>
+			</nav>
+		</header>
+
+		<?php echo $body; ?>
+
+		<footer class="wrap">
+			<p>powered by Anchor, version 1.0 <span class="pull-right">make blogging beautiful</span></p>
+		</footer>
+
+		<script>
+			// Confirm any deletions
+			$('.delete').on('click', function() {return confirm('Are you sure?');});
+		</script>
+	</body>
+</html>

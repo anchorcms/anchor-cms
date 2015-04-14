@@ -1,40 +1,25 @@
-# os/app generated files
-Thumbs.db
-.DS_Store
-*.esproj
+# global
+*.phar
 *.log
-*.gz
+*.lock
+*.sqlite
+*.swp
 
-# env
-/anchor/config/dev
+# files
+.htaccess
 
-# generated config
-/anchor/config/app.php
-/anchor/config/db.php
-/anchor/config/session.php
+# development files
+adminer.php
+router.php
 
-# user mod_rewrite
-/.htaccess
+# bullshit
+.DS_Store
+Icon?
+Thumbs.db
 
-# debug and custom themes
-/themes/*
-!/themes/default
-
-# uploaded content
-/content/*
-!/content/index.php
-
-# plugins
-/plugins/*
-
-# phpunit tests
-/tests
-
-# We all love Sublime Text and its awesome plugins, don't we?
-sftp-config.json
-
-# User robots.txt
-robots.txt
-
-# User humans.txt [http://humanstxt.org/]
-humans.txt
+# folders
+plugins
+themes
+content
+vendor
+app/config

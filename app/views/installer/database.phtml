@@ -1,0 +1,63 @@
+
+<nav>
+	<img src="/app/views/assets/img/logo.png">
+	<ul>
+		<li>Language and timezone</li>
+		<li class="elapsed">Database setup</li>
+		<li>Site metadata</li>
+		<li>Your account</li>
+		<li>All done!</li>
+	</ul>
+</nav>
+
+<div class="content">
+	<h1>Your database details</h1>
+	<p>Firstly, we’ll need a database. Anchor needs them to store all of your blog’s information, so it’s vital you fill these in correctly. If you don’t know what these are, you’ll need to contact your webhost.</p>
+
+	<?php echo $form->open(); ?>
+
+	<?php if(count($messages)): ?>
+	<ul class="errors">
+		<?php foreach($messages as $message): ?>
+		<li><?php echo $message; ?></li>
+		<?php endforeach; ?>
+	</ul>
+	<?php endif; ?>
+
+	<?php foreach($form->getElements(['driver']) as $element): ?>
+	<p><label for="<?php echo $element->getName(); ?>"><?php echo $element->getLabel(); ?></label> <?php echo $element->getHtml(); ?></p>
+	<?php endforeach; ?>
+
+	<div class="mysql">
+		<?php foreach($form->getElements(['host', 'port', 'user', 'pass']) as $element): ?>
+		<p><label for="<?php echo $element->getName(); ?>"><?php echo $element->getLabel(); ?></label> <?php echo $element->getHtml(); ?></p>
+		<?php endforeach; ?>
+	</div>
+
+	<?php foreach($form->getElementsExcluding(['driver', 'host', 'port', 'user', 'pass', 'submit']) as $element): ?>
+	<p><label for="<?php echo $element->getName(); ?>"><?php echo $element->getLabel(); ?></label> <?php echo $element->getHtml(); ?></p>
+	<?php endforeach; ?>
+
+	<p><a class="button" href="<?php echo $this->url('index.php?installer=l10n'); ?>">Back</a>
+		<?php echo $form->getElement('submit')->getHtml(); ?></p>
+
+	<?php echo $form->close(); ?>
+</div>
+
+<small>
+	You’re installing Anchor version 1.0.
+	<a href="//twitter.com/anchorcms" target="_blank">Need help?</a>
+</small>
+
+<script>
+	(function(doc) {
+		var select = doc.querySelector('select');
+
+		var toggle = function() {
+			doc.querySelector('.mysql').style.display = (select.options[select.selectedIndex].value == 'mysql') ? 'block' : 'none';
+		};
+
+		select.addEventListener('change', toggle, false);
+		select.dispatchEvent(new Event('change'));
+	})(document);
+</script>

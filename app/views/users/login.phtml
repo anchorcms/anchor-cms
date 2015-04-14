@@ -1,0 +1,32 @@
+<div class="wrap">
+	<header>
+		<div class="logo"><a href="/admin">Anchor CMS</a></div>
+	</header>
+
+	<?php echo $form->open(); ?>
+
+	<?php if(count($messages)): ?>
+	<ul class="messages">
+		<?php foreach($messages as $message): ?>
+		<li><?php echo $message; ?></li>
+		<?php endforeach; ?>
+	</ul>
+	<?php endif; ?>
+
+	<?php foreach($form->getElementsExcluding(['submit']) as $element): ?>
+	<?php if($element->hasLabel()): ?>
+	<label for="<?php echo $element->getName(); ?>"><?php echo $element->getLabel(); ?></label>
+	<?php endif; ?>
+
+	<?php echo $element->getHtml(); ?>
+
+	<?php endforeach; ?>
+
+	<nav>
+		<?php echo $form->getElement('submit')->getHtml(); ?>
+		<a href="/admin/amnesia">Forgotten your password?</a>
+	</nav>
+
+	<?php echo $form->close(); ?>
+
+</div>

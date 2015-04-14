@@ -1,25 +1,47 @@
 {
 	"name": "anchorcms/anchor-cms",
-	"description": "Anchor is a free, lightweight, faster-than-a-bullet, simple blogging system, made for art–directed posts.",
-	"type": "CMS",
-	"keywords": ["CMS", "anchor", "anchorcms"],
+	"description": "Just another cms",
 	"license": "GPL-3.0",
+	"version": "0.1.0",
+	"type": "project",
 	"authors": [
 		{
 			"name": "Idiot",
-			"email": "iam@visualidiot.com"
+			"email": "iam@visualidiot.com",
+			"homepage": "http://visualidiot.com",
+			"role": "Designer"
 		},
 		{
 			"name": "Kieron",
-			"email": "rwarasaurus@gmail.com"
+			"email": "hello@madebykieron.co.uk",
+			"homepage": "http://madebykieron.co.uk",
+			"role": "Developer"
+		}
+	],
+	"repositories": [
+		{
+			"type": "vcs",
+			"url": "git@github.com:rwarasaurus/forms.git"
+		},
+		{
+			"type": "vcs",
+			"url": "git@github.com:rwarasaurus/validation.git"
+		},
+		{
+			"type": "vcs",
+			"url": "git@github.com:rwarasaurus/db.git"
 		}
 	],
 	"require": {
-		"php": ">=5.3.6"
+		"php": ">=5.3",
+		"cebe/markdown": "1.1.*@dev",
+		"rwarasaurus/forms": "dev-master",
+		"rwarasaurus/validation": "dev-master",
+		"rwarasaurus/db": "dev-master"
 	},
-	"extra": {
-		"installer-paths": {
-			"anchor/vendor/{$name}": ["vendor/package"]
+	"autoload": {
+		"psr-0": {
+			"": "src/"
 		}
 	}
 }

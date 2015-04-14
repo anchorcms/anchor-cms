@@ -1,0 +1,39 @@
+
+<nav>
+	<img src="/app/views/assets/img/logo.png">
+	<ul>
+		<li class="elapsed">Language and timezone</li>
+		<li>Database setup</li>
+		<li>Site metadata</li>
+		<li>Your account</li>
+		<li>All done!</li>
+	</ul>
+</nav>
+
+<div class="content">
+	<h1>Hello. Willkommen. Bonjour. Croeso.</h1>
+	<p>If you were looking for a truly lightweight blogging experience, you’ve found the right place. Simply fill in the details below, and you’ll have your new blog set up in no time.</p>
+
+	<?php echo $form->open(); ?>
+
+	<?php if(count($messages)): ?>
+	<ul class="errors">
+		<?php foreach($messages as $message): ?>
+		<li><?php echo $message; ?></li>
+		<?php endforeach; ?>
+	</ul>
+	<?php endif; ?>
+
+	<?php foreach($form->getElementsExcluding(['submit']) as $element): ?>
+	<p><label for="<?php echo $element->getName(); ?>"><?php echo $element->getLabel(); ?></label> <?php echo $element->getHtml(); ?></p>
+	<?php endforeach; ?>
+
+	<p><?php echo $form->getElement('submit')->getHtml(); ?></p>
+
+	<?php echo $form->close(); ?>
+</div>
+
+<small>
+	You’re installing Anchor version 1.0.
+	<a href="//twitter.com/anchorcms" target="_blank">Need help?</a>
+</small>

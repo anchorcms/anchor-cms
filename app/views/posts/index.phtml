@@ -1,0 +1,42 @@
+<div class="wrap">
+
+	<div class="clearfix">
+		<h1 class="pull-left">Posts</h1>
+
+		<nav class="pull-right">
+			<p><a class="button" href="/admin/posts/create">Create</a></p>
+		</nav>
+	</div>
+
+	<div class="column fourth first">
+		<small>Filter by status</small>
+		<ul class="list">
+			<?php foreach(['published', 'draft', 'archived'] as $status): ?>
+			<li><a href="/admin/posts?status=<?php echo $status; ?>"><?php echo ucfirst($status); ?></a></li>
+			<?php endforeach; ?>
+		</ul>
+
+		<small>Filter by category</small>
+		<ul class="list">
+			<?php foreach($this->categories->get() as $category): ?>
+			<li><a href="/admin/posts?category=<?php echo $category->id; ?>"><?php echo $category->title; ?></a></li>
+			<?php endforeach; ?>
+		</ul>
+	</div>
+
+	<div class="column three-fourths last">
+		<?php foreach($posts as $post): ?>
+		<a class="item" href="/admin/posts/<?php echo $post->id; ?>/edit">
+			<strong><?php echo $post->title; ?></strong>
+			<em class="label"><?php echo $post->status; ?></em>
+			<time datetime="<?php echo $post->created; ?>">
+				<?php echo \DateTime::createFromFormat('Y-m-d H:i:s', $post->created)->format('jS M, Y'); ?>
+			</time>
+			<span><?php echo $post->description; ?></span>
+		</a>
+		<?php endforeach; ?>
+
+		<nav class="paging"><?php echo $paging->links(); ?></nav>
+	</div>
+
+</div>
