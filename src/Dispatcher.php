@@ -32,7 +32,7 @@ class Dispatcher {
 
 	public function match($uri) {
 		// load routes from plugins
-		$pluginRoutes = $this->container['events']->triggerMerge('routes');
+		$pluginRoutes = (array) $this->container['events']->triggerMerge('routes');
 
 		// prepend custom routes
 		$this->routes = $pluginRoutes + $this->routes;

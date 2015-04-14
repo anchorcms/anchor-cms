@@ -9,7 +9,7 @@ abstract class Frontend {
 	public function __construct(\Container $app) {
 		$this->container = $app;
 		$paths = $this->config->get('paths');
-		$theme = $this->meta->key('theme', 'default');
+		$theme = $this->meta->key('theme', 'sail');
 		$path = $paths['themes'] . '/' . $theme;
 
 		if( ! is_dir($path)) {

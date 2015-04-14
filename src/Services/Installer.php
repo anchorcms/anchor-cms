@@ -106,16 +106,15 @@ class Installer {
 
 	public function setupDatabase(array $input) {
 		$pdo = $this->getPdo($input);
+		$query = new \DB\Query($pdo);
 
-		$categories = new \Models\Categories($pdo, $input['prefix']);
-		$category = $categories->insert([
+		$category = $query->table($input['prefix'].'categories')->insert([
 			'title' => 'Uncategorised',
 			'slug' => 'uncategorised',
 			'description' => 'Ain\'t no category here.',
 		]);
 
-		$users = new \Models\Users($pdo, $input['prefix']);
-		$user = $users->insert([
+		$user = $query->table($input['prefix'].'users')->insert([
 			'username' => $input['username'],
 			'password' => password_hash($input['password'], PASSWORD_BCRYPT, ['cost' => 12]),
 			'email' => $input['email'],
@@ -125,8 +124,7 @@ class Installer {
 			'role' => 'administrator',
 		]);
 
-		$pages = new \Models\Pages($pdo, $input['prefix']);
-		$page = $pages->insert([
+		$page = $query->table($input['prefix'].'pages')->insert([
 			'parent' => 0,
 			'slug' => 'posts',
 			'name' => 'Posts',
@@ -138,8 +136,7 @@ class Installer {
 			'menu_order' => 0
 		]);
 
-		$posts = new \Models\Posts($pdo, $input['prefix']);
-		$posts->insert([
+		$post = $query->table($input['prefix'].'posts')->insert([
 			'title' => 'Hello World',
 			'slug' => 'hello-world',
 			'description' => 'This is the first post.',
@@ -153,14 +150,16 @@ class Installer {
 			'comments' => 0,
 		]);
 
-		$meta = new \Models\Meta($pdo, $input['prefix']);
+		$meta = [
+			'home_page' => $page,
+			'posts_page' => $page,
+			'posts_per_page' => 6,
+			'comment_notifications' => 0,
+			'comment_moderation_keys' => '',
+		];
 
-		$meta->insert(['key' => 'home_page', 'value' => $page]);
-		$meta->insert(['key' => 'posts_page', 'value' => $page]);
-
-		$meta->insert(['key' => 'posts_per_page', 'value' => 6]);
-
-		$meta->insert(['key' => 'comment_notifications', 'value' => 0]);
-		$meta->insert(['key' => 'comment_moderation_keys', 'value' => '']);
+		foreach($meta as $key => $value) {
+			$query->table($input['prefix'].'meta')->insert(['key' => $key, 'value' => $value]);
+		}
 	}
 }
