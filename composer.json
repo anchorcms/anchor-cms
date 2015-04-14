@@ -33,14 +33,14 @@
 		}
 	],
 	"require": {
-		"php": ">=5.3",
+		"php": ">=5.5",
 		"cebe/markdown": "1.1.*@dev",
 		"rwarasaurus/forms": "dev-master",
 		"rwarasaurus/validation": "dev-master",
 		"rwarasaurus/db": "dev-master"
 	},
 	"autoload": {
-		"psr-0": {
+		"psr-4": {
 			"": "src/"
 		}
 	}
