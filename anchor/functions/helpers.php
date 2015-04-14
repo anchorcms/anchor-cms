@@ -31,7 +31,12 @@ function asset_url($extra = '') {
 	return asset('anchor/views/assets/' . ltrim($extra, '/'));
 }
 
+
 function current_url() {
+	return htmlentities(raw_current_url());
+}
+
+function raw_current_url() {
 	return Uri::current();
 }
 

@@ -59,3 +59,13 @@ function category_count() {
 		->where('category', '=', category_id())
 		->where('status', '=', 'published')->count();
 }
+
+function category_custom_field($key, $default = '') {
+	$id = Registry::prop('category', 'id');
+
+	if($extend = Extend::field('category', $key, $id)) {
+		return Extend::value($extend, $default);
+	}
+
+	return $default;
+}

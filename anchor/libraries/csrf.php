@@ -6,7 +6,7 @@ class Csrf {
 		$tokens = Session::get('csrf_tokens', array());
 
 		if(($index = array_search($token, $tokens)) !== false) {
-			unset($tokens[$index]);
+			// unset($tokens[$index]);
 
 			Session::put('csrf_tokens', $tokens);
 

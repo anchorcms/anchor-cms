@@ -59,5 +59,4 @@ class Page extends Base {
 			return true;
 		}
 	}
-
 }

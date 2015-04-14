@@ -10,15 +10,15 @@
 		<input name="token" type="hidden" value="<?php echo $token; ?>">
 
 		<fieldset>
-			<p><label for="user"><?php echo __('users.username'); ?>:</label>
+			<p><label for="label-user"><?php echo __('users.username'); ?>:</label>
 			<?php echo Form::text('user', $user, array(
-				'id' => 'user',
+				'id' => 'label-user',
 				'autocapitalize' => 'off',
 				'autofocus' => 'true',
 				'placeholder' => __('users.username')
 			)); ?></p>
 
-			<p><label for="pass"><?php echo __('users.password'); ?>:</label>
+			<p><label for="label-pass"><?php echo __('users.password'); ?>:</label>
 			<?php echo Form::password('pass', array(
 				'id' => 'pass',
 				'placeholder' => __('users.password'),

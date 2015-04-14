@@ -4,6 +4,20 @@ class Extend extends Base {
 
 	public static $table = 'extend';
 
+	public static $types = array(
+		'post' => 'post',
+		'page' => 'page',
+		'category' => 'category',
+		'user' => 'user'
+	);
+
+	public static $field_types = array(
+		'text' => 'text',
+		'html' => 'html',
+		'image' => 'image',
+		'file' => 'file'
+	);
+
 	public static function field($type, $key, $id = -1) {
 		$field = Query::table(static::table())
 			->where('type', '=', $type)
@@ -49,8 +63,12 @@ class Extend extends Base {
 		return $value;
 	}
 
-	public static function fields($type, $id = -1) {
-		$fields = Query::table(static::table())->where('type', '=', $type)->get();
+	public static function fields($type, $id = -1, $pagetype = null) {
+		if (is_null($pagetype)) {
+			$fields = Query::table(static::table())->where('type', '=', $type)->get();
+		} else {
+			$fields = Query::table(static::table())->where_in('pagetype', array($pagetype, 'all'))->where('type', '=', $type)->get();
+		}
 
 		foreach(array_keys($fields) as $index) {
 			$meta = Query::table(static::table($type . '_meta'))

@@ -8,11 +8,11 @@
 		<input name="token" type="hidden" value="<?php echo $token; ?>">
 
 		<fieldset>
-			<p><label for="pass"><?php echo __('users.new_password'); ?>:</label>
-			<input placeholder="<?php echo __('users.new_password'); ?>" type="password" name="pass" id="pass"></p>
-
+			<p><label for="label-pass"><?php echo __('users.new_password'); ?>:</label>
+			<?php echo Form::password('pass', array('placeholder' => __('users.new_password'), 'id' => 'label-pass')); ?></p>
 			<p class="buttons">
-			<button type="submit"><?php echo __('global.submit'); ?></button></p>
+			<?php echo Form::button(__('global.submit'), array('type' => 'submit')); ?>
+			</p>
 		</fieldset>
 	</form>
 </section>

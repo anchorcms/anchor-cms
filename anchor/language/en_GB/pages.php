@@ -14,7 +14,7 @@ return array(
 
 	'title' => 'Page title',
 	'title_explain' => '',
-	'title_missing' => 'Please enter a page title',
+	'title_missing' => 'The title of this page must be atleast 3 characters',
 
 	'content' => 'Content',
 	'content_explain' => 'Your page’s content. Uses Markdown.',
@@ -27,7 +27,7 @@ return array(
 
 	'slug' => 'Slug',
 	'slug_explain' => 'Slug uri to identify your page, should only contain ascii characters',
-	'slug_missing' => 'Please enter a slug uri, slugs can only contain ascii characters',
+	'slug_missing' => 'The slug must be atleast 3 characters, slugs can only contain ascii characters',
 	'slug_duplicate' => 'Slug already exists',
 	'slug_invalid' => 'Slug must contain letters',
 
@@ -36,6 +36,9 @@ return array(
 
 	'parent' => 'Parent',
 	'parent_explain' => '',
+
+	'pagetype' => 'Page Type',
+	'pagetype_explain' => 'Select the set of field this page belong too.',
 
 	// messages
 	'updated' => 'Your page was updated.',
