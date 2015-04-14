@@ -4,6 +4,7 @@
 *.lock
 *.sqlite
 *.swp
+*.codekit
 
 # files
 .htaccess
