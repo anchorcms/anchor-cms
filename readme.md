@@ -5,19 +5,23 @@ Anchor is a super-simple, lightweight blog system, made to let you just write. [
 ### Requirements
 
 - PHP 5.5
-	- PDO
-	- mbstring
-- MySQL 5 or Sqlite 3 or PostgreSQL 9
+- MySQL 5 or Sqlite 3 (PostgreSQL soon)
 
 To determine your PHP version, create a new file with this PHP code: `<?php echo PHP_VERSION; // version.php`. This will print your version number to the screen.
 
 ### Install
 
-	wget https://github.com/anchorcms/anchor-cms/archive/master.zip
-	unzip master.zip
-	cd anchor-cms-master
 	curl -sS https://getcomposer.org/installer | php
-	php composer.phar install
+	php composer.phar create-project anchorcms/anchor-cms my-site --repository-url=https://github.com/anchorcms/anchor-cms
+
+Run the install wizard from your browser to complete the installation
+
+### Testing
+
+Tests are located in the `spec` folder.
+
+	php composer.phar update --dev
+	php vendor/bin/phpspec run
 
 ### Problems?
 
@@ -27,8 +31,8 @@ If you can't install Anchor, check the [forums](http://forums.anchorcms.com/); t
 
 These have been supplied by [@tk421](https://github.com/tk421) to help you get started with your Anchor site
 
- - CentOS 7: view the [configuration summary](https://manageacloud.com/cookbook/t5an3hm22jphr1eipus3bm67nb), [try this application](https://manageacloud.com/cookbook/t5an3hm22jphr1eipus3bm67nb/deploy#test_deployment) or [deploy an instance](https://manageacloud.com/cookbook/t5an3hm22jphr1eipus3bm67nb/deploy)
- - Ubuntu 14.04: view the [configuration summary](https://manageacloud.com/cookbook/848chc151i3kbj79q1qtnqng3u), [try this application](https://manageacloud.com/cookbook/848chc151i3kbj79q1qtnqng3u/deploy#test_deployment) or [deploy an instance](https://manageacloud.com/cookbook/848chc151i3kbj79q1qtnqng3u/deploy)
- - Ubuntu 14.10: view the [configuration summary](https://manageacloud.com/cookbook/anchor_cms_ubuntu_utopic_unicorn_1410), [try this application](https://manageacloud.com/cookbook/j85v7rqni00vh2f453udl02ka7/deploy#test_deployment) or [deploy an instance](https://manageacloud.com/cookbook/j85v7rqni00vh2f453udl02ka7/deploy)
- - Debian Wheezy: view the [configuration summary](https://manageacloud.com/cookbook/s57arpb6m2sqsho287emeksoql), [try this application](https://manageacloud.com/cookbook/s57arpb6m2sqsho287emeksoql/deploy#test_deployment) or [deploy an instance](https://manageacloud.com/cookbook/s57arpb6m2sqsho287emeksoql/deploy)
- - Amazon Linux: view the [configuration summary](https://manageacloud.com/cookbook/32tmgkt2rf7alk4tp1or312efp), [try this application](https://manageacloud.com/cookbook/32tmgkt2rf7alk4tp1or312efp/deploy#test_deployment) or [deploy an instance](https://manageacloud.com/cookbook/32tmgkt2rf7alk4tp1or312efp/deploy)
+- [CentOS 7](https://manageacloud.com/cookbook/t5an3hm22jphr1eipus3bm67nb)
+- [Ubuntu 14.04](https://manageacloud.com/cookbook/848chc151i3kbj79q1qtnqng3u)
+- [Ubuntu 14.10](https://manageacloud.com/cookbook/anchor_cms_ubuntu_utopic_unicorn_1410)
+- [Debian Wheezy](https://manageacloud.com/cookbook/s57arpb6m2sqsho287emeksoql)
+- [Amazon Linux](https://manageacloud.com/cookbook/32tmgkt2rf7alk4tp1or312efp)
