@@ -5,6 +5,10 @@ class Events {
 	protected $stack = [];
 
 	public function on($event, $callback) {
+		if(false === is_callable($callback)) {
+			throw new \InvalidArgumentException('Parameter 2 must be callable.');
+		}
+
 		$this->stack[$event][] = $callback;
 	}
 
@@ -13,35 +17,15 @@ class Events {
 	}
 
 	public function trigger($event) {
-		if( ! $this->has($event)) return;
-
-		foreach($this->stack[$event] as $callback) {
-			$callback(array_slice(func_get_args(), 1));
-		}
-	}
-
-	public function triggerMerge($event) {
-		if( ! $this->has($event)) return;
-
-		$output = [];
-
-		foreach($this->stack[$event] as $callback) {
-			$output = array_merge($output, $callback(array_slice(func_get_args(), 1)));
+		if(false === $this->has($event)) {
+			return false;
 		}
 
-		return $output;
-	}
-
-	public function triggerOutput($event) {
-		if( ! $this->has($event)) return;
-
-		$output = '';
+		$args = array_slice(func_get_args(), 1);
 
 		foreach($this->stack[$event] as $callback) {
-			$output .= $callback(array_slice(func_get_args(), 1));
+			call_user_func_array($callback, $args);
 		}
-
-		return $output;
 	}
 
 }

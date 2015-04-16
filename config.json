@@ -1,0 +1,20 @@
+{
+	"repositories": [
+		{
+			"type": "vcs",
+			"url": "git@github.com:rwarasaurus/forms.git"
+		},
+		{
+			"type": "vcs",
+			"url": "git@github.com:rwarasaurus/validation.git"
+		},
+		{
+			"type": "vcs",
+			"url": "git@github.com:rwarasaurus/db.git"
+		},
+		{
+			"type": "vcs",
+			"url": "git@github.com:rwarasaurus/session.git"
+		}
+	]
+}

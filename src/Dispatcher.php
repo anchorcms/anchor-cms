@@ -2,41 +2,44 @@
 
 class Dispatcher {
 
-	protected $container;
-
 	protected $routes;
 
-	public function __construct(Container $container) {
-		$this->routes = $container['config']->get('routes');
+	protected $namespace;
+
+	protected $events;
+
+	protected $container;
+
+	public function __construct(array $routes, $namespace, Events $events, Container $container) {
+		$this->routes = $routes;
+		$this->events = $events;
+		$this->namespace = $namespace;
 		$this->container = $container;
 	}
 
 	protected function formatClassName($str) {
-		return implode('\\', array_map('ucfirst', explode('\\', $str)));
+		$sep = '\\';
+		$str = trim($str, $sep);
+		$parts = array_map('ucfirst', explode($sep, $str));
+
+		return $sep.implode($sep, $parts);
+	}
+
+	protected function route($route) {
+		if($route instanceof \Closure) return $route;
+
+		list($class, $method) = explode('@', $route);
+
+		$controller = $this->namespace . $this->formatClassName($class);
+
+		return [new $controller($this->container), $method];
 	}
 
 	protected function dispatch($route, $params = []) {
-		list($class, $method) = explode('@', $route);
-
-		$controller = $this->formatClassName($class);
-
-		// built-in controller prefix with controller
-		if(strpos($class, 'plugins\\') === false) {
-			$controller = '\\Controllers\\' . $controller;
-		}
-
-		$this->container['events']->trigger('dispatch', $controller, $method);
-
-		return call_user_func_array([new $controller($this->container), $method], $params);
+		return call_user_func_array($this->route($route), $params);
 	}
 
 	public function match($uri) {
-		// load routes from plugins
-		$pluginRoutes = (array) $this->container['events']->triggerMerge('routes');
-
-		// prepend custom routes
-		$this->routes = $pluginRoutes + $this->routes;
-
 		if(array_key_exists($uri, $this->routes)) {
 			return $this->dispatch($this->routes[$uri]);
 		}

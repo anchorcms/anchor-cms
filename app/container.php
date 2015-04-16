@@ -18,7 +18,7 @@ return new Container([
 		return new DB\Query($app['db']);
 	},
 	'dispatcher' => function($app) {
-		return new Dispatcher($app);
+		return new Dispatcher($app['config']->get('routes'), '\\Controllers', $app['events'], $app);
 	},
 	'errors' => function() {
 		return new Errors();
@@ -27,11 +27,12 @@ return new Container([
 		return new Events();
 	},
 	'session' => function() {
-		$s = new Session([
+		$storage = new Session\Storage\Native(null, [
 			'name' => 'anchor',
 			'cookie_lifetime' => 0
 		]);
 
+		$s = new Session\Session($storage);
 		$s->start();
 
 		return $s;
@@ -45,7 +46,7 @@ return new Container([
 		return new Csrf($config['nonce']);
 	},
 	'server' => function() {
-		return new Arr($_SERVER);
+		return new Collection($_SERVER);
 	},
 	'http' => function($app) {
 		return new Http($app['server'], $app['config']->get('general'));

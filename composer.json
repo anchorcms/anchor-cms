@@ -18,26 +18,20 @@
 			"role": "Developer"
 		}
 	],
-	"repositories": [
-		{
-			"type": "vcs",
-			"url": "git@github.com:rwarasaurus/forms.git"
-		},
-		{
-			"type": "vcs",
-			"url": "git@github.com:rwarasaurus/validation.git"
-		},
-		{
-			"type": "vcs",
-			"url": "git@github.com:rwarasaurus/db.git"
-		}
-	],
 	"require": {
 		"php": ">=5.5",
 		"cebe/markdown": "1.1.*@dev",
 		"rwarasaurus/forms": "dev-master",
 		"rwarasaurus/validation": "dev-master",
-		"rwarasaurus/db": "dev-master"
+		"rwarasaurus/db": "dev-master",
+		"rwarasaurus/session": "dev-master"
+	},
+	"require-dev": {
+		"phpspec/phpspec": "2.1.1",
+		"phpmd/phpmd" : "*",
+		"phploc/phploc": "*",
+		"sebastian/phpcpd": "*",
+		"sebastian/phpdcd": "*"
 	},
 	"autoload": {
 		"psr-4": {

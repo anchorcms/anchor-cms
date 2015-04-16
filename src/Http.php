@@ -8,18 +8,22 @@ class Http {
 
 	protected $base;
 
-	public function __construct(Arr $env, array $config) {
+	public function __construct(Collection $env, array $config) {
 		$this->env = $env;
-		$this->index = $config['index'];
-		$this->base = $config['base'];
+		$this->index = array_key_exists('index', $config) ? $this->format($config['index']) : '';
+		$this->base = array_key_exists('base', $config) ? $this->format($config['base']) : '';
+	}
+
+	protected function format($str) {
+		return '/' . trim($str, '/');
 	}
 
 	protected function remove($str, $uri) {
-		if(strpos($uri, $str) === false) {
-			return $uri;
+		if(strpos($uri, $str) === 0) {
+			return substr($uri, strlen($str));
 		}
 
-		return substr($uri, strlen($str));
+		return $uri;
 	}
 
 	protected function removeBase($uri) {
@@ -27,7 +31,7 @@ class Http {
 	}
 
 	protected function removeIndex($uri) {
-		return strlen($this->index) ? $this->remove($this->index, $uri) : $uri;
+		return $this->index !== '' ? $this->remove($this->index, $uri) : $uri;
 	}
 
 	protected function removeQuery($uri) {

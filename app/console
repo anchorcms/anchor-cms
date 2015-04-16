@@ -1,4 +1,17 @@
 #!/usr/bin/env php
 <?php
 
-echo 'Welcome'.PHP_EOL;
+require __DIR__ . '/compat.php';
+require __DIR__ . '/autoloader.php';
+
+// Run the app
+$app = new App(require __DIR__ . '/container.php');
+$app->registerErrorHandler();
+
+if(true === $app->checkInstall()) {
+	echo 'Please run the web installer'.PHP_EOL;
+	exit(1);
+}
+
+$app->loadPlugins();
+$app->runCli();

@@ -10,11 +10,7 @@ class Errors {
 
 	public function exception($exception) {
 		ob_get_level() && ob_end_clean();
-
-		echo '<p><code>Uncaught exception: '.$exception->getMessage().'</code></p>
-			<p><code>'.$exception->getFile().'('.$exception->getLine().')</code></p>
-			<pre>'.$exception->getTraceAsString().'</pre>';
-
+		$this->render($exception);
 		exit(1);
 	}
 
@@ -32,6 +28,12 @@ class Errors {
 
 			$this->native($type, $message, $file, $line);
 		}
+	}
+
+	public function render(Exception $exception) {
+		echo '<p><code>Uncaught exception: '.$exception->getMessage().'</code></p>
+			<p><code>'.$exception->getFile().'('.$exception->getLine().')</code></p>
+			<pre>'.$exception->getTraceAsString().'</pre>';
 	}
 
 }
