@@ -16,9 +16,27 @@ class App {
 		return $this->container[$key];
 	}
 
-	public function checkInstall() {
-		// if the config folder has not been created run the installer
-		return is_dir(__DIR__ . '/../app/config') === false || filter_input(INPUT_GET, 'installer', FILTER_SANITIZE_STRING) !== null;
+	public function isInstallerRunning() {
+		return filter_input(INPUT_GET, 'installer', FILTER_SANITIZE_STRING) !== null;
+	}
+
+	public function isInstalled() {
+		// mssing config folder
+		if(is_dir(__DIR__ . '/../app/config') === false) {
+			return false;
+		}
+
+		// check db connection
+		try {
+			$config = require __DIR__ . '/../app/config/db.php';
+			$installer = new Services\Installer;
+			$installer->getPdo($config);
+		}
+		catch(Exception $e) {
+			return false;
+		}
+
+		return true;
 	}
 
 	public function registerErrorHandler() {
@@ -37,23 +55,18 @@ class App {
 	}
 
 	public function loadPlugins() {
-		$enabled = explode(',', $this->container['meta']->key('active_plugins', ''));
-		$paths = $this->container['config']->get('paths');
+		$enabled = explode(',', $this->meta->key('active_plugins', ''));
+		$paths = $this->config->get('paths');
 
 		foreach($enabled as $name) {
 			$path = $paths['plugins'] . '/' . $name . '/plugin.php';
 
 			if(is_file($path)) {
-				try {
-					require $path;
-					$class = 'Plugins\\' . str_replace(' ', '', ucwords(str_replace('-', ' ', $name)));
+				require $path;
+				$class = 'Plugins\\' . str_replace(' ', '', ucwords(str_replace('-', ' ', $name)));
 
-					$obj = new $class($this->container);
-					$obj->init();
-				}
-				catch(\Exception $e) {
-					throw new \ErrorException(sprintf('Uncaught Exception in plugin: ', $name), 0, 1, __FILE__, __LINE__, $e);
-				}
+				$obj = new $class($this->container);
+				$obj->init();
 			}
 		}
 

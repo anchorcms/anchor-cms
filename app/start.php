@@ -7,7 +7,7 @@ require __DIR__ . '/autoloader.php';
 $app = new App(require __DIR__ . '/container.php');
 $app->registerErrorHandler();
 
-if(true === $app->checkInstall()) {
+if(false === $app->isInstalled()) {
 	return $app->runInstall();
 }
 
