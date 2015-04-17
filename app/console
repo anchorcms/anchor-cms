@@ -14,4 +14,4 @@ if(false === $app->isInstalled()) {
 }
 
 $app->loadPlugins();
-$app->runCli();
+$app->run();

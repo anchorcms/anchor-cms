@@ -70,14 +70,14 @@ class Installer {
 		return true;
 	}
 
-	protected function getConnection($dns, $user = null, $pass = null) {
+	public function getConnection($dns, $user = null, $pass = null) {
 		$pdo = new \PDO($dns, $user, $pass);
 		$pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
 
 		return $pdo;
 	}
 
-	protected function getPdo(array $input) {
+	public function getPdo(array $input) {
 		if($input['driver'] == 'mysql') {
 			$dns = $this->buildConnectionDns($input);
 			$pdo = $this->getConnection($dns, $input['user'], $input['pass']);

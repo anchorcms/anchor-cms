@@ -18,6 +18,24 @@
 			"role": "Developer"
 		}
 	],
+	"repositories": [
+		{
+			"type": "vcs",
+			"url": "git@github.com:rwarasaurus/forms.git"
+		},
+		{
+			"type": "vcs",
+			"url": "git@github.com:rwarasaurus/validation.git"
+		},
+		{
+			"type": "vcs",
+			"url": "git@github.com:rwarasaurus/db.git"
+		},
+		{
+			"type": "vcs",
+			"url": "git@github.com:rwarasaurus/session.git"
+		}
+	],
 	"require": {
 		"php": ">=5.5",
 		"cebe/markdown": "1.1.*@dev",
