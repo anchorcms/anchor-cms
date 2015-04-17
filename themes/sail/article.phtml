@@ -13,8 +13,6 @@ $words = wordCount($content);
 			<div class="content"><?php echo $content->body(); ?></div>
 
 			<p>This article is my <?php echo ($age > 1 ? $ordinal . ' oldest' : $ordinal); ?>. It is <?php echo $words; ?> words long.</p>
-
-			<?php echo $this->events->triggerOutput('theme_article_footer', $content); ?>
 		</div>
 	</div>
 </div>

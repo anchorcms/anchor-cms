@@ -5,7 +5,7 @@ namespace Controllers;
 class Posts extends Frontend {
 
 	public function index($pageSlug, $articleSlug) {
-		$page = $this->pages->fetchBySlug($pageSlug);
+		$page = $this->pages->slug($pageSlug);
 		$article = $this->posts->where('slug', '=', $articleSlug)->where('status', '=', 'published')->fetch();
 
 		// page not found

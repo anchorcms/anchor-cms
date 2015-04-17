@@ -119,7 +119,7 @@ class Installer {
 			'password' => password_hash($input['password'], PASSWORD_BCRYPT, ['cost' => 12]),
 			'email' => $input['email'],
 			'real_name' => $input['username'],
-			'bio' => 'The Bouse',
+			'bio' => 'The bouse',
 			'status' => 'active',
 			'role' => 'administrator',
 		]);
@@ -140,7 +140,7 @@ class Installer {
 			'title' => 'Hello World',
 			'slug' => 'hello-world',
 			'description' => 'This is the first post.',
-			'html' => 'Hello World!\r\n\r\nThis is the first post.',
+			'html' => 'Hello World!'."\r\n\r\n".'This is the first post.',
 			'css' => '',
 			'js' => '',
 			'created' => date('Y-m-d H:i:s'),
@@ -156,6 +156,9 @@ class Installer {
 			'posts_per_page' => 6,
 			'comment_notifications' => 0,
 			'comment_moderation_keys' => '',
+			'sitename' => $input['site_name'],
+			'description' => $input['site_description'],
+			'theme' => 'default',
 		];
 
 		foreach($meta as $key => $value) {

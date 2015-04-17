@@ -213,6 +213,8 @@ class Install extends Controller {
 	public function getComplete() {
 		$vars['title'] = 'Installin\' Anchor CMS';
 
+		$this->session->remove('data');
+
 		return $this->renderWith('installer/layout.phtml', 'installer/finished.phtml', $vars);
 	}
 

@@ -6,7 +6,7 @@ class Posts extends Backend {
 
 	public function index() {
 		// start query
-		$posts = $this->posts->sortby('created', 'desc');
+		$posts = $this->posts->sort('created', 'desc');
 		$url = [];
 
 		// apply filters from request
@@ -42,7 +42,7 @@ class Posts extends Backend {
 		$paging = new \Paginator($input['page'], $total, $perpage, '/admin/posts?'.http_build_query($url));
 
 		$vars['title'] = 'Posts';
-		$vars['posts'] = $posts->select(['*'])->get();
+		$vars['posts'] = $posts->get();
 		$vars['paging'] = $paging;
 
 		return $this->renderTemplate('main', ['posts/index'], $vars);
@@ -53,7 +53,7 @@ class Posts extends Backend {
 	public function save() {}
 
 	public function edit($id) {
-		$post = $this->posts->fetchById($id);
+		$post = $this->posts->id($id);
 
 		$form = new \Forms\Post(['method' => 'post', 'action' => '/admin/posts/'.$post->id.'/update']);
 		$form->init();

@@ -9,7 +9,10 @@ class Factory {
 	public static function create($app, $name) {
 		$proto = new Row;
 		$class = '\\Mappers\\'.$name;
-		$mapper = new $class($app['query'], $proto);
+
+		$query = clone $app['query'];
+
+		$mapper = new $class($query->reset(), $proto);
 
 		// set table prefix
 		$config = $app['config']->get('db');
