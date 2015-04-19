@@ -4,7 +4,7 @@ return [
 	'driver' => '{driver}',
 
 	'host' => '{host}',
-	'port' => '{dbname}',
+	'port' => '{port}',
 	'user' => '{user}',
 	'pass' => '{pass}',
 

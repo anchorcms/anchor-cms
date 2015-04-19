@@ -1,77 +1,88 @@
-(function($) {
-	'use strict';
+window.Upload = (function() {
 
-	var defaults = {className: 'hover'},
-		options = {};
+	var options = {
+		bind: document.body,
+		endpoint: '/',
+		start: function() {},
+		progress: function() {},
+		complete: function() {}
+	};
 
-	var holder = $('.collection');
-	var progress = $('<span class="progress">0</span>');
-	$('.media .wrap').append(progress);
+	var support = function() {
+		return 'DataTransfer' in window;
+	}
 
-	var upload = function(form) {
+	var cancel = function(event) {
+		event.stopPropagation();
+		event.preventDefault();
+	};
+
+	var upload = function(file) {
+		var form = new FormData();
+		form.append('file', file);
+
+		options.start(file);
+
 		var xhr = new XMLHttpRequest();
-		xhr.open('POST', '/admin/upload');
+		xhr.open('POST', options.endpoint, true);
+
+		xhr.onreadystatechange = function() {
+			if(xhr.readyState == 4) {
+				options.progress(file, 100);
+			}
+		};
 
 		xhr.onload = function() {
-			progress.html(100);
+			var response;
+
+			try {
+				response = JSON.parse(xhr.responseText);
+			}
+			catch(e) {}
+
+			options.complete(file, response);
 		};
 
 		xhr.upload.onprogress = function(event) {
 			if(event.lengthComputable) {
 				var loaded = event.loaded / event.total, complete = parseInt(loaded * 100, 10);
-				progress.html(complete);
+				options.progress(file, complete);
 			}
 		};
 
 		xhr.send(form);
 	};
 
-	var preview = function(file) {
-		var reader = new FileReader();
-
-		reader.onload = function(event) {
-			var image = new Image();
-			image.src = event.target.result;
-
-			var fig = $('<figure>');
-			fig.append(image);
-
-			holder.append(fig);
-		};
-
-		reader.readAsDataURL(file);
-	};
-
 	var readfiles = function(files) {
-		var formData = new FormData();
-
 		for (var i = 0; i < files.length; i++) {
-			formData.append(i, files[i]);
-			preview(files[i]);
+			upload(files[i]);
 		}
-
-		upload(formData);
 	};
 
-	$.fn.dnd = function(settings) {
-		options = $.extend(defaults, settings);
-
-		this.on('dragover', function(event) {
-			$(this).addClass(options.className);
-		});
-
-		this.on('dragleave', function(event) {
-			$(this).removeClass(options.className);
-		});
-
-		this.on('drop', function(event) {
-			event.preventDefault();
-
-			$(this).removeClass(options.className);
-
-			readfiles(event.originalEvent.dataTransfer.files);
-		});
-
-		return this;
+	var drop = function(event) {
+		event.preventDefault();
+		readfiles(event.dataTransfer.files);
 	};
-})(jQuery);
+
+	var bind = function(element) {
+		element.addEventListener('dragover', cancel, false);
+		element.addEventListener('dragenter', cancel, false);
+		element.addEventListener('drop', drop, false);
+	};
+
+	var extend = function(ext, obj) {
+		for (var i in obj) {
+			if (obj.hasOwnProperty(i)) {
+				ext[i] = obj[i];
+			}
+		}
+	};
+
+	return {
+		setup: function() {
+			extend(options, arguments[0] || {});
+			bind(options.bind);
+		}
+	};
+
+})();

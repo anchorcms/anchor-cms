@@ -15,7 +15,11 @@
 	<div class="wrap">
 		<p>Uploads</p>
 
-		<div class="collection"></div>
+		<div class="collection">
+			<?php foreach($this->media->get() as $file): ?>
+			<?php var_dump($file); ?>
+			<?php endforeach; ?>
+		</div>
 	</div>
 </div>
 
@@ -42,7 +46,24 @@
 			$(window).scrollTop(offset);
 		});
 
-		$('body').dnd();
+
+		Upload.setup({
+			bind: document.querySelector('.media .collection'),
+			endpoint: '/admin/upload',
+			start: function(file) {
+				console.log('start', file);
+			},
+			progress: function(file, percent) {
+				console.log('progress', file, percent);
+			},
+			complete: function(file, response) {
+				console.log('complete', file);
+
+				var html = '<figure><img src="/content/'+file.name+'"></figure>';
+
+			}
+		});
+
 	});
 </script>
 
