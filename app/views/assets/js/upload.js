@@ -40,7 +40,7 @@ window.Upload = (function() {
 			}
 			catch(e) {}
 
-			options.complete(file, response);
+			options.complete(response);
 		};
 
 		xhr.upload.onprogress = function(event) {

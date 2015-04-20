@@ -15,11 +15,7 @@
 	<div class="wrap">
 		<p>Uploads</p>
 
-		<div class="collection">
-			<?php foreach($this->media->get() as $file): ?>
-			<?php var_dump($file); ?>
-			<?php endforeach; ?>
-		</div>
+		<div class="collection"></div>
 	</div>
 </div>
 
@@ -27,6 +23,7 @@
 	<?php echo $form->getElement('html')->getHtml(); ?>
 </div>
 
+<script src="/app/views/assets/js/media.js"></script>
 <script src="/app/views/assets/js/upload.js"></script>
 <script>
 	window.onerror = function() {
@@ -45,26 +42,37 @@
 
 			$(window).scrollTop(offset);
 		});
-
-
-		Upload.setup({
-			bind: document.querySelector('.media .collection'),
-			endpoint: '/admin/upload',
-			start: function(file) {
-				console.log('start', file);
-			},
-			progress: function(file, percent) {
-				console.log('progress', file, percent);
-			},
-			complete: function(file, response) {
-				console.log('complete', file);
-
-				var html = '<figure><img src="/content/'+file.name+'"></figure>';
-
-			}
-		});
-
 	});
+
+	var render = function(file) {
+		return '<figure><img src="/content/'+file.name+'"></figure>';
+	};
+
+	var collection = document.querySelector('.media .collection');
+
+	Upload.setup({
+		bind: collection,
+		endpoint: '/admin/upload',
+		start: function(file) {
+			//console.log('start', file);
+		},
+		progress: function(file, percent) {
+			//console.log('progress', file, percent);
+		},
+		complete: function(response) {
+			//console.log(response);
+			var html = render(response);
+			collection.innerHTML = html + collection.innerHTML;
+		}
+	});
+
+	Media.setup({
+		container: collection,
+		endpoint: '/admin/media',
+		render: render
+	});
+
+	Media.fetch();
 </script>
 
 <?php echo $form->close(); ?>

@@ -55,7 +55,7 @@ return new Container([
 		return new Validation\Validation;
 	},
 	'media' => function() {
-		return new Services\Media;
+		return new Services\Media(__DIR__ . '/../content');
 	},
 	'categories' => function($app) {
 		return Mappers\Factory::create($app, 'Categories');
