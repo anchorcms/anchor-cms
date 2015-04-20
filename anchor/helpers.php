@@ -46,8 +46,8 @@ function parse($str, $markdown = true) {
 
 	//  Parse Markdown as well?
 	if($markdown === true) {
-		$md = new Markdown;
-		$str = $md->transform($str);
+		$md = new Parsedown;
+		$str = $md->text($str);
 	}
 
 	return $str;
