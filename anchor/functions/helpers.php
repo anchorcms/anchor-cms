@@ -3,6 +3,7 @@
 /**
  * Theme helpers functions
  */
+ 
 function full_url($url = '') {
 	return Uri::full($url);
 }
@@ -31,10 +32,18 @@ function asset_url($extra = '') {
 	return asset('anchor/views/assets/' . ltrim($extra, '/'));
 }
 
+/**
+ * The full url of the page we are on right now
+ * @return String
+ */
 function current_url() {
 	return Uri::current();
 }
 
+/**
+ * The full url to the rss feed
+ * @return String
+ */
 function rss_url() {
     return base_url('feeds/rss');
 }
@@ -69,18 +78,34 @@ function body_class() {
 }
 
 // page type helpers
+/**
+ * Is this the homepage?
+ * @return boolean
+ */
 function is_homepage() {
 	return Registry::prop('page', 'id') == Config::meta('home_page');
 }
 
+/**
+ * Is this the posts page?
+ * @return boolean
+ */
 function is_postspage() {
 	return Registry::prop('page', 'id') == Config::meta('posts_page');
 }
 
+/**
+ * Is this an article?
+ * @return boolean
+ */
 function is_article() {
 	return Registry::get('article') !== null;
 }
 
+/**
+ * Is this a normal page?
+ * @return boolean
+ */
 function is_page() {
 	return Registry::get('page') !== null;
 }

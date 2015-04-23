@@ -3,6 +3,10 @@
 /*
 	Theme functions for menus
 */
+/**
+ * Are there any menu items?
+ * @return boolean
+ */
 function has_menu_items() {
 	return Registry::get('total_menu_items');
 }
@@ -25,15 +29,24 @@ function menu_items() {
 /*
 	Object props
 */
+/**
+ * Grab the ID of this menu item
+ * @return int
+ */
 function menu_id() {
 	return Registry::prop('menu_item', 'id');
 }
 
+/**
+ * Grab the url of this menu item
+ * @return String
+ */
 function menu_url() {
 	if($page = Registry::get('menu_item')) {
 		return $page->uri();
 	}
 }
+
 
 function menu_relative_url() {
 	if($page = Registry::get('menu_item')) {
@@ -41,20 +54,36 @@ function menu_relative_url() {
 	}
 }
 
+/**
+ * Grab the name of this menu item
+ * @return String
+ */
 function menu_name() {
 	return Registry::prop('menu_item', 'name');
 }
 
+/**
+ * Grab the title of this menu item
+ * @return String
+ */
 function menu_title() {
 	return Registry::prop('menu_item', 'title');
 }
 
+/**
+ * Is the page of this menu, the page we have loaded?
+ * @return boolean
+ */
 function menu_active() {
 	if($page = Registry::get('menu_item')) {
 		return $page->active();
 	}
 }
 
+/**
+ * Grab the parent menu item of this menu item
+ * @return Menu
+ */
 function menu_parent() {
 	return Registry::prop('menu_item', 'parent');
 }

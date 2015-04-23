@@ -3,10 +3,19 @@
 /**
  * 	Theme functions for search
  */
+ 
+/**
+ * Did the search even return anything useful?
+ * @return boolean
+ */
 function has_search_results() {
 	return Registry::get('total_posts', 0) > 0;
 }
 
+/**
+ * How many search results came up?
+ * @return int
+ */
 function total_search_results() {
 	return Registry::get('total_posts', 0);
 }
@@ -25,14 +34,26 @@ function search_results() {
 	return $result;
 }
 
+/**
+ * Grab the search term used
+ * @return String
+ */
 function search_term() {
 	return Registry::get('search_term');
 }
 
+/**
+ * Are there enough results to allow for pagination?
+ * @return boolean
+ */
 function has_search_pagination() {
 	return Registry::get('total_posts') > Config::meta('posts_per_page');
 }
 
+/**
+ * Grab the link that gets us to the next page of search results
+ * @return String
+ */
 function search_next($text = 'Next', $default = '') {
 	$per_page = Config::meta('posts_per_page');
 	$page = Registry::get('page_offset');
@@ -56,6 +77,10 @@ function search_next($text = 'Next', $default = '') {
 	return $default;
 }
 
+/**
+ * Grab the link that gets us to the previous page of search results
+ * @return String
+ */
 function search_prev($text = 'Previous', $default = '') {
 	$per_page = Config::meta('posts_per_page');
 	$page = Registry::get('page_offset');
@@ -79,10 +104,26 @@ function search_prev($text = 'Previous', $default = '') {
 	return $default;
 }
 
+/**
+ * Grab the link that is used to send the search data
+ * @return String
+ */
 function search_url() {
 	return base_url('search');
 }
 
+/**
+ * Grab the HTML code for creating an input that is used as the input
+ * @return String
+ */
 function search_form_input($extra = '') {
 	return '<input name="term" type="text" ' . $extra . ' value="' . search_term() . '">';
+}
+
+/**
+ * Grab the HTML code for creating the search button
+ * @return String
+ */
+function search_form_submit($button_text = 'Search', $extra = '') {
+	return '<input type="submit" ' . $extra . ' value="' . $button_text . '">';
 }

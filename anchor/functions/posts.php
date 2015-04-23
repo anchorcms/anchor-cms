@@ -3,6 +3,11 @@
 /**
  * Theme functions for posts
  */
+
+/**
+ * Are there really some posts here?
+ * @return boolean
+ */
 function has_posts() {
 	return Registry::get('total_posts', 0) > 0;
 }
@@ -23,6 +28,10 @@ function posts() {
 	return $result;
 }
 
+/**
+ * Grab the url of the page that displays all the posts after this page
+ * @return String
+ */
 function posts_next($text = 'Next &rarr;', $default = '') {
 	$total = Registry::get('total_posts');
 	$offset = Registry::get('page_offset');
@@ -40,6 +49,10 @@ function posts_next($text = 'Next &rarr;', $default = '') {
 	return $pagination->prev_link($text, $default);
 }
 
+/**
+ * Grab the url of the page that displays all the posts before this page
+ * @return String
+ */
 function posts_prev($text = '&larr; Previous', $default = '') {
 	$total = Registry::get('total_posts');
 	$offset = Registry::get('page_offset');
@@ -57,14 +70,26 @@ function posts_prev($text = '&larr; Previous', $default = '') {
 	return $pagination->next_link($text, $default);
 }
 
+/**
+ * Grab the amount of posts that are here
+ * @return int
+ */
 function total_posts() {
 	return Registry::get('total_posts');
 }
 
+/**
+ * Are there even enough posts to allow for pagination?
+ * @return boolean
+ */
 function has_pagination() {
 	return Registry::get('total_posts') > Config::meta('posts_per_page');
 }
 
+/**
+ * Grab the amount of posts allowed per page
+ * @return int
+ */
 function posts_per_page() {
 	return min(Registry::get('total_posts'), Config::meta('posts_per_page'));
 }
