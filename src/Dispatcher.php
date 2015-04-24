@@ -1,23 +1,19 @@
 <?php
 
+use Events\EventManager;
+
 class Dispatcher {
 
-	protected $routes;
-
-	protected $namespace;
+	protected $router;
 
 	protected $events;
 
-	protected $container;
-
-	public function __construct(array $routes, $namespace, Events $events, Container $container) {
-		$this->routes = $routes;
+	public function __construct(Router $router, EventManager $events) {
+		$this->router = $router;
 		$this->events = $events;
-		$this->namespace = $namespace;
-		$this->container = $container;
 	}
 
-	protected function formatClassName($str) {
+	protected function format($str) {
 		$sep = '\\';
 		$str = trim($str, $sep);
 		$parts = array_map('ucfirst', explode($sep, $str));
@@ -25,26 +21,24 @@ class Dispatcher {
 		return $sep.implode($sep, $parts);
 	}
 
-	protected function route($route) {
+	protected function dispatch($route, array $params = null) {
 		if($route instanceof \Closure) return $route;
 
 		list($class, $method) = explode('@', $route);
 
-		$controller = $this->namespace . $this->formatClassName($class);
+		$controller = $this->format($class);
 
-		return [new $controller($this->container), $method];
-	}
-
-	protected function dispatch($route, $params = []) {
-		return call_user_func_array($this->route($route), $params);
+		return [$controller, $method, $params];
 	}
 
 	public function match($uri) {
-		if(array_key_exists($uri, $this->routes)) {
-			return $this->dispatch($this->routes[$uri]);
+		$this->events->dispatch('routes', $this->router);
+
+		if($router->has($uri)) {
+			return $this->dispatch($router->get($uri));
 		}
 
-		foreach($this->routes as $pattern => $route) {
+		foreach($router as $pattern => $route) {
 			if(preg_match('#^'.$pattern.'$#', $uri, $matches)) {
 				return $this->dispatch($route, array_slice($matches, 1));
 			}

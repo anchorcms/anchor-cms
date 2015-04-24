@@ -34,6 +34,10 @@
 		{
 			"type": "vcs",
 			"url": "git@github.com:rwarasaurus/session.git"
+		},
+		{
+			"type": "vcs",
+			"url": "git@github.com:rwarasaurus/events.git"
 		}
 	],
 	"require": {
@@ -42,7 +46,8 @@
 		"rwarasaurus/forms": "dev-master",
 		"rwarasaurus/validation": "dev-master",
 		"rwarasaurus/db": "dev-master",
-		"rwarasaurus/session": "dev-master"
+		"rwarasaurus/session": "dev-master",
+		"rwarasaurus/events": "dev-master"
 	},
 	"require-dev": {
 		"phpspec/phpspec": "2.1.1",

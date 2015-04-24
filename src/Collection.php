@@ -4,7 +4,7 @@ class Collection implements Countable, JsonSerializable, IteratorAggregate, Seri
 
 	protected $data;
 
-	public function __construct(array $data) {
+	public function __construct(array $data = []) {
 		$this->data = $data;
 	}
 

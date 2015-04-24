@@ -7,4 +7,6 @@ if (!defined('PHP_VERSION_ID') || PHP_VERSION_ID < 50500) {
 }
 
 // Set default timezone to UTC
-date_default_timezone_set('UTC');
+if( ! ini_get('date.timezone')) {
+	date_default_timezone_set('UTC');
+}

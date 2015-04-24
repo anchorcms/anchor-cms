@@ -12,5 +12,6 @@ if(false === $app->isInstalled()) {
 }
 
 $app->removeTrailingSlash();
+$app->registerEvents();
 $app->loadPlugins();
 $app->run();

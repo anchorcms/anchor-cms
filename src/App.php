@@ -1,6 +1,6 @@
 <?php
 
-use Composer\Script\Event;
+use Events\Event;
 
 class App {
 
@@ -70,7 +70,7 @@ class App {
 			}
 		}
 
-		$this->events->trigger('pluginsLoaded');
+		$this->events->dispatch('plugins.loaded');
 	}
 
 	public function runInstall() {
@@ -86,11 +86,21 @@ class App {
 		echo $output;
 	}
 
-	public function run() {
-		$output = $this->dispatcher->match($this->http->getUri());
-		$this->session->rotate();
+	public function routes(Router $router) {
+		$router->append($this->config->get('routes'));
+	}
 
-		$this->events->trigger('output', $output);
+	public function registerEvents() {
+		$this->events->listen('routes', [$this, 'routes']);
+	}
+
+	public function run() {
+		list($controller, $method, $params) = $this->dispatcher->match($this->http->getUri());
+
+		$class = new $controller($this->container);
+		$output = call_user_func_array([$class, $method], $params);
+
+		$this->session->rotate();
 
 		echo $output;
 	}

@@ -10,8 +10,8 @@
 .htaccess
 
 # development files
-adminer.php
-router.php
+/adminer.php
+/router.php
 
 # bullshit
 .DS_Store

@@ -13,5 +13,6 @@ if(false === $app->isInstalled()) {
 	exit(1);
 }
 
+$app->registerEvents();
 $app->loadPlugins();
 $app->run();

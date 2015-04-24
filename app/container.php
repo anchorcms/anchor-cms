@@ -18,13 +18,16 @@ return new Container([
 		return new DB\Query($app['db']);
 	},
 	'dispatcher' => function($app) {
-		return new Dispatcher($app['config']->get('routes'), '\\Controllers', $app['events'], $app);
+		return new Dispatcher($app['router'], $app['events']);
+	},
+	'router' => function() {
+		return new Events\Router();
 	},
 	'errors' => function() {
 		return new Errors();
 	},
 	'events' => function() {
-		return new Events();
+		return new Events\EventManager();
 	},
 	'session' => function() {
 		$storage = new Session\Storage\Native(null, [
