@@ -2,6 +2,8 @@
 
 Anchor is a super-simple, lightweight blog system, made to let you just write. [Check out the site](http://anchorcms.com/).
 
+[![Feature Requests](http://feathub.com/anchorcms/anchor-cms?format=svg)](http://feathub.com/anchorcms/anchor-cms)
+
 ### Requirements
 
 - PHP 5.3.6+
