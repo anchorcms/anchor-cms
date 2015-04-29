@@ -18,7 +18,7 @@
 
 		<small>Filter by category</small>
 		<ul class="list">
-			<?php foreach($this->categories->get() as $category): ?>
+			<?php foreach($categories as $category): ?>
 			<li><a href="/admin/posts?category=<?php echo $category->id; ?>"><?php echo $category->title; ?></a></li>
 			<?php endforeach; ?>
 		</ul>

@@ -44,6 +44,7 @@ class Posts extends Backend {
 		$vars['title'] = 'Posts';
 		$vars['posts'] = $posts->get();
 		$vars['paging'] = $paging;
+		$vars['categories'] = $this->categories->get();
 
 		return $this->renderTemplate('main', ['posts/index'], $vars);
 	}

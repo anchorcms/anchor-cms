@@ -49,7 +49,7 @@ abstract class ThemeAware extends ContainerAware {
 		throw new ErrorException(sprintf('Template not found: %s', $path));
 	}
 
-	private function renderTemplate($layout, array $templates, array $vars = []) {
+	protected function renderTemplate($layout, array $templates, array $vars = []) {
 		$template = $this->getTemplate($templates);
 
 		$body = new View($template);

@@ -6,58 +6,28 @@ class Auth extends Backend {
 
 	protected $private = false;
 
-	protected function getLoginForm(array $values = []) {
-		$form = new \Forms\Form(['method' => 'post', 'action' => '/admin/auth/attempt']);
-
-		$form->addElement(new \Forms\Elements\Hidden('token', [
-			'value' => $this->csrf->token()
-		]));
-
-		$form->addElement(new \Forms\Elements\Input('username', [
-			'label' => 'Username',
-			'attributes' => ['autofocus' => 'true', 'autocapitalize' => 'false', 'placeholder' => 'Username'],
-		]));
-
-		$form->addElement(new \Forms\Elements\Password('password', [
-			'label' => 'Password',
-			'attributes' => ['placeholder' => 'Password'],
-		]));
-
-		$form->addElement(new \Forms\Elements\Submit('submit', [
-			'value' => 'Login',
-			'attributes' => ['class' => 'button'],
-		]));
-
-		$form->setValues($values);
-
-		return $form;
-	}
-
 	public function login() {
 		$vars['title'] = 'Login';
 		$vars['messages'] = $this->session->getFlash('messages', []);
 
+		$form = new \Forms\Login(['method' => 'post', 'action' => '/admin/auth/attempt']);
+		$form->init();
+		$form->getElement('token')->setValue($this->csrf->token());
+
 		$values = $this->session->getFlash('input', []);
-		$vars['form'] = $this->getLoginForm($values);
+		$form->setValues($values);
+
+		$vars['form'] = $form;
 
 		return $this->renderTemplate('login', ['users/login'], $vars);
 	}
 
 	public function attempt() {
-		$input = filter_input_array(INPUT_POST, [
-			'token' => FILTER_SANITIZE_STRING,
-			'username' => FILTER_SANITIZE_STRING,
-			'password' => FILTER_UNSAFE_RAW,
-		]);
-
-		$rules = [
-			'token' => ['required'],
-			'username' => ['required'],
-			'password' => ['required'],
-		];
+		$form = new \Forms\Login;
+		$input = $form->filter();
 
 		// validate input
-		$validator = $this->validation->create($input, $rules);
+		$validator = $this->validation->create($input, $form->rules());
 
 		// check token
 		if($this->csrf->verify($input['token']) === false) {

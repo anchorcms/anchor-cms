@@ -22,7 +22,6 @@ class Post extends Form {
 			'value' => 'Save Changes',
 			'attributes' => ['class' => 'button'],
 		]));
-
 	}
 
 
