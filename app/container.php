@@ -21,7 +21,7 @@ return new Container([
 		return new Dispatcher($app['router'], $app['events']);
 	},
 	'router' => function() {
-		return new Events\Router();
+		return new Router();
 	},
 	'errors' => function() {
 		return new Errors();

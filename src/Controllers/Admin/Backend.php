@@ -2,15 +2,18 @@
 
 namespace Controllers\Admin;
 
-abstract class Backend extends \Controllers\Frontend {
+use Container;
+use Controllers\Frontend;
+
+abstract class Backend extends Frontend {
 
 	protected $private = true;
 
-	public function __construct(\Container $app) {
-		$this->container = $app;
+	public function __construct(Container $app) {
+		$this->setContainer($app);
+
 		$paths = $this->config->get('paths');
-		$this->templatePath = $paths['views'];
-		$this->templateExt = '.phtml';
+		$this->setViewPath($paths['views']);
 
 		if(true === $this->private) {
 			if(false === $this->session->has('user')) {

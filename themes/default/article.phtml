@@ -1,9 +1,9 @@
 <?php
 
-$age = $this->posts->where('status', '=', 'published')->where('id', '<', $content->id)->count() + 1;
-
+$age = nth($content);
 $ordinal = ordinal($age);
-$words = wordCount($content);
+$words = words($content);
+
 
 ?><div class="items">
 	<div class="item">

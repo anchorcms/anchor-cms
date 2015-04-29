@@ -11,10 +11,13 @@ To determine your PHP version, create a new file with this PHP code: `<?php echo
 
 ### Install
 
+	git clone https://github.com/anchorcms/anchor-cms.git
+	cd anchor-cms
 	curl -sS https://getcomposer.org/installer | php
-	php composer.phar create-project anchorcms/anchor-cms my-site --repository-url=https://github.com/anchorcms/anchor-cms
+	php composer.phar install
+	php -S localhost:8080
 
-Run the install wizard from your browser to complete the installation
+Run the install wizard from your browser (http://localhost:8080) to complete the installation
 
 ### Testing
 

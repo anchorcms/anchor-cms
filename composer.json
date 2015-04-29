@@ -50,11 +50,7 @@
 		"rwarasaurus/events": "dev-master"
 	},
 	"require-dev": {
-		"phpspec/phpspec": "2.1.1",
-		"phpmd/phpmd" : "*",
-		"phploc/phploc": "*",
-		"sebastian/phpcpd": "*",
-		"sebastian/phpdcd": "*"
+		"phpspec/phpspec": "2.1.1"
 	},
 	"autoload": {
 		"psr-4": {

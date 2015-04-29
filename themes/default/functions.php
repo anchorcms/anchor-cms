@@ -1,7 +1,7 @@
 <?php
 
 // count words
-function wordCount(Content $content) {
+function words(Content $content) {
 	$html = $content->body();
 	$text = strip_tags($html);
 
@@ -17,4 +17,11 @@ function ordinal($num) {
 	}
 
 	return $num . $ends[$num % 10];
+}
+
+// nth article
+function nth(Content $content) {
+	global $app;
+
+	return $app->posts->where('status', '=', 'published')->where('id', '<', $content->id)->count() + 1;
 }

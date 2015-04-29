@@ -1,7 +1,5 @@
 <?php
 
-use Events\Event;
-
 class App {
 
 	protected $container;
@@ -70,7 +68,7 @@ class App {
 			}
 		}
 
-		$this->events->dispatch('plugins.loaded');
+		//$this->events->dispatch('plugins.loaded');
 	}
 
 	public function runInstall() {
@@ -96,6 +94,9 @@ class App {
 
 	public function run() {
 		list($controller, $method, $params) = $this->dispatcher->match($this->http->getUri());
+
+		// prepend namespace
+		$controller = '\\Controllers' . $controller;
 
 		$class = new $controller($this->container);
 		$output = call_user_func_array([$class, $method], $params);

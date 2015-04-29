@@ -21,7 +21,7 @@ class Dispatcher {
 		return $sep.implode($sep, $parts);
 	}
 
-	protected function dispatch($route, array $params = null) {
+	protected function dispatch($route, array $params) {
 		if($route instanceof \Closure) return $route;
 
 		list($class, $method) = explode('@', $route);
@@ -34,11 +34,11 @@ class Dispatcher {
 	public function match($uri) {
 		$this->events->dispatch('routes', $this->router);
 
-		if($router->has($uri)) {
-			return $this->dispatch($router->get($uri));
+		if($this->router->has($uri)) {
+			return $this->dispatch($this->router->get($uri), []);
 		}
 
-		foreach($router as $pattern => $route) {
+		foreach($this->router as $pattern => $route) {
 			if(preg_match('#^'.$pattern.'$#', $uri, $matches)) {
 				return $this->dispatch($route, array_slice($matches, 1));
 			}
