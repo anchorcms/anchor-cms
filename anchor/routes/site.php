@@ -245,7 +245,7 @@ Route::get(array('search', 'search/(:any)', 'search/(:any)/(:num)'), function($s
 	//$term = Session::get($slug); //this was for POST only searches
 
 	// revert double-dashes back to spaces
-	$term = str_replace('--', ' ', $term);
+	$term = str_replace('-', ' ', $term);
 
 	if($offset > 0) {
 		list($total, $posts) = Post::search($term, $offset, Post::perPage());
