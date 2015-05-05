@@ -13,20 +13,26 @@
 
 		<fieldset class="split">
 			<p>
-				<label for="title"><?php echo __('categories.title'); ?>:</label>
-				<input id="title" name="title" value="<?php echo Input::previous('title'); ?>">
+				<label for="label-title"><?php echo __('categories.title'); ?>:</label>
+				<?php echo Form::text('title', Input::previous('title'), array('id' => 'label-title')); ?>
 				<em><?php echo __('categories.title_explain'); ?></em>
 			</p>
 			<p>
-				<label for="slug"><?php echo __('categories.slug'); ?>:</label>
-				<input id="slug" name="slug" value="<?php echo Input::previous('slug'); ?>">
+				<label for="label-slug"><?php echo __('categories.slug'); ?>:</label>
+				<?php echo Form::text('slug', Input::previous('slug'), array('id' => 'label-slug')); ?>
 				<em><?php echo __('categories.slug_explain', 'The slug for your category.'); ?></em>
 			</p>
 			<p>
-				<label for="description"><?php echo __('categories.description'); ?>:</label>
-				<textarea id="description" name="description"><?php echo Input::previous('description'); ?></textarea>
+				<label for="label-description"><?php echo __('categories.description'); ?>:</label>
+				<?php echo Form::textarea('description', Input::previous('description'), array('id' => 'label-description')); ?>
 				<em><?php echo __('categories.description_explain'); ?></em>
 			</p>
+			<?php foreach($fields as $field): ?>
+			<p>
+				<label for="extend_<?php echo $field->key; ?>"><?php echo $field->label; ?>:</label>
+				<?php echo Extend::html($field); ?>
+			</p>
+			<?php endforeach; ?>
 		</fieldset>
 
 		<aside class="buttons">

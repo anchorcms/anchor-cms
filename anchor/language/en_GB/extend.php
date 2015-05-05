@@ -7,6 +7,9 @@ return array(
 	'fields' => 'Custom Fields',
 	'fields_desc' => 'Create additional fields',
 
+	'pagetypes' => 'Site Page Types',
+	'pagetypes_desc' => 'Create different page types',
+
 	'variables' => 'Site Variables',
 	'variables_desc' => 'Create additional metadata',
 
@@ -18,9 +21,16 @@ return array(
 	'editing_variable' => 'Editing variable &ldquo;%s&rdquo;',
 	'novars_desc' => 'No variables yet',
 
+	'create_pagetype' => 'Create a new page type',
+	'editing_pagetype' => 'Editing page type &ldquo;%s&rdquo;',
+
 	// form fields
 	'type' => 'Type',
 	'type_explain' => 'The type of content you want to add this field to.',
+	'notypes_desc' => 'No page types yet',
+
+	'pagetype' => 'Page Type',
+	'pagetype_explain' => 'The type of page you want to add this field to.',
 
 	'field' => 'Field',
 	'field_explain' => 'Html input type',
@@ -59,6 +69,10 @@ return array(
 	'variable_created' => 'Your variable was created',
 	'variable_updated' => 'Your variable was updated',
 	'variable_deleted' => 'Your variable was deleted',
+
+	'pagetype_created' => 'Your page type was created',
+	'pagetype_updated' => 'Your page type was updated',
+	'pagetype_deleted' => 'Your page type was deleted',
 
 	'field_created' => 'Your field was created',
 	'field_updated' => 'Your field was updated',

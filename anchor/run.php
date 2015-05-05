@@ -34,7 +34,20 @@ require APP . 'helpers' . EXT;
 /**
  * Anchor setup
  */
-Anchor::setup();
+try {
+	Anchor::setup();
+} catch(Exception $e) {
+
+	if(ini_get('display_errors') != "1") {
+		echo "<h1>Something went wrong, please notify the owner of the site</h1>";
+	} else {
+		Error::exception($e);
+	}
+
+	Error::log($e);
+	die();
+}
+
 
 /**
  * Import defined routes
@@ -51,6 +64,7 @@ if(is_admin()) {
 	require APP . 'routes/posts' . EXT;
 	require APP . 'routes/users' . EXT;
 	require APP . 'routes/variables' . EXT;
+	require APP . 'routes/pagetypes' . EXT;
 }
 else {
 	require APP . 'routes/site' . EXT;

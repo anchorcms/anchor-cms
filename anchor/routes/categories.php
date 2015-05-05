@@ -22,6 +22,9 @@ Route::collection(array('before' => 'auth,csrf'), function() {
 		$vars['token'] = Csrf::token();
 		$vars['category'] = Category::find($id);
 
+		// extended fields
+		$vars['fields'] = Extend::fields('category', $id);
+
 		return View::create('categories/edit', $vars)
 			->partial('header', 'partials/header')
 			->partial('footer', 'partials/footer');
@@ -50,6 +53,7 @@ Route::collection(array('before' => 'auth,csrf'), function() {
 		$input['slug'] = slug($input['slug']);
 
 		Category::update($id, $input);
+		Extend::process('category', $id);
 
 		Notify::success(__('categories.updated'));
 
@@ -62,6 +66,9 @@ Route::collection(array('before' => 'auth,csrf'), function() {
 	Route::get('admin/categories/add', function() {
 		$vars['messages'] = Notify::read();
 		$vars['token'] = Csrf::token();
+
+		// extended fields
+		$vars['fields'] = Extend::fields('category');
 
 		return View::create('categories/add', $vars)
 			->partial('header', 'partials/header')
@@ -90,7 +97,8 @@ Route::collection(array('before' => 'auth,csrf'), function() {
 
 		$input['slug'] = slug($input['slug']);
 
-		Category::create($input);
+		$category = Category::create($input);
+		Extend::process('category', $category->id);
 
 		Notify::success(__('categories.created'));
 

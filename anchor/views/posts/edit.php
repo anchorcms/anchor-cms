@@ -40,8 +40,8 @@
 	<fieldset class="meta split">
 		<div class="wrap">
 			<p>
-				<label><?php echo __('posts.slug'); ?>:</label>
-				<?php echo Form::text('slug', Input::previous('slug', $article->slug)); ?>
+				<label for="label-slug"><?php echo __('posts.slug'); ?>:</label>
+				<?php echo Form::text('slug', Input::previous('slug', $article->slug), array('id' => 'label-slug')); ?>
 				<em><?php echo __('posts.slug_explain'); ?></em>
 			</p>
 			<p>
@@ -55,33 +55,33 @@
 				<em><?php echo __('posts.description_explain'); ?></em>
 			</p>
 			<p>
-				<label for="status"><?php echo __('posts.status'); ?>:</label>
-				<?php echo Form::select('status', $statuses, Input::previous('status', $article->status)); ?>
+				<label for="label-status"><?php echo __('posts.status'); ?>:</label>
+				<?php echo Form::select('status', $statuses, Input::previous('status', $article->status), array('id' => 'label-status')); ?>
 				<em><?php echo __('posts.status_explain'); ?></em>
 			</p>
 			<p>
-				<label for="category"><?php echo __('posts.category'); ?>:</label>
-				<?php echo Form::select('category', $categories, Input::previous('category', $article->category)); ?>
+				<label for="label-category"><?php echo __('posts.category'); ?>:</label>
+				<?php echo Form::select('category', $categories, Input::previous('category', $article->category), array('id' => 'label-category')); ?>
 				<em><?php echo __('posts.category_explain'); ?></em>
 			</p>
 			<p>
-				<label><?php echo __('posts.allow_comments'); ?>:</label>
-				<?php echo Form::checkbox('comments', 1, Input::previous('comments', $article->comments) == 1); ?>
+				<label for="label-comments"><?php echo __('posts.allow_comments'); ?>:</label>
+				<?php echo Form::checkbox('comments', 1, Input::previous('comments', $article->comments) == 1, array('id' => 'label-comments')); ?>
 				<em><?php echo __('posts.allow_comments_explain'); ?></em>
 			</p>
 			<p>
-				<label><?php echo __('posts.custom_css'); ?>:</label>
-				<?php echo Form::textarea('css', Input::previous('css', $article->css)); ?>
+				<label for="label-css"><?php echo __('posts.custom_css'); ?>:</label>
+				<?php echo Form::textarea('css', Input::previous('css', $article->css), array('id' => 'label-css')); ?>
 				<em><?php echo __('posts.custom_css_explain'); ?></em>
 			</p>
 			<p>
-				<label for="js"><?php echo __('posts.custom_js'); ?>:</label>
-				<?php echo Form::textarea('js', Input::previous('js', $article->js)); ?>
+				<label for="label-js"><?php echo __('posts.custom_js'); ?>:</label>
+				<?php echo Form::textarea('js', Input::previous('js', $article->js), array('id' => 'label-js')); ?>
 				<em><?php echo __('posts.custom_js_explain'); ?></em>
 			</p>
 			<?php foreach($fields as $field): ?>
 			<p>
-				<label for="<?php echo $field->key; ?>"><?php echo $field->label; ?>:</label>
+				<label for="extend_<?php echo $field->key; ?>"><?php echo $field->label; ?>:</label>
 				<?php echo Extend::html($field); ?>
 			</p>
 			<?php endforeach; ?>
@@ -89,12 +89,15 @@
 	</fieldset>
 </form>
 
+<script src="<?php echo asset('anchor/views/assets/js/slug.js'); ?>"></script>
 <script src="<?php echo asset('anchor/views/assets/js/dragdrop.js'); ?>"></script>
 <script src="<?php echo asset('anchor/views/assets/js/upload-fields.js'); ?>"></script>
 <script src="<?php echo asset('anchor/views/assets/js/text-resize.js'); ?>"></script>
 <script src="<?php echo asset('anchor/views/assets/js/editor.js'); ?>"></script>
+<script src="<?php echo asset('anchor/views/assets/js/change-saver.js'); ?>"></script>
 <script>
-	$('textarea[name=html]').editor();
+    $('textarea[name=html]').editor();
+    $('form').changeSaver('textarea[name=html]');
 </script>
 
 <?php echo $footer; ?>
