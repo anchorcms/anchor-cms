@@ -2,24 +2,20 @@
 
 namespace Controllers\Installer;
 
-abstract class Controller {
+use Controllers\ContainerAware;
 
-	protected $container;
+abstract class Controller extends ContainerAware {
 
 	public function __construct(\Container $container) {
-		$this->container = $container;
-	}
-
-	public function __get($key) {
-		return $this->container[$key];
+		$this->setContainer($container);
 	}
 
 	protected function renderWith($layout, $template, array $vars = []) {
-		$path = __DIR__ . '/../../../app/views/';
+		$paths = $this->config->get('paths');
 
-		$vars['body'] = $this->render($path . $template, $vars);
+		$vars['body'] = $this->render($paths['views'] . '/' . $template, $vars);
 
-		return $this->render($path . $layout, $vars);
+		return $this->render($paths['views'] . '/' . $layout, $vars);
 	}
 
 	protected function render($template, array $vars = []) {

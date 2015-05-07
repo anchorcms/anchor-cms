@@ -6,6 +6,12 @@ class Installer {
 
 	protected $messages = [];
 
+	protected $paths;
+
+	public function __construct(array $paths) {
+		$this->paths = $paths;
+	}
+
 	public function run(array $input) {
 		$bytes = openssl_random_pseudo_bytes(32);
 		$input['nonce'] = bin2hex($bytes);
@@ -16,7 +22,7 @@ class Installer {
 	}
 
 	public function copySampleConfig(array $input) {
-		$path = __DIR__ . '/../../app/config';
+		$path = $this->paths['config'];
 
 		if(false === is_dir($path)) mkdir($path);
 
@@ -91,7 +97,7 @@ class Installer {
 	}
 
 	public function runSchema(array $input) {
-		$path = __DIR__ . '/../../app/storage/schema_' . $input['driver'] . '.sql';
+		$path = __DIR__ . '/../../storage/schema_' . $input['driver'] . '.sql';
 		$schema = file_get_contents($path);
 
 		$pdo = $this->getPdo($input);

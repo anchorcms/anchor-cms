@@ -40,8 +40,8 @@ return new Container([
 
 		return $s;
 	},
-	'installer' => function() {
-		return new Services\Installer;
+	'installer' => function($app) {
+		return new Services\Installer($app['config']->get('paths'));
 	},
 	'csrf' => function($app) {
 		$config = $app['config']->get('general');
