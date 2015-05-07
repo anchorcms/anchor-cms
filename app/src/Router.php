@@ -26,6 +26,10 @@ class Router extends Event implements IteratorAggregate {
 		return array_key_exists($key, $this->routes);
 	}
 
+	public function prepend(array $routes) {
+		$this->routes = array_merge($routes, $this->routes);
+	}
+
 	public function append(array $routes) {
 		$this->routes = array_merge($this->routes, $routes);
 	}

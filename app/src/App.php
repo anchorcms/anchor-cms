@@ -58,13 +58,11 @@ class App {
 
 		foreach($enabled as $name) {
 			$path = $paths['plugins'] . '/' . $name . '/plugin.php';
-
 			if(is_file($path)) {
-				require $path;
-				$class = 'Plugins\\' . str_replace(' ', '', ucwords(str_replace('-', ' ', $name)));
-
-				$obj = new $class($this->container);
-				$obj->init();
+				// include file into empty scope exposing only the event manager
+				call_user_func(function($events) use($path) {
+					require $path;
+				}, $this->events);
 			}
 		}
 
