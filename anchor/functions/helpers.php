@@ -69,6 +69,16 @@ function body_class() {
 	if(is_homepage()) {
 		$classes[] = 'home';
 	}
+	
+	//  Is it a single post?
+	if(is_article()) {
+		$classes[] = 'article';
+	}
+	
+	//  Is it a custom page?
+	if(is_page()) {
+		$classes[] = 'page';
+	}
 
 	return implode(' ', array_unique($classes));
 }
