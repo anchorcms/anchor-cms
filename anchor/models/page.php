@@ -59,4 +59,26 @@ class Page extends Base {
 			return true;
 		}
 	}
+	
+	public static function search($term, $pageNum = 1, $per_page = 10) {
+		$query = static::where(Base::table('pages.status'), '=', 'published')
+			->where(Base::table('pages.name'), 'like', '%' . $term . '%');
+			//->or_where(Base::table('pages.content'), 'like', '%' . $term . '%'); // This could cause problems?
+		
+		$total =$query->count();
+		
+		$pages = $query->take($per_page)
+			->skip(--$pageNum * $per_page)
+			->get(array(Base::table('pages.*')));
+		
+		foreach($pages as $key => $page) {
+			if($page->data['status'] !== 'published') {
+				unset($pages[$key]);
+			}
+		}
+		
+		if(count($pages) < 1) $total = 0;
+		
+		return array($total, $pages);
+	}
 }
