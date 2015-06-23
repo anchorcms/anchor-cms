@@ -28,12 +28,12 @@
 		<br>
 		<nav class="categories">
 			<p>Categories</p>
-		    <?php foreach($categories as $cat): ?>
+			<?php foreach($categories as $cat): ?>
 			<?php echo Html::link('admin/posts/category/' . $cat->slug, $cat->title, array(
 				'class' => (isset($category) and $category->id == $cat->id) ? 'active' : ''
 			)); ?>
-		    <?php endforeach; ?>
-	    </nav>
+			<?php endforeach; ?>
+		</nav>
 	</nav>
 
 	<?php if($posts->count): ?>
