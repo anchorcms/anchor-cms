@@ -321,3 +321,10 @@ form .btn {
 form .quiet {
 	margin-right: 25px;
 }
+
+#dbCreate {
+	position:relative;
+	top:10px;
+	height: 17px;
+	width: 17px;
+}
