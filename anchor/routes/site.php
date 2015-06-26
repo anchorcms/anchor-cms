@@ -125,7 +125,7 @@ Route::get($posts_page->slug . '/(:any)/edit', function($slug) use($posts_page) 
     if (!$post = Post::slug($slug) or Auth::guest()) {
         return Response::create(new Template('404'), 404);
     }
-    
+
     return Response::redirect('/admin/posts/edit/' . $post->id);
 });
 
@@ -136,7 +136,7 @@ Route::get('(:all)/edit', function($slug) use($posts_page) {
     if (!$page = Page::slug($slug) or Auth::guest()) {
         return Response::create(new Template('404'), 404);
     }
-    
+
     return Response::redirect('/admin/pages/edit/' . $page->id);
 });
 
@@ -246,23 +246,23 @@ Route::get(array('search', 'search/(:any)', 'search/(:any)/(:any)', 'search/(:an
 
 	// revert double-dashes back to spaces
 	$term = str_replace('--', ' ', $term);
-	
+
 	if($offset <= 0) {
 		return Response::create(new Template('404'), 404);
 	}
-	
+
 	// Posts, pages, or all
 	if($whatSearching === 'posts') list($total, $results) = (Post::search($term, $offset, Post::perPage()));
 	elseif($whatSearching === 'pages') list($total, $results) = Page::search($term, $offset);
 	else {
 		$postResults = Post::search($term, $offset, Post::perPage());
 		$pageResults = Page::search($term, $offset);
-		$total = $postResults[0] + $pageResults[0];
-		$results = $postResults[1] + $pageResults[1];
+		$total = array_merge($postResults[0], $pageResults[0]);
+		$results = array_merge($postResults[1], $pageResults[1]);
 	}
-	
+
 	// Connect to Page::search($term, $offset);
-	
+
 	/* Bad if statement?
 	if($offset > 0) {
 		list($total, $results) = Post::search($term, $offset, Post::perPage());
@@ -277,7 +277,7 @@ Route::get(array('search', 'search/(:any)', 'search/(:any)/(:any)', 'search/(:an
 	Registry::set('search_term', $term);
 	Registry::set('search_results', new Items($results));
 	Registry::set('total_posts', $total);
-	
+
 	return new Template('search');
 });
 
@@ -318,11 +318,11 @@ Route::post('search', function() {
 	// Search term
 	$term = filter_var(Input::get('term', ''), FILTER_SANITIZE_STRING); // sanitize search term
 	$term = str_replace(' ', '--', $term); // replace spaces with double-dash to pass through url
-	
+
 	// What searching
 	$whatSearch = Input::get('whatSearch', ''); // get what we are searching for
 	$whatSearch = $whatSearch === 'posts' ? 'posts' : $whatSearch === 'pages' ? 'pages' : 'all'; // clamp the choices
-	
+
 	Session::put(slug($term), $term);
 	Session::put($whatSearch, $whatSearch);
 
