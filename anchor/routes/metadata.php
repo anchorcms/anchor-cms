@@ -1,6 +1,6 @@
 <?php
 
-Route::collection(array('before' => 'auth'), function() {
+Route::collection(array('before' => 'auth,install_exists'), function() {
 
 	/*
 		List Metadata
