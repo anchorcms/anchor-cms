@@ -79,7 +79,7 @@ function article_description() {
  * @return string
  */
 function article_html() {
-	return Registry::prop('article', 'markdown');
+	return Registry::prop('article', 'html');
 }
 
 /**
@@ -271,7 +271,7 @@ function article_adjacent_url($side = 'next', $draft = false, $archived = false)
 
 	$page = Registry::get('posts_page');
 	$query = Post::where('created', $comparison, Registry::prop('article', 'created'));
-	
+
 	if(!$draft) $query = $query->where('status', '!=', 'draft');
 	if(!$archived) $query = $query->where('status', '!=', 'archived');
 
@@ -298,14 +298,14 @@ function related_posts($n) {
                 array_push($postarr, $post);
             }
         }
-    endforeach;    
+    endforeach;
     shuffle($postarr);
     $postarr = array_slice($postarr, 0, $n);
     return $postarr;
 }
 
 /**
-* Get article category ID 
+* Get article category ID
 * @return string
 */
 
