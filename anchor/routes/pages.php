@@ -75,7 +75,7 @@ Route::collection(array('before' => 'auth,csrf,install_exists'), function() {
 	});
 
 	Route::post('admin/pages/edit/(:num)', function($id) {
-		$input = Input::get(array('parent', 'name', 'title', 'slug', 'content', 'status', 'redirect', 'show_in_menu', 'pagetype'));
+		$input = Input::get(array('parent', 'name', 'title', 'slug', 'markdown', 'status', 'redirect', 'show_in_menu', 'pagetype'));
 
 		// if there is no slug try and create one from the title
 		if(empty($input['slug'])) {
@@ -124,6 +124,8 @@ Route::collection(array('before' => 'auth,csrf,install_exists'), function() {
 
 		$input['show_in_menu'] = is_null($input['show_in_menu']) ? 0 : 1;
 
+		$input['html'] = parse($input['markdown']);
+
 		Page::update($id, $input);
 
 		Extend::process('page', $id);
@@ -159,7 +161,7 @@ Route::collection(array('before' => 'auth,csrf,install_exists'), function() {
 	});
 
 	Route::post('admin/pages/add', function() {
-		$input = Input::get(array('parent', 'name', 'title', 'slug', 'content', 'status', 'redirect', 'show_in_menu', 'pagetype'));
+		$input = Input::get(array('parent', 'name', 'title', 'slug', 'markdown', 'status', 'redirect', 'show_in_menu', 'pagetype'));
 
 		// if there is no slug try and create one from the title
 		if(empty($input['slug'])) {
@@ -204,6 +206,8 @@ Route::collection(array('before' => 'auth,csrf,install_exists'), function() {
 		}
 
 		$input['show_in_menu'] = is_null($input['show_in_menu']) ? 0 : 1;
+
+		$input['html'] = parse($input['markdown']);
 
 		$page = Page::create($input);
 

@@ -29,7 +29,7 @@
 
 	<fieldset class="main">
 		<div class="wrap">
-			<?php echo Form::textarea('html', Input::previous('html', htmlentities($article->html, ENT_QUOTES, 'UTF-8')), array(
+			<?php echo Form::textarea('markdown', Input::previous('markdown', htmlentities($article->markdown, ENT_QUOTES, 'UTF-8')), array(
 				'placeholder' => __('posts.content_explain')
 			)); ?>
 
@@ -96,8 +96,8 @@
 <script src="<?php echo asset('anchor/views/assets/js/editor.js'); ?>"></script>
 <script src="<?php echo asset('anchor/views/assets/js/change-saver.js'); ?>"></script>
 <script>
-    $('textarea[name=html]').editor();
-    $('form').changeSaver('textarea[name=html]');
+    $('textarea[name=markdown]').editor();
+    $('form').changeSaver('textarea[name=markdown]');
 </script>
 
 <?php echo $footer; ?>
