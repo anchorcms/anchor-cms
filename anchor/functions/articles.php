@@ -38,18 +38,22 @@ function article_slug() {
 
 /**
  * Get the url to the previous article
+ * @param boolean
+ * @param boolean
  * @return string
  */
-function article_previous_url() {
-	return article_adjacent_url('previous');
+function article_previous_url($draft = false, $archive = false) {
+	return article_adjacent_url('previous', $draft, $archive);
 }
 
 /**
  * Get the url to the next article
+ * @param boolean
+ * @param boolean
  * @return string
  */
-function article_next_url() {
-	return article_adjacent_url('next');
+function article_next_url($draft = false, $archive = false) {
+	return article_adjacent_url('next', $draft, $archive);
 }
 
 /**
@@ -252,9 +256,11 @@ function article_object() {
 /**
 * Get the url to an adjacent article
 * @param string		prev || previous || next
+* @param boolean
+* @param boolean
 * @return string
 */
-function article_adjacent_url($side = 'next') {
+function article_adjacent_url($side = 'next', $draft = false, $archived = false) {
 	$comparison = '>';
 	$order = 'asc';
 
@@ -264,8 +270,10 @@ function article_adjacent_url($side = 'next') {
 	}
 
 	$page = Registry::get('posts_page');
-	$query = Post::where('created', $comparison, Registry::prop('article', 'created'))
-				->where('status', '!=', 'draft');
+	$query = Post::where('created', $comparison, Registry::prop('article', 'created'));
+	
+	if(!$draft) $query = $query->where('status', '!=', 'draft');
+	if(!$archived) $query = $query->where('status', '!=', 'archived');
 
 	if($query->count()) {
 		$article = $query->sort('created', $order)->fetch();

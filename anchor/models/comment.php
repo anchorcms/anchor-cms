@@ -6,10 +6,12 @@ class Comment extends Base {
 
 	public function notify() {
 		$uri = Uri::full('admin/comments/edit/' . $this->id);
+		$host = parse_url($_SERVER['HTTP_HOST'], PHP_URL_HOST) ?: 'localhost';
+		$from = 'notifications@' . $host;
 
 		$headers  = 'MIME-Version: 1.0' . "\r\n";
 		$headers .= 'Content-type: text/html; charset=utf-8' . "\r\n";
-		$headers .= 'From: notifications@' . $_SERVER['HTTP_HOST'] . "\r\n";
+		$headers .= 'From: ' . $from . "\r\n";
 
 		$message = '<html>
 			<head>
