@@ -282,3 +282,36 @@ function article_adjacent_url($side = 'next', $draft = false, $archived = false)
 		return base_url($page->slug . '/' . $article->slug);
 	}
 }
+
+/**
+* Get the url to an adjacent article
+* @param number of articles desired
+* @return object array
+*/
+
+function related_posts($n) {
+    $posts = Post::get(Base::table('posts'), '=', 'published');
+    $postarr = array();
+    foreach($posts as $post) :
+        if($post->id != article_id()) {
+            if($post->category == article_category_id()) {
+                array_push($postarr, $post);
+            }
+        }
+    endforeach;    
+    shuffle($postarr);
+    $postarr = array_slice($postarr, 0, $n);
+    return $postarr;
+}
+
+/**
+* Get article category ID 
+* @return string
+*/
+
+function article_category_id() {
+    if($category = Registry::prop('article', 'category')) {
+        $categories = Registry::get('all_categories');
+        return $categories[$category]->id;
+    }
+}
