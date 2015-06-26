@@ -46,6 +46,7 @@
 					<form id="search" action="<?php echo search_url(); ?>" method="post">
 						<label for="term">Search my blog:</label>
 						<input type="search" id="term" name="term" placeholder="To search, type and hit enter&hellip;" value="<?php echo search_term(); ?>">
+						<input type="hidden" id="whatSearch" name="whatSearch" value="all" />
 					</form>
 
 					<aside>

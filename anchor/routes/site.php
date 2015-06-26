@@ -232,6 +232,56 @@ Route::get('feeds/json', function() {
 /**
  * Search
  */
+Route::get(array('search', 'search/(:any)', 'search/(:any)/(:any)', 'search/(:any)/(:any)/(:num)'), function($whatSearching = 'all', $slug = '', $offset = 1) {
+	// mock search page
+	$page = new Page;
+	$page->id = 0;
+	$page->title = 'Search';
+	$page->slug = 'search';
+
+	// get search term
+	$term = filter_var($slug, FILTER_SANITIZE_STRING);
+	Session::put(slug($term), $term);
+	//$term = Session::get($slug); //this was for POST only searches
+
+	// revert double-dashes back to spaces
+	$term = str_replace('--', ' ', $term);
+	
+	if($offset <= 0) {
+		return Response::create(new Template('404'), 404);
+	}
+	
+	// Posts, pages, or all
+	if($whatSearching === 'posts') list($total, $results) = (Post::search($term, $offset, Post::perPage()));
+	elseif($whatSearching === 'pages') list($total, $results) = Page::search($term, $offset);
+	else {
+		$postResults = Post::search($term, $offset, Post::perPage());
+		$pageResults = Page::search($term, $offset);
+		$total = $postResults[0] + $pageResults[0];
+		$results = $postResults[1] + $pageResults[1];
+	}
+	
+	// Connect to Page::search($term, $offset);
+	
+	/* Bad if statement?
+	if($offset > 0) {
+		list($total, $results) = Post::search($term, $offset, Post::perPage());
+	} else {
+		return Response::create(new Template('404'), 404);
+	}
+	*/
+
+	// search templating vars
+	Registry::set('page', $page);
+	Registry::set('page_offset', $offset);
+	Registry::set('search_term', $term);
+	Registry::set('search_results', new Items($results));
+	Registry::set('total_posts', $total);
+	
+	return new Template('search');
+});
+
+/* OLD
 Route::get(array('search', 'search/(:any)', 'search/(:any)/(:num)'), function($slug = '', $offset = 1) {
 	// mock search page
 	$page = new Page;
@@ -248,7 +298,7 @@ Route::get(array('search', 'search/(:any)', 'search/(:any)/(:num)'), function($s
 	$term = str_replace('-', ' ', $term);
 
 	if($offset > 0) {
-		list($total, $posts) = Post::search($term, $offset, Post::perPage());
+		list($total, $posts) = Post::search($term, $offset, Config::meta('posts_per_page'));
 	} else {
 		return Response::create(new Template('404'), 404);
 	}
@@ -262,17 +312,21 @@ Route::get(array('search', 'search/(:any)', 'search/(:any)/(:num)'), function($s
 
 	return new Template('search');
 });
+*/
 
 Route::post('search', function() {
-	// search and save search ID
-	$term = filter_var(Input::get('term', ''), FILTER_SANITIZE_STRING);
-
-	// replace spaces with double-dash to pass through url
-	$term = str_replace(' ', '--', $term);
-
+	// Search term
+	$term = filter_var(Input::get('term', ''), FILTER_SANITIZE_STRING); // sanitize search term
+	$term = str_replace(' ', '--', $term); // replace spaces with double-dash to pass through url
+	
+	// What searching
+	$whatSearch = Input::get('whatSearch', ''); // get what we are searching for
+	$whatSearch = $whatSearch === 'posts' ? 'posts' : $whatSearch === 'pages' ? 'pages' : 'all'; // clamp the choices
+	
 	Session::put(slug($term), $term);
+	Session::put($whatSearch, $whatSearch);
 
-	return Response::redirect('search/' . slug($term));
+	return Response::redirect('search/' . $whatSearch . '/' . slug($term));
 });
 
 /**
