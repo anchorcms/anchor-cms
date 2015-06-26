@@ -42,9 +42,7 @@
 
 				<?php echo Html::link('admin/logout', __('global.logout'), array('class' => 'btn')); ?>
 
-				<?php $home = Registry::get('home_page'); ?>
-
-				<?php echo Html::link($home->slug, __('global.visit_your_site'), array('class' => 'btn', 'target' => '_blank')); ?>
+				<?php echo Html::link((!empty(Registry::get('home_page')->slug) ? Registry::get('home_page')->slug : Registry::get('posts_page')->slug), __('global.visit_your_site'), array('class' => 'btn', 'target' => '_blank')); ?>
 
 				<?php else: ?>
 				<aside class="logo">
