@@ -10,6 +10,9 @@ date_default_timezone_set(Config::app('timezone', 'UTC'));
  */
 switch(constant('ENV')) {
 	case 'dev':
+	case 'development':
+	case 'local':
+	case 'localhost':
 		ini_set('display_errors', true);
 		error_reporting(-1);
 		break;
