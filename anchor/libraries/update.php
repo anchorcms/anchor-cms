@@ -57,5 +57,7 @@ class Update {
 				$result = false;
 			}
 		}
+
+		return $result;
 	}
 }
