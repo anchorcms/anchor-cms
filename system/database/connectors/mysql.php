@@ -50,6 +50,7 @@ class Mysql extends Connector {
 			$dns = 'mysql:' . implode(';', array('dbname=' . $database, 'host=' . $hostname, 'port=' . $port, 'charset=' . $charset));
 			$this->pdo = new PDO($dns, $username, $password);
 			$this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+			$this->pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 		} catch(PDOException $e) {
 			throw new ErrorException($e->getMessage());
 		}
