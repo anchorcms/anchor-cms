@@ -17,12 +17,25 @@ class Template extends View {
 			}
 		}
 
+		if($template == 'posts') {
+			if($item = Registry::get('post_category')) {
+				if(is_readable($base . 'category-' . $item->slug . EXT)) {
+					$template = 'category';
+					$template .= '-' . $item->slug;
+				}
+			}
+		}
+
 		$this->path = $base . $template . EXT;
 		$this->vars = array_merge($this->vars, $vars);
 	}
 
 	public function __toString() {
 		return $this->render();
+	}
+
+	public function exists() {
+		return file_exists($this->path);
 	}
 
 }
