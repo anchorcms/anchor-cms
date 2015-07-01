@@ -30,9 +30,13 @@ Route::collection(array('before' => 'auth,csrf,install_exists'), function() {
 
 	Route::post('admin/extend/pagetypes/add', function() {
 		$input = Input::get(array('key', 'value'));
-
+		
 		$input['key'] = slug($input['key'], '_');
-
+		
+		foreach($input as $key => &$value) {
+			$value = eq($value);
+		}
+		
 		$validator = new Validator($input);
 
 		$validator->add('valid_key', function($str) {
@@ -79,9 +83,13 @@ Route::collection(array('before' => 'auth,csrf,install_exists'), function() {
 
 	Route::post('admin/extend/pagetypes/edit/(:any)', function($key) {
 		$input = Input::get(array('key', 'value'));
-
+		
 		$input['key'] = slug($input['key'], '_');
-
+		
+		foreach($input as $key => &$value) {
+			$value = eq($value);
+		}
+		
 		$validator = new Validator($input);
 
 		$validator->add('valid_key', function($str) use($key) {

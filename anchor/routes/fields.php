@@ -34,15 +34,19 @@ Route::collection(array('before' => 'auth,csrf,install_exists'), function() {
 
 	Route::post('admin/extend/fields/add', function() {
 		$input = Input::get(array('type', 'field', 'key', 'label', 'attributes', 'pagetype'));
-
+		
 		if(empty($input['key'])) {
 			$input['key'] = $input['label'];
 		}
-
+		
 		$input['key'] = slug($input['key'], '_');
-
+		
+		foreach($input as $key => &$value) {
+			$value = eq($value);
+		}
+		
 		$validator = new Validator($input);
-
+		
 		$validator->add('valid_key', function($str) use($input) {
 			return Extend::where('key', '=', $str)
 				->where('type', '=', $input['type'])->count() == 0;
@@ -117,15 +121,19 @@ Route::collection(array('before' => 'auth,csrf,install_exists'), function() {
 
 	Route::post('admin/extend/fields/edit/(:num)', function($id) {
 		$input = Input::get(array('type', 'field', 'key', 'label', 'attributes', 'pagetype'));
-
+		
 		if(empty($input['key'])) {
 			$input['key'] = $input['label'];
 		}
-
+		
 		$input['key'] = slug($input['key'], '_');
-
+		
+		foreach($input as $key => &$value) {
+			$value = eq($value);
+		}
+		
 		$validator = new Validator($input);
-
+		
 		$validator->add('valid_key', function($str) use($id, $input) {
 			return Extend::where('key', '=', $str)
 				->where('type', '=', $input['type'])

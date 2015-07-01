@@ -84,10 +84,11 @@ Route::collection(array('before' => 'auth,csrf,install_exists'), function() {
 
 		// convert to ascii
 		$input['slug'] = slug($input['slug']);
-
-		// encode title
-		$input['title'] = htmlspecialchars($input['title'], ENT_QUOTES, Config::app('encoding'), false);
-
+		
+		foreach($input as $key => &$value) {
+			$value = eq($value);
+		}
+		
 		$validator = new Validator($input);
 
 		$validator->add('duplicate', function($str) use($id) {
@@ -170,10 +171,11 @@ Route::collection(array('before' => 'auth,csrf,install_exists'), function() {
 
 		// convert to ascii
 		$input['slug'] = slug($input['slug']);
-
-		// encode title
-		$input['title'] = e($input['title'], ENT_COMPAT);
-
+		
+		foreach($input as $key => &$value) {
+			$value = eq($value);
+		}
+		
 		$validator = new Validator($input);
 
 		$validator->add('duplicate', function($str) {
