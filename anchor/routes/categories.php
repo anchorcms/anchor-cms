@@ -32,7 +32,11 @@ Route::collection(array('before' => 'auth,csrf,install_exists'), function() {
 
 	Route::post('admin/categories/edit/(:num)', function($id) {
 		$input = Input::get(array('title', 'slug', 'description'));
-
+		
+		foreach($input as $key => &$value) {
+			$value = eq($value);
+		}
+		
 		$validator = new Validator($input);
 
 		$validator->check('title')
@@ -77,7 +81,11 @@ Route::collection(array('before' => 'auth,csrf,install_exists'), function() {
 
 	Route::post('admin/categories/add', function() {
 		$input = Input::get(array('title', 'slug', 'description'));
-
+		
+		foreach($input as $key => &$value) {
+			$value = eq($value);
+		}
+		
 		$validator = new Validator($input);
 
 		$validator->check('title')

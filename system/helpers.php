@@ -78,3 +78,10 @@ function normalize($str) {
 function e($str, $quotes = ENT_NOQUOTES) {
 	return htmlspecialchars($str, $quotes, Config::app('encoding'), false);
 }
+
+/**
+ * Alias for e($str, ENT_QUOTES)
+ */
+function eq($str) {
+	return e($str, ENT_QUOTES);
+}

@@ -81,7 +81,11 @@ Route::collection(array('before' => 'auth,csrf,install_exists'), function() {
 
 	Route::post('admin/comments/edit/(:num)', function($id) {
 		$input = Input::get(array('name', 'email', 'text', 'status'));
-
+		
+		foreach($input as $key => &$value) {
+			$value = eq($value);
+		}
+		
 		$validator = new Validator($input);
 
 		$validator->check('name')

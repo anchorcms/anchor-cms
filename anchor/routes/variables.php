@@ -36,11 +36,15 @@ Route::collection(array('before' => 'auth,csrf,install_exists'), function() {
 
 	Route::post('admin/extend/variables/add', function() {
 		$input = Input::get(array('key', 'value'));
-
+		
 		$input['key'] = 'custom_' . slug($input['key'], '_');
-
+		
+		foreach($input as $key => &$value) {
+			$value = eq($value);
+		}
+		
 		$validator = new Validator($input);
-
+		
 		$validator->add('valid_key', function($str) {
 			if(strlen($str) > 7) {
 				return Query::table(Base::table('meta'))
@@ -89,11 +93,15 @@ Route::collection(array('before' => 'auth,csrf,install_exists'), function() {
 
 	Route::post('admin/extend/variables/edit/(:any)', function($key) {
 		$input = Input::get(array('key', 'value'));
-
+		
 		$input['key'] = 'custom_' . slug($input['key'], '_');
-
+		
+		foreach($input as $key => &$value) {
+			$value = eq($value);
+		}
+		
 		$validator = new Validator($input);
-
+		
 		$validator->add('valid_key', function($str) use($key) {
 			// no change
 			if($str == $key) return true;
