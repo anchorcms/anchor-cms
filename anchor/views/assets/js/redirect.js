@@ -4,7 +4,7 @@
 $(function() {
 	var fieldset = $('fieldset.redirect'),
 		input = $('input[name=redirect]'),
-		btn = $('button.secondary');
+		btn = $('button.secondary.redirector');
 
 	var toggle = function() {
 		fieldset.toggleClass('show');

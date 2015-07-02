@@ -20,6 +20,7 @@
 					'class' => 'btn',
 					'data-loading' => __('global.saving')
 				)); ?>
+				<a class="btn autosave-action autosave-label secondary" style="width: 154px;">Autosave: Off</a>
 			</aside>
 		</div>
 	</fieldset>

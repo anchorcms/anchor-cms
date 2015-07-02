@@ -19,11 +19,11 @@
 					'type' => 'submit',
 					'class' => 'btn'
 				)); ?>
-
+				<a class="btn autosave-action autosave-label secondary" style="width: 154px;">Autosave: Off</a>
 				<?php echo Form::button(__('pages.redirect'), array(
-					'class' => 'btn secondary'
+					'class' => 'btn secondary redirector'
 				)); ?>
-
+				
 				<?php
 				if($deletable == true) {
 					echo Html::link('admin/pages/delete/' . $page->id, __('global.delete'), array(
