@@ -11,7 +11,6 @@ $(document).ready(function() {
 	var secondsPassed = 0;
 	
 	var onInterval = function() {
-		console.log("interval!");
 		secondsPassed++;
 		if(secondsPassed > maxSeconds) {
 			secondsPassed = 0;
@@ -39,7 +38,7 @@ $(document).ready(function() {
 	
 	$(".autosave-action").click(function() {
 		if(autosaveInterval === null) {
-			autosaveInterval = setInterval(function() {onInterval()}, 1000);
+			autosaveInterval = setInterval(function() {onInterval();}, 1000);
 		} else {
 			clearInterval(autosaveInterval);
 			autosaveInterval = null;
