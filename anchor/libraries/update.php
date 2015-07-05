@@ -36,7 +36,8 @@ class Update {
 	}
 	public static function touch() {
 		$url = 'http://anchorcms.com/version';
-
+		$result = false;
+		
 		$updateable = @fsockopen("http://anchorcms.com/version", 80);
 		if ($updateable){
 			if(in_array(ini_get('allow_url_fopen'), array('true', '1', 'On'))) {
@@ -52,9 +53,6 @@ class Update {
 				));
 				$result = curl_exec($session);
 				curl_close($session);
-			}
-			else {
-				$result = false;
 			}
 		}
 
