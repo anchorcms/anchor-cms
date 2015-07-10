@@ -13,20 +13,24 @@ abstract class Frontend extends ThemeAware {
 	}
 
 	public function notFound() {
-		http_response_code(404);
-
-		$page = new \StdClass;
-		$page->title = 'Not Found';
-		$page->html = 'The resource your looking for is not found.';
+		$page = new \Models\Page([
+			'title' => 'Not Found',
+			'html' => 'The resource your looking for is not found.'
+		]);
 
 		$content = new \Content;
 		$content->attach($page);
 
-		return $this->displayContent($page, $content, 'layout', ['404', 'page', 'index']);
+		$template = $this->displayContent($page, $content, 'layout', ['404', 'page', 'index']);
+
+		$body = new \Http\Stream;
+		$body->write($template);
+
+		return $this->response->withStatus(404, 'Not Found')->withBody($body);
 	}
 
 	public function redirect($uri) {
-		header('Location: '.$uri, true, 302);
+		return $this->response->withHeader('location', $uri);
 	}
 
 }

@@ -4,7 +4,9 @@ namespace Controllers;
 
 class Page extends Frontend {
 
-	public function getIndex($slug) {
+	public function getIndex($request) {
+		$slug = $request->getAttribute('page');
+
 		$page = $this->pages->slug($slug);
 
 		if(false === $page) {
@@ -29,7 +31,9 @@ class Page extends Frontend {
 		return $this->showPage($page);
 	}
 
-	public function getCategory($slug) {
+	public function getCategory($request) {
+		$slug = $request->getAttribute('category');
+
 		$page = $this->pages->id($this->meta->key('posts_page'));
 		$category = $this->categories->slug($slug);
 

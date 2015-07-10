@@ -2,6 +2,4 @@
 
 namespace Models;
 
-use DB\Row;
-
-abstract class Model extends Row {}
+abstract class Model extends \DB\Row {}

@@ -23,5 +23,5 @@ function ordinal($num) {
 function nth(Content $content) {
 	global $app;
 
-	return $app->posts->where('status', '=', 'published')->where('id', '<', $content->id)->count() + 1;
+	return $app['posts']->where('status', '=', 'published')->where('id', '<', $content->id)->count() + 1;
 }

@@ -48,7 +48,7 @@ return [
 	'/feeds/rss' => 'controllers\\feeds@rss',
 
 	'/' => 'controllers\\page@home',
-	'/category/([^/]+)' => 'controllers\\page@category',
-	'/([^/]+)/([^/]+)' => 'controllers\\posts@index',
-	'/([^/]+)' => 'controllers\\page@index',
+	'/category/:category' => 'controllers\\page@category',
+	'/:page/:post' => 'controllers\\posts@index',
+	'/:page' => 'controllers\\page@index',
 ];
