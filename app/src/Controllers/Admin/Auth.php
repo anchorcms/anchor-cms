@@ -6,7 +6,7 @@ class Auth extends Backend {
 
 	protected $private = false;
 
-	public function login() {
+	public function getLogin() {
 		$vars['title'] = 'Login';
 		$vars['messages'] = $this->session->getFlash('messages', []);
 
@@ -22,7 +22,7 @@ class Auth extends Backend {
 		return $this->renderTemplate('login', ['users/login'], $vars);
 	}
 
-	public function attempt() {
+	public function postAttempt() {
 		$form = new \Forms\Login;
 		$input = $form->filter();
 
@@ -62,14 +62,14 @@ class Auth extends Backend {
 		return $this->redirect($forward);
 	}
 
-	public function logout() {
+	public function getLogout() {
 		$this->session->remove('user');
 		$this->session->putFlash('messages', ['You are now logged out']);
 		$this->redirect('/admin/auth/login');
 	}
 
-	public function start() {
-		$this->redirect('/admin/auth/login');
+	public function getStart() {
+		return $this->redirect('/admin/auth/login');
 	}
 
 }

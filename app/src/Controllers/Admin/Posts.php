@@ -49,11 +49,12 @@ class Posts extends Backend {
 		return $this->renderTemplate('main', ['posts/index'], $vars);
 	}
 
-	public function create() {}
+	public function getCreate() {}
 
-	public function save() {}
+	public function postSave() {}
 
-	public function edit($id) {
+	public function getEdit($request) {
+		$id = $request->getAttribute('id');
 		$post = $this->posts->id($id);
 
 		$form = new \Forms\Post(['method' => 'post', 'action' => '/admin/posts/'.$post->id.'/update']);
@@ -68,7 +69,7 @@ class Posts extends Backend {
 		return $this->renderTemplate('main', ['posts/edit'], $vars);
 	}
 
-	public function update() {}
+	public function postUpdate() {}
 
 	public function delete() {}
 
