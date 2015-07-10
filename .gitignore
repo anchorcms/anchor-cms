@@ -22,4 +22,5 @@ Thumbs.db
 plugins
 content
 vendor
+bin
 app/config

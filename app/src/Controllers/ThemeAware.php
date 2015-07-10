@@ -13,9 +13,8 @@ abstract class ThemeAware extends ContainerAware {
 	private $ext = '.phtml';
 
 	public function setTheme($theme) {
-		$paths = $this->config->get('paths');
 		$theme = $this->meta->key('theme', 'default');
-		$path = $paths['themes'] . '/' . $theme;
+		$path = $this->paths['themes'] . '/' . $theme;
 
 		if(false === is_dir($path)) {
 			throw new ErrorException(sprintf('Theme does not exist: %s', $theme));

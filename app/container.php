@@ -9,11 +9,11 @@ return new Container([
 	},
 	'db' => function($app) {
 		$config = $app['config']->get('db');
-		$dns = sprintf('%s:%s', $config['driver'], $config['dbname']);
+		$dns = sprintf('%s:%s', $config['driver'], $app['paths']['storage'] . '/' . $config['dbname']);
 
 		$pdo = new PDO($dns);
 		$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-		$pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
+		$pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
 
 		return $pdo;
 	},
