@@ -1,11 +1,11 @@
-CREATE TABLE IF NOT EXISTS "anchor_categories" (
+CREATE TABLE IF NOT EXISTS "{prefix}categories" (
 	"id" INTEGER PRIMARY KEY,
 	"title" TEXT NOT NULL,
 	"slug" TEXT NOT NULL,
 	"description" TEXT NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS "anchor_comments" (
+CREATE TABLE IF NOT EXISTS "{prefix}comments" (
 	"id" INTEGER PRIMARY KEY,
 	"post" INTEGER NOT NULL,
 	"status" TEXT  NOT NULL,
@@ -15,10 +15,10 @@ CREATE TABLE IF NOT EXISTS "anchor_comments" (
 	"text" TEXT NOT NULL
 );
 
-CREATE INDEX "anchor_comments_status" ON "anchor_comments" ("status");
-CREATE INDEX "anchor_comments_post" ON "anchor_comments" ("post");
+CREATE INDEX "{prefix}comments_status" ON "{prefix}comments" ("status");
+CREATE INDEX "{prefix}comments_post" ON "{prefix}comments" ("post");
 
-CREATE TABLE IF NOT EXISTS "anchor_extend" (
+CREATE TABLE IF NOT EXISTS "{prefix}extend" (
 	"id" INTEGER PRIMARY KEY,
 	"type" TEXT NOT NULL,
 	"field" TEXT NOT NULL,
@@ -27,22 +27,22 @@ CREATE TABLE IF NOT EXISTS "anchor_extend" (
 	"attributes" TEXT NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS "anchor_meta" (
+CREATE TABLE IF NOT EXISTS "{prefix}meta" (
 	"key" TEXT PRIMARY KEY,
 	"value" TEXT NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS "anchor_page_meta" (
+CREATE TABLE IF NOT EXISTS "{prefix}page_meta" (
 	"id" INTEGER PRIMARY KEY,
 	"page" INTEGER NOT NULL,
 	"extend" INTEGER NOT NULL,
 	"data" TEXT NOT NULL
 );
 
-CREATE INDEX "anchor_page_meta_extend" ON "anchor_page_meta" ("extend");
-CREATE INDEX "anchor_page_meta_page" ON "anchor_page_meta" ("page");
+CREATE INDEX "{prefix}page_meta_extend" ON "{prefix}page_meta" ("extend");
+CREATE INDEX "{prefix}page_meta_page" ON "{prefix}page_meta" ("page");
 
-CREATE TABLE IF NOT EXISTS "anchor_pages" (
+CREATE TABLE IF NOT EXISTS "{prefix}pages" (
 	"id" INTEGER PRIMARY KEY,
 	"parent" INTEGER NOT NULL,
 	"slug" TEXT NOT NULL,
@@ -55,10 +55,10 @@ CREATE TABLE IF NOT EXISTS "anchor_pages" (
 	"menu_order" INTEGER NOT NULL
 );
 
-CREATE INDEX "anchor_pages_slug" ON "anchor_pages" ("slug");
-CREATE INDEX "anchor_pages_status" ON "anchor_pages" ("status");
+CREATE INDEX "{prefix}pages_slug" ON "{prefix}pages" ("slug");
+CREATE INDEX "{prefix}pages_status" ON "{prefix}pages" ("status");
 
-CREATE TABLE IF NOT EXISTS "anchor_plugins" (
+CREATE TABLE IF NOT EXISTS "{prefix}plugins" (
 	"id" INTEGER PRIMARY KEY,
 	"path" TEXT NOT NULL,
 	"name" TEXT NOT NULL,
@@ -66,17 +66,17 @@ CREATE TABLE IF NOT EXISTS "anchor_plugins" (
 	"version" TEXT NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS "anchor_post_meta" (
+CREATE TABLE IF NOT EXISTS "{prefix}post_meta" (
 	"id" INTEGER PRIMARY KEY,
 	"post" INTEGER NOT NULL,
 	"extend" INTEGER NOT NULL,
 	"data" TEXT NOT NULL
 );
 
-CREATE INDEX "anchor_post_meta_extend" ON "anchor_post_meta" ("extend");
-CREATE INDEX "anchor_post_meta_post" ON "anchor_post_meta" ("post");
+CREATE INDEX "{prefix}post_meta_extend" ON "{prefix}post_meta" ("extend");
+CREATE INDEX "{prefix}post_meta_post" ON "{prefix}post_meta" ("post");
 
-CREATE TABLE IF NOT EXISTS "anchor_posts" (
+CREATE TABLE IF NOT EXISTS "{prefix}posts" (
 	"id" INTEGER PRIMARY KEY,
 	"title" TEXT NOT NULL,
 	"slug" TEXT NOT NULL,
@@ -91,16 +91,16 @@ CREATE TABLE IF NOT EXISTS "anchor_posts" (
 	"comments" INTEGER NOT NULL
 );
 
-CREATE INDEX "anchor_posts_slug" ON "anchor_posts" ("slug");
-CREATE INDEX "anchor_posts_status" ON "anchor_posts" ("status");
+CREATE INDEX "{prefix}posts_slug" ON "{prefix}posts" ("slug");
+CREATE INDEX "{prefix}posts_status" ON "{prefix}posts" ("status");
 
-CREATE TABLE IF NOT EXISTS "anchor_sessions" (
+CREATE TABLE IF NOT EXISTS "{prefix}sessions" (
 	"id" TEXT NOT NULL,
 	"expire" NUMERIC NOT NULL,
 	"data" TEXT NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS "anchor_users" (
+CREATE TABLE IF NOT EXISTS "{prefix}users" (
 	"id" INTEGER PRIMARY KEY,
 	"username" TEXT NOT NULL,
 	"password" TEXT NOT NULL,

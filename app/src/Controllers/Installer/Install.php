@@ -160,7 +160,7 @@ class Install extends Controller {
 			return $this->redirect($this->url('account'));
 		}
 
-		$data = $this->session->get('data', []);
+		$data = $this->session->get('install', []);
 		$this->installer->run($data);
 
 		return $this->redirect($this->url('complete'));

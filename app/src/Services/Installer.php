@@ -80,6 +80,9 @@ class Installer {
 		$path = $this->paths['storage'] . '/schema_' . $input['driver'] . '.sql';
 		$schema = file_get_contents($path);
 
+		// replace table prefix
+		$schema = str_replace('{prefix}', $input['prefix'], $schema);
+
 		$pdo->beginTransaction();
 
 		foreach(explode(';', $schema) as $sql) {
