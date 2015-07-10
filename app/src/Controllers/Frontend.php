@@ -8,6 +8,7 @@ abstract class Frontend extends ThemeAware {
 
 	public function __construct(Container $app) {
 		$this->setContainer($app);
+
 		$this->setTheme($this->meta->key('theme', 'sail'));
 	}
 

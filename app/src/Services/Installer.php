@@ -4,29 +4,66 @@ namespace Services;
 
 class Installer {
 
-	protected $messages = [];
-
 	protected $paths;
 
-	public function __construct(array $paths) {
+	protected $session;
+
+	public function __construct(array $paths, $session) {
 		$this->paths = $paths;
+		$this->session = $session;
+	}
+
+	public function isInstalled() {
+		$path = $this->paths['config'];
+
+		foreach(['db', 'app'] as $file) {
+			$dest = $path . sprintf('/%s.php', $file);
+
+			// missing config file, assume not installed
+			if(false === is_file($dest)) return false;
+		}
+
+		return true;
+	}
+
+	public function installerRunning() {
+		return $this->session->has('install');
+	}
+
+	public function connectDatabase(array $input) {
+		// test connection
+		if($input['driver'] == 'mysql') {
+			$dns = sprintf('mysql:dbname=%s;host=%s;port=%d', $input['dbname'], $rules['host'], $rules['port']);
+
+			$pdo = new \PDO($dns, $input['user'], $input['pass']);
+		}
+
+		// test file
+		if($input['driver'] == 'sqlite') {
+			$dns = sprintf('sqlite:%s', $this->paths['storage'] . '/' . $input['dbname']);
+
+			$pdo = new \PDO($dns);
+		}
+
+		return $pdo;
 	}
 
 	public function run(array $input) {
 		$bytes = openssl_random_pseudo_bytes(32);
-		$input['nonce'] = bin2hex($bytes);
+		$input['secret'] = bin2hex($bytes);
 
 		$this->copySampleConfig($input);
-		$this->runSchema($input);
-		$this->setupDatabase($input);
+		$pdo = $this->connectDatabase($input);
+		$this->runSchema($pdo, $input);
+		$this->setupDatabase($pdo, $input);
 	}
 
-	public function copySampleConfig(array $input) {
+	protected function copySampleConfig(array $input) {
 		$path = $this->paths['config'];
 
 		if(false === is_dir($path)) mkdir($path);
 
-		foreach(['db', 'general', 'paths', 'routes'] as $file) {
+		foreach(['db', 'app'] as $file) {
 			$src = $path . sprintf('/../config-samples/%s.php', $file);
 			$dest = $path . sprintf('/%s.php', $file);
 
@@ -39,68 +76,10 @@ class Installer {
 		}
 	}
 
-	public function log($message) {
-		$this->messages[] = $message;
-	}
-
-	public function buildConnectionDns(array $input) {
-		if($input['driver'] == 'mysql') {
-			$params = array_intersect_key($input, array_fill_keys(['host', 'dbname'], null));
-			array_walk($params, function(&$value, $key) { $value = $key.'='.$value; });
-		}
-		else {
-			$path = $input['dbname'];
-
-			if(false === is_file($path)) touch($path);
-
-			$params = [$path];
-		}
-
-		return $input['driver'] . ':' . implode(';', $params);
-	}
-
-	public function getConnectionError() {
-		return array_pop($this->messages);
-	}
-
-	public function testConnection($dns, $user, $pass) {
-		try {
-			$this->getConnection($dns, $user, $pass);
-		}
-		catch(\PDOException $e) {
-			$this->log('Connection failed: ' . $e->getMessage());
-
-			return false;
-		}
-
-		return true;
-	}
-
-	public function getConnection($dns, $user = null, $pass = null) {
-		$pdo = new \PDO($dns, $user, $pass);
-		$pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
-
-		return $pdo;
-	}
-
-	public function getPdo(array $input) {
-		if($input['driver'] == 'mysql') {
-			$dns = $this->buildConnectionDns($input);
-			$pdo = $this->getConnection($dns, $input['user'], $input['pass']);
-		}
-		else {
-			$dns = $this->buildConnectionDns($input);
-			$pdo = $this->getConnection($dns);
-		}
-
-		return $pdo;
-	}
-
-	public function runSchema(array $input) {
-		$path = __DIR__ . '/../../storage/schema_' . $input['driver'] . '.sql';
+	protected function runSchema(\PDO $pdo, array $input) {
+		$path = $this->paths['storage'] . '/schema_' . $input['driver'] . '.sql';
 		$schema = file_get_contents($path);
 
-		$pdo = $this->getPdo($input);
 		$pdo->beginTransaction();
 
 		foreach(explode(';', $schema) as $sql) {
@@ -110,8 +89,7 @@ class Installer {
 		$pdo->commit();
 	}
 
-	public function setupDatabase(array $input) {
-		$pdo = $this->getPdo($input);
+	protected function setupDatabase(\PDO $pdo, array $input) {
 		$query = new \DB\Query($pdo);
 
 		$category = $query->table($input['prefix'].'categories')->insert([
@@ -171,4 +149,5 @@ class Installer {
 			$query->table($input['prefix'].'meta')->insert(['key' => $key, 'value' => $value]);
 		}
 	}
+
 }

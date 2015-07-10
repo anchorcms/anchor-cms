@@ -4,7 +4,7 @@ namespace Controllers\Admin;
 
 class Posts extends Backend {
 
-	public function index() {
+	public function getIndex() {
 		// start query
 		$posts = $this->posts->sort('created', 'desc');
 		$url = [];

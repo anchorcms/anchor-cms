@@ -11,11 +11,9 @@ abstract class Controller extends ContainerAware {
 	}
 
 	protected function renderWith($layout, $template, array $vars = []) {
-		$paths = $this->config->get('paths');
+		$vars['body'] = $this->render($this->paths['views'] . '/' . $template, $vars);
 
-		$vars['body'] = $this->render($paths['views'] . '/' . $template, $vars);
-
-		return $this->render($paths['views'] . '/' . $layout, $vars);
+		return $this->render($this->paths['views'] . '/' . $layout, $vars);
 	}
 
 	protected function render($template, array $vars = []) {
@@ -29,7 +27,7 @@ abstract class Controller extends ContainerAware {
 	}
 
 	protected function redirect($uri) {
-		header('Location: '.$uri, true, 302);
+		return $this->response->withHeader('location', $uri);
 	}
 
 	protected function asset($file) {
@@ -37,8 +35,8 @@ abstract class Controller extends ContainerAware {
 	}
 
 	protected function url($url) {
-		$script = $this->server->get('SCRIPT_NAME');
-		$base = dirname($script);
+		$params = $this->request->getServerParams();
+		$base = dirname($params['SCRIPT_NAME']);
 
 		return rtrim($base, '/') . '/' . ltrim($url, '/');
 	}

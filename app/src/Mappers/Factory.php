@@ -2,21 +2,19 @@
 
 namespace Mappers;
 
-use DB\Row;
-
 class Factory {
 
 	public static function create($app, $name) {
-		$proto = new Row;
 		$class = '\\Mappers\\'.$name;
 
 		$query = clone $app['query'];
 
-		$mapper = new $class($query->reset(), $proto);
+		$mapper = new $class($query->reset(), new \DB\Row);
 
 		// set table prefix
-		$config = $app['config']->get('db');
-		$mapper->setTablePrefix($config['table_prefix']);
+		$prefix = $app['config']->get('db.table_prefix');
+
+		$mapper->setTablePrefix($prefix);
 
 		return $mapper;
 	}

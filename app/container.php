@@ -1,6 +1,9 @@
 <?php
 
 return new Container([
+	'paths' => function() {
+		return require __DIR__ . '/paths.php';
+	},
 	'config' => function() {
 		return new Config(__DIR__ . '/config');
 	},
@@ -16,12 +19,6 @@ return new Container([
 	},
 	'query' => function($app) {
 		return new DB\Query($app['db']);
-	},
-	'dispatcher' => function($app) {
-		return new Dispatcher($app['router'], $app['events']);
-	},
-	'router' => function() {
-		return new Router();
 	},
 	'errors' => function() {
 		return new Errors();
@@ -40,26 +37,44 @@ return new Container([
 
 		return $s;
 	},
-	'installer' => function($app) {
-		return new Services\Installer($app['config']->get('paths'));
-	},
 	'csrf' => function($app) {
-		$config = $app['config']->get('general');
+		$secret = $app['config']->get('app.secret');
 
-		return new Csrf($config['nonce']);
-	},
-	'server' => function() {
-		return new Collection($_SERVER);
-	},
-	'http' => function($app) {
-		return new Http($app['server'], $app['config']->get('general'));
+		return new Csrf($secret);
 	},
 	'validation' => function() {
 		return new Validation\Validation;
 	},
+
+	/**
+	 * Middleware
+	 */
+	'request' => function() {
+		return new Http\ServerRequest($_GET, $_POST, $_SERVER, $_COOKIE, $_FILES);
+	},
+	'response' => function() {
+		return new Http\Response;
+	},
+	'router' => function() {
+		return new Routing\UriMatcher(require __DIR__ . '/routes.php');
+	},
+	'kernel' => function($app) {
+		return new Kernel($app['request'], $app['router'], $app);
+	},
+
+	/**
+	 * Services
+	 */
 	'media' => function() {
 		return new Services\Media(__DIR__ . '/../content');
 	},
+	'installer' => function($app) {
+		return new Services\Installer($app['paths'], $app['session']);
+	},
+
+	/**
+	 * Mappers
+	 */
 	'categories' => function($app) {
 		return Mappers\Factory::create($app, 'Categories');
 	},

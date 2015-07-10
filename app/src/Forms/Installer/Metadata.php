@@ -25,5 +25,20 @@ class Metadata extends \Forms\Form {
 		]));
 	}
 
+	public function getFilters() {
+		return [
+			'site_name' => FILTER_SANITIZE_STRING,
+			'site_description' => FILTER_SANITIZE_STRING,
+			'site_path' => FILTER_SANITIZE_STRING,
+		];
+	}
+
+	public function getRules() {
+		return [
+			'site_name' => ['required'],
+			'site_description' => ['required'],
+			'site_path' => ['required'],
+		];
+	}
 
 }

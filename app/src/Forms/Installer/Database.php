@@ -32,7 +32,7 @@ class Database extends \Forms\Form {
 
 		$this->addElement(new \Forms\Elements\Input('dbname', [
 			'label' => 'Database Name',
-			'value' => 'app/storage/anchor.sqlite',
+			'value' => 'anchor.sqlite',
 		]));
 
 		$this->addElement(new \Forms\Elements\Input('prefix', [
@@ -46,5 +46,23 @@ class Database extends \Forms\Form {
 		]));
 	}
 
+	public function getFilters() {
+		return [
+			'driver' => FILTER_SANITIZE_STRING,
+			'host' => FILTER_SANITIZE_STRING,
+			'port' => FILTER_SANITIZE_STRING,
+			'user' => FILTER_SANITIZE_STRING,
+			'pass' => FILTER_UNSAFE_RAW,
+			'dbname' => FILTER_SANITIZE_STRING,
+			'prefix' => FILTER_SANITIZE_STRING,
+		];
+	}
+
+	public function getRules() {
+		return [
+			'driver' => ['required'],
+			'dbname' => ['required'],
+		];
+	}
 
 }

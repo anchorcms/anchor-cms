@@ -23,5 +23,18 @@ class L10n extends \Forms\Form {
 		]));
 	}
 
+	public function getFilters() {
+		return [
+			'lang' => FILTER_SANITIZE_STRING,
+			'timezone' => FILTER_SANITIZE_STRING,
+		];
+	}
+
+	public function getRules() {
+		return [
+			'lang' => ['required'],
+			'timezone' => ['required'],
+		];
+	}
 
 }

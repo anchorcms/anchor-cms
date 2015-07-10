@@ -11,11 +11,11 @@ class Install extends Controller {
 	}
 
 	public function getL10n() {
-		$form = new \Forms\Installer\L10n(['method' => 'post', 'action' => $this->url('index.php?installer=l10n'), 'autocomplete' => 'off']);
+		$form = new \Forms\Installer\L10n(['method' => 'post', 'action' => $this->url('l10n'), 'autocomplete' => 'off']);
 		$form->init();
 
 		// populate from session
-		$data = $this->session->get('data', []);
+		$data = $this->session->get('install', []);
 		$form->setValues($data);
 
 		$vars['title'] = 'Installin\' Anchor CMS';
@@ -26,35 +26,30 @@ class Install extends Controller {
 	}
 
 	public function postL10n() {
-		$input = filter_input_array(INPUT_POST, [
-			'lang' => FILTER_SANITIZE_STRING,
-			'timezone' => FILTER_SANITIZE_STRING,
-		]);
+		$form = new \Forms\Installer\L10n;
 
-		$data = $this->session->get('data', []);
-		$this->session->put('data', array_merge($data, $input));
+		$input = filter_input_array(INPUT_POST, $form->getFilters());
 
-		$rules = [
-			'lang' => ['required'],
-			'timezone' => ['required'],
-		];
+		$data = $this->session->get('install', []);
+		$this->session->put('install', array_merge($data, $input));
 
-		$validator = $this->validation->create($input, $rules);
+		$validator = $this->validation->create($input, $form->getRules());
 
 		if(false === $validator->isValid()) {
 			$this->session->putFlash('messages', $validator->getMessages());
-			return $this->redirect($this->url('index.php?installer=l10n'));
+
+			return $this->redirect($this->url('l10n'));
 		}
 
-		$this->redirect($this->url('index.php?installer=database'));
+		return $this->redirect($this->url('database'));
 	}
 
 	public function getDatabase() {
-		$form = new \Forms\Installer\Database(['method' => 'post', 'action' => $this->url('index.php?installer=database'), 'autocomplete' => 'off']);
+		$form = new \Forms\Installer\Database(['method' => 'post', 'action' => $this->url('database'), 'autocomplete' => 'off']);
 		$form->init();
 
 		// populate from session
-		$data = $this->session->get('data', []);
+		$data = $this->session->get('install', []);
 		$form->setValues($data);
 
 		$vars['title'] = 'Installin\' Anchor CMS';
@@ -65,23 +60,14 @@ class Install extends Controller {
 	}
 
 	public function postDatabase() {
-		$input = filter_input_array(INPUT_POST, [
-			'driver' => FILTER_SANITIZE_STRING,
-			'host' => FILTER_SANITIZE_STRING,
-			'port' => FILTER_SANITIZE_STRING,
-			'user' => FILTER_SANITIZE_STRING,
-			'pass' => FILTER_UNSAFE_RAW,
-			'dbname' => FILTER_SANITIZE_STRING,
-			'prefix' => FILTER_SANITIZE_STRING,
-		]);
+		$form = new \Forms\Installer\Database;
 
-		$data = $this->session->get('data', []);
-		$this->session->put('data', array_merge($data, $input));
+		$input = filter_input_array(INPUT_POST, $form->getFilters());
 
-		$rules = [
-			'driver' => ['required'],
-			'dbname' => ['required'],
-		];
+		$data = $this->session->get('install', []);
+		$this->session->put('install', array_merge($data, $input));
+
+		$rules = $form->getRules();
 
 		if($input['driver'] == 'mysql') {
 			$rules['host'] = ['required'];
@@ -91,46 +77,32 @@ class Install extends Controller {
 
 		$validator = $this->validation->create($input, $rules);
 
-		// test connection
-		if($input['driver'] == 'mysql') {
-			$dns = $this->installer->buildConnectionDns($input);
-			$result = $this->installer->testConnection($dns, $input['user'], $input['pass']);
-
-			if(false === $result) {
-				$validator->setInvalid($this->installer->getConnectionError());
-			}
+		try {
+			$pdo = $this->installer->connectDatabase($input);
 		}
-
-		// test file
-		if($input['driver'] == 'sqlite') {
-			$path = __DIR__ . '/../../../' . $input['dbname'];
-
-			// try creating it if it doesnt exist
-			if(false === is_file($path)) {
-				touch($path);
-			}
-
-			if(false === is_file($path)) {
-				$validator->setInvalid('Could not create database file.');
-			}
+		catch(\PDOException $e) {
+			$validator->setInvalid($e->getMessage());
+		}
+		finally {
+			$pdo = null;
 		}
 
 		if(false === $validator->isValid()) {
 			$this->session->putFlash('messages', $validator->getMessages());
-			return $this->redirect($this->url('index.php?installer=database'));
+			return $this->redirect($this->url('database'));
 		}
 
-		$this->redirect($this->url('index.php?installer=metadata'));
+		return $this->redirect($this->url('metadata'));
 	}
 
 	public function getMetadata() {
-		$form = new \Forms\Installer\Metadata(['method' => 'post', 'action' => $this->url('index.php?installer=metadata'), 'autocomplete' => 'off']);
+		$form = new \Forms\Installer\Metadata(['method' => 'post', 'action' => $this->url('metadata'), 'autocomplete' => 'off']);
 		$form->init();
 
 		$form->getElement('site_path')->setValue($this->url('/'));
 
 		// populate from session
-		$data = $this->session->get('data', []);
+		$data = $this->session->get('install', []);
 		$form->setValues($data);
 
 		$vars['title'] = 'Installin\' Anchor CMS';
@@ -141,37 +113,29 @@ class Install extends Controller {
 	}
 
 	public function postMetadata() {
-		$input = filter_input_array(INPUT_POST, [
-			'site_name' => FILTER_SANITIZE_STRING,
-			'site_description' => FILTER_SANITIZE_STRING,
-			'site_path' => FILTER_SANITIZE_STRING,
-		]);
+		$form = new \Forms\Installer\Metadata;
 
-		$data = $this->session->get('data', []);
-		$this->session->put('data', array_merge($data, $input));
+		$input = filter_input_array(INPUT_POST, $form->getFilters());
 
-		$rules = [
-			'site_name' => ['required'],
-			'site_description' => ['required'],
-			'site_path' => ['required'],
-		];
+		$data = $this->session->get('install', []);
+		$this->session->put('install', array_merge($data, $input));
 
-		$validator = $this->validation->create($input, $rules);
+		$validator = $this->validation->create($input, $form->getRules());
 
 		if(false === $validator->isValid()) {
 			$this->session->putFlash('messages', $validator->getMessages());
-			return $this->redirect($this->url('index.php?installer=metadata'));
+			return $this->redirect($this->url('metadata'));
 		}
 
-		$this->redirect($this->url('index.php?installer=account'));
+		return $this->redirect($this->url('account'));
 	}
 
 	public function getAccount() {
-		$form = new \Forms\Installer\Account(['method' => 'post', 'action' => $this->url('index.php?installer=account'), 'autocomplete' => 'off']);
+		$form = new \Forms\Installer\Account(['method' => 'post', 'action' => $this->url('account'), 'autocomplete' => 'off']);
 		$form->init();
 
 		// populate from session
-		$data = $this->session->get('data', []);
+		$data = $this->session->get('install', []);
 		$form->setValues($data);
 
 		$vars['title'] = 'Installin\' Anchor CMS';
@@ -182,38 +146,30 @@ class Install extends Controller {
 	}
 
 	public function postAccount() {
-		$input = filter_input_array(INPUT_POST, [
-			'username' => FILTER_SANITIZE_STRING,
-			'email' => FILTER_SANITIZE_STRING,
-			'password' => FILTER_UNSAFE_RAW,
-		]);
+		$form = new \Forms\Installer\Account;
 
-		$data = $this->session->get('data', []);
-		$this->session->put('data', array_merge($data, $input));
+		$input = filter_input_array(INPUT_POST, $form->getFilters());
 
-		$rules = [
-			'username' => ['required'],
-			'email' => ['required', 'email'],
-			'password' => ['required'],
-		];
+		$data = $this->session->get('install', []);
+		$this->session->put('install', array_merge($data, $input));
 
-		$validator = $this->validation->create($input, $rules);
+		$validator = $this->validation->create($input, $form->getRules());
 
 		if(false === $validator->isValid()) {
 			$this->session->putFlash('messages', $validator->getMessages());
-			return $this->redirect($this->url('index.php?installer=account'));
+			return $this->redirect($this->url('account'));
 		}
 
 		$data = $this->session->get('data', []);
 		$this->installer->run($data);
 
-		$this->redirect($this->url('index.php?installer=complete'));
+		return $this->redirect($this->url('complete'));
 	}
 
 	public function getComplete() {
 		$vars['title'] = 'Installin\' Anchor CMS';
 
-		$this->session->remove('data');
+		$this->session->remove('install');
 
 		return $this->renderWith('installer/layout.phtml', 'installer/finished.phtml', $vars);
 	}

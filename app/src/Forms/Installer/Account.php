@@ -24,4 +24,20 @@ class Account extends \Forms\Form {
 		]));
 	}
 
+	public function getFilters() {
+		return [
+			'username' => FILTER_SANITIZE_STRING,
+			'email' => FILTER_SANITIZE_STRING,
+			'password' => FILTER_UNSAFE_RAW,
+		];
+	}
+
+	public function getRules() {
+		return [
+			'username' => ['required'],
+			'email' => ['required', 'email'],
+			'password' => ['required'],
+		];
+	}
+
 }
