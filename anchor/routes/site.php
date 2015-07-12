@@ -257,7 +257,7 @@ Route::get(array('search', 'search/(:any)', 'search/(:any)/(:any)', 'search/(:an
 	else {
 		$postResults = Post::search($term, $offset, Post::perPage());
 		$pageResults = Page::search($term, $offset);
-		$total = array_merge($postResults[0], $pageResults[0]);
+		$total = $postResults[0] + $pageResults[0];
 		$results = array_merge($postResults[1], $pageResults[1]);
 	}
 
