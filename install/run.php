@@ -46,7 +46,7 @@ function timezones() {
         $ds = $date->format('I');
         $offset = $date->getOffset();
         $gmt= round(abs($offset / 3600), 2);
-        $gmt = ($ds == 1 ? $gmt = $gmt-1 );
+        $gmt = ($ds == 1 ? $gmt = $gmt-1 : $gmt = $gmt );
         $minutes = fmod($gmt, 1);
         if($minutes == 0) {
             $offset_label = $gmt.'&nbsp;&nbsp;';
