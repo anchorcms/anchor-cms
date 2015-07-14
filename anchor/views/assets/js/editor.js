@@ -195,7 +195,8 @@
 	// AJAX form submit
 	form.on('submit', function() {
 		var data = $(this).serializeArray();
-
+		var didAutosave = $(".autosave-action").hasClass("autosave-on");
+		
 		submit.prop('disabled', true).css('cursor', 'wait').html(submitProgress);
 
 		document.title = submitProgress;
@@ -203,7 +204,7 @@
 		$.ajax({
 			url: form.attr('action'),
 			type: "POST",
-			data: data,
+			data: data + "&autosave=" + didAutosave,
 			success: function(data, textStatus, jqXHR) {
 
 				var notification = $(data).find('.notifications').clone(true),
@@ -218,8 +219,8 @@
 						opacity: 0
 					}, 600, "ease-out", function() {
 						if ($('.btn.delete').length === 0 && $(this).find('.error').length === 0) {
-							// redirect to posts or pages list on success if we are not in edit/update mode
-							window.location.href = activeMenu.attr('href');
+							// redirect to the redirect page on success if we are not in edit/update mode
+							window.location.href = jqXHR.responseURL;
 						}
 						$(this).remove();
 					});

@@ -109,6 +109,7 @@
 <script src="<?php echo asset('anchor/views/assets/js/text-resize.js'); ?>"></script>
 <script src="<?php echo asset('anchor/views/assets/js/editor.js'); ?>"></script>
 <script src="<?php echo asset('anchor/views/assets/js/change-saver.js'); ?>"></script>
+<script src="<?php echo asset('anchor/views/assets/js/autosave.js'); ?>"></script>
 <script>
 	$('textarea[name=markdown]').editor();
 	$('#pagetype').on('change', function() {

@@ -257,8 +257,9 @@ Route::collection(array('before' => 'auth,csrf,install_exists'), function() {
 		Extend::process('post', $post->id);
 
 		Notify::success(__('posts.created'));
-
-		return Response::redirect('admin/posts');
+		
+		if(Input::get('autosave') === 'true') return Response::redirect('admin/posts/edit/' . $page->id);
+		else return Response::redirect('admin/posts');
 	});
 
 	/*

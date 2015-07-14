@@ -25,6 +25,11 @@ $(document).ready(function() {
 	
 	var alterAutosaveActionButton = function() {
 		var pressOn = (autosaveInterval !== null);
+		$(".autosave-action").toggleClass("green", pressOn);
+		$(".autosave-action").toggleClass("autosave-on", pressOn);
+		$(".autosave-action").toggleClass("secondary", !pressOn);
+		$(".autosave-label").text(pressOn ? "Autosave in 30" : "Autosave: Off");
+		/*
 		if(pressOn) { // Just turned on autosave
 			$(".autosave-action").addClass("green");
 			$(".autosave-action").removeClass("secondary");
@@ -34,6 +39,7 @@ $(document).ready(function() {
 			$(".autosave-action").removeClass("green");
 			$(".autosave-label").text("Autosave: Off");
 		}
+		*/
 	};
 	
 	$(".autosave-action").click(function() {
