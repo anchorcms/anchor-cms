@@ -29,7 +29,7 @@
 
 	<fieldset class="main">
 		<div class="wrap">
-			<?php echo Form::textarea('markdown', Input::previous('markdown', htmlentities($article->markdown, ENT_QUOTES, 'UTF-8')), array(
+			<?php echo Form::textarea('markdown', Input::previous('markdown', $article->markdown), array(
 				'placeholder' => __('posts.content_explain')
 			)); ?>
 
