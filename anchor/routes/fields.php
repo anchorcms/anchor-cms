@@ -41,7 +41,10 @@ Route::collection(array('before' => 'auth,csrf,install_exists'), function() {
 		
 		$input['key'] = slug($input['key'], '_');
 		
+		$dont_encode = array('attributes');
+		
 		foreach($input as $key => &$value) {
+			if(in_array($key, $dont_encode)) continue;
 			$value = eq($value);
 		}
 		
