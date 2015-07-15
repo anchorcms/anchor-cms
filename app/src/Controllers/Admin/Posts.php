@@ -49,7 +49,17 @@ class Posts extends Backend {
 		return $this->renderTemplate('main', ['posts/index'], $vars);
 	}
 
-	public function getCreate() {}
+	public function getCreate() {
+		$form = new \Forms\Post(['method' => 'post', 'action' => '/admin/posts/save']);
+		$form->init();
+		$form->getElement('token')->setValue($this->csrf->token());
+		//$form->setValues();
+
+		$vars['title'] = 'Creating a new post';
+		$vars['form'] = $form;
+
+		return $this->renderTemplate('main', ['posts/create'], $vars);
+	}
 
 	public function postSave() {}
 
@@ -71,6 +81,6 @@ class Posts extends Backend {
 
 	public function postUpdate() {}
 
-	public function delete() {}
+	public function postDelete() {}
 
 }
