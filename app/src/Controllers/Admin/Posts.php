@@ -53,33 +53,73 @@ class Posts extends Backend {
 		$form = new \Forms\Post(['method' => 'post', 'action' => '/admin/posts/save']);
 		$form->init();
 		$form->getElement('token')->setValue($this->csrf->token());
-		//$form->setValues();
+		$form->setValues($this->session->getFlash('input', []));
 
 		$vars['title'] = 'Creating a new post';
+		$vars['messages'] = $this->messages->get();
 		$vars['form'] = $form;
 
 		return $this->renderTemplate('main', ['posts/create'], $vars);
 	}
 
-	public function postSave() {}
+	public function postSave() {
+		$form = new \Forms\Post;
+		$form->init();
+
+		$input = filter_input_array(INPUT_POST, $form->getFilters());
+		$validator = $this->validation->create($input, $form->getRules());
+
+		if(false === $validator->isValid()) {
+			$this->messages->error($validator->getMessages());
+			$this->sesison->putFlash('input', $input);
+			return $this->response->withHeader('location', '/admin/posts/create');
+		}
+
+		$id = $this->posts->createFromInput($input);
+		$this->messages->success('Post created');
+		return $this->response->withHeader('location', sprintf('/admin/posts/%d/edit', $id));
+	}
 
 	public function getEdit($request) {
 		$id = $request->getAttribute('id');
-		$post = $this->posts->id($id);
+		$post = $this->posts->where('id', '=', $id)->fetch();
 
-		$form = new \Forms\Post(['method' => 'post', 'action' => '/admin/posts/'.$post->id.'/update']);
+		$form = new \Forms\Post([
+			'method' => 'post',
+			'action' => sprintf('/admin/posts/%d/update', $post->id)
+		]);
 		$form->init();
 		$form->getElement('token')->setValue($this->csrf->token());
-		$form->setValues((array) $post);
+		$form->setValues($this->session->getFlash('input', $post->toArray()));
 
 		$vars['title'] = sprintf('Editing &ldquo;%s&rdquo;', $post->title);
 		$vars['post'] = $post;
+		$vars['messages'] = $this->messages->get();
 		$vars['form'] = $form;
 
 		return $this->renderTemplate('main', ['posts/edit'], $vars);
 	}
 
-	public function postUpdate() {}
+	public function postUpdate($request) {
+		$id = $request->getAttribute('id');
+		$post = $this->posts->where('id', '=', $id)->fetch();
+
+		$form = new \Forms\Post;
+		$form->init();
+
+		$input = filter_input_array(INPUT_POST, $form->getFilters());
+		$validator = $this->validation->create($input, $form->getRules());
+
+		if(false === $validator->isValid()) {
+			$this->messages->error($validator->getMessages());
+			$this->sesison->putFlash('input', $input);
+			return $this->response->withHeader('location', sprintf('/admin/posts/%d/edit', $post->id));
+		}
+
+		$id = $this->posts->createFromInput($input);
+		$this->messages->success('Post updated');
+		return $this->response->withHeader('location', sprintf('/admin/posts/%d/edit', $id));
+	}
 
 	public function postDelete() {}
 

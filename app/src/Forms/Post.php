@@ -9,6 +9,7 @@ class Post extends Form {
 
 		$this->addElement(new \Forms\Elements\Input('title', [
 			'label' => 'Title',
+			'attributes' => ['placeholder' => 'Your title goes here...']
 		]));
 
 		$this->addElement(new \Forms\Elements\Textarea('html', [
@@ -24,5 +25,17 @@ class Post extends Form {
 		]));
 	}
 
+	public function getFilters() {
+		return [
+			'title' => FILTER_SANITIZE_STRING,
+			'html' => FILTER_UNSAFE_RAW,
+		];
+	}
+
+	public function getRules() {
+		return [
+			'title' => ['label' => 'Title', 'rules' => ['required']],
+		];
+	}
 
 }
