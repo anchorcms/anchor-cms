@@ -6,11 +6,15 @@
 	<?php echo $form->open(); ?>
 
 	<?php if(count($messages)): ?>
-	<ul class="messages">
-		<?php foreach($messages as $message): ?>
-		<li><?php echo $message; ?></li>
+	<div class="messages">
+		<?php foreach($messages as $type => $group): ?>
+		<ul class="<?php echo $type; ?>">
+			<?php foreach($group as $message): ?>
+			<li><?php echo $message; ?></li>
+			<?php endforeach; ?>
+		</ul>
 		<?php endforeach; ?>
-	</ul>
+	</div>
 	<?php endif; ?>
 
 	<?php foreach($form->getElementsExcluding(['submit']) as $element): ?>

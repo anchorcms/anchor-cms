@@ -10,6 +10,10 @@ function dd() {
 	exit;
 }
 
+function e($str) {
+	return htmlspecialchars($str, ENT_COMPAT, 'UTF-8', false);
+}
+
 ob_start();
 
 $app = require __DIR__ . '/container.php';
@@ -18,18 +22,13 @@ $app['errors']->register();
 
 $app['errors']->handler(function($exception) use($app) {
 	while(ob_get_level()) ob_end_clean();
-
 	http_response_code(500);
-
-	printf('<p><code>%s</code></p>', $exception->getMessage());
-
-	if($exception instanceof \DB\SqlException) {
-		printf('<p><code>%s</code></p>', $exception->getSql());
-	}
-
-	printf('<p><code>%s:%d</code></p>', $exception->getFile(), $exception->getLine());
-
-	printf('<pre>%s</pre>', $exception->getTraceAsString());
+	$frames = $exception->getTrace();
+	array_unshift($frames, [
+		'file' => $exception->getFile(),
+		'line' => $exception->getLine(),
+	]);
+	require __DIR__ . '/views/error.phtml';
 });
 
 $app['kernel']->redirectTrailingSlash();

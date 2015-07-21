@@ -8,7 +8,7 @@ class Auth extends Backend {
 
 	public function getLogin() {
 		$vars['title'] = 'Login';
-		$vars['messages'] = $this->session->getFlash('messages', []);
+		$vars['messages'] = $this->messages->get();
 
 		$form = new \Forms\Login(['method' => 'post', 'action' => '/admin/auth/attempt']);
 		$form->init();
@@ -48,7 +48,7 @@ class Auth extends Backend {
 		}
 
 		if(false === $validator->isValid()) {
-			$this->session->putFlash('messages', $validator->getMessages());
+			$this->messages->error($validator->getMessages());
 			$this->session->putFlash('input', ['username' => $input['username']]);
 
 			return $this->redirect('/admin/auth/login');
@@ -63,9 +63,9 @@ class Auth extends Backend {
 	}
 
 	public function getLogout() {
-		$this->session->remove('user');
-		$this->session->putFlash('messages', ['You are now logged out']);
-		$this->redirect('/admin/auth/login');
+		$this->session->regenerate(true);
+		$this->messages->success('You are now logged out');
+		return $this->redirect('/admin/auth/login');
 	}
 
 	public function getStart() {

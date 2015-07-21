@@ -12,7 +12,7 @@ class Post extends Form {
 			'attributes' => ['placeholder' => 'Your title goes here...']
 		]));
 
-		$this->addElement(new \Forms\Elements\Textarea('html', [
+		$this->addElement(new \Forms\Elements\Textarea('content', [
 			'label' => 'Content',
 			'cols' => 0,
 			'rows' => 0,
@@ -28,7 +28,7 @@ class Post extends Form {
 	public function getFilters() {
 		return [
 			'title' => FILTER_SANITIZE_STRING,
-			'html' => FILTER_UNSAFE_RAW,
+			'content' => FILTER_UNSAFE_RAW,
 		];
 	}
 

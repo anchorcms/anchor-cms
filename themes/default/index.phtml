@@ -8,6 +8,7 @@ $bg = function($i) use($meta) {
 
 ?>
 <div class="items">
+	<?php if($content->count()): ?>
 	<div class="item">
 		<div class="wrap">
 			<h1><a href="/<?php echo $page->slug; ?>/<?php echo $content->slug; ?>"><?php echo $content->title; ?></a></h1>
@@ -25,4 +26,11 @@ $bg = function($i) use($meta) {
 		</div>
 	</div>
 	<?php endwhile; ?>
+	<?php else :?>
+	<div class="item">
+		<div class="wrap">
+			<p>No published posts just yet.</p>
+		</div>
+	</div>
+	<?php endif; ?>
 </div>

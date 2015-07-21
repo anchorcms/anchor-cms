@@ -1,6 +1,6 @@
 <?php
 
-class Content implements Iterator {
+class Content implements Countable, Iterator {
 
 	protected $index = -1;
 
@@ -16,7 +16,7 @@ class Content implements Iterator {
 		}
 
 		if(false === $this->valid()) {
-			return null;
+			throw new RuntimeException('Invalid index.');
 		}
 
 		$item = $this->current();
@@ -25,9 +25,7 @@ class Content implements Iterator {
 	}
 
 	public function body() {
-		$parser = new \cebe\markdown\Markdown();
-
-		return $parser->parse($this->html === null ? $this->content : $this->html);
+		return $this->html;
 	}
 
 	public function date() {

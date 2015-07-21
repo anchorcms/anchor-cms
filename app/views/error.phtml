@@ -1,0 +1,27 @@
+<html>
+	<head>
+		<style>
+			body { font-family: sans-serif; }
+			.frame { border: 1px solid #ccc; margin: 1em 0; }
+			.frame header { border-bottom: 1px solid #ccc; padding: 1em; }
+			.context pre { background: #eee; padding: .8em 1em; margin: 0; }
+			.context pre:nth-child(odd) { background: #e1e1e1; }
+			.context pre.highlight { background: #E09D9D; color: #fff; }
+		</style>
+	</head>
+	<body>
+		<p><code><?php echo $exception->getMessage(); ?></code></p>
+
+		<?php if($exception instanceof \DB\SqlException): ?>
+		<p><code><?php echo $exception->getSql(); ?></code></p>
+		<?php endif; ?>
+
+		<?php foreach($frames as $params): $frame = $app['errors']->normalise($params); ?>
+		<div class="frame">
+			<header><b><?php echo $frame['class'].$frame['type'].$frame['function']; ?></b>
+				<?php echo substr($frame['file'], strlen(dirname(dirname(__DIR__)))); ?>:<?php echo $frame['line']; ?></header>
+			<div class="context"><?php echo $app['errors']->context($frame['file'], $frame['line']); ?></div>
+		</div>
+		<?php endforeach; ?>
+	</body>
+</html

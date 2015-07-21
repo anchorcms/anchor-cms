@@ -11,68 +11,8 @@
 	</div>
 </div>
 
-<div class="media">
-	<div class="wrap">
-		<p>Uploads</p>
-
-		<div class="collection"></div>
-	</div>
-</div>
-
 <div class="wrap">
-	<?php echo $form->getElement('html')->getHtml(); ?>
+	<?php echo $form->getElement('content')->getHtml(); ?>
 </div>
-
-<script src="/app/views/assets/js/media.js"></script>
-<script src="/app/views/assets/js/upload.js"></script>
-<script>
-	window.onerror = function() {
-		return true;
-	};
-
-	$(function() {
-		var el = $('textarea'), height = el.outerHeight(), scroll = el[0].scrollHeight;
-		el.css('height', scroll + height);
-
-		el.on('keyup', function() {
-			var offset = $(window).scrollTop();
-
-			scroll = el[0].scrollHeight;
-			el.css('height', scroll);
-
-			$(window).scrollTop(offset);
-		});
-	});
-
-	var render = function(file) {
-		return '<figure><img src="/content/'+file.name+'"></figure>';
-	};
-
-	var collection = document.querySelector('.media .collection');
-
-	Upload.setup({
-		bind: collection,
-		endpoint: '/admin/upload',
-		start: function(file) {
-			//console.log('start', file);
-		},
-		progress: function(file, percent) {
-			//console.log('progress', file, percent);
-		},
-		complete: function(response) {
-			//console.log(response);
-			var html = render(response);
-			collection.innerHTML = html + collection.innerHTML;
-		}
-	});
-
-	Media.setup({
-		container: collection,
-		endpoint: '/admin/media',
-		render: render
-	});
-
-	Media.fetch();
-</script>
 
 <?php echo $form->close(); ?>

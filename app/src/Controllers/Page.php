@@ -55,15 +55,17 @@ class Page extends Frontend {
 
 		// is posts page
 		if($page->id == $this->meta->key('posts_page')) {
-			$paging = filter_input(INPUT_GET, 'page', FILTER_SANITIZE_NUMBER_INT) ?: 1;
-			$posts = $this->posts->published($this->meta->key('posts_per_page'), $paging)->get();
+			$pagenum = filter_input(INPUT_GET, 'page', FILTER_SANITIZE_NUMBER_INT, ['options' => ['default' => 1]]);
+			$perpage = $this->meta->key('posts_per_page');
+			$offset = ($pagenum - 1) * $perpage;
+
+			$posts = $this->posts->where('status', '=', 'published')->take($perpage)->skip($offset)->get();
 			$content = new \Content($posts);
 
 			$names[] = 'posts';
 		}
 		else {
-			$content = new \Content();
-			$content->attach($page);
+			$content = new \Content([$page]);
 			$names[] = 'page';
 		}
 

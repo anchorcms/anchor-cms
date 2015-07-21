@@ -70,25 +70,31 @@ class Errors {
 	public function context($file, $line, $padding = 3) {
 		$html = '';
 
-		if(is_file($file)) {
-			$lines = file($file);
-
-			if(count($lines) > ($padding * 2)) {
-				$context = array_slice($lines, $line - $padding - 1, $padding * 2 + 1);
-				$start = $line - $padding;
-			}
-			else {
-				$context = $lines;
-				$start = 1;
-			}
-
-			foreach($context as $index => $str) {
-				$num = $start + $index;
-				$class = $num == $line ? 'highlight' : '';
-
-				$html .= sprintf('<pre class="%s">%d. %s</pre>', $class, $num, htmlspecialchars(rtrim($str)));
-			}
+		if(false === is_file($file)) {
+			return $html;
 		}
+
+		$lines = file($file);
+
+		if(count($lines) > ($padding * 2)) {
+			$context = array_slice($lines, $line - $padding - 1, $padding * 2 + 1);
+			$start = $line - $padding;
+		}
+		else {
+			$context = $lines;
+			$start = 1;
+		}
+
+		foreach($context as $index => $str) {
+			$num = $start + $index;
+			$class = $num == $line ? 'highlight' : '';
+
+			$html .= sprintf('<pre class="%s">%d. %s</pre>', $class, $num, htmlspecialchars(rtrim($str)));
+		}
+
+		unset($lines);
+
+		unset($context);
 
 		return $html;
 	}

@@ -2,32 +2,29 @@
 
 class Csrf {
 
-	protected $secret;
+	protected $session;
 
-	protected $len = 16;
-
-	protected $algo = 'sha256';
-
-	public function __construct($secret) {
-		$this->secret = $secret;
+	public function __construct($session) {
+		$this->session = $session;
 	}
 
-	protected function sign($salt) {
-		return hash_hmac($this->algo, $salt, $this->secret);
+	public function regenerateToken($length = 32) {
+		$pool = str_shuffle(str_repeat('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789', 10));
+		$token = substr($pool, 0, $length);
+
+		$this->session->put('csrf_token', $token);
 	}
 
 	public function token() {
-		$pool = str_shuffle(str_repeat('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789', 10));
-		$salt = substr($pool, 0, $this->len);
+		if(false === $this->session->has('csrf_token')) {
+			$this->regenerateToken();
+		}
 
-		return $salt.$this->sign($salt);
+		return $this->session->get('csrf_token');
 	}
 
 	public function verify($str) {
-		$salt = substr($str, 0, $this->len);
-		$hash = substr($str, $this->len);
-
-		return $hash === $this->sign($salt);
+		return hash_equals($this->token(), $str);
 	}
 
 }

@@ -75,7 +75,29 @@ class Posts extends Backend {
 			return $this->response->withHeader('location', '/admin/posts/create');
 		}
 
-		$id = $this->posts->createFromInput($input);
+		$now = date('Y-m-d H:i:s');
+		$slug = preg_replace('#\s+#', '-', $input['title']);
+		$html = $this->markdown->parse($input['content']);
+		$user = $this->session->get('user');
+
+		$category = 1;
+		$status = 'draft';
+
+		$id = $this->posts->insert([
+			'author' => $user,
+			'category' => $category,
+			'status' => $status,
+
+			'created' => $now,
+			'modified' => $now,
+
+			'title' => $input['title'],
+			'slug' => $slug,
+
+			'content' => $input['content'],
+			'html' => $html,
+		]);
+
 		$this->messages->success('Post created');
 		return $this->response->withHeader('location', sprintf('/admin/posts/%d/edit', $id));
 	}
@@ -116,7 +138,25 @@ class Posts extends Backend {
 			return $this->response->withHeader('location', sprintf('/admin/posts/%d/edit', $post->id));
 		}
 
-		$id = $this->posts->createFromInput($input);
+		$now = date('Y-m-d H:i:s');
+		$slug = preg_replace('#\s+#', '-', $input['title']);
+		$html = $this->markdown->parse($input['content']);
+
+		$category = 1;
+		$status = 'draft';
+
+		$this->posts->where('id', '=', $post->id)->update([
+			'category' => $category,
+			'status' => $status,
+
+			'modified' => $now,
+
+			'title' => $input['title'],
+			'slug' => $slug,
+
+			'content' => $input['content'],
+			'html' => $html,
+		]);
 		$this->messages->success('Post updated');
 		return $this->response->withHeader('location', sprintf('/admin/posts/%d/edit', $id));
 	}

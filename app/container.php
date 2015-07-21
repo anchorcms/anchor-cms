@@ -38,12 +38,16 @@ return new Container([
 		return $s;
 	},
 	'csrf' => function($app) {
-		$secret = $app['config']->get('app.secret');
-
-		return new Csrf($secret);
+		return new Csrf($app['session']);
 	},
 	'validation' => function() {
 		return new Validation\Validation;
+	},
+	'messages' => function($app) {
+		return new Messages($app['session']);
+	},
+	'markdown' => function() {
+		return new \cebe\markdown\Markdown();
 	},
 
 	/**
