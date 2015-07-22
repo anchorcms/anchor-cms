@@ -265,26 +265,28 @@ input {
 }
 
 .messages {
-	margin-bottom: 10px;
-	padding: 0;
-	list-style-type: none;
+	ul {
+		margin-bottom: 10px;
+		padding: 0;
+		list-style-type: none;
 
-	li {
-		padding: 10px 18px;
-		margin-bottom: 20px;
-		font-size: 13px;
-		line-height: 21px;
-		font-weight: 500;
-		border-radius: 5px;
+		li {
+			padding: 10px 18px;
+			margin-bottom: 20px;
+			font-size: 13px;
+			line-height: 21px;
+			font-weight: 500;
+			border-radius: 5px;
 
-		color: #fff;
-		background: #578cd9;
+			color: #fff;
+			background: #578cd9;
+		}
 
-		&.error {
+		&.error li {
 			background: #d34937;
 		}
 
-		&.success {
+		&.success li {
 			background: #64a524;
 		}
 	}
