@@ -120,6 +120,7 @@ class Installer {
 			'url' => $settings['metadata']['site_path'],
 			'index' => (mod_rewrite() ? '' : 'index.php'),
 			'key' => noise(),
+			'session_key' => base64_encode(Security::randomBytes(33)),
 			'language' => $settings['i18n']['language'],
 			'timezone' => $settings['i18n']['timezone']
 		));

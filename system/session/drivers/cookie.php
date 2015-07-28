@@ -24,10 +24,11 @@ class Cookie extends Driver {
 			// try decoding first
 			if($decoded = base64_decode($encoded)) {
 				// verify signature
-				$sign = substr($decoded, 0, 32);
-				$serialized = substr($decoded, 32);
+				$sign = Security::safeSubstr($decoded, 0, 32);
+				$serialized = Security::safeSubstr($decoded, 32);
 
-				if(hash('md5', $serialized) == $sign) {
+				$calc = hash_hmac('sha256', $serialized, $session_key, true);
+				if (Security::hashEquals($calc, $sign)) {
 					return unserialize($serialized);
 				}
 			}
@@ -47,7 +48,7 @@ class Cookie extends Driver {
 		$serialized = serialize($cargo);
 
 		// create a signature to verify content when unpacking
-		$sign = hash('md5', $serialized);
+		$sign = hash_hmac('sha256', $serialized, $session_key, true);
 
 		// encode all the data
 		$data = base64_encode($sign . $serialized);
