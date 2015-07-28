@@ -1,5 +1,7 @@
 <?php echo $form->open(); ?>
 
+<?php echo $form->getElement('token')->getHtml(); ?>
+
 <div class="title">
 	<div class="wrap">
 		<?php echo $form->getElement('title')->getHtml(); ?>
@@ -13,6 +15,17 @@
 
 <div class="wrap">
 	<?php echo $form->getElement('content')->getHtml(); ?>
+</div>
+
+<div style="background: #ccd2d9">
+	<div class="wrap split">
+		<?php foreach($form->getElementsExcluding(['token', 'title', 'content', 'submit']) as $element): ?>
+		<p>
+			<label><?php echo $element->getLabel(); ?></label>
+			<?php echo $element->getHtml(); ?>
+		</p>
+		<?php endforeach; ?>
+	</div>
 </div>
 
 <?php echo $form->close(); ?>

@@ -53,6 +53,12 @@ class Posts extends Backend {
 		$form = new \Forms\Post(['method' => 'post', 'action' => '/admin/posts/save']);
 		$form->init();
 		$form->getElement('token')->setValue($this->csrf->token());
+		$form->getElement('category')->setOptions($this->categories->dropdownOptions());
+
+		// append custom fields
+		$this->customFields->appendFields($form, 'post');
+
+		// re-populate submitted data
 		$form->setValues($this->session->getFlash('input', []));
 
 		$vars['title'] = 'Creating a new post';
@@ -66,6 +72,9 @@ class Posts extends Backend {
 		$form = new \Forms\Post;
 		$form->init();
 
+		// append custom fields
+		$this->customFields->appendFields($form, 'post');
+
 		$input = filter_input_array(INPUT_POST, $form->getFilters());
 		$validator = $this->validation->create($input, $form->getRules());
 
@@ -76,17 +85,14 @@ class Posts extends Backend {
 		}
 
 		$now = date('Y-m-d H:i:s');
-		$slug = preg_replace('#\s+#', '-', $input['title']);
+		$slug = preg_replace('#\s+#', '-', $input['slug'] ?: $input['title']);
 		$html = $this->markdown->parse($input['content']);
 		$user = $this->session->get('user');
 
-		$category = 1;
-		$status = 'draft';
-
 		$id = $this->posts->insert([
 			'author' => $user,
-			'category' => $category,
-			'status' => $status,
+			'category' => $input['category'],
+			'status' => $input['status'],
 
 			'created' => $now,
 			'modified' => $now,
@@ -97,6 +103,9 @@ class Posts extends Backend {
 			'content' => $input['content'],
 			'html' => $html,
 		]);
+
+		// save custom fields
+		$this->customFields->saveFields($input, 'post', $id);
 
 		$this->messages->success('Post created');
 		return $this->response->withHeader('location', sprintf('/admin/posts/%d/edit', $id));
@@ -112,7 +121,19 @@ class Posts extends Backend {
 		]);
 		$form->init();
 		$form->getElement('token')->setValue($this->csrf->token());
-		$form->setValues($this->session->getFlash('input', $post->toArray()));
+		$form->getElement('category')->setOptions($this->categories->dropdownOptions());
+
+		// set default values from post
+		$form->setValues($post->toArray());
+
+		// append custom fields
+		$this->customFields->appendFields($form, 'post');
+
+		// get custom field values
+		$form->setValues($this->customFields->getFieldValues('post', $id));
+
+		// re-populate old input
+		$form->setValues($this->session->getFlash('input', []));
 
 		$vars['title'] = sprintf('Editing &ldquo;%s&rdquo;', $post->title);
 		$vars['post'] = $post;
@@ -129,6 +150,9 @@ class Posts extends Backend {
 		$form = new \Forms\Post;
 		$form->init();
 
+		// append custom fields
+		$this->customFields->appendFields($form, 'post');
+
 		$input = filter_input_array(INPUT_POST, $form->getFilters());
 		$validator = $this->validation->create($input, $form->getRules());
 
@@ -139,15 +163,12 @@ class Posts extends Backend {
 		}
 
 		$now = date('Y-m-d H:i:s');
-		$slug = preg_replace('#\s+#', '-', $input['title']);
+		$slug = preg_replace('#\s+#', '-', $input['slug'] ?: $input['title']);
 		$html = $this->markdown->parse($input['content']);
 
-		$category = 1;
-		$status = 'draft';
-
 		$this->posts->where('id', '=', $post->id)->update([
-			'category' => $category,
-			'status' => $status,
+			'category' => $input['category'],
+			'status' => $input['status'],
 
 			'modified' => $now,
 
@@ -157,6 +178,10 @@ class Posts extends Backend {
 			'content' => $input['content'],
 			'html' => $html,
 		]);
+
+		// update custom fields
+		$this->customFields->updateFields($input, 'post', $id);
+
 		$this->messages->success('Post updated');
 		return $this->response->withHeader('location', sprintf('/admin/posts/%d/edit', $id));
 	}

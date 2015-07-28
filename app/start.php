@@ -1,7 +1,28 @@
 <?php
 
-require __DIR__ . '/compat.php';
-require __DIR__ . '/autoloader.php';
+error_reporting(-1);
+ini_set('display_errors', true);
+
+// Make sure this is PHP 5.3 or later
+if ( ! defined('PHP_VERSION_ID') || PHP_VERSION_ID < 50500) {
+	echo 'PHP 5.5.0 or later is required';
+	exit(1);
+}
+
+// Set default timezone to UTC
+if( ! ini_get('date.timezone')) {
+	date_default_timezone_set('UTC');
+}
+
+// check composer is installed
+$autoload_file = __DIR__ . '/../vendor/autoload.php';
+
+if(false === is_file($autoload_file)) {
+	echo 'Composer autoloader not found';
+	exit(1);
+}
+
+require $autoload_file;
 
 function dd() {
 	echo '<pre>';
@@ -13,8 +34,6 @@ function dd() {
 function e($str) {
 	return htmlspecialchars($str, ENT_COMPAT, 'UTF-8', false);
 }
-
-ob_start();
 
 $app = require __DIR__ . '/container.php';
 

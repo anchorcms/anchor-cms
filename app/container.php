@@ -75,6 +75,9 @@ return new Container([
 	'installer' => function($app) {
 		return new Services\Installer($app['paths'], $app['session']);
 	},
+	'customFields' => function($app) {
+		return new Services\CustomFields($app['extend'], $app['postmeta'], $app['pagemeta']);
+	},
 
 	/**
 	 * Mappers
@@ -88,6 +91,9 @@ return new Container([
 	'pages' => function($app) {
 		return Mappers\Factory::create($app, 'Pages');
 	},
+	'pagemeta' => function($app) {
+		return Mappers\Factory::create($app, 'PageMeta');
+	},
 	'posts' => function($app) {
 		return Mappers\Factory::create($app, 'Posts');
 	},
@@ -96,5 +102,8 @@ return new Container([
 	},
 	'users' => function($app) {
 		return Mappers\Factory::create($app, 'Users');
+	},
+	'extend' => function($app) {
+		return Mappers\Factory::create($app, 'Extend');
 	},
 ]);

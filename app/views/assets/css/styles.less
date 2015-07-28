@@ -129,6 +129,49 @@ input {
 	border-radius: 5px;
 }
 
+.split {
+	overflow: hidden;
+
+	p {
+		position: relative;
+		overflow: hidden;
+		clear: both;
+		margin-bottom: 15px;
+	}
+
+	label {
+		background: #e6e9ed;
+		display: inline-block;
+		float: left;
+		height: 39px;
+		padding: 0 18px;
+		text-align: center;
+		line-height: 39px;
+		-webkit-user-select: none;
+		border-radius: 5px 0 0 5px;
+		min-width: 160px;
+	}
+
+	input, textarea, select {
+		float: left;
+		height: 39px;
+		border-radius: 0 5px 5px 0;
+		min-width: 300px;
+
+		-webkit-appearance: none;
+		display: block;
+		float: left;
+		height: 39px;
+		padding: 9px 0 8px 20px;
+		font: 15px/22px "Helvetica Neue", sans-serif;
+		border: none;
+		border-radius: 0 5px 5px 0;
+		background: #fff;
+		color: #7f8b9e;
+		cursor: pointer;
+	}
+}
+
 .button {
 	text-decoration: none;
 	border: none;

@@ -16,4 +16,14 @@ class Categories extends Mapper {
 		return $this->where('slug', '=', $slug)->fetch();
 	}
 
+	public function dropdownOptions() {
+		$categories = [];
+
+		foreach($this->sort('title')->get() as $category) {
+			$categories[$category->id] = $category->title;
+		}
+
+		return $categories;
+	}
+
 }
