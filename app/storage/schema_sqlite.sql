@@ -77,18 +77,16 @@ CREATE INDEX "{prefix}post_meta_extend" ON "{prefix}post_meta" ("extend");
 CREATE INDEX "{prefix}post_meta_post" ON "{prefix}post_meta" ("post");
 
 CREATE TABLE IF NOT EXISTS "{prefix}posts" (
-	"id" INTEGER PRIMARY KEY,
+	"id" INTEGER NOT NULL PRIMARY KEY,
 	"title" TEXT NOT NULL,
 	"slug" TEXT NOT NULL,
-	"description" TEXT NOT NULL,
+	"content" TEXT NOT NULL,
 	"html" TEXT NOT NULL,
-	"css" TEXT NOT NULL,
-	"js" TEXT NOT NULL,
 	"created" NUMERIC NOT NULL,
+	"modified" NUMERIC NOT NULL,
 	"author" INTEGER NOT NULL,
 	"category" INTEGER NOT NULL,
-	"status" TEXT  NOT NULL,
-	"comments" INTEGER NOT NULL
+	"status" TEXT  NOT NULL
 );
 
 CREATE INDEX "{prefix}posts_slug" ON "{prefix}posts" ("slug");

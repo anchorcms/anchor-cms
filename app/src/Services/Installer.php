@@ -126,15 +126,13 @@ class Installer {
 		$post = $query->table($input['prefix'].'posts')->insert([
 			'title' => 'Hello World',
 			'slug' => 'hello-world',
-			'description' => 'This is the first post.',
+			'content' => 'This is the first post.',
 			'html' => 'Hello World!'."\r\n\r\n".'This is the first post.',
-			'css' => '',
-			'js' => '',
 			'created' => date('Y-m-d H:i:s'),
+			'modified' => date('Y-m-d H:i:s'),
 			'author' => $user,
 			'category' => $category,
 			'status' => 'published',
-			'comments' => 0,
 		]);
 
 		$meta = [
