@@ -88,7 +88,8 @@ CREATE TABLE IF NOT EXISTS "{prefix}posts" (
 	"author" INTEGER NOT NULL,
 	"category" INTEGER NOT NULL,
 	"status" TEXT  NOT NULL,
-	"comments" INTEGER NOT NULL
+	"comments" INTEGER NOT NULL,
+	"modified" DATETIME
 );
 
 CREATE INDEX "{prefix}posts_slug" ON "{prefix}posts" ("slug");
