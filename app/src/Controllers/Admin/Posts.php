@@ -75,7 +75,7 @@ class Posts extends Backend {
 
 		if(false === $validator->isValid()) {
 			$this->messages->error($validator->getMessages());
-			$this->sesison->putFlash('input', $input);
+			$this->session->putFlash('input', $input);
 			return $this->response->withHeader('location', '/admin/posts/create');
 		}
 

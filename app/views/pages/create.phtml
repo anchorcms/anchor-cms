@@ -7,7 +7,7 @@
 		<?php echo $form->getElement('title')->getHtml(); ?>
 
 		<nav class="pull-right">
-			<?php echo $form->getElement('submit')->getHtml(); ?>
+			<?php echo $form->withAttribute('class', 'button primary')->getElement('submit')->getHtml(); ?>
 		</nav>
 	</div>
 </div>

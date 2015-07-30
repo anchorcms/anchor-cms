@@ -15,8 +15,10 @@
 			<nav class="wrap clearfix">
 				<ul class="menu flat pull-left">
 					<li><a class="logo" href="/admin/posts">Anchor CMS</a></li>
-					<li><a class="active" href="/admin/posts">Posts</a></li>
-					<li><a href="/admin/pages">Pages</a></li>
+
+					<?php $currentUri = $_SERVER['REQUEST_URI']; foreach(['/admin/posts' => 'Posts', '/admin/pages' => 'Pages'] as $uri => $label): ?>
+					<li><a<?php echo (0 === strpos($currentUri, $uri) ? ' class="active"' : ''); ?> href="<?php echo $uri; ?>"><?php echo $label; ?></a></li>
+					<?php endforeach; ?>
 				</ul>
 
 				<ul class="menu flat pull-right">

@@ -23,4 +23,14 @@ class Pages extends Mapper {
 			->get();
 	}
 
+	public function dropdownOptions() {
+		$pages = [0 => 'None'];
+
+		foreach($this->sort('title')->get() as $page) {
+			$pages[$page->id] = $page->name;
+		}
+
+		return $pages;
+	}
+
 }

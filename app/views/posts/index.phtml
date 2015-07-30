@@ -32,7 +32,7 @@
 			<time datetime="<?php echo $post->created; ?>">
 				<?php echo \DateTime::createFromFormat('Y-m-d H:i:s', $post->created)->format('jS M, Y'); ?>
 			</time>
-			<span><?php echo $post->description; ?></span>
+			<span><?php echo $post->slug; ?></span>
 		</a>
 		<?php endforeach; ?>
 

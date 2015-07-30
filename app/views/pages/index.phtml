@@ -1,0 +1,32 @@
+<div class="wrap">
+
+	<div class="clearfix">
+		<h1 class="pull-left">Pages</h1>
+
+		<nav class="pull-right">
+			<p><a class="button" href="/admin/pages/create">Create</a></p>
+		</nav>
+	</div>
+
+	<div class="column fourth first">
+		<small>Filter by status</small>
+		<ul class="list">
+			<?php foreach(['published', 'draft', 'archived'] as $status): ?>
+			<li><a href="/admin/pages?status=<?php echo $status; ?>"><?php echo ucfirst($status); ?></a></li>
+			<?php endforeach; ?>
+		</ul>
+	</div>
+
+	<div class="column three-fourths last">
+		<?php foreach($pages as $page): ?>
+		<a class="item" href="/admin/pages/<?php echo $page->id; ?>/edit">
+			<strong><?php echo $page->title; ?></strong>
+			<em class="label"><?php echo $page->status; ?></em>
+			<span><?php echo $page->slug; ?></span>
+		</a>
+		<?php endforeach; ?>
+
+		<nav class="paging"><?php echo $paging->links(); ?></nav>
+	</div>
+
+</div>

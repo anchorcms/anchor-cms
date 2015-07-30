@@ -5,19 +5,6 @@ CREATE TABLE IF NOT EXISTS "{prefix}categories" (
 	"description" TEXT NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS "{prefix}comments" (
-	"id" INTEGER PRIMARY KEY,
-	"post" INTEGER NOT NULL,
-	"status" TEXT  NOT NULL,
-	"date" NUMERIC NOT NULL,
-	"name" TEXT NOT NULL,
-	"email" TEXT NOT NULL,
-	"text" TEXT NOT NULL
-);
-
-CREATE INDEX "{prefix}comments_status" ON "{prefix}comments" ("status");
-CREATE INDEX "{prefix}comments_post" ON "{prefix}comments" ("post");
-
 CREATE TABLE IF NOT EXISTS "{prefix}extend" (
 	"id" INTEGER PRIMARY KEY,
 	"type" TEXT NOT NULL,
@@ -43,13 +30,14 @@ CREATE INDEX "{prefix}page_meta_extend" ON "{prefix}page_meta" ("extend");
 CREATE INDEX "{prefix}page_meta_page" ON "{prefix}page_meta" ("page");
 
 CREATE TABLE IF NOT EXISTS "{prefix}pages" (
-	"id" INTEGER PRIMARY KEY,
+	"id" INTEGER NOT NULL PRIMARY KEY,
 	"parent" INTEGER NOT NULL,
 	"slug" TEXT NOT NULL,
 	"name" TEXT NOT NULL,
 	"title" TEXT NOT NULL,
 	"content" TEXT NOT NULL,
-	"status" TEXT  NOT NULL,
+	"html" TEXT NOT NULL,
+	"status" TEXT NOT NULL,
 	"redirect" TEXT NOT NULL,
 	"show_in_menu" INTEGER NOT NULL,
 	"menu_order" INTEGER NOT NULL
