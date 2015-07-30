@@ -25,10 +25,12 @@ return [
 	'/admin/pages/:id/update' => 'controllers\\admin\\pages@update',
 	'/admin/pages/:id/delete' => 'controllers\\admin\\pages@delete',
 
-	'/admin/comments' => 'controllers\\admin\\comments@index',
-	'/admin/comments/:id/edit' => 'controllers\\admin\\comments@edit',
-	'/admin/comments/:id/update' => 'controllers\\admin\\comments@update',
-	'/admin/comments/:id/delete' => 'controllers\\admin\\comments@delete',
+	'/admin/categories' => 'controllers\\admin\\categories@index',
+	'/admin/categories/create' => 'controllers\\admin\\categories@create',
+	'/admin/categories/save' => 'controllers\\admin\\categories@save',
+	'/admin/categories/:id/edit' => 'controllers\\admin\\categories@edit',
+	'/admin/categories/:id/update' => 'controllers\\admin\\categories@update',
+	'/admin/categories/:id/delete' => 'controllers\\admin\\categories@delete',
 
 	'/admin/users' => 'controllers\\admin\\users@index',
 	'/admin/users/create' => 'controllers\\admin\\users@create',
