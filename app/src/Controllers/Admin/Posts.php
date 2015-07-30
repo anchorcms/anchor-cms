@@ -7,10 +7,9 @@ class Posts extends Backend {
 	public function getIndex() {
 		// start query
 		$posts = $this->posts->sort('created', 'desc');
-		$url = [];
 
 		// apply filters from request
-		$input = filter_input_array(INPUT_GET, [
+		$input = filter_var_array($_GET, [
 			'page' => FILTER_SANITIZE_NUMBER_INT,
 			'category' => FILTER_SANITIZE_NUMBER_INT,
 			'status' => FILTER_SANITIZE_STRING,
@@ -18,12 +17,10 @@ class Posts extends Backend {
 
 		if($input['category']) {
 			$posts->where('category', '=', $input['category']);
-			$url['category'] = $input['category'];
 		}
 
 		if($input['status']) {
 			$posts->where('status', '=', $input['status']);
-			$url['status'] = $input['status'];
 		}
 
 		$query = clone $posts;
@@ -37,9 +34,7 @@ class Posts extends Backend {
 			$posts->skip($offset);
 		}
 
-		$url['page'] = '';
-
-		$paging = new \Paginator($input['page'], $total, $perpage, '/admin/posts?'.http_build_query($url));
+		$paging = new \Paginator('/admin/posts', $input['page'], $total, $perpage, $input);
 
 		$vars['title'] = 'Posts';
 		$vars['posts'] = $posts->get();

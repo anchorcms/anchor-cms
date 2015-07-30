@@ -19,18 +19,12 @@ class CustomFields {
 	public function getFieldValues($type, $id) {
 		$fields = $this->extend->where('type', '=', $type)->get();
 		$values = [];
+		$table = $type.'meta';
 
 		foreach($fields as $field) {
-			if($type == 'post') {
-				$meta = $this->postmeta->where('extend', '=', $field->id)->where('post', '=', $id)->fetch();
-			}
-			else {
-				$meta = $this->pagemeta->where('extend', '=', $field->id)->where('page', '=', $id)->fetch();
-			}
+			$meta = $this->$table->where('extend', '=', $field->id)->where($type, '=', $id)->fetch();
 
-			if($meta) {
-				$values[$field->key] = json_decode($meta->data, true);
-			}
+			if($meta) $values[$field->key] = json_decode($meta->data, true);
 		}
 
 		return $values;
@@ -38,75 +32,45 @@ class CustomFields {
 
 	public function saveFields(array $input, $type, $id) {
 		$fields = $this->extend->where('type', '=', $type)->get();
+		$table = $type.'meta';
 
 		foreach($fields as $field) {
-
 			if(false === array_key_exists($field->key, $input)) {
 				continue;
 			}
 
-			$value = json_encode($input[$field->key]);
-
-			if($type == 'post') {
-				$this->postmeta->insert([
-					'post' => $id,
-					'extend' => $field->id,
-					'data' => $value,
-				]);
-			}
-			else {
-				$this->pagemeta->insert([
-					'page' => $id,
-					'extend' => $field->id,
-					'data' => $value,
-				]);
-			}
-
+			$this->$table->insert([
+				$type => $id,
+				'extend' => $field->id,
+				'data' => json_encode($input[$field->key]),
+			]);
 		}
 	}
 
 	public function updateFields(array $input, $type, $id) {
 		$fields = $this->extend->where('type', '=', $type)->get();
+		$table = $type.'meta';
 
 		foreach($fields as $field) {
-
 			if(false === array_key_exists($field->key, $input)) {
 				continue;
 			}
 
 			$value = json_encode($input[$field->key]);
 
-			if($type == 'post') {
-				$query = $this->postmeta->where('post', '=', $id)->where('extend', '=', $field->id);
-				$count = clone $query;
+			$query = $this->$table->where($type, '=', $id)->where('extend', '=', $field->id);
+			$count = clone $query;
 
-				if($count->count()) {
-					$query->update(['data' => $value]);
-				}
-				else {
-					$this->postmeta->insert([
-						'post' => $id,
-						'extend' => $field->id,
-						'data' => $value,
-					]);
-				}
+			if($count->count()) {
+				$query->update(['data' => $value]);
 			}
 			else {
-				$query = $this->pagemeta->where('page', '=', $id)->where('extend', '=', $field->id);
-				$count = clone $query;
-
-				if($count->count()) {
-					$query->update(['data' => $value]);
-				}
-				else {
-					$this->pagemeta->insert([
-						'page' => $id,
-						'extend' => $field->id,
-						'data' => $value,
-					]);
-				}
+				$this->$table->insert([
+					$type => $id,
+					'extend' => $field->id,
+					'data' => $value,
+				]);
 			}
-
 		}
 	}
 
@@ -114,7 +78,6 @@ class CustomFields {
 		$fields = $this->extend->where('type', '=', $type)->get();
 
 		foreach($fields as $field) {
-
 			$attributes = json_decode($field->attributes, true) ?: [];
 
 			switch($field->field) {

@@ -8,14 +8,20 @@ class Paginator {
 
 	protected $url;
 
-	public function __construct($page, $total, $perpage, $url) {
+	protected $params;
+
+	public function __construct($url, $page, $total, $perpage, array $params = []) {
 		$this->page = max(1, $page);
 		$this->pages = ceil($total / $perpage);
 		$this->url = $url;
+		$this->params = $params;
 	}
 
 	protected function html($page, $text) {
-		return '<a href="' . $this->url . $page . '">' . $text . '</a>';
+		$qs = http_build_query(array_merge($this->params, ['page' => $page]));
+		$url = sprintf('%s?%s', $this->url, $qs);
+
+		return '<a href="' . $url . '">' . $text . '</a>';
 	}
 
 	public function links() {
