@@ -16,7 +16,7 @@ function search_results() {
 
 	if($result = $posts->valid()) {
 		// register single post
-		Registry::set('article', $posts->current());
+		Registry::set('search_item', $posts->current());
 
 		// move to next
 		$posts->next();
@@ -85,4 +85,38 @@ function search_url() {
 
 function search_form_input($extra = '') {
 	return '<input name="term" type="text" ' . $extra . ' value="' . search_term() . '">';
+}
+
+function search_item_type() {
+	$item_class = strtolower(get_class(Registry::get('search_item')));
+	if($item_class == 'page') return 'page';
+	else if($item_class == 'post') return 'post';
+	else return 'unknown';
+}
+
+function search_item_id() {
+	return Registry::prop('search_item', 'id');
+}
+
+function search_item_title() {
+	return Registry::prop('search_item', 'title');
+}
+
+function search_item_name() {
+	return Registry::prop('search_item', 'name');
+}
+
+function search_item_slug() {
+	return Registry::prop('search_item', 'slug');
+}
+
+function search_item_url() {
+	$item = Registry::get('search_item');
+	$item_class = search_item_type();
+	
+	if($item_class == 'page') {
+		return Registry::get('search_item')->uri();
+	} else if($item_class == 'post') {
+		return base_url(Registry::get('posts_page')->slug) . '/' . search_item_slug();
+	}
 }
