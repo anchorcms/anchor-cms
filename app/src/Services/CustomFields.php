@@ -10,14 +10,25 @@ class CustomFields {
 
 	protected $pagemeta;
 
+	protected $map;
+
 	public function __construct($extend, $postmeta, $pagemeta) {
 		$this->extend = $extend;
 		$this->postmeta = $postmeta;
 		$this->pagemeta = $pagemeta;
+		$this->map = [];
+	}
+
+	protected function getFields($type) {
+		if(array_key_exists($type, $this->map)) {
+			return $this->map[$type];
+		}
+
+		return $this->map[$type] = $this->extend->where('type', '=', $type)->get();
 	}
 
 	public function getFieldValues($type, $id) {
-		$fields = $this->extend->where('type', '=', $type)->get();
+		$fields = $this->getFields($type);
 		$values = [];
 		$table = $type.'meta';
 
@@ -31,7 +42,7 @@ class CustomFields {
 	}
 
 	public function saveFields(array $input, $type, $id) {
-		$fields = $this->extend->where('type', '=', $type)->get();
+		$fields = $this->getFields($type);
 		$table = $type.'meta';
 
 		foreach($fields as $field) {
@@ -48,7 +59,7 @@ class CustomFields {
 	}
 
 	public function updateFields(array $input, $type, $id) {
-		$fields = $this->extend->where('type', '=', $type)->get();
+		$fields = $this->getFields($type);
 		$table = $type.'meta';
 
 		foreach($fields as $field) {
@@ -75,7 +86,7 @@ class CustomFields {
 	}
 
 	public function appendFields($form, $type) {
-		$fields = $this->extend->where('type', '=', $type)->get();
+		$fields = $this->getFields($type);
 
 		foreach($fields as $field) {
 			$attributes = json_decode($field->attributes, true) ?: [];

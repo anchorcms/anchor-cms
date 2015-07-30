@@ -23,4 +23,33 @@ abstract class Backend extends Frontend {
 		}
 	}
 
+	protected function renderProfile() {
+		$template = $this->getTemplate(['debug']);
+
+		$view = new \View($template);
+
+		return $view->render([
+			'profile' => $this->query->getProfile(),
+			'elapsed_time' => $this->benchmark,
+			'memory' => round(memory_get_usage() / 1024 / 1024, 2),
+			'memory_peak' => round(memory_get_peak_usage() / 1024 / 1024, 2),
+		]);
+	}
+
+	public function after($response) {
+		if($this->config->get('app.debug')) {
+			$body = $response->getBody();
+
+			if($body) {
+				$profile = $this->renderProfile();
+
+				$content = str_replace('</body>', $profile.'</body>', (string) $body);
+
+				$stream = new \Http\Stream;
+				$stream->write($content);
+				$response->withBody($stream);
+			}
+		}
+	}
+
 }

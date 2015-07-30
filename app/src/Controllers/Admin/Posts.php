@@ -5,29 +5,16 @@ namespace Controllers\Admin;
 class Posts extends Backend {
 
 	public function getIndex() {
-		// start query
-		$posts = $this->posts->sort('created', 'desc');
-
-		// apply filters from request
 		$input = filter_var_array($_GET, [
 			'page' => FILTER_SANITIZE_NUMBER_INT,
 			'category' => FILTER_SANITIZE_NUMBER_INT,
 			'status' => FILTER_SANITIZE_STRING,
 		]);
 
-		if($input['category']) {
-			$posts->where('category', '=', $input['category']);
-		}
-
-		if($input['status']) {
-			$posts->where('status', '=', $input['status']);
-		}
-
-		$query = clone $posts;
-		$total = $query->count();
+		$total = $this->posts->filter($input)->count();
 
 		$perpage = $this->meta->key('admin_posts_per_page', 10);
-		$posts->take($perpage);
+		$posts = $this->posts->filter($input)->take($perpage);
 
 		if($input['page']) {
 			$offset = ($input['page'] - 1) * $perpage;

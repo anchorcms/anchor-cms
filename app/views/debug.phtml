@@ -1,0 +1,25 @@
+<div class="wrap">
+
+	<table>
+		<thead>
+			<tr>
+				<th>SQL</th>
+				<th>Values</th>
+				<th>Rows</th>
+				<th>Time</th>
+			</tr>
+		</thead>
+		<tbody>
+			<?php foreach($profile as $query): ?>
+			<tr>
+				<td><code><?php echo e($query['sql']); ?></code></td>
+				<td><code><?php echo e(implode(', ', $query['values'])); ?></code></td>
+				<td><?php echo $query['rows']; ?></td>
+				<td><?php echo round($query['time'] * 1000, 2); ?>ms</td>
+			</tr>
+			<?php endforeach; ?>
+		</tbody>
+	</table>
+
+	<p>Elapsed time <?php echo $elapsed_time; ?>ms, Memory <?php echo $memory; ?>Mb, Peak memory <?php echo $memory_peak; ?>Mb</p>
+</div>

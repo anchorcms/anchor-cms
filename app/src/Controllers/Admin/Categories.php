@@ -5,19 +5,14 @@ namespace Controllers\Admin;
 class Categories extends Backend {
 
 	public function getIndex() {
-		// start query
-		$categories = $this->categories->sort('created', 'desc');
-
-		// apply filters from request
 		$input = filter_var_array($_GET, [
 			'page' => FILTER_SANITIZE_NUMBER_INT,
 		]);
 
-		$query = clone $categories;
-		$total = $query->count();
+		$total = $this->categories->count();
 
 		$perpage = $this->meta->key('admin_posts_per_page', 10);
-		$categories->take($perpage);
+		$categories = $this->categories->sort('title', 'asc')->take($perpage);
 
 		if($input['page']) {
 			$offset = ($input['page'] - 1) * $perpage;

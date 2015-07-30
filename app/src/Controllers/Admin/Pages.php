@@ -5,24 +5,15 @@ namespace Controllers\Admin;
 class Pages extends Backend {
 
 	public function getIndex() {
-		// start query
-		$pages = $this->pages->sort('created', 'desc');
-
-		// apply filters from request
 		$input = filter_var_array($_GET, [
 			'page' => FILTER_SANITIZE_NUMBER_INT,
 			'status' => FILTER_SANITIZE_STRING,
 		]);
 
-		if($input['status']) {
-			$pages->where('status', '=', $input['status']);
-		}
-
-		$query = clone $pages;
-		$total = $query->count();
+		$total = $this->pages->filter($input)->count();
 
 		$perpage = $this->meta->key('admin_posts_per_page', 10);
-		$pages->take($perpage);
+		$pages = $this->pages->filter($input)->sort('title', 'asc')->take($perpage);
 
 		if($input['page']) {
 			$offset = ($input['page'] - 1) * $perpage;

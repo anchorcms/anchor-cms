@@ -36,7 +36,7 @@ abstract class ThemeAware extends ContainerAware {
 		$this->ext = $ext;
 	}
 
-	private function getTemplate(array $names) {
+	protected function getTemplate(array $names) {
 		foreach($names as $name) {
 			$path = $this->path . '/' . $name . $this->ext;
 

@@ -1,4 +1,13 @@
-<!doctype html>
+<?php
+
+$menu = [
+	'/admin/posts' => 'Posts', 
+	'/admin/pages' => 'Pages',
+	'/admin/categories' => 'Categories',
+	'/admin/users' => 'Users',
+];
+
+?><!doctype html>
 <html>
 	<head>
 		<meta charset="utf-8">
@@ -16,7 +25,7 @@
 				<ul class="menu flat pull-left">
 					<li><a class="logo" href="/admin/posts">Anchor CMS</a></li>
 
-					<?php $currentUri = $_SERVER['REQUEST_URI']; foreach(['/admin/posts' => 'Posts', '/admin/pages' => 'Pages', '/admin/categories' => 'Categories'] as $uri => $label): ?>
+					<?php $currentUri = $_SERVER['REQUEST_URI']; foreach($menu as $uri => $label): ?>
 					<li><a<?php echo (0 === strpos($currentUri, $uri) ? ' class="active"' : ''); ?> href="<?php echo $uri; ?>"><?php echo $label; ?></a></li>
 					<?php endforeach; ?>
 				</ul>

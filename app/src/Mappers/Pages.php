@@ -23,6 +23,14 @@ class Pages extends Mapper {
 			->get();
 	}
 
+	public function filter(array $input) {
+		if($input['status']) {
+			$this->where('status', '=', $input['status']);
+		}
+
+		return $this;
+	}
+
 	public function dropdownOptions() {
 		$pages = [0 => 'None'];
 

@@ -92,7 +92,7 @@ class Kernel {
 		$response = $this->createResponse($output);
 
 		if(method_exists($instance, 'after')) {
-			call_user_func([$instance, 'after'], $response);
+			$instance->after($response);
 		}
 
 		return $response;

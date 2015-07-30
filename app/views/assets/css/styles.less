@@ -31,6 +31,40 @@ h1 {
 	color: #99a3b1;
 }
 
+table {
+	border-collapse: collapse;
+	width: 100%;
+
+	td, th {
+		text-align: left;
+		border: 1px solid #444f5f;
+		padding: 6px 10px;
+	}
+
+	thead {
+		tr {
+			th {
+				color: #fff;
+				background: #444f5f;
+			}
+		}
+	}
+
+	tbody {
+		tr {
+			td {
+				background: #efefef;
+			}
+		}
+
+		tr:nth-child(odd) {
+			td {
+				background: #fff;
+			}
+		}
+	}
+}
+
 .clearfix:after { content: ''; display: block; clear: both; }
 .pull-left { float: left; }
 .pull-right { float: right; }

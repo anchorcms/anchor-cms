@@ -56,6 +56,10 @@ if(false === $app['installer']->isInstalled() || true === $app['installer']->ins
 	$app['router']->setRoutes(require __DIR__ . '/installer_routes.php');
 }
 
+if( ! $app['config']->get('app.debug')) {
+	$app['query']->disableProfile();
+}
+
 $response = $app['kernel']->getResponse();
 
 $app['session']->rotate();

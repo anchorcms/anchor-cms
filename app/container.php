@@ -1,6 +1,10 @@
 <?php
 
 return new Container([
+	'start' => microtime(true),
+	'benchmark' => function($app) {
+		return round((microtime(true) - $app['start']) * 1000, 2);
+	},
 	'paths' => function() {
 		return require __DIR__ . '/paths.php';
 	},
@@ -47,7 +51,7 @@ return new Container([
 		return new Messages($app['session']);
 	},
 	'markdown' => function() {
-		return new \cebe\markdown\Markdown();
+		return new cebe\markdown\Markdown();
 	},
 
 	/**
@@ -83,27 +87,51 @@ return new Container([
 	 * Mappers
 	 */
 	'categories' => function($app) {
-		return Mappers\Factory::create($app, 'Categories');
+		$mapper = new Mappers\Categories($app['query'], new \DB\Row);
+		$mapper->setTablePrefix($app['config']->get('db.table_prefix'));
+
+		return $mapper;
 	},
 	'meta' => function($app) {
-		return Mappers\Factory::create($app, 'Meta');
+		$mapper = new Mappers\Meta($app['query'], new \DB\Row);
+		$mapper->setTablePrefix($app['config']->get('db.table_prefix'));
+
+		return $mapper;
 	},
 	'pages' => function($app) {
-		return Mappers\Factory::create($app, 'Pages');
+		$mapper = new Mappers\Pages($app['query'], new \DB\Row);
+		$mapper->setTablePrefix($app['config']->get('db.table_prefix'));
+
+		return $mapper;
 	},
 	'pagemeta' => function($app) {
-		return Mappers\Factory::create($app, 'PageMeta');
+		$mapper = new Mappers\PageMeta($app['query'], new \DB\Row);
+		$mapper->setTablePrefix($app['config']->get('db.table_prefix'));
+
+		return $mapper;
 	},
 	'posts' => function($app) {
-		return Mappers\Factory::create($app, 'Posts');
+		$mapper = new Mappers\Posts($app['query'], new \DB\Row);
+		$mapper->setTablePrefix($app['config']->get('db.table_prefix'));
+
+		return $mapper;
 	},
 	'postmeta' => function($app) {
-		return Mappers\Factory::create($app, 'PostMeta');
+		$mapper = new Mappers\PostMeta($app['query'], new \DB\Row);
+		$mapper->setTablePrefix($app['config']->get('db.table_prefix'));
+
+		return $mapper;
 	},
 	'users' => function($app) {
-		return Mappers\Factory::create($app, 'Users');
+		$mapper = new Mappers\Users($app['query'], new \DB\Row);
+		$mapper->setTablePrefix($app['config']->get('db.table_prefix'));
+
+		return $mapper;
 	},
 	'extend' => function($app) {
-		return Mappers\Factory::create($app, 'Extend');
+		$mapper = new Mappers\Extend($app['query'], new \DB\Row);
+		$mapper->setTablePrefix($app['config']->get('db.table_prefix'));
+
+		return $mapper;
 	},
 ]);

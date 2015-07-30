@@ -108,7 +108,7 @@ class Installer {
 			'real_name' => $input['username'],
 			'bio' => 'The bouse',
 			'status' => 'active',
-			'role' => 'administrator',
+			'role' => 'admin',
 		]);
 
 		$page = $query->table($input['prefix'].'pages')->insert([
@@ -117,6 +117,7 @@ class Installer {
 			'name' => 'Posts',
 			'title' => 'My posts and thoughts',
 			'content' => 'Welcome!',
+			'html' => '<p>Welcome!</p>',
 			'status' => 'published',
 			'redirect' => '',
 			'show_in_menu' => 1,
@@ -127,7 +128,7 @@ class Installer {
 			'title' => 'Hello World',
 			'slug' => 'hello-world',
 			'content' => 'This is the first post.',
-			'html' => 'Hello World!'."\r\n\r\n".'This is the first post.',
+			'html' => '<p>Hello World!</p>'."\r\n\r\n".'<p>This is the first post.</p>',
 			'created' => date('Y-m-d H:i:s'),
 			'modified' => date('Y-m-d H:i:s'),
 			'author' => $user,
@@ -139,6 +140,7 @@ class Installer {
 			'home_page' => $page,
 			'posts_page' => $page,
 			'posts_per_page' => 6,
+			'admin_posts_per_page' => 10,
 			'comment_notifications' => 0,
 			'comment_moderation_keys' => '',
 			'sitename' => $input['site_name'],

@@ -12,4 +12,16 @@ class Posts extends Mapper {
 		return $this->where('status', '=', 'published')->sort('created', 'desc');
 	}
 
+	public function filter(array $input) {
+		if($input['category']) {
+			$this->where('category', '=', $input['category']);
+		}
+
+		if($input['status']) {
+			$this->where('status', '=', $input['status']);
+		}
+
+		return $this;
+	}
+
 }
