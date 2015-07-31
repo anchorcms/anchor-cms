@@ -1,0 +1,86 @@
+/*! Licensed under MIT, https://github.com/sofish/pen */
+
+/* basic reset */
+.pen:focus{outline:none;}
+.pen fieldset, img {border: 0;}
+.pen blockquote{padding-left:10px;margin-left:-14px;border-left:4px solid #1abf89;}
+/*.pen a{color:#1abf89;}*/
+.pen del{text-decoration:line-through;}
+.pen sub, .pen sup {font-size:75%;position:relative;vertical-align:text-top\9;}
+:root .pen sub, :root .pen sup{vertical-align:baseline; /* for ie9 and other mordern browsers */}
+.pen sup {top:-0.5em;}
+.pen sub {bottom:-0.25em;}
+.pen hr{border:none;border-bottom:1px solid #cfcfcf;margin-bottom:25px;*color:pink;*filter:chroma(color=pink);height:10px;*margin:-7px 0 15px;}
+.pen small{font-size:0.8em;color:#888;}
+.pen em, .pen b, .pen strong{font-weight:700;}
+.pen pre{white-space:pre-wrap;padding:0.85em;background:#f8f8f8;}
+
+/* block-level element margin */
+.pen p, .pen pre, .pen ul, .pen ol, .pen dl, .pen form, .pen table, .pen blockquote{margin-bottom:1em;}
+
+/* list */
+.pen ul, .pen ol{margin-left:1.5em;}
+.pen ul, .pen-ul{list-style:disc;}
+.pen ol, .pen-ol{list-style:decimal;}
+.pen li ul, .pen li ol, .pen-ul ul, .pen-ul ol, .pen-ol ul, .pen-ol ol{margin:0 2em 0 1.2em;}
+.pen li ul, .pen-ul ul, .pen-ol ul{list-style: circle;}
+
+.pen-textarea{display:block;background:#f8f8f8;padding:20px;}
+.pen textarea{font-size:14px;border:none;background:none;width:100%;_height:200px;min-height:200px;resize:none;}
+
+/*.pen > :first-child {
+	margin-top: 25px;
+}*/
+
+@font-face {
+    font-family: 'pen';
+    src: url('font/fontello.eot?370dad08');
+    src: url('font/fontello.eot?370dad08#iefix') format('embedded-opentype'),
+    url('font/fontello.woff?370dad08') format('woff'),
+    url('font/fontello.ttf?370dad08') format('truetype'),
+    url('font/fontello.svg?370dad08#fontello') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.pen-menu [class^="icon-"]:before, .pen-menu [class*=" icon-"]:before {
+  font-family: "pen";
+  font-style: normal;
+  font-weight: normal;
+  speak: none;
+  display: inline-block;
+  text-decoration: inherit;
+  width: 1em;
+  margin-right: .2em;
+  text-align: center;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1em;
+  margin-left: .2em;
+}
+ 
+.pen-menu .icon-location:before { content: '\e815'; } /* '' */
+.pen-menu .icon-fit:before { content: '\e80f'; } /* '' */
+.pen-menu .icon-bold:before { content: '\e805'; } /* '' */
+.pen-menu .icon-italic:before { content: '\e806'; } /* '' */
+.pen-menu .icon-justifyleft:before { content: '\e80a'; } /* '' */
+.pen-menu .icon-justifycenter:before { content: '\e80b'; } /* '' */
+.pen-menu .icon-justifyright:before { content: '\e80c'; } /* '' */
+.pen-menu .icon-justifyfull:before { content: '\e80d'; } /* '' */
+.pen-menu .icon-outdent:before { content: '\e800'; } /* '' */
+.pen-menu .icon-indent:before { content: '\e801'; } /* '' */
+.pen-menu .icon-mode:before { content: '\e813'; } /* '' */
+.pen-menu .icon-fullscreen:before { content: '\e80e'; } /* '' */
+.pen-menu .icon-insertunorderedlist:before { content: '\e802'; } /* '' */
+.pen-menu .icon-insertorderedlist:before { content: '\e803'; } /* '' */
+.pen-menu .icon-strikethrough:before { content: '\e807'; } /* '' */
+.pen-menu .icon-underline:before { content: '\e804'; } /* '' */
+.pen-menu .icon-blockquote:before { content: '\e814'; } /* '' */
+.pen-menu .icon-undo:before { content: '\e817'; } /* '' */
+.pen-menu .icon-pre:before { content: '\e816'; } /* '' */
+.pen-menu .icon-unlink:before { content: '\e811'; } /* '' */
+.pen-menu .icon-superscript:before { content: '\e808'; } /* '' */
+.pen-menu .icon-subscript:before { content: '\e809'; } /* '' */
+.pen-menu .icon-inserthorizontalrule:before { content: '\e818'; } /* '' */
+.pen-menu .icon-pin:before { content: '\e812'; } /* '' */
+.pen-menu .icon-createlink:before { content: '\e810'; } /* '' */

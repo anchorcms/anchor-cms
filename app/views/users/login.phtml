@@ -1,9 +1,6 @@
-<div class="wrap">
-	<header>
-		<div class="logo"><a href="/admin">Anchor CMS</a></div>
-	</header>
+<?php echo $form->open(); ?>
 
-	<?php echo $form->open(); ?>
+	<?php echo $form->getElement('token')->getHtml(); ?>
 
 	<?php if(count($messages)): ?>
 	<div class="messages">
@@ -16,6 +13,8 @@
 		<?php endforeach; ?>
 	</div>
 	<?php endif; ?>
+    		
+	<i class="anchor-logo">Anchor CMS</i>
 
 	<?php foreach($form->getElementsExcluding(['submit']) as $element): ?>
 	<?php if($element->hasLabel()): ?>
@@ -26,11 +25,6 @@
 
 	<?php endforeach; ?>
 
-	<nav>
-		<?php echo $form->getElement('submit')->getHtml(); ?>
-		<a href="/admin/amnesia">Forgotten your password?</a>
-	</nav>
+	<p><?php echo $form->getElement('submit')->getHtml(); ?></p>
 
-	<?php echo $form->close(); ?>
-
-</div>
+<?php echo $form->close(); ?>

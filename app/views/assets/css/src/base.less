@@ -1,0 +1,59 @@
+/*
+	               .odNMMNdo.
+	              sMMMmyymMMMs
+	             +MMN-    -NMM+
+	             yMMh      dMMy
+	             -NMMy:..:yMMN-
+	              .yMMMMMMMMy.
+	                `:dMMd:`
+	                  yMMy
+	                  yMMy
+	mds+-             yMMy             -+sdm
+	NMMMMMdo`         yMMy         `odMMMMMN
+	NMMMMN/`          yMMy          `/NMMMMN
+	NdyNMMo           yMMy           oMMNydN
+	   .mMMh.         yMMy         .dMMm.
+	    `sMMMy-       yMMy       :yMMMs`
+	      .yMMMms/.   yMMy   ./sNMMMy.
+	        `+hMMMMMmdNMMNdmMMMMMh+`
+	            -+shmNMMMMNmhs+-
+
+	Anchor CMS
+	version 1.0 - general styles
+*/
+
+body {
+	background: @background;
+	color: @foreground;
+	
+	font: 16px/26px @body;
+}
+	body.inverse {
+		background: @background-inverse;
+		color: @foreground-inverse;
+	}
+
+a {
+	color: @hilite;
+
+	&:hover {
+		color: darken(@hilite, 20%);
+	}
+}
+	
+a, .pen-icon, span, .post-stats {
+	-webkit-transition: color .2s, background .2s, opacity .2s;
+	-moz-transition: color .2s, background .2s, opacity .2s;
+	transition: color .2s, background .2s, opacity .2s;
+}
+	.post-stats span {
+		-webkit-transition: none;
+		-moz-transition: none;
+		transition: none;
+	}
+	
+.main-nav {
+	-webkit-transition: opacity .2s, margin .2s @bounce;
+	-moz-transition: opacity .2s, margin .2s @bounce;
+	transition: opacity .2s, margin .2s @bounce;
+}

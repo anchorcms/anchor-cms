@@ -1,0 +1,67 @@
+/*
+	               .odNMMNdo.
+	              sMMMmyymMMMs
+	             +MMN-    -NMM+
+	             yMMh      dMMy
+	             -NMMy:..:yMMN-
+	              .yMMMMMMMMy.
+	                `:dMMd:`
+	                  yMMy
+	                  yMMy
+	mds+-             yMMy             -+sdm
+	NMMMMMdo`         yMMy         `odMMMMMN
+	NMMMMN/`          yMMy          `/NMMMMN
+	NdyNMMo           yMMy           oMMNydN
+	   .mMMh.         yMMy         .dMMm.
+	    `sMMMy-       yMMy       :yMMMs`
+	      .yMMMms/.   yMMy   ./sNMMMy.
+	        `+hMMMMMmdNMMNdmMMMMMh+`
+	            -+shmNMMMMNmhs+-
+
+	Anchor CMS
+	version 1.0 - admin styles
+*/
+
+//  Anything we want to change goes in here:
+//  colours, fonts, dimensions, icons, etc.
+@import 'src/variables';
+
+//  A simple browser reset so that everything
+//  sort of looks the same on every browser.
+@import 'src/reset';
+
+//  Our typographic baseline goes in here -
+//  font sizes, line heights, and icon fonts.
+@import 'src/typography';
+
+//  The WYSIWYG editor styling is pretty
+//  hefty, so let's move it outside the forms
+//  stylesheet to keep things tidy.
+@import 'src/editor';
+
+//  Restyling the standard HTML elements
+//  past a simple browser reset.
+@import 'src/base';
+
+//  The admin grid and layout goes in here,
+//  as well as any responsive tweaks.
+@import 'src/layout';
+
+//  Since a CMS is 90% forms, we need to pay
+//  special attention to form styling.
+@import 'src/forms';
+
+//  Everything in Anchor 1.0 should be modular
+//  so we can use and reuse it everywhere.
+//  Any specific module should be in here.
+@import 'src/modules';
+
+
+
+//  That's it!
+//  Everything should compile in to plain
+//  compressed CSS before being served back
+//  to the end user.
+//
+//  I personally recommend using CodeKit, but
+//  any good Less preprocessor should work fine.
