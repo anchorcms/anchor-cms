@@ -25,3 +25,4 @@ content
 vendor
 bin
 app/config
+.vagrant
