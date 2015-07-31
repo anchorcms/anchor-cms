@@ -55,9 +55,10 @@ $app['kernel']->redirectTrailingSlash();
 if(false === $app['installer']->isInstalled() || true === $app['installer']->installerRunning()) {
 	$app['router']->setRoutes(require __DIR__ . '/installer_routes.php');
 }
-
-if( ! $app['config']->get('app.debug')) {
-	$app['query']->disableProfile();
+else {
+	if( ! $app['config']->get('app.debug')) {
+		$app['query']->disableProfile();
+	}
 }
 
 $response = $app['kernel']->getResponse();

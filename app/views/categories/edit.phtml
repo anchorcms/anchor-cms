@@ -2,25 +2,15 @@
 
 <?php echo $form->getElement('token')->getHtml(); ?>
 
-<div class="title">
-	<div class="wrap">
-		<?php echo $form->getElement('title')->getHtml(); ?>
-
-		<nav class="pull-right">
-			<?php echo $form->withAttribute('class', 'button primary')->getElement('submit')->getHtml(); ?>
-		</nav>
-	</div>
-</div>
-
-<div style="background: #ccd2d9">
-	<div class="wrap split">
-		<?php foreach($form->getElementsExcluding(['token', 'title', 'submit']) as $element): ?>
-		<p>
-			<label><?php echo $element->getLabel(); ?></label>
-			<?php echo $element->getHtml(); ?>
-		</p>
-		<?php endforeach; ?>
-	</div>
+<div class="wrap split">
+	<?php foreach($form->getElementsExcluding(['token']) as $element): ?>
+	<p>
+		<?php if($element->hasLabel()): ?>
+		<label><?php echo $element->getLabel(); ?></label>
+		<?php endif; ?>
+		<?php echo $element->getHtml(); ?>
+	</p>
+	<?php endforeach; ?>
 </div>
 
 <?php echo $form->close(); ?>
