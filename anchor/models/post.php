@@ -18,6 +18,7 @@ class Post extends Base {
 			->fetch(array(Base::table('posts.*'),
 				Base::table('users.id as author_id'),
 				Base::table('users.bio as author_bio'),
+				Base::table('users.email as author_email'),
 				Base::table('users.real_name as author_name')));
 	}
 
