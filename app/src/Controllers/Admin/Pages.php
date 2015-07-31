@@ -41,6 +41,14 @@ class Pages extends Backend {
 		// re-populate submitted data
 		$form->setValues($this->session->getFlash('input', []));
 
+		$element = $form->getElement('show_in_menu');
+
+		if($element->getValue()) {
+			$element->setChecked();
+		}
+
+		$element->setValue(1);
+
 		$vars['title'] = 'Creating a new page';
 		$vars['messages'] = $this->messages->get();
 		$vars['form'] = $form;
@@ -110,6 +118,14 @@ class Pages extends Backend {
 
 		// re-populate old input
 		$form->setValues($this->session->getFlash('input', []));
+
+		$element = $form->getElement('show_in_menu');
+
+		if($element->getValue()) {
+			$element->setChecked();
+		}
+
+		$element->setValue(1);
 
 		$vars['title'] = sprintf('Editing &ldquo;%s&rdquo;', $page->title);
 		$vars['page'] = $page;
