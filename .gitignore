@@ -5,6 +5,7 @@
 *.sqlite
 *.swp
 *.codekit
+*.esproj
 
 # files
 .htaccess
