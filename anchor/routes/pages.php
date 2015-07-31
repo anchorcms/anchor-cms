@@ -224,8 +224,9 @@ Route::collection(array('before' => 'auth,csrf,install_exists'), function() {
 		Extend::process('page', $page->id);
 
 		Notify::success(__('pages.created'));
-
-		return Response::redirect('admin/pages');
+		
+		if(Input::get('autosave') === 'true') return Response::redirect('admin/pages/edit/' . $page->id);
+		else return Response::redirect('admin/pages');
 	});
 
 	/*
