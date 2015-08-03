@@ -89,7 +89,7 @@ class Fields extends Backend {
 		$vars['messages'] = $this->messages->get();
 		$vars['form'] = $form;
 
-		return $this->renderTemplate('main', ['field/edit'], $vars);
+		return $this->renderTemplate('main', ['fields/edit'], $vars);
 	}
 
 	public function postUpdate($request) {
