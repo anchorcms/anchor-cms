@@ -1,50 +1,52 @@
 <?php echo $form->open(); ?>
 
+<?php echo $messages; ?>
+
 <?php echo $form->getElement('token')->getHtml(); ?>
 
 <section class="editor panel">
 	<nav class="tabs">
 		<a class="tab active" href="#editor">Editor</a>
 		<a class="tab" href="#options">Options</a>
-		
+
 		<a class="tab right" href="#custom-css">Custom CSS</a>
 		<a class="tab right" href="#custom-js">Custom JS</a>
 	</nav>
-	
+
 	<div class="content">
     	<div class="tab-editor" id="editor">
         	<div class="actions">
         		<button class="secondary" type="submit">Save draft</button>
 	        	<?php echo $form->getElement('submit')->getHtml(); ?>
 	        </div>
-        	
+
         	<!-- Page title -->
         	<?php echo $form->getElement('title')->getHtml([
         		'autofocus' => true,
         		'placeholder' => 'What’s your post called?',
         		'class' => 'title'
         	]); ?>
-        	
+
         	<!-- Main post content -->
         	<?php echo $form->getElement('content')->getHtml(); ?>
         	<div data-editor placeholder="Write your post here. Select text to modify it."></div>
-        	
+
         	<dl class="post-stats">
         		<dt>Word count:</dt>
         			<dd class="words">0</dd>
-        		
+
         		<dt>Character count:</dt>
         			<dd class="characters">0</dd>
-        			
+
         		<dt>Reading time:</dt>
         			<dd>~<span class="min">0</span> min, <span class="sec">0</span> sec</dd>
-        			
+
         		<a class="focus-toggle" href="#">
         			<img width="18" height="12" alt="Toggle Focus Mode (Cmd + E)" title="Toggle Focus Mode (Cmd + E)" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAYCAYAAACSuF9OAAABnUlEQVR4AdXWTwsSYRDH8cFDgXn15sFDtkKYEoJ7W/LUyaIirPfQpUs36yW4HqJexF6zQ+e6xBL4DmyDoj9mYWia0zfYk7A1j+4eEj5z0uGHu888I8d8Hty/dxEjPEOCHX7hHaZ4iBbElcuXSxjiNdQoxh2U8g4UIIYeKUaQR6AyHmMPPdEeT1A+NlAdMTRnM5x3DXQFH6EF+YzAGug6NoamG4TwUUn5CI2/X+PavwLdxk9DswQdSIYOEkOfLW5mBRpgZ/xnOhA0EGGZitCAoI21sd/Vw0A9rKAGEwg8LKAHFvAgmEANVuhChFLDe6iRD0EEzRBB4EON5qgK5SXUwRkIltAM3yE4C3XwQv6UAgNVoA5eCaWKt1CjXkGP7ANqQhG08BVqEELQ/MtL3YQgdHipe4fHvu8w0NoQeIjwLRXBg+CS8djvMMgajLewzWEwth0G49BydVgH2hhdnEt1MXa4em5YL9cAX6AF+YS+6/pxATNozt6gfsqC9rSABe3/WmGtSriL2DHI0H3Jd3cZj/AcCX5ghTmmGKEFcfUb8qFwyc2boUMAAAAASUVORK5CYII="> Toggle Focus Mode <span title="You can also use Cmd/Ctrl + E">(&#x2318; + E)</span>
         		</a>
         	</dl>
         </div>
-        
+
         <div class="tab-options split-fields" id="options" style="display: none;">
         	<p>
         		<label for="slug">Page slug:</label>
@@ -55,7 +57,7 @@
 			<p><label><?php echo $field->getLabel(); ?></label><br>
 			<?php echo $field->getHtml(); ?></p>
 			<?php endforeach; ?>
-        	
+
         	<p class="multi-select">
         		<label for="published-day">Publish date:</label>
         		<select id="published-day">
@@ -77,7 +79,7 @@
         			<option>16th</option>
         			<option>17th</option>
         		</select>
-        		
+
         		<select id="published-month">
         		    <option value="01">January</option>
         		    <option value="02">February</option>
@@ -92,7 +94,7 @@
         		    <option value="11">November</option>
         		    <option value="12">December</option>
         		</select>
-        		
+
         		<select id="year">
         			<option>2014</option>
         			<option>2013</option>
@@ -106,12 +108,12 @@
         			<option>2005</option>
         		</select>
         	</p>
-        	
+
         	<div>
 				<label for="description">Description:</label>
 				<textarea name="description">This is the first post.</textarea>
 			</div>
-			
+
 			<div>
 				<p>
 					<label for="status">Status:</label>
@@ -121,15 +123,15 @@
 					<label for="category">Category:</label>
 					<select id="category" name="category"><option value="1" selected="selected">Uncategorised</option></select>
 				</p>
-				
+
 				<div class="inline-fields">
 					<p>
 						<label for="comments">Allow Comments:</label>
 						<input type="checkbox" id="comments" name="comments" value="1">
-						
+
 						<span class="custom-checkbox"></span>
 					</p>
-					
+
 					<p>
 						<label for="delete-post">Permanently delete post:</label>
 						<button type="submit" id="delete-post" class="delete">Yes, delete this post forever</button>
@@ -137,7 +139,7 @@
 				</div>
 			</div>
         </div>
-        
+
         <div class="tab-custom" id="custom-css" style="display: none;">
     		<textarea class="code custom" name="css" placeholder="* { background: #f0f; }"></textarea>
         </div>
@@ -146,7 +148,7 @@
     		<textarea class="code custom" name="js" placeholder="alert('test');"></textarea>
         </div>
 	</div>
-	
+
 </section>
 
 <?php echo $form->close(); ?>

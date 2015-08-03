@@ -45,7 +45,7 @@ class Posts extends Backend {
 		$form->setValues($this->session->getFlash('input', []));
 
 		$vars['title'] = 'Creating a new post';
-		$vars['messages'] = $this->messages->get();
+		$vars['messages'] = $this->messages->render($this->getViewPath().'/messages.phtml');
 		$vars['form'] = $form;
 
 		return $this->renderTemplate('main', ['posts/create'], $vars);
@@ -121,8 +121,7 @@ class Posts extends Backend {
 		$form->setValues($this->session->getFlash('input', []));
 
 		$vars['title'] = sprintf('Editing &ldquo;%s&rdquo;', $post->title);
-		$vars['post'] = $post;
-		$vars['messages'] = $this->messages->get();
+		$vars['messages'] = $this->messages->render($this->getViewPath().'/messages.phtml');
 		$vars['form'] = $form;
 
 		return $this->renderTemplate('main', ['posts/edit'], $vars);
