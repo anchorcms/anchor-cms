@@ -46,12 +46,18 @@ return [
 	'/admin/fields/:id/update' => 'controllers\\admin\\fields@update',
 	'/admin/fields/:id/delete' => 'controllers\\admin\\fields@delete',
 
+	'/admin/vars' => 'controllers\\admin\\vars@index',
+	'/admin/vars/create' => 'controllers\\admin\\vars@create',
+	'/admin/vars/save' => 'controllers\\admin\\vars@save',
+	'/admin/vars/:id/edit' => 'controllers\\admin\\vars@edit',
+	'/admin/vars/:id/update' => 'controllers\\admin\\vars@update',
+	'/admin/vars/:id/delete' => 'controllers\\admin\\vars@delete',
+
 	'/admin/meta' => 'controllers\\admin\\meta@index',
 	'/admin/meta/update' => 'controllers\\admin\\meta@update',
 
 	'/admin/themes' => 'controllers\\admin\\themes@index',
 	'/admin/plugins' => 'controllers\\admin\\plugins@index',
-	'/admin/vars' => 'controllers\\admin\\vars@index',
 
 	'/admin/extend' => 'controllers\\admin\\extend@index',
 

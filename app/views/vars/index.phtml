@@ -1,0 +1,23 @@
+<div class="wrap">
+
+	<div class="clearfix">
+		<h1 class="pull-left">Custom Variables</h1>
+
+		<nav class="pull-right">
+			<p><a class="button" href="/admin/vars/create">Create</a></p>
+		</nav>
+	</div>
+
+	<?php echo $messages; ?>
+
+	<div class="column full first last">
+		<?php foreach($metadata as $meta): ?>
+		<a class="item" href="/admin/vars/<?php echo $meta->key; ?>/edit">
+			<strong><?php echo e($meta->value); ?></strong>
+		</a>
+		<?php endforeach; ?>
+
+		<nav class="paging"><?php echo $paging->links(); ?></nav>
+	</div>
+
+</div>
