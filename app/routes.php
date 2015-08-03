@@ -39,13 +39,20 @@ return [
 	'/admin/users/:id/update' => 'controllers\\admin\\users@update',
 	'/admin/users/:id/delete' => 'controllers\\admin\\users@delete',
 
+	'/admin/fields' => 'controllers\\admin\\fields@index',
+	'/admin/fields/create' => 'controllers\\admin\\fields@create',
+	'/admin/fields/save' => 'controllers\\admin\\fields@save',
+	'/admin/fields/:id/edit' => 'controllers\\admin\\fields@edit',
+	'/admin/fields/:id/update' => 'controllers\\admin\\fields@update',
+	'/admin/fields/:id/delete' => 'controllers\\admin\\fields@delete',
+
 	'/admin/meta' => 'controllers\\admin\\meta@index',
 	'/admin/meta/update' => 'controllers\\admin\\meta@update',
 
 	'/admin/themes' => 'controllers\\admin\\themes@index',
 	'/admin/plugins' => 'controllers\\admin\\plugins@index',
 	'/admin/vars' => 'controllers\\admin\\vars@index',
-	'/admin/fields' => 'controllers\\admin\\fields@index',
+
 	'/admin/extend' => 'controllers\\admin\\extend@index',
 
 	'/feeds/rss' => 'controllers\\feeds@rss',
