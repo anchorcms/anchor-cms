@@ -53,7 +53,7 @@ class Fields extends Backend {
 		if(false === $validator->isValid()) {
 			$this->messages->error($validator->getMessages());
 			$this->session->putFlash('input', $input);
-			return $this->response->withHeader('location', '/admin/field/create');
+			return $this->response->withHeader('location', '/admin/fields/create');
 		}
 
 		$id = $this->extend->insert([
@@ -65,7 +65,7 @@ class Fields extends Backend {
 		]);
 
 		$this->messages->success('Custom field created');
-		return $this->response->withHeader('location', sprintf('/admin/field/%d/edit', $id));
+		return $this->response->withHeader('location', sprintf('/admin/fields/%d/edit', $id));
 	}
 
 	public function getEdit($request) {
@@ -74,7 +74,7 @@ class Fields extends Backend {
 
 		$form = new \Forms\CustomField([
 			'method' => 'post',
-			'action' => sprintf('/admin/field/%d/update', $field->id)
+			'action' => sprintf('/admin/fields/%d/update', $field->id)
 		]);
 		$form->init();
 		$form->getElement('token')->setValue($this->csrf->token());
@@ -105,7 +105,7 @@ class Fields extends Backend {
 		if(false === $validator->isValid()) {
 			$this->messages->error($validator->getMessages());
 			$this->sesison->putFlash('input', $input);
-			return $this->response->withHeader('location', sprintf('/admin/field/%d/edit', $post->id));
+			return $this->response->withHeader('location', sprintf('/admin/fields/%d/edit', $post->id));
 		}
 
 		$this->extend->where('id', '=', $field->id)->update([
@@ -116,7 +116,7 @@ class Fields extends Backend {
 		]);
 
 		$this->messages->success('Custom field updated');
-		return $this->response->withHeader('location', sprintf('/admin/field/%d/edit', $id));
+		return $this->response->withHeader('location', sprintf('/admin/fields/%d/edit', $id));
 	}
 
 	public function postDelete() {}
