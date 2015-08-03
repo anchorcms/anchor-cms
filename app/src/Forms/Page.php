@@ -2,21 +2,31 @@
 
 namespace Forms;
 
+use Forms\Traits\Filters;
+use Forms\Traits\FilterRules;
+
 class Page extends Form {
 
-	protected $filters = [
-		'parent' => FILTER_SANITIZE_NUMBER_INT,
-		'slug' => FILTER_SANITIZE_STRING,
-		'name' => FILTER_SANITIZE_STRING,
-		'title' => FILTER_SANITIZE_STRING,
-		'content' => FILTER_UNSAFE_RAW,
-		'status' => FILTER_SANITIZE_STRING,
-		'redirect' => FILTER_SANITIZE_STRING,
-		'show_in_menu' => FILTER_SANITIZE_NUMBER_INT,
-		'menu_order' => FILTER_SANITIZE_NUMBER_INT,
-	];
+	use Filters, FilterRules;
 
 	public function init() {
+		$this->setFilters([
+			'token' => FILTER_SANITIZE_STRING,
+			'parent' => FILTER_SANITIZE_NUMBER_INT,
+			'slug' => FILTER_SANITIZE_STRING,
+			'name' => FILTER_SANITIZE_STRING,
+			'title' => FILTER_SANITIZE_STRING,
+			'content' => FILTER_UNSAFE_RAW,
+			'status' => FILTER_SANITIZE_STRING,
+			'redirect' => FILTER_SANITIZE_STRING,
+			'show_in_menu' => FILTER_SANITIZE_NUMBER_INT,
+			'menu_order' => FILTER_SANITIZE_NUMBER_INT,
+		});
+
+		$this->setRules([
+			'title' => ['label' => 'Title', 'rules' => ['required']],
+		]);
+
 		$this->addElement(new \Forms\Elements\Hidden('token'));
 
 		$this->addElement(new \Forms\Elements\Select('parent', [
@@ -68,20 +78,6 @@ class Page extends Form {
 			'value' => 'Save Changes',
 			'attributes' => ['class' => 'button'],
 		]));
-	}
-
-	public function pushFilter($key, $value) {
-		$this->filters[$key] = $value;
-	}
-
-	public function getFilters() {
-		return $this->filters;
-	}
-
-	public function getRules() {
-		return [
-			'title' => ['label' => 'Title', 'rules' => ['required']],
-		];
 	}
 
 }

@@ -66,6 +66,8 @@ class Pages extends Backend {
 		$input = filter_input_array(INPUT_POST, $form->getFilters());
 		$validator = $this->validation->create($input, $form->getRules());
 
+		$validator->addRule(new \Forms\ValidateToken($this->csrf->token()), 'token');
+
 		if(false === $validator->isValid()) {
 			$this->messages->error($validator->getMessages());
 			$this->session->putFlash('input', $input);
@@ -148,9 +150,11 @@ class Pages extends Backend {
 		$input = filter_input_array(INPUT_POST, $form->getFilters());
 		$validator = $this->validation->create($input, $form->getRules());
 
+		$validator->addRule(new \Forms\ValidateToken($this->csrf->token()), 'token');
+
 		if(false === $validator->isValid()) {
 			$this->messages->error($validator->getMessages());
-			$this->sesison->putFlash('input', $input);
+			$this->session->putFlash('input', $input);
 			return $this->response->withHeader('location', sprintf('/admin/pages/%d/edit', $page->id));
 		}
 

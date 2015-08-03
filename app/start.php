@@ -43,12 +43,11 @@ $app['errors']->register();
 
 $app['errors']->handler(function($exception) use($app) {
 	while(ob_get_level()) ob_end_clean();
+
 	http_response_code(500);
+
 	$frames = $exception->getTrace();
-	array_unshift($frames, [
-		'file' => $exception->getFile(),
-		'line' => $exception->getLine(),
-	]);
+
 	require __DIR__ . '/views/error.phtml';
 });
 

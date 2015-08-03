@@ -52,4 +52,11 @@ abstract class Backend extends Frontend {
 		}
 	}
 
+	protected function jsonResponse(array $data) {
+		$stream = new \Http\Stream();
+		$stream->write(json_encode($data));
+
+		return $this->response->withHeader('content-type', 'application/json')->withBody($stream);
+	}
+
 }

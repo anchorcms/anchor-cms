@@ -50,6 +50,7 @@ class User extends Form {
 
 	public function getFilters() {
 		return [
+			'token' => FILTER_SANITIZE_STRING,
 			'username' => FILTER_SANITIZE_STRING,
 			'password' => FILTER_UNSAFE_RAW,
 			'email' => FILTER_SANITIZE_STRING,

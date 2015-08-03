@@ -1,0 +1,12 @@
+
+<?php if(count($messages)):
+	foreach($messages as $type => $group): ?>
+<p><?php echo $type; ?></p>
+
+<ul>
+	<?php foreach($group as $message): ?>
+	<li><?php echo $message; ?></li>
+	<?php endforeach; ?>
+</ul>
+<?php endforeach;
+	endif; ?>

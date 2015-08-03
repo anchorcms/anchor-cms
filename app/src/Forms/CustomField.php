@@ -41,6 +41,7 @@ class CustomField extends Form {
 
 	public function getFilters() {
 		return [
+			'token' => FILTER_SANITIZE_STRING,
 			'type' => FILTER_SANITIZE_STRING,
 			'field' => FILTER_SANITIZE_STRING,
 			'key' => FILTER_SANITIZE_STRING,

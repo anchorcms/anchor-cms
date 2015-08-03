@@ -32,6 +32,10 @@ abstract class ThemeAware extends ContainerAware {
 		$this->path = $path;
 	}
 
+	public function getViewPath() {
+		return $this->path;
+	}
+
 	public function setExt($ext) {
 		$this->ext = $ext;
 	}

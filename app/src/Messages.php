@@ -15,6 +15,14 @@ class Messages {
 		return $this->session->getFlash('_messages', []);
 	}
 
+	public function render($file) {
+		$view = new View($file);
+
+		return $view->render([
+			'messages' => $this->get(),
+		]);
+	}
+
 	public function add($message, $group) {
 		if(false === array_key_exists($group, $this->messages)) {
 			$this->messages[$group] = [];

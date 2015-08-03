@@ -2,18 +2,26 @@
 
 namespace Forms;
 
+use Forms\Traits\Filters;
+use Forms\Traits\FilterRules;
+
 class Post extends Form {
 
-	protected $filters;
+	use Filters, FilterRules;
 
 	public function init() {
-		$this->filters = [
+		$this->setFilters([
+			'token' => FILTER_SANITIZE_STRING,
 			'title' => FILTER_SANITIZE_STRING,
 			'content' => FILTER_UNSAFE_RAW,
 			'slug' => FILTER_SANITIZE_STRING,
 			'category' => FILTER_SANITIZE_NUMBER_INT,
 			'status' => FILTER_SANITIZE_STRING,
-		];
+		]);
+
+		$this->setRules([
+			'title' => ['label' => 'Title', 'rules' => ['required']],
+		]);
 
 		$this->addElement(new \Forms\Elements\Hidden('token'));
 
@@ -48,20 +56,6 @@ class Post extends Form {
 			'value' => 'Save Changes',
 			'attributes' => ['class' => 'button'],
 		]));
-	}
-
-	public function pushFilter($key, $value) {
-		$this->filters[$key] = $value;
-	}
-
-	public function getFilters() {
-		return $this->filters;
-	}
-
-	public function getRules() {
-		return [
-			'title' => ['label' => 'Title', 'rules' => ['required']],
-		];
 	}
 
 }

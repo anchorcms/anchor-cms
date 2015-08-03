@@ -28,6 +28,7 @@ class Category extends Form {
 
 	public function getFilters() {
 		return [
+			'token' => FILTER_SANITIZE_STRING,
 			'title' => FILTER_SANITIZE_STRING,
 			'slug' => FILTER_SANITIZE_STRING,
 			'description' => FILTER_SANITIZE_STRING,

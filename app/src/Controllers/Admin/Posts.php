@@ -27,6 +27,7 @@ class Posts extends Backend {
 		$vars['posts'] = $posts->get();
 		$vars['paging'] = $paging;
 		$vars['categories'] = $this->categories->get();
+		$vars['messages'] = $this->messages->render($this->getViewPath().'/messages.phtml');
 
 		return $this->renderTemplate('main', ['posts/index'], $vars);
 	}
@@ -59,6 +60,8 @@ class Posts extends Backend {
 
 		$input = filter_input_array(INPUT_POST, $form->getFilters());
 		$validator = $this->validation->create($input, $form->getRules());
+
+		$validator->addRule(new \Forms\ValidateToken($this->csrf->token()), 'token');
 
 		if(false === $validator->isValid()) {
 			$this->messages->error($validator->getMessages());
@@ -138,9 +141,11 @@ class Posts extends Backend {
 		$input = filter_input_array(INPUT_POST, $form->getFilters());
 		$validator = $this->validation->create($input, $form->getRules());
 
+		$validator->addRule(new \Forms\ValidateToken($this->csrf->token()), 'token');
+
 		if(false === $validator->isValid()) {
 			$this->messages->error($validator->getMessages());
-			$this->sesison->putFlash('input', $input);
+			$this->session->putFlash('input', $input);
 			return $this->response->withHeader('location', sprintf('/admin/posts/%d/edit', $post->id));
 		}
 
@@ -168,6 +173,30 @@ class Posts extends Backend {
 		return $this->response->withHeader('location', sprintf('/admin/posts/%d/edit', $id));
 	}
 
-	public function postDelete() {}
+	public function postDelete($request) {
+		$id = $request->getAttribute('id');
+		$post = $this->posts->where('id', '=', $id)->fetch();
+
+		// validate csrf token in header for xhr
+		$token = $request->getHeaderLine('X-CSRF-TOKEN');
+
+		$rule = new \Forms\ValidateToken($this->csrf->token());
+		$rule->setValue($token);
+
+		if(false === $rule->isValid()) {
+			return $this->jsonResponse([
+				'result' => false,
+				'message' => 'invalid csrf token',
+			]);
+		}
+
+		$this->posts->where('id', '=', $post->id)->delete();
+		$this->postmeta->where('post', '=', $post->id)->delete();
+
+		return $this->jsonResponse([
+			'result' => true,
+			'message' => 'Post deleted',
+		]);
+	}
 
 }
