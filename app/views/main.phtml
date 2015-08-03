@@ -8,6 +8,8 @@ $menu = [
 	'/admin/extend' => 'Extend',
 ];
 
+$active = '';
+
 function path($to = '') {
 	echo '/app/views/assets/' . $to;
 }
@@ -29,6 +31,31 @@ function path($to = '') {
         <link rel="stylesheet" href="/themes/current/admin-custom.css">
     </head>
     <body class="<?php if(isset($class)) echo $class; ?>">
+
+        <nav class="main-nav">
+            <ul class="actions">
+                <?php foreach(['posts', 'comments', 'pages', 'menu', 'categories'] as $link): ?>
+                <?php $title = ucwords($link); ?>
+                <li class="<?php if(strpos($active, '/admin/' . $link) !== false) echo 'active'; ?>">
+                    <a href="../admin/<?php echo $link; ?>"><?php echo $title; ?></a>
+                </li>
+                <?php endforeach; ?>
+            </ul>
+            
+            <a class="anchor-logo">Anchor CMS</a>
+            
+            <ul class="results">
+                <li>
+                    <a href="../admin"><?php echo _('View site'); ?></a>
+                </li>
+
+                <?php foreach(['users' => 'Users', 'extend' => 'Settings', 'logout' => 'Log out'] as $link => $title): ?>
+                <li class="<?php if(strpos($active, '/admin/' . $link) !== false) echo 'active'; ?>">
+                    <a href="../admin/<?php echo $link; ?>"><?php echo $title; ?></a>
+                </li>
+                <?php endforeach; ?>
+            </ul>
+        </nav>
     
     	<?php echo $body; ?>
     	
@@ -37,11 +64,11 @@ function path($to = '') {
         <script>window.jQuery || document.write('<script src="<?php path('js/vendor/jquery-1.11.1.min.js'); ?>"><\/script>')</script>
         
         <!-- Editor JS -->
-        <script src=<?php path('js/pen/pen.js'); ?>"></script>
-        <script src=<?php path('js/pen/markdown.js'); ?>"></script>
+        <script src="<?php path('js/pen/pen.js'); ?>"></script>
+        <script src="<?php path('js/pen/markdown.js'); ?>"></script>
 
-        <script src=<?php path('js/vendor/jquery-hotkeys.min.js'); ?>"></script>
-        <script src=<?php path('js/editor.js'); ?>"></script>
+        <script src="<?php path('js/vendor/jquery-hotkeys.min.js'); ?>"></script>
+        <script src="<?php path('js/editor.js'); ?>"></script>
         
         <script>
         	// Confirm any deletions
