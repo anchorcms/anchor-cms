@@ -35,6 +35,8 @@ function e($str) {
 	return htmlspecialchars($str, ENT_COMPAT, 'UTF-8', false);
 }
 
+ob_start();
+
 $app = require __DIR__ . '/container.php';
 
 $app['errors']->register();

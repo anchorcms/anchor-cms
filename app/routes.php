@@ -46,6 +46,7 @@ return [
 	'/admin/plugins' => 'controllers\\admin\\plugins@index',
 	'/admin/vars' => 'controllers\\admin\\vars@index',
 	'/admin/fields' => 'controllers\\admin\\fields@index',
+	'/admin/extend' => 'controllers\\admin\\extend@index',
 
 	'/feeds/rss' => 'controllers\\feeds@rss',
 
