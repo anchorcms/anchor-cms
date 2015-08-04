@@ -1,44 +1,40 @@
-<div class="wrap">
+<section class="filter wrap narrow">
+	<input type="search" placeholder="Search posts…">
+	
+	<select class="autoupdate" data-append="status">
+		<option data-reset value="all">All</option>
+		<?php foreach(['published', 'draft', 'archived'] as $status): ?>
+		<option value="<?php echo $status; ?>"><?php echo ucfirst($status); ?></option>
+		<?php endforeach; ?>
+	</select>
+	
+	<a class="btn primary" href="/admin/posts/create">Create a new page</a>
+</section>
 
-	<div class="clearfix">
-		<h1 class="pull-left">Posts</h1>
-
-		<nav class="pull-right">
-			<p><a class="button" href="/admin/posts/create">Create</a></p>
-		</nav>
-	</div>
-
+<section class="panel wrap narrow drilldown">
 	<?php echo $messages; ?>
 
-	<div class="column fourth first">
-		<small>Filter by status</small>
-		<ul class="list">
-			<?php foreach(['published', 'draft', 'archived'] as $status): ?>
-			<li><a href="/admin/posts?status=<?php echo $status; ?>"><?php echo ucfirst($status); ?></a></li>
-			<?php endforeach; ?>
-		</ul>
+	<?php if(!empty($posts)): ?>
+		<ol>
+			<?php foreach($posts as $post): ?>
+			<li class="has-link">
+				<a href="/admin/posts/<?php echo $post->id; ?>/edit">
+					<span class="post-name">
+						<b class="realname"><?php echo $post->title; ?></b>
+						<span class="slug">/posts/<?php echo $post->slug; ?></span>
+					</span>
 
-		<small>Filter by category</small>
-		<ul class="list">
-			<?php foreach($categories as $category): ?>
-			<li><a href="/admin/posts?category=<?php echo $category->id; ?>"><?php echo $category->title; ?></a></li>
+					<ul>
+						<li><span class="badge status"><?php echo $post->status; ?></span></li>
+						<li><time><?php echo date('jS M Y', strtotime($post->created)); ?></time></li>
+					</ul>
+				</a>
+			</li>
 			<?php endforeach; ?>
-		</ul>
-	</div>
-
-	<div class="column three-fourths last">
-		<?php foreach($posts as $post): ?>
-		<a class="item" href="/admin/posts/<?php echo $post->id; ?>/edit">
-			<strong><?php echo $post->title; ?></strong>
-			<em class="label"><?php echo $post->status; ?></em>
-			<time datetime="<?php echo $post->created; ?>">
-				<?php echo \DateTime::createFromFormat('Y-m-d H:i:s', $post->created)->format('jS M, Y'); ?>
-			</time>
-			<span><?php echo $post->slug; ?></span>
-		</a>
-		<?php endforeach; ?>
+		</ol>
 
 		<nav class="paging"><?php echo $paging->links(); ?></nav>
-	</div>
-
-</div>
+	<?php else: ?>
+		<span class="empty-state flaticon feather-1">Click a post on the left to edit, or add a post at the top-right.</span>
+	<?php endif; ?>
+</section>

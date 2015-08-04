@@ -1,6 +1,6 @@
 $(function() {
 	var target = $('[data-editor]'),
-		md = $('[name=markdown]'),
+		md = $('textarea.editor'),
 		body = $('body'),
 		val;
 	
@@ -18,7 +18,6 @@ $(function() {
 		},
 
 		blur: function() {
-			console.log('blurry');
 			body.removeClass('editing');
 		},
 
@@ -87,5 +86,5 @@ $(function() {
 	};
 	
 	$('.focus-toggle').click(toggleFocusMode);
-	//$(document).bind('keydown', 'meta+e', toggleFocusMode);
+	/*$(document).bind('keydown', 'meta+e', toggleFocusMode);*/
 });

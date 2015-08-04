@@ -10,7 +10,14 @@ $menu = [
 
 $active = '';
 
-function path($to = '') {
+define('USE_MINIFIED', true);
+
+function path($to = '', $min = false) {
+    if($min !== false and USE_MINIFIED === true) {
+        echo '/app/views/assets/' . $min;
+        return;
+    }
+
 	echo '/app/views/assets/' . $to;
 }
 
@@ -24,7 +31,7 @@ function path($to = '') {
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
 		<!-- Compiles from LESS -->
-        <link rel="stylesheet" href="<?php path('css/anchor.css'); ?>">
+        <link rel="stylesheet" href="<?php path('anchor.css'); ?>">
         <link rel="stylesheet" href="<?php path('js/pen/pen.css'); ?>">
 
         <!-- Compiles from current theme, if it exists -->
@@ -68,7 +75,8 @@ function path($to = '') {
         <script src="<?php path('js/pen/markdown.js'); ?>"></script>
 
         <script src="<?php path('js/vendor/jquery-hotkeys.min.js'); ?>"></script>
-        <script src="<?php path('js/editor.js'); ?>"></script>
+        <script src="<?php path('js/admin.js', 'js/min/admin-min.js'); ?>"></script>
+        <script src="<?php path('js/editor.js', 'js/min/editor-min.js'); ?>"></script>
 
         <script>
         	// Confirm any deletions

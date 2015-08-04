@@ -9,7 +9,11 @@ class Category extends Form {
 
 		$this->addElement(new \Forms\Elements\Input('title', [
 			'label' => 'Title',
-			'attributes' => ['placeholder' => 'Your title goes here...']
+			'attributes' => [
+        		'autofocus' => true,
+        		'placeholder' => 'What’s your category called?',
+        		'class' => 'title'
+        	]
 		]));
 
 		$this->addElement(new \Forms\Elements\Input('slug', [

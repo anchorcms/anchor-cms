@@ -43,7 +43,11 @@ class Page extends Form {
 
 		$this->addElement(new \Forms\Elements\Input('title', [
 			'label' => 'Title',
-			'attributes' => ['placeholder' => 'Your title goes here...']
+			'attributes' => [
+        		'autofocus' => true,
+        		'placeholder' => 'What’s your page called?',
+        		'class' => 'title'
+        	]
 		]));
 
 		$this->addElement(new \Forms\Elements\Textarea('content', [

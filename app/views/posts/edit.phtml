@@ -21,11 +21,7 @@
 	        </div>
 
         	<!-- Page title -->
-        	<?php echo $form->getElement('title')->getHtml([
-        		'autofocus' => true,
-        		'placeholder' => 'What’s your post called?',
-        		'class' => 'title'
-        	]); ?>
+        	<?php echo $form->getElement('title')->getHtml(); ?>
 
         	<!-- Main post content -->
         	<?php echo $form->getElement('content')->getHtml(); ?>
