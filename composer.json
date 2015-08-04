@@ -36,7 +36,8 @@
 		"rwarasaurus/session": "dev-master",
 		"rwarasaurus/events": "dev-master",
 		"rwarasaurus/http": "dev-master",
-		"rwarasaurus/router": "dev-master"
+		"rwarasaurus/router": "dev-master",
+		"indigophp/hash-compat": "^1.0"
 	},
 	"require-dev": {
 		"phpspec/phpspec": "2.1.1"
