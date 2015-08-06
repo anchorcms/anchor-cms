@@ -2,7 +2,7 @@
 $script = <<SCRIPT
 apt-get -q update
 apt-get -y -q upgrade
-apt-get -y -q install nginx php5-fpm php5-sqlite php5-imagick
+apt-get -y -q install nginx php5-fpm php5-sqlite php5-mysqlnd php5-imagick php5-curl
 echo '
 server {
 	listen 80 default_server;

@@ -8,6 +8,7 @@ class Pages extends Backend {
 		$input = filter_var_array($_GET, [
 			'page' => FILTER_SANITIZE_NUMBER_INT,
 			'status' => FILTER_SANITIZE_STRING,
+			'search' => FILTER_SANITIZE_STRING,
 		]);
 
 		$total = $this->pages->filter($input)->count();

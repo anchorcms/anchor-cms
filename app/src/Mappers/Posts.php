@@ -21,6 +21,14 @@ class Posts extends Mapper {
 			$this->where('status', '=', $input['status']);
 		}
 
+		if($input['search']) {
+			$term = sprintf('%s%s%s', '%', $input['search'], '%');
+
+			$this->where(function($query) use($term) {
+				$query->where('title', 'LIKE', $term)->orWhere('content', 'LIKE', $term);
+			});
+		}
+
 		return $this;
 	}
 

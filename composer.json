@@ -40,7 +40,8 @@
 		"indigophp/hash-compat": "^1.0"
 	},
 	"require-dev": {
-		"phpspec/phpspec": "2.1.1"
+		"phpspec/phpspec": "2.1.1",
+		"fzaninotto/faker": "^1.5"
 	},
 	"config": {
 		"bin-dir": "bin"

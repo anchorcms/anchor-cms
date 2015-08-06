@@ -1,13 +1,15 @@
 <section class="filter wrap narrow">
-	<input type="search" placeholder="Search posts…">
-	
-	<select class="autoupdate" data-append="status">
-		<option data-reset value="all">All</option>
-		<?php foreach(['published', 'draft', 'archived'] as $status): ?>
-		<option value="<?php echo $status; ?>"><?php echo ucfirst($status); ?></option>
-		<?php endforeach; ?>
-	</select>
-	
+	<form method="get" action="/admin/posts">
+		<input name="search" type="search" placeholder="Search posts…">
+
+		<select class="autoupdate" data-append="status" name="status">
+			<option data-reset value="">All</option>
+			<?php foreach(['published', 'draft', 'archived'] as $status): ?>
+			<option value="<?php echo $status; ?>"><?php echo ucfirst($status); ?></option>
+			<?php endforeach; ?>
+		</select>
+	</form>
+
 	<a class="btn primary" href="/admin/posts/create">Create a new page</a>
 </section>
 

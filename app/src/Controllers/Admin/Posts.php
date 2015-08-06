@@ -9,12 +9,13 @@ class Posts extends Backend {
 			'page' => FILTER_SANITIZE_NUMBER_INT,
 			'category' => FILTER_SANITIZE_NUMBER_INT,
 			'status' => FILTER_SANITIZE_STRING,
+			'search' => FILTER_SANITIZE_STRING,
 		]);
 
 		$total = $this->posts->filter($input)->count();
 
 		$perpage = $this->meta->key('admin_posts_per_page', 10);
-		$posts = $this->posts->filter($input)->take($perpage);
+		$posts = $this->posts->filter($input)->sort('modified', 'desc')->take($perpage);
 
 		if($input['page']) {
 			$offset = ($input['page'] - 1) * $perpage;
