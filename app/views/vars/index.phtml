@@ -13,7 +13,7 @@
 	<div class="column full first last">
 		<?php foreach($metadata as $meta): ?>
 		<a class="item" href="/admin/vars/<?php echo $meta->key; ?>/edit">
-			<strong><?php echo e($meta->value); ?></strong>
+			<strong><?php echo $meta->key; ?></strong>
 		</a>
 		<?php endforeach; ?>
 

@@ -31,14 +31,12 @@ class Pages extends Mapper {
 		return $this;
 	}
 
-	public function dropdownOptions() {
-		$pages = [0 => 'None'];
-
+	public function dropdownOptions(array $options = []) {
 		foreach($this->sort('title')->get() as $page) {
-			$pages[$page->id] = $page->name;
+			$options[$page->id] = sprintf('%s (%s)', $page->name, $page->title);
 		}
 
-		return $pages;
+		return $options;
 	}
 
 }

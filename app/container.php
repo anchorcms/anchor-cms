@@ -82,6 +82,9 @@ return new Container([
 	'customFields' => function($app) {
 		return new Services\CustomFields($app['extend'], $app['postmeta'], $app['pagemeta']);
 	},
+	'themes' => function($app) {
+		return new Services\Themes($app['paths']['themes']);
+	},
 
 	/**
 	 * Mappers

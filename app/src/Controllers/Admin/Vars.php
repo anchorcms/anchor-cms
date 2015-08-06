@@ -59,8 +59,10 @@ class Vars extends Backend {
 			return $this->response->withHeader('location', '/admin/vars/create');
 		}
 
+		$key = preg_replace('#\W+#', '_', $input['key']);
+
 		$this->meta->insert([
-			'key' => 'custom_'.$input['key'],
+			'key' => 'custom_'.$key,
 			'value' => $input['value'],
 		]);
 
