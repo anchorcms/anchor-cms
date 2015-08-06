@@ -20,9 +20,9 @@ Icon?
 Thumbs.db
 
 # folders
-plugins
-content
-vendor
-bin
+/plugins
+/content
+/vendor
+/bin
 app/config
 .vagrant

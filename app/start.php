@@ -18,11 +18,11 @@ if( ! ini_get('date.timezone')) {
 $autoload_file = __DIR__ . '/../vendor/autoload.php';
 
 if(false === is_file($autoload_file)) {
-	echo 'Composer autoloader not found';
+	echo 'Composer not installed';
 	exit(1);
 }
 
-require $autoload_file;
+$composer = require $autoload_file;
 
 function dd() {
 	echo '<pre>';

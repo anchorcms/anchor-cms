@@ -85,6 +85,9 @@ return new Container([
 	'themes' => function($app) {
 		return new Services\Themes($app['paths']['themes']);
 	},
+	'plugins' => function($app) {
+		return new Services\Plugins($app['paths']['plugins']);
+	},
 
 	/**
 	 * Mappers
