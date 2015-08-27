@@ -2,28 +2,22 @@
 
 class Csrf {
 
-	public static function check($token) {
-		$tokens = Session::get('csrf_tokens', array());
-
-		if(($index = array_search($token, $tokens)) !== false) {
-			// unset($tokens[$index]);
-
-			Session::put('csrf_tokens', $tokens);
-
-			return $token;
+	public static function check($userToken) {
+		if($sessionToken = Session::get('csrf_token')) {
+			return hash_equals($sessionToken, $userToken);
 		}
 
 		return false;
 	}
 
 	public static function token() {
-		$tokens = Session::get('csrf_tokens', array());
+		if($sessionToken = Session::get('csrf_token')) {
+			return $sessionToken;
+		}
 
-		$token = hash('md5', noise());
+		$token = noise(64);
 
-		$tokens[] = $token;
-
-		Session::put('csrf_tokens', $tokens);
+		Session::put('csrf_token', $token);
 
 		return $token;
 	}

@@ -55,7 +55,11 @@ function dd() {
 function noise($size = 32) {
 	$pool = 'abcefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
 
-	return substr(str_shuffle(str_repeat($pool, 3)), 0, $size);
+	$factory = new RandomLib\Factory;
+
+	$generator = $factory->getMediumStrengthGenerator();
+
+	return $generator->generateString($size, $pool);
 }
 
 /**
