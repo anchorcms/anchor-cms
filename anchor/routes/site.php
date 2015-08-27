@@ -201,7 +201,7 @@ Route::get(array('rss', 'feeds/rss'), function() {
 	$uri = 'http://' . $_SERVER['HTTP_HOST'];
 	$rss = new Rss(Config::meta('sitename'), Config::meta('description'), $uri, Config::app('language'));
 
-	$query = Post::where('status', '=', 'published')->sort(Base::table('posts.created')->take(25), 'desc');
+	$query = Post::where('status', '=', 'published')->sort('created', 'desc')->take(25);
 
 	foreach($query->get() as $article) {
 		$rss->item(
@@ -223,7 +223,7 @@ Route::get(array('rss', 'feeds/rss'), function() {
 Route::get('feeds/json', function() {
 	$json = Json::encode(array(
 		'meta' => Config::get('meta'),
-		'posts' => Post::where('status', '=', 'published')->sort(Base::table('posts.created')->take(25), 'desc')->get()
+		'posts' => Post::where('status', '=', 'published')->sort('created', 'desc')->take(25)->get()
 	));
 
 	return Response::create($json, 200, array('content-type' => 'application/json'));
@@ -257,20 +257,10 @@ Route::get(array('search', 'search/(:any)', 'search/(:any)/(:any)', 'search/(:an
 	else {
 		$postResults = Post::search($term, $offset, Post::perPage());
 		$pageResults = Page::search($term, $offset);
-		$total = array_merge($postResults[0], $pageResults[0]);
+		$total = $postResults[0] + $pageResults[0];
 		$results = array_merge($postResults[1], $pageResults[1]);
 	}
-
-	// Connect to Page::search($term, $offset);
-
-	/* Bad if statement?
-	if($offset > 0) {
-		list($total, $results) = Post::search($term, $offset, Post::perPage());
-	} else {
-		return Response::create(new Template('404'), 404);
-	}
-	*/
-
+	
 	// search templating vars
 	Registry::set('page', $page);
 	Registry::set('page_offset', $offset);
@@ -280,39 +270,6 @@ Route::get(array('search', 'search/(:any)', 'search/(:any)/(:any)', 'search/(:an
 
 	return new Template('search');
 });
-
-/* OLD
-Route::get(array('search', 'search/(:any)', 'search/(:any)/(:num)'), function($slug = '', $offset = 1) {
-	// mock search page
-	$page = new Page;
-	$page->id = 0;
-	$page->title = 'Search';
-	$page->slug = 'search';
-
-	// get search term
-	$term = filter_var($slug, FILTER_SANITIZE_STRING);
-	Session::put(slug($term), $term);
-	//$term = Session::get($slug); //this was for POST only searches
-
-	// revert double-dashes back to spaces
-	$term = str_replace('-', ' ', $term);
-
-	if($offset > 0) {
-		list($total, $posts) = Post::search($term, $offset, Config::meta('posts_per_page'));
-	} else {
-		return Response::create(new Template('404'), 404);
-	}
-
-	// search templating vars
-	Registry::set('page', $page);
-	Registry::set('page_offset', $offset);
-	Registry::set('search_term', $term);
-	Registry::set('search_results', new Items($posts));
-	Registry::set('total_posts', $total);
-
-	return new Template('search');
-});
-*/
 
 Route::post('search', function() {
 	// Search term

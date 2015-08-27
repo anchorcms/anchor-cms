@@ -6,12 +6,20 @@ class Notify {
 	public static $wrap = '<div class="notifications">%s</div>';
 	public static $mwrap = '<p class="%s">%s</p>';
 
-	public static function add($type, $message) {
-		if(in_array($type, static::$types)) {
-			$messages = array_merge((array) Session::get('messages.' . $type), (array) $message);
-
-			Session::put('messages.' . $type, $messages);
+	public static function add($type, $messages) {
+		if( ! in_array($type, static::$types)) {
+			return;
 		}
+
+		if( ! is_array($messages)) {
+			$messages = array($messages);
+		}
+
+		$key = sprintf('messages.%s', $type);
+
+		$messages = array_merge(Session::get($key, array()), $messages);
+
+		Session::put($key, $messages);
 	}
 
 	public static function read() {

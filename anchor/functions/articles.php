@@ -209,6 +209,14 @@ function article_author_bio() {
 }
 
 /**
+ * Get the authors email
+ * @return string
+ */
+function article_author_email() {
+	return Registry::prop('article', 'author_email');
+}
+
+/**
  * Get a custom field value
  *
  * @param  string

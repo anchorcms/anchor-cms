@@ -53,10 +53,13 @@ function dd() {
  * @return string
  */
 function noise($size = 32) {
-	return Security::randomString(
-		$size,
-		'abcefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890'
-	);
+	$pool = 'abcefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
+
+	$factory = new RandomLib\Factory;
+
+	$generator = $factory->getMediumStrengthGenerator();
+
+	return $generator->generateString($size, $pool);
 }
 
 /**

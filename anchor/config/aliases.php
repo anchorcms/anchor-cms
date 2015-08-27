@@ -11,7 +11,6 @@ return array(
 	'Query' => 'System\\Database\\Query',
 	'Record' => 'System\\Database\\Record',
 	'Request' => 'System\\Request',
-	//'Response' => 'System\\Response',
 	'Route' => 'System\\Route',
 	'Router' => 'System\\Router',
 	'Session' => 'System\\Session',

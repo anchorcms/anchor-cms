@@ -189,7 +189,8 @@ hgroup {
 	font-size: 13px;
 	line-height: 38px;
 	font-weight: bold;
-
+	text-align: center;
+	
 	border: none;
 	border-radius: 5px;
 
@@ -514,7 +515,7 @@ body.login {
 		font-weight: lighter;
 
 		float: left;
-		width: 600px;
+		width: 580px;
 		padding: 30px 0;
 
 		background: transparent;

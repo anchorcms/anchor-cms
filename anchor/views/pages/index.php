@@ -26,54 +26,61 @@
 	</nav>
 
 	<?php if($pages->count): ?>
-	<ul class="main list">
-		<?php
-		$outerarray = array();
-		foreach($pages->results as $page):
-			$innerarray = array('id' => $page->id,'name' => $page->name,'slug' => $page->slug,'status' => $page->status,'parent' => $page->parent);
-			array_push($outerarray,$innerarray);
-		endforeach; ?>
-		<?php
-			$i = 0;
-			foreach($outerarray as $in => $arr):
-        		if ($arr['parent'] != 0){
-        			$temp = $arr;
-        			unset($outerarray[$in]);
-        			foreach($outerarray as $in2 => $arr2):
-        				$i++;
-	        			if ($arr2['id'] == $temp['parent']){
-	        				array_splice($outerarray, $i, 0, array($temp));
-	        				$i = 0;
-	        				break;
-	        			}
-	        		endforeach;
-        		}
-    		endforeach;
-    	foreach($outerarray as $in => $arr): ?>
-		<li>
-
-			<a href="<?php echo Uri::to('admin/pages/edit/' . $arr['id']); ?>">
-				<?php
-						if ($arr['parent'] != 0)
-							echo '<div class="indent">';
-						else
-							echo '<div>';
-				?>
-				<strong><?php echo $arr['name']; ?></strong>
-				<span>
-					<?php echo $arr['slug']; ?>
-					<em class="status <?php echo $arr['status']; ?>" title="<?php echo __('global.' . $arr['status']); ?>">
-						<?php echo __('global.' . $arr['status']); ?>
-					</em>
-				</span>
-				</div>
-			</a>
-		</li>
-		<?php endforeach; ?>
-	</ul>
-
-	<aside class="paging"><?php echo $pages->links(); ?></aside>
-
+		<ul class="main list">
+			<?php $child_pages = array(); // Will hold pages that are only children of other pages
+			foreach($pages->results as $page) :
+				if(menu_parent($page) != 0) $child_pages[] = clone $page;
+			endforeach;
+			foreach($pages->results as $page) : ?>
+				<?php if(menu_has_children($page)) : ?>
+					<li>
+						<a href="<?php echo Uri::to('admin/pages/edit/' . menu_id($page)); ?>">
+							<div>
+								<strong><?php echo menu_name($page); ?></strong>
+								<span>
+									<?php echo page_slug($page); ?>
+									<em class="status <?php echo page_status($page); ?>" title="<?php echo __('global.' . page_status($page)); ?>">
+										<?php echo __('global.' . page_status($page)); ?>
+									</em>
+								</span>
+							</div>
+						</a>
+					</li>
+					<?php foreach($child_pages as $child) :
+						if(menu_parent($child) == menu_id($page)) : ?>
+							<li>
+								<a href="<?php echo Uri::to('admin/pages/edit/' . menu_id($child)); ?>">
+									<div class="indent">
+										<strong><?php echo menu_name($child); ?></strong>
+										<span>
+											<?php echo page_slug($child); ?>
+											<em class="status <?php echo page_status($child); ?>" title="<?php echo __('global.' . page_status($child)); ?>">
+												<?php echo __('global.' . page_status($child)); ?>
+											</em>
+										</span>
+									</div>
+								</a>
+							</li>
+						<?php endif;
+					endforeach;
+				elseif(menu_parent($page) == 0) : ?>
+					<li>
+						<a href="<?php echo Uri::to('admin/pages/edit/' . menu_id($page)); ?>">
+							<div>
+								<strong><?php echo menu_name($page); ?></strong>
+								<span>
+									<?php echo page_slug($page); ?>
+									<em class="status <?php echo page_status($page); ?>" title="<?php echo __('global.' . page_status($page)); ?>">
+										<?php echo __('global.' . page_status($page)); ?>
+									</em>
+								</span>
+							</div>
+						</a>
+					</li>
+				<?php endif;
+			endforeach; ?>
+		</ul>
+		<aside class="paging"><?php echo $pages->links(); ?></aside>
 	<?php else: ?>
 	<aside class="empty pages">
 		<span class="icon"></span>

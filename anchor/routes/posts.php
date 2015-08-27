@@ -118,7 +118,11 @@ Route::collection(array('before' => 'auth,csrf,install_exists'), function() {
 		// convert to ascii
 		$input['slug'] = slug($input['slug']);
 		
+		// an array of items that we shouldn't encode - they're no XSS threat
+		$dont_encode = array('description', 'markdown', 'css', 'js');
+		
 		foreach($input as $key => &$value) {
+			if(in_array($key, $dont_encode)) continue;
 			$value = eq($value);
 		}
 		
@@ -210,7 +214,11 @@ Route::collection(array('before' => 'auth,csrf,install_exists'), function() {
 		// convert to ascii
 		$input['slug'] = slug($input['slug']);
 		
+		// an array of items that we shouldn't encode - they're no XSS threat
+		$dont_encode = array('description', 'markdown', 'css', 'js');
+		
 		foreach($input as $key => &$value) {
+			if(in_array($key, $dont_encode)) continue;
 			$value = eq($value);
 		}
 		
@@ -259,8 +267,9 @@ Route::collection(array('before' => 'auth,csrf,install_exists'), function() {
 		Extend::process('post', $post->id);
 
 		Notify::success(__('posts.created'));
-
-		return Response::redirect('admin/posts');
+		
+		if(Input::get('autosave') === 'true') return Response::redirect('admin/posts/edit/' . $page->id);
+		else return Response::redirect('admin/posts');
 	});
 
 	/*

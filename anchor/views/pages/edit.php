@@ -19,9 +19,9 @@
 					'type' => 'submit',
 					'class' => 'btn'
 				)); ?>
-
+				<a class="btn autosave-action autosave-label secondary" style="width: 154px;">Autosave: Off</a>
 				<?php echo Form::button(__('pages.redirect'), array(
-					'class' => 'btn secondary'
+					'class' => 'btn secondary redirector'
 				)); ?>
 
 				<?php
@@ -45,7 +45,7 @@
 
 	<fieldset class="main">
 		<div class="wrap">
-			<?php echo Form::textarea('markdown', Input::previous('markdown', htmlentities($page->markdown, ENT_QUOTES, 'UTF-8')), array(
+			<?php echo Form::textarea('markdown', Input::previous('markdown', $page->markdown), array(
 				'placeholder' => __('pages.content_explain')
 			)); ?>
 
@@ -109,12 +109,13 @@
 <script src="<?php echo asset('anchor/views/assets/js/text-resize.js'); ?>"></script>
 <script src="<?php echo asset('anchor/views/assets/js/editor.js'); ?>"></script>
 <script src="<?php echo asset('anchor/views/assets/js/change-saver.js'); ?>"></script>
+<script src="<?php echo asset('anchor/views/assets/js/autosave.js'); ?>"></script>
 <script>
 	$('textarea[name=markdown]').editor();
 	$('#pagetype').on('change', function() {
 		var $this = $(this);
 		$.post("<?php echo Uri::to('admin/get_fields'); ?>", {
-			id: <?php echo $page->id ?>,
+			id: <?php echo $page->id; ?>,
 			pagetype: $this.val(),
 			token: "<?php echo $token; ?>"
 		}, function(res){
