@@ -122,6 +122,7 @@ function menu_render($params = array()) {
 	// options
 	$parent = isset($params['parent']) ? $params['parent'] : 0;
 	$class = isset($params['class']) ? $params['class'] : 'active';
+	$index = isset($params['index']) ? $params['index'] : 0;
 
 	foreach($menu as $item) {
 		if($item->parent == $parent) {
@@ -131,10 +132,17 @@ function menu_render($params = array()) {
 			
 			$html .= '<li>';
 			$html .= Html::link($item->relative_uri(), $item->name, $attr);
-			$html .= menu_render(array('parent' => $item->id));
+			$html .= menu_render(array('parent' => $item->id, 'index' => $menu->key()));
 			$html .= '</li>' . PHP_EOL;
 		}
 	}
+	// Reset our index before returning
+    $menu->rewind();
+    $menu->next();
+    while($index > 1){
+        $menu->next();
+        $index--;
+    }
 
 	if($html) $html = PHP_EOL . '<ul>' . PHP_EOL . $html . '</ul>' . PHP_EOL;
 
