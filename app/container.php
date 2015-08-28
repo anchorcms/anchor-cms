@@ -1,6 +1,6 @@
 <?php
 
-return new Container([
+return new Pimple\Container([
 	'start' => microtime(true),
 	'benchmark' => function($app) {
 		return round((microtime(true) - $app['start']) * 1000, 2);

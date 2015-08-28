@@ -2,7 +2,7 @@
 
 namespace Controllers;
 
-use Container;
+use Pimple\Container;
 
 abstract class Frontend extends ThemeAware {
 

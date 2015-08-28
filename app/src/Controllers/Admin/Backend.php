@@ -2,7 +2,7 @@
 
 namespace Controllers\Admin;
 
-use Container;
+use Pimple\Container;
 use Controllers\Frontend;
 
 abstract class Backend extends Frontend {
