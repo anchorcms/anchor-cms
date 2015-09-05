@@ -86,7 +86,7 @@ class Extend extends Base {
 		switch($item->field) {
 			case 'text':
 				$value = isset($item->value->text) ? $item->value->text : '';
-				$html = '<input id="extend_' . $item->key . '" name="extend[' . $item->key . ']" type="text" value="' . $value . '">';
+				$html = '<input id="extend_' . $item->key . '" name="extend[' . $item->key . ']" type="text" value="' . htmlentities($value) . '">';
 				break;
 
 			case 'html':
