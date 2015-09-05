@@ -3,22 +3,22 @@
 return array(
 
 	'comments' => 'Kommentare',
-	'nocomments_desc' => 'Noch keine Kommentare.',
+	'nocomments_desc' => 'Noch keine Kommentare',
 	'editing_comment' => 'Kommentar bearbeiten',
 	'view_comment' => 'Kommentar öffnen',
 
 	// form fields
 	'name' => 'Name',
 	'name_explain' => 'Name des Autors',
-	'name_missing' => 'Bitt einen Namen eingeben',
+	'name_missing' => 'Bitte einen Namen eingeben',
 
-	'email' => 'Email Adresse',
-	'email_explain' => 'Email des Autors',
-	'email_missing' => 'Bitte eine valide Email Adresse eingeben', // frontend message (appears on your site!)
+	'email' => 'E-Mail-Adresse Adresse',
+	'email_explain' => 'E-Mail-Adresse des Autors',
+	'email_missing' => 'Bitte eine gültige E-Mail-Adresse eingeben', // frontend message (appears on your site!)
 
 	'text' => 'Kommentieren',
 	'text_explain' => '',
-	'text_missing' => 'Bitte Kommentar-Text eingeben', // frontend message (appears on your site!)
+	'text_missing' => 'Bitte einen Kommentar-Text eingeben', // frontend message (appears on your site!)
 
 	'status' => 'Status',
 	'status_explain' => '',
