@@ -21,10 +21,10 @@ return array(
 	'user_explain' => '',
 
 	// form fields
-	'real_name' => 'Richtiger Name',
+	'real_name' => 'Realer Name',
 	'real_name_explain' => '',
 
-	'bio' => 'Bio',
+	'bio' => 'Über mich',
 	'bio_explain' => '',
 
 	'status' => 'Status',
@@ -35,17 +35,17 @@ return array(
 
 	'username' => 'Benutzername',
 	'username_explain' => '',
-	'username_missing' => 'Bitte einen Benutzernamen eingeben: Sollte mindestens %s Zeichen lang sein',
+	'username_missing' => 'Bitte einen Benutzernamen eingeben: Muss mindestens %s Zeichen lang sein',
 
 	'password' => 'Passwort',
 	'password_explain' => '',
-	'password_too_short' => 'Das Passwort sollte mindestens %s Zeichen lang sein',
+	'password_too_short' => 'Das Passwort muss mindestens %s Zeichen lang sein',
 
 	'new_password' => 'Neues Passwort',
 
-	'email' => 'Email',
+	'email' => 'E-Mail-Adresse',
 	'email_explain' => '',
-	'email_missing' => 'Bitte eine valide Email Adresse eingeben',
+	'email_missing' => 'Bitte eine gültige E-Mail-Adresse eingeben',
 	'email_not_found' => 'Profil nicht gefunden.',
 
 	// messages
@@ -55,13 +55,13 @@ return array(
 	'delete_error' => 'Du kannst dein eigenes Profil nicht löschen',
 	'login_error' => 'Benutzername oder Passwort falsch.',
 	'logout_notice' => 'Du bist jetzt ausgeloggt.',
-	'recovery_sent' => 'Wir haben dir eine Email geschickt um die Passwortänderung zu bestätigen.',
-	'recovery_expired' => 'Der Passwort Wiederherstellungs-Token ist leider abgelaufen. Bitte versuche es erneut.',
-	'password_reset' => 'Dein neues Passwort wurde gesetzt. Los, jetzt einloggen!',
+	'recovery_sent' => 'Wir haben dir eine E-Mail geschickt, um die Passwortänderung zu bestätigen.',
+	'recovery_expired' => 'Das Passwort-Wiederherstellungs-Token ist leider abgelaufen. Bitte versuche es erneut.',
+	'password_reset' => 'Dein neues Passwort wurde gesetzt. Du kannst dich jetzt wieder anmelden!',
 
 	// password recovery email
-	'recovery_subject' => 'Passwort Rücksetzung',
-	'recovery_message' => 'Du hast angefragt, dein Passwort zurück zu setzen.' .
-		'Um weiter zu machen, klicke auf den unten stehenden Link.' . PHP_EOL . '%s',
+	'recovery_subject' => 'Passwort-Änderung',
+	'recovery_message' => 'Du hast angefragt, dein Passwort zurückzusetzen.' .
+		'Klicke auf den unten stehenden Link, um ein neues Passwort zu vergeben.' . PHP_EOL . '%s',
 
 );
