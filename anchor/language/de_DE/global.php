@@ -10,8 +10,11 @@ return array(
 
 	// words
 	'save' => 'Speichern',
+	'saving' => 'Speichert...',
 	'delete' => 'Löschen',
+	'deleting' => 'Löscht...',
 	'update' => 'Ändern',
+	'updating' => 'Ändern...',
 	'edit' => 'Bearbeiten',
 	'editing' => 'Bearbeiten',
 	'create' => 'Erstellen',
@@ -52,18 +55,18 @@ return array(
 
 	// pharses
 	'visit_your_site' => 'Deine Seite besuchen',
-	'powered_by_anchor' => 'Powered by Anchor, version %s',
+	'powered_by_anchor' => 'Erstellt mit AnchorCMS, Version %s',
 	'make_blogging_beautiful' => 'Make blogging beautiful.',
 
 	// intro
-	'welcome_to_anchor' => 'Willkommen bei Anchor',
-	'welcome_to_anchor_lets_go' => 'Willkommen bei Anchor. Lass uns loslegen.',
-	'run_the_installer' => 'Installer ausführen',
+	'welcome_to_anchor' => 'Willkommen bei AnchorCMS',
+	'welcome_to_anchor_lets_go' => 'Willkommen bei AnchorCMS! Lass uns loslegen.',
+	'run_the_installer' => 'Installieren',
 
 	// upgrade
 	'upgrade' => 'Upgrade',
 	'good_news' => 'Großartige Neuigkeiten!',
-	'new_version_available' => 'Eine neue Version von anchor ist verfügbar.',
+	'new_version_available' => 'Eine neue Version von AnchorCMS ist verfügbar.',
 	'download_now' => 'Jetzt herunterladen',
 	'upgrade_later' => 'Später upgraden',
 
@@ -72,6 +75,6 @@ return array(
 	'profile_memory_usage' => 'Gesamter Speicherverbrauch',
 
 	// messages
-	'confirm_delete' => 'Bist du sicher, dass du löschen willst? Das kann nicht rückgängig gemacht werden!'
+	'confirm_delete' => 'Bist du sicher, dass du Löschen möchtest? Das kann nicht rückgängig gemacht werden!'
 
 );
