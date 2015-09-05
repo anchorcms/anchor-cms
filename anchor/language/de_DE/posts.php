@@ -5,7 +5,7 @@ return array(
 	'posts' => 'Einträge',
 
 	'create_post' => 'Neuen Eintrag erstellen',
-	'noposts_desc' => 'Du hast noch keine Einträge!',
+	'noposts_desc' => 'Du hast noch keine Einträge geschrieben!',
 
 	// form fields
 	'title' => 'Titel des Eintrags',
@@ -13,12 +13,12 @@ return array(
 	'title_missing' => 'Bitte einen Titel eingeben',
 
 	'content' => 'Inhalt des Eintrags',
-	'content_explain' => 'Schreib einfach.',
+	'content_explain' => 'Fange einfach an zu schreiben.',
 
 	'slug' => 'Slug',
-	'slug_explain' => 'Slug uri um deine Seite anzuzeigen; sollte nur ascii Zeichen enthalten',
-	'slug_missing' => 'Bitte gib eine slug uri an: Slugs dürfen nur ascii Zeichen enthalten',
-	'slug_duplicate' => 'Slug existiert schon',
+	'slug_explain' => 'URL zu dieser Seite; sollte nur ASCII-Zeichen enthalten',
+	'slug_missing' => 'Bitte gib eine Slug-URL an: Slugs dürfen nur ASCII-Zeichen enthalten',
+	'slug_duplicate' => 'Slug existiert bereits',
 	'slug_invalid' => 'Slug muss Buchstaben enthalten',
 
 	'time' => 'Veröffentlicht am (GMT)',
@@ -34,7 +34,7 @@ return array(
 	'category' => 'Kategorie',
 	'category_explain' => '',
 
-	'allow_comments' => 'Kommentare erlauben',
+	'allow_comments' => 'Kommentare zulassen',
 	'allow_comments_explain' => '',
 
 	'custom_css' => 'Benutzerdefiniertes CSS',
