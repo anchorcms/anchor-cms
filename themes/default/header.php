@@ -2,7 +2,7 @@
 <html lang="en">
 	<head>
 		<meta charset="utf-8">
-		<title><?php echo page_title('Page can’t be found'); ?> - <?php echo site_name(); ?></title>
+		<title><?php echo page_title('Lehte ei suudeta leida'); ?> - <?php echo site_name(); ?></title>
 
 		<meta name="description" content="<?php echo site_description(); ?>">
 
@@ -44,13 +44,13 @@
 			<div class="slidey" id="tray">
 				<div class="wrap">
 					<form id="search" action="<?php echo search_url(); ?>" method="post">
-						<label for="term">Search my blog:</label>
-						<input type="search" id="term" name="term" placeholder="To search, type and hit enter&hellip;" value="<?php echo search_term(); ?>">
+						<label for="term">Otsi minu blogi:</label>
+						<input type="search" id="term" name="term" placeholder="Otsimiseks kirjuta ja vajuta Enterit&hellip;" value="<?php echo search_term(); ?>">
 						<input type="hidden" id="whatSearch" name="whatSearch" value="all" />
 					</form>
 
 					<aside>
-						<b>Categories</b>
+						<b>Kategooriad</b>
 						<ul>
 						<?php while(categories()): 
 								if (category_count() > 0) { ?>
@@ -80,7 +80,7 @@
 						<?php endwhile;
 							endif; ?>
 						<li class="tray">
-							<a href="#tray" class="linky"><img src="<?php echo theme_url('img/categories.png'); ?>" alt="Categories" title="View my posts by category"></a>
+							<a href="#tray" class="linky"><img src="<?php echo theme_url('img/categories.png'); ?>" alt="Kategooriad" title="Vaata minu postitusi kategooriate järgi"></a>
 						</li>
 					</ul>
 				</nav>

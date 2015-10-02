@@ -9,7 +9,7 @@
 
 			<section class="footnote">
 				<!-- Unfortunately, CSS means everything's got to be inline. -->
-				<p>This article is my <?php echo numeral(article_number(article_id()), true); ?> oldest. It is <?php echo count_words(article_markdown()); ?> words long<?php if(comments_open()): ?>, and it’s got <?php echo total_comments() . pluralise(total_comments(), ' comment'); ?> for now.<?php endif; ?> <?php echo article_custom_field('attribution'); ?></p>
+				<p>See artikkel on minu <?php echo article_number(article_id()); ?>. vanuse poolest. See on <?php echo count_words(article_markdown()); ?> sõna pikk<?php if(comments_open()): ?>, sellel on <?php echo total_comments(), ' kommentaar(i)'); ?> praegu.<?php endif; ?> <?php echo article_custom_field('attribution'); ?></p>
 			</section>
 		</section>
 
@@ -38,17 +38,17 @@
 				<?php echo comment_form_notifications(); ?>
 
 				<p class="name">
-					<label for="name">Your name:</label>
+					<label for="name">Sinu nimi:</label>
 					<?php echo comment_form_input_name('placeholder="Your name"'); ?>
 				</p>
 
 				<p class="email">
-					<label for="email">Your email address:</label>
+					<label for="email">Sinu e-posti aadress:</label>
 					<?php echo comment_form_input_email('placeholder="Your email (won’t be published)"'); ?>
 				</p>
 
 				<p class="textarea">
-					<label for="text">Your comment:</label>
+					<label for="text">Sinu kommentaar:</label>
 					<?php echo comment_form_input_text('placeholder="Your comment"'); ?>
 				</p>
 
