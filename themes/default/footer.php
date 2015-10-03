@@ -1,6 +1,6 @@
 		<div class="wrap">
 	            <footer id="bottom">
-	                <small>&copy; <?php echo date('Y'); ?> <?php echo site_name(); ?>. All rights reserved.</small>
+	                <small>&copy; <?php echo date('Y'); ?> <?php echo site_name(); ?>. Kõik õigused kaitstud.</small>
 
 	                <ul role="navigation">
 	                    <li><a href="<?php echo rss_url(); ?>">RSS</a></li>
@@ -8,9 +8,9 @@
 	                    <li><a href="<?php echo twitter_url(); ?>">@<?php echo twitter_account(); ?></a></li>
 	                    <?php endif; ?>
 
-	                    <li><a href="<?php echo base_url('admin'); ?>" title="Administer your site!">Admin area</a></li>
+	                    <li><a href="<?php echo base_url('admin'); ?>" title="Administreeri oma kodulehte!">Admini tsoon</a></li>
 
-	                    <li><a href="<?php echo base_url(); ?>" title="Return to my website.">Home</a></li>
+	                    <li><a href="<?php echo base_url(); ?>" title="Naase minu kodulehele.">Kodu</a></li>
 	                </ul>
 	            </footer>
 

@@ -25,7 +25,7 @@
 	<?php endif; ?>
 
 <?php else: ?>
-	<p class="wrap">Unfortunately, there's no results for &ldquo;<?php echo search_term(); ?>&rdquo;. Did you spell everything correctly?</p>
+	<p class="wrap">Kahjuks pole ühtegi tulemust otsingule &ldquo;<?php echo search_term(); ?>&rdquo;. Kas sa kirjutasid kõik õigesti?</p>
 <?php endif; ?>
 
 <?php theme_include('footer'); ?>

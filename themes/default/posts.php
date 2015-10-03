@@ -16,7 +16,7 @@
 					</div>
 
 					<footer>
-						Posted <time datetime="<?php echo date(DATE_W3C, article_time()); ?>"><?php echo relative_time(article_time()); ?></time> by <?php echo article_author('real_name'); ?>.
+						Postitatud <time datetime="<?php echo date(DATE_W3C, article_time()); ?>"><?php echo relative_time(article_time()); ?></time> <?php echo article_author('real_name'); ?> poolt.
 					</footer>
 				</article>
 			</li>
@@ -47,8 +47,8 @@
 
 	<?php else: ?>
 		<div class="wrap">
-			<h1>No posts yet!</h1>
-			<p>Looks like you have some writing to do!</p>
+			<h1>Ühtegi postitust pole!</h1>
+			<p>Tundub, et sul on kirjatööd teha!</p>
 		</div>
 	<?php endif; ?>
 
