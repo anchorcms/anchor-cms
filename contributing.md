@@ -15,6 +15,9 @@ We're planning on cleaning everything up once `1.0` is released, by following th
 ### Why won't you merge my PR?
 This may be the case if you've not followed our guidelines, your code does not do as suggested, it doesn't work or if we simply haven't had the time to take a look at it properly and ensure it's working correctly.
 
+### I've translated Anchor to 'X' language, how do I submit this?
+Translations should be submitted to the official [anchor-translations](https://github.com/anchorcms/anchor-translations) repo, please check this repo before you start incase the translation has already been made.
+
 ### How to submit issues
 Please follow the below points:
 - Check if bug is consistent in different environments
