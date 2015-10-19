@@ -9,19 +9,19 @@ return array(
 	'edit_category' => 'Bearbeite &ldquo;%s&rdquo;',
 
 	// form fields
-	'title' => 'Titel',
-	'title_explain' => 'Dein Kategorie Name.',
-	'title_missing' => 'Bitte gib einen Titel ein',
+	'title' => 'Name',
+	'title_explain' => 'Der Name deiner Kategorie.',
+	'title_missing' => 'Bitte gebe einen Namen ein',
 
 	'slug' => 'Slug',
-	'slug_explain' => 'Der slug für deine Kategorie.',
+	'slug_explain' => 'Der Slug zu deiner Kategorie.',
 
 	'description' => 'Beschreibung',
-	'description_explain' => 'Beschreibung deiner Kategorie.',
+	'description_explain' => 'Die Beschreibung zu deiner Kategorie.',
 
 	// messages
 	'created' => 'Deine neue Kategorie wurde hinzugefügt.',
-	'updated' => 'Deine Kategorie wurde aktualisiert.',
+	'updated' => 'Deine Kategorie wurde geändert.',
 	'deleted' => 'Deine Kategorie wurde gelöscht.',
 	'delete_error' => 'Du musst mindestens eine Kategorie haben.',
 
