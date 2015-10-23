@@ -8,36 +8,18 @@ function path($to = '') {
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        
+
         <title><?php echo $title; ?> — Anchor CMS</title>
-        
+
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
 		<!-- Compiles from LESS -->
         <link rel="stylesheet" href="<?php path('anchor.css'); ?>">
-        <link rel="stylesheet" href="<?php path('js/pen/pen.css'); ?>">
-        
+
         <!-- Compiles from current theme, if it exists -->
         <link rel="stylesheet" href="/themes/current/admin-custom.css">
     </head>
     <body class="inverse auth">
-    
     	<?php echo $body; ?>
-    	
-		<!-- JS wankery -->
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-        <script>window.jQuery || document.write('<script src="<?php path('js/vendor/jquery-1.11.1.min.js'); ?>"><\/script>')</script>
-        
-        <!-- Editor JS -->
-        <script src=<?php path('js/pen/pen.js'); ?>"></script>
-        <script src=<?php path('js/pen/markdown.js'); ?>"></script>
-
-        <script src=<?php path('js/vendor/jquery-hotkeys.min.js'); ?>"></script>
-        <script src=<?php path('js/editor.js'); ?>"></script>
-        
-        <script>
-        	// Confirm any deletions
-        	$('.delete').click(function() {return confirm('Are you sure?')});
-        </script>
     </body>
 </html>

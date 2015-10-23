@@ -2,11 +2,12 @@
 
 namespace Controllers\Installer;
 
+use Pimple\Container;
 use Controllers\ContainerAware;
 
 abstract class Controller extends ContainerAware {
 
-	public function __construct(\Container $container) {
+	public function __construct(Container $container) {
 		$this->setContainer($container);
 	}
 

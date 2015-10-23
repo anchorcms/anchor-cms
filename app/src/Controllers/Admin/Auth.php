@@ -8,7 +8,7 @@ class Auth extends Backend {
 
 	public function getLogin() {
 		$vars['title'] = 'Login';
-		$vars['messages'] = $this->messages->get();
+		$vars['messages'] = $this->messages->render($this->getViewPath().'/messages.phtml');
 
 		$form = new \Forms\Login(['method' => 'post', 'action' => '/admin/auth/attempt']);
 		$form->init();

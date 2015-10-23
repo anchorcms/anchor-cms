@@ -1,19 +1,7 @@
 <?php echo $form->open(); ?>
 
-	<?php echo $form->getElement('token')->getHtml(); ?>
+	<?php echo $messages; ?>
 
-	<?php if(count($messages)): ?>
-	<div class="messages">
-		<?php foreach($messages as $type => $group): ?>
-		<ul class="<?php echo $type; ?>">
-			<?php foreach($group as $message): ?>
-			<li><?php echo $message; ?></li>
-			<?php endforeach; ?>
-		</ul>
-		<?php endforeach; ?>
-	</div>
-	<?php endif; ?>
-    		
 	<i class="anchor-logo">Anchor CMS</i>
 
 	<?php foreach($form->getElementsExcluding(['submit']) as $element): ?>
