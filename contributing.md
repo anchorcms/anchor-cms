@@ -29,6 +29,8 @@ Please follow the below points:
 - Give guidance on how to reproduce bug
 - Add screenshots when possible
 
+> ProTip: Check out [this example issue](https://github.com/anchorcms/anchor-cms/issues/873#issuecomment-151784603) for refence on good bug reporting.
+
 ### When writing your code, always follow standards
 If you're familiar with open source software, you probably know how important coding guidelines and standards are. Most common are (in order of appearance) PEAR, Zend(Framework) and [PSR-1](http://www.php-fig.org/psr/psr-1)/[PSR-2](http://www.php-fig.org/psr/psr-2).
 
