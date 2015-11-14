@@ -20,13 +20,14 @@
 					'class' => 'btn',
 					'data-loading' => __('global.saving')
 				)); ?>
+				<a class="btn autosave-action autosave-label secondary" style="width: 154px;">Autosave: Off</a>
 			</aside>
 		</div>
 	</fieldset>
 
 	<fieldset class="main">
 		<div class="wrap">
-			<?php echo Form::textarea('html', Input::previous('html'), array(
+			<?php echo Form::textarea('markdown', Input::previous('markdown'), array(
 				'placeholder' => __('posts.content_explain')
 			)); ?>
 
@@ -86,8 +87,9 @@
 <script src="<?php echo asset('anchor/views/assets/js/upload-fields.js'); ?>"></script>
 <script src="<?php echo asset('anchor/views/assets/js/text-resize.js'); ?>"></script>
 <script src="<?php echo asset('anchor/views/assets/js/editor.js'); ?>"></script>
+<script src="<?php echo asset('anchor/views/assets/js/autosave.js'); ?>"></script>
 <script>
-	$('textarea[name=html]').editor();
+	$('textarea[name=markdown]').editor();
 </script>
 
 <?php echo $footer; ?>

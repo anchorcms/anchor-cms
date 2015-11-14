@@ -1,6 +1,6 @@
 <?php
 
-Route::collection(array('before' => 'auth,csrf'), function() {
+Route::collection(array('before' => 'auth,csrf,install_exists'), function() {
 
 	/*
 		List Pages
@@ -75,7 +75,7 @@ Route::collection(array('before' => 'auth,csrf'), function() {
 	});
 
 	Route::post('admin/pages/edit/(:num)', function($id) {
-		$input = Input::get(array('parent', 'name', 'title', 'slug', 'content', 'status', 'redirect', 'show_in_menu', 'pagetype'));
+		$input = Input::get(array('parent', 'name', 'title', 'slug', 'markdown', 'status', 'redirect', 'show_in_menu', 'pagetype'));
 
 		// if there is no slug try and create one from the title
 		if(empty($input['slug'])) {
@@ -84,10 +84,15 @@ Route::collection(array('before' => 'auth,csrf'), function() {
 
 		// convert to ascii
 		$input['slug'] = slug($input['slug']);
-
-		// encode title
-		$input['title'] = htmlspecialchars($input['title'], ENT_QUOTES, Config::app('encoding'), false);
-
+		
+		// an array of items that we shouldn't encode - they're no XSS threat
+		$dont_encode = array('markdown');
+		
+		foreach($input as $key => &$value) {
+			if(in_array($key, $dont_encode)) continue;
+			$value = eq($value);
+		}
+		
 		$validator = new Validator($input);
 
 		$validator->add('duplicate', function($str) use($id) {
@@ -124,6 +129,8 @@ Route::collection(array('before' => 'auth,csrf'), function() {
 
 		$input['show_in_menu'] = is_null($input['show_in_menu']) ? 0 : 1;
 
+		$input['html'] = parse($input['markdown']);
+
 		Page::update($id, $input);
 
 		Extend::process('page', $id);
@@ -159,7 +166,7 @@ Route::collection(array('before' => 'auth,csrf'), function() {
 	});
 
 	Route::post('admin/pages/add', function() {
-		$input = Input::get(array('parent', 'name', 'title', 'slug', 'content', 'status', 'redirect', 'show_in_menu', 'pagetype'));
+		$input = Input::get(array('parent', 'name', 'title', 'slug', 'markdown', 'status', 'redirect', 'show_in_menu', 'pagetype'));
 
 		// if there is no slug try and create one from the title
 		if(empty($input['slug'])) {
@@ -168,10 +175,15 @@ Route::collection(array('before' => 'auth,csrf'), function() {
 
 		// convert to ascii
 		$input['slug'] = slug($input['slug']);
-
-		// encode title
-		$input['title'] = e($input['title'], ENT_COMPAT);
-
+		
+		// an array of items that we shouldn't encode - they're no XSS threat
+		$dont_encode = array('markdown');
+		
+		foreach($input as $key => &$value) {
+			if(in_array($key, $dont_encode)) continue;
+			$value = eq($value);
+		}
+		
 		$validator = new Validator($input);
 
 		$validator->add('duplicate', function($str) {
@@ -205,13 +217,16 @@ Route::collection(array('before' => 'auth,csrf'), function() {
 
 		$input['show_in_menu'] = is_null($input['show_in_menu']) ? 0 : 1;
 
+		$input['html'] = parse($input['markdown']);
+
 		$page = Page::create($input);
 
 		Extend::process('page', $page->id);
 
 		Notify::success(__('pages.created'));
-
-		return Response::redirect('admin/pages');
+		
+		if(Input::get('autosave') === 'true') return Response::redirect('admin/pages/edit/' . $page->id);
+		else return Response::redirect('admin/pages');
 	});
 
 	/*
@@ -223,7 +238,7 @@ Route::collection(array('before' => 'auth,csrf'), function() {
 			Query::table(Base::table('page_meta'))->where('page', '=', $id)->delete();
 			Notify::success(__('pages.deleted'));
 		} else {
-			Notify::error(['Unable to delete page, you must have at least 1 page.']);
+			Notify::error('Unable to delete page, you must have at least 1 page.');
 		}
 
 		return Response::redirect('admin/pages');

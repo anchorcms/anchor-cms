@@ -37,6 +37,13 @@
 				<?php echo Form::input('range', 'posts_per_page', Input::previous('posts_per_page', $meta['posts_per_page']),
 					array('min' => 1, 'max' => 15, 'id' => 'label-posts_per_page')); ?>
 				<em><?php echo __('metadata.posts_per_page_explain'); ?></em>
+				<em class="visible" id="posts_per_page_number"><?php echo $meta['posts_per_page']; ?></em>
+			</p>
+			<p>
+				<label for="label-all_posts"><?php echo __('metadata.show_all_posts'); ?>:</label>
+				<?php $checked = Input::previous('show_all_posts', $meta['show_all_posts']) ? ' checked' : ''; ?>
+				<?php echo Form::checkbox('show_all_posts', 1, $checked, array('id' => 'label-show_all_posts')); ?>
+				<em><?php echo __('metadata.show_all_posts_explain'); ?></em>
 			</p>
 			<p>
 				<label for="label-all_posts"><?php echo __('metadata.show_all_posts'); ?>:</label>
@@ -90,4 +97,14 @@
 	</form>
 </section>
 
+<script type="text/javascript">
+
+	// Show posts per page count
+	$(document).ready(function(){
+		$('input[name="posts_per_page"]').change(function(){
+			$('#posts_per_page_number').text($(this).val());
+		});
+	});
+
+</script>
 <?php echo $footer; ?>

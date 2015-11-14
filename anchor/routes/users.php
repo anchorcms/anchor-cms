@@ -1,6 +1,6 @@
 <?php
 
-Route::collection(array('before' => 'auth,csrf'), function() {
+Route::collection(array('before' => 'auth,csrf,install_exists'), function() {
 
 	/*
 		List users
@@ -44,14 +44,19 @@ Route::collection(array('before' => 'auth,csrf'), function() {
 	Route::post('admin/users/edit/(:num)', function($id) {
 		$input = Input::get(array('username', 'email', 'real_name', 'bio', 'status', 'role'));
 		$password_reset = false;
-
+		
+		// A little higher to avoid messing with the password
+		foreach($input as $key => &$value) {
+			$value = eq($value);
+		}
+		
 		if($password = Input::get('password')) {
 			$input['password'] = $password;
 			$password_reset = true;
 		}
-
+		
 		$validator = new Validator($input);
-
+		
 		$validator->add('safe', function($str) use($id) {
 			return ($str != 'inactive' and Auth::user()->id == $id);
 		});
@@ -116,7 +121,12 @@ Route::collection(array('before' => 'auth,csrf'), function() {
 
 	Route::post('admin/users/add', function() {
 		$input = Input::get(array('username', 'email', 'real_name', 'password', 'bio', 'status', 'role'));
-
+		
+		foreach($input as $key => &$value) {
+			if($key === 'password') continue; // Can't avoid, so skip.
+			$value = eq($value);
+		}
+		
 		$validator = new Validator($input);
 
 		$validator->check('username')

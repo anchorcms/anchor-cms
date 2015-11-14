@@ -19,7 +19,7 @@
 					'type' => 'submit',
 					'class' => 'btn'
 				)); ?>
-
+				<a class="btn autosave-action autosave-label secondary" style="width: 154px;">Autosave: Off</a>
 				<?php echo Html::link('admin/posts/delete/' . $article->id, __('global.delete'), array(
 					'class' => 'btn delete red'
 				)); ?>
@@ -29,7 +29,7 @@
 
 	<fieldset class="main">
 		<div class="wrap">
-			<?php echo Form::textarea('html', Input::previous('html', htmlentities($article->html, ENT_QUOTES, 'UTF-8')), array(
+			<?php echo Form::textarea('markdown', Input::previous('markdown', $article->markdown), array(
 				'placeholder' => __('posts.content_explain')
 			)); ?>
 
@@ -95,9 +95,10 @@
 <script src="<?php echo asset('anchor/views/assets/js/text-resize.js'); ?>"></script>
 <script src="<?php echo asset('anchor/views/assets/js/editor.js'); ?>"></script>
 <script src="<?php echo asset('anchor/views/assets/js/change-saver.js'); ?>"></script>
+<script src="<?php echo asset('anchor/views/assets/js/autosave.js'); ?>"></script>
 <script>
-    $('textarea[name=html]').editor();
-    $('form').changeSaver('textarea[name=html]');
+    $('textarea[name=markdown]').editor();
+    $('form').changeSaver('textarea[name=markdown]');
 </script>
 
 <?php echo $footer; ?>

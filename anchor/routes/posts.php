@@ -1,6 +1,6 @@
 <?php
 
-Route::collection(array('before' => 'auth,csrf'), function() {
+Route::collection(array('before' => 'auth,csrf,install_exists'), function() {
 
 	/*
 		List all posts and paginate through them
@@ -108,7 +108,7 @@ Route::collection(array('before' => 'auth,csrf'), function() {
 
 	Route::post('admin/posts/edit/(:num)', function($id) {
 		$input = Input::get(array('title', 'slug', 'description', 'created',
-			'html', 'css', 'js', 'category', 'status', 'comments'));
+			'markdown', 'css', 'js', 'category', 'status', 'comments'));
 
 		// if there is no slug try and create one from the title
 		if(empty($input['slug'])) {
@@ -117,10 +117,15 @@ Route::collection(array('before' => 'auth,csrf'), function() {
 
 		// convert to ascii
 		$input['slug'] = slug($input['slug']);
-
-		// encode title
-		$input['title'] = e($input['title'], ENT_COMPAT);
-
+		
+		// an array of items that we shouldn't encode - they're no XSS threat
+		$dont_encode = array('description', 'markdown', 'css', 'js');
+		
+		foreach($input as $key => &$value) {
+			if(in_array($key, $dont_encode)) continue;
+			$value = eq($value);
+		}
+		
 		$validator = new Validator($input);
 
 		$validator->add('duplicate', function($str) use($id) {
@@ -157,9 +162,11 @@ Route::collection(array('before' => 'auth,csrf'), function() {
 			$input['comments'] = 0;
 		}
 
-		if(empty($input['html'])) {
+		if(empty($input['markdown'])) {
 			$input['status'] = 'draft';
 		}
+
+		$input['html'] = parse($input['markdown']);
 
 		Post::update($id, $input);
 
@@ -197,7 +204,7 @@ Route::collection(array('before' => 'auth,csrf'), function() {
 
 	Route::post('admin/posts/add', function() {
 		$input = Input::get(array('title', 'slug', 'description', 'created',
-			'html', 'css', 'js', 'category', 'status', 'comments'));
+			'markdown', 'css', 'js', 'category', 'status', 'comments'));
 
 		// if there is no slug try and create one from the title
 		if(empty($input['slug'])) {
@@ -206,10 +213,15 @@ Route::collection(array('before' => 'auth,csrf'), function() {
 
 		// convert to ascii
 		$input['slug'] = slug($input['slug']);
-
-		// encode title
-		$input['title'] = e($input['title'], ENT_COMPAT);
-
+		
+		// an array of items that we shouldn't encode - they're no XSS threat
+		$dont_encode = array('description', 'markdown', 'css', 'js');
+		
+		foreach($input as $key => &$value) {
+			if(in_array($key, $dont_encode)) continue;
+			$value = eq($value);
+		}
+		
 		$validator = new Validator($input);
 
 		$validator->add('duplicate', function($str) {
@@ -244,28 +256,31 @@ Route::collection(array('before' => 'auth,csrf'), function() {
 			$input['comments'] = 0;
 		}
 
-		if(empty($input['html'])) {
+		if(empty($input['markdown'])) {
 			$input['status'] = 'draft';
 		}
+
+		$input['html'] = parse($input['markdown']);
 
 		$post = Post::create($input);
 
 		Extend::process('post', $post->id);
 
 		Notify::success(__('posts.created'));
-
-		return Response::redirect('admin/posts');
+		
+		if(Input::get('autosave') === 'true') return Response::redirect('admin/posts/edit/' . $page->id);
+		else return Response::redirect('admin/posts');
 	});
 
 	/*
 		Preview post
 	*/
 	Route::post('admin/posts/preview', function() {
-		$html = Input::get('html');
+		$markdown = Input::get('markdown');
 
 		// apply markdown processing
 		$md = new Markdown;
-		$output = Json::encode(array('html' => $md->transform($html)));
+		$output = Json::encode(array('markdown' => $md->transform($markdown)));
 
 		return Response::create($output, 200, array('content-type' => 'application/json'));
 	});
