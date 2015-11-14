@@ -39,7 +39,7 @@ Route::get('admin', function() {
 */
 // Why check if we haven't deleted the install directory, BEFORE we've logged in? Isn't that just unlocking the door for the burglars to enter?
 //Route::get('admin/login', array('before' => 'install_exists', 'main' => function() {
-Route::get('admin/login', function() {
+Route::get('admin/login', array('before' => 'guest', 'main' => function() {
 	if(!Auth::guest()) return Response::redirect('admin/posts');
 	$vars['messages'] = Notify::read();
 	$vars['token'] = Csrf::token();
@@ -47,7 +47,7 @@ Route::get('admin/login', function() {
 	return View::create('users/login', $vars)
 		->partial('header', 'partials/header')
 		->partial('footer', 'partials/footer');
-});
+}));
 
 Route::post('admin/login', array('before' => 'csrf', 'main' => function() {
 	$attempt = Auth::attempt(Input::get('user'), Input::get('pass'));
