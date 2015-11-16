@@ -38,6 +38,7 @@ Route::get('admin', function() {
 	Log in
 */
 Route::get('admin/login', array('before' => 'install_exists', 'main' => function() {
+ 	if(!Auth::guest()) return Response::redirect('admin/posts');
 	$vars['messages'] = Notify::read();
 	$vars['token'] = Csrf::token();
 
