@@ -4,7 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "f08eec763878dba4e2f2f233e0ccc20c",
+    "hash": "e096ac35ece9090dd10fcab2d0d95b02",
+    "content-hash": "a83d8e167e9d3a017be78c6f631a00c0",
     "packages": [
         {
             "name": "indigophp/hash-compat",
