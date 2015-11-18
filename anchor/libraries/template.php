@@ -13,6 +13,11 @@ class Template extends View {
 					$template .= '-' . $item->slug;
 				} elseif (is_readable($base . $template . 's/' . $template . '-' . $item->slug . EXT)) {
 					$template .= 's/' . $template . '-' . $item->slug;
+				} elseif (is_readable($base . $item->pagetype . EXT)) {
+					$template = $item->pagetype;
+					if (is_readable($base . $item->pagetype . '-' . $item->slug . EXT)) {
+						$template .= '-' . $item->slug;
+					}
 				}
 			}
 		}
@@ -37,5 +42,4 @@ class Template extends View {
 	public function exists() {
 		return file_exists($this->path);
 	}
-
 }
