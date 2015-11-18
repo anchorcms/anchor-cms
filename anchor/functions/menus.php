@@ -71,7 +71,6 @@ function menu_active($menu_item = null) {
 }
 
 function menu_parent($menu_item = null) {
-	
 	if(is_array($menu_item)) return $menu_item['parent'];
 	return ($menu_item ? $menu_item->parent : Registry::prop('menu_item', 'parent'));
 }
@@ -83,7 +82,7 @@ function menu_has_children($parent = null) {
 
 function get_menus_children($parent = null) {
 	$menu_item = menu_id($parent);
-	$menu = clone Registry::get('menu');
+	$menu = Registry::get('menu');
 	$menu->rewind();
 	$children = array();
 	

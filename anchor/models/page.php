@@ -59,6 +59,11 @@ class Page extends Base {
 			return true;
 		}
 	}
+
+	public function children() {
+		$query = static::where(Base::table('pages.parent'), '=', $this->data['id'])->sort(Base::table('pages.title'));
+		return $query->get(array(Base::table('pages.*')));
+	}
 	
 	public static function search($term, $pageNum = 1, $per_page = 10) {
 		$query = static::where(Base::table('pages.status'), '=', 'published')

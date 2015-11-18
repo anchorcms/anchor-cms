@@ -223,10 +223,11 @@
 					notification.animate({
 						opacity: 0
 					}, 600, "ease-out", function() {
-						if ($('.btn.delete').length === 0 && $(this).find('.error').length === 0) {
-							// redirect to redirect page on success if we are not in edit/update mode
+
+						if(jqXHR.responseURL != window.location.href) {
 							window.location.href = jqXHR.responseURL;
 						}
+						
 						$(this).remove();
 					});
 					document.title = title;

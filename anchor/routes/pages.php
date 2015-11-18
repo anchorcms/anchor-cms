@@ -7,8 +7,8 @@ Route::collection(array('before' => 'auth,csrf,install_exists'), function() {
 	*/
 	Route::get(array('admin/pages', 'admin/pages/(:num)'), function($page = 1) {
 		$perpage = Config::meta('posts_per_page');
-		$total = Page::count();
-		$pages = Page::sort('title')->take($perpage)->skip(($page - 1) * $perpage)->get();
+		$total = Page::where(Base::table('pages.parent'), '=', '0')->count();
+		$pages = Page::sort('title')->where(Base::table('pages.parent'), '=', '0')->take($perpage)->skip(($page - 1) * $perpage)->get();
 		$url = Uri::to('admin/pages');
 
 		$pagination = new Paginator($pages, $total, $page, $perpage, $url);
@@ -225,8 +225,7 @@ Route::collection(array('before' => 'auth,csrf,install_exists'), function() {
 
 		Notify::success(__('pages.created'));
 		
-		if(Input::get('autosave') === 'true') return Response::redirect('admin/pages/edit/' . $page->id);
-		else return Response::redirect('admin/pages');
+		return Response::redirect('admin/pages/edit/' . $page->id);
 	});
 
 	/*
