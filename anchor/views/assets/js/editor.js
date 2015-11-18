@@ -194,8 +194,14 @@
 
 	// AJAX form submit
 	form.on('submit', function() {
-		var data = $(this).serializeArray();
-
+		var data = {};
+		$.each($(this).serializeArray(), function(_, kv) {
+		  data[kv.name] = kv.value;
+		});
+		
+		var didAutosave = $(".autosave-action").hasClass("autosave-on");
+		data.autosave = didAutosave;
+		
 		submit.prop('disabled', true).css('cursor', 'wait').html(submitProgress);
 
 		document.title = submitProgress;
