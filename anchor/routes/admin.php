@@ -22,7 +22,7 @@ Route::action('csrf', function() {
 });
 
 Route::action('install_exists', function() {
-	if(file_exists('install'))
+	if(file_exists('install') && !Session::get('messages.error'))
 		Notify::error(array('Please remove the install directory before publishing your site'));
 });
 
