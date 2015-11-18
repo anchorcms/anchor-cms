@@ -2,7 +2,7 @@
 We're currently in the process of developing `v1.0` but there are still issues to iron out with the existing distro: `v0.x.x`. So we've compiled this short document to help you guys help *us*!
 
 ### What branch do I work from? How do I even pull request?
-There seems to have been a bit of confusion in the past, and yes our branches are currently a bit confusing in structure. If you want to conrtibute to the current version of Anchor then please work from the `0.9-dev` branch. This is where any features/refactoring should be happening. If what you're planning on doing is fixing a bug then please work from the `master` branch, this branch will always have the latest *tagged* release of Anchor. When you submit a bug fix PR we'll also merge it into the current version `dev` branch.
+There seems to have been a bit of confusion in the past, and yes our branches are currently a bit confusing in structure. If you want to conrtibute to the current version of Anchor then please work from the `0.10-dev` branch. This is where any features/refactoring should be happening. If what you're planning on doing is fixing a bug then please work from the `master` branch, this branch will always have the latest *tagged* release of Anchor. When you submit a bug fix PR we'll also merge it into the current version `dev` branch.
 
 We're planning on cleaning everything up once `1.0` is released, by following the simple Gitflow system which can be found in many Git GUI's, in the git extras package and so on.
 
