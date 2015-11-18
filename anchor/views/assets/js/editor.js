@@ -209,7 +209,7 @@
 		$.ajax({
 			url: form.attr('action'),
 			type: "POST",
-			data: data + "&autosave=" + didAutosave,
+			data: data,
 			success: function(data, textStatus, jqXHR) {
 
 				var notification = $(data).find('.notifications').clone(true),
