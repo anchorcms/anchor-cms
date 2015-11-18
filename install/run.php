@@ -38,15 +38,14 @@ if($route = Arr::get($_GET, 'route', '/')) {
 	Helper functions
 */
 function timezones() {
-
 	$list = DateTimeZone::listIdentifiers();
 	$data = array();
     foreach($list as $id => $zone) {
         $date= new DateTime(null, new DateTimeZone($zone));
         $ds = $date->format('I');
         $offset = $date->getOffset();
-        $gmt= round(abs($offset / 3600), 2);
-        $gmt = ($ds == 1 ? $gmt = $gmt-1 : $gmt = $gmt );
+        $gmt = round(abs($offset / 3600), 2);
+        $gmt = ($ds == 1 ? $gmt : $gmt-1 );
         $minutes = fmod($gmt, 1);
         if($minutes == 0) {
             $offset_label = $gmt.'&nbsp;&nbsp;';
@@ -72,7 +71,6 @@ function timezones() {
 		}
 	}
 	return $timezones;
-
 }
 
 function current_timezone() {

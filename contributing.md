@@ -15,6 +15,9 @@ We're planning on cleaning everything up once `1.0` is released, by following th
 ### Why won't you merge my PR?
 This may be the case if you've not followed our guidelines, your code does not do as suggested, it doesn't work or if we simply haven't had the time to take a look at it properly and ensure it's working correctly.
 
+### I've translated Anchor to 'X' language, how do I submit this?
+Translations should be submitted to the official [anchor-translations](https://github.com/anchorcms/anchor-translations) repo, please check this repo before you start incase the translation has already been made.
+
 ### How to submit issues
 Please follow the below points:
 - Check if bug is consistent in different environments
@@ -25,6 +28,8 @@ Please follow the below points:
 - Explain bug briefly but in detail
 - Give guidance on how to reproduce bug
 - Add screenshots when possible
+
+> ProTip: Check out [this example issue](https://github.com/anchorcms/anchor-cms/issues/873#issuecomment-151784603) for reference on good bug reporting.
 
 ### When writing your code, always follow standards
 If you're familiar with open source software, you probably know how important coding guidelines and standards are. Most common are (in order of appearance) PEAR, Zend(Framework) and [PSR-1](http://www.php-fig.org/psr/psr-1)/[PSR-2](http://www.php-fig.org/psr/psr-2).
