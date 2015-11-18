@@ -30,6 +30,9 @@ function categories() {
 		$items->next();
 	}
 
+	// back to the start
+	if(!$result) $items->rewind();
+
 	return $result;
 }
 
