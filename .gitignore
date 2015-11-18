@@ -12,4 +12,32 @@ Thumbs.db
 /anchor/config/app.php
 /anchor/config/db.php
 /anchor/config/session.php
-/vendor
+
+# user mod_rewrite
+/.htaccess
+
+# debug and custom themes
+/themes/*
+!/themes/default
+
+# uploaded content
+/content/*
+!/content/index.php
+
+# plugins
+/plugins/*
+
+# phpunit tests
+/tests
+
+# We all love Sublime Text and its awesome plugins, don't we?
+sftp-config.json
+
+# User robots.txt
+robots.txt
+
+# User humans.txt [http://humanstxt.org/]
+humans.txt
+
+# Composer vendor
+vendor/
