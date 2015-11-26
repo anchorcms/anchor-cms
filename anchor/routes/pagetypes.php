@@ -33,25 +33,20 @@ Route::collection(array('before' => 'auth,csrf,install_exists'), function() {
 		
 		$input['key'] = slug($input['key'], '_');
 		
-		foreach($input as $key => &$value) {
-			$value = eq($value);
-		}
-		
 		$validator = new Validator($input);
 
 		$validator->add('valid_key', function($str) {
-			if(strlen($str) > 7) {
-				return Query::table(Base::table('pagetypes'))
-					->where('key', '=', $str)
-					->count() == 0;
-			}
-
-			return true;
+			return Query::table(Base::table('pagetypes'))
+			->where('key', '=', $str)
+			->count() == 0;
 		});
 
 		$validator->check('key')
-			->is_max(2, __('extend.name_missing'))
-			->is_valid_key(__('extend.name_exists'));
+			->is_max(2, __('extend.key_missing'))
+			->is_valid_key(__('extend.key_exists'));
+
+		$validator->check('value')
+			->is_max(1, __('extend.name_missing'));
 
 		if($errors = $validator->errors()) {
 			Input::flash();
@@ -74,6 +69,7 @@ Route::collection(array('before' => 'auth,csrf,install_exists'), function() {
 	Route::get('admin/extend/pagetypes/edit/(:any)', function($key) {
 		$vars['messages'] = Notify::read();
 		$vars['token'] = Csrf::token();
+
 		$vars['pagetype'] = Query::table(Base::table('pagetypes'))->where('key', '=', $key)->fetch();
 
 		return View::create('extend/pagetypes/edit', $vars)
@@ -86,23 +82,21 @@ Route::collection(array('before' => 'auth,csrf,install_exists'), function() {
 		
 		$input['key'] = slug($input['key'], '_');
 		
-		foreach($input as $key => &$value) {
-			$value = eq($value);
-		}
-		
 		$validator = new Validator($input);
 
 		$validator->add('valid_key', function($str) use($key) {
 			// no change
 			if($str == $key) return true;
-
 			// check the new key $str is available
 			return Query::table(Base::table('pagetypes'))->where('key', '=', $str)->count() == 0;
 		});
 
 		$validator->check('key')
-			->is_max(2, __('extend.name_missing'))
-			->is_valid_key(__('extend.name_exists'));
+			->is_max(2, __('extend.key_missing'))
+			->is_valid_key(__('extend.key_exists'));
+
+		$validator->check('value')
+			->is_max(1, __('extend.name_missing'));
 
 		if($errors = $validator->errors()) {
 			Input::flash();
