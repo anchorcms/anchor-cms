@@ -21,7 +21,7 @@ Thumbs.db
 
 # folders
 /plugins
-/content
+/web/content
 /vendor
 /bin
 app/config
