@@ -1,10 +1,6 @@
 <?php
 
 return new Pimple\Container([
-	'start' => microtime(true),
-	'benchmark' => function($app) {
-		return round((microtime(true) - $app['start']) * 1000, 2);
-	},
 	'paths' => function() {
 		return require __DIR__ . '/paths.php';
 	},
@@ -31,12 +27,7 @@ return new Pimple\Container([
 		return new Events\EventManager();
 	},
 	'session' => function() {
-		$storage = new Session\Storage\Native(null, [
-			'name' => 'anchor',
-			'cookie_lifetime' => 0
-		]);
-
-		$s = new Session\Session($storage);
+		$s = new Session\Session();
 		$s->start();
 
 		return $s;
@@ -48,10 +39,13 @@ return new Pimple\Container([
 		return new Validation\Validation;
 	},
 	'messages' => function($app) {
-		return new Messages($app['session']);
+		return new Messages($app['session'], $app['view'], 'partials/messages');
 	},
 	'markdown' => function() {
 		return new cebe\markdown\Markdown();
+	},
+	'view' => function($app) {
+		return new View($app['paths']['views']);
 	},
 
 	/**
@@ -63,8 +57,11 @@ return new Pimple\Container([
 	'response' => function() {
 		return new Http\Response;
 	},
-	'router' => function() {
-		return new Routing\UriMatcher(require __DIR__ . '/routes.php');
+	'routes' => function() {
+		return new Routing\RouteCollection(require __DIR__ . '/routes.php');
+	},
+	'router' => function($app) {
+		return new Routing\UriMatcher($app['routes']);
 	},
 	'kernel' => function($app) {
 		return new Kernel($app['request'], $app['router'], $app);
@@ -73,20 +70,23 @@ return new Pimple\Container([
 	/**
 	 * Services
 	 */
-	'media' => function() {
-		return new Services\Media(__DIR__ . '/../content');
+	'media' => function($app) {
+		return new Services\Media($app['paths']['content']);
 	},
 	'installer' => function($app) {
 		return new Services\Installer($app['paths'], $app['session']);
 	},
 	'customFields' => function($app) {
-		return new Services\CustomFields($app['extend'], $app['postmeta'], $app['pagemeta']);
+		return new Services\CustomFields($app['extend'], $app['postmeta'], $app['pagemeta'], $app['media']);
 	},
 	'themes' => function($app) {
 		return new Services\Themes($app['paths']['themes']);
 	},
 	'plugins' => function($app) {
 		return new Services\Plugins($app['paths']['plugins']);
+	},
+	'postService' => function($app) {
+		return new Services\Posts($app['posts'], $app['postmeta'], $app['extend']);
 	},
 
 	/**
@@ -105,7 +105,7 @@ return new Pimple\Container([
 		return $mapper;
 	},
 	'pages' => function($app) {
-		$mapper = new Mappers\Pages($app['query'], new \DB\Row);
+		$mapper = new Mappers\Pages($app['query'], new \Models\Page);
 		$mapper->setTablePrefix($app['config']->get('db.table_prefix'));
 
 		return $mapper;
@@ -117,7 +117,7 @@ return new Pimple\Container([
 		return $mapper;
 	},
 	'posts' => function($app) {
-		$mapper = new Mappers\Posts($app['query'], new \DB\Row);
+		$mapper = new Mappers\Posts($app['query'], new \Models\Post);
 		$mapper->setTablePrefix($app['config']->get('db.table_prefix'));
 
 		return $mapper;
@@ -129,7 +129,7 @@ return new Pimple\Container([
 		return $mapper;
 	},
 	'users' => function($app) {
-		$mapper = new Mappers\Users($app['query'], new \DB\Row);
+		$mapper = new Mappers\Users($app['query'], new \Models\User);
 		$mapper->setTablePrefix($app['config']->get('db.table_prefix'));
 
 		return $mapper;

@@ -39,6 +39,9 @@ class User extends Form {
 			'label' => 'Role',
 			'options' => [
 				'admin' => 'Admin',
+				'editor' => 'Editor',
+				'author' => 'Author',
+				'subscriber' => 'Subscriber',
 			],
 		]));
 

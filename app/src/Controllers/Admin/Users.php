@@ -24,8 +24,9 @@ class Users extends Backend {
 		$vars['title'] = 'Users';
 		$vars['users'] = $users->get();
 		$vars['paging'] = $paging;
+		$vars['messages'] = $this->messages->render();
 
-		return $this->renderTemplate('main', ['users/index'], $vars);
+		return $this->renderTemplate('layout', ['users/index'], $vars);
 	}
 
 	public function getCreate() {
@@ -37,10 +38,10 @@ class Users extends Backend {
 		$form->setValues($this->session->getFlash('input', []));
 
 		$vars['title'] = 'Creating a new user';
-		$vars['messages'] = $this->messages->get();
+		$vars['messages'] = $this->messages->render();
 		$vars['form'] = $form;
 
-		return $this->renderTemplate('main', ['users/create'], $vars);
+		return $this->renderTemplate('layout', ['users/create'], $vars);
 	}
 
 	public function postSave() {
@@ -93,10 +94,10 @@ class Users extends Backend {
 
 		$vars['title'] = sprintf('Editing &ldquo;%s&rdquo;', $user->real_name);
 		$vars['user'] = $user;
-		$vars['messages'] = $this->messages->get();
+		$vars['messages'] = $this->messages->render();
 		$vars['form'] = $form;
 
-		return $this->renderTemplate('main', ['users/edit'], $vars);
+		return $this->renderTemplate('layout', ['users/edit'], $vars);
 	}
 
 	public function postUpdate($request) {
@@ -141,7 +142,5 @@ class Users extends Backend {
 		$this->messages->success('User updated');
 		return $this->response->withHeader('location', sprintf('/admin/users/%d/edit', $id));
 	}
-
-	public function postDelete() {}
 
 }

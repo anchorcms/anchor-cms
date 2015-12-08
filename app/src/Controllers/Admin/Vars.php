@@ -23,10 +23,10 @@ class Vars extends Backend {
 
 		$vars['title'] = 'Custom Variables';
 		$vars['metadata'] = $meta->get();
-		$vars['messages'] = $this->messages->render($this->getViewPath().'/messages.phtml');
+		$vars['messages'] = $this->messages->render();
 		$vars['paging'] = $paging;
 
-		return $this->renderTemplate('main', ['vars/index'], $vars);
+		return $this->renderTemplate('layout', ['vars/index'], $vars);
 	}
 
 	public function getCreate() {
@@ -38,10 +38,10 @@ class Vars extends Backend {
 		$form->setValues($this->session->getFlash('input', []));
 
 		$vars['title'] = 'Creating a new custom variable';
-		$vars['messages'] = $this->messages->render($this->getViewPath().'/messages.phtml');
+		$vars['messages'] = $this->messages->render();
 		$vars['form'] = $form;
 
-		return $this->renderTemplate('main', ['vars/create'], $vars);
+		return $this->renderTemplate('layout', ['vars/create'], $vars);
 	}
 
 	public function postSave() {
@@ -67,7 +67,7 @@ class Vars extends Backend {
 		]);
 
 		$this->messages->success('Custom variable created');
-		return $this->response->withHeader('location', '/admin/vars');
+		return $this->response->withHeader('location', sprintf('/admin/vars/custom_%s/edit', $key));
 	}
 
 	public function getEdit($request) {
@@ -91,10 +91,10 @@ class Vars extends Backend {
 		$form->setValues($this->session->getFlash('input', []));
 
 		$vars['title'] = sprintf('Editing &ldquo;%s&rdquo;', $meta->key);
-		$vars['messages'] = $this->messages->render($this->getViewPath().'/messages.phtml');
+		$vars['messages'] = $this->messages->render();
 		$vars['form'] = $form;
 
-		return $this->renderTemplate('main', ['vars/edit'], $vars);
+		return $this->renderTemplate('layout', ['vars/edit'], $vars);
 	}
 
 	public function postUpdate($request) {
@@ -112,7 +112,7 @@ class Vars extends Backend {
 		if(false === $validator->isValid()) {
 			$this->messages->error($validator->getMessages());
 			$this->session->putFlash('input', $input);
-			return $this->response->withHeader('location', sprintf('/admin/vars/%d/edit', $meta->key));
+			return $this->response->withHeader('location', sprintf('/admin/vars/%s/edit', $meta->key));
 		}
 
 		$this->meta->where('key', '=', $meta->key)->update([
@@ -120,9 +120,7 @@ class Vars extends Backend {
 		]);
 
 		$this->messages->success('Custom variable updated');
-		return $this->response->withHeader('location', '/admin/vars');
+		return $this->response->withHeader('location', sprintf('/admin/vars/%s/edit', $meta->key));
 	}
-
-	public function postDelete() {}
 
 }

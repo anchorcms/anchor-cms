@@ -1,32 +1,22 @@
-<div class="wrap">
 
-	<div class="clearfix">
-		<h1 class="pull-left">Pages</h1>
+<h2>Pages</h2>
 
-		<nav class="pull-right">
-			<p><a class="button" href="/admin/pages/create">Create</a></p>
-		</nav>
-	</div>
+<a href="/admin/pages/create">Create a new page</a>
 
-	<div class="column fourth first">
-		<small>Filter by status</small>
-		<ul class="list">
-			<?php foreach(['published', 'draft', 'archived'] as $status): ?>
-			<li><a href="/admin/pages?status=<?php echo $status; ?>"><?php echo ucfirst($status); ?></a></li>
-			<?php endforeach; ?>
-		</ul>
-	</div>
+<form method="get" action="/admin/pages">
+	<p><input name="search" value=""> <button type="submit">Search</button></p>
+</form>
 
-	<div class="column three-fourths last">
-		<?php foreach($pages as $page): ?>
-		<a class="item" href="/admin/pages/<?php echo $page->id; ?>/edit">
-			<strong><?php echo $page->title; ?></strong>
-			<em class="label"><?php echo $page->status; ?></em>
-			<span><?php echo $page->slug; ?></span>
-		</a>
-		<?php endforeach; ?>
+<ul>
+	<?php foreach($statuses as $status => $title): ?>
+	<li><a href="/admin/pages?status=<?php echo $status; ?>"><?php echo $title; ?></a></li>
+	<?php endforeach; ?>
+</ul>
 
-		<nav class="paging"><?php echo $paging->links(); ?></nav>
-	</div>
+<ul>
+	<?php foreach($pages as $page): ?>
+	<li><a href="/admin/pages/<?php echo $page->id; ?>/edit"><?php echo $page->title; ?></a></li>
+	<?php endforeach; ?>
+</ul>
 
-</div>
+<?php echo $paging->links(); ?>

@@ -25,4 +25,6 @@ Thumbs.db
 /vendor
 /bin
 app/config
+/themes
+!/themes/default
 .vagrant

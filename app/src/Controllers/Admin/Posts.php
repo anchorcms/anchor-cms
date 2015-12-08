@@ -28,9 +28,10 @@ class Posts extends Backend {
 		$vars['posts'] = $posts->get();
 		$vars['paging'] = $paging;
 		$vars['categories'] = $this->categories->get();
-		$vars['messages'] = $this->messages->render($this->getViewPath().'/messages.phtml');
+		$vars['statuses'] = ['published' => 'Published', 'draft' => 'Draft', 'archived' => 'Archived'];
+		$vars['messages'] = $this->messages->render();
 
-		return $this->renderTemplate('main', ['posts/index'], $vars);
+		return $this->renderTemplate('layout', ['posts/index'], $vars);
 	}
 
 	public function getCreate() {
@@ -46,10 +47,10 @@ class Posts extends Backend {
 		$form->setValues($this->session->getFlash('input', []));
 
 		$vars['title'] = 'Creating a new post';
-		$vars['messages'] = $this->messages->render($this->getViewPath().'/messages.phtml');
+		$vars['messages'] = $this->messages->render();
 		$vars['form'] = $form;
 
-		return $this->renderTemplate('main', ['posts/create'], $vars);
+		return $this->renderTemplate('layout', ['posts/create'], $vars);
 	}
 
 	public function postSave() {
@@ -91,7 +92,7 @@ class Posts extends Backend {
 		]);
 
 		// save custom fields
-		$this->customFields->saveFields($input, 'post', $id);
+		$this->customFields->saveFields($request, $input, 'post', $id);
 
 		$this->messages->success('Post created');
 		return $this->response->withHeader('location', sprintf('/admin/posts/%d/edit', $id));
@@ -122,10 +123,10 @@ class Posts extends Backend {
 		$form->setValues($this->session->getFlash('input', []));
 
 		$vars['title'] = sprintf('Editing &ldquo;%s&rdquo;', $post->title);
-		$vars['messages'] = $this->messages->render($this->getViewPath().'/messages.phtml');
+		$vars['messages'] = $this->messages->render();
 		$vars['form'] = $form;
 
-		return $this->renderTemplate('main', ['posts/edit'], $vars);
+		return $this->renderTemplate('layout', ['posts/edit'], $vars);
 	}
 
 	public function postUpdate($request) {
@@ -160,43 +161,17 @@ class Posts extends Backend {
 			'modified' => $now,
 
 			'title' => $input['title'],
-			'slug' => $slug,
+			'slug' => strtolower($slug),
 
 			'content' => $input['content'],
 			'html' => $html,
 		]);
 
 		// update custom fields
-		$this->customFields->updateFields($input, 'post', $id);
+		$this->customFields->saveFields($request, $input, 'post', $id);
 
 		$this->messages->success('Post updated');
 		return $this->response->withHeader('location', sprintf('/admin/posts/%d/edit', $id));
-	}
-
-	public function postDelete($request) {
-		$id = $request->getAttribute('id');
-		$post = $this->posts->where('id', '=', $id)->fetch();
-
-		// validate csrf token in header for xhr
-		$token = $request->getHeaderLine('X-CSRF-TOKEN');
-
-		$rule = new \Forms\ValidateToken($this->csrf->token());
-		$rule->setValue($token);
-
-		if(false === $rule->isValid()) {
-			return $this->jsonResponse([
-				'result' => false,
-				'message' => 'invalid csrf token',
-			]);
-		}
-
-		$this->posts->where('id', '=', $post->id)->delete();
-		$this->postmeta->where('post', '=', $post->id)->delete();
-
-		return $this->jsonResponse([
-			'result' => true,
-			'message' => 'Post deleted',
-		]);
 	}
 
 }

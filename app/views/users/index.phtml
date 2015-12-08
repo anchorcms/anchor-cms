@@ -1,23 +1,12 @@
-<div class="wrap">
 
-	<div class="clearfix">
-		<h1 class="pull-left">Users</h1>
+<h2>Users</h2>
 
-		<nav class="pull-right">
-			<p><a class="button" href="/admin/users/create">Create</a></p>
-		</nav>
-	</div>
+<a href="/admin/users/create">Create a new user</a>
 
-	<div class="column full first last">
-		<?php foreach($users as $user): ?>
-		<a class="item" href="/admin/users/<?php echo $user->id; ?>/edit">
-			<strong><?php echo $user->real_name; ?></strong>
-			<em class="label"><?php echo $user->role; ?></em>
-			<span>Username: <?php echo $user->username; ?></span>
-		</a>
-		<?php endforeach; ?>
+<ul>
+	<?php foreach($users as $user): ?>
+	<li><a href="/admin/users/<?php echo $user->id; ?>/edit"><?php echo $user->username; ?></a></li>
+	<?php endforeach; ?>
+</ul>
 
-		<nav class="paging"><?php echo $paging->links(); ?></nav>
-	</div>
-
-</div>
+<?php echo $paging->links(); ?>

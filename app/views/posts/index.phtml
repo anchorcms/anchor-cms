@@ -1,42 +1,28 @@
-<section class="filter wrap narrow">
-	<form method="get" action="/admin/posts">
-		<input name="search" type="search" placeholder="Search posts…">
 
-		<select class="autoupdate" data-append="status" name="status">
-			<option data-reset value="">All</option>
-			<?php foreach(['published', 'draft', 'archived'] as $status): ?>
-			<option value="<?php echo $status; ?>"><?php echo ucfirst($status); ?></option>
-			<?php endforeach; ?>
-		</select>
-	</form>
+<h2>Posts</h2>
 
-	<a class="btn primary" href="/admin/posts/create">Create a new page</a>
-</section>
+<a href="/admin/posts/create">Create a new post</a>
 
-<section class="panel wrap narrow drilldown">
-	<?php echo $messages; ?>
+<form method="get" action="/admin/posts">
+	<p><input name="search" value=""> <button type="submit">Search</button></p>
+</form>
 
-	<?php if(!empty($posts)): ?>
-		<ol>
-			<?php foreach($posts as $post): ?>
-			<li class="has-link">
-				<a href="/admin/posts/<?php echo $post->id; ?>/edit">
-					<span class="post-name">
-						<b class="realname"><?php echo $post->title; ?></b>
-						<span class="slug">/posts/<?php echo $post->slug; ?></span>
-					</span>
+<ul>
+	<?php foreach($statuses as $status => $title): ?>
+	<li><a href="/admin/posts?status=<?php echo $status; ?>"><?php echo $title; ?></a></li>
+	<?php endforeach; ?>
+</ul>
 
-					<ul>
-						<li><span class="badge status"><?php echo $post->status; ?></span></li>
-						<li><time><?php echo date('jS M Y', strtotime($post->created)); ?></time></li>
-					</ul>
-				</a>
-			</li>
-			<?php endforeach; ?>
-		</ol>
+<ul>
+	<?php foreach($categories as $category): ?>
+	<li><a href="/admin/posts?category=<?php echo $category->id; ?>"><?php echo $category->title; ?></a></li>
+	<?php endforeach; ?>
+</ul>
 
-		<nav class="paging"><?php echo $paging->links(); ?></nav>
-	<?php else: ?>
-		<span class="empty-state flaticon feather-1">Click a post on the left to edit, or add a post at the top-right.</span>
-	<?php endif; ?>
-</section>
+<ul>
+	<?php foreach($posts as $post): ?>
+	<li><a href="/admin/posts/<?php echo $post->id; ?>/edit"><?php echo $post->title; ?></a></li>
+	<?php endforeach; ?>
+</ul>
+
+<?php echo $paging->links(); ?>

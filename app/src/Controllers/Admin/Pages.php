@@ -26,8 +26,10 @@ class Pages extends Backend {
 		$vars['title'] = 'Pages';
 		$vars['pages'] = $pages->get();
 		$vars['paging'] = $paging;
+		$vars['statuses'] = ['published' => 'Published', 'draft' => 'Draft', 'archived' => 'Archived'];
+		$vars['messages'] = $this->messages->render();
 
-		return $this->renderTemplate('main', ['pages/index'], $vars);
+		return $this->renderTemplate('layout', ['pages/index'], $vars);
 	}
 
 	public function getCreate() {
@@ -51,10 +53,10 @@ class Pages extends Backend {
 		$element->setValue(1);
 
 		$vars['title'] = 'Creating a new page';
-		$vars['messages'] = $this->messages->get();
+		$vars['messages'] = $this->messages->render();
 		$vars['form'] = $form;
 
-		return $this->renderTemplate('main', ['pages/create'], $vars);
+		return $this->renderTemplate('layout', ['pages/create'], $vars);
 	}
 
 	public function postSave() {
@@ -92,7 +94,7 @@ class Pages extends Backend {
 		]);
 
 		// save custom fields
-		$this->customFields->saveFields($input, 'page', $id);
+		$this->customFields->saveFields($request, $input, 'page', $id);
 
 		$this->messages->success('Page created');
 		return $this->response->withHeader('location', sprintf('/admin/pages/%d/edit', $id));
@@ -108,7 +110,7 @@ class Pages extends Backend {
 		]);
 		$form->init();
 		$form->getElement('token')->setValue($this->csrf->token());
-		$form->getElement('parent')->setOptions($this->pages->dropdownOptions());
+		$form->getElement('parent')->setOptions($this->pages->dropdownOptions([0 => 'None']));
 
 		// set default values from post
 		$form->setValues($page->toArray());
@@ -132,10 +134,10 @@ class Pages extends Backend {
 
 		$vars['title'] = sprintf('Editing &ldquo;%s&rdquo;', $page->title);
 		$vars['page'] = $page;
-		$vars['messages'] = $this->messages->get();
+		$vars['messages'] = $this->messages->render();
 		$vars['form'] = $form;
 
-		return $this->renderTemplate('main', ['pages/edit'], $vars);
+		return $this->renderTemplate('layout', ['pages/edit'], $vars);
 	}
 
 	public function postUpdate($request) {
@@ -176,12 +178,10 @@ class Pages extends Backend {
 		]);
 
 		// update custom fields
-		$this->customFields->updateFields($input, 'page', $id);
+		$this->customFields->saveFields($request, $input, 'post', $id);
 
 		$this->messages->success('Page updated');
 		return $this->response->withHeader('location', sprintf('/admin/pages/%d/edit', $id));
 	}
-
-	public function postDelete() {}
 
 }

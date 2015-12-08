@@ -8,7 +8,7 @@ class Auth extends Backend {
 
 	public function getLogin() {
 		$vars['title'] = 'Login';
-		$vars['messages'] = $this->messages->render($this->getViewPath().'/messages.phtml');
+		$vars['messages'] = $this->messages->render();
 
 		$form = new \Forms\Login(['method' => 'post', 'action' => '/admin/auth/attempt']);
 		$form->init();
@@ -24,10 +24,10 @@ class Auth extends Backend {
 
 	public function postAttempt() {
 		$form = new \Forms\Login;
-		$input = $form->filter();
+		$input = $form->getFilters();
 
 		// validate input
-		$validator = $this->validation->create($input, $form->rules());
+		$validator = $this->validation->create($input, $form->getRules());
 
 		// check token
 		if($this->csrf->verify($input['token']) === false) {
@@ -42,8 +42,12 @@ class Auth extends Backend {
 				$validator->setInvalid('Invalid details');
 			}
 			// validate password
-			elseif(false === password_verify($input['password'], $user->password)) {
+			elseif(false === $user->isPassword($input['password'])) {
 				$validator->setInvalid('Invalid details');
+			}
+			// is active
+			elseif(false === $user->isActive()) {
+				$validator->setInvalid('Your account is inactive');
 			}
 		}
 
@@ -69,6 +73,10 @@ class Auth extends Backend {
 	}
 
 	public function getStart() {
+		if($this->session->has('user')) {
+			$forward = filter_input(INPUT_GET, 'forward', FILTER_SANITIZE_URL, ['options' => ['default' => '/admin/posts']]);
+			return $this->redirect($forward);
+		}
 		return $this->redirect('/admin/auth/login');
 	}
 

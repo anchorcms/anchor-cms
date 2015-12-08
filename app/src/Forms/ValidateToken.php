@@ -2,7 +2,9 @@
 
 namespace Forms;
 
-class ValidateToken extends \Validation\AbstractRule {
+use Validation\AbstractRule;
+
+class ValidateToken extends AbstractRule {
 
 	protected $token;
 

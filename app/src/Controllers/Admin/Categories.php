@@ -24,8 +24,9 @@ class Categories extends Backend {
 		$vars['title'] = 'Categories';
 		$vars['categories'] = $categories->get();
 		$vars['paging'] = $paging;
+		$vars['messages'] = $this->messages->render();
 
-		return $this->renderTemplate('main', ['categories/index'], $vars);
+		return $this->renderTemplate('layout', ['categories/index'], $vars);
 	}
 
 	public function getCreate() {
@@ -37,10 +38,10 @@ class Categories extends Backend {
 		$form->setValues($this->session->getFlash('input', []));
 
 		$vars['title'] = 'Creating a new category';
-		$vars['messages'] = $this->messages->get();
+		$vars['messages'] = $this->messages->render();
 		$vars['form'] = $form;
 
-		return $this->renderTemplate('main', ['categories/create'], $vars);
+		return $this->renderTemplate('layout', ['categories/create'], $vars);
 	}
 
 	public function postSave() {
@@ -62,7 +63,7 @@ class Categories extends Backend {
 
 		$id = $this->categories->insert([
 			'title' => $input['title'],
-			'slug' => $slug,
+			'slug' => strtolower($slug),
 			'description' => $input['description'],
 		]);
 
@@ -89,10 +90,10 @@ class Categories extends Backend {
 
 		$vars['title'] = sprintf('Editing &ldquo;%s&rdquo;', $category->title);
 		$vars['category'] = $category;
-		$vars['messages'] = $this->messages->get();
+		$vars['messages'] = $this->messages->render();
 		$vars['form'] = $form;
 
-		return $this->renderTemplate('main', ['categories/edit'], $vars);
+		return $this->renderTemplate('layout', ['categories/edit'], $vars);
 	}
 
 	public function postUpdate($request) {
@@ -117,14 +118,12 @@ class Categories extends Backend {
 
 		$this->categories->where('id', '=', $category->id)->update([
 			'title' => $input['title'],
-			'slug' => $slug,
+			'slug' => strtolower($slug),
 			'description' => $input['description'],
 		]);
 
 		$this->messages->success('Category updated');
 		return $this->response->withHeader('location', sprintf('/admin/categories/%d/edit', $id));
 	}
-
-	public function postDelete() {}
 
 }

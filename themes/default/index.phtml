@@ -1,36 +1,10 @@
-<?php
 
-$bg = function($i) use($meta) {
-	$lum = round((($i / $meta->posts_per_page) * 20) + 20);
-
-	return sprintf('background: hsl(215, 28%%, %d%%);', $lum);
-};
-
-?>
 <div class="items">
-	<?php if($content->count()): ?>
+	<?php while($content->loop()): ?>
 	<div class="item">
-		<div class="wrap">
-			<h1><a href="/<?php echo $page->slug; ?>/<?php echo $content->slug; ?>"><?php echo $content->title; ?></a></h1>
+		<h2><a href="/<?php echo $page->slug; ?>/<?php echo $content->slug; ?>"><?php echo $content->title; ?></a></h2>
 
-			<div class="content"><?php echo $content->description; ?></div>
-
-			<p>Posted on <time><?php echo $content->date()->format('jS M, Y'); ?></time> by <?php echo $content->author; ?> in <?php echo $content->category; ?></p>
-		</div>
-	</div>
-
-	<?php $i = 0; while($content->loop()): ?>
-	<div class="item" style="<?php echo $bg(++$i); ?>">
-		<div class="wrap">
-			<h2><a href="/<?php echo $page->slug; ?>/<?php echo $content->slug; ?>"><?php echo $content->title; ?></a></h2>
-		</div>
+		<?php echo $content->body(); ?>
 	</div>
 	<?php endwhile; ?>
-	<?php else :?>
-	<div class="item">
-		<div class="wrap">
-			<p>No published posts just yet.</p>
-		</div>
-	</div>
-	<?php endif; ?>
 </div>

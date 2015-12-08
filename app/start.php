@@ -15,41 +15,52 @@ if( ! ini_get('date.timezone')) {
 }
 
 // check composer is installed
-$autoload_file = __DIR__ . '/../vendor/autoload.php';
+$autoload = __DIR__ . '/../vendor/autoload.php';
 
-if(false === is_file($autoload_file)) {
+if(false === is_file($autoload)) {
 	echo 'Composer not installed';
 	exit(1);
 }
 
-$composer = require $autoload_file;
+$composer = require $autoload;
 
 function dd() {
-	echo '<pre>';
+	if( ! headers_sent()) {
+		header('content-type: text/plain');
+	}
 	call_user_func_array('var_dump', func_get_args());
-	echo '</pre>';
-	exit;
+	exit(1);
 }
 
 function e($str) {
 	return htmlspecialchars($str, ENT_COMPAT, 'UTF-8', false);
 }
 
-ob_start();
-
 $app = require __DIR__ . '/container.php';
-
-$app['errors']->register();
 
 $app['errors']->handler(function($exception) use($app) {
 	while(ob_get_level()) ob_end_clean();
-
 	http_response_code(500);
-
-	$frames = $exception->getTrace();
-
-	require __DIR__ . '/views/error.phtml';
+	echo sprintf('<html>
+			<head>
+				<title>Uncaught Exception</title>
+				<style>html,body { color: #333; padding: 2rem; font: 1rem/1.5rem sans-serif; }</style>
+			</head>
+			<body>
+				<h1>Uncaught Exception</h1>
+				<p>%s in %s:%d</p>
+				<h3>Stack Trace</h3>
+				<pre>%s</pre>
+			</body>
+		</html>',
+		$exception->getMessage(),
+		$exception->getFile(),
+		$exception->getLine(),
+		$exception->getTraceAsString()
+	);
 });
+
+$app['errors']->register();
 
 $app['kernel']->redirectTrailingSlash();
 
@@ -65,6 +76,7 @@ else {
 $response = $app['kernel']->getResponse();
 
 $app['session']->rotate();
+
 $app['session']->close();
 
 $app['kernel']->outputResponse($response);

@@ -1,0 +1,16 @@
+<?php echo $form->open(); ?>
+
+	<?php foreach($form->getElementsExcluding(['submit']) as $element): ?>
+
+	<?php if($element->hasLabel()): ?>
+	<p><label><?php echo $element->getLabel(); ?>
+	<?php echo $element->getHtml(); ?></label></p>
+	<?php else: ?>
+	<?php echo $element->getHtml(); ?>
+	<?php endif; ?>
+
+	<?php endforeach; ?>
+
+	<p><?php echo $form->getElement('submit')->getHtml(); ?></p>
+
+<?php echo $form->close(); ?>

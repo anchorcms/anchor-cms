@@ -12,7 +12,7 @@ abstract class Backend extends Frontend {
 	public function __construct(Container $app) {
 		$this->setContainer($app);
 
-		$this->setViewPath($this->paths['views']);
+		$this->view->setPath($this->paths['views']);
 	}
 
 	public function before() {
@@ -24,13 +24,8 @@ abstract class Backend extends Frontend {
 	}
 
 	protected function renderProfile() {
-		$template = $this->getTemplate(['debug']);
-
-		$view = new \View($template);
-
-		return $view->render([
+		return $this->view->render('debug', [
 			'profile' => $this->query->getProfile(),
-			'elapsed_time' => $this->benchmark,
 			'memory' => round(memory_get_usage() / 1024 / 1024, 2),
 			'memory_peak' => round(memory_get_peak_usage() / 1024 / 1024, 2),
 		]);

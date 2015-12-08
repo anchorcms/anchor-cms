@@ -10,7 +10,7 @@ class Media {
 	protected $path;
 
 	public function __construct($path) {
-		$this->path = realpath($path);
+		$this->path = $path;
 	}
 
 	protected function formatFileName($str, $ext) {
@@ -29,8 +29,26 @@ class Media {
 		return $str . '.' . $ext;
 	}
 
-	public function upload($file) {
-		switch($file['error']) {
+	public function getPath() {
+		return $this->path;
+	}
+
+	public function getUploadPath() {
+		$path = sprintf('%s/%s', $this->path, date('Y/n'));
+
+		if(false === is_dir($path)) {
+			mkdir($path, 0755, true);
+		}
+
+		if(false === is_dir($path)) {
+			throw new \RuntimeException('Failed to create folder: '.$path);
+		}
+
+		return $path;
+	}
+
+	public function upload(\Http\UploadedFile $file) {
+		switch($file->getError()) {
 			case UPLOAD_ERR_OK:
 				break;
 			case UPLOAD_ERR_NO_FILE:
@@ -48,8 +66,7 @@ class Media {
 			'gif' => 'image/gif',
 		];
 
-		$finfo = new \finfo(FILEINFO_MIME_TYPE);
-		$mime = $finfo->file($file['tmp_name']);
+		$mime = explode(';', $file->getClientMediaType())[0];
 
 		$ext = array_search($mime, $accepted);
 
@@ -57,14 +74,14 @@ class Media {
 			throw new RuntimeException('Unaccepted file format.');
 		}
 
-		$name = $this->formatFileName($file['name'], $ext);
-		$dest = $this->path . '/' . $name;
+		$name = $this->formatFileName($file->getClientFilename(), $ext);
+		$dest = sprintf('%s/%s', $this->getUploadPath(), $name);
 
-		if(false === move_uploaded_file($file['tmp_name'], $dest)) {
+		if(false === $file->moveTo($dest)) {
 			throw new RuntimeException('Failed to move uploaded file.');
 		}
 
-		return $name;
+		return substr($dest, strlen($this->getPath()));
 	}
 
 	public function get($filter = null) {

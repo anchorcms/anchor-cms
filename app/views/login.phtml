@@ -1,25 +1,12 @@
-<?php
-
-function path($to = '') {
-	echo '/app/views/assets/' . $to;
-}
-
-?><!doctype html><html class="no-js" lang="en-gb">
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-
-        <title><?php echo $title; ?> — Anchor CMS</title>
-
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-
-		<!-- Compiles from LESS -->
-        <link rel="stylesheet" href="<?php path('anchor.css'); ?>">
-
-        <!-- Compiles from current theme, if it exists -->
-        <link rel="stylesheet" href="/themes/current/admin-custom.css">
-    </head>
-    <body class="inverse auth">
-    	<?php echo $body; ?>
-    </body>
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title><?php echo $title; ?></title>
+	</head>
+	<body>
+		<?php echo $body; ?>
+	</body>
 </html>

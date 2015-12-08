@@ -1,22 +1,12 @@
-<div class="wrap">
 
-	<div class="clearfix">
-		<h1 class="pull-left">Custom Fields</h1>
+<h2>Custom Fields</h2>
 
-		<nav class="pull-right">
-			<p><a class="button" href="/admin/fields/create">Create</a></p>
-		</nav>
-	</div>
+<a href="/admin/fields/create">Create a new field</a>
 
-	<div class="column full first last">
-		<?php foreach($fields as $field): ?>
-		<a class="item" href="/admin/fields/<?php echo $field->id; ?>/edit">
-			<strong><?php echo $field->type; ?></strong>
-			<span><?php echo $field->label; ?> <?php echo $field->field; ?></span>
-		</a>
-		<?php endforeach; ?>
+<ul>
+	<?php foreach($fields as $field): ?>
+	<li><a href="/admin/fields/<?php echo $field->id; ?>/edit"><?php echo $field->label; ?> <?php echo $field->field; ?></a></li>
+	<?php endforeach; ?>
+</ul>
 
-		<nav class="paging"><?php echo $paging->links(); ?></nav>
-	</div>
-
-</div>
+<?php echo $paging->links(); ?>

@@ -10,18 +10,14 @@ class Content implements Countable, Iterator {
 		$this->items = $items;
 	}
 
+	public function __call($method, array $args) {
+		return call_user_func_array([$this->current(), $method], $args);
+	}
+
 	public function __get($key) {
-		if($this->key() === -1) {
-			$this->next();
-		}
-
-		if(false === $this->valid()) {
-			throw new RuntimeException('Invalid index.');
-		}
-
 		$item = $this->current();
 
-		return $item->$key;
+		return $item->{$key};
 	}
 
 	public function body() {

@@ -1,23 +1,12 @@
-<div class="wrap">
 
-	<div class="clearfix">
-		<h1 class="pull-left">Custom Variables</h1>
+<h2>Global Variables</h2>
 
-		<nav class="pull-right">
-			<p><a class="button" href="/admin/vars/create">Create</a></p>
-		</nav>
-	</div>
+<a href="/admin/vars/create">Create a new variable</a>
 
-	<?php echo $messages; ?>
+<ul>
+	<?php foreach($metadata as $meta): ?>
+	<li><a href="/admin/vars/<?php echo $meta->key; ?>/edit"><?php echo $meta->key; ?></a></li>
+	<?php endforeach; ?>
+</ul>
 
-	<div class="column full first last">
-		<?php foreach($metadata as $meta): ?>
-		<a class="item" href="/admin/vars/<?php echo $meta->key; ?>/edit">
-			<strong><?php echo $meta->key; ?></strong>
-		</a>
-		<?php endforeach; ?>
-
-		<nav class="paging"><?php echo $paging->links(); ?></nav>
-	</div>
-
-</div>
+<?php echo $paging->links(); ?>

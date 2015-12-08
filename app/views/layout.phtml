@@ -1,0 +1,88 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title><?php echo $title; ?></title>
+	</head>
+	<body>
+		<ul>
+			<li><a href="/admin/posts">Posts</a></li>
+			<li><a href="/admin/pages">Pages</a></li>
+			<li><a href="/admin/categories">Categories</a></li>
+			<li><a href="/admin/users">Users</a></li>
+			<li><a href="/admin/fields">Custom Fields</a></li>
+			<li><a href="/admin/vars">Global Variables</a></li>
+			<li><a href="/admin/meta">Metadata</a></li>
+			<li><a href="/admin/themes">Themes</a></li>
+			<li><a href="/admin/plugins">Plugins</a></li>
+		</ul>
+
+		<p><a href="/">Visit Site</a></p>
+
+		<?php echo $body; ?>
+
+		<script>
+			(function(d, w) {
+				var upload = function(file, callback) {
+					var token = d.querySelector('input[name=token]').getAttribute('value');
+
+					var request = new XMLHttpRequest();
+					request.open('POST', '/admin/media/upload?t='+token, true);
+
+					request.onload = function() {
+						try {
+							var response = JSON.parse(request.responseText);
+							callback(response);
+						}
+						catch(e) {}
+					};
+
+					var form = new FormData();
+					form.append('file', file);
+
+					request.send(form);
+				};
+
+				var selected = function(event) {
+					var input = event.target,
+						name = input.getAttribute('name').substring(1),
+						target = d.querySelector('input[name=' + name + ']');
+
+					if(input.files.length) {
+						upload(input.files[0], function(response) {
+							target.setAttribute('value', response.path);
+							preview(input);
+						});
+					}
+				};
+
+				var preview = function(input) {
+					var name = input.getAttribute('name').substring(1),
+						target = d.querySelector('input[name=' + name + ']'),
+						value = target.getAttribute('value');
+
+					if(value.length) {
+						var img = new Image();
+						img.src = value;
+						input.parentNode.parentNode.appendChild(img);
+					}
+				};
+
+				var inputs = d.querySelectorAll('input[type=file]');
+
+				w.addEventListener('DOMContentLoaded', function() {
+					Array.prototype.forEach.call(inputs, function(input) {
+
+						input.addEventListener('change', selected);
+
+						preview(input);
+
+					});
+				});
+
+			})(document, window);
+		</script>
+	</body>
+</html>

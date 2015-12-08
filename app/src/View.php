@@ -2,37 +2,53 @@
 
 class View {
 
-	protected $template;
+	protected $path;
 
-	protected $vars;
+	protected $ext;
 
-	public function __construct($template, array $vars = []) {
-		if(false === is_file($template)) {
-			throw new ErrorException(sprintf('Template file does not exists: %s', $template));
+	public function __construct($path, $ext = '.phtml') {
+		$this->setPath($path);
+		$this->setExtension($ext);
+	}
+
+	public function setPath($path) {
+		$this->path = $path;
+	}
+
+	public function getPath() {
+		return $this->path;
+	}
+
+	public function setExtension($ext) {
+		$this->ext = $ext;
+	}
+
+	public function getExtension() {
+		return $this->ext;
+	}
+
+	public function getTemplatePath($file) {
+		return $this->path.'/'.$file.$this->ext;
+	}
+
+	public function templateExists($file) {
+		$path = $this->getTemplatePath($file);
+
+		return is_file($path);
+	}
+
+	public function render($template, array $vars = []) {
+		$path = $this->getTemplatePath($template);
+
+		if(false === is_file($path)) {
+			throw new \InvalidArgumentException(sprintf('Template file does not exists: %s', $path));
 		}
 
-		$this->template = $template;
-		$this->vars = $vars;
-	}
-
-	public function __set($key, $value) {
-		$this->vars[$key] = $value;
-	}
-
-	public function __get($key) {
-		if(false === array_key_exists($key, $this->vars)) {
-			throw new ErrorException(sprintf('Undefined index: %s', $key));
-		}
-
-		return $this->vars[$key];
-	}
-
-	public function render(array $vars = []) {
 		ob_start();
 
-		extract($vars);
+		extract($vars, EXTR_SKIP);
 
-		require $this->template;
+		require $path;
 
 		return ob_get_clean();
 	}

@@ -10,6 +10,8 @@ class CustomFields {
 
 	protected $pagemeta;
 
+	protected $media;
+
 	protected $map;
 
 	public function __construct($extend, $postmeta, $pagemeta) {
@@ -41,33 +43,25 @@ class CustomFields {
 		return $values;
 	}
 
-	public function saveFields(array $input, $type, $id) {
+	public function saveFields($request, array $input, $type, $id) {
 		$fields = $this->getFields($type);
 		$table = $type.'meta';
+
+		$files = $request->getUploadedFiles();
 
 		foreach($fields as $field) {
 			if(false === array_key_exists($field->key, $input)) {
 				continue;
 			}
 
-			$this->$table->insert([
-				$type => $id,
-				'extend' => $field->id,
-				'data' => json_encode($input[$field->key]),
-			]);
-		}
-	}
+			if(null === $input[$field->key] && array_key_exists($field->key, $files)) {
+				$result = $this->media->upload($files[$field->key]);
 
-	public function updateFields(array $input, $type, $id) {
-		$fields = $this->getFields($type);
-		$table = $type.'meta';
-
-		foreach($fields as $field) {
-			if(false === array_key_exists($field->key, $input)) {
-				continue;
+				$value = json_encode($result);
 			}
-
-			$value = json_encode($input[$field->key]);
+			else {
+				$value = json_encode($input[$field->key]);
+			}
 
 			$query = $this->$table->where($type, '=', $id)->where('extend', '=', $field->id);
 			$count = clone $query;
@@ -85,34 +79,57 @@ class CustomFields {
 		}
 	}
 
+	protected function appendTextField($form, $field, $attributes) {
+		$input = new \Forms\Elements\Input($field->key, [
+			'label' => $field->label,
+			'attributes' => $attributes,
+		]);
+
+		$form->addElement($input);
+	}
+
+	protected function appendHtmlField($form, $field, $attributes) {
+		$input = new \Forms\Elements\Textarea($field->key, [
+			'label' => $field->label,
+			'attributes' => $attributes,
+		]);
+
+		$form->addElement($input);
+	}
+
+	protected function appendImageField($form, $field, $attributes) {
+		$input = new \Forms\Elements\File('_'.$field->key, [
+			'label' => $field->label,
+			'attributes' => $attributes,
+		]);
+
+		$form->addElement($input);
+
+		$input = new \Forms\Elements\Hidden($field->key);
+
+		$form->addElement($input);
+	}
+
+	protected function appendFileField($form, $field, $attributes) {
+		$input = new \Forms\Elements\File('_'.$field->key, [
+			'label' => $field->label,
+			'attributes' => $attributes,
+		]);
+
+		$form->addElement($input);
+
+		$input = new \Forms\Elements\Hidden($field->key);
+
+		$form->addElement($input);
+	}
+
 	public function appendFields($form, $type) {
 		$fields = $this->getFields($type);
 
 		foreach($fields as $field) {
 			$attributes = json_decode($field->attributes, true) ?: [];
-
-			switch($field->field) {
-				case 'text':
-					$class = '\\Forms\\Elements\\Input';
-					break;
-
-				case 'html':
-					$class = '\\Forms\\Elements\\Textarea';
-					break;
-
-				case 'image':
-				case 'file':
-					$class = '\\Forms\\Elements\\File';
-					break;
-			}
-
-			$input = new $class($field->key, [
-				'label' => $field->label,
-				'attributes' => $attributes,
-			]);
-
-			$form->addElement($input);
-
+			$method = sprintf('append%sField', ucfirst($field->field));
+			$this->{$method}($form, $field, $attributes);
 			$form->pushFilter($field->key, FILTER_UNSAFE_RAW);
 		}
 	}

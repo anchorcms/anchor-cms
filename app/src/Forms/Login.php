@@ -2,28 +2,35 @@
 
 namespace Forms;
 
-class Login extends Form {
+class Login extends Form implements ValidatableInterface {
 
 	public function init() {
 		$this->addElement(new \Forms\Elements\Hidden('token'));
 
 		$this->addElement(new \Forms\Elements\Input('username', [
 			'label' => 'Username',
-			'attributes' => ['autofocus' => 'true', 'autocapitalize' => 'false', 'placeholder' => 'Username'],
+			'attributes' => [
+				'autofocus' => 'true',
+				'placeholder' => 'Username',
+			],
 		]));
 
 		$this->addElement(new \Forms\Elements\Password('password', [
 			'label' => 'Password',
-			'attributes' => ['placeholder' => 'Password'],
+			'attributes' => [
+				'placeholder' => 'Password',
+			],
 		]));
 
 		$this->addElement(new \Forms\Elements\Submit('submit', [
 			'value' => 'Login',
-			'attributes' => ['class' => 'button'],
+			'attributes' => [
+				'class' => 'button',
+			],
 		]));
 	}
 
-	public function filter() {
+	public function getFilters() {
 		return filter_input_array(INPUT_POST, [
 			'token' => FILTER_SANITIZE_STRING,
 			'username' => FILTER_SANITIZE_STRING,
@@ -31,7 +38,7 @@ class Login extends Form {
 		]);
 	}
 
-	public function rules() {
+	public function getRules() {
 		return [
 			'token' => ['required'],
 			'username' => ['required'],

@@ -8,9 +8,6 @@ return [
 	'/admin/auth/logout' => 'controllers\\admin\\auth@logout',
 	'/admin/auth/amnesia' => 'controllers\\admin\\auth@amnesia',
 
-	'/admin/upload' => 'controllers\\admin\\media@upload',
-	'/admin/media' => 'controllers\\admin\\media@fetch',
-
 	'/admin/posts' => 'controllers\\admin\\posts@index',
 	'/admin/posts/create' => 'controllers\\admin\\posts@create',
 	'/admin/posts/save' => 'controllers\\admin\\posts@save',
@@ -56,10 +53,10 @@ return [
 	'/admin/meta' => 'controllers\\admin\\meta@index',
 	'/admin/meta/update' => 'controllers\\admin\\meta@update',
 
+	'/admin/media/upload' => 'controllers\\admin\\media@upload',
+
 	'/admin/themes' => 'controllers\\admin\\themes@index',
 	'/admin/plugins' => 'controllers\\admin\\plugins@index',
-
-	'/admin/extend' => 'controllers\\admin\\extend@index',
 
 	'/feeds/rss' => 'controllers\\feeds@rss',
 

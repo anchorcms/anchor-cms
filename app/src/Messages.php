@@ -4,10 +4,16 @@ class Messages {
 
 	protected $session;
 
+	protected $view;
+
+	protected $template;
+
 	protected $messages;
 
-	public function __construct($session, array $messages = []) {
+	public function __construct($session, $view, $template, array $messages = []) {
 		$this->session = $session;
+		$this->view = $view;
+		$this->template = $template;
 		$this->messages = $messages;
 	}
 
@@ -15,10 +21,8 @@ class Messages {
 		return $this->session->getFlash('_messages', []);
 	}
 
-	public function render($file) {
-		$view = new View($file);
-
-		return $view->render([
+	public function render() {
+		return $this->view->render($this->template, [
 			'messages' => $this->get(),
 		]);
 	}

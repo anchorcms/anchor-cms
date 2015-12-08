@@ -24,8 +24,9 @@ class Fields extends Backend {
 		$vars['title'] = 'Custom Fields';
 		$vars['fields'] = $fields->get();
 		$vars['paging'] = $paging;
+		$vars['messages'] = $this->messages->render();
 
-		return $this->renderTemplate('main', ['fields/index'], $vars);
+		return $this->renderTemplate('layout', ['fields/index'], $vars);
 	}
 
 	public function getCreate() {
@@ -37,10 +38,10 @@ class Fields extends Backend {
 		$form->setValues($this->session->getFlash('input', []));
 
 		$vars['title'] = 'Creating a new custom field';
-		$vars['messages'] = $this->messages->get();
+		$vars['messages'] = $this->messages->render();
 		$vars['form'] = $form;
 
-		return $this->renderTemplate('main', ['fields/create'], $vars);
+		return $this->renderTemplate('layout', ['fields/create'], $vars);
 	}
 
 	public function postSave() {
@@ -88,10 +89,10 @@ class Fields extends Backend {
 		$form->setValues($this->session->getFlash('input', []));
 
 		$vars['title'] = sprintf('Editing &ldquo;%s&rdquo;', $field->label);
-		$vars['messages'] = $this->messages->get();
+		$vars['messages'] = $this->messages->render();
 		$vars['form'] = $form;
 
-		return $this->renderTemplate('main', ['fields/edit'], $vars);
+		return $this->renderTemplate('layout', ['fields/edit'], $vars);
 	}
 
 	public function postUpdate($request) {
@@ -122,7 +123,5 @@ class Fields extends Backend {
 		$this->messages->success('Custom field updated');
 		return $this->response->withHeader('location', sprintf('/admin/fields/%d/edit', $id));
 	}
-
-	public function postDelete() {}
 
 }

@@ -21,7 +21,7 @@ class Page extends Form {
 			'redirect' => FILTER_SANITIZE_STRING,
 			'show_in_menu' => FILTER_SANITIZE_NUMBER_INT,
 			'menu_order' => FILTER_SANITIZE_NUMBER_INT,
-		});
+		]);
 
 		$this->setRules([
 			'title' => ['label' => 'Title', 'rules' => ['required']],

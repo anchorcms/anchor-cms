@@ -3,56 +3,34 @@
 	<head>
 		<meta charset="utf-8">
 		<title><?php echo $page->title; ?> &mdash; <?php echo $meta->sitename; ?></title>
-
 		<meta name="description" content="<?php echo $meta->description; ?>">
-		<link rel="manifest" href="/manifest.json">
-
-		<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Open+Sans">
-		<link rel="stylesheet" type="text/css" href="/themes/default/assets/css/styles.css">
-
-		<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-		<script src="/themes/default/assets/js/main.js"></script>
 	</head>
 	<body>
-		<div class="slidey" id="tray">
-			<div class="wrap">
-				<form id="search" action="/search" method="post">
-					<label for="term">Search my blog:</label>
-					<input type="search" id="term" name="term" placeholder="To search, type and hit enter&hellip;" value="<?php echo ''; ?>">
-				</form>
-
-				<nav class="categories">
-					<b>Categories</b>
-					<ul>
-						<?php while($categories->loop()): ?>
-						<li>
-							<a href="/category/<?php echo $categories->slug; ?>" title="<?php echo $categories->description; ?>">
-								<?php echo $categories->title; ?> <span><?php echo 0; ?></span>
-							</a>
-						</li>
-						<?php endwhile; ?>
-					</ul>
-				</nav>
-			</div>
-		</div>
-
 		<header>
 			<a href="/" class="logo"><?php echo $meta->sitename; ?></a>
-			<nav>
-				<ul>
-					<?php while($menu->loop()): ?>
-					<li><a href="/<?php echo $menu->slug; ?>"><?php echo $menu->title; ?></a></li>
-					<?php endwhile; ?>
-					<li class="tray">
-						<a href="#tray" class="linky"><img src="/themes/default/assets/img/categories.png" alt="Categories" title="View my posts by category"></a>
-					</li>
-				</ul>
-			</nav>
 		</header>
+
+		<nav>
+			<ul>
+				<?php while($categories->loop()): ?>
+				<li>
+					<a href="/category/<?php echo $categories->slug; ?>" title="<?php echo $categories->description; ?>">
+						<?php echo $categories->title; ?>
+					</a>
+				</li>
+				<?php endwhile; ?>
+			</ul>
+
+			<ul>
+				<?php while($menu->loop()): ?>
+				<li><a href="/<?php echo $menu->slug; ?>"><?php echo $menu->title; ?></a></li>
+				<?php endwhile; ?>
+			</ul>
+		</nav>
 
 		<?php echo $body; ?>
 
-		<footer class="wrap">
+		<footer>
 			<nav>
 				<ul>
 					<li><a href="/feeds/rss">RSS</a></li>
@@ -61,7 +39,7 @@
 					<li><a href="/" title="Return to my website.">Home</a></li>
 				</ul>
 			</nav>
-			<small>&copy; <?php echo date('Y'); ?> My First Anchor Blog. All rights reserved.</small>
+			<p>&copy; <?php echo date('Y'); ?> My First Anchor Blog. All rights reserved.</p>
 		</footer>
 	</body>
 </html>

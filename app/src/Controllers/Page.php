@@ -57,9 +57,9 @@ class Page extends Frontend {
 		if($page->id == $this->meta->key('posts_page')) {
 			$pagenum = filter_input(INPUT_GET, 'page', FILTER_SANITIZE_NUMBER_INT, ['options' => ['default' => 1]]);
 			$perpage = $this->meta->key('posts_per_page');
-			$offset = ($pagenum - 1) * $perpage;
 
-			$posts = $this->posts->where('status', '=', 'published')->take($perpage)->skip($offset)->get();
+			$posts = $this->postService->getPosts(['page' => $pagenum, 'perpage' => $perpage]);
+
 			$content = new \Content($posts);
 
 			$names[] = 'posts';
@@ -71,7 +71,7 @@ class Page extends Frontend {
 
 		$names[] = 'index';
 
-		return $this->displayContent($page, $content, 'layout', $names);
+		return $this->displayContent($page, $content, 'layout', $names, ['service' => $this->postService]);
 	}
 
 }

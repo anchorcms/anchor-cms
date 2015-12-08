@@ -10,8 +10,6 @@ abstract class ThemeAware extends ContainerAware {
 
 	private $path;
 
-	private $ext = '.phtml';
-
 	public function setTheme($theme) {
 		$theme = $this->meta->key('theme', 'default');
 		$path = $this->paths['themes'] . '/' . $theme;
@@ -20,7 +18,7 @@ abstract class ThemeAware extends ContainerAware {
 			throw new ErrorException(sprintf('Theme does not exist: %s', $theme));
 		}
 
-		$this->setViewPath($path);
+		$this->view->setPath($path);
 
 		// theme functions
 		if(is_file($path . '/functions.php')) {
@@ -28,40 +26,22 @@ abstract class ThemeAware extends ContainerAware {
 		}
 	}
 
-	public function setViewPath($path) {
-		$this->path = $path;
-	}
-
-	public function getViewPath() {
-		return $this->path;
-	}
-
-	public function setExt($ext) {
-		$this->ext = $ext;
-	}
-
 	protected function getTemplate(array $names) {
 		foreach($names as $name) {
-			$path = $this->path . '/' . $name . $this->ext;
-
-			if(true === is_file($path)) {
-				return $path;
+			if($this->view->templateExists($name)) {
+				return $name;
 			}
 		}
 
-		throw new ErrorException(sprintf('Template not found: %s', $path));
+		throw new ErrorException(sprintf('Template not found: %s', $name));
 	}
 
 	protected function renderTemplate($layout, array $templates, array $vars = []) {
 		$template = $this->getTemplate($templates);
-
-		$body = new View($template);
-		$vars['body'] = $body->render($vars);
+		$vars['body'] = $this->view->render($template, $vars);
 
 		$template = $this->getTemplate([$layout]);
-
-		$view = new View($template);
-		return $view->render($vars);
+		return $this->view->render($template, $vars);
 	}
 
 	protected function displayContent($page, $content, $layout, $templates, array $vars = []) {

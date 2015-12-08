@@ -4,10 +4,11 @@ namespace Controllers\Admin;
 
 class Media extends Backend {
 
-	public function upload() {
+	public function postUpload($request) {
 		try {
-			$name = $this->media->upload($_FILES['file']);
-			$response = ['result' => true, 'name' => $name];
+			$files = $request->getUploadedFiles();
+			$url = '/content' . $this->media->upload($files['file']);
+			$response = ['result' => true, 'path' => $url];
 		} catch(\Exception $e) {
 			$response = ['result' => false, 'message' => $e->getMessage()];
 		}
