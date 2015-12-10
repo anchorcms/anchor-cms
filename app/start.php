@@ -65,7 +65,7 @@ $app['errors']->register();
 $app['kernel']->redirectTrailingSlash();
 
 if(false === $app['installer']->isInstalled() || true === $app['installer']->installerRunning()) {
-	$app['router']->setRoutes(require __DIR__ . '/installer_routes.php');
+	$app['routes']->set(require __DIR__ . '/installer_routes.php');
 }
 else {
 	if( ! $app['config']->get('app.debug')) {
