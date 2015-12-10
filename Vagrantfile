@@ -7,7 +7,7 @@ echo '
 server {
 	listen 80 default_server;
 	server_name _;
-	root /var/www/html;
+	root /var/www/html/web;
 	index index.php index.html;
 	location / {
 		try_files $uri $uri/ /index.php;
@@ -37,5 +37,5 @@ Vagrant.configure("2") do |config|
 	config.vm.box = "debian/jessie64"
 	config.vm.provision "shell", run: "once", inline: $script
 	config.vm.network :forwarded_port, guest: 80, host: 8080
-	config.vm.synced_folder ".", "/var/www/html", owner: "www-data", group: "www-data", type: "rsync"
+	config.vm.synced_folder ".", "/var/www/html", owner: "www-data", group: "www-data", type: "rsync", rsync__exclude: ".git/"
 end
