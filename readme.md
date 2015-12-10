@@ -15,6 +15,7 @@ To determine your PHP version, create a new file with this PHP code: `<?php echo
 	cd anchor-cms
 	curl -sS https://getcomposer.org/installer | php
 	php composer.phar install
+	cd web
 	php -S localhost:8080
 
 Run the install wizard from your browser (http://localhost:8080) to complete the installation
