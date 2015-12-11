@@ -1,5 +1,41 @@
 <?php echo $messages; ?>
 
+<aside class="related">
+	<header>
+		<a class="btn subdued" href="/admin/posts/create">New post</a>
+	</header>
+
+	<ul>
+		<li>
+			<a href="/posts/1/edit">
+				<b>My post title</b>
+				<code><em>/posts/</em>my-post</code>
+			</a>
+		</li>
+
+		<li>
+			<a href="/posts/1/edit">
+				<b>My post title</b>
+				<code><em>/posts/</em>my-post</code>
+			</a>
+		</li>
+
+		<li class="active">
+			<a href="/posts/1/edit">
+				<b>My post title</b>
+				<code><em>/posts/</em>my-post</code>
+			</a>
+		</li>
+
+		<li>
+			<a href="/posts/1/edit">
+				<b>My post title</b>
+				<code><em>/posts/</em>my-post</code>
+			</a>
+		</li>
+	</ul>
+</aside>
+
 <section class="editor">
 	<?php echo $form->open(); ?>
 

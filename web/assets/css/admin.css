@@ -260,10 +260,68 @@ button + .btn {
   font: italic 105% "Adobe Caslon Pro", Baskerville, "Goudy Old Style", Palatino, "Book Antiqua", serif;
   margin-right: 3px;
 }
+.related {
+  position: absolute;
+  left: 0;
+  top: 80px;
+  z-index: 1;
+  width: 280px;
+}
+.related header {
+  overflow: hidden;
+  padding: 20px 30px;
+  background: rgba(45, 44, 51, 0.3);
+  border-bottom: 1px solid rgba(45, 44, 51, 0.5);
+}
+.related header .btn {
+  float: right;
+}
+.related ul li a {
+  display: block;
+  padding: 15px 30px;
+  line-height: 17px;
+  text-decoration: none;
+  color: #d2d2db;
+  border-bottom: 1px solid rgba(45, 44, 51, 0.3);
+  transition: background .2s, color .2s;
+}
+.related ul li a:hover {
+  color: #fff;
+  background: rgba(45, 44, 51, 0.25);
+  border-bottom-color: rgba(45, 44, 51, 0.4);
+}
+.related ul li a:hover code {
+  color: #d2d2db;
+}
+.related ul li b {
+  display: block;
+  font-size: 17px;
+  font-weight: normal;
+}
+.related ul li.active a {
+  padding-bottom: 16px;
+  background: #36a4e3;
+  color: #fff;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 2px 3px rgba(0, 0, 0, 0.15);
+  border-bottom: none;
+}
+.related ul li.active a code {
+  color: rgba(255, 255, 255, 0.75);
+}
+.related ul li code {
+  display: block;
+  font-size: 12px;
+  color: #898a94;
+}
+.related ul li code em {
+  font-style: normal;
+  opacity: .6;
+}
 .editor {
-  position: relative;
   margin: 0 30px 0 280px;
   padding: 30px;
+  position: relative;
+  z-index: 2;
   background: #efeeec;
   box-shadow: inset 0 16px 30px rgba(218, 209, 190, 0.3), 0 6px 20px rgba(0, 0, 0, 0.2);
 }
@@ -491,7 +549,7 @@ h3 {
   position: relative;
   min-height: 60px;
   padding: 18px 30px;
-  margin-bottom: 40px;
+  margin-bottom: 20px;
 }
 .main-nav .anchor-logo {
   position: absolute;
