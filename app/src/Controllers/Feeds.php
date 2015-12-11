@@ -4,7 +4,7 @@ namespace Controllers;
 
 class Feeds extends Frontend {
 
-	public function rss() {
+	public function getRss() {
 		return 'rss';
 	}
 

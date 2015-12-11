@@ -49,7 +49,7 @@ class Content implements Countable, Iterator {
 	}
 
 	public function current() {
-		return $this->items[$this->index];
+		return $this->items[max(0, $this->index)];
 	}
 
 	public function valid() {

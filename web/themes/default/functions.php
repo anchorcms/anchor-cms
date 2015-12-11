@@ -25,3 +25,12 @@ function nth(Content $content) {
 
 	return $app['posts']->where('status', '=', 'published')->where('id', '<', $content->id)->count() + 1;
 }
+
+// fallback to first valid argument
+function fallback() {
+	foreach(func_get_args() as $arg) {
+		if($arg or is_array($arg)) return $arg;
+	}
+
+	return false;
+}

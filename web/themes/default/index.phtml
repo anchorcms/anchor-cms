@@ -1,0 +1,23 @@
+<aside class="site-description wrap">
+	<h1><?php echo $meta->description; ?></h1>
+</aside>
+
+<ul class="stories wrap">
+	<?php while($content->loop()): ?>
+	<li>
+		<hgroup>
+			<h1>
+				<a href="/<?php echo $page->slug; ?>/<?php echo $content->slug; ?>">
+					<?php echo $content->title; ?>
+				</a>
+			</h1>
+
+			<small>Posted by <?php echo fallback(!$content->author, 'Administrator'); ?> <em>on the <?php echo date('dS M Y'); ?></em></small>
+		</hgroup>
+
+		<div class="article-excerpt">
+			<?php echo $content->body(); ?>
+		</div>
+	</li>
+	<?php endwhile; ?>
+</div>

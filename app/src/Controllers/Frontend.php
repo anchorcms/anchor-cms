@@ -14,7 +14,7 @@ abstract class Frontend extends ThemeAware {
 	public function notFound() {
 		$page = new \Models\Page([
 			'title' => 'Not Found',
-			'html' => 'The resource your looking for is not found.'
+			'html' => 'The resource you’re looking for doesn’t exist!'
 		]);
 
 		$content = new \Content;
