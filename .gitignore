@@ -28,3 +28,4 @@ app/config
 /themes
 !/themes/default
 .vagrant
+.phpintel

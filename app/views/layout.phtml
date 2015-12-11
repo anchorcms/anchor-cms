@@ -1,30 +1,142 @@
 <!doctype html>
-<html>
-	<head>
-		<meta charset="utf-8">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<title><?php echo $title; ?></title>
-	</head>
-	<body>
-		<ul>
-			<li><a href="/admin/posts">Posts</a></li>
-			<li><a href="/admin/pages">Pages</a></li>
-			<li><a href="/admin/categories">Categories</a></li>
-			<li><a href="/admin/users">Users</a></li>
-			<li><a href="/admin/fields">Custom Fields</a></li>
-			<li><a href="/admin/vars">Global Variables</a></li>
-			<li><a href="/admin/meta">Metadata</a></li>
-			<li><a href="/admin/themes">Themes</a></li>
-			<li><a href="/admin/plugins">Plugins</a></li>
-		</ul>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        
+        <title>Create a new page — Anchor</title>
+        
+        <meta name="description" content="">
+        <meta name="viewport" content="width=1400, initial-scale=1">
 
-		<p><a href="/">Visit Site</a></p>
+		<!-- Compiles from LESS -->
+        <link rel="stylesheet" href="/assets/css/admin.css">
+        <link rel="stylesheet" href="/assets/js/pen/pen.css">
+        
+        <!-- Compiles from current theme, if it exists -->
+        <link rel="stylesheet" href="/themes/current/admin-custom.css">
+    </head>
+    <body>
+    	<!-- @TODO: do this, but not-shitly. -->
+    	<?php $page = explode('/', $_SERVER['REQUEST_URI']); array_shift($page); ?>
+
+    	<div class="flash-message"></div>
+    	
+    	<nav class="main-nav">
+			<ul class="actions">
+				<?php foreach(['posts', 'pages', 'categories'] as $url): ?>
+				<li <?php if($page[1] == $url): ?>class="active"<?php endif; ?>>
+					<a class="icon-<?php echo $url; ?>" href="/admin/<?php echo $url; ?>"><?php echo ucfirst($url); ?></a>
+				</li>
+				<?php endforeach; ?>
+
+
+
+				<li class="has-dropdown <?php if(in_array($page[1], ['themes', 'plugins'])) echo 'active'; ?>">
+					<a class="icon-themes" href="/admin/themes">Extend</a>
+
+					<ul>
+						<li class="icon-themes">
+							<a href="/admin/themes">Theme</a>
+						</li>
+
+						<li class="icon-plugins">
+							<a href="/admin/plugins">Plugins</a>
+						</li>
+					</ul>
+				</li>
+			</ul>
+    		
+    		<a class="anchor-logo">Anchor CMS</a>
+    		
+    		<ul class="results">
+    			<li>
+    				<a class="icon-users" href="/admin/users">Users</a>
+    			</li>
+    			
+    			<li class="has-dropdown">
+    				<a class="icon-settings" href="/admin/meta">Settings</a>
+
+    				<ul>
+	    				<li>
+		    				<a class="icon-metadata" href="/admin/meta">Metadata</a>
+	    				</li>
+
+	    				<li>
+		    				<a class="icon-custom-fields" href="/admin/fields">Custom fields</a>
+	    				</li>
+
+	    				<li>
+		    				<a class="icon-variables" href="/admin/vars">Site variables</a>
+	    				</li>
+    				</ul>
+    			</li>
+    			
+    			<li>
+    				<a class="icon-visit-site" href="/">Visit site</a>
+    			</li>
+
+    			<li>
+    				<a class="icon-logout" href="/admin/logout">Log out</a>
+    			</li>
+    		</ul>
+    	</nav>
 
 		<?php echo $body; ?>
 
 		<script>
 			(function(d, w) {
+				var dropdowns = document.querySelectorAll('.has-dropdown > a');
+
+				var classy = {
+					default: 'open',
+
+					add: function(className) {
+						if(classy.has.call(this, classy.default)) {
+							return;
+						}
+
+						return this.className += (' ' + classy.default);
+					},
+
+					remove: function() {
+						var classes = this.className.split(' ');
+						var index = classes.indexOf(classy.default);
+
+						if(index >= 0) {
+							classes.splice(index, 1);
+
+							return this.className = classes.join(' ');
+						}
+					},
+
+					toggle: function(className) {
+						if(classy.has.call(this, classy.default)) {
+							return classy.remove.call(this, classy.default);
+						}
+
+						return classy.add.call(this, classy.default);
+					},
+
+					has: function() {
+						return this.className.split(' ').indexOf(classy.default) >= 0;
+					}
+				};
+
+				Array.prototype.forEach.call(dropdowns, function(dropdown) {
+					dropdown.addEventListener('click', function(e) {
+						e.preventDefault();
+
+						classy.toggle.call(this);
+					});
+
+					d.addEventListener('click', function(e) {
+						if(e.target != dropdown) {
+							classy.remove.call(dropdown);
+						}
+					});
+				})
+
 				var upload = function(file, callback) {
 					var token = d.querySelector('input[name=token]').getAttribute('value');
 

@@ -33,7 +33,7 @@ class Installer {
 	public function connectDatabase(array $input) {
 		// test connection
 		if($input['driver'] == 'mysql') {
-			$dns = sprintf('mysql:dbname=%s;host=%s;port=%d', $input['dbname'], $rules['host'], $rules['port']);
+			$dns = sprintf('mysql:host=%s;port=%d;dbname=%s', $input['host'], $input['port'], $input['dbname']);
 
 			$pdo = new \PDO($dns, $input['user'], $input['pass']);
 		}

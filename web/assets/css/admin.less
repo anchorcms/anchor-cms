@@ -1,0 +1,375 @@
+/**
+ *   Anchor CMS
+ *
+ *   Admin styles go here. It's probably best you don't edit anything
+ *   here if you don't know what you're doing, and add an admin.css
+ *   file in your theme to modify the - well, the admin section here.
+ */
+
+@import '//fonts.googleapis.com/css?family=Cousine:400,700|Alegreya:400italic,700italic,400,700|Karla:400,400italic,700,700italic';
+
+@import 'variables';
+@import 'reset';
+@import 'forms';
+
+.wrap, .editor {
+	width: 1280px;
+	margin: 0 auto;
+	
+	&.narrow {
+		width: 1000px;
+	}
+}
+
+body {
+	background: @background;
+	color: @foreground;
+	
+	font: 16px/26px @body;
+}
+
+a {
+	color: @hilite;
+}
+	a:hover {
+		color: darken(@hilite, 20%);
+	}
+	
+a, .pen-icon, span, .post-stats {
+	-webkit-transition: color .2s, background .2s, opacity .2s;
+	-moz-transition: color .2s, background .2s, opacity .2s;
+	transition: color .2s, background .2s, opacity .2s;
+}
+	.post-stats span {
+		-webkit-transition: none;
+		-moz-transition: none;
+		transition: none;
+	}
+	
+.main-nav {
+	-webkit-transition: opacity .2s, margin .1s;
+	-moz-transition: opacity .2s, margin .1s;
+	transition: opacity .2s, margin .1s;
+}
+
+
+h1, h2, h3, h4 {
+	font-family: @headline;
+	font-weight: normal;
+	
+	margin-bottom: .8em;
+}
+	h1 {
+		font-size: 40px;
+		line-height: 48px;
+	}
+	h2 {
+		font-size: 28px;
+		line-height: 36px;
+	}
+	h3 {
+		font-size: 22px;
+		line-height: 30px;
+	}
+
+/* @TODO */
+.flash-message {
+	display: none;
+}
+
+.main-nav {
+	position: relative;
+	min-height: 60px;
+	padding: 18px 30px;
+	margin-bottom: 40px;
+
+	.anchor-logo {
+		position: absolute;
+		left: 50%;
+		top: 50%;
+		
+		display: block;
+		width: 32px;
+		height: 32px;
+		margin: -13px 0 0 -16px;
+		
+		font-size: 0;
+		line-height: 32px;
+		
+		pointer-events: none;
+		opacity: .5;
+
+		&:after {
+			font-size: 20px;
+		}
+	}
+
+	a {
+		position: relative;
+		padding-left: 20px;
+
+		color: @background-light;
+		
+		font-size: 15px;
+		text-decoration: none;
+	
+		&:hover, &.open {
+			color: @background-lighter;
+		}
+
+		&:before {
+			content: '';
+			display: inline-block;
+			width: 24px;
+			height: 22px;
+
+			vertical-align: middle;
+			margin-right: 8px;
+
+			background: currentColor url('../img/nav-icons.png') no-repeat 0 0;
+			background-size: 336px 22px;
+		}
+
+		&.icon-posts:before { background-position: 0 0 }
+		&.icon-themes:before { background-position: -24px 0 }
+		&.icon-pages:before { background-position: -48px 0 }
+		&.icon-categories:before { background-position: -72px 0 }
+		&.icon-plugins:before { background-position: -96px 0 }
+		&.icon-users:before { background-position: -120px 0 }
+		&.icon-visit-site:before { background-position: -144px 0 }
+		&.icon-metadata:before { background-position: -168px 0 }
+		&.icon-variables:before { background-position: -192px 0 }
+		&.icon-search:before { background-position: -214px 0 }
+		&.icon-settings:before { background-position: -238px 0 }
+		&.icon-custom-fields:before { background-position: -262px 0 }
+		&.icon-logout:before { background-position: -284px 0 }
+		&.anchor-logo:before { background-position: -312px 0 }
+	}
+
+	ul {
+		float: left;
+		list-style: none;
+	
+		li {
+			position: relative;
+			float: left;
+			margin-right: 30px;
+
+			&.active a {
+				color: @hilite;
+			}
+
+			ul {
+				position: absolute;
+				left: -5px;
+				top: 30px;
+				z-index: 10000;
+				
+				float: none;
+				width: 160px;
+				padding: 5px 0;
+				
+				background: @dropdown;
+
+				border-radius: 8px;
+				
+				pointer-events: none;
+				opacity: 0;
+				
+				-webkit-transition: opacity .2s, top .2s;
+				-moz-transition: opacity .2s, top .2s;
+				transition: opacity .2s, top .2s;
+
+				&:before {
+					content: '';
+					position: absolute;
+					left: 50%;
+					top: -5px;
+					
+					display: block;
+					margin-left: -6px;
+					
+					border-left: 6px solid transparent;
+					border-right: 6px solid transparent;
+					border-bottom: 5px solid @dropdown;
+				}
+
+				li {
+					float: none;
+					margin-right: 0;
+				}
+
+				a {
+					display: block;
+					padding: 4px 22px;
+
+					color: @background-light;
+
+					&:hover {
+						color: @background-lighter;
+					}
+
+					/* No icons until I work out how to do SVG properly. */
+					&:before {
+						display: none;
+					}
+				}
+			}
+
+			&.has-dropdown > a {
+				&:after {
+					content: '';
+					position: relative;
+					left: 8px;
+					top: -2px;
+		
+					display: inline-block;
+					width: 8px;
+					height: 4px;
+					
+					background: currentColor url('../img/arrow-down.png');
+					background-size: 8px 4px;
+
+					transition: none;
+				}
+
+				&.open:after {
+					background-image: url('../img/arrow-up.png');
+				}
+			}
+
+			.open + ul {
+				opacity: 1;
+				top: 40px;
+
+				pointer-events: all;
+			}
+		}
+	}
+		
+	.results {
+		float: right;
+		
+		li:last-child {
+			margin-right: 0;
+		}
+	}
+}
+
+.content {
+	background: @white;
+	box-shadow: 0 3px 6px fade(@black, 10%);
+
+	li {
+		list-style: none;
+	}
+}
+
+.filter {
+	height: 72px;
+	padding: 16px 30px 0;
+	background: @panel;
+	border-bottom: 1px solid darken(@panel, 3%);
+
+	.btn {
+		margin-top: 4px;
+	}
+
+	.search, .split-options {
+		float: left;
+		margin-left: 20px;
+	}
+
+	.search {
+		position: relative;
+
+		input {
+			background: darken(@panel, 5%);
+			border-radius: 3px;
+			box-shadow: inset 0 2px 2px fade(@black, 5%);
+		}
+
+		button {
+			display: none;
+		}
+
+		.placeholder(@text-button);
+	}
+}
+
+.post-list {
+	position: relative;
+	padding-bottom: 20px;
+
+	li {
+		position: relative;
+		padding: 24px 30px 24px 135px;
+		overflow: hidden;
+
+		border-bottom: 1px solid @border;
+
+		.badge {
+			position: absolute;
+			left: 30px;
+			top: 50%;
+
+			width: 75px;
+			margin: -9px 0 0;
+
+			line-height: 12px;
+			text-align: center;
+		}
+
+		a {
+			display: block;
+			float: left;
+			max-width: 400px;
+
+			font-size: 14px;
+			line-height: 19px;
+			text-decoration: none;
+		}
+
+		h1 {
+			margin-bottom: 0;
+
+			font: bold 18px/24px @body;
+			color: @foreground-dark;
+
+			.truncate;
+		}
+
+		p {
+			color: @foreground;
+			.truncate;
+		}
+	}
+
+	dl {
+		float: right;
+		margin-top: 2px;
+
+		font-size: 13px;
+		line-height: 19px;
+
+		dd, dt {
+			float: left;
+			width: 130px;
+
+			text-align: right;
+		}
+
+		a {
+			display: inline;
+			float: none;
+		}
+
+		dt {
+			opacity: .75;
+		}
+
+		dd {
+			margin: 19px 0 0 -130px;
+		}
+	}
+}
