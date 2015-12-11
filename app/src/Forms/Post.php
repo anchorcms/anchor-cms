@@ -40,7 +40,7 @@ class Post extends Form {
 
 		$this->addElement(new \Forms\Elements\Textarea('content', [
 			'label' => 'Content',
-			'attributes' => ['class' => 'editor', 'placeholder' => 'Just write.']
+			'attributes' => ['class' => 'markdown-editor', 'placeholder' => 'Just write.']
 		]));
 
 		$this->addElement(new \Forms\Elements\Select('category', [
@@ -57,7 +57,7 @@ class Post extends Form {
 		]));
 
 		$this->addElement(new \Forms\Elements\Submit('submit', [
-			'value' => 'Save Changes',
+			'value' => 'Save changes',
 			'attributes' => ['class' => 'button'],
 		]));
 	}

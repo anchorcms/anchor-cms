@@ -11,8 +11,9 @@
 @import 'variables';
 @import 'reset';
 @import 'forms';
+@import 'editor';
 
-.wrap, .editor {
+.wrap {
 	width: 1280px;
 	margin: 0 auto;
 	
@@ -155,7 +156,7 @@ h1, h2, h3, h4 {
 			float: left;
 			margin-right: 30px;
 
-			&.active a {
+			&.active > a {
 				color: @hilite;
 			}
 

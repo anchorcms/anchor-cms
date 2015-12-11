@@ -11,7 +11,6 @@
 
 		<!-- Compiles from LESS -->
         <link rel="stylesheet" href="/assets/css/admin.css">
-        <link rel="stylesheet" href="/assets/js/pen/pen.css">
         
         <!-- Compiles from current theme, if it exists -->
         <link rel="stylesheet" href="/themes/current/admin-custom.css">
@@ -30,14 +29,12 @@
 				</li>
 				<?php endforeach; ?>
 
-
-
 				<li class="has-dropdown <?php if(in_array($page[1], ['themes', 'plugins'])) echo 'active'; ?>">
 					<a class="icon-themes" href="/admin/themes">Extend</a>
 
 					<ul>
 						<li class="icon-themes">
-							<a href="/admin/themes">Theme</a>
+							<a href="/admin/themes">Themes</a>
 						</li>
 
 						<li class="icon-plugins">

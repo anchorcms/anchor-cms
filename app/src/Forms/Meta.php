@@ -63,7 +63,7 @@ class Meta extends Form {
 		]));
 
 		$this->addElement(new \Forms\Elements\Submit('submit', [
-			'value' => 'Save Changes',
+			'value' => 'Save changes',
 			'attributes' => ['class' => 'button'],
 		]));
 	}
