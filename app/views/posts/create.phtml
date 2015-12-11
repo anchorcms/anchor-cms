@@ -1,3 +1,154 @@
 <?php echo $messages; ?>
 
-<?php echo $this->render('partials/form', ['form' => $form]); ?>
+<section class="editor central">
+	<?php echo $form->open(); ?>
+
+	<nav>
+		<a href="#content" class="active">Content</a>
+		<a href="#metadata">Metadata</a>
+	</nav>
+
+	<div id="metadata" style="display: none" class="options split-fields">
+		<p>
+			<label for="slug">Page slug:</label>
+			<input id="slug" type="code" data-slugify value="my-awesome-slug" placeholder="my-awesome-slug">
+		</p>
+
+		<p class="multi-select">
+			<label for="published-day">Publish date:</label>
+			<select id="published-day">
+				<option>1st</option>
+				<option>2nd</option>
+				<option>3rd</option>
+				<option>4th</option>
+				<option>5th</option>
+				<option>6th</option>
+				<option>7th</option>
+				<option>8th</option>
+				<option selected>9th</option>
+				<option>10th</option>
+				<option>11th</option>
+				<option>12th</option>
+				<option>13th</option>
+				<option>14th</option>
+				<option>15th</option>
+				<option>16th</option>
+				<option>17th</option>
+			</select>
+
+			<select id="published-month">
+				<option value="01">January</option>
+				<option value="02">February</option>
+				<option value="03">March</option>
+				<option value="04">April</option>
+				<option value="05">May</option>
+				<option selected value="06">June</option>
+				<option value="07">July</option>
+				<option value="08">August</option>
+				<option value="09">September</option>
+				<option value="10">October</option>
+				<option value="11">November</option>
+				<option value="12">December</option>
+			</select>
+
+			<select id="year">
+				<option>2014</option>
+				<option>2013</option>
+				<option>2012</option>
+				<option>2011</option>
+				<option>2010</option>
+				<option>2009</option>
+				<option>2008</option>
+				<option>2007</option>
+				<option>2006</option>
+				<option>2005</option>
+			</select>
+		</p>
+
+		<div>
+			<label for="description">Description:</label>
+			<textarea name="description">This is the first post.</textarea>
+		</div>
+
+		<div>
+			<p>
+				<label for="status">Status:</label>
+				<select id="status" name="status"><option value="published" selected="selected">Published</option><option value="draft">Draft</option><option value="archived">Archived</option></select>
+			</p>
+			<p>
+				<label for="category">Category:</label>
+				<select id="category" name="category"><option value="1" selected="selected">Uncategorised</option></select>
+			</p>
+
+			<div class="inline-fields">
+				<p>
+					<label for="comments">Allow Comments:</label>
+					<input type="checkbox" id="comments" name="comments" value="1">
+
+					<span class="custom-checkbox"></span>
+				</p>
+
+				<p>
+					<label for="delete-post">Permanently delete post:</label>
+					<button type="submit" id="delete-post" class="delete">Yes, delete this post forever</button>
+				</p>
+			</div>
+		</div>
+	</div>
+
+	<div id="content">
+		<!-- Sorry. -->
+		<div class="wrap narrow">
+			<?php echo $form->getElement('title')->getHtml(); ?>
+
+			<?php echo $form->getElement('content')->getHtml(); ?>
+			<div contenteditable data-editor data-target=".markdown-editor"></div>
+		</div>
+
+		<dl class="post-stats">
+			<dt>Word count:</dt>
+			<dd class="words">0</dd>
+
+			<dt>Character count:</dt>
+			<dd class="characters">0</dd>
+
+			<dt>Reading time:</dt>
+			<dd>~<span class="min">0</span> min, <span class="sec">0</span> sec</dd>
+
+			<a class="focus-toggle" href="#">
+			<img width="18" height="12" alt="Toggle Focus Mode (Cmd + E)" title="Toggle Focus Mode (Cmd + E)" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAYCAYAAACSuF9OAAABnUlEQVR4AdXWTwsSYRDH8cFDgXn15sFDtkKYEoJ7W/LUyaIirPfQpUs36yW4HqJexF6zQ+e6xBL4DmyDoj9mYWia0zfYk7A1j+4eEj5z0uGHu888I8d8Hty/dxEjPEOCHX7hHaZ4iBbElcuXSxjiNdQoxh2U8g4UIIYeKUaQR6AyHmMPPdEeT1A+NlAdMTRnM5x3DXQFH6EF+YzAGug6NoamG4TwUUn5CI2/X+PavwLdxk9DswQdSIYOEkOfLW5mBRpgZ/xnOhA0EGGZitCAoI21sd/Vw0A9rKAGEwg8LKAHFvAgmEANVuhChFLDe6iRD0EEzRBB4EON5qgK5SXUwRkIltAM3yE4C3XwQv6UAgNVoA5eCaWKt1CjXkGP7ANqQhG08BVqEELQ/MtL3YQgdHipe4fHvu8w0NoQeIjwLRXBg+CS8djvMMgajLewzWEwth0G49BydVgH2hhdnEt1MXa4em5YL9cAX6AF+YS+6/pxATNozt6gfsqC9rSABe3/WmGtSriL2DHI0H3Jd3cZj/AcCX5ghTmmGKEFcfUb8qFwyc2boUMAAAAASUVORK5CYII="> Toggle Focus Mode <span title="You can also use Cmd/Ctrl + E">(&#x2318; + E)</span>
+			</a>
+		</dl>
+	</div>
+
+	<div class="actions">
+		<a href="?preview=true" class="btn secondary">Preview post</a>
+		<?php echo $form->getElement('submit')->getHtml(); ?>
+	</div>
+	
+	<?php echo $form->close(); ?>
+</section>
+
+<script src="/assets/js/pen.js"></script>
+<script src="/assets/js/markdown.js"></script>
+
+<script>
+	window.onload = function() {
+		editor = document.querySelector('[data-editor]');
+		target = document.querySelector(editor.getAttribute('data-target'));
+
+		editor.innerHTML = target.value;
+	
+		pen = new Pen({
+			debug: true,
+			editor: editor,
+			list: ['blockquote', 'h2', 'h3', /*'p',*/ 'insertorderedlist', 'insertunorderedlist',
+				   /*'indent', 'outdent',*/ 'bold', 'italic', /*'underline',*/ 'createlink'],
+			stay: false /* Ask before quitting, turn back on once dev is done */
+		});
+
+		editor.onchange = editor.onkeyup = editor.onblur = function() {
+			target.value = pen.toMd().replace('&nbsp;', ' ');
+		};
+	};
+</script>

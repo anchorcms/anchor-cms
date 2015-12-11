@@ -325,6 +325,9 @@ button + .btn {
   background: #efeeec;
   box-shadow: inset 0 16px 30px rgba(218, 209, 190, 0.3), 0 6px 20px rgba(0, 0, 0, 0.2);
 }
+.editor.central {
+  margin: 0 155px;
+}
 .editor nav {
   position: absolute;
   left: 30px;
