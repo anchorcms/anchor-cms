@@ -2,12 +2,13 @@
 
 	<?php foreach($form->getElementsExcluding(['submit']) as $element): ?>
 
-	<?php if($element->hasLabel()): ?>
-	<p><label><?php echo $element->getLabel(); ?>
-	<?php echo $element->getHtml(); ?></label></p>
+	<p><?php if($element->hasLabel()): ?>
+		<label><?php echo $element->getLabel(); ?></label>
+		<?php echo $element->getHtml(); ?>
 	<?php else: ?>
-	<?php echo $element->getHtml(); ?>
+		<?php echo $element->getHtml(); ?>
 	<?php endif; ?>
+	</p>
 
 	<?php endforeach; ?>
 

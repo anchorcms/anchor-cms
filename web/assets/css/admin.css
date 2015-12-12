@@ -488,6 +488,33 @@ textarea.markdown-editor {
   text-align: left;
   border-radius: 3px;
 }
+.auth form {
+  position: absolute;
+  left: 200px;
+  top: 50%;
+  width: 320px;
+  transform: translateY(-50%);
+}
+.auth form:before {
+  content: '';
+  display: inline-block;
+  width: 24px;
+  height: 22px;
+  vertical-align: middle;
+  margin: 0 0 40px;
+  background: rgba(137, 138, 148, 0.5) url('../img/nav-icons.png') no-repeat -312px 0;
+  background-size: 336px 22px;
+}
+.auth input {
+  width: 100%;
+  margin-bottom: 20px;
+  background: rgba(45, 44, 51, 0.5);
+  color: #fff;
+  border-radius: 6px;
+}
+.auth label {
+  font-size: 0;
+}
 .wrap {
   width: 1280px;
   margin: 0 auto;
@@ -754,6 +781,43 @@ h3 {
 }
 .filter .search :placeholder {
   color: #aba8a1;
+}
+body > form {
+  width: 1280px;
+  margin: 0 auto;
+  padding: 30px;
+  width: 850px;
+  background: #efeeec;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+body > form.narrow {
+  width: 1000px;
+}
+body > form p {
+  padding: 15px 30px;
+  border-bottom: 1px solid rgba(201, 198, 191, 0.25);
+}
+body > form p:last-child {
+  border-bottom: none;
+}
+body > form label {
+  display: block;
+  float: left;
+  width: 180px;
+  line-height: 42px;
+  cursor: pointer;
+  vertical-align: top;
+}
+body > form input,
+body > form textarea {
+  width: 550px;
+  border-radius: 4px;
+}
+body > form select {
+  padding: 12px 40px 11px 22px;
+}
+body > form [type=submit] {
+  margin-top: 20px;
 }
 .post-list {
   position: relative;

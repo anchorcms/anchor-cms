@@ -13,6 +13,45 @@
 @import 'forms';
 @import 'editor';
 
+.auth {
+	form {
+		position: absolute;
+		left: 200px;
+		top: 50%;
+
+		width: 320px;
+
+		transform: translateY(-50%);
+
+		&:before {
+			content: '';
+			display: inline-block;
+			width: 24px;
+			height: 22px;
+
+			vertical-align: middle;
+			margin: 0 0 40px;
+
+			background: fade(@background-light, 50%) url('../img/nav-icons.png') no-repeat -312px 0;
+			background-size: 336px 22px;
+		}
+	}
+
+	input {
+		width: 100%;
+		margin-bottom: 20px;
+
+		background: fade(@background-panel, 50%);
+		color: @white;
+
+		border-radius: 6px;
+	}
+
+	label {
+		font-size: 0;
+	}
+}
+
 .wrap {
 	width: 1280px;
 	margin: 0 auto;
@@ -295,6 +334,48 @@ h1, h2, h3, h4 {
 		}
 
 		.placeholder(@text-button);
+	}
+}
+
+body > form {
+	.wrap;
+
+	padding: 30px;
+	width: 850px;
+
+	background: @panel;
+	box-shadow: 0 4px 16px fade(@black, 15%);
+
+	p {
+		padding: 15px 30px;
+		border-bottom: 1px solid fade(@border, 25%);
+
+		&:last-child {
+			border-bottom: none;
+		}
+	}
+
+	label {
+		display: block;
+		float: left;
+		width: 180px;
+		line-height: 42px;
+
+		cursor: pointer;
+		vertical-align: top;
+	}
+
+	input, textarea {
+		width: 550px;
+		border-radius: 4px;
+	}
+
+	select {
+		padding: 12px 40px 11px 22px;
+	}
+
+	[type=submit] {
+		margin-top: 20px;
 	}
 }
 
