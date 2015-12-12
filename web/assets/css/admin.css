@@ -116,6 +116,10 @@ input[type=code],
   font-family: Cousine, Consolas, monospace;
   text-transform: lowercase;
 }
+input,
+textarea {
+  border-radius: 4px;
+}
 textarea {
   resize: vertical;
   min-height: 290px;
@@ -137,8 +141,8 @@ input[type=checkbox] {
   left: 0;
   top: 0;
   z-index: 2;
-  width: 120px !important;
-  height: 42px !important;
+  width: 110px !important;
+  height: 36px !important;
   opacity: 0;
   cursor: pointer;
 }
@@ -148,22 +152,23 @@ input[type=checkbox] + .custom-checkbox {
   top: 0;
   z-index: 1;
   display: block;
-  width: 120px;
-  height: 42px;
+  width: 110px;
+  height: 36px;
   background: rgba(201, 198, 191, 0.3);
-  border-radius: 4px;
+  border-radius: 40px;
   cursor: pointer;
 }
 .custom-checkbox:after {
   content: 'No';
   display: block;
   width: 60px;
-  height: 42px;
+  height: 36px;
   background: #847f75;
   color: #fff;
+  font-size: 14px;
+  line-height: 36px;
   text-align: center;
-  line-height: 40px;
-  border-radius: 4px;
+  border-radius: 40px;
   -webkit-transition: margin .2s, background .2s;
   -moz-transition: margin .2s, background .2s;
   transition: margin .2s, background .2s;
@@ -171,7 +176,7 @@ input[type=checkbox] + .custom-checkbox {
 input[type=checkbox]:checked + .custom-checkbox:after {
   content: 'Yes';
   background: #36a4e3;
-  margin-left: 60px;
+  margin-left: 50px;
 }
 label[for] {
   display: block;
@@ -181,14 +186,14 @@ label[for] {
 }
 select {
   display: inline-block;
-  padding: 15px 40px 14px 22px;
+  padding: 12px 40px 11px 22px;
   margin-right: 15px;
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: normal;
   border: none;
   outline: none;
-  background-color: #f6f5f4;
+  background-color: #f8f7f6;
   background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAGCAYAAADQQP5pAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyNpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNS1jMDE0IDc5LjE1MTQ4MSwgMjAxMy8wMy8xMy0xMjowOToxNSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIChNYWNpbnRvc2gpIiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOjlFNzgwOTA3RTQyMDExRTNBQTBERjJFOTUwODQ0QkUzIiB4bXBNTTpEb2N1bWVudElEPSJ4bXAuZGlkOjlFNzgwOTA4RTQyMDExRTNBQTBERjJFOTUwODQ0QkUzIj4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6OUU3ODA5MDVFNDIwMTFFM0FBMERGMkU5NTA4NDRCRTMiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6OUU3ODA5MDZFNDIwMTFFM0FBMERGMkU5NTA4NDRCRTMiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz4BqyEMAAAAbUlEQVR42qzQ0QnAIAwE0Is6Qev+E9ZM0GIjXCAt/WsCBxI/np4A6JZqGZYTz2mW3XJZjrWYc+LPFIsQ7AQi5o8RJM0ClT8rAXWs8E6zQH95ZXWN9UnABnfIqDRWFVF8YdmgoxvP+sYywFuAAQCy7h09dmCjIgAAAABJRU5ErkJggg==);
   background-repeat: no-repeat;
   background-position: 100% 50%;
@@ -208,7 +213,7 @@ button {
   background: #36a4e3;
   color: #fff;
   font-size: 13px;
-  line-height: 13px;
+  line-height: 14px;
   text-decoration: none;
   cursor: pointer;
   border: none;
@@ -233,7 +238,9 @@ button.positive {
   background: #97c73b;
 }
 .btn.negative,
-button.negative {
+button.negative,
+.btn.delete,
+button.delete {
   background: #d9412c;
 }
 .btn.secondary,
@@ -329,6 +336,52 @@ button + .btn {
   font-style: normal;
   opacity: .6;
 }
+.editor #metadata {
+  padding-top: 80px;
+}
+.split-fields {
+  position: relative;
+  overflow: hidden;
+  margin-bottom: -60px;
+}
+.split-fields p,
+.split-fields > div {
+  position: relative;
+  float: left;
+  width: 47.5%;
+  margin-right: 5%;
+  margin-bottom: 40px;
+}
+.split-fields p:nth-child(2n),
+.split-fields > div:nth-child(2n),
+.split-fields p .split-fields > div:nth-child(2n),
+.split-fields > div .split-fields > div:nth-child(2n) {
+  margin-right: 0;
+}
+.split-fields p input,
+.split-fields > div input,
+.split-fields p textarea,
+.split-fields > div textarea {
+  width: 100%;
+}
+.split-fields > div p {
+  float: none;
+  width: 100%;
+  margin-right: 0;
+}
+.split-fields .inline-fields p {
+  float: left;
+  width: auto;
+  margin-right: 60px;
+}
+.split-fields .inline-fields p:last-child {
+  margin-right: 0;
+}
+[data-editor]:empty:not(:focus):before,
+[data-editor].initial:before {
+  content: attr(placeholder);
+  color: #c9c6bf;
+}
 .editor {
   margin: 0 30px 0 280px;
   padding: 30px;
@@ -344,6 +397,7 @@ button + .btn {
   position: absolute;
   left: 30px;
   top: 0;
+  z-index: 5;
 }
 .editor nav a {
   display: inline-block;

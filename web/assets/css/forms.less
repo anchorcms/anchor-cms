@@ -87,6 +87,10 @@ input, textarea, button, [data-editor] {
 		text-transform: lowercase;
 	}
 
+input, textarea {
+	border-radius: 4px;
+}
+
 textarea {
 	resize: vertical;
 	min-height: 290px;
@@ -114,8 +118,8 @@ input[type=checkbox] {
 	top: 0;
 	z-index: 2;
 	
-	width: 120px !important;
-	height: 42px !important;
+	width: 110px !important;
+	height: 36px !important;
 	
 	opacity: 0;
 	cursor: pointer;
@@ -127,11 +131,11 @@ input[type=checkbox] {
 		z-index: 1;
 
 		display: block;
-		width: 120px;
-		height: 42px;
+		width: 110px;
+		height: 36px;
 		
 		background: fade(@foreground-subdued, 30%);
-		border-radius: 4px;
+		border-radius: 40px;
 		
 		cursor: pointer;
 	}
@@ -141,15 +145,16 @@ input[type=checkbox] {
 	content: 'No';
 	display: block;
 	width: 60px;
-	height: 42px;
+	height: 36px;
 	
 	background: @foreground;
 	color: @white;
 	
+	font-size: 14px;
+	line-height: 36px;
 	text-align: center;
-	line-height: 40px;
 	
-	border-radius: 4px;
+	border-radius: 40px;
 	
 	-webkit-transition: margin .2s, background .2s;
 	-moz-transition: margin .2s, background .2s;
@@ -158,7 +163,7 @@ input[type=checkbox] {
 	input[type=checkbox]:checked + & {
 		content: 'Yes';
 		background: @hilite;
-		margin-left: 60px;
+		margin-left: 50px;
 	}
 }
 	
@@ -172,7 +177,7 @@ label[for] {
 	
 select {
 	display: inline-block;
-	padding: 15px 40px 14px 22px;
+	padding: 12px 40px 11px 22px;
 	margin-right: 15px;
 	
 	-webkit-appearance: none;
@@ -182,7 +187,7 @@ select {
 	border: none;
 	outline: none;
 	
-	background-color: lighten(@foreground-ghosted, 2%);
+	background-color: lighten(@foreground-ghosted, 3%);
 	background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAGCAYAAADQQP5pAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyNpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNS1jMDE0IDc5LjE1MTQ4MSwgMjAxMy8wMy8xMy0xMjowOToxNSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIChNYWNpbnRvc2gpIiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOjlFNzgwOTA3RTQyMDExRTNBQTBERjJFOTUwODQ0QkUzIiB4bXBNTTpEb2N1bWVudElEPSJ4bXAuZGlkOjlFNzgwOTA4RTQyMDExRTNBQTBERjJFOTUwODQ0QkUzIj4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6OUU3ODA5MDVFNDIwMTFFM0FBMERGMkU5NTA4NDRCRTMiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6OUU3ODA5MDZFNDIwMTFFM0FBMERGMkU5NTA4NDRCRTMiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz4BqyEMAAAAbUlEQVR42qzQ0QnAIAwE0Is6Qev+E9ZM0GIjXCAt/WsCBxI/np4A6JZqGZYTz2mW3XJZjrWYc+LPFIsQ7AQi5o8RJM0ClT8rAXWs8E6zQH95ZXWN9UnABnfIqDRWFVF8YdmgoxvP+sYywFuAAQCy7h09dmCjIgAAAABJRU5ErkJggg==);
 	background-repeat: no-repeat;
 	background-position: 100% 50%;
@@ -207,7 +212,7 @@ select {
 	color: @white;
 	
 	font-size: 13px;
-	line-height: 13px;
+	line-height: 14px;
 	text-decoration: none;
 	
 	cursor: pointer;
@@ -231,7 +236,7 @@ select {
 		background: @secondary;
 	}
 
-	&.negative {
+	&.negative, &.delete {
 		background: @failure;
 	}
 	

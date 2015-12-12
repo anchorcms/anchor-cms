@@ -97,7 +97,7 @@
 
 		<script>
 			(function(d, w) {
-				var dropdowns = document.querySelectorAll('.has-dropdown > a');
+				var dropdowns = d.querySelectorAll('.has-dropdown > a');
 
 				var classy = {
 					default: 'open',
@@ -148,7 +148,32 @@
 					});
 				});
 
-				var messages = document.querySelectorAll('.msg');
+				var tabs = d.querySelectorAll('.editor nav a');
+				var targets = d.querySelectorAll('.tab');
+
+				Array.prototype.forEach.call(tabs, function(tab) {
+					tab.onclick = function() {
+						var target = d.querySelector('#' + this.href.split('#')[1]);
+
+						Array.prototype.forEach.call(tabs, function(otherTab) {
+							otherTab.className = '';
+						});
+
+						this.className = 'active';
+
+						Array.prototype.forEach.call(targets, function(otherTarget) {
+							otherTarget.style.display = 'none';
+						});
+
+						target.style.display = 'block';
+					};
+				});
+
+				if(window.location.hash) {
+					d.querySelector('a[href="' + window.location.hash + '"]').click();
+				}
+
+				var messages = d.querySelectorAll('.msg');
 				var totalMessages = messages.length;
 				var exit = function(msg) {
 					classy.remove.call(msg);
