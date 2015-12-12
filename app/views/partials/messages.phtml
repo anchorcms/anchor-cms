@@ -1,12 +1,7 @@
-
-<?php if(count($messages)):
-	foreach($messages as $type => $group): ?>
-<p><?php echo $type; ?></p>
-
-<ul>
+<?php if(count($messages)): foreach($messages as $type => $group): ?>
 	<?php foreach($group as $message): ?>
-	<li><?php echo $message; ?></li>
+		<div class="msg <?php echo $type; ?>">
+			<?php echo $message; ?>
+		</div>
 	<?php endforeach; ?>
-</ul>
-<?php endforeach;
-	endif; ?>
+<?php endforeach; endif; ?>

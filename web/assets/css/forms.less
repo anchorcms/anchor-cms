@@ -99,22 +99,38 @@ textarea {
 		text-transform: none;
 	}
 }
-		
-input[type=checkbox] {
+	
+
+.checkbox-wrap {
 	position: relative;
+	display: block;
+	width: 120px;
+	height: 42px;
+}
+
+input[type=checkbox] {
+	position: absolute;
+	left: 0;
+	top: 0;
+	z-index: 2;
+	
 	width: 120px !important;
-	height: 40px !important;
+	height: 42px !important;
 	
 	opacity: 0;
 	cursor: pointer;
 
 	+ .custom-checkbox {
+		position: absolute;
+		left: 0;
+		top: 0;
+		z-index: 1;
+
 		display: block;
 		width: 120px;
-		height: 40px;
-		margin-top: -45px;
+		height: 42px;
 		
-		background: @foreground-ghosted;
+		background: fade(@foreground-subdued, 30%);
 		border-radius: 4px;
 		
 		cursor: pointer;
@@ -125,7 +141,7 @@ input[type=checkbox] {
 	content: 'No';
 	display: block;
 	width: 60px;
-	height: 40px;
+	height: 42px;
 	
 	background: @foreground;
 	color: @white;

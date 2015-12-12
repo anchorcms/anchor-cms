@@ -112,9 +112,40 @@ h1, h2, h3, h4 {
 		line-height: 30px;
 	}
 
-/* @TODO */
-.flash-message {
-	display: none;
+.msg {
+	position: fixed;
+	left: 30px;
+	bottom: 0;
+
+	padding: 9px 20px;
+	border-radius: 4px;
+
+	opacity: 0;
+	transition: bottom .2s, opacity .2s;
+
+	background: fade(@primary, 90%);
+	color: @white;
+	box-shadow: 0 4px 12px fade(@black, 25%);
+
+	font-size: 14px;
+
+	&.open {
+		bottom: 30px;
+		opacity: 1;
+	}
+
+	&.leaving {
+		bottom: 45px;
+		opacity: 0;
+	}
+
+	&.success {
+		background: @success;
+	}
+
+	&.error, &.failure {
+		background: @failure;
+	}
 }
 
 .main-nav {
@@ -347,6 +378,7 @@ body > form {
 	box-shadow: 0 4px 16px fade(@black, 15%);
 
 	p {
+		overflow: hidden;
 		padding: 15px 30px;
 		border-bottom: 1px solid fade(@border, 25%);
 
@@ -363,6 +395,10 @@ body > form {
 
 		cursor: pointer;
 		vertical-align: top;
+	}
+
+	.checkbox-wrap {
+		float: left;
 	}
 
 	input, textarea {

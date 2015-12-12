@@ -17,19 +17,33 @@
     </head>
     <body>
     	<!-- @TODO: do this, but not-shitly. -->
-    	<?php $page = explode('/', $_SERVER['REQUEST_URI']); array_shift($page); ?>
+    	<?php
+    		define('CURRENT_PAGE', explode('/', $_SERVER['REQUEST_URI'])[2]);
+
+    		function active($slug, $return = 'class="active"') {
+    			if(is_array($slug)) {
+    				if(in_array(CURRENT_PAGE, $slug)) {
+    					echo $return;
+    				}
+    			}
+
+    			if($slug == CURRENT_PAGE) {
+    				echo $return;
+    			}
+    		}
+    	?>
 
     	<div class="flash-message"></div>
     	
     	<nav class="main-nav">
 			<ul class="actions">
 				<?php foreach(['posts', 'pages', 'categories'] as $url): ?>
-				<li <?php if($page[1] == $url): ?>class="active"<?php endif; ?>>
+				<li <?php active($url); ?>>
 					<a class="icon-<?php echo $url; ?>" href="/admin/<?php echo $url; ?>"><?php echo ucfirst($url); ?></a>
 				</li>
 				<?php endforeach; ?>
 
-				<li class="has-dropdown <?php if(in_array($page[1], ['themes', 'plugins'])) echo 'active'; ?>">
+				<li class="has-dropdown <?php active(['themes', 'plugins'], 'active'); ?>">
 					<a class="icon-themes" href="/admin/themes">Extend</a>
 
 					<ul>
@@ -47,11 +61,11 @@
     		<a class="anchor-logo">Anchor CMS</a>
     		
     		<ul class="results">
-    			<li>
+    			<li <?php active('users'); ?>>
     				<a class="icon-users" href="/admin/users">Users</a>
     			</li>
     			
-    			<li class="has-dropdown">
+    			<li class="has-dropdown <?php active(['meta', 'fields', 'vars'], 'active'); ?>">
     				<a class="icon-settings" href="/admin/meta">Settings</a>
 
     				<ul>
@@ -107,7 +121,7 @@
 						}
 					},
 
-					toggle: function(className) {
+					toggle: function() {
 						if(classy.has.call(this, classy.default)) {
 							return classy.remove.call(this, classy.default);
 						}
@@ -132,7 +146,37 @@
 							classy.remove.call(dropdown);
 						}
 					});
-				})
+				});
+
+				var messages = document.querySelectorAll('.msg');
+				var totalMessages = messages.length;
+				var exit = function(msg) {
+					classy.remove.call(msg);
+					msg.className += ' leaving';
+				};
+				var enter = function(msg, leaving) {
+					classy.add.call(msg);
+
+					if(leaving) {
+						setTimeout(function() {
+							exit(msg);
+						}, 2800);
+					}
+				};
+
+				Array.prototype.forEach.call(messages, function(msg, index) {
+					if(index === 0) {
+						enter(msg, true);
+					}
+
+					msg.onclick = function() {
+						exit(msg);
+					};
+
+					setTimeout(function() {
+						enter(msg, (index + 1) != totalMessages);
+					}, index * 3000);
+				});
 
 				var upload = function(file, callback) {
 					var token = d.querySelector('input[name=token]').getAttribute('value');
