@@ -579,7 +579,7 @@ textarea.markdown-editor {
   border-radius: 6px;
 }
 .auth label {
-  font-size: 0;
+  display: none;
 }
 .wrap {
   width: 1280px;
