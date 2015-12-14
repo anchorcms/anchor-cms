@@ -190,17 +190,13 @@
 				};
 
 				Array.prototype.forEach.call(messages, function(msg, index) {
-					if(index === 0) {
-						enter(msg, true);
-					}
-
 					msg.onclick = function() {
 						exit(msg);
 					};
 
 					setTimeout(function() {
 						enter(msg, (index + 1) != totalMessages);
-					}, index * 3000);
+					}, (index === 0 ? 20 : index * 3000));
 				});
 
 				var upload = function(file, callback) {
