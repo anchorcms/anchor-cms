@@ -1,12 +1,21 @@
+<section class="content wrap narrow">
+	<main>
+		<?php if(empty($fields)): ?>
+			<span class="empty-state">No custom fields added yet!<br>You can create one below.</span>
+		<?php else: ?>
+		<ul>
+			<?php foreach($fields as $field): ?>
+			<li>
+				<a href="/admin/fields/<?php echo $field->id; ?>/edit"><?php echo $field->label; ?> <?php echo $field->field; ?></a>
+			</li>
+			<?php endforeach; ?>
+		</ul>
+		<?php endif; ?>
 
-<h2>Custom Fields</h2>
+		<?php echo $paging->links(); ?>
+	</main>
 
-<a href="/admin/fields/create">Create a new field</a>
-
-<ul>
-	<?php foreach($fields as $field): ?>
-	<li><a href="/admin/fields/<?php echo $field->id; ?>/edit"><?php echo $field->label; ?> <?php echo $field->field; ?></a></li>
-	<?php endforeach; ?>
-</ul>
-
-<?php echo $paging->links(); ?>
+	<footer class="new">
+		<?php echo $this->render('partials/form', ['form' => $form]); ?>
+	</footer>
+</section>

@@ -1,13 +1,15 @@
 <?php echo $form->open(); ?>
 
-	<?php foreach($form->getElementsExcluding(['submit']) as $element): ?>
+	<?php echo $form->getElement('token')->getHtml(); ?>
 
-	<p><?php if($element->hasLabel()): ?>
-		<label><?php echo $element->getLabel(); ?></label>
+	<?php foreach($form->getElementsExcluding(['submit', 'token']) as $element): ?>
+
+	<p>
+		<?php if($element->hasLabel()): ?>
+			<label for="<?php echo $element->getAttribute('name'); ?>"><?php echo $element->getLabel(); ?></label>
+		<?php endif; ?>
+
 		<?php echo $element->getHtml(); ?>
-	<?php else: ?>
-		<?php echo $element->getHtml(); ?>
-	<?php endif; ?>
 	</p>
 
 	<?php endforeach; ?>

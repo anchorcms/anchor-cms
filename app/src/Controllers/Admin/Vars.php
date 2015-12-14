@@ -25,21 +25,15 @@ class Vars extends Backend {
 		$vars['metadata'] = $meta->get();
 		$vars['messages'] = $this->messages->render();
 		$vars['paging'] = $paging;
+		$vars['form'] = $this->createForm();
 
 		return $this->renderTemplate('layout', ['vars/index'], $vars);
 	}
 
 	public function getCreate() {
-		$form = new \Forms\CustomVars(['method' => 'post', 'action' => '/admin/vars/save']);
-		$form->init();
-		$form->getElement('token')->setValue($this->csrf->token());
-
-		// re-populate submitted data
-		$form->setValues($this->session->getFlash('input', []));
-
 		$vars['title'] = 'Creating a new custom variable';
 		$vars['messages'] = $this->messages->render();
-		$vars['form'] = $form;
+		$vars['form'] = $this->creatForm();
 
 		return $this->renderTemplate('layout', ['vars/create'], $vars);
 	}
@@ -121,6 +115,17 @@ class Vars extends Backend {
 
 		$this->messages->success('Custom variable updated');
 		return $this->response->withHeader('location', sprintf('/admin/vars/%s/edit', $meta->key));
+	}
+
+	public function createForm() {
+		$form = new \Forms\CustomVars(['method' => 'post', 'action' => '/admin/vars/save']);
+		$form->init();
+		$form->getElement('token')->setValue($this->csrf->token());
+
+		// re-populate submitted data
+		$form->setValues($this->session->getFlash('input', []));
+
+		return $form;
 	}
 
 }

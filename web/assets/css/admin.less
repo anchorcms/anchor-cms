@@ -13,6 +13,35 @@
 @import 'forms';
 @import 'editor';
 
+.empty-state {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+
+	transform: translateX(-50%) translateY(-50%);
+
+	color: @foreground-light;
+	font-size: 21px;
+	line-height: 28px;
+	text-align: center;
+
+	&:before {
+		content: '';
+		display: block;
+		width: 64px;
+		height: 64px;
+		margin: 0 auto 30px;
+
+		background: url('../img/disappointed.png') no-repeat 50% 50%;
+		background-size: 64px;
+	}
+}
+
+main {
+	position: relative;
+	min-height: 400px;
+}
+
 .auth {
 	form {
 		position: absolute;
@@ -92,6 +121,32 @@ a, .pen-icon, span, .post-stats {
 	transition: opacity .2s, margin .1s;
 }
 
+table {
+	width: 100%;
+
+	border-collapse: collapse;
+	border-spacing: 0;
+
+	th {
+		color: @foreground-dark;
+		border-bottom: 2px solid fade(@border, 30%);
+
+		font-size: 14px;
+		text-align: left;
+	}
+
+	td, th {
+		padding: 6px 20px;
+	}
+
+	tr:nth-child(2n + 3) {
+		background: fade(@panel, 25%);
+	}
+
+	code {
+		font-size: 13px;
+	}
+}
 
 h1, h2, h3, h4 {
 	font-family: @headline;
@@ -163,6 +218,7 @@ h1, h2, h3, h4 {
 		width: 32px;
 		height: 32px;
 		margin: -13px 0 0 -16px;
+		padding: 0;
 		
 		font-size: 0;
 		line-height: 32px;
@@ -336,11 +392,68 @@ h1, h2, h3, h4 {
 	}
 }
 
+.filter, .new {
+	background: @panel;
+	border: 0px solid darken(@panel, 3%);
+}
+
+.new {
+	overflow: hidden;
+	padding: 16px 30px;
+
+	border-top-width: 1px;
+
+	p {
+		position: relative;
+		float: left;
+		padding-right: 30px;
+
+		&:last-child {
+			float: right;
+			padding-right: 0;
+		}
+	}
+
+	input, select, textarea {
+		height: 36px;
+	}
+
+	textarea {
+		display: block;
+		resize: none;
+		min-height: 1px;
+
+		line-height: 20px;
+	}
+
+	select {
+		margin: 0;
+		padding-top: 0;
+		padding-bottom: 0;
+	}
+
+	label {
+		display: none; // don't know what to do here
+
+		position: absolute;
+		left: 0;
+		bottom: -25px;
+
+		padding: 3px 9px;
+
+		font-size: 13px;
+		line-height: 19px;
+
+		background: @primary;
+		color: @white;
+	}
+}
+
 .filter {
 	height: 72px;
 	padding: 16px 30px 0;
-	background: @panel;
-	border-bottom: 1px solid darken(@panel, 3%);
+
+	border-bottom-width: 1px;
 
 	.btn {
 		margin-top: 4px;

@@ -1,12 +1,39 @@
+<section class="content wrap narrow">
+	<main>
+		<?php if(empty($metadata)): ?>
+			<span class="empty-state">No custom fields added yet!<br>You can create one below.</span>
+		<?php else: ?>
+		<table>
+			<tr>
+				<th>Key</th>
+				<th>Value</th>
+				<th></th>
+			</tr>
 
-<h2>Global Variables</h2>
+			<?php foreach($metadata as $meta): ?>
+			<tr>
+				<td>
+					<code class="key"><?php echo $meta->key; ?></code>
+				</td>
 
-<a href="/admin/vars/create">Create a new variable</a>
+				<td>
+					<code class="value"><?php echo $meta->value; ?></code>
+				</td>
 
-<ul>
-	<?php foreach($metadata as $meta): ?>
-	<li><a href="/admin/vars/<?php echo $meta->key; ?>/edit"><?php echo $meta->key; ?></a></li>
-	<?php endforeach; ?>
-</ul>
+				<td>
+					<a href="/admin/vars/<?php echo $meta->key; ?>/edit" class="icon-edit">Edit</a>
+				</td>
+			</tr>
+			<?php endforeach; ?>
+		</table>
+		<?php endif; ?>
+
+		<?php echo $paging->links(); ?>
+	</main>
+
+	<footer class="new">
+		<?php echo $this->render('partials/form', ['form' => $form]); ?>
+	</footer>
+</section>
 
 <?php echo $paging->links(); ?>

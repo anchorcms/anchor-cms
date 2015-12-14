@@ -25,21 +25,16 @@ class Fields extends Backend {
 		$vars['fields'] = $fields->get();
 		$vars['paging'] = $paging;
 		$vars['messages'] = $this->messages->render();
+		$vars['form'] = $this->createForm();
 
 		return $this->renderTemplate('layout', ['fields/index'], $vars);
 	}
 
 	public function getCreate() {
-		$form = new \Forms\CustomField(['method' => 'post', 'action' => '/admin/fields/save']);
-		$form->init();
-		$form->getElement('token')->setValue($this->csrf->token());
-
-		// re-populate submitted data
-		$form->setValues($this->session->getFlash('input', []));
 
 		$vars['title'] = 'Creating a new custom field';
 		$vars['messages'] = $this->messages->render();
-		$vars['form'] = $form;
+		$vars['form'] = $this->createForm();
 
 		return $this->renderTemplate('layout', ['fields/create'], $vars);
 	}
@@ -122,6 +117,17 @@ class Fields extends Backend {
 
 		$this->messages->success('Custom field updated');
 		return $this->response->withHeader('location', sprintf('/admin/fields/%d/edit', $id));
+	}
+
+	public function createForm() {
+		$form = new \Forms\CustomField(['method' => 'post', 'action' => '/admin/fields/save']);
+		$form->init();
+		$form->getElement('token')->setValue($this->csrf->token());
+
+		// re-populate submitted data
+		$form->setValues($this->session->getFlash('input', []));
+
+		return $form;
 	}
 
 }

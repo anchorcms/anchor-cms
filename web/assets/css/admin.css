@@ -554,6 +554,29 @@ textarea.markdown-editor {
   text-align: left;
   border-radius: 3px;
 }
+.empty-state {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  color: #a6a4ae;
+  font-size: 21px;
+  line-height: 28px;
+  text-align: center;
+}
+.empty-state:before {
+  content: '';
+  display: block;
+  width: 64px;
+  height: 64px;
+  margin: 0 auto 30px;
+  background: url('../img/disappointed.png') no-repeat 50% 50%;
+  background-size: 64px;
+}
+main {
+  position: relative;
+  min-height: 400px;
+}
 .auth form {
   position: absolute;
   left: 200px;
@@ -617,6 +640,27 @@ span,
   -moz-transition: opacity .2s, margin .1s;
   transition: opacity .2s, margin .1s;
 }
+table {
+  width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+table th {
+  color: #4e4b45;
+  border-bottom: 2px solid rgba(201, 198, 191, 0.3);
+  font-size: 14px;
+  text-align: left;
+}
+table td,
+table th {
+  padding: 6px 20px;
+}
+table tr:nth-child(2n + 3) {
+  background: rgba(239, 238, 236, 0.25);
+}
+table code {
+  font-size: 13px;
+}
 h1,
 h2,
 h3,
@@ -679,6 +723,7 @@ h3 {
   width: 32px;
   height: 32px;
   margin: -13px 0 0 -16px;
+  padding: 0;
   font-size: 0;
   line-height: 32px;
   pointer-events: none;
@@ -838,11 +883,56 @@ h3 {
 .content li {
   list-style: none;
 }
+.filter,
+.new {
+  background: #efeeec;
+  border: 0px solid #e8e7e4;
+}
+.new {
+  overflow: hidden;
+  padding: 16px 30px;
+  border-top-width: 1px;
+}
+.new p {
+  position: relative;
+  float: left;
+  padding-right: 30px;
+}
+.new p:last-child {
+  float: right;
+  padding-right: 0;
+}
+.new input,
+.new select,
+.new textarea {
+  height: 36px;
+}
+.new textarea {
+  display: block;
+  resize: none;
+  min-height: 1px;
+  line-height: 20px;
+}
+.new select {
+  margin: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+.new label {
+  display: none;
+  position: absolute;
+  left: 0;
+  bottom: -25px;
+  padding: 3px 9px;
+  font-size: 13px;
+  line-height: 19px;
+  background: #36a4e3;
+  color: #fff;
+}
 .filter {
   height: 72px;
   padding: 16px 30px 0;
-  background: #efeeec;
-  border-bottom: 1px solid #e8e7e4;
+  border-bottom-width: 1px;
 }
 .filter .btn {
   margin-top: 4px;
