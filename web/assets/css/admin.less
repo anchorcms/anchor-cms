@@ -421,7 +421,7 @@ h1, h2, h3, h4 {
 	height: 100%;
 	min-height: 400px;
 
-	overflow: auto;
+	// overflow: auto;
 
 	border-right-width: 1px;
 
@@ -429,6 +429,17 @@ h1, h2, h3, h4 {
 		float: right;
 		width: 70%;
 		width: calc(~"100% - 320px");
+
+		h1 {
+			height: 63px;
+			padding: 0 30px;
+
+			font: bold 15px/63px @body;
+
+			background: fade(@panel, 30%);
+			color: fade(@foreground, 70%);
+			border-bottom: 1px solid fade(@panel, 50%);
+		}
 
 		.field {
 			clear: both;

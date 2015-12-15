@@ -35,6 +35,26 @@ class Users extends Backend {
 		$vars['messages'] = $this->messages->render();
 		$vars['form'] = $this->createForm();
 
+		$input = filter_var_array($_GET, [
+			'page' => FILTER_SANITIZE_NUMBER_INT,
+		]);
+
+		$total = $this->users->count();
+		$perpage = $this->meta->key('admin_posts_per_page', 10);
+
+		$users = $this->users->sort('real_name', 'asc')->take($perpage);
+
+		if($input['page']) {
+			$offset = ($input['page'] - 1) * $perpage;
+			$users->skip($offset);
+		}
+
+		$paging = new \Paginator('/admin/users', $input['page'], $total, $perpage, $input);
+
+		$vars['title'] = 'Users';
+		$vars['users'] = $users->get();
+		$vars['paging'] = $paging;
+
 		return $this->renderTemplate('layout', ['users/create'], $vars);
 	}
 
@@ -70,6 +90,10 @@ class Users extends Backend {
 	}
 
 	public function getEdit($request) {
+		$input = filter_var_array($_GET, [
+			'page' => FILTER_SANITIZE_NUMBER_INT,
+		]);
+
 		$id = $request->getAttribute('id');
 		$user = $this->users->where('id', '=', $id)->fetch();
 
@@ -86,8 +110,22 @@ class Users extends Backend {
 		// re-populate old input
 		$form->setValues($this->session->getFlash('input', []));
 
+		$total = $this->users->count();
+		$perpage = $this->meta->key('admin_posts_per_page', 10);
+
+		$users = $this->users->sort('real_name', 'asc')->take($perpage);
+
+		if($input['page']) {
+			$offset = ($input['page'] - 1) * $perpage;
+			$users->skip($offset);
+		}
+
+		$paging = new \Paginator('/admin/users', $input['page'], $total, $perpage, $input);
+
+		$vars['users'] = $users->get();
+		$vars['paging'] = $paging;
 		$vars['title'] = sprintf('Editing &ldquo;%s&rdquo;', $user->real_name);
-		$vars['user'] = $user;
+		$vars['current'] = $user;
 		$vars['messages'] = $this->messages->render();
 		$vars['form'] = $form;
 
