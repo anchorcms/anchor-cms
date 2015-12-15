@@ -1,18 +1,23 @@
 <?php
+	$age = nth($content);
+	$ordinal = ordinal($age);
+?>
+<article class="wrap">
+	<hgroup>
+		<h1><?php echo $content->title; ?></h1>
+		<p>Posted by <?php echo fallback(!$content->author, 'Administrator'); ?> <em>on the <?php echo date('dS M Y'); ?></em></p>
+	</hgroup>
 
-$age = nth($content);
-$ordinal = ordinal($age);
-$words = words($content);
 
-
-?><div class="items">
-	<div class="item">
-		<div class="wrap">
-			<h1><?php echo $content->title; ?></h1>
-
-			<div class="content"><?php echo $content->body(); ?></div>
-
-			<p>This article is my <?php echo ($age > 1 ? $ordinal . ' oldest' : $ordinal); ?>. It is <?php echo $words; ?> words long.</p>
-		</div>
+	<div class="article-content">
+		<?php echo $content->body(); ?>
 	</div>
-</div>
+
+	<small>
+		<p>This article is my <?php echo $age > 1 ? $ordinal . ' oldest' : $ordinal; ?>. It is <?php echo words($content); ?> words long.</p>
+	</small>
+</article>
+
+<section class="related-content">
+
+</section>

@@ -1,5 +1,7 @@
 <aside class="site-description wrap">
-	<h1><?php echo $meta->description; ?></h1>
+	<h1>
+		<?php echo $meta->description; ?>
+	</h1>
 </aside>
 
 <ul class="stories wrap">
@@ -20,4 +22,33 @@
 		</div>
 	</li>
 	<?php endwhile; ?>
-</div>
+</ul>
+
+<section class="related-content">
+	<div class="wrap">
+		<div class="half-width">
+			<h2>Categories</h2>
+
+			<ul>
+				<?php while($categories->loop()): ?>
+				<li>
+					<a href="/category/<?php echo $categories->slug; ?>" title="<?php echo $categories->description; ?>">
+						<?php echo $categories->title; ?>
+
+						<small><?php echo fallback($categories->post_count, rand(1,40)); ?></small>
+					</a>
+				</li>
+				<?php endwhile; ?>
+			</ul>
+		</div>
+
+		<div class="half-width">
+			<h2>Search my blog</h2>
+
+			<form>
+				<input type="search" placeholder="Search anything here.">
+				<button type="submit">Search</button>
+			</form>
+		</div>
+	</div>
+</section>

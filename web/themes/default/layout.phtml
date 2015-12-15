@@ -26,24 +26,6 @@
 			<?php echo $body; ?>
 		</section>
 
-		<section class="related-content">
-			<div class="wrap">
-				<div class="half-width">
-					<h2>Categories</h2>
-
-					<ul>
-						<?php while($categories->loop()): ?>
-						<li>
-							<a href="/category/<?php echo $categories->slug; ?>" title="<?php echo $categories->description; ?>">
-								<?php echo $categories->title; ?>
-							</a>
-						</li>
-						<?php endwhile; ?>
-					</ul>
-				</div>
-			</div>
-		</section>
-
 		<footer>
 			<div class="wrap">
 				<ul>

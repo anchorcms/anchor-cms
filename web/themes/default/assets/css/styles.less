@@ -7,12 +7,15 @@
 @foreground-darker: #47484f;
 @foreground-darkest: @background-darkest;
 
+@foreground-alt: #9b9380;
+
 @background: #fff;
 @background-light: #dbdce2;
 @background-dark: #f8f6f1;
 @background-darkest: #1b1a21;
 
 @primary: #36a4e3;
+
 
 * {
 	margin: 0;
@@ -27,9 +30,11 @@ html {
 	-webkit-font-smoothing: antialiased;
 }
 
-body {
+body, input, button, textarea {
 	font: 16px/24px Karla, sans-serif;
+}
 
+body {
 	background: @background;
 	color: @foreground;
 
@@ -123,7 +128,7 @@ header {
 }
 
 .content {
-	padding: 120px 0 80px;
+	padding: 120px 0 0;
 }
 
 .stories {
@@ -147,33 +152,6 @@ header {
 		}
 	}
 
-	hgroup {
-		padding: 60px 0 32px;
-
-		h1 {
-			margin-bottom: 0;
-
-			a {
-				color: @foreground-darker;
-
-				&:hover {
-					color: @primary;
-					background: linear-gradient(@background 50%, lighten(@primary, 41%) 50%) no-repeat 0 50%;
-					background-size: 100% 65%;
-				}
-			}
-		}
-
-		small {
-			font-size: 15px;
-
-			em {
-				font-style: normal;
-				color: @foreground-light;
-			}
-		}
-	}
-
 	.article-excerpt {
 		padding-bottom: 40px;
 
@@ -182,10 +160,121 @@ header {
 	}
 }
 
+hgroup {
+	padding: 60px 0 32px;
+
+	h1 {
+		margin-bottom: 0;
+
+		a {
+			color: @foreground-darker;
+
+			&:hover {
+				color: @primary;
+				background: linear-gradient(@background 50%, lighten(@primary, 41%) 50%) no-repeat 0 50%;
+				background-size: 100% 65%;
+			}
+		}
+	}
+
+	small {
+		font-size: 15px;
+
+		em {
+			font-style: normal;
+			color: @foreground-light;
+		}
+	}
+}
+
+.half-width {
+	float: left;
+	width: 48%;
+	margin-right: 4%;
+
+	& + & {
+		margin-right: 0;
+	}
+}
+
 .related-content {
+	overflow: hidden;
 	padding: 40px 0;
+	margin-top: 80px;
 	
 	background: @background-dark;
+
+	h2 {
+		padding-bottom: .7em;
+		margin-bottom: 0;
+
+		border-bottom: 1px solid darken(@background-dark, 5%);		
+	}
+
+	//  The categories lists
+	li {
+		list-style: none;
+
+		a {
+			display: block;
+			padding: 12px 15px;
+
+			color: @foreground-alt;
+			border-bottom: 1px solid darken(@background-dark, 5%);
+
+			small {
+				display: inline-block;
+				float: right;
+				padding: 0 7px;
+				margin-top: 3px;
+
+				min-width: 20px;
+				height: 20px;
+
+				font-size: 11px;
+				line-height: 20px;
+				text-align: center;
+
+				background: @primary;
+				color: #fff;
+				border-radius: 20px;
+			}
+		}
+	}
+
+	form {
+		position: relative;
+
+		[type=submit] {
+			position: absolute;
+			right: 0;
+			top: 0;
+			bottom: 0;
+
+			display: block;
+			width: 48px;
+
+			background: url('../img/search.png') no-repeat 50% 50%;
+			background-size: 20px;
+
+			border: none;
+			text-indent: -999em;
+			cursor: pointer;
+		}
+	}
+
+	input {
+		display: block;
+		width: 100%;
+		padding: 8px 16px;
+		margin: 12px 0;
+
+		background: desaturate(darken(@background-dark, 4%), 5%);
+		border: none;
+		border-radius: 5px;
+
+		box-shadow: inset 0 2px 2px fade(@background-darkest, 10%);
+	}
 }
 
 footer {

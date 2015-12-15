@@ -9,8 +9,13 @@
 html {
   -webkit-font-smoothing: antialiased;
 }
-body {
+body,
+input,
+button,
+textarea {
   font: 16px/24px Karla, sans-serif;
+}
+body {
   background: #fff;
   color: #717178;
 }
@@ -88,7 +93,7 @@ header nav li.active a {
   text-align: center;
 }
 .content {
-  padding: 120px 0 80px;
+  padding: 120px 0 0;
 }
 .stories li {
   position: relative;
@@ -105,35 +110,99 @@ header nav li.active a {
   margin-left: -30px;
   background: rgba(219, 220, 226, 0.5);
 }
-.stories hgroup {
-  padding: 60px 0 32px;
-}
-.stories hgroup h1 {
-  margin-bottom: 0;
-}
-.stories hgroup h1 a {
-  color: #47484f;
-}
-.stories hgroup h1 a:hover {
-  color: #36a4e3;
-  background: linear-gradient(#fff 50%, #eef7fd 50%) no-repeat 0 50%;
-  background-size: 100% 65%;
-}
-.stories hgroup small {
-  font-size: 15px;
-}
-.stories hgroup small em {
-  font-style: normal;
-  color: #ababb3;
-}
 .stories .article-excerpt {
   padding-bottom: 40px;
   font-size: 19px;
   line-height: 27px;
 }
+hgroup {
+  padding: 60px 0 32px;
+}
+hgroup h1 {
+  margin-bottom: 0;
+}
+hgroup h1 a {
+  color: #47484f;
+}
+hgroup h1 a:hover {
+  color: #36a4e3;
+  background: linear-gradient(#fff 50%, #eef7fd 50%) no-repeat 0 50%;
+  background-size: 100% 65%;
+}
+hgroup small {
+  font-size: 15px;
+}
+hgroup small em {
+  font-style: normal;
+  color: #ababb3;
+}
+.half-width {
+  float: left;
+  width: 48%;
+  margin-right: 4%;
+}
+.half-width + .half-width {
+  margin-right: 0;
+}
 .related-content {
+  overflow: hidden;
   padding: 40px 0;
+  margin-top: 80px;
   background: #f8f6f1;
+}
+.related-content h2 {
+  padding-bottom: .7em;
+  margin-bottom: 0;
+  border-bottom: 1px solid #efebe0;
+}
+.related-content li {
+  list-style: none;
+}
+.related-content li a {
+  display: block;
+  padding: 12px 15px;
+  color: #9b9380;
+  border-bottom: 1px solid #efebe0;
+}
+.related-content li a small {
+  display: inline-block;
+  float: right;
+  padding: 0 7px;
+  margin-top: 3px;
+  min-width: 20px;
+  height: 20px;
+  font-size: 11px;
+  line-height: 20px;
+  text-align: center;
+  background: #36a4e3;
+  color: #fff;
+  border-radius: 20px;
+}
+.related-content form {
+  position: relative;
+}
+.related-content form [type=submit] {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  display: block;
+  width: 48px;
+  background: url('../img/search.png') no-repeat 50% 50%;
+  background-size: 20px;
+  border: none;
+  text-indent: -999em;
+  cursor: pointer;
+}
+.related-content input {
+  display: block;
+  width: 100%;
+  padding: 8px 16px;
+  margin: 12px 0;
+  background: #f0ede4;
+  border: none;
+  border-radius: 5px;
+  box-shadow: inset 0 2px 2px rgba(27, 26, 33, 0.1);
 }
 footer {
   padding: 30px 0;
