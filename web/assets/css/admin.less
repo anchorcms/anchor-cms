@@ -88,7 +88,7 @@ main {
 
 .wrap {
 	width: 1280px;
-	margin: 0 auto;
+	margin: 0 auto 40px;
 	
 	&.narrow {
 		width: 1000px;
@@ -400,6 +400,12 @@ h1, h2, h3, h4 {
 .filter, .new, .rolodex {
 	background: @panel;
 	border: 0px solid darken(@panel, 3%);
+
+	input {
+		background: darken(@panel, 5%);
+		border-radius: 3px;
+		box-shadow: inset 0 2px 2px fade(@black, 5%);
+	}
 }
 
 .rolodex {
@@ -424,7 +430,55 @@ h1, h2, h3, h4 {
 		width: 70%;
 		width: calc(~"100% - 320px");
 
-		padding: 30px;
+		.field {
+			clear: both;
+			padding: 20px 30px 25px;
+
+			border-bottom: 1px solid fade(@panel, 50%);
+
+			&.input, &.status, &.role {
+				float: left;
+				clear: none;
+				width: 50%;
+				box-shadow: inset 1px 0 0 fade(@panel, 50%);
+			}
+
+			&.input:nth-child(2n), &.status {
+				box-shadow: none;
+			}
+		}
+
+		p.submit {
+			clear: both;
+			overflow: hidden;
+			padding: 30px;
+
+			button {
+				float: right;
+			}
+		}
+
+		label {
+			font-size: 14px;
+			line-height: 19px;
+		}
+
+		input, textarea, select {
+			width: 100%;
+		}
+
+		input, textarea {
+			background: fade(@panel, 90%);
+			color: @foreground-dark;
+			box-shadow: inset 0 2px 2px fade(@black, 5%);
+
+			&:focus {
+				background: @white;
+				box-shadow: inset 0 2px 2px fade(@black, 8%), inset 0 0 0 1px fade(@primary, 40%), 0 1px 6px fade(@primary, 25%);
+			}
+		}
+
+		.placeholder(@text-button);
 	}
 
 	header {
@@ -577,12 +631,6 @@ h1, h2, h3, h4 {
 
 	.search {
 		position: relative;
-
-		input {
-			background: darken(@panel, 5%);
-			border-radius: 3px;
-			box-shadow: inset 0 2px 2px fade(@black, 5%);
-		}
 
 		button {
 			display: none;

@@ -613,7 +613,7 @@ main {
 }
 .wrap {
   width: 1280px;
-  margin: 0 auto;
+  margin: 0 auto 40px;
 }
 .wrap.narrow {
   width: 1000px;
@@ -896,6 +896,13 @@ h3 {
   background: #efeeec;
   border: 0px solid #e8e7e4;
 }
+.filter input,
+.new input,
+.rolodex input {
+  background: #e3e2de;
+  border-radius: 3px;
+  box-shadow: inset 0 2px 2px rgba(0, 0, 0, 0.05);
+}
 .rolodex {
   position: absolute;
   left: 0;
@@ -913,7 +920,60 @@ h3 {
   float: right;
   width: 70%;
   width: calc(100% - 320px);
+}
+.rolodex + main .field {
+  clear: both;
+  padding: 20px 30px 25px;
+  border-bottom: 1px solid rgba(239, 238, 236, 0.5);
+}
+.rolodex + main .field.input,
+.rolodex + main .field.status,
+.rolodex + main .field.role {
+  float: left;
+  clear: none;
+  width: 50%;
+  box-shadow: inset 1px 0 0 rgba(239, 238, 236, 0.5);
+}
+.rolodex + main .field.input:nth-child(2n),
+.rolodex + main .field.status {
+  box-shadow: none;
+}
+.rolodex + main p.submit {
+  clear: both;
+  overflow: hidden;
   padding: 30px;
+}
+.rolodex + main p.submit button {
+  float: right;
+}
+.rolodex + main label {
+  font-size: 14px;
+  line-height: 19px;
+}
+.rolodex + main input,
+.rolodex + main textarea,
+.rolodex + main select {
+  width: 100%;
+}
+.rolodex + main input,
+.rolodex + main textarea {
+  background: rgba(239, 238, 236, 0.9);
+  color: #4e4b45;
+  box-shadow: inset 0 2px 2px rgba(0, 0, 0, 0.05);
+}
+.rolodex + main input:focus,
+.rolodex + main textarea:focus {
+  background: #fff;
+  box-shadow: inset 0 2px 2px rgba(0, 0, 0, 0.08), inset 0 0 0 1px rgba(54, 164, 227, 0.4), 0 1px 6px rgba(54, 164, 227, 0.25);
+}
+.rolodex + main ::-webkit-input-placeholder {
+  color: #aba8a1;
+}
+.rolodex + main ::-moz-placeholder {
+  color: #aba8a1;
+}
+.rolodex + main :placeholder {
+  color: #aba8a1;
 }
 .rolodex header {
   overflow: hidden;
@@ -1034,11 +1094,6 @@ h3 {
 .filter .search {
   position: relative;
 }
-.filter .search input {
-  background: #e3e2de;
-  border-radius: 3px;
-  box-shadow: inset 0 2px 2px rgba(0, 0, 0, 0.05);
-}
 .filter .search button {
   display: none;
 }
@@ -1053,7 +1108,7 @@ h3 {
 }
 body > form {
   width: 1280px;
-  margin: 0 auto;
+  margin: 0 auto 40px;
   padding: 30px;
   width: 850px;
   background: #efeeec;

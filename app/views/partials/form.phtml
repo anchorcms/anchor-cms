@@ -4,7 +4,7 @@
 
 	<?php foreach($form->getElementsExcluding(['submit', 'token']) as $element): ?>
 
-	<p>
+	<p class="field<?php if($element->getType()) echo ' input'; ?> <?php echo $element->getAttribute('name'); ?>">
 		<?php if($element->hasLabel()): ?>
 			<label for="<?php echo $element->getAttribute('name'); ?>"><?php echo $element->getLabel(); ?></label>
 		<?php endif; ?>
@@ -14,6 +14,6 @@
 
 	<?php endforeach; ?>
 
-	<p><?php echo $form->getElement('submit')->getHtml(); ?></p>
+	<p class="submit"><?php echo $form->getElement('submit')->getHtml(); ?></p>
 
 <?php echo $form->close(); ?>
