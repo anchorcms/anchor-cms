@@ -1272,6 +1272,13 @@ body > form [type=submit] {
   .rolodex + main {
     width: 100%;
   }
+  .rolodex + main .field.input,
+  .rolodex + main .field.status,
+  .rolodex + main .field.role {
+    float: none;
+    width: 100%;
+    box-shadow: none;
+  }
   .editor {
     margin: 0 2%;
   }
