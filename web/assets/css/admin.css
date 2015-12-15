@@ -901,11 +901,11 @@ h3 {
 .main-nav .results li:last-child {
   margin-right: 0;
 }
-.content {
+section.content {
   background: #fff;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
 }
-.content li {
+section.content li {
   list-style: none;
 }
 .filter,
