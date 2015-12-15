@@ -1,12 +1,26 @@
+<?php echo $messages; ?>
 
-<h2>Users</h2>
+<section class="content wrap autoclear">
+	<nav class="rolodex">
+		<header>
+			<b>All users</b>
 
-<a href="/admin/users/create">Create a new user</a>
+			<a class="btn" href="/admin/users/create">Create new</a>
+		</header>
 
-<ul>
-	<?php foreach($users as $user): ?>
-	<li><a href="/admin/users/<?php echo $user->id; ?>/edit"><?php echo $user->username; ?></a></li>
-	<?php endforeach; ?>
-</ul>
+		<?php foreach($users as $user): ?>
+		<a href="/admin/users/<?php echo $user->id; ?>/edit">
+			<img src="/assets/img/avatar.png" class="avatar default">
+			<b><?php echo $user->real_name; ?></b>
+			<span class="username"><?php echo $user->username; ?></span>
+			<span class="badge <?php echo $user->role; ?>"><?php echo ucwords($user->role); ?></span>
+		</a>
+		<?php endforeach; ?>
 
-<?php echo $paging->links(); ?>
+		<?php echo $paging->links(); ?>
+	</nav>
+
+	<main>
+		<?php echo $this->render('partials/form', ['form' => $form]); ?>
+	</main>
+</section>

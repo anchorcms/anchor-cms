@@ -37,6 +37,11 @@
 	}
 }
 
+.autoclear {
+	position: relative;
+	overflow: hidden;
+}
+
 main {
 	position: relative;
 	min-height: 400px;
@@ -392,9 +397,113 @@ h1, h2, h3, h4 {
 	}
 }
 
-.filter, .new {
+.filter, .new, .rolodex {
 	background: @panel;
 	border: 0px solid darken(@panel, 3%);
+}
+
+.rolodex {
+	position: absolute;
+	left: 0;
+	top: 0;
+	bottom: 0;
+	z-index: 10;
+
+	width: 30%;
+	width: calc(320px);
+
+	height: 100%;
+	min-height: 400px;
+
+	overflow: auto;
+
+	border-right-width: 1px;
+
+	+ main {
+		float: right;
+		width: 70%;
+		width: calc(~"100% - 320px");
+	}
+
+	header {
+		overflow: hidden;
+		padding: 12px 20px;
+
+		background: darken(@panel, 2%);
+		border-bottom: 1px solid darken(@panel, 4%);
+
+		b, h1 {
+			float: left;
+
+			font-size: 14px;
+			line-height: 38px;
+
+			color: lighten(@foreground, 15%);
+		}
+
+		.btn {
+			float: right;
+		}
+	}
+
+	> a {
+		display: block;
+		padding: 20px 20px 20px 84px;
+
+		position: relative;
+		border-bottom: 1px solid fade(@border, 30%);
+
+		font-size: 14px;
+		line-height: 19px;
+		text-decoration: none;
+		color: @foreground;
+
+		&:hover {
+			background: fade(@white, 30%);
+		}
+
+		&.active {
+			margin-right: -1px;
+			border-color: darken(@primary, 3%);
+			border-bottom-width: 1px;
+
+			background: @primary;
+			color: fade(@white, 50%);
+
+			b {
+				color: @white;
+			}
+
+			.badge {
+				background: fade(@black, 20%);
+			}
+		}
+
+		b {
+			display: block;
+			color: @foreground-dark;
+		}
+
+		.badge {
+			position: absolute;
+			right: 20px;
+			top: 50%;
+			margin-top: -9px;
+		}
+	}
+
+	.avatar {
+		position: absolute;
+		left: 20px;
+		top: 15px;
+
+		width: 48px;
+		height: 48px;
+
+		&.default {
+			opacity: .15;
+		}
+	}
 }
 
 .new {

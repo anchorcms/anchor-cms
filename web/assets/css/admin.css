@@ -60,6 +60,9 @@
 .badge.positive {
   background: #91b729;
 }
+.badge.admin {
+  background: #36a4e3;
+}
 .badge.archived {
   background: #d9412c;
 }
@@ -573,6 +576,10 @@ textarea.markdown-editor {
   background: url('../img/disappointed.png') no-repeat 50% 50%;
   background-size: 64px;
 }
+.autoclear {
+  position: relative;
+  overflow: hidden;
+}
 main {
   position: relative;
   min-height: 400px;
@@ -884,9 +891,90 @@ h3 {
   list-style: none;
 }
 .filter,
-.new {
+.new,
+.rolodex {
   background: #efeeec;
   border: 0px solid #e8e7e4;
+}
+.rolodex {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 10;
+  width: 30%;
+  width: calc(320px);
+  height: 100%;
+  min-height: 400px;
+  overflow: auto;
+  border-right-width: 1px;
+}
+.rolodex + main {
+  float: right;
+  width: 70%;
+  width: calc(100% - 320px);
+}
+.rolodex header {
+  overflow: hidden;
+  padding: 12px 20px;
+  background: #eae9e6;
+  border-bottom: 1px solid #e6e4e1;
+}
+.rolodex header b,
+.rolodex header h1 {
+  float: left;
+  font-size: 14px;
+  line-height: 38px;
+  color: #a8a59d;
+}
+.rolodex header .btn {
+  float: right;
+}
+.rolodex > a {
+  display: block;
+  padding: 20px 20px 20px 84px;
+  position: relative;
+  border-bottom: 1px solid rgba(201, 198, 191, 0.3);
+  font-size: 14px;
+  line-height: 19px;
+  text-decoration: none;
+  color: #847f75;
+}
+.rolodex > a:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+.rolodex > a.active {
+  margin-right: -1px;
+  border-color: #299ee1;
+  border-bottom-width: 1px;
+  background: #36a4e3;
+  color: rgba(255, 255, 255, 0.5);
+}
+.rolodex > a.active b {
+  color: #fff;
+}
+.rolodex > a.active .badge {
+  background: rgba(0, 0, 0, 0.2);
+}
+.rolodex > a b {
+  display: block;
+  color: #4e4b45;
+}
+.rolodex > a .badge {
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  margin-top: -9px;
+}
+.rolodex .avatar {
+  position: absolute;
+  left: 20px;
+  top: 15px;
+  width: 48px;
+  height: 48px;
+}
+.rolodex .avatar.default {
+  opacity: .15;
 }
 .new {
   overflow: hidden;

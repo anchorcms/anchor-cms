@@ -25,21 +25,15 @@ class Users extends Backend {
 		$vars['users'] = $users->get();
 		$vars['paging'] = $paging;
 		$vars['messages'] = $this->messages->render();
+		$vars['form'] = $this->createForm();
 
 		return $this->renderTemplate('layout', ['users/index'], $vars);
 	}
 
 	public function getCreate() {
-		$form = new \Forms\User(['method' => 'post', 'action' => '/admin/users/save']);
-		$form->init();
-		$form->getElement('token')->setValue($this->csrf->token());
-
-		// re-populate submitted data
-		$form->setValues($this->session->getFlash('input', []));
-
 		$vars['title'] = 'Creating a new user';
 		$vars['messages'] = $this->messages->render();
-		$vars['form'] = $form;
+		$vars['form'] = $this->createForm();
 
 		return $this->renderTemplate('layout', ['users/create'], $vars);
 	}
@@ -141,6 +135,17 @@ class Users extends Backend {
 
 		$this->messages->success('User updated');
 		return $this->response->withHeader('location', sprintf('/admin/users/%d/edit', $id));
+	}
+
+	public function createForm() {
+		$form = new \Forms\User(['method' => 'post', 'action' => '/admin/users/save']);
+		$form->init();
+		$form->getElement('token')->setValue($this->csrf->token());
+
+		// re-populate submitted data
+		$form->setValues($this->session->getFlash('input', []));
+
+		return $form;
 	}
 
 }
