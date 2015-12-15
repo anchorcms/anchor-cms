@@ -114,7 +114,8 @@ button,
   outline: none;
 }
 input[type=code],
-.code {
+.code,
+input#slug {
   font-size: 14px;
   font-family: Cousine, Consolas, monospace;
   text-transform: lowercase;
@@ -345,7 +346,6 @@ button + .btn {
 .split-fields {
   position: relative;
   overflow: hidden;
-  margin-bottom: -60px;
 }
 .split-fields p,
 .split-fields > div {
@@ -353,7 +353,7 @@ button + .btn {
   float: left;
   width: 47.5%;
   margin-right: 5%;
-  margin-bottom: 40px;
+  margin-bottom: 30px;
 }
 .split-fields p:nth-child(2n),
 .split-fields > div:nth-child(2n),
@@ -367,6 +367,10 @@ button + .btn {
 .split-fields > div textarea {
   width: 100%;
 }
+.split-fields .btn,
+.split-fields button {
+  margin-top: 2px;
+}
 .split-fields > div p {
   float: none;
   width: 100%;
@@ -379,6 +383,23 @@ button + .btn {
 }
 .split-fields .inline-fields p:last-child {
   margin-right: 0;
+}
+.half-fields {
+  overflow: hidden;
+}
+.half-fields p,
+.half-fields div {
+  float: left;
+  width: 48%;
+  margin-right: 4%;
+}
+.half-fields p + div,
+.half-fields div + div {
+  margin-right: 0;
+}
+.half-fields input,
+.half-fields select {
+  width: 100%;
 }
 [data-editor]:empty:not(:focus):before,
 [data-editor].initial:before {
@@ -522,9 +543,6 @@ textarea.markdown-editor {
   color: #847f75;
   text-align: center;
   cursor: pointer;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
   user-select: none;
 }
 .pen-icon:after {

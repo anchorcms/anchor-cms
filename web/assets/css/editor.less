@@ -86,15 +86,13 @@
 .split-fields {
 	position: relative;
 	overflow: hidden;
-	
-	margin-bottom: -60px;
 
 	p, > div {
 		position: relative;
 		float: left;
 		width: 47.5%;
 		margin-right: 5%;
-		margin-bottom: 40px;
+		margin-bottom: 30px;
 
 		&:nth-child(2n), .split-fields > div:nth-child(2n) {
 			margin-right: 0;
@@ -103,6 +101,10 @@
 		input, textarea {
 			width: 100%;
 		}
+	}
+
+	.btn, button {
+		margin-top: 2px;
 	}
 
 	> div p {
@@ -119,6 +121,24 @@
 		&:last-child {
 			margin-right: 0;
 		}
+	}
+}
+
+.half-fields {
+	overflow: hidden;
+
+	p, div {
+		float: left;
+		width: 48%;
+		margin-right: 4%;
+
+		+ div {
+			margin-right: 0;
+		}
+	}
+
+	input, select {
+		width: 100%;
 	}
 }
 
@@ -265,8 +285,8 @@ textarea.markdown-editor {
 	
 	background: fade(@background, 85%);
 	border-radius: 3px;
-}
-	.pen-menu:after {
+
+	&:after {
 		content: '';
 		position: absolute;
 		top: 100%;
@@ -279,40 +299,44 @@ textarea.markdown-editor {
 		
 		pointer-events: none;
 	}
-	.pen-icon {
-		display: inline-block;
-		min-width: 20px;
-		height: 40px;
-		padding: 0 12px;
-		
-		overflow: hidden;
+}
 
-		font: normal bold 12px/40px Georgia, serif;
-		color: @foreground;
-		text-align: center;
-		
-		cursor: pointer;
-		
-		-webkit-user-select: none;
-		-moz-user-select: none;
-		-ms-user-select: none;
-		user-select: none;
+.pen-icon {
+	display: inline-block;
+	min-width: 20px;
+	height: 40px;
+	padding: 0 12px;
+	
+	overflow: hidden;
+
+	font: normal bold 12px/40px Georgia, serif;
+	color: @foreground;
+	text-align: center;
+	
+	cursor: pointer;
+	user-select: none;
+
+	&:after {
+		content: attr(data-action);
 	}
-		.pen-icon:after {
-			content: attr(data-action);
-		}
-		.pen-icon:hover {
-			color: @foreground-subdued;
-		}
-		.pen-icon.active {
-			color: @white;
-		}
-		.pen-icon:first-of-type {
-			border-radius: 3px 0 0 3px;
-		}
-		.pen-icon:last-of-type {
-			border-radius: 0 3px 3px 0;
-		}
+
+	&:hover {
+		color: @foreground-subdued;
+	}
+	
+	&.active {
+		color: @white;
+	}
+	
+	&:first-of-type {
+		border-radius: 3px 0 0 3px;
+	}
+	
+	&:last-of-type {
+		border-radius: 0 3px 3px 0;
+	}
+}
+
 .pen-input {
 	position: absolute;
 	left: 0;

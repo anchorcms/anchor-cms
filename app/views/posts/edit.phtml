@@ -6,38 +6,21 @@
 	</header>
 
 	<ul>
-		<li>
-			<a href="/posts/1/edit">
+		<?php foreach($posts as $post): ?>
+		<li <?php if($post->id === $current->id) echo 'class="active"'; ?>>
+			<a href="/admin/posts/<?php echo $post->id; ?>/edit">
 				<b>My post title</b>
-				<code><em>/posts/</em>my-post</code>
+				<code><em>/posts/</em><?php echo $post->slug; ?></code>
 			</a>
 		</li>
-
-		<li>
-			<a href="/posts/1/edit">
-				<b>My post title</b>
-				<code><em>/posts/</em>my-post</code>
-			</a>
-		</li>
-
-		<li class="active">
-			<a href="/posts/1/edit">
-				<b>My post title</b>
-				<code><em>/posts/</em>my-post</code>
-			</a>
-		</li>
-
-		<li>
-			<a href="/posts/1/edit">
-				<b>My post title</b>
-				<code><em>/posts/</em>my-post</code>
-			</a>
-		</li>
+		<?php endforeach; ?>
 	</ul>
 </aside>
 
 <section class="editor">
 	<?php echo $form->open(); ?>
+
+	<?php echo $form->getElement('token')->getHtml(); ?>
 
 	<nav>
 		<a href="#content" class="active">Content</a>
@@ -47,7 +30,7 @@
 	<div id="metadata" style="display: none" class="tab wrap narrow split-fields">
 		<p>
 			<label for="slug">Page slug:</label>
-			<input id="slug" type="code" data-slugify value="my-awesome-slug" placeholder="my-awesome-slug">
+			<?php echo $form->getElement('slug')->getHtml(); ?>
 		</p>
 
 		<p class="multi-select">
@@ -101,37 +84,22 @@
 			</select>
 		</p>
 
-		<div>
-			<label for="description">Description:</label>
-			<textarea name="description">This is the first post.</textarea>
-		</div>
-
-		<div>
-			<p>
+		<div class="half-fields">
+			<div>
 				<label for="status">Status:</label>
-				<select id="status" name="status"><option value="published" selected="selected">Published</option><option value="draft">Draft</option><option value="archived">Archived</option></select>
-			</p>
-			<p>
+				<?php echo $form->getElement('status')->getHtml(); ?>
+			</div>
+
+			<div>
 				<label for="category">Category:</label>
-				<select id="category" name="category"><option value="1" selected="selected">Uncategorised</option></select>
-			</p>
-
-			<div class="inline-fields">
-				<p>
-					<label for="comments">Allow Comments:</label>
-
-					<span class="checkbox-wrap">
-						<input type="checkbox" id="comments" name="comments" value="1">
-						<span class="custom-checkbox"></span>
-					</span>
-				</p>
-
-				<p>
-					<label for="delete-post">Permanently delete post:</label>
-					<button type="submit" id="delete-post" class="delete">Yes, delete this post forever</button>
-				</p>
+				<?php echo $form->getElement('category')->getHtml(); ?>
 			</div>
 		</div>
+
+		<p>
+			<label for="delete-post">Permanently delete post:</label>
+			<button type="submit" id="delete-post" class="delete">Yes, delete this post forever</button>
+		</p>
 	</div>
 
 	<div id="content" class="tab">

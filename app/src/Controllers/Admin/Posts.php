@@ -53,7 +53,7 @@ class Posts extends Backend {
 		return $this->renderTemplate('layout', ['posts/create'], $vars);
 	}
 
-	public function postSave() {
+	public function postSave($request) {
 		$form = new \Forms\Post;
 		$form->init();
 
@@ -125,6 +125,8 @@ class Posts extends Backend {
 		$vars['title'] = sprintf('Editing &ldquo;%s&rdquo;', $post->title);
 		$vars['messages'] = $this->messages->render();
 		$vars['form'] = $form;
+		$vars['current'] = $post;
+		$vars['posts'] = $this->posts->get();
 
 		return $this->renderTemplate('layout', ['posts/edit'], $vars);
 	}

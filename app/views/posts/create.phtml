@@ -3,6 +3,8 @@
 <section class="editor central">
 	<?php echo $form->open(); ?>
 
+	<?php echo $form->getElement('token')->getHtml(); ?>
+
 	<nav>
 		<a href="#content" class="active">Content</a>
 		<a href="#metadata">Metadata</a>
@@ -10,8 +12,7 @@
 
 	<div id="metadata" style="display: none" class="tab wrap narrow split-fields">
 		<p>
-			<label for="slug">Page slug:</label>
-			<input id="slug" type="code" data-slugify value="my-awesome-slug" placeholder="my-awesome-slug">
+			<?php echo $form->getElement('slug')->getHtml(); ?>
 		</p>
 
 		<p class="multi-select">
