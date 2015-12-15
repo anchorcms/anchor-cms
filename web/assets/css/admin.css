@@ -1265,6 +1265,13 @@ body > form [type=submit] {
   body > form label {
     float: none;
   }
+  .rolodex {
+    width: 0;
+    overflow: hidden;
+  }
+  .rolodex + main {
+    width: 100%;
+  }
   .editor {
     margin: 0 2%;
   }
