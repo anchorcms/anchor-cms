@@ -1183,6 +1183,9 @@ body > form [type=submit] {
   overflow: hidden;
   border-bottom: 1px solid rgba(201, 198, 191, 0.5);
 }
+.post-list li:last-child {
+  border-bottom: none;
+}
 .post-list li .badge {
   position: absolute;
   left: 30px;
@@ -1235,4 +1238,113 @@ body > form [type=submit] {
 }
 .post-list dl dd {
   margin: 19px 0 0 -130px;
+}
+@media (max-width: 1280px) {
+  .wrap {
+    width: 96%;
+  }
+  .wrap.narrow {
+    width: 90%;
+  }
+  .filter .search,
+  .filter .split-options {
+    display: none;
+  }
+  body > form {
+    width: 90%;
+    padding: 0;
+  }
+  body > form p {
+    padding: 10px 20px 20px;
+  }
+  body > form input,
+  body > form textarea,
+  body > form select {
+    width: 100%;
+  }
+  body > form label {
+    float: none;
+  }
+  .editor {
+    margin: 0 2%;
+  }
+  .editor nav {
+    left: 15px;
+  }
+  .editor .actions {
+    right: 12px;
+    top: 12px;
+  }
+  .editor .actions .secondary {
+    display: none;
+  }
+  .editor .wrap {
+    width: 100%;
+  }
+  .editor .post-stats {
+    display: none;
+  }
+  .related {
+    display: none;
+  }
+  .main-nav {
+    width: 90%;
+    padding: 18px 0;
+    margin: 0 auto 20px;
+  }
+  .main-nav .anchor-logo,
+  .main-nav .has-dropdown {
+    display: none;
+  }
+  .main-nav > ul > li > a {
+    font-size: 0;
+    padding-left: 0;
+  }
+  .main-nav > ul > li > a:before {
+    margin-right: 0;
+  }
+  .main-nav > ul > li > a:after {
+    top: 2px;
+  }
+  .filter {
+    padding: 16px 20px 0;
+  }
+  .post-list {
+    padding-bottom: 0;
+  }
+  .post-list li {
+    padding: 16px 20px;
+  }
+  .post-list li .badge {
+    float: right;
+    margin-top: 6px;
+    position: static;
+  }
+  .post-list li a,
+  .post-list li dl,
+  .post-list li dt,
+  .post-list li dd {
+    width: 100%;
+    float: none;
+  }
+  .post-list li a {
+    padding-bottom: 6px;
+  }
+  .post-list li dl {
+    display: none;
+  }
+  .post-list li dt,
+  .post-list li dd {
+    text-align: left;
+  }
+  .post-list li dd {
+    margin: 0 0 10px;
+  }
+}
+@media (max-width: 480px) {
+  .split-fields p,
+  .split-fields div {
+    width: 100%;
+    margin-right: 0;
+  }
 }

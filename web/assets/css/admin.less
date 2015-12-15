@@ -6,12 +6,16 @@
  *   file in your theme to modify the - well, the admin section here.
  */
 
+//  Any actual CSS imports
 @import '//fonts.googleapis.com/css?family=Cousine:400,700|Alegreya:400italic,700italic,400,700|Karla:400,400italic,700,700italic';
 
+//  Our Less imports
 @import 'variables';
 @import 'reset';
 @import 'forms';
 @import 'editor';
+
+//  Responsive stuff down the bottom.
 
 .empty-state {
 	position: absolute;
@@ -710,6 +714,10 @@ body > form {
 
 		border-bottom: 1px solid @border;
 
+		&:last-child {
+			border-bottom: none;
+		}
+
 		.badge {
 			position: absolute;
 			left: 30px;
@@ -774,4 +782,12 @@ body > form {
 			margin: 19px 0 0 -130px;
 		}
 	}
+}
+
+@media (max-width: 1280px) {
+	@import 'small';
+}
+
+@media (max-width: 480px) {
+	@import 'mobile';
 }
