@@ -24,8 +24,8 @@ class Posts extends Mapper {
 		if($input['search']) {
 			$term = sprintf('%s%s%s', '%', $input['search'], '%');
 
-			$this->where(function($query) use($term) {
-				$query->where('title', 'LIKE', $term)->orWhere('content', 'LIKE', $term);
+			$this->whereNested(function($where) use($term) {
+				$where('title', 'LIKE', $term)->or('content', 'LIKE', $term);
 			});
 		}
 
