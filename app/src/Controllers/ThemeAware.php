@@ -21,6 +21,8 @@ abstract class ThemeAware extends ContainerAware {
 		$this->view->setPath($path);
 
 		// theme functions
+		require $this->paths['app'] . '/functions.php';
+
 		if(is_file($path . '/functions.php')) {
 			require $path . '/functions.php';
 		}
@@ -50,7 +52,15 @@ abstract class ThemeAware extends ContainerAware {
 		$pages = $this->pages->menu();
 		$vars['menu'] = new Content($pages);
 
-		$categories = $this->categories->sort('title')->get();
+		$tp = $this->config->get('db.table_prefix');
+
+		$categories = $this->categories->select([$tp.'categories.*', 'COUNT('.$tp.'posts.id) AS post_count'])
+			->join($tp.'posts', $tp.'posts.id', '=', $tp.'categories.id')
+			->where($tp.'posts.status', '=', 'published')
+			->sort($tp.'categories.title')
+			->group($tp.'categories.id')
+			->get();
+
 		$vars['categories'] = new Content($categories);
 
 		$vars['page'] = $page;

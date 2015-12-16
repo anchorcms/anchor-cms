@@ -35,7 +35,7 @@
 					<a href="/category/<?php echo $categories->slug; ?>" title="<?php echo $categories->description; ?>">
 						<?php echo $categories->title; ?>
 
-						<small><?php echo fallback($categories->post_count, rand(1,40)); ?></small>
+						<small><?php echo $categories->postCount(); ?></small>
 					</a>
 				</li>
 				<?php endwhile; ?>

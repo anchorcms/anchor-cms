@@ -4,10 +4,10 @@ Anchor is a super-simple, lightweight blog system, made to let you just write. [
 
 ### Requirements
 
-- PHP 7 (for now)
+- PHP 5.5
 - MySQL 5 or Sqlite 3 (PostgreSQL soon)
 
-To determine your PHP version, create a new file with this PHP code: `<?php echo PHP_VERSION; // version.php`. This will print your version number to the screen.
+To determine your PHP version, in a terminal run `php -v` or create a new file with this PHP code: `<?php echo PHP_VERSION; // version.php`. This will print your version number to the screen.
 
 To upgrade your PHP version on OS X, just run `curl -s http://php-osx.liip.ch/install.sh | bash -s 7.0`.
 

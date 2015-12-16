@@ -75,8 +75,9 @@ else {
 
 $response = $app['kernel']->getResponse();
 
-$app['session']->rotate();
-
-$app['session']->close();
+if($app['session']->started()) {
+	$app['session']->rotate();
+	$app['session']->close();
+}
 
 $app['kernel']->outputResponse($response);

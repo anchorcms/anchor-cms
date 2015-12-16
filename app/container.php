@@ -93,7 +93,7 @@ return new Pimple\Container([
 	 * Mappers
 	 */
 	'categories' => function($app) {
-		$mapper = new Mappers\Categories($app['query'], new \DB\Row);
+		$mapper = new Mappers\Categories($app['query'], new \Models\Category);
 		$mapper->setTablePrefix($app['config']->get('db.table_prefix'));
 
 		return $mapper;
