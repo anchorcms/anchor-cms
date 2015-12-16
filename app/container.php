@@ -58,7 +58,7 @@ return new Pimple\Container([
 		return new Http\Response;
 	},
 	'routes' => function() {
-		return new Routing\RouteCollection(require __DIR__ . '/routes.php');
+		return new Routing\RouteCollection(require __DIR__ . '/routes/default.php');
 	},
 	'router' => function($app) {
 		return new Routing\UriMatcher($app['routes']);
