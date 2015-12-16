@@ -54,11 +54,11 @@ abstract class ThemeAware extends ContainerAware {
 
 		$tp = $this->config->get('db.table_prefix');
 
-		$categories = $this->categories->select([$tp.'categories.*', 'COUNT('.$tp.'posts.id) AS post_count'])
-			->join($tp.'posts', $tp.'posts.id', '=', $tp.'categories.id')
+		$categories = $this->categories->select([$tp.'categories.*', 'COUNT('.$tp.'posts.category) AS post_count'])
+			->join($tp.'posts', $tp.'posts.category', '=', $tp.'categories.id')
 			->where($tp.'posts.status', '=', 'published')
 			->sort($tp.'categories.title')
-			->group($tp.'categories.id')
+			->group($tp.'posts.category')
 			->get();
 
 		$vars['categories'] = new Content($categories);
