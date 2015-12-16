@@ -1,6 +1,6 @@
 <?php
 
-return new Pimple\Container([
+return new Container([
 	'paths' => function() {
 		return require __DIR__ . '/paths.php';
 	},
@@ -85,57 +85,60 @@ return new Pimple\Container([
 	'plugins' => function($app) {
 		return new Services\Plugins($app['paths']['plugins']);
 	},
-	'postService' => function($app) {
-		return new Services\Posts($app['posts'], $app['postmeta'], $app['extend']);
-	},
+	'services' => new Container([
+		'posts' => function() {
+			global $app;
+			return new Services\Posts($app['posts'], $app['postmeta'], $app['extend'], $app['users'], $app['categories']);
+		},
+	]),
 
 	/**
 	 * Mappers
 	 */
 	'categories' => function($app) {
-		$mapper = new Mappers\Categories($app['query'], new \Models\Category);
+		$mapper = new Mappers\Categories($app['query'], new Models\Category);
 		$mapper->setTablePrefix($app['config']->get('db.table_prefix'));
 
 		return $mapper;
 	},
 	'meta' => function($app) {
-		$mapper = new Mappers\Meta($app['query'], new \DB\Row);
+		$mapper = new Mappers\Meta($app['query'], new DB\Row);
 		$mapper->setTablePrefix($app['config']->get('db.table_prefix'));
 
 		return $mapper;
 	},
 	'pages' => function($app) {
-		$mapper = new Mappers\Pages($app['query'], new \Models\Page);
+		$mapper = new Mappers\Pages($app['query'], new Models\Page);
 		$mapper->setTablePrefix($app['config']->get('db.table_prefix'));
 
 		return $mapper;
 	},
 	'pagemeta' => function($app) {
-		$mapper = new Mappers\PageMeta($app['query'], new \DB\Row);
+		$mapper = new Mappers\PageMeta($app['query'], new DB\Row);
 		$mapper->setTablePrefix($app['config']->get('db.table_prefix'));
 
 		return $mapper;
 	},
 	'posts' => function($app) {
-		$mapper = new Mappers\Posts($app['query'], new \Models\Post);
+		$mapper = new Mappers\Posts($app['query'], new Models\Post);
 		$mapper->setTablePrefix($app['config']->get('db.table_prefix'));
 
 		return $mapper;
 	},
 	'postmeta' => function($app) {
-		$mapper = new Mappers\PostMeta($app['query'], new \DB\Row);
+		$mapper = new Mappers\PostMeta($app['query'], new DB\Row);
 		$mapper->setTablePrefix($app['config']->get('db.table_prefix'));
 
 		return $mapper;
 	},
 	'users' => function($app) {
-		$mapper = new Mappers\Users($app['query'], new \Models\User);
+		$mapper = new Mappers\Users($app['query'], new Models\User);
 		$mapper->setTablePrefix($app['config']->get('db.table_prefix'));
 
 		return $mapper;
 	},
 	'extend' => function($app) {
-		$mapper = new Mappers\Extend($app['query'], new \DB\Row);
+		$mapper = new Mappers\Extend($app['query'], new DB\Row);
 		$mapper->setTablePrefix($app['config']->get('db.table_prefix'));
 
 		return $mapper;

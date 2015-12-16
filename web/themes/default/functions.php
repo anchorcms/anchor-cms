@@ -1,9 +1,8 @@
 <?php
 
 // count words
-function words(Content $content) {
-	$html = $content->body();
-	$text = strip_tags($html);
+function words(ContentIterator $content) {
+	$text = strip_tags($content->html);
 
 	return count(preg_split('#\s+#', $text));
 }
@@ -20,10 +19,10 @@ function ordinal($num) {
 }
 
 // nth article
-function nth(Content $content) {
+function nth(ContentIterator $content) {
 	global $app;
 
-	return $app['posts']->where('status', '=', 'published')->where('id', '<', $content->id)->count() + 1;
+	return $app['posts']->where('status', '=', 'published')->where('created', '<', $content->created)->count() + 1;
 }
 
 // fallback to first valid argument

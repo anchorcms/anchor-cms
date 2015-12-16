@@ -5,20 +5,22 @@ namespace Controllers;
 class Posts extends Frontend {
 
 	public function getIndex($request) {
-		$page = $this->pages->slug($request->getAttribute('page'));
+		$page = $this->pages->where('id', '=', $this->meta->key('posts_page'))
+			->where('status', '=', 'published')
+			->fetch();
+
 		$article = $this->posts->where('slug', '=', $request->getAttribute('post'))
 			->where('status', '=', 'published')
 			->fetch();
 
-		// page not found
-		// post not found
-		// accessing post using a different page slug
-		if(false === $page || false === $article || $page->id != $this->meta->key('posts_page')) {
+		$this->services->posts->hydrate([$article]);
+
+		// page or post not found
+		if( ! $page || ! $article) {
 			return $this->notFound();
 		}
 
-		$content = new \Content();
-		$content->attach($article);
+		$content = new \ContentIterator([$article]);
 
 		return $this->displayContent($page, $content, 'layout', ['article', 'index']);
 	}

@@ -4,7 +4,7 @@ namespace Controllers;
 
 use Pimple\Container;
 
-abstract class ContainerAware {
+trait ContainerTrait {
 
 	private $container;
 

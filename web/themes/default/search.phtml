@@ -1,28 +1,54 @@
-<?php
+<aside class="site-description wrap">
+	<h1>
+		<?php echo $meta->description; ?>
+	</h1>
+</aside>
 
-$bg = function($i) use($meta) {
-	$lum = round((($i / $meta->posts_per_page) * 20) + 20);
+<ul class="stories wrap">
+	<?php while($content->loop()): ?>
+	<li>
+		<hgroup>
+			<h1>
+				<a href="/<?php echo $content->getCategory()->slug; ?>/<?php echo $content->slug; ?>">
+					<?php echo $content->title; ?>
+				</a>
+			</h1>
 
-	return sprintf('background: hsl(215, 28%%, %d%%);', $lum);
-};
+			<small>Posted by <?php echo $content->getAuthor()->getName(); ?> <em>on the <?php echo $content->getDate('dS M Y'); ?></em></small>
+		</hgroup>
 
-?>
-<div class="items">
-	<div class="item">
-		<div class="wrap">
-			<h1><a href="/<?php echo $page->slug; ?>/<?php echo $content->slug; ?>"><?php echo $content->title; ?></a></h1>
-
-			<div class="content"><?php echo $content->description; ?></div>
-
-			<p>Posted on <time><?php echo $content->date()->format('jS M, Y'); ?></time> by <?php echo $content->author; ?> in <?php echo $content->category; ?></p>
+		<div class="article-excerpt">
+			<?php echo $content->html; ?>
 		</div>
-	</div>
-
-	<?php $i = 0; while($content->loop()): ?>
-	<div class="item" style="<?php echo $bg(++$i); ?>">
-		<div class="wrap">
-			<h2><a href="/<?php echo $page->slug; ?>/<?php echo $content->slug; ?>"><?php echo $content->title; ?></a></h2>
-		</div>
-	</div>
+	</li>
 	<?php endwhile; ?>
-</div>
+</ul>
+
+<section class="related-content">
+	<div class="wrap">
+		<div class="half-width">
+			<h2>Categories</h2>
+
+			<ul>
+				<?php while($categories->loop()): ?>
+				<li>
+					<a href="/category/<?php echo $categories->slug; ?>" title="<?php echo $categories->description; ?>">
+						<?php echo $categories->title; ?>
+
+						<small><?php echo $categories->postCount(); ?></small>
+					</a>
+				</li>
+				<?php endwhile; ?>
+			</ul>
+		</div>
+
+		<div class="half-width">
+			<h2>Search my blog</h2>
+
+			<form action="/search" method="get">
+				<input name="q" type="search" placeholder="Search anything here.">
+				<button type="submit">Search</button>
+			</form>
+		</div>
+	</div>
+</section>

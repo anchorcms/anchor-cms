@@ -4,33 +4,62 @@ namespace Services;
 
 class Posts {
 
-	public function __construct($posts, $postmeta, $extend) {
+	public function __construct($posts, $postmeta, $extend, $users, $categories) {
 		$this->posts = $posts;
 		$this->postmeta = $postmeta;
 		$this->extend = $extend;
+		$this->users = $users;
+		$this->categories = $categories;
 	}
 
-	public function getPostsMapper() {
+	public function getMapper() {
 		return $this->posts;
 	}
 
-	public function getKeys(array $posts) {
-		return array_map(function($post) { return $post->id; }, $posts);
+	protected function getKeys(array $posts, $property = 'id') {
+		return array_map(function($post) use($property) { return $post->getAttribute($property); }, $posts);
 	}
 
-	public function hydrate(array $keys, array $posts) {
-		$meta = $this->postmeta->join('anchor_extend', 'anchor_extend.id', '=', 'anchor_post_meta.extend')
+	public function hydrate(array $posts) {
+		$keys = $this->getKeys($posts);
+
+		$prefix = $this->posts->getTablePrefix();
+
+		$meta = $this->postmeta->join($prefix . 'extend', $prefix . 'extend.id', '=', $prefix . 'post_meta.extend')
 			->whereIn('post', $keys)->get();
 
 		array_walk($meta, function($row) {
 			$row->data = json_decode($row->data);
 		});
 
+		$keys = $this->getKeys($posts, 'author');
+
+		$users = $this->users->select(['id', 'username', 'email', 'real_name', 'bio', 'status', 'role'])
+			->whereIn('id', $keys)
+			->get();
+
+		$keys = $this->getKeys($posts, 'category');
+
+		$categories = $this->categories->whereIn('id', $keys)->get();
+
 		foreach($posts as $post) {
 			$filtered = array_filter($meta, function($row) use($post) {
 				return $row->post == $post->id;
 			});
+
 			$post->setMeta($filtered);
+
+			$author = array_reduce($users, function($carry, $row) use($post) {
+				return $row->id == $post->author ? $row : $carry;
+			});
+
+			$post->setAuthor($author);
+
+			$category = array_reduce($categories, function($carry, $row) use($post) {
+				return $row->id == $post->category ? $row : $carry;
+			});
+
+			$post->setCategory($category);
 		}
 	}
 
@@ -45,22 +74,18 @@ class Posts {
 
 		$offset = ($params['page'] - 1) * $params['perpage'];
 
-		$query = $this->posts->select(['anchor_posts.*'])
-			->where('status', '=', $params['status'])
+		$query = $this->posts->where('status', '=', $params['status'])
 			->sort('created', 'desc')
 			->take($params['perpage'])
 			->skip($offset);
 
 		if(isset($params['category'])) {
-			$query->join('anchor_categories', 'anchor_categories.id', '=', 'anchor_posts.category')
-				->where('anchor_categories.slug', '=', $params['category']);
+			$query->where('category', '=', $params['category']);
 		}
 
 		$posts = $query->get();
 
-		$keys = $this->getKeys($posts);
-
-		$this->hydrate($keys, $posts);
+		$this->hydrate($posts);
 
 		return $posts;
 	}

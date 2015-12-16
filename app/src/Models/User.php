@@ -12,4 +12,8 @@ class User extends Model {
 		return $this->status == 'active';
 	}
 
+	public function getName() {
+		return $this->real_name;
+	}
+
 }

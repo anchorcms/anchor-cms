@@ -1,31 +1,25 @@
 <?php
 
-class Content implements Countable, Iterator {
+class ContentIterator implements Countable, Iterator {
 
 	protected $index = -1;
 
-	protected $items = [];
+	protected $items;
 
 	public function __construct(array $items = []) {
 		$this->items = $items;
 	}
 
-	public function __call($method, array $args) {
-		return call_user_func_array([$this->current(), $method], $args);
-	}
-
 	public function __get($key) {
 		$item = $this->current();
 
-		return $item->{$key};
+		return $item->getAttribute($key);
 	}
 
-	public function body() {
-		return $this->html;
-	}
+	public function __call($method, array $args) {
+		$item = $this->current();
 
-	public function date() {
-		return new \DateTime($this->created);
+		return call_user_func_array([$item, $method], $args);
 	}
 
 	public function attach($item) {

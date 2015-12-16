@@ -7,7 +7,7 @@
 
 		<link rel="stylesheet" href="/themes/default/assets/css/styles.css">
 	</head>
-	<body class="<?php echo fallback($page->slug, 'not_found'); ?>">
+	<body class="<?php echo $page->slug; ?>">
 		<header>
 			<a href="/" class="logo"><?php echo $meta->sitename; ?></a>
 

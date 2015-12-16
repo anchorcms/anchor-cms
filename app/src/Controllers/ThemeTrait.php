@@ -2,11 +2,7 @@
 
 namespace Controllers;
 
-use ErrorException;
-use Content;
-use View;
-
-abstract class ThemeAware extends ContainerAware {
+trait ThemeTrait {
 
 	private $path;
 
@@ -15,7 +11,7 @@ abstract class ThemeAware extends ContainerAware {
 		$path = $this->paths['themes'] . '/' . $theme;
 
 		if(false === is_dir($path)) {
-			throw new ErrorException(sprintf('Theme does not exist: %s', $theme));
+			throw new \ErrorException(sprintf('Theme does not exist: %s', $theme));
 		}
 
 		$this->view->setPath($path);
@@ -35,7 +31,7 @@ abstract class ThemeAware extends ContainerAware {
 			}
 		}
 
-		throw new ErrorException(sprintf('Template not found: %s', $name));
+		throw new \ErrorException(sprintf('Template not found: %s', $name));
 	}
 
 	protected function renderTemplate($layout, array $templates, array $vars = []) {
@@ -46,11 +42,11 @@ abstract class ThemeAware extends ContainerAware {
 		return $this->view->render($template, $vars);
 	}
 
-	protected function displayContent($page, $content, $layout, $templates, array $vars = []) {
+	protected function displayContent($page, \ContentIterator $content, $layout, $templates, array $vars = []) {
 		$vars['meta'] = $this->meta->all();
 
 		$pages = $this->pages->menu();
-		$vars['menu'] = new Content($pages);
+		$vars['menu'] = new \ContentIterator($pages);
 
 		$tp = $this->config->get('db.table_prefix');
 
@@ -61,7 +57,7 @@ abstract class ThemeAware extends ContainerAware {
 			->group($tp.'posts.category')
 			->get();
 
-		$vars['categories'] = new Content($categories);
+		$vars['categories'] = new \ContentIterator($categories);
 
 		$vars['page'] = $page;
 		$vars['content'] = $content;

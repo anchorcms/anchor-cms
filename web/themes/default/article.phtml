@@ -5,12 +5,11 @@
 <article class="wrap">
 	<hgroup>
 		<h1><?php echo $content->title; ?></h1>
-		<p>Posted by <?php echo fallback(!$content->author, 'Administrator'); ?> <em>on the <?php echo date('dS M Y'); ?></em></p>
+		<p>Posted by <?php echo $content->getAuthor()->getName(); ?> <em>on the <?php echo $content->getDate('dS M Y'); ?></em></p>
 	</hgroup>
 
-
 	<div class="article-content">
-		<?php echo $content->body(); ?>
+		<?php echo $content->html; ?>
 	</div>
 
 	<small>

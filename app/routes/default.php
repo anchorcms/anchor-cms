@@ -61,7 +61,8 @@ return [
 	'/feeds/rss' => 'controllers\\feeds@rss',
 
 	'/' => 'controllers\\page@home',
+	'/search' => 'controllers\\search@index',
 	'/category/:category' => 'controllers\\page@category',
-	'/:page/:post' => 'controllers\\posts@index',
+	'/:category/:post' => 'controllers\\posts@index',
 	'/:page' => 'controllers\\page@index',
 ];

@@ -2,4 +2,12 @@
 
 namespace Models;
 
-abstract class Model extends \DB\Row {}
+use DB\Row;
+
+abstract class Model extends Row {
+
+	public function getAttribute($key) {
+		return $this->attributes[$key];
+	}
+
+}

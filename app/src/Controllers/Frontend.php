@@ -4,11 +4,13 @@ namespace Controllers;
 
 use Pimple\Container;
 
-abstract class Frontend extends ThemeAware {
+abstract class Frontend {
+
+	use ContainerTrait, ThemeTrait;
 
 	public function __construct(Container $app) {
 		$this->setContainer($app);
-		$this->setTheme($this->meta->key('theme', 'sail'));
+		$this->setTheme($this->meta->key('theme', 'default'));
 	}
 
 	public function notFound() {
@@ -17,8 +19,7 @@ abstract class Frontend extends ThemeAware {
 			'html' => 'The resource you’re looking for doesn’t exist!'
 		]);
 
-		$content = new \Content;
-		$content->attach($page);
+		$content = new \ContentIterator([$page]);
 
 		$template = $this->displayContent($page, $content, 'layout', ['404', 'page', 'index']);
 
