@@ -8,30 +8,19 @@
 			</form>
 
 			<ul class="split-options">
-				<?php 
-					//  Need a better way of getting $_GET['status']
-					$filter_status = explode('?', $_SERVER['REQUEST_URI']);
-
-					if(!isset($filter_status[1])) {
-						$filter_status = false;
-					} else {
-						$filter_status = explode('=', $filter_status[1])[1];
-					}
-				?>
-
-				<li <?php if(!$filter_status) echo 'class="active"'; ?>>
+				<li <?php if(null === $filters['status']) echo 'class="active"'; ?>>
 					<a href="/admin/posts">All</a>
 				</li>
 
 				<?php foreach($statuses as $status => $title): ?>
-				<li <?php if($status == $filter_status) echo 'class="active"'; ?>>
+				<li <?php if($status == $filters['status']) echo 'class="active"'; ?>>
 					<a href="/admin/posts?status=<?php echo $status; ?>"><?php echo $title; ?></a></li>
 				<?php endforeach; ?>
 			</ul>
 		</div>
 	</header>
 
-	<main><!-- 
+	<main><!--
 		<ul>
 			<?php foreach($categories as $category): ?>
 			<li><a href="/admin/posts?category=<?php echo $category->id; ?>"><?php echo $category->title; ?></a></li>

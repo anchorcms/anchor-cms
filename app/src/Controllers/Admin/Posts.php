@@ -4,8 +4,8 @@ namespace Controllers\Admin;
 
 class Posts extends Backend {
 
-	public function getIndex() {
-		$input = filter_var_array($_GET, [
+	public function getIndex($request) {
+		$input = filter_var_array($request->getQueryParams(), [
 			'page' => FILTER_SANITIZE_NUMBER_INT,
 			'category' => FILTER_SANITIZE_NUMBER_INT,
 			'status' => FILTER_SANITIZE_STRING,
@@ -29,6 +29,7 @@ class Posts extends Backend {
 		$vars['paging'] = $paging;
 		$vars['categories'] = $this->categories->get();
 		$vars['statuses'] = ['published' => 'Published', 'draft' => 'Draft', 'archived' => 'Archived'];
+		$vars['filters'] = $input;
 		$vars['messages'] = $this->messages->render();
 
 		return $this->renderTemplate('layout', ['posts/index'], $vars);

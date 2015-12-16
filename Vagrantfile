@@ -2,7 +2,7 @@
 $script = <<SCRIPT
 apt-get -q update
 apt-get -y -q upgrade
-apt-get -y -q install nginx php5-fpm php5-sqlite php5-mysqlnd php5-imagick php5-curl
+apt-get -y -q install dkms nginx php5-fpm php5-sqlite php5-mysqlnd php5-imagick php5-curl
 echo '
 server {
 	listen 80 default_server;
@@ -10,7 +10,7 @@ server {
 	root /var/www/html/web;
 	index index.php index.html;
 	location / {
-		try_files $uri $uri/ /index.php;
+		try_files $uri $uri/ /index.php?$args;
 	}
 	location ~ \.php$ {
 		include snippets/fastcgi-php.conf;
@@ -37,5 +37,5 @@ Vagrant.configure("2") do |config|
 	config.vm.box = "debian/jessie64"
 	config.vm.provision "shell", run: "once", inline: $script
 	config.vm.network :forwarded_port, guest: 80, host: 8080
-	config.vm.synced_folder ".", "/var/www/html", owner: "www-data", group: "www-data", type: "rsync", rsync__exclude: ".git/"
+	config.vm.synced_folder ".", "/var/www/html", owner: "www-data", group: "www-data"
 end

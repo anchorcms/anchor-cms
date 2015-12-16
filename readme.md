@@ -20,6 +20,11 @@ To upgrade your PHP version on OS X, just run `curl -s http://php-osx.liip.ch/in
 	cd web
 	php -S localhost:8080
 
+Using vagrant
+
+	vagrant plugin install vagrant-vbguest
+	vagrant up
+
 Run the install wizard from your browser (http://localhost:8080) to complete the installation
 
 ### Testing
