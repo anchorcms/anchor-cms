@@ -16,4 +16,18 @@ class User extends Model {
 		return $this->real_name;
 	}
 
+	public function getEmail() {
+		return $this->email;
+	}
+
+	public function getEmailEncoded() {
+		$encoded = '';
+
+		for($index = 0; $index < strlen($this->email); $index++) {
+			$encoded .= '&#'.ord($this->email[$index]).';';
+		}
+
+		return $encoded;
+	}
+
 }

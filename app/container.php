@@ -93,6 +93,13 @@ return new Container([
 	'plugins' => function($app) {
 		return new Services\Plugins($app['paths']['plugins']);
 	},
+	'rss' => function($app) {
+		$name = $app['meta']->key('sitename');
+		$description = $app['meta']->key('description');
+		$url = $app['request']->getUri();
+
+		return new Services\Rss($name, $description, $url);
+	},
 	'services' => new Container([
 		'posts' => function() {
 			global $app;
