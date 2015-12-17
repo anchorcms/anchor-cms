@@ -15,17 +15,19 @@ class Posts extends Backend {
 		$total = $this->posts->filter($input)->count();
 
 		$perpage = $this->meta->key('admin_posts_per_page', 10);
-		$posts = $this->posts->filter($input)->sort('modified', 'desc')->take($perpage);
+		$query = $this->posts->filter($input)->sort('modified', 'desc')->take($perpage);
 
 		if($input['page']) {
 			$offset = ($input['page'] - 1) * $perpage;
-			$posts->skip($offset);
+			$query->skip($offset);
 		}
+
+		$posts = $query->get();
 
 		$paging = new \Paginator('/admin/posts', $input['page'], $total, $perpage, $input);
 
-		$vars['title'] = 'Posts';
-		$vars['posts'] = $posts->get();
+		$vars['title'] = sprintf('Posts - %s', $this->meta->key('sitename'));
+		$vars['posts'] = $posts;
 		$vars['paging'] = $paging;
 		$vars['categories'] = $this->categories->get();
 		$vars['statuses'] = ['published' => 'Published', 'draft' => 'Draft', 'archived' => 'Archived'];

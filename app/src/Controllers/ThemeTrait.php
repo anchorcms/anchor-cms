@@ -24,7 +24,7 @@ trait ThemeTrait {
 
 	/**
 	 * Returns the first template that exists
-	 * 
+	 *
 	 * @param array
 	 * @return string
 	 */
@@ -39,6 +39,8 @@ trait ThemeTrait {
 	}
 
 	protected function renderTemplate($layout, array $templates, array $vars = []) {
+		$vars['uri'] = $this->request->getUri();
+
 		$template = $this->getTemplate($templates);
 		$vars['body'] = $this->view->render($template, $vars);
 

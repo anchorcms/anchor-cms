@@ -3,48 +3,29 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        
-        <title>Create a new page — Anchor</title>
-        
+
+        <title><?php echo $title; ?></title>
+
         <meta name="description" content="">
         <meta name="viewport" content="width=1400, initial-scale=1">
 
 		<!-- Compiles from LESS -->
         <link rel="stylesheet" href="/assets/css/admin.css">
-        
+
         <!-- Compiles from current theme, if it exists -->
         <link rel="stylesheet" href="/themes/current/admin-custom.css">
     </head>
     <body>
-    	<!-- @TODO: do this, but not-shitly. -->
-    	<?php
-    		define('CURRENT_PAGE', explode('/', $_SERVER['REQUEST_URI'])[2]);
-
-    		function active($slug, $return = 'class="active"') {
-    			if(is_array($slug)) {
-    				if(in_array(CURRENT_PAGE, $slug)) {
-    					echo $return;
-    				}
-    			}
-
-    			if($slug == CURRENT_PAGE) {
-    				echo $return;
-    			}
-    		}
-    	?>
-
     	<div class="flash-message"></div>
-    	
+
     	<nav class="main-nav">
 			<ul class="actions">
 				<?php foreach(['posts', 'pages', 'categories'] as $url): ?>
-				<li <?php active($url); ?>>
-					<a class="icon-<?php echo $url; ?>" href="/admin/<?php echo $url; ?>"><?php echo ucfirst($url); ?></a>
-				</li>
+				<li><a class="icon-<?php echo $url; ?>" href="/admin/<?php echo $url; ?>"><?php echo ucfirst($url); ?></a></li>
 				<?php endforeach; ?>
 
-				<li class="has-dropdown <?php active(['themes', 'plugins'], 'active'); ?>">
-					<a class="icon-themes" href="/admin/themes">Extend</a>
+				<li class="has-dropdown">
+					<a class="icon-themes" href="#">Extend</a>
 
 					<ul>
 						<li class="icon-themes">
@@ -57,15 +38,13 @@
 					</ul>
 				</li>
 			</ul>
-    		
+
     		<a class="anchor-logo">Anchor CMS</a>
-    		
+
     		<ul class="results">
-    			<li <?php active('users'); ?>>
-    				<a class="icon-users" href="/admin/users">Users</a>
-    			</li>
-    			
-    			<li class="has-dropdown <?php active(['meta', 'fields', 'vars'], 'active'); ?>">
+    			<li><a class="icon-users" href="/admin/users">Users</a></li>
+
+    			<li class="has-dropdown">
     				<a class="icon-settings" href="/admin/meta">Settings</a>
 
     				<ul>
@@ -82,7 +61,7 @@
 	    				</li>
     				</ul>
     			</li>
-    			
+
     			<li>
     				<a class="icon-visit-site" href="/">Visit site</a>
     			</li>
@@ -92,6 +71,26 @@
     			</li>
     		</ul>
     	</nav>
+
+        <script>
+            (function(d, w) {
+                var uri = '<?php echo $uri->getPath(); ?>',
+                    nodes = d.querySelectorAll('ul.actions > li, ul.results > li');
+
+                Array.prototype.forEach.call(nodes, function(node) {
+                    if(node.classList.contains('has-dropdown')) {
+                        Array.prototype.forEach.call(node.querySelectorAll('a'), function(child) {
+                            var href = child.getAttribute('href');
+                            if(href.indexOf(uri) === 0) node.classList.add('active');
+                        });
+                    }
+                    else {
+                        var a = node.querySelector('a'), href = a.getAttribute('href');
+                        if(href.indexOf(uri) === 0) node.classList.add('active');
+                    }
+                });
+            })(document, window);
+        </script>
 
 		<?php echo $body; ?>
 

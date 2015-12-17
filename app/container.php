@@ -4,14 +4,22 @@ return new Container([
 	'paths' => function() {
 		return require __DIR__ . '/paths.php';
 	},
-	'config' => function() {
-		return new Config(__DIR__ . '/config');
+	'config' => function($app) {
+		return new Config($app['paths']['config']);
 	},
 	'db' => function($app) {
 		$config = $app['config']->get('db');
-		$dns = sprintf('%s:%s', $config['driver'], $app['paths']['storage'] . '/' . $config['dbname']);
 
-		$pdo = new PDO($dns);
+		if($config['driver'] == 'sqlite') {
+			$dns = sprintf('%s:%s', $config['driver'], $app['paths']['storage'] . '/' . $config['dbname']);
+			$pdo = new PDO($dns);
+		}
+
+		if($config['driver'] == 'mysql') {
+			$dns = sprintf('%s:host=%s;dbname=%s', $config['driver'], $config['host'], $config['dbname']);
+			$pdo = new PDO($dns, $config['user'], $config['pass']);
+		}
+
 		$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 		$pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
 

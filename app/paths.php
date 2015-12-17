@@ -7,7 +7,7 @@ return [
 	'app' => __DIR__,
 	'config' => __DIR__ . '/config',
 	'themes' => __PARENT__ . '/web/themes',
-	'plugins' => __PARENT__ . '/plugins',
+	'plugins' => __PARENT__ . '/web/plugins',
 	'content' => __PARENT__ . '/web/content',
 	'views' => __DIR__ . '/views',
 	'storage' => __DIR__ . '/storage'
