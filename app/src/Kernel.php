@@ -57,12 +57,12 @@ class Kernel {
 		$route = $this->router->match($path);
 
 		if(false === $route) {
-			throw new ErrorException(sprintf('no route matched: %s', $this->request->getUri()->getPath()));
+			throw new \ErrorException(sprintf('no route matched: %s', $this->request->getUri()->getPath()));
 		}
 
 		$this->request->withAttributes($this->router->getParams());
 
-		if($route instanceof Closure) {
+		if($route instanceof \Closure) {
 			$output = $route($this->request);
 
 			return $this->createResponse($output);
@@ -117,7 +117,7 @@ class Kernel {
 
 	public function outputResponse(ResponseInterface $response) {
 		if(true === headers_sent()) {
-			throw new ErrorException('headers already sent.');
+			throw new \ErrorException('headers already sent.');
 		}
 
 		header(sprintf('%s %s %s',

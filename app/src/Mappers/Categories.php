@@ -26,4 +26,15 @@ class Categories extends Mapper {
 		return $categories;
 	}
 
+	public function allPublished() {
+		$tp = $this->prefix;
+
+		return $this->select([$tp.'categories.*', 'COUNT('.$tp.'posts.category) AS post_count'])
+			->join($tp.'posts', $tp.'posts.category', '=', $tp.'categories.id')
+			->where($tp.'posts.status', '=', 'published')
+			->sort($tp.'categories.title')
+			->group($tp.'posts.category')
+			->get();
+	}
+
 }

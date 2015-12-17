@@ -1,6 +1,6 @@
 <?php
 
-class Collection implements Countable, JsonSerializable, IteratorAggregate, Serializable {
+class Collection implements Countable, JsonSerializable, IteratorAggregate {
 
 	protected $data;
 
@@ -9,11 +9,37 @@ class Collection implements Countable, JsonSerializable, IteratorAggregate, Seri
 	}
 
 	public function get($key, $default = null) {
-		return array_key_exists($key, $this->data) ? $this->data[$key] : $default;
+		return $this->has($key) ? $this->data[$key] : $default;
+	}
+
+	public function first($key, $default = null) {
+		$value = $this->get($key);
+
+		return is_array($value) ? $value[0] : $default;
+	}
+
+	public function last($key, $default = null) {
+		$value = $this->get($key);
+
+		if(is_array($value) {
+			$index = count($value) - 1;
+
+			return $value[$index];
+		}
+
+		return $default;
 	}
 
 	public function put($key, $value) {
 		$this->data[$key] = $value;
+	}
+
+	public function push($key, $value) {
+		if($this->has($key) && ! is_array($this->data[$key])) {
+			$this->data[$key] = [$this->data[$key]];
+		}
+
+		$this->data[$key][] = $value;
 	}
 
 	public function has($key) {
@@ -36,14 +62,6 @@ class Collection implements Countable, JsonSerializable, IteratorAggregate, Seri
 
 	public function getIterator() {
 		return new ArrayIterator($this->data);
-	}
-
-	public function serialize() {
-		return serialize($this->data);
-	}
-
-	public function unserialize($data) {
-		$this->data = unserialize($data);
 	}
 
 }

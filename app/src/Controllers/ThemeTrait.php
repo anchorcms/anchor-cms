@@ -4,8 +4,6 @@ namespace Controllers;
 
 trait ThemeTrait {
 
-	private $path;
-
 	public function setTheme($theme) {
 		$theme = $this->meta->key('theme', 'default');
 		$path = $this->paths['themes'] . '/' . $theme;
@@ -24,6 +22,12 @@ trait ThemeTrait {
 		}
 	}
 
+	/**
+	 * Returns the first template that exists
+	 * 
+	 * @param array
+	 * @return string
+	 */
 	protected function getTemplate(array $names) {
 		foreach($names as $name) {
 			if($this->view->templateExists($name)) {
@@ -48,15 +52,7 @@ trait ThemeTrait {
 		$pages = $this->pages->menu();
 		$vars['menu'] = new \ContentIterator($pages);
 
-		$tp = $this->config->get('db.table_prefix');
-
-		$categories = $this->categories->select([$tp.'categories.*', 'COUNT('.$tp.'posts.category) AS post_count'])
-			->join($tp.'posts', $tp.'posts.category', '=', $tp.'categories.id')
-			->where($tp.'posts.status', '=', 'published')
-			->sort($tp.'categories.title')
-			->group($tp.'posts.category')
-			->get();
-
+		$categories = $this->categories->allPublished();
 		$vars['categories'] = new \ContentIterator($categories);
 
 		$vars['page'] = $page;

@@ -35,17 +35,17 @@ class Installer {
 		if($input['driver'] == 'mysql') {
 			$dns = sprintf('mysql:host=%s;port=%d;dbname=%s', $input['host'], $input['port'], $input['dbname']);
 
-			$pdo = new \PDO($dns, $input['user'], $input['pass']);
+			return new \PDO($dns, $input['user'], $input['pass']);
 		}
 
 		// test file
 		if($input['driver'] == 'sqlite') {
 			$dns = sprintf('sqlite:%s', $this->paths['storage'] . '/' . $input['dbname']);
 
-			$pdo = new \PDO($dns);
+			return new \PDO($dns);
 		}
 
-		return $pdo;
+		throw new \ErrorException(sprintf('Unsupported database driver "%s"', $input['driver']));
 	}
 
 	public function run(array $input) {
