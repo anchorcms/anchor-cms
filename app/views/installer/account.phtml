@@ -11,8 +11,7 @@
 </nav>
 
 <div class="content">
-	<h1>Your first account</h1>
-	<p>Oh, we're so tantalisingly close! All we need now is a username and password to log in to the admin area with.</p>
+	<h1>How are you going to log in?</h1>
 
 	<?php echo $form->open(); ?>
 
@@ -28,7 +27,7 @@
 	<p><label for="<?php echo $element->getName(); ?>"><?php echo $element->getLabel(); ?></label> <?php echo $element->getHtml(); ?></p>
 	<?php endforeach; ?>
 
-	<p><a class="button" href="<?php echo $this->url('index.php?installer=metadata'); ?>">Back</a>
+	<p><a class="btn subdued" href="<?php echo $this->url('index.php?installer=metadata'); ?>">Back</a>
 		<?php echo $form->getElement('submit')->getHtml(); ?></p>
 
 	<?php echo $form->close(); ?>

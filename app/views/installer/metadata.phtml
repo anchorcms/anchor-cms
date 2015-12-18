@@ -11,8 +11,7 @@
 </nav>
 
 <div class="content">
-	<h1>Site metadata</h1>
-	<p>In order to personalise your Anchor blog, it's recommended you add some metadata about your site. This can all be changed at any time, though.</p>
+	<h1>Tell us a little bit about your blog.</h1>
 
 	<?php echo $form->open(); ?>
 
@@ -28,7 +27,7 @@
 	<p><label for="<?php echo $element->getName(); ?>"><?php echo $element->getLabel(); ?></label> <?php echo $element->getHtml(); ?></p>
 	<?php endforeach; ?>
 
-	<p><a class="button" href="<?php echo $this->url('index.php?installer=database'); ?>">Back</a>
+	<p><a class="btn subdued" href="<?php echo $this->url('index.php?installer=database'); ?>">Back</a>
 		<?php echo $form->getElement('submit')->getHtml(); ?></p>
 
 	<?php echo $form->close(); ?>

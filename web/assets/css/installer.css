@@ -301,6 +301,16 @@ body > small a {
 body > small a:hover {
   color: #fff;
 }
+.errors {
+  padding: 8px 20px;
+  margin-bottom: 1em;
+  background: #d9412c;
+  color: #fff;
+  border-radius: 6px;
+}
+.errors li {
+  list-style: none;
+}
 a {
   color: #36a4e3;
 }
