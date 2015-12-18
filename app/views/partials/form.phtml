@@ -14,6 +14,12 @@
 
 	<?php endforeach; ?>
 
-	<p class="submit"><?php echo $form->getElement('submit')->getHtml(); ?></p>
+	<p class="submit">
+		<?php echo $form->getElement('submit')->getHtml(); ?>
+
+		<?php if(isset($append_submit)): ?>
+			<?php echo $append_submit; ?>
+		<?php endif; ?>
+	</p>
 
 <?php echo $form->close(); ?>

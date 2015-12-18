@@ -1,5 +1,8 @@
 <?php echo $messages; ?>
 
 <div class="form">
-	<?php echo $this->render('partials/form', ['form' => $form]); ?>
+	<?php echo $this->render('partials/form', [
+		'form' => $form,
+		'append_submit' => '<a class="btn subdued" href="/admin/auth/amnesia">Forgot password?</a>'
+	]); ?>
 </div>
