@@ -1,0 +1,155 @@
+/**
+ *   Anchor CMS
+ *
+ *   Installer styles go here.
+ *   Note to self: document this better.
+ */
+@import '//fonts.googleapis.com/css?family=Cousine:400,700|Karla:400,400italic,700,700italic';
+/* Type styles */
+* {
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.align-right {
+  float: right;
+}
+.align-left {
+  float: left;
+}
+::-webkit-input-placeholder {
+  color: #bec8d4;
+}
+::-moz-placeholder {
+  color: #bec8d4;
+}
+:placeholder {
+  color: #bec8d4;
+}
+::-webkit-selection {
+  background: #36a4e3;
+  color: #fff;
+}
+::selection {
+  background: #36a4e3;
+  color: #fff;
+}
+.truncate {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+body {
+  background: #1b1a21;
+  color: #fff;
+  font: 15px/25px Karla, sans-serif;
+}
+body > small {
+  position: absolute;
+  left: 32px;
+  bottom: 32px;
+  color: #898a94;
+}
+body > small a {
+  padding: 0 3px;
+  color: #d2d2db;
+  text-decoration: none;
+}
+body > small a:hover {
+  color: #fff;
+}
+a {
+  color: #36a4e3;
+}
+nav {
+  position: absolute;
+  left: 32px;
+  top: 32px;
+  right: 32px;
+}
+nav .anchor-logo {
+  float: left;
+}
+nav ul {
+  float: right;
+  list-style: none;
+}
+nav li {
+  float: left;
+  padding-left: 40px;
+  color: #d2d2db;
+}
+nav li.elapsed {
+  color: #fff;
+}
+nav li.elapsed ~ li {
+  color: #898a94;
+}
+h1 {
+  margin-bottom: 60px;
+  font-size: 21px;
+  font-weight: normal;
+}
+.content {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translateX(-50%) translateY(-50%);
+}
+form label {
+  display: block;
+  margin-bottom: 8px;
+  cursor: pointer;
+  color: #898a94;
+}
+form select {
+  padding: 10px 20px;
+  padding-right: 48px;
+  border: none;
+  -webkit-appearance: none;
+  appearance: none;
+  background: #27252f url('../img/select.png') no-repeat 100% 50%;
+  background-size: 28px 5px;
+  color: #fff;
+}
+form select:focus {
+  outline: none;
+}
+form select,
+form input,
+form textarea {
+  display: block;
+  font: 15px/20px Karla, sans-serif;
+}
+.i10n form p {
+  float: left;
+  padding-right: 40px;
+}
+.i10n form p:last-child {
+  float: none;
+  padding: 0;
+}
+.i10n form p:nth-child(-2n+2) {
+  padding-right: 0;
+}
+.anchor-logo {
+  display: block;
+  width: 32px;
+  height: 32px;
+  font-size: 0;
+  line-height: 32px;
+  pointer-events: none;
+}
+.anchor-logo:before {
+  content: '';
+  display: inline-block;
+  width: 24px;
+  height: 22px;
+  vertical-align: middle;
+  margin-right: 8px;
+  background: currentColor url('../img/nav-icons.png') no-repeat -312px 0;
+  background-size: 336px 22px;
+}

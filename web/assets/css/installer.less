@@ -1,0 +1,169 @@
+/**
+ *   Anchor CMS
+ *
+ *   Installer styles go here.
+ *   Note to self: document this better.
+ */
+
+//  Any actual CSS imports
+//  This differs from the admin one since we're not using Alegreya
+@import '//fonts.googleapis.com/css?family=Cousine:400,700|Karla:400,400italic,700,700italic';
+
+//  Our Less imports
+@import 'variables';
+@import 'reset';
+
+body {
+	background: @background;
+	color: @white;
+	
+	font: 15px/25px @body;
+
+	> small {
+		position: absolute;
+		left: 32px;
+		bottom: 32px;
+
+		color: @background-light;
+
+		a {
+			padding: 0 3px;
+
+			color: @background-lighter;
+			text-decoration: none;
+
+			&:hover {
+				color: @white;
+			}
+		}
+	}
+}
+
+a {
+	color: @hilite;
+}
+
+nav {
+	position: absolute;
+	left: 32px;
+	top: 32px;
+	right: 32px;
+
+	.anchor-logo {
+		float: left;
+	}
+
+	ul {
+		float: right;
+		list-style: none;
+	}
+
+	li {
+		float: left;
+		padding-left: 40px;
+
+		color: @background-lighter;
+
+		&.elapsed {
+			color: @white;
+			
+			~ li {
+				color: @background-light;
+			}
+		}
+	}
+}
+
+h1 {
+	margin-bottom: 60px;
+
+	font-size: 21px;
+	font-weight: normal;
+}
+
+.content {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+
+	transform: translateX(-50%) translateY(-50%);
+}
+
+form {
+	//  Generic form styles
+	p {
+
+	}
+
+	label {
+		display: block;
+		margin-bottom: 8px;
+
+		cursor: pointer;
+		color: @background-light;
+	}
+
+	select {
+		padding: 10px 20px;
+		padding-right: 48px;
+
+		border: none;
+		-webkit-appearance: none;
+		appearance: none;
+
+		background: lighten(@background, 5%) url('../img/select.png') no-repeat 100% 50%;
+		background-size: 28px 5px;
+		color: @white;
+
+		&:focus {
+			outline: none;
+		}
+	}
+
+	select, input, textarea {
+		display: block;
+
+		font: 15px/20px @body;
+	}
+
+	//  Specific form tweaks
+	.i10n & {
+		p {
+			float: left;
+			padding-right: 40px;
+
+			&:last-child {
+				float: none;
+				padding: 0;
+			}
+
+			&:nth-child(-2n+2) {
+				padding-right: 0;
+			}
+		}
+	}
+}
+
+.anchor-logo {
+	display: block;
+	width: 32px;
+	height: 32px;
+
+	font-size: 0;
+	line-height: 32px;
+	
+	pointer-events: none;
+
+	&:before {
+		content: '';
+		display: inline-block;
+		width: 24px;
+		height: 22px;
+
+		vertical-align: middle;
+		margin-right: 8px;
+
+		background: currentColor url('../img/nav-icons.png') no-repeat -312px 0;
+		background-size: 336px 22px;
+	}
+}

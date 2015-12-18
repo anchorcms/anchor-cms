@@ -5,9 +5,11 @@ namespace Controllers\Installer;
 class Install extends Controller {
 
 	public function getIndex() {
-		$vars['title'] = 'Welcome to Anchor';
+		//  We don't need a welcome screen (I think).
+		return $this->redirect($this->url('l10n'));
 
-		return $this->renderWith('installer/layout.phtml', 'installer/index.phtml', $vars);
+		//$vars['title'] = 'Welcome to Anchor';
+		//return $this->renderWith('installer/layout.phtml', 'installer/index.phtml', $vars);
 	}
 
 	public function getL10n() {
