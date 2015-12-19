@@ -58,9 +58,9 @@ return [
 	'/admin/themes' => 'controllers\\admin\\themes@index',
 	'/admin/plugins' => 'controllers\\admin\\plugins@index',
 
-	'/feeds/rss' => 'controllers\\feeds@rss',
-
+	// frontend
 	'/' => 'controllers\\page@home',
+	'/feeds/rss' => 'controllers\\feeds@rss',
 	'/search' => 'controllers\\search@index',
 	'/category/:category' => 'controllers\\page@category',
 	'/:category/:post' => 'controllers\\posts@index',

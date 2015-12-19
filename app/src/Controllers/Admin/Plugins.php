@@ -9,9 +9,8 @@ class Plugins extends Backend {
 
 		$vars['title'] = 'Plugins';
 		$vars['plugins'] = $plugins;
-		$vars['messages'] = $this->messages->render();
 
-		return $this->renderTemplate('layout', ['plugins/index'], $vars);
+		return $this->renderTemplate('layout', 'plugins/index', $vars);
 	}
 
 }

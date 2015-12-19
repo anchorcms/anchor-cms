@@ -2,6 +2,7 @@
 
 <div class="form">
 	<?php echo $form->open(); ?>
+		<p style="float: right;">Forgotten Your password?</p>
 
 		<?php echo $form->getElement('token')->getHtml(); ?>
 
@@ -19,7 +20,7 @@
 
 		<p class="submit">
 			<?php echo $form->getElement('submit')->getHtml(); ?>
-			<a class="btn subdued" href="/admin/auth/amnesia">Forgot password?</a>
+			<a class="btn subdued" href="/admin">Nope, return to login.</a>
 		</p>
 
 	<?php echo $form->close(); ?>

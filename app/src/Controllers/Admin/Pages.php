@@ -28,9 +28,8 @@ class Pages extends Backend {
 		$vars['paging'] = $paging;
 		$vars['statuses'] = ['published' => 'Published', 'draft' => 'Draft', 'archived' => 'Archived'];
 		$vars['filters'] = $input;
-		$vars['messages'] = $this->messages->render();
 
-		return $this->renderTemplate('layout', ['pages/index'], $vars);
+		return $this->renderTemplate('layout', 'pages/index', $vars);
 	}
 
 	public function getCreate() {
@@ -54,10 +53,9 @@ class Pages extends Backend {
 		$element->setValue(1);
 
 		$vars['title'] = 'Creating a new page';
-		$vars['messages'] = $this->messages->render();
 		$vars['form'] = $form;
 
-		return $this->renderTemplate('layout', ['pages/create'], $vars);
+		return $this->renderTemplate('layout', 'pages/create', $vars);
 	}
 
 	public function postSave() {
@@ -135,10 +133,9 @@ class Pages extends Backend {
 
 		$vars['title'] = sprintf('Editing &ldquo;%s&rdquo;', $page->title);
 		$vars['page'] = $page;
-		$vars['messages'] = $this->messages->render();
 		$vars['form'] = $form;
 
-		return $this->renderTemplate('layout', ['pages/edit'], $vars);
+		return $this->renderTemplate('layout', 'pages/edit', $vars);
 	}
 
 	public function postUpdate($request) {

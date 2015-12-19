@@ -24,9 +24,8 @@ class Categories extends Backend {
 		$vars['title'] = 'Categories';
 		$vars['categories'] = $categories->get();
 		$vars['paging'] = $paging;
-		$vars['messages'] = $this->messages->render();
 
-		return $this->renderTemplate('layout', ['categories/index'], $vars);
+		return $this->renderTemplate('layout', 'categories/index', $vars);
 	}
 
 	public function getCreate() {
@@ -38,10 +37,9 @@ class Categories extends Backend {
 		$form->setValues($this->session->getFlash('input', []));
 
 		$vars['title'] = 'Creating a new category';
-		$vars['messages'] = $this->messages->render();
 		$vars['form'] = $form;
 
-		return $this->renderTemplate('layout', ['categories/create'], $vars);
+		return $this->renderTemplate('layout', 'categories/create', $vars);
 	}
 
 	public function postSave() {
@@ -90,10 +88,9 @@ class Categories extends Backend {
 
 		$vars['title'] = sprintf('Editing &ldquo;%s&rdquo;', $category->title);
 		$vars['category'] = $category;
-		$vars['messages'] = $this->messages->render();
 		$vars['form'] = $form;
 
-		return $this->renderTemplate('layout', ['categories/edit'], $vars);
+		return $this->renderTemplate('layout', 'categories/edit', $vars);
 	}
 
 	public function postUpdate($request) {

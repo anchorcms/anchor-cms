@@ -66,7 +66,9 @@ class Auth extends Backend {
 	}
 
 	public function getLogout() {
+		$this->session->clear();
 		$this->session->regenerate(true);
+
 		$this->messages->success('You are now logged out');
 		return $this->redirect('/admin/auth/login');
 	}
@@ -77,6 +79,21 @@ class Auth extends Backend {
 			return $this->redirect($forward);
 		}
 		return $this->redirect('/admin/auth/login');
+	}
+
+	public function getAmnesia() {
+		$vars['title'] = 'Forgotten Password';
+
+		$form = new \Forms\Amnesia(['method' => 'post', 'action' => '/admin/auth/amnesia']);
+		$form->init();
+		$form->getElement('token')->setValue($this->csrf->token());
+
+		$values = $this->session->getFlash('input', []);
+		$form->setValues($values);
+
+		$vars['form'] = $form;
+
+		return $this->renderTemplate('login', 'users/amnesia', $vars);
 	}
 
 }

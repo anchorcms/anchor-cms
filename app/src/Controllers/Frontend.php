@@ -18,9 +18,18 @@ abstract class Frontend extends AbstractController {
 			'html' => 'The resource you’re looking for doesn’t exist!'
 		]);
 
-		$content = new \ContentIterator([$page]);
+		$vars['meta'] = $this->meta->all();
 
-		$template = $this->displayContent($page, $content, 'layout', ['404', 'page', 'index']);
+		$pages = $this->pages->menu();
+		$vars['menu'] = new \ContentIterator($pages);
+
+		$categories = $this->categories->allPublished();
+		$vars['categories'] = new \ContentIterator($categories);
+
+		$vars['content'] = new \ContentIterator([$page]);
+		$vars['page'] = $page;
+
+		$template = $this->theme->render(['404', 'page', 'index'], $vars);
 
 		$body = new \Http\Stream;
 		$body->write($template);

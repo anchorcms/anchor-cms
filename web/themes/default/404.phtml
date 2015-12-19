@@ -1,9 +1,14 @@
-<div class="items">
-	<div class="item">
-		<div class="wrap">
-			<h1><?php echo $content->title; ?></h1>
 
-			<div class="content"><?php echo $content->html; ?></div>
-		</div>
+<article class="wrap">
+	<hgroup>
+		<h1><?php echo $content->title; ?></h1>
+	</hgroup>
+
+	<div class="article-content">
+		<?php echo $content->html; ?>
 	</div>
-</div>
+</article>
+
+<section class="related-content">
+
+</section>

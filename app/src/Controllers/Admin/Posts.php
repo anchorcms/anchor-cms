@@ -132,7 +132,7 @@ class Posts extends Backend {
 		$vars['title'] = sprintf('Editing &ldquo;%s&rdquo;', $post->title);
 		$vars['form'] = $form;
 		$vars['current'] = $post;
-		$vars['posts'] = $this->posts->get();
+		$vars['posts'] = $this->posts->take(5)->sort('modified', 'desc')->where('id', '<>', $post->id)->get();
 
 		return $this->renderTemplate('layout', 'posts/edit', $vars);
 	}

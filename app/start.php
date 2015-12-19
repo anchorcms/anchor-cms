@@ -62,20 +62,6 @@ $app['errors']->handler(function($exception) use($app) {
 
 $app['errors']->register();
 
-$fi = new FilesystemIterator($app['paths']['plugins'], FilesystemIterator::SKIP_DOTS);
-
-foreach($fi as $file) {
-	$plugin = $file->getPathname() . '/src/Plugin.php';
-
-	if(is_file($plugin)) {
-		require $plugin;
-
-		$class = 'Plugins\\' . str_replace(' ', '', ucwords(str_replace('-', ' ', $file->getBasename())));
-		$obj = new $class();
-		$obj->init($app['events']);
-	}
-}
-
 $app['kernel']->redirectTrailingSlash();
 
 if(false === $app['installer']->isInstalled() || true === $app['installer']->installerRunning()) {

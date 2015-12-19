@@ -24,17 +24,12 @@ class Users extends Backend {
 		$vars['title'] = 'Users';
 		$vars['users'] = $users->get();
 		$vars['paging'] = $paging;
-		$vars['messages'] = $this->messages->render();
 		$vars['form'] = $this->createForm();
 
-		return $this->renderTemplate('layout', ['users/index'], $vars);
+		return $this->renderTemplate('layout', 'users/index', $vars);
 	}
 
 	public function getCreate() {
-		$vars['title'] = 'Creating a new user';
-		$vars['messages'] = $this->messages->render();
-		$vars['form'] = $this->createForm();
-
 		$input = filter_var_array($_GET, [
 			'page' => FILTER_SANITIZE_NUMBER_INT,
 		]);
@@ -51,11 +46,11 @@ class Users extends Backend {
 
 		$paging = new \Paginator('/admin/users', $input['page'], $total, $perpage, $input);
 
-		$vars['title'] = 'Users';
+		$vars['title'] = 'Creating a new user';
 		$vars['users'] = $users->get();
 		$vars['paging'] = $paging;
 
-		return $this->renderTemplate('layout', ['users/create'], $vars);
+		return $this->renderTemplate('layout', 'users/create', $vars);
 	}
 
 	public function postSave() {
@@ -126,10 +121,9 @@ class Users extends Backend {
 		$vars['paging'] = $paging;
 		$vars['title'] = sprintf('Editing &ldquo;%s&rdquo;', $user->real_name);
 		$vars['current'] = $user;
-		$vars['messages'] = $this->messages->render();
 		$vars['form'] = $form;
 
-		return $this->renderTemplate('layout', ['users/edit'], $vars);
+		return $this->renderTemplate('layout', 'users/edit', $vars);
 	}
 
 	public function postUpdate($request) {
@@ -175,7 +169,7 @@ class Users extends Backend {
 		return $this->response->withHeader('location', sprintf('/admin/users/%d/edit', $id));
 	}
 
-	public function createForm() {
+	protected function createForm() {
 		$form = new \Forms\User(['method' => 'post', 'action' => '/admin/users/save']);
 		$form->init();
 		$form->getElement('token')->setValue($this->csrf->token());

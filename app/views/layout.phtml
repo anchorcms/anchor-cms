@@ -40,7 +40,7 @@
                         <li class="icon-plugins">
 							<a href="/admin/plugins/<?php echo $name; ?>"><?php echo $label; ?></a>
 						</li>
-                    <?php endforeach; endif; ?>
+                        <?php endforeach; endif; ?>
 					</ul>
 				</li>
 			</ul>
@@ -73,7 +73,7 @@
     			</li>
 
     			<li>
-    				<a class="icon-logout" href="/admin/logout">Log out</a>
+    				<a class="icon-logout" href="/admin/auth/logout">Log out</a>
     			</li>
     		</ul>
     	</nav>
@@ -87,12 +87,12 @@
                     if(node.classList.contains('has-dropdown')) {
                         Array.prototype.forEach.call(node.querySelectorAll('a'), function(child) {
                             var href = child.getAttribute('href');
-                            if(href.indexOf(uri) === 0) node.classList.add('active');
+                            if(uri.indexOf(href) === 0) node.classList.add('active');
                         });
                     }
                     else {
                         var a = node.querySelector('a'), href = a.getAttribute('href');
-                        if(href.indexOf(uri) === 0) node.classList.add('active');
+                        if(uri.indexOf(href) === 0) node.classList.add('active');
                     }
                 });
             })(document, window);

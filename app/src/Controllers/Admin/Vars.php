@@ -23,16 +23,14 @@ class Vars extends Backend {
 
 		$vars['title'] = 'Custom Variables';
 		$vars['metadata'] = $meta->get();
-		$vars['messages'] = $this->messages->render();
 		$vars['paging'] = $paging;
 		$vars['form'] = $this->createForm();
 
-		return $this->renderTemplate('layout', ['vars/index'], $vars);
+		return $this->renderTemplate('layout', 'vars/index', $vars);
 	}
 
 	public function getCreate() {
 		$vars['title'] = 'Creating a new custom variable';
-		$vars['messages'] = $this->messages->render();
 		$vars['form'] = $this->creatForm();
 
 		return $this->renderTemplate('layout', ['vars/create'], $vars);
@@ -85,10 +83,9 @@ class Vars extends Backend {
 		$form->setValues($this->session->getFlash('input', []));
 
 		$vars['title'] = sprintf('Editing &ldquo;%s&rdquo;', $meta->key);
-		$vars['messages'] = $this->messages->render();
 		$vars['form'] = $form;
 
-		return $this->renderTemplate('layout', ['vars/edit'], $vars);
+		return $this->renderTemplate('layout', 'vars/edit', $vars);
 	}
 
 	public function postUpdate($request) {

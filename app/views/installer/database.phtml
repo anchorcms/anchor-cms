@@ -14,13 +14,7 @@
 	<h1>What’s your database details?</h1>
 	<?php echo $form->open(); ?>
 
-	<?php if(count($messages)): ?>
-	<ul class="errors">
-		<?php foreach($messages as $message): ?>
-		<li><?php echo $message; ?></li>
-		<?php endforeach; ?>
-	</ul>
-	<?php endif; ?>
+	<?php echo $messages; ?>
 
 	<?php foreach($form->getElements(['driver']) as $element): ?>
 	<p><label for="<?php echo $element->getName(); ?>"><?php echo $element->getLabel(); ?></label> <?php echo $element->getHtml(); ?></p>
@@ -50,7 +44,7 @@
 	<p><label for="<?php echo $element->getName(); ?>"><?php echo $element->getLabel(); ?></label> <?php echo $element->getHtml(); ?></p>
 	<?php endforeach; ?>
 
-	<p><a class="btn subdued" href="<?php echo $this->url('index.php?installer=l10n'); ?>">Back</a>
+	<p><a class="btn subdued" href="<?php echo $backUrl; ?>">Back</a>
 		<?php echo $form->getElement('submit')->getHtml(); ?></p>
 
 	<?php echo $form->close(); ?>

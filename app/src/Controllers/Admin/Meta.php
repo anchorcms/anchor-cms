@@ -32,9 +32,8 @@ class Meta extends Backend {
 
 		$vars['title'] = 'Site Metadata';
 		$vars['form'] = $form;
-		$vars['messages'] = $this->messages->render();
 
-		return $this->renderTemplate('layout', ['meta/edit'], $vars);
+		return $this->renderTemplate('layout', 'meta/edit', $vars);
 	}
 
 	public function postUpdate($request) {

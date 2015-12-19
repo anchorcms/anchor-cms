@@ -1,6 +1,6 @@
 <nav>
 	<a class="anchor-logo">Anchor CMS</a>
-	
+
 	<ul>
 		<li class="elapsed">Language and timezone</li>
 		<li>Database setup</li>
@@ -15,13 +15,7 @@
 
 	<?php echo $form->open(); ?>
 
-	<?php if(count($messages)): ?>
-	<ul class="errors">
-		<?php foreach($messages as $message): ?>
-		<li><?php echo $message; ?></li>
-		<?php endforeach; ?>
-	</ul>
-	<?php endif; ?>
+	<?php echo $messages; ?>
 
 	<?php foreach($form->getElementsExcluding(['submit']) as $element): ?>
 	<p><label for="<?php echo $element->getName(); ?>"><?php echo $element->getLabel(); ?></label> <?php echo $element->getHtml(); ?></p>
