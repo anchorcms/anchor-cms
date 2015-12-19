@@ -9,7 +9,10 @@ class Auth extends Backend {
 	public function getLogin() {
 		$vars['title'] = 'Login';
 
-		$form = new \Forms\Login(['method' => 'post', 'action' => '/admin/auth/attempt']);
+		$form = new \Forms\Login([
+			'method' => 'post',
+			'action' => $this->url->to('/admin/auth/attempt'),
+		]);
 		$form->init();
 		$form->getElement('token')->setValue($this->csrf->token());
 
@@ -54,14 +57,19 @@ class Auth extends Backend {
 			$this->messages->error($validator->getMessages());
 			$this->session->putFlash('input', ['username' => $input['username']]);
 
-			return $this->redirect('/admin/auth/login');
+			return $this->redirect($this->url->to('/admin/auth/login'));
 		}
 
 		// create session
 		$this->session->put('user', $user->id);
 
 		// redirect
-		$forward = filter_input(INPUT_GET, 'forward', FILTER_SANITIZE_URL, ['options' => ['default' => '/admin/posts']]);
+		$forward = filter_input(INPUT_GET, 'forward', FILTER_SANITIZE_URL, [
+			'options' => [
+				'default' => $this->url->to('/admin/posts'),
+			],
+		]);
+
 		return $this->redirect($forward);
 	}
 
@@ -70,21 +78,29 @@ class Auth extends Backend {
 		$this->session->regenerate(true);
 
 		$this->messages->success('You are now logged out');
-		return $this->redirect('/admin/auth/login');
+		return $this->redirect($this->url->to('/admin/auth/login'));
 	}
 
 	public function getStart() {
 		if($this->session->has('user')) {
-			$forward = filter_input(INPUT_GET, 'forward', FILTER_SANITIZE_URL, ['options' => ['default' => '/admin/posts']]);
+			$forward = filter_input(INPUT_GET, 'forward', FILTER_SANITIZE_URL, [
+				'options' => [
+					'default' => $this->url->to('/admin/posts'),
+				],
+			]);
+
 			return $this->redirect($forward);
 		}
-		return $this->redirect('/admin/auth/login');
+		return $this->redirect($this->url->to('/admin/auth/login'));
 	}
 
 	public function getAmnesia() {
 		$vars['title'] = 'Forgotten Password';
 
-		$form = new \Forms\Amnesia(['method' => 'post', 'action' => '/admin/auth/amnesia']);
+		$form = new \Forms\Amnesia([
+			'method' => 'post',
+			'action' => $this->url->to('/admin/auth/amnesia'),
+		]);
 		$form->init();
 		$form->getElement('token')->setValue($this->csrf->token());
 

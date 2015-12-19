@@ -1,11 +1,11 @@
 
 <h2>Categories</h2>
 
-<a href="/admin/categories/create">Create a new category</a>
+<a href="<?php echo url('/admin/categories/create'); ?>">Create a new category</a>
 
 <ul>
 	<?php foreach($categories as $category): ?>
-	<li><a href="/admin/categories/<?php echo $category->id; ?>/edit"><?php echo $category->title; ?></a></li>
+	<li><a href="<?php echo url('/admin/categories/'.$category->id.'/edit'); ?>"><?php echo $category->title; ?></a></li>
 	<?php endforeach; ?>
 </ul>
 

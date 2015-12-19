@@ -17,7 +17,7 @@ abstract class AbstractController {
 	}
 
 	protected function redirect($uri) {
-		return $this->response->withHeader('location', $uri);
+		return $this->response->withHeader('location', $this->url->to($uri));
 	}
 
 	protected function jsonResponse(array $data) {

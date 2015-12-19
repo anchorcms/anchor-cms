@@ -19,7 +19,7 @@ class Users extends Backend {
 			$users->skip($offset);
 		}
 
-		$paging = new \Paginator('/admin/users', $input['page'], $total, $perpage, $input);
+		$paging = new \Paginator($this->url->to('/admin/users'), $input['page'], $total, $perpage, $input);
 
 		$vars['title'] = 'Users';
 		$vars['users'] = $users->get();
@@ -44,7 +44,7 @@ class Users extends Backend {
 			$users->skip($offset);
 		}
 
-		$paging = new \Paginator('/admin/users', $input['page'], $total, $perpage, $input);
+		$paging = new \Paginator($this->url->to('/admin/users'), $input['page'], $total, $perpage, $input);
 
 		$vars['title'] = 'Creating a new user';
 		$vars['users'] = $users->get();
@@ -65,7 +65,7 @@ class Users extends Backend {
 		if(false === $validator->isValid()) {
 			$this->messages->error($validator->getMessages());
 			$this->session->putFlash('input', $input);
-			return $this->response->withHeader('location', '/admin/users/create');
+			return $this->response->withHeader('location', $this->url->to('/admin/users/create'));
 		}
 
 		$password = password_hash($input['password'], PASSWORD_DEFAULT);
@@ -81,7 +81,7 @@ class Users extends Backend {
 		]);
 
 		$this->messages->success('User created');
-		return $this->response->withHeader('location', sprintf('/admin/users/%d/edit', $id));
+		return $this->response->withHeader('location', $this->url->to(sprintf('/admin/users/%d/edit', $id)));
 	}
 
 	public function getEdit($request) {
@@ -94,7 +94,7 @@ class Users extends Backend {
 
 		$form = new \Forms\User([
 			'method' => 'post',
-			'action' => sprintf('/admin/users/%d/update', $user->id)
+			'action' => $this->url->to(sprintf('/admin/users/%d/update', $user->id)),
 		]);
 		$form->init();
 		$form->getElement('token')->setValue($this->csrf->token());
@@ -115,7 +115,7 @@ class Users extends Backend {
 			$users->skip($offset);
 		}
 
-		$paging = new \Paginator('/admin/users', $input['page'], $total, $perpage, $input);
+		$paging = new \Paginator($this->url->to('/admin/users'), $input['page'], $total, $perpage, $input);
 
 		$vars['users'] = $users->get();
 		$vars['paging'] = $paging;
@@ -146,7 +146,7 @@ class Users extends Backend {
 		if(false === $validator->isValid()) {
 			$this->messages->error($validator->getMessages());
 			$this->session->putFlash('input', $input);
-			return $this->response->withHeader('location', sprintf('/admin/users/%d/edit', $user->id));
+			return $this->response->withHeader('location', $this->url->to(sprintf('/admin/users/%d/edit', $user->id)));
 		}
 
 		$update = [
@@ -166,11 +166,14 @@ class Users extends Backend {
 		$this->users->where('id', '=', $user->id)->update($update);
 
 		$this->messages->success('User updated');
-		return $this->response->withHeader('location', sprintf('/admin/users/%d/edit', $id));
+		return $this->response->withHeader('location', $this->url->to(sprintf('/admin/users/%d/edit', $id)));
 	}
 
 	protected function createForm() {
-		$form = new \Forms\User(['method' => 'post', 'action' => '/admin/users/save']);
+		$form = new \Forms\User([
+			'method' => 'post',
+			'action' => $this->url->to('/admin/users/save'),
+		]);
 		$form->init();
 		$form->getElement('token')->setValue($this->csrf->token());
 

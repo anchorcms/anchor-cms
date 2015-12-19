@@ -9,12 +9,12 @@
 
 			<ul class="split-options">
 				<li <?php if(null === $filters['status']) echo 'class="active"'; ?>>
-					<a href="/admin/posts">All</a>
+					<a href="<?php echo url('/admin/posts'); ?>">All</a>
 				</li>
 
 				<?php foreach($statuses as $status => $title): ?>
 				<li <?php if($status == $filters['status']) echo 'class="active"'; ?>>
-					<a href="/admin/posts?status=<?php echo $status; ?>"><?php echo $title; ?></a></li>
+					<a href="<?php echo url('/admin/posts?status='.$status); ?>"><?php echo $title; ?></a></li>
 				<?php endforeach; ?>
 			</ul>
 		</div>
@@ -31,17 +31,17 @@
 			<?php foreach($posts as $post): ?>
 			<li>
 				<span class="badge <?php echo $post->status; ?>"><?php echo ucwords($post->status); ?></span>
-				<a href="/admin/posts/<?php echo $post->id; ?>/edit">
+				<a href="<?php echo url('/admin/posts/'.$post->id.'/edit'); ?>">
 					<h1 class="title"><?php echo $post->title; ?></h1>
 					<p class="desc"><?php echo $post->content; ?></p>
 				</a>
 
 				<dl>
 					<dt>Posted by</dt>
-					<dd><a href="/admin/users/<?php echo $post->author; ?>">admin</a></dd>
+					<dd><a href="<?php echo url('/admin/users/'.$post->author); ?>">admin</a></dd>
 
 					<dt>Filed under</dt>
-					<dd><a href="/admin/posts?category=<?php echo $post->category; ?>">Uncategorised</a></dd>
+					<dd><a href="<?php echo url('/admin/posts?category='.$post->category); ?>">Uncategorised</a></dd>
 
 					<dt>Last edited</dt>
 					<dd><?php echo date('dS M y G:H', strtotime($post->modified)); ?></dd>

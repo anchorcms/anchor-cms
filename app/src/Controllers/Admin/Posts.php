@@ -24,7 +24,7 @@ class Posts extends Backend {
 
 		$posts = $query->get();
 
-		$paging = new \Paginator('/admin/posts', $input['page'], $total, $perpage, $input);
+		$paging = new \Paginator($this->url->to('/admin/posts'), $input['page'], $total, $perpage, $input);
 
 		$vars['title'] = sprintf('Posts - %s', $this->meta->key('sitename'));
 		$vars['posts'] = $posts;
@@ -43,7 +43,10 @@ class Posts extends Backend {
 	}
 
 	public function getCreate() {
-		$form = new \Forms\Post(['method' => 'post', 'action' => '/admin/posts/save']);
+		$form = new \Forms\Post([
+			'method' => 'post',
+			'action' => $this->url->to('/admin/posts/save'),
+		]);
 		$form->init();
 		$form->getElement('token')->setValue($this->csrf->token());
 		$form->getElement('category')->setOptions($this->categories->dropdownOptions());
@@ -75,7 +78,7 @@ class Posts extends Backend {
 		if(false === $validator->isValid()) {
 			$this->messages->error($validator->getMessages());
 			$this->session->putFlash('input', $input);
-			return $this->response->withHeader('location', '/admin/posts/create');
+			return $this->response->withHeader('location', $this->url->to('/admin/posts/create'));
 		}
 
 		$now = date('Y-m-d H:i:s');
@@ -102,7 +105,7 @@ class Posts extends Backend {
 		$this->customFields->saveFields($request, $input, 'post', $id);
 
 		$this->messages->success('Post created');
-		return $this->response->withHeader('location', sprintf('/admin/posts/%d/edit', $id));
+		return $this->response->withHeader('location', $this->url->to(sprintf('/admin/posts/%d/edit', $id)));
 	}
 
 	public function getEdit($request) {
@@ -111,7 +114,7 @@ class Posts extends Backend {
 
 		$form = new \Forms\Post([
 			'method' => 'post',
-			'action' => sprintf('/admin/posts/%d/update', $post->id)
+			'action' => $this->url->to(sprintf('/admin/posts/%d/update', $post->id)),
 		]);
 		$form->init();
 		$form->getElement('token')->setValue($this->csrf->token());
@@ -155,7 +158,7 @@ class Posts extends Backend {
 		if(false === $validator->isValid()) {
 			$this->messages->error($validator->getMessages());
 			$this->session->putFlash('input', $input);
-			return $this->response->withHeader('location', sprintf('/admin/posts/%d/edit', $post->id));
+			return $this->response->withHeader('location', $this->url->to(sprintf('/admin/posts/%d/edit', $post->id)));
 		}
 
 		$now = date('Y-m-d H:i:s');
@@ -179,7 +182,7 @@ class Posts extends Backend {
 		$this->customFields->saveFields($request, $input, 'post', $id);
 
 		$this->messages->success('Post updated');
-		return $this->response->withHeader('location', sprintf('/admin/posts/%d/edit', $id));
+		return $this->response->withHeader('location', $this->url->to(sprintf('/admin/posts/%d/edit', $id)));
 	}
 
 }

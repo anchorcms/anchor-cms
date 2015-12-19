@@ -58,6 +58,9 @@ return new Container([
 	'theme' => function($app) {
 		return new Theme($app['view'], $app['paths'], $app['events']);
 	},
+	'url' => function($app) {
+		return new Url($app['request']);
+	},
 
 	/**
 	 * Middleware

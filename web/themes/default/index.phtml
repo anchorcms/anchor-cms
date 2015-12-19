@@ -9,7 +9,7 @@
 	<li>
 		<hgroup>
 			<h1>
-				<a href="/<?php echo $content->getCategory()->slug; ?>/<?php echo $content->slug; ?>">
+				<a href="<?php echo base_url($content->getCategory()->slug . '/' . $content->slug); ?>">
 					<?php echo $content->title; ?>
 				</a>
 			</h1>
@@ -32,7 +32,7 @@
 			<ul>
 				<?php while($categories->loop()): ?>
 				<li>
-					<a href="/category/<?php echo $categories->slug; ?>" title="<?php echo $categories->description; ?>">
+					<a href="<?php echo base_url('/category/' . $categories->slug); ?>" title="<?php echo $categories->description; ?>">
 						<?php echo $categories->title; ?>
 
 						<small><?php echo $categories->postCount(); ?></small>
@@ -45,7 +45,7 @@
 		<div class="half-width">
 			<h2>Search my blog</h2>
 
-			<form action="/search" method="get">
+			<form action="<?php echo base_url('/search'); ?>" method="get">
 				<input name="q" type="search" placeholder="Search anything here.">
 				<button type="submit">Search</button>
 			</form>

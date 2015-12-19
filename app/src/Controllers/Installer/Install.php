@@ -14,7 +14,7 @@ class Install extends AbstractController {
 
 	protected function renderTemplate($layout, $template, array $vars = []) {
 		$vars['messages'] = $this->messages->render();
-		$vars['uri'] = $this->request->getUri();
+		$vars['webroot'] = $this->url->to('/');
 		$vars['body'] = $this->view->render($template, $vars);
 
 		return $this->view->render($layout, $vars);
@@ -31,7 +31,7 @@ class Install extends AbstractController {
 	public function getL10n() {
 		$form = new \Forms\Installer\L10n([
 			'method' => 'post',
-			'action' => '/l10n',
+			'action' => $this->url->to('/l10n'),
 			'autocomplete' => 'off',
 		]);
 		$form->init();
@@ -68,7 +68,7 @@ class Install extends AbstractController {
 	public function getDatabase() {
 		$form = new \Forms\Installer\Database([
 			'method' => 'post',
-			'action' => '/database',
+			'action' => $this->url->to('/database'),
 			'autocomplete' => 'off',
 		]);
 		$form->init();
@@ -79,7 +79,7 @@ class Install extends AbstractController {
 
 		$vars['title'] = 'Installin\' Anchor CMS';
 		$vars['form'] = $form;
-		$vars['backUrl'] = '/l10n';
+		$vars['backUrl'] = $this->url->to('/l10n');
 
 		return $this->renderTemplate('installer/layout', 'installer/database', $vars);
 	}
@@ -123,12 +123,12 @@ class Install extends AbstractController {
 	public function getMetadata() {
 		$form = new \Forms\Installer\Metadata([
 			'method' => 'post',
-			'action' => '/metadata',
+			'action' => $this->url->to('/metadata'),
 			'autocomplete' => 'off',
 		]);
 		$form->init();
 
-		$form->getElement('site_path')->setValue('/');
+		$form->getElement('site_path')->setValue($this->url->to('/'));
 
 		// populate from session
 		$data = $this->session->get('install', []);
@@ -136,7 +136,7 @@ class Install extends AbstractController {
 
 		$vars['title'] = 'Installin\' Anchor CMS';
 		$vars['form'] = $form;
-		$vars['backUrl'] = '/database';
+		$vars['backUrl'] = $this->url->to('/database');
 
 		return $this->renderTemplate('installer/layout', 'installer/metadata', $vars);
 	}
@@ -162,7 +162,7 @@ class Install extends AbstractController {
 	public function getAccount() {
 		$form = new \Forms\Installer\Account([
 			'method' => 'post',
-			'action' => '/account',
+			'action' => $this->url->to('/account'),
 			'autocomplete' => 'off',
 		]);
 		$form->init();
@@ -173,7 +173,7 @@ class Install extends AbstractController {
 
 		$vars['title'] = 'Installin\' Anchor CMS';
 		$vars['form'] = $form;
-		$vars['backUrl'] = '/metadata';
+		$vars['backUrl'] = $this->url->to('/metadata');
 
 		return $this->renderTemplate('installer/layout', 'installer/account', $vars);
 	}
@@ -201,6 +201,8 @@ class Install extends AbstractController {
 
 	public function getComplete() {
 		$vars['title'] = 'Installin\' Anchor CMS';
+		$vars['adminUrl'] = $this->uri('/admin');
+		$vars['siteUrl'] = $this->url->to('/');
 
 		$this->session->remove('install');
 

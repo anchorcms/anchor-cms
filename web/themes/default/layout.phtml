@@ -5,17 +5,17 @@
 		<title><?php echo $page->title; ?> &mdash; <?php echo $meta->sitename; ?></title>
 		<meta name="description" content="<?php echo $meta->description; ?>">
 
-		<link rel="stylesheet" href="/themes/default/assets/css/styles.css">
+		<link rel="stylesheet" href="<?php echo asset_url('assets/css/styles.css'); ?>">
 	</head>
 	<body class="<?php echo $page->slug; ?>">
 		<header>
-			<a href="/" class="logo"><?php echo $meta->sitename; ?></a>
+			<a href="<?php echo base_url('/'); ?>" class="logo"><?php echo $meta->sitename; ?></a>
 
 			<nav>
 				<ul>
 					<?php while($menu->loop()): ?>
 					<li <?php if($menu->slug == $page->slug) echo 'class="active"'; ?>>
-						<a href="/<?php echo $menu->slug; ?>"><?php echo $menu->title; ?></a>
+						<a href="<?php echo base_url($menu->slug); ?>"><?php echo $menu->title; ?></a>
 					</li>
 					<?php endwhile; ?>
 				</ul>
@@ -29,10 +29,10 @@
 		<footer>
 			<div class="wrap">
 				<ul>
-					<li><a href="/feeds/rss">RSS</a></li>
+					<li><a href="<?php echo base_url('/feeds/rss'); ?>">RSS</a></li>
 					<li><a href="https://twitter.com/anchorcms">@anchorcms</a></li>
-					<li><a href="/admin" title="Administer your site!">Admin area</a></li>
-					<li><a href="/" title="Return to my website.">Home</a></li>
+					<li><a href="<?php echo base_url('/admin'); ?>" title="Administer your site!">Admin area</a></li>
+					<li><a href="<?php echo base_url('/'); ?>'" title="Return to my website.">Home</a></li>
 				</ul>
 
 				<p>&copy; <?php echo date('Y'); ?> <?php echo $meta->sitename; ?>. All rights reserved.</p>

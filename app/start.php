@@ -36,6 +36,24 @@ function e($str) {
 	return htmlspecialchars($str, ENT_COMPAT, 'UTF-8', false);
 }
 
+function url($url) {
+	global $app;
+
+	return $app['url']->to($url);
+}
+
+function asset($url) {
+	global $app;
+
+	return $app['url']->to($url);
+}
+
+function admin_url($url) {
+	global $app;
+
+	return $app['url']->to($url, 'admin');
+}
+
 $app = require __DIR__ . '/container.php';
 
 $app['errors']->handler(function($exception) use($app) {

@@ -21,7 +21,7 @@ class Pages extends Backend {
 			$pages->skip($offset);
 		}
 
-		$paging = new \Paginator('/admin/pages', $input['page'], $total, $perpage, $input);
+		$paging = new \Paginator($this->url->to('/admin/pages'), $input['page'], $total, $perpage, $input);
 
 		$vars['title'] = 'Pages';
 		$vars['pages'] = $pages->get();
@@ -33,7 +33,10 @@ class Pages extends Backend {
 	}
 
 	public function getCreate() {
-		$form = new \Forms\Page(['method' => 'post', 'action' => '/admin/pages/save']);
+		$form = new \Forms\Page([
+			'method' => 'post',
+			'action' => $this->url->to('/admin/pages/save'),
+		]);
 		$form->init();
 		$form->getElement('token')->setValue($this->csrf->token());
 		$form->getElement('parent')->setOptions($this->pages->dropdownOptions());
@@ -73,7 +76,7 @@ class Pages extends Backend {
 		if(false === $validator->isValid()) {
 			$this->messages->error($validator->getMessages());
 			$this->session->putFlash('input', $input);
-			return $this->response->withHeader('location', '/admin/pages/create');
+			return $this->response->withHeader('location', $this->url->to('/admin/pages/create'));
 		}
 
 		$slug = preg_replace('#\s+#', '-', $input['slug'] ?: $input['title']);
@@ -96,7 +99,7 @@ class Pages extends Backend {
 		$this->customFields->saveFields($request, $input, 'page', $id);
 
 		$this->messages->success('Page created');
-		return $this->response->withHeader('location', sprintf('/admin/pages/%d/edit', $id));
+		return $this->response->withHeader('location', $this->url->to(sprintf('/admin/pages/%d/edit', $id)));
 	}
 
 	public function getEdit($request) {
@@ -105,7 +108,7 @@ class Pages extends Backend {
 
 		$form = new \Forms\Page([
 			'method' => 'post',
-			'action' => sprintf('/admin/pages/%d/update', $page->id)
+			'action' => $this->url->to(sprintf('/admin/pages/%d/update', $page->id)),
 		]);
 		$form->init();
 		$form->getElement('token')->setValue($this->csrf->token());
@@ -156,7 +159,7 @@ class Pages extends Backend {
 		if(false === $validator->isValid()) {
 			$this->messages->error($validator->getMessages());
 			$this->session->putFlash('input', $input);
-			return $this->response->withHeader('location', sprintf('/admin/pages/%d/edit', $page->id));
+			return $this->response->withHeader('location', $this->url->to(sprintf('/admin/pages/%d/edit', $page->id)));
 		}
 
 		$slug = preg_replace('#\s+#', '-', $input['slug'] ?: $input['title']);
@@ -179,7 +182,7 @@ class Pages extends Backend {
 		$this->customFields->saveFields($request, $input, 'post', $id);
 
 		$this->messages->success('Page updated');
-		return $this->response->withHeader('location', sprintf('/admin/pages/%d/edit', $id));
+		return $this->response->withHeader('location', $this->url->to(sprintf('/admin/pages/%d/edit', $id)));
 	}
 
 }

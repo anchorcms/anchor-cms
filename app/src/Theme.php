@@ -12,6 +12,8 @@ class Theme {
 
 	protected $layout;
 
+	protected $themeName;
+
 	public function __construct($view, array $paths, $events, $layout = 'layout') {
 		$this->view = $view;
 		$this->paths = $paths;
@@ -29,11 +31,22 @@ class Theme {
 	}
 
 	/**
+	 * Returns the current theme name
+	 *
+	 * @return string
+	 */
+	public function getTheme() {
+		return $this->themeName;
+	}
+
+	/**
 	 * Set the theme folder
 	 *
 	 * @param string
 	 */
 	public function setTheme($theme) {
+		$this->themeName = $theme;
+
 		$path = $this->paths['themes'] . '/' . $theme;
 
 		if(false === is_dir($path)) {

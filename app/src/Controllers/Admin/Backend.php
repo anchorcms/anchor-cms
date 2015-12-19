@@ -18,7 +18,7 @@ abstract class Backend extends AbstractController {
 		if(true === $this->private && false === $this->session->has('user')) {
 			$this->session->putFlash('messages', ['Please login to continue']);
 
-			return $this->redirect('/admin/auth/login?forward='.$this->request->getUri()->getPath());
+			return $this->redirect($this->url->to('/admin/auth/login?forward='.$this->request->getUri()->getPath()));
 		}
 	}
 

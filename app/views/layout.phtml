@@ -1,19 +1,15 @@
 <!doctype html>
-<html class="no-js" lang="">
+<html class="no-js">
     <head>
         <meta charset="utf-8">
+        <meta name="robots" content="noindex,nofollow">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=1400, initial-scale=1">
 
         <title><?php echo $title; ?></title>
 
-        <meta name="description" content="">
-        <meta name="viewport" content="width=1400, initial-scale=1">
-
 		<!-- Compiles from LESS -->
-        <link rel="stylesheet" href="/assets/css/admin.css">
-
-        <!-- Compiles from current theme, if it exists -->
-        <link rel="stylesheet" href="/themes/current/admin-custom.css">
+        <link rel="stylesheet" href="<?php echo asset('assets/css/admin.css'); ?>">
     </head>
     <body>
     	<div class="flash-message"></div>
@@ -21,7 +17,7 @@
     	<nav class="main-nav">
 			<ul class="actions">
 				<?php foreach(['posts', 'pages', 'categories'] as $url): ?>
-				<li><a class="icon-<?php echo $url; ?>" href="/admin/<?php echo $url; ?>"><?php echo ucfirst($url); ?></a></li>
+				<li><a class="icon-<?php echo $url; ?>" href="<?php echo admin_url($url); ?>"><?php echo ucfirst($url); ?></a></li>
 				<?php endforeach; ?>
 
 				<li class="has-dropdown">
@@ -29,16 +25,16 @@
 
 					<ul>
 						<li class="icon-themes">
-							<a href="/admin/themes">Themes</a>
+							<a href="<?php echo admin_url('themes'); ?>">Themes</a>
 						</li>
 
 						<li class="icon-plugins">
-							<a href="/admin/plugins">Plugins</a>
+							<a href="<?php echo admin_url('plugins'); ?>">Plugins</a>
 						</li>
 
                         <?php if(isset($plugins)): foreach($plugins as $name => $label): ?>
                         <li class="icon-plugins">
-							<a href="/admin/plugins/<?php echo $name; ?>"><?php echo $label; ?></a>
+							<a href="<?php echo admin_url('plugins/'.$name); ?>"><?php echo $label; ?></a>
 						</li>
                         <?php endforeach; endif; ?>
 					</ul>
@@ -48,32 +44,32 @@
     		<a class="anchor-logo">Anchor CMS</a>
 
     		<ul class="results">
-    			<li><a class="icon-users" href="/admin/users">Users</a></li>
+    			<li><a class="icon-users" href="<?php echo admin_url('users'); ?>">Users</a></li>
 
     			<li class="has-dropdown">
-    				<a class="icon-settings" href="/admin/meta">Settings</a>
+    				<a class="icon-settings" href="#">Settings</a>
 
     				<ul>
 	    				<li>
-		    				<a class="icon-metadata" href="/admin/meta">Metadata</a>
+		    				<a class="icon-metadata" href="<?php echo admin_url('meta'); ?>">Metadata</a>
 	    				</li>
 
 	    				<li>
-		    				<a class="icon-custom-fields" href="/admin/fields">Custom fields</a>
+		    				<a class="icon-custom-fields" href="<?php echo admin_url('fields'); ?>">Custom fields</a>
 	    				</li>
 
 	    				<li>
-		    				<a class="icon-variables" href="/admin/vars">Site variables</a>
+		    				<a class="icon-variables" href="<?php echo admin_url('vars'); ?>">Site variables</a>
 	    				</li>
     				</ul>
     			</li>
 
     			<li>
-    				<a class="icon-visit-site" href="/">Visit site</a>
+    				<a class="icon-visit-site" href="<?php echo url('/'); ?>">Visit site</a>
     			</li>
 
     			<li>
-    				<a class="icon-logout" href="/admin/auth/logout">Log out</a>
+    				<a class="icon-logout" href="<?php echo admin_url('auth/logout'); ?>">Log out</a>
     			</li>
     		</ul>
     	</nav>

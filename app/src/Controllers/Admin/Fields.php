@@ -19,7 +19,7 @@ class Fields extends Backend {
 			$fields->skip($offset);
 		}
 
-		$paging = new \Paginator('/admin/fields', $input['page'], $total, $perpage, $input);
+		$paging = new \Paginator($this->url->to('/admin/fields'), $input['page'], $total, $perpage, $input);
 
 		$vars['title'] = 'Custom Fields';
 		$vars['fields'] = $fields->get();
@@ -37,7 +37,10 @@ class Fields extends Backend {
 	}
 
 	protected function createForm() {
-		$form = new \Forms\CustomField(['method' => 'post', 'action' => '/admin/fields/save']);
+		$form = new \Forms\CustomField([
+			'method' => 'post',
+			'action' => $this->url->to('/admin/fields/save'),
+		]);
 		$form->init();
 		$form->getElement('token')->setValue($this->csrf->token());
 
@@ -59,7 +62,7 @@ class Fields extends Backend {
 		if(false === $validator->isValid()) {
 			$this->messages->error($validator->getMessages());
 			$this->session->putFlash('input', $input);
-			return $this->response->withHeader('location', '/admin/fields/create');
+			return $this->response->withHeader('location', $this->url->to('/admin/fields/create'));
 		}
 
 		$id = $this->extend->insert([
@@ -71,7 +74,7 @@ class Fields extends Backend {
 		]);
 
 		$this->messages->success('Custom field created');
-		return $this->response->withHeader('location', sprintf('/admin/fields/%d/edit', $id));
+		return $this->response->withHeader('location', $this->url->to(sprintf('/admin/fields/%d/edit', $id)));
 	}
 
 	public function getEdit($request) {
@@ -80,7 +83,7 @@ class Fields extends Backend {
 
 		$form = new \Forms\CustomField([
 			'method' => 'post',
-			'action' => sprintf('/admin/fields/%d/update', $field->id)
+			'action' => $this->url->to(sprintf('/admin/fields/%d/update', $field->id)),
 		]);
 		$form->init();
 		$form->getElement('token')->setValue($this->csrf->token());
@@ -112,7 +115,7 @@ class Fields extends Backend {
 		if(false === $validator->isValid()) {
 			$this->messages->error($validator->getMessages());
 			$this->session->putFlash('input', $input);
-			return $this->response->withHeader('location', sprintf('/admin/fields/%d/edit', $post->id));
+			return $this->response->withHeader('location', $this->url->to(sprintf('/admin/fields/%d/edit', $post->id)));
 		}
 
 		$this->extend->where('id', '=', $field->id)->update([
@@ -123,7 +126,7 @@ class Fields extends Backend {
 		]);
 
 		$this->messages->success('Custom field updated');
-		return $this->response->withHeader('location', sprintf('/admin/fields/%d/edit', $id));
+		return $this->response->withHeader('location', $this->url->to(sprintf('/admin/fields/%d/edit', $id)));
 	}
 
 }

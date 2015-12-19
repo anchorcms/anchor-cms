@@ -19,7 +19,7 @@ class Vars extends Backend {
 			$meta->skip($offset);
 		}
 
-		$paging = new \Paginator('/admin/vars', $input['page'], $total, $perpage, $input);
+		$paging = new \Paginator($this->url->to('/admin/vars'), $input['page'], $total, $perpage, $input);
 
 		$vars['title'] = 'Custom Variables';
 		$vars['metadata'] = $meta->get();
@@ -48,7 +48,7 @@ class Vars extends Backend {
 		if(false === $validator->isValid()) {
 			$this->messages->error($validator->getMessages());
 			$this->session->putFlash('input', $input);
-			return $this->response->withHeader('location', '/admin/vars/create');
+			return $this->response->withHeader('location', $this->url->to('/admin/vars/create'));
 		}
 
 		$key = preg_replace('#\W+#', '_', $input['key']);
@@ -59,7 +59,7 @@ class Vars extends Backend {
 		]);
 
 		$this->messages->success('Custom variable created');
-		return $this->response->withHeader('location', sprintf('/admin/vars/custom_%s/edit', $key));
+		return $this->response->withHeader('location', $this->url->to(sprintf('/admin/vars/custom_%s/edit', $key)));
 	}
 
 	public function getEdit($request) {
@@ -68,7 +68,7 @@ class Vars extends Backend {
 
 		$form = new \Forms\CustomVars([
 			'method' => 'post',
-			'action' => sprintf('/admin/vars/%s/update', $meta->key)
+			'action' => $this->url->to(sprintf('/admin/vars/%s/update', $meta->key)),
 		]);
 		$form->init();
 		$form->getElement('token')->setValue($this->csrf->token());
@@ -103,7 +103,7 @@ class Vars extends Backend {
 		if(false === $validator->isValid()) {
 			$this->messages->error($validator->getMessages());
 			$this->session->putFlash('input', $input);
-			return $this->response->withHeader('location', sprintf('/admin/vars/%s/edit', $meta->key));
+			return $this->response->withHeader('location', $this->url->to(sprintf('/admin/vars/%s/edit', $meta->key)));
 		}
 
 		$this->meta->where('key', '=', $meta->key)->update([
@@ -111,11 +111,14 @@ class Vars extends Backend {
 		]);
 
 		$this->messages->success('Custom variable updated');
-		return $this->response->withHeader('location', sprintf('/admin/vars/%s/edit', $meta->key));
+		return $this->response->withHeader('location', $this->url->to(sprintf('/admin/vars/%s/edit', $meta->key)));
 	}
 
 	public function createForm() {
-		$form = new \Forms\CustomVars(['method' => 'post', 'action' => '/admin/vars/save']);
+		$form = new \Forms\CustomVars([
+			'method' => 'post',
+			'action' => $this->url->to('/admin/vars/save'),
+		]);
 		$form->init();
 		$form->getElement('token')->setValue($this->csrf->token());
 

@@ -7,7 +7,10 @@ class Meta extends Backend {
 	public function getIndex() {
 		$meta = $this->meta->where('key', 'NOT LIKE', 'custom_%')->get();
 
-		$form = new \Forms\Meta(['method' => 'post', 'action' => '/admin/meta/update']);
+		$form = new \Forms\Meta([
+			'method' => 'post',
+			'action' => $this->url->to('/admin/meta/update'),
+		]);
 		$form->init();
 
 		$form->getElement('token')->setValue($this->csrf->token());
@@ -51,7 +54,7 @@ class Meta extends Backend {
 		if(false === $validator->isValid()) {
 			$this->messages->error($validator->getMessages());
 			$this->session->putFlash('input', $input);
-			return $this->response->withHeader('location', '/admin/meta');
+			return $this->response->withHeader('location', $this->url->to('/admin/meta'));
 		}
 
 		unset($input['token']);
@@ -63,7 +66,7 @@ class Meta extends Backend {
 		}
 
 		$this->messages->success('Metadata updated');
-		return $this->response->withHeader('location', '/admin/meta');
+		return $this->response->withHeader('location', $this->url->to('/admin/meta'));
 	}
 
 }

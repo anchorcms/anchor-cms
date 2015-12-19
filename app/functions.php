@@ -12,7 +12,7 @@ function article_title() {}
 function article_slug() {}
 function article_previous_url() {}
 function article_next_url() {}
-function article_url() {}
+function article_url($content) {}
 function article_description() {}
 function article_html() {}
 function article_markdown() {}
@@ -62,13 +62,49 @@ function comment_form_input_text($extra = '') {}
 function comment_form_button($text = 'Post Comment', $extra = '') {}
 function set_theme_options($options, $value = null) {}
 function theme_option($option, $default = '') {}
-function full_url($url = '') {}
-function base_url($url = '') {}
-function theme_url($file = '') {}
-function theme_include($file) {}
-function asset_url($extra = '') {}
-function current_url() {}
-function raw_current_url() {}
+
+function full_url($url = '') {
+	global $app;
+
+	return (string) $app['url']->to($url);
+}
+
+function base_url($url = '') {
+	return full_url($url);
+}
+
+function theme_url($url = '') {
+	global $app;
+
+	$url = sprintf('/themes/%s/%s', $app['theme']->getTheme(), $url);
+
+	return full_url($url);
+}
+
+function theme_include($file) {
+	global $app;
+
+	$name = $app['theme']->getTheme();
+
+	$path = sprintf('%s/%s/%s', $app['paths']['themes'], $app['theme']->getTheme(), $file);
+
+	require $path;
+}
+
+function asset_url($url = '') {
+	return theme_url($url);
+}
+
+function current_url() {
+	global $app;
+
+	return (string) $app['request']->getUri();
+}
+
+function raw_current_url() {
+	return current_url();
+}
+
 function rss_url() {}
 function bind($page, $fn) {}
 function receive($name = '') {}

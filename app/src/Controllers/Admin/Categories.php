@@ -19,7 +19,7 @@ class Categories extends Backend {
 			$categories->skip($offset);
 		}
 
-		$paging = new \Paginator('/admin/categories', $input['page'], $total, $perpage, $input);
+		$paging = new \Paginator($this->url->to('/admin/categories'), $input['page'], $total, $perpage, $input);
 
 		$vars['title'] = 'Categories';
 		$vars['categories'] = $categories->get();
@@ -29,7 +29,10 @@ class Categories extends Backend {
 	}
 
 	public function getCreate() {
-		$form = new \Forms\Category(['method' => 'post', 'action' => '/admin/categories/save']);
+		$form = new \Forms\Category([
+			'method' => 'post',
+			'action' => $this->url->to('/admin/categories/save'),
+		]);
 		$form->init();
 		$form->getElement('token')->setValue($this->csrf->token());
 
@@ -54,7 +57,7 @@ class Categories extends Backend {
 		if(false === $validator->isValid()) {
 			$this->messages->error($validator->getMessages());
 			$this->session->putFlash('input', $input);
-			return $this->response->withHeader('location', '/admin/categories/create');
+			return $this->response->withHeader('location', $this->url->to('/admin/categories/create'));
 		}
 
 		$slug = preg_replace('#\s+#', '-', $input['slug'] ?: $input['title']);
@@ -66,7 +69,7 @@ class Categories extends Backend {
 		]);
 
 		$this->messages->success('Category created');
-		return $this->response->withHeader('location', sprintf('/admin/categories/%d/edit', $id));
+		return $this->response->withHeader('location', $this->url->to(sprintf('/admin/categories/%d/edit', $id)));
 	}
 
 	public function getEdit($request) {
@@ -75,7 +78,7 @@ class Categories extends Backend {
 
 		$form = new \Forms\Category([
 			'method' => 'post',
-			'action' => sprintf('/admin/categories/%d/update', $category->id)
+			'action' => $this->url->to(sprintf('/admin/categories/%d/update', $category->id))
 		]);
 		$form->init();
 		$form->getElement('token')->setValue($this->csrf->token());
@@ -108,7 +111,7 @@ class Categories extends Backend {
 		if(false === $validator->isValid()) {
 			$this->messages->error($validator->getMessages());
 			$this->session->putFlash('input', $input);
-			return $this->response->withHeader('location', sprintf('/admin/categories/%d/edit', $post->id));
+			return $this->response->withHeader('location', $this->url->to(sprintf('/admin/categories/%d/edit', $post->id)));
 		}
 
 		$slug = preg_replace('#\s+#', '-', $input['slug'] ?: $input['title']);
@@ -120,7 +123,7 @@ class Categories extends Backend {
 		]);
 
 		$this->messages->success('Category updated');
-		return $this->response->withHeader('location', sprintf('/admin/categories/%d/edit', $id));
+		return $this->response->withHeader('location', $this->url->to(sprintf('/admin/categories/%d/edit', $id)));
 	}
 
 }
