@@ -3,14 +3,13 @@
 namespace Controllers;
 
 use Pimple\Container;
+use Controllers\AbstractController;
 
-abstract class Frontend {
-
-	use ContainerTrait, ThemeTrait;
+abstract class Frontend extends AbstractController {
 
 	public function __construct(Container $app) {
 		$this->setContainer($app);
-		$this->setTheme($this->meta->key('theme', 'default'));
+		$this->theme->setTheme($this->meta->key('theme', 'default'));
 	}
 
 	public function notFound() {
@@ -27,10 +26,6 @@ abstract class Frontend {
 		$body->write($template);
 
 		return $this->response->withStatus(404, 'Not Found')->withBody($body);
-	}
-
-	public function redirect($uri) {
-		return $this->response->withHeader('location', $uri);
 	}
 
 }

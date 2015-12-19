@@ -32,44 +32,69 @@ class Page extends Frontend {
 	}
 
 	public function getCategory($request) {
-		$slug = $request->getAttribute('category');
-
 		$page = $this->pages->id($this->meta->key('posts_page'));
+
+		$slug = $request->getAttribute('category');
 		$category = $this->categories->slug($slug);
 
-		if(false == $category) {
+		if(false == $category || false == $page) {
 			return $this->notFound();
 		}
 
+		// set globals
+		$vars['page'] = $page;
+		$vars['category'] = $category;
+		$vars['meta'] = $this->meta->all();
+
+		$pages = $this->pages->menu();
+		$vars['menu'] = new \ContentIterator($pages);
+
+		$categories = $this->categories->allPublished();
+		$vars['categories'] = new \ContentIterator($categories);
+
 		$pagenum = filter_input(INPUT_GET, 'page', FILTER_SANITIZE_NUMBER_INT, ['options' => ['default' => 1]]);
 		$perpage = $this->meta->key('posts_per_page');
-		$posts = $this->services->posts->getPosts(['page' => $pagenum, 'perpage' => $perpage, 'category' => $category->id]);
-		$content = new \ContentIterator($posts);
 
-		return $this->displayContent($page, $content, 'layout', ['category', 'posts', 'index'], ['category' => $category]);
+		$posts = $this->services->posts->getPosts(['page' => $pagenum, 'perpage' => $perpage, 'category' => $category->id]);
+
+		$content = new \ContentIterator($posts);
+		$vars['content'] = $content;
+
+		return $this->theme->render(['category', 'posts', 'index'], $vars);
 	}
 
 	protected function showPage($page) {
 		// name of template files to check for
 		$names = [];
 
+		// set globals
+		$vars['page'] = $page;
+		$vars['meta'] = $this->meta->all();
+
+		$pages = $this->pages->menu();
+		$vars['menu'] = new \ContentIterator($pages);
+
+		$categories = $this->categories->allPublished();
+		$vars['categories'] = new \ContentIterator($categories);
+
 		// is posts page
 		if($page->id == $this->meta->key('posts_page')) {
 			$pagenum = filter_input(INPUT_GET, 'page', FILTER_SANITIZE_NUMBER_INT, ['options' => ['default' => 1]]);
 			$perpage = $this->meta->key('posts_per_page');
-			$posts = $this->services->posts->getPosts(['page' => $pagenum, 'perpage' => $perpage]);
-			$content = new \ContentIterator($posts);
 
+			$posts = $this->services->posts->getPosts(['page' => $pagenum, 'perpage' => $perpage]);
+
+			$vars['content'] = new \ContentIterator($posts);
 			$names[] = 'posts';
 		}
 		else {
-			$content = new \ContentIterator([$page]);
+			$vars['content'] = new \ContentIterator([$page]);
 			$names[] = 'page';
 		}
 
 		$names[] = 'index';
 
-		return $this->displayContent($page, $content, 'layout', $names);
+		return $this->theme->render($names, $vars);
 	}
 
 }

@@ -35,6 +35,12 @@
 						<li class="icon-plugins">
 							<a href="/admin/plugins">Plugins</a>
 						</li>
+
+                        <?php if(isset($plugins)): foreach($plugins as $name => $label): ?>
+                        <li class="icon-plugins">
+							<a href="/admin/plugins/<?php echo $name; ?>"><?php echo $label; ?></a>
+						</li>
+                    <?php endforeach; endif; ?>
 					</ul>
 				</li>
 			</ul>

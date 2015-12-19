@@ -8,7 +8,6 @@ class Auth extends Backend {
 
 	public function getLogin() {
 		$vars['title'] = 'Login';
-		$vars['messages'] = $this->messages->render();
 
 		$form = new \Forms\Login(['method' => 'post', 'action' => '/admin/auth/attempt']);
 		$form->init();
@@ -19,7 +18,7 @@ class Auth extends Backend {
 
 		$vars['form'] = $form;
 
-		return $this->renderTemplate('login', ['users/login'], $vars);
+		return $this->renderTemplate('login', 'users/login', $vars);
 	}
 
 	public function postAttempt() {

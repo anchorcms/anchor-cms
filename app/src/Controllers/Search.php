@@ -7,6 +7,18 @@ class Search extends Frontend {
 	public function getIndex($request) {
 		$keywords = filter_input(INPUT_GET, 'q', FILTER_SANITIZE_STRING);
 
+		// set globals
+		$vars['meta'] = $this->meta->all();
+
+		$pages = $this->pages->menu();
+		$vars['menu'] = new \ContentIterator($pages);
+
+		$categories = $this->categories->allPublished();
+		$vars['categories'] = new \ContentIterator($categories);
+
+		$page = new \Models\Page(['title' => sprintf('Search "%s"', $keywords)]);
+		$vars['page'] = $page;
+
 		$posts = $this->posts->whereNested(function($where) use($keywords) {
 				$where('title', 'like', '%'.$keywords.'%')->or('content', 'like', '%'.$keywords.'%');
 			})
@@ -15,10 +27,10 @@ class Search extends Frontend {
 
 		$this->services->posts->hydrate($posts);
 
-		$page = new \Models\Page(['title' => sprintf('Search "%s"', $keywords)]);
 		$content = new \ContentIterator($posts);
+		$vars['content'] = $content;
 
-		return $this->displayContent($page, $content, 'layout', ['search', 'index']);
+		return $this->theme->render(['search', 'index'], $vars);
 	}
 
 }

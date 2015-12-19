@@ -3,15 +3,14 @@
 namespace Controllers\Admin;
 
 use Pimple\Container;
-use Controllers\Frontend;
+use Controllers\AbstractController;
 
-abstract class Backend extends Frontend {
+abstract class Backend extends AbstractController {
 
 	protected $private = true;
 
 	public function __construct(Container $app) {
 		$this->setContainer($app);
-
 		$this->view->setPath($this->paths['views']);
 	}
 
@@ -47,11 +46,12 @@ abstract class Backend extends Frontend {
 		}
 	}
 
-	protected function jsonResponse(array $data) {
-		$stream = new \Http\Stream();
-		$stream->write(json_encode($data));
+	protected function renderTemplate($layout, $template, array $vars = []) {
+		$vars['messages'] = $this->messages->render();
+		$vars['uri'] = $this->request->getUri();
+		$vars['body'] = $this->view->render($template, $vars);
 
-		return $this->response->withHeader('content-type', 'application/json')->withBody($stream);
+		return $this->view->render($layout, $vars);
 	}
 
 }

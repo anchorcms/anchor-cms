@@ -1,11 +1,39 @@
 <?php
 
-namespace Controllers;
+class Theme {
 
-trait ThemeTrait {
+	protected $view;
 
+	protected $theme;
+
+	protected $paths;
+
+	protected $events;
+
+	protected $layout;
+
+	public function __construct($view, array $paths, $events, $layout = 'layout') {
+		$this->view = $view;
+		$this->paths = $paths;
+		$this->events = $events;
+		$this->setLayout($layout);
+	}
+
+	/**
+	 * Set the layout filename
+	 *
+	 * @param string
+	 */
+	public function setLayout($layout) {
+		$this->layout = $layout;
+	}
+
+	/**
+	 * Set the theme folder
+	 *
+	 * @param string
+	 */
 	public function setTheme($theme) {
-		$theme = $this->meta->key('theme', 'default');
 		$path = $this->paths['themes'] . '/' . $theme;
 
 		if(false === is_dir($path)) {
@@ -20,6 +48,8 @@ trait ThemeTrait {
 		if(is_file($path . '/functions.php')) {
 			require $path . '/functions.php';
 		}
+
+		$this->events->trigger('theme_functions');
 	}
 
 	/**
@@ -38,29 +68,19 @@ trait ThemeTrait {
 		throw new \ErrorException(sprintf('Template not found: %s', $name));
 	}
 
-	protected function renderTemplate($layout, array $templates, array $vars = []) {
-		$vars['uri'] = $this->request->getUri();
-
+	/**
+	 * Render a theme template and return the html
+	 *
+	 * @param array
+	 * @param array
+	 * @return string
+	 */
+	public function render(array $templates, array $vars = []) {
 		$template = $this->getTemplate($templates);
 		$vars['body'] = $this->view->render($template, $vars);
 
-		$template = $this->getTemplate([$layout]);
+		$template = $this->getTemplate([$this->layout]);
 		return $this->view->render($template, $vars);
-	}
-
-	protected function displayContent($page, \ContentIterator $content, $layout, $templates, array $vars = []) {
-		$vars['meta'] = $this->meta->all();
-
-		$pages = $this->pages->menu();
-		$vars['menu'] = new \ContentIterator($pages);
-
-		$categories = $this->categories->allPublished();
-		$vars['categories'] = new \ContentIterator($categories);
-
-		$vars['page'] = $page;
-		$vars['content'] = $content;
-
-		return $this->renderTemplate($layout, $templates, $vars);
 	}
 
 }

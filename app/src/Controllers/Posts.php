@@ -13,16 +13,27 @@ class Posts extends Frontend {
 			->where('status', '=', 'published')
 			->fetch();
 
-		$this->services->posts->hydrate([$article]);
-
 		// page or post not found
 		if( ! $page || ! $article) {
 			return $this->notFound();
 		}
 
-		$content = new \ContentIterator([$article]);
+		// set globals
+		$vars['page'] = $page;
+		$vars['meta'] = $this->meta->all();
 
-		return $this->displayContent($page, $content, 'layout', ['article', 'index']);
+		$pages = $this->pages->menu();
+		$vars['menu'] = new \ContentIterator($pages);
+
+		$categories = $this->categories->allPublished();
+		$vars['categories'] = new \ContentIterator($categories);
+
+		$this->services->posts->hydrate([$article]);
+
+		$content = new \ContentIterator([$article]);
+		$vars['content'] = $content;
+
+		return $this->theme->render(['article', 'index'], $vars);
 	}
 
 }

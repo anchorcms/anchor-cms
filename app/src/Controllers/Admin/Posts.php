@@ -32,9 +32,14 @@ class Posts extends Backend {
 		$vars['categories'] = $this->categories->get();
 		$vars['statuses'] = ['published' => 'Published', 'draft' => 'Draft', 'archived' => 'Archived'];
 		$vars['filters'] = $input;
-		$vars['messages'] = $this->messages->render();
 
-		return $this->renderTemplate('layout', ['posts/index'], $vars);
+		/*
+		$items = [];
+		$this->events->trigger('admin_menu', & $items);
+		$vars['plugins'] = $items;
+		*/
+
+		return $this->renderTemplate('layout', 'posts/index', $vars);
 	}
 
 	public function getCreate() {
@@ -50,10 +55,9 @@ class Posts extends Backend {
 		$form->setValues($this->session->getFlash('input', []));
 
 		$vars['title'] = 'Creating a new post';
-		$vars['messages'] = $this->messages->render();
 		$vars['form'] = $form;
 
-		return $this->renderTemplate('layout', ['posts/create'], $vars);
+		return $this->renderTemplate('layout', 'posts/create', $vars);
 	}
 
 	public function postSave($request) {
@@ -126,12 +130,11 @@ class Posts extends Backend {
 		$form->setValues($this->session->getFlash('input', []));
 
 		$vars['title'] = sprintf('Editing &ldquo;%s&rdquo;', $post->title);
-		$vars['messages'] = $this->messages->render();
 		$vars['form'] = $form;
 		$vars['current'] = $post;
 		$vars['posts'] = $this->posts->get();
 
-		return $this->renderTemplate('layout', ['posts/edit'], $vars);
+		return $this->renderTemplate('layout', 'posts/edit', $vars);
 	}
 
 	public function postUpdate($request) {

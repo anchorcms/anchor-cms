@@ -55,6 +55,9 @@ return new Container([
 	'view' => function($app) {
 		return new View($app['paths']['views']);
 	},
+	'theme' => function($app) {
+		return new Theme($app['view'], $app['paths'], $app['events']);
+	},
 
 	/**
 	 * Middleware
@@ -65,8 +68,12 @@ return new Container([
 	'response' => function() {
 		return new Http\Response;
 	},
-	'routes' => function() {
-		return new Routing\RouteCollection(require __DIR__ . '/routes/default.php');
+	'routes' => function($app) {
+		$routes = new Routing\RouteCollection(require __DIR__ . '/routes/default.php');
+
+		$app['events']->trigger('routing', $routes);
+
+		return $routes;
 	},
 	'router' => function($app) {
 		return new Routing\UriMatcher($app['routes']);
