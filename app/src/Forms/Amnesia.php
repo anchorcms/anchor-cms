@@ -16,7 +16,7 @@ class Amnesia extends Form implements ValidatableInterface {
 		]));
 
 		$this->addElement(new \Forms\Elements\Submit('submit', [
-			'value' => 'Send Instructions',
+			'value' => 'Reset password',
 			'attributes' => [
 				'class' => 'button',
 			],

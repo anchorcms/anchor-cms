@@ -2,8 +2,6 @@
 
 <div class="form">
 	<?php echo $form->open(); ?>
-		<p style="float: right;">Forgotten Your password?</p>
-
 		<?php echo $form->getElement('token')->getHtml(); ?>
 
 		<?php foreach($form->getElementsExcluding(['submit', 'token']) as $element): ?>
@@ -20,7 +18,7 @@
 
 		<p class="submit">
 			<?php echo $form->getElement('submit')->getHtml(); ?>
-			<a class="btn subdued" href="/admin">Nope, return to login.</a>
+			<a class="btn subdued" href="/admin">Back to login</a>
 		</p>
 
 	<?php echo $form->close(); ?>
