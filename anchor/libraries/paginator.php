@@ -25,7 +25,7 @@ class Paginator {
       $this->prev = __('global.previous');
    }
 
-	public function prev_link($text = null, $default = '') {
+	public function prev_link($text = null, $default = '', $attrs = array()) {
 		if(is_null($text)) $text = $this->next;
 
 		$pages = ceil($this->count / $this->perpage);
@@ -33,19 +33,23 @@ class Paginator {
 		if($this->page < $pages) {
 			$page = $this->page + 1;
 
-			return '<a href="' . $this->url . '/' . $page . '">' . $text . '</a>';
+			return $this->link($text, array_merge(
+				array('href' => $this->url . '/' . $page), $attrs
+			));
 		}
 
 		return $default;
 	}
 
-	public function next_link($text = null, $default = '') {
+	public function next_link($text = null, $default = '', $attrs = array()) {
 		if(is_null($text)) $text = $this->prev;
 
 		if($this->page > 1) {
 			$page = $this->page - 1;
 
-			return '<a href="' . $this->url . '/' . $page . '">' . $text . '</a>';
+			return $this->link($text, array_merge(
+				array('href' => $this->url . '/' . $page), $attrs
+			));
 		}
 
 		return $default;
@@ -77,20 +81,34 @@ class Paginator {
 					$html .= ' <strong>' . $page . '</strong> ';
 				}
 				else {
-					$html .= ' <a href="' . $this->url . '/' . $page . '">' . $page . '</a> ';
+					$html .= ' ' . $this->link($page, $this->url . '/' . $page) . ' ';
 				}
 			}
 
 			if($this->page < $pages) {
 				$page = $this->page + 1;
 
-				$html .= '<a href="' . $this->url . '/' . $page . '">' . $this->next . '</a>
-					<a href="' . $this->url . '/' . $pages . '">' . $this->last . '</a>';
+				$html .= $this->link($this->next, $this->url . '/' . $page)
+					  .  $this->link($this->last, $this->url . '/' . $pages);
 			}
 
 		}
 
 		return $html;
+	}
+
+	public function link($text, $attrs = array()) {
+		$attr = '';
+
+		if(is_string($attrs)) {
+			$attr = 'href="' . $attrs . '"';
+		} else {
+			foreach($attrs as $key => $val) {
+				$attr .= $key . '="' . $val . '" ';
+			}
+		}
+
+		return '<a ' . trim($attr) . '>' . $text . '</a>';
 	}
 
 }
