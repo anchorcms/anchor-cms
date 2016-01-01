@@ -201,7 +201,7 @@ class Install extends AbstractController {
 
 	public function getComplete() {
 		$vars['title'] = 'Installin\' Anchor CMS';
-		$vars['adminUrl'] = $this->uri('/admin');
+		$vars['adminUrl'] = $this->url->to('/admin');
 		$vars['siteUrl'] = $this->url->to('/');
 
 		$this->session->remove('install');
