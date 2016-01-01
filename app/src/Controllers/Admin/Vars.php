@@ -31,9 +31,9 @@ class Vars extends Backend {
 
 	public function getCreate() {
 		$vars['title'] = 'Creating a new custom variable';
-		$vars['form'] = $this->creatForm();
+		$vars['form'] = $this->createForm();
 
-		return $this->renderTemplate('layout', ['vars/create'], $vars);
+		return $this->renderTemplate('layout', 'vars/create', $vars);
 	}
 
 	public function postSave() {
