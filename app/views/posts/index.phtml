@@ -26,7 +26,7 @@
 			<li><a href="/admin/posts?category=<?php echo $category->id; ?>"><?php echo $category->title; ?></a></li>
 			<?php endforeach; ?>
 		</ul> -->
-
+		
 		<ul class="post-list">
 			<?php foreach($posts as $post): ?>
 			<li>
@@ -41,10 +41,10 @@
 					<dd><a href="<?php echo url('/admin/users/'.$post->author); ?>">admin</a></dd>
 
 					<dt>Filed under</dt>
-					<dd><a href="<?php echo url('/admin/posts?category='.$post->category); ?>">Uncategorised</a></dd>
+					<dd><a href="<?php echo url('/admin/posts?category='.$post->category); ?>"><?php echo $category->title; ?></a></dd>
 
 					<dt>Last edited</dt>
-					<dd><?php echo date('dS M y G:H', strtotime($post->modified)); ?></dd>
+					<dd><?php echo date('dS M y G:i', strtotime($post->modified)); ?></dd>
 				</dl>
 			</li>
 			<?php endforeach; ?>
