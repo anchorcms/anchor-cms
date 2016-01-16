@@ -264,8 +264,8 @@ Route::collection(array('before' => 'auth,csrf'), function() {
 		$html = Input::get('html');
 
 		// apply markdown processing
-		$md = new Markdown;
-		$output = Json::encode(array('html' => $md->transform($html)));
+		$md = new Parsedown;
+		$output = Json::encode(array('html' => $md->text($html)));
 
 		return Response::create($output, 200, array('content-type' => 'application/json'));
 	});
