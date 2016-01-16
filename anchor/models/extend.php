@@ -46,9 +46,9 @@ class Extend extends Base {
 
 			case 'html':
 				if( ! empty($extend->value->html)) {
-					$md = new Markdown;
+					$md = new Parsedown;
 
-					$value = $md->transform($extend->value->html);
+					$value = $md->text($extend->value->html);
 				}
 				break;
 

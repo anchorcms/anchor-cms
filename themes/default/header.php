@@ -9,6 +9,8 @@
 		<link rel="stylesheet" href="<?php echo theme_url('/css/reset.css'); ?>">
 		<link rel="stylesheet" href="<?php echo theme_url('/css/style.css'); ?>">
 		<link rel="stylesheet" href="<?php echo theme_url('/css/small.css'); ?>" media="(max-width: 400px)">
+        <!-- Syntax Higlighting library -->
+		<link rel="stylesheet" href="<?php echo asset_url('/css/prism.css'); ?>">
 
 		<link rel="alternate" type="application/rss+xml" title="RSS" href="<?php echo rss_url(); ?>">
 		<link rel="shortcut icon" href="<?php echo theme_url('img/favicon.png'); ?>">
@@ -19,6 +21,7 @@
 
 		<script>var base = '<?php echo theme_url(); ?>';</script>
 		<script src="<?php echo asset_url('/js/zepto.js'); ?>"></script>
+		<script src="<?php echo asset_url('/js/prism.js'); ?>"></script>
 		<script src="<?php echo theme_url('/js/main.js'); ?>"></script>
 
 	    <meta name="viewport" content="width=device-width">
@@ -51,7 +54,7 @@
 					<aside>
 						<b>Categories</b>
 						<ul>
-						<?php while(categories()): 
+						<?php while(categories()):
 								if (category_count() > 0) { ?>
 							<li>
 								<a href="<?php echo category_url(); ?>" title="<?php echo category_description(); ?>">
