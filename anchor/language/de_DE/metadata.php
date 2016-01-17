@@ -33,7 +33,7 @@ return array(
 	'comment_notifications_explain' => '',
 
 	'comment_moderation_keys' => 'Spam keywords',
-	'comment_moderation_keys_explain' => 'Komma getrennte Liste von Begriffen die gebrüft werden sollen (Blacklist).
+	'comment_moderation_keys_explain' => 'Komma getrennte Liste von Begriffen, die geprüft werden sollen (Blacklist).
 		Kommentare werden automatisch als Spam markiert.',
 
 	'current_theme' => 'Aktuelles Theme',
