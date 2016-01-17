@@ -26,6 +26,9 @@ return array(
 	'posts_per_page' => 'Posts pro Seite',
 	'posts_per_page_explain' => '',
 
+	'show_all_posts' => 'Alle Posts anzeigen',
+	'show_all_posts_explain' => 'Alle Posts anzeigen ohne Seitennavigation (könnte langsam sein)',	
+	
 	'auto_publish_comments' => 'Kommentare automatisch erlauben',
 	'auto_publish_comments_explain' => '',
 
@@ -33,7 +36,7 @@ return array(
 	'comment_notifications_explain' => '',
 
 	'comment_moderation_keys' => 'Spam keywords',
-	'comment_moderation_keys_explain' => 'Komma getrennte Liste von Begriffen die gebrüft werden sollen (Blacklist).
+	'comment_moderation_keys_explain' => 'Komma getrennte Liste von Begriffen, die geprüft werden sollen (Blacklist).
 		Kommentare werden automatisch als Spam markiert.',
 
 	'current_theme' => 'Aktuelles Theme',
