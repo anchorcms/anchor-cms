@@ -1,7 +1,5 @@
 <?php
-
 return array(
-
-	'menu' => 'Menü',
-
+	'menu' 		=> 'Menü',
+	'edit_menu' => 'Menü bearbeiten'
 );
