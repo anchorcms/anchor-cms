@@ -26,6 +26,9 @@ return array(
 	'posts_per_page' => 'Posts pro Seite',
 	'posts_per_page_explain' => '',
 
+	'show_all_posts' => 'Alle Posts anzeigen',
+	'show_all_posts_explain' => 'Alle Posts anzeigen ohne Seitennavigation (könnte langsam sein)',	
+	
 	'auto_publish_comments' => 'Kommentare automatisch erlauben',
 	'auto_publish_comments_explain' => '',
 
