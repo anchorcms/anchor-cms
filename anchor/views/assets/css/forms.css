@@ -140,7 +140,7 @@ select {
 	-webkit-user-select: none;
 
 	border-radius: 5px 0 0 5px;
-	min-width: 160px;
+	min-width: 200px;
 }
 
 	.split label + input, .split label + textarea {
