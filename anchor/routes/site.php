@@ -201,7 +201,7 @@ Route::get(array('rss', 'feeds/rss'), function() {
 	$uri = 'http://' . $_SERVER['HTTP_HOST'];
 	$rss = new Rss(Config::meta('sitename'), Config::meta('description'), $uri, Config::app('language'));
 
-	$query = Post::where('status', '=', 'published')->sort(Base::table('posts.created')->take(25), 'desc');
+	$query = Post::where('status', '=', 'published');->sort(Base::table('posts.created'), 'desc')->take(25);
 
 	foreach($query->get() as $article) {
 		$rss->item(
