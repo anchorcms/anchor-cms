@@ -37,7 +37,6 @@ Route::get($routes, function($offset = 1) use($posts_page) {
 	} else {
 		return Response::create(new Template('404'), 404);
 	}
-
 	// get the last page
 	$max_page = ($total > $per_page) ? ceil($total / $per_page) : 1;
 
