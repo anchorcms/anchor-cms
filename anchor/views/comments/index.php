@@ -22,7 +22,7 @@
 			<a href="<?php echo Uri::to('admin/comments/edit/' . $comment->id); ?>">
 				<strong><?php echo strip_tags($comment->text); ?></strong>
 				<span><time><?php echo Date::format($comment->date); ?></time></span>
-				<span class="highlight"><?php echo $comment->status; ?></span>
+				<span class="highlight"><?php echo __('global.' . $comment->status);  ?></span>
 			</a>
 		</li>
 		<?php endforeach; ?>
