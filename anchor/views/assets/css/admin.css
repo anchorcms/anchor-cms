@@ -812,3 +812,23 @@ input[type='range'], ::-webkit-slider-thumb {
 	.indent{
 		padding-left: 40px;
 	}
+
+/*
+	An extra CSS code for different languages
+*/
+
+/*
+	Header for Polish language, class: .pl-PL
+*/
+
+.pl-PL .top .logo {
+	margin-right: 5px;
+}
+
+.pl-PL .top nav a {
+	margin-right: 5px;
+}
+
+.pl-PL .top .btn {
+	margin-left: 10px;
+}
