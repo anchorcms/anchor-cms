@@ -20,6 +20,10 @@
 					'class' => 'btn'
 				)); ?>
 
+				<?php echo Html::link('admin/posts' , __('global.cancel'), array(
+					'class' => 'btn cancel blue'
+				)); ?>
+
 				<?php echo Html::link('admin/posts/delete/' . $article->id, __('global.delete'), array(
 					'class' => 'btn delete red'
 				)); ?>

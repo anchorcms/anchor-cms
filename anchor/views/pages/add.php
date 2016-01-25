@@ -23,6 +23,11 @@
 				<?php echo Form::button(__('pages.redirect'), array(
 					'class' => 'btn secondary'
 				)); ?>
+
+				<?php echo Html::link('admin/pages' , __('global.cancel'), array(
+					'class' => 'btn cancel blue'
+				)); ?>
+
 			</aside>
 		</div>
 	</fieldset>
