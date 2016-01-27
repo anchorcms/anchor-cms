@@ -20,6 +20,10 @@
 					'class' => 'btn',
 					'data-loading' => __('global.saving')
 				)); ?>
+
+				<?php echo Html::link('admin/posts' , __('global.cancel'), array(
+					'class' => 'btn cancel blue'
+				)); ?>
 			</aside>
 		</div>
 	</fieldset>

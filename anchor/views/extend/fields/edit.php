@@ -87,6 +87,8 @@
 
 			<?php echo Form::button(__('global.update'), array('class' => 'btn', 'type' => 'submit')); ?>
 
+			<?php echo Html::link('admin/extend/fields' , __('global.cancel'), array('class' => 'btn cancel blue')); ?>
+
 			<?php echo Html::link('admin/extend/fields/delete/' . $field->id,
 				__('global.delete'), array('class' => 'btn delete red')); ?>
 

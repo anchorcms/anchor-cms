@@ -3,6 +3,7 @@
 	<head>
 		<meta charset="utf-8">
 		<title><?php echo __('global.manage'); ?> <?php echo Config::meta('sitename'); ?></title>
+		<link rel="shortcut icon" type="image/png" href="<?php echo asset('anchor/views/assets/img/favicon.png'); ?>" />
 
 		<script src="<?php echo asset('anchor/views/assets/js/zepto.js'); ?>"></script>
 
