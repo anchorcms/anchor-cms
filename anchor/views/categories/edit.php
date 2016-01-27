@@ -38,6 +38,8 @@
 		<aside class="buttons">
 			<?php echo Form::button(__('global.save'), array('type' => 'submit', 'class' => 'btn')); ?>
 
+			<?php echo Html::link('admin/categories' , __('global.cancel'), array('class' => 'btn cancel blue')); ?>
+
 			<?php echo Html::link('admin/categories/delete/' . $category->id, __('global.delete'), array(
 				'class' => 'btn delete red'
 			)); ?>

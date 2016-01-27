@@ -66,6 +66,8 @@
 				'type' => 'submit'
 			)); ?>
 
+			<?php echo Html::link('admin/users' , __('global.cancel'), array('class' => 'btn cancel blue')); ?>
+
 			<?php echo Html::link('admin/users/delete/' . $user->id, __('global.delete'), array('class' => 'btn delete red')); ?>
 		</aside>
 	</form>

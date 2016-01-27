@@ -25,6 +25,7 @@ return array(
 	'manage' => 'Manage',
 	'reset' => 'Reset',
 	'all' => 'All',
+	'cancel' => 'Cancel',
 
 	// pagination
 	'next' => 'Next',
