@@ -50,7 +50,7 @@ class Error {
 					</head>
 					<body>
 						<h1>Uncaught Exception</h1>
-						<p><code>' . htmlspecialchars($e->getMessage()) . '</code></p>
+						<p><code>' . $e->getMessage() . '</code></p>
 						<h3>Origin</h3>
 						<p><code>' . substr($e->getFile(), strlen(PATH)) . ' on line ' . $e->getLine() . '</code></p>
 						<h3>Trace</h3>
