@@ -4,8 +4,9 @@ class Migration_add_category_cust_field extends Migration {
 
     public function up() {
         $table = Base::table('extend');
+		$default = Config::db('default');
 
-        if($this->has_table_column($table, 'type')) {
+        if($this->has_table_column($table, 'type') && strcmp($default, 'mysql') == 0) {
             $sql = 'ALTER TABLE `' . $table . '` MODIFY COLUMN `type` enum("post", "page", "category") NOT NULL';
             DB::ask($sql);
         }
@@ -13,8 +14,9 @@ class Migration_add_category_cust_field extends Migration {
 
     public function down() {
         $table = Base::table('extend');
+		$default = Config::db('default');
 
-        if($this->has_table_column($table, 'type')) {
+        if($this->has_table_column($table, 'type') && strcmp($default, 'mysql') == 0) {
             $sql = 'ALTER TABLE `' . $table . '` MODIFY COLUMN `type` enum("post", "page") NOT NULL';
             DB::ask($sql);
         }

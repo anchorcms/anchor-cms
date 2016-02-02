@@ -11,6 +11,13 @@ $(function(){
         var field = $('.db-password-field').get(0);
         field.type = toggleData(field.type, ['text', 'password']);
     });
+    
+    // Toggle the password field type
+    $('.display-db').change(function() {
+			
+        $('#db-mysql').slideToggle();
+        $('#db-sqlite').slideToggle();
+    });
 
     /**
      * Given an array and a value, toggle the data between the two

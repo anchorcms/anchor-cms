@@ -130,7 +130,7 @@ abstract class Builder {
 	 * @param array
 	 * @return string
 	 */
-	public function build_insert($row) {
+	public function build_insert($row) {		
 		$keys = array_keys($row);
 		$values = $this->placeholders(count($row));
 		$this->bind = array_values($row);

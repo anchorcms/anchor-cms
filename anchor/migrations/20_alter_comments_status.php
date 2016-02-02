@@ -4,8 +4,9 @@ class Migration_alter_comments_status extends Migration {
 
 	public function up() {
 		$table = Base::table('comments');
+		$default = Config::db('default');
 
-		if($this->has_table($table)) {
+		if($this->has_table($table) && strcmp($default, 'mysql') == 0) {
 			$sql = 'ALTER TABLE `' . $table . '` CHANGE `status` `status` enum(\'pending\',\'approved\',\'spam\') NOT NULL AFTER `post`';
 			DB::ask($sql);
 		}

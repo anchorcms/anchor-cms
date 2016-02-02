@@ -43,10 +43,14 @@ class Sqlite extends Connector {
 	 */
 	public function __construct($config) {
 		extract($config);
+		try {
+			$dns = 'sqlite:' . $database;
+			$this->pdo = new PDO($dns);
+			$this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-		$dns = 'sqlite:' . $database;
-		$this->pdo = new PDO($dns);
-		$this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+		} catch(PDOException $e) {
+			throw new ErrorException($e->getMessage());
+		}
 	}
 
 	/**

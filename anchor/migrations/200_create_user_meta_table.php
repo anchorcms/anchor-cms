@@ -4,6 +4,7 @@ class Migration_create_user_meta_table extends Migration {
 
 	public function up() {
 		$table = Base::table('user_meta');
+		$default = Config::db('default');
 
 		if(!$this->has_table($table)) {
 			$sql = "CREATE TABLE IF NOT EXISTS `" . $table . "` (
@@ -21,7 +22,7 @@ class Migration_create_user_meta_table extends Migration {
 
 		$table2 = Base::table('extend');
 
-		if($this->has_table($table2)) {
+		if($this->has_table($table2) && strcmp($default, 'mysql') == 0) {
 			$sql2 = "ALTER TABLE `" . $table2 . "` CHANGE `type` `type` ENUM('post','page','category','user') NOT NULL";
 			DB::ask($sql2);
 		}

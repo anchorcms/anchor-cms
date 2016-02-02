@@ -8,7 +8,11 @@ abstract class Migration {
 		$default = Config::db('default');
 		$db = Config::db('connections.' . $default . '.database');
 
-		$sql = 'SHOW TABLES FROM `' . $db . '`';
+		if(strcmp($default, 'mysql') == 0) {
+			$sql = 'SHOW TABLES FROM `' . $db . '`';
+		} elseif(strcmp($default, 'sqlite') == 0) {
+			$sql = 'SELECT name FROM sqlite_master WHERE type=\'table\'';
+		}
 		list($result, $statement) = DB::ask($sql);
 		$statement->setFetchMode(PDO::FETCH_NUM);
 
@@ -23,15 +27,29 @@ abstract class Migration {
 
 	public function has_table_column($table, $column) {
 		if($this->has_table($table)) {
-			$sql = 'SHOW COLUMNS FROM `' . $table . '`';
+			$default = Config::db('default');
+			
+			if(strcmp($default, 'mysql') == 0) {
+				$sql = 'SHOW COLUMNS FROM `' . $table . '`';
+			} elseif(strcmp($default, 'sqlite') == 0) {
+				$sql = 'PRAGMA table_info("' . $table . '")';
+			}
+			
 			list($result, $statement) = DB::ask($sql);
 			$statement->setFetchMode(PDO::FETCH_OBJ);
 
 			$columns = array();
 
-			foreach($statement->fetchAll() as $row) {
-				$columns[] = $row->Field;
+			if(strcmp($default, 'mysql') == 0) {
+				foreach($statement->fetchAll() as $row) {
+					$columns[] = $row->Field;
+				}
+			} elseif(strcmp($default, 'sqlite') == 0) {
+				foreach($statement->fetchAll() as $row) {
+					$columns[] = $row->name;
+				}
 			}
+
 
 			return in_array($column, $columns);
 		}
