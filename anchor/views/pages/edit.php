@@ -24,6 +24,10 @@
 					'class' => 'btn secondary redirector'
 				)); ?>
 
+				<?php echo Html::link('admin/pages' , __('global.cancel'), array(
+					'class' => 'btn cancel blue'
+				)); ?>
+
 				<?php
 				if($deletable == true) {
 					echo Html::link('admin/pages/delete/' . $page->id, __('global.delete'), array(

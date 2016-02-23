@@ -19,7 +19,11 @@
 					'type' => 'submit',
 					'class' => 'btn'
 				)); ?>
-				<a class="btn autosave-action autosave-label secondary" style="width: 154px;">Autosave: Off</a>
+				
+				<?php echo Html::link('admin/posts' , __('global.cancel'), array(
+					'class' => 'btn cancel blue'
+				)); ?>
+
 				<?php echo Html::link('admin/posts/delete/' . $article->id, __('global.delete'), array(
 					'class' => 'btn delete red'
 				)); ?>

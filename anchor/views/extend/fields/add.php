@@ -72,8 +72,9 @@
 		</fieldset>
 
 		<aside class="buttons">
-			<?php echo Form::button(__('global.save'), array('class' => 'btn', 'type' => 'submit'
-            )); ?>
+			<?php echo Form::button(__('global.save'), array('class' => 'btn', 'type' => 'submit')); ?>
+
+			<?php echo Html::link('admin/extend/fields' , __('global.cancel'), array('class' => 'btn cancel blue')); ?>
 		</aside>
 	</form>
 </section>

@@ -132,6 +132,9 @@ Route::get('metadata', array('before' => 'check', 'main' => function() {
 	$vars['site_path'] = dirname(dirname($_SERVER['SCRIPT_NAME']));
 	$vars['themes'] = Themes::all();
 
+	//  Fix for Windows screwing up directories
+	$vars['site_path'] = str_replace('\\', '/', $vars['site_path']);
+
 	return Layout::create('metadata', $vars);
 }));
 

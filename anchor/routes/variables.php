@@ -46,18 +46,14 @@ Route::collection(array('before' => 'auth,csrf,install_exists'), function() {
 		$validator = new Validator($input);
 		
 		$validator->add('valid_key', function($str) {
-			if(strlen($str) > 7) {
-				return Query::table(Base::table('meta'))
-					->where('key', '=', $str)
-					->count() == 0;
-			}
-
-			return true;
+			return Query::table(Base::table('meta'))
+				->where('key', '=', $str)
+				->count() == 0;
 		});
 
 		$validator->check('key')
 			// include prefix length 'custom_'
-			->is_max(7, __('extend.name_missing'))
+			->is_max(8, __('extend.name_missing'))
 			->is_valid_key(__('extend.name_exists'));
 
 		if($errors = $validator->errors()) {
@@ -112,7 +108,7 @@ Route::collection(array('before' => 'auth,csrf,install_exists'), function() {
 
 		$validator->check('key')
 			// include prefix length 'custom_'
-			->is_max(7, __('extend.name_missing'))
+			->is_max(8, __('extend.name_missing'))
 			->is_valid_key(__('extend.name_exists'));
 
 		if($errors = $validator->errors()) {

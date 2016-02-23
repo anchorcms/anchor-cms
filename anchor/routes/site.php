@@ -37,7 +37,6 @@ Route::get($routes, function($offset = 1) use($posts_page) {
 	} else {
 		return Response::create(new Template('404'), 404);
 	}
-
 	// get the last page
 	$max_page = ($total > $per_page) ? ceil($total / $per_page) : 1;
 
@@ -201,7 +200,7 @@ Route::get(array('rss', 'feeds/rss'), function() {
 	$uri = 'http://' . $_SERVER['HTTP_HOST'];
 	$rss = new Rss(Config::meta('sitename'), Config::meta('description'), $uri, Config::app('language'));
 
-	$query = Post::where('status', '=', 'published')->sort('created', 'desc')->take(25);
+	$query = Post::where('status', '=', 'published')->sort(Base::table('posts.created'), 'desc')->take(25);
 
 	foreach($query->get() as $article) {
 		$rss->item(

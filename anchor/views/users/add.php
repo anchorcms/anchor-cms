@@ -61,6 +61,8 @@
 
 		<aside class="buttons">
 			<?php echo Form::button(__('global.create'), array('class' => 'btn', 'type' => 'submit')); ?>
+
+			<?php echo Html::link('admin/users' , __('global.cancel'), array('class' => 'btn cancel blue')); ?>
 		</aside>
 	</form>
 	<?php else : ?>

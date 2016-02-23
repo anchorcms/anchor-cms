@@ -20,7 +20,10 @@
 					'class' => 'btn',
 					'data-loading' => __('global.saving')
 				)); ?>
-				<a class="btn autosave-action autosave-label secondary" style="width: 154px;">Autosave: Off</a>
+
+				<?php echo Html::link('admin/posts' , __('global.cancel'), array(
+					'class' => 'btn cancel blue'
+				)); ?>
 			</aside>
 		</div>
 	</fieldset>
