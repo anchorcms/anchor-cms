@@ -154,21 +154,10 @@ class Extend extends Base {
 	}
 
 	public static function upload($file) {
-		$storage = PATH . 'content' . DS;
+		$uploader = new Uploader(PATH . 'content', array('png', 'jpg', 'bmp', 'gif', 'pdf'));
+		$filepath = $uploader->upload($file);
 
-		if(!is_dir($storage)) mkdir($storage);
-
-		$ext = pathinfo($file['name'], PATHINFO_EXTENSION);
-
-		// Added rtrim to remove file extension before adding again
-		$filename = slug(rtrim($file['name'], '.' . $ext)) . '.' . $ext;
-		$filepath = $storage . $filename;
-
-		if(move_uploaded_file($file['tmp_name'], $filepath)) {
-			return $filepath;
-		}
-
-		return false;
+		return $filepath;
 	}
 
 	public static function process_image($extend) {
