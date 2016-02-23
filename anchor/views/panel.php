@@ -5,9 +5,9 @@
 </hgroup>
 
 <section class="wrap">
-	<h3><?php echo __('panel.welcome', 'Welcome'); ?> to your Anchor site.</h3>
+	<h3><?php echo __('panel.title', 'Welcome'); ?></h3>
 	</br>
-	<p>Here you will find all of the tools you will need to produce content for your website, manage users, posts and pages. For more information on what you can do with Anchor, please see our documentation at <a href="https://anchorcms.com/docs">http://anchorcms.com/docs</a></p>
+	<p><?php echo __('panel.message', 'For more information see <a href="https://anchorcms.com/docs">http://anchorcms.com/docs</a>'); ?></p>
 </section>
 
 <?php echo $footer; ?>
