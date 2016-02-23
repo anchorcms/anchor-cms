@@ -186,7 +186,7 @@
 
 	// Press `CTRL + S` to `Save`
 	zone.on('keydown', function(event) {
-		if(event.ctrlKey && event.keyCode == 83) {
+		if(event.ctrlKey && event.keyCode == 83 && !(event.altKey)) {
 			form.trigger('submit');
 			return false;
 		}
