@@ -13,13 +13,12 @@
 		<link rel="stylesheet" href="<?php echo asset('anchor/views/assets/css/notifications.css'); ?>">
 		<link rel="stylesheet" href="<?php echo asset('anchor/views/assets/css/forms.css'); ?>">
 
-		<link rel="stylesheet" media="(max-width: 980px), (max-device-width: 480px)"
-			href="<?php echo asset('anchor/views/assets/css/small.css'); ?>">
+		<link rel="stylesheet" media="(max-width: 980px), (max-device-width: 480px)" href="<?php echo asset('anchor/views/assets/css/small.css'); ?>">
 
 		<meta http-equiv="X-UA-Compatible" content="chrome=1">
 		<meta name="viewport" content="width=600">
 	</head>
-	<body class="<?php echo Auth::guest() ? 'login' : 'admin'; ?>">
+	<body class="<?php echo Auth::guest() ? 'login' : 'admin'; ?> <?php echo str_replace('_','-',Config::app('language')); ?>">
 
 		<header class="top">
 			<div class="wrap">
