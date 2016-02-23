@@ -152,7 +152,7 @@ $(function() {
 			}
 
 			element.value = value.substring(0, start) + fileOutput + value.substring(start);
-			element.selectionStart = element.selectionEnd = start + img.length;
+			element.selectionStart = element.selectionEnd = start + file.length;
 			textarea.trigger('keydown');
 		}
 	};

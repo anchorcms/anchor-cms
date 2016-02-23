@@ -169,26 +169,38 @@ class Extend extends Base {
 
 			if($filepath = static::upload($file)) {
 				$filename = basename($filepath);
+				self::resizeImage($filepath);
+			}
+		}
 
-				// resize image
-				if(isset($extend->attributes->size->width) and isset($extend->attributes->size->height)) {
-					$image = Image::open($filepath);
+		// Handle images which have been uploaded indirectly
+		// not as files.
+		$image_upload = Input::get('extend.' . $extend->key);
+		if ($image_upload) {
+			$filename = basename($image_upload);
+			$name = $filename;
+		}
 
-					$width = intval($extend->attributes->size->width);
-					$height = intval($extend->attributes->size->height);
+		$data = compact('name', 'filename');
+		return Json::encode($data);
+	}
 
-					// resize larger images
-					if(
-						($width and $height) and
-						($image->width() > $width or $image->height() > $height)
-					) {
-						$image->resize($width, $height);
+	private static function resizeImage($extend, $filepath) {
+		// resize image
+		if(isset($extend->attributes->size->width) and isset($extend->attributes->size->height)) {
+			$image = Image::open($filepath);
 
-						$image->output($ext, $filepath);
-					}
-				}
+			$width = intval($extend->attributes->size->width);
+			$height = intval($extend->attributes->size->height);
 
-				return Json::encode(compact('name', 'filename'));
+			// resize larger images
+			if(
+				($width and $height) and
+				($image->width() > $width or $image->height() > $height)
+			) {
+				$image->resize($width, $height);
+
+				$image->output($ext, $filepath);
 			}
 		}
 	}
