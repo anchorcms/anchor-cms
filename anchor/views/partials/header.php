@@ -27,7 +27,7 @@
 				<nav>
 					<ul>
 						<li class="logo">
-							<a href="<?php echo Uri::to('admin/posts'); ?>">Anchor CMS</a>
+							<a href="<?php echo Uri::to('admin/panel'); ?>">Anchor CMS</a>
 						</li>
 
 						<?php $menu = array('posts', 'comments', 'pages', 'categories', 'users', 'extend'); ?>
