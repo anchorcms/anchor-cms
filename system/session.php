@@ -41,5 +41,4 @@ class Session {
 
 		static::put('_in', $data);
 	}
-
 }
