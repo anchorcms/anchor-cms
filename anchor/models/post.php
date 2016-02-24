@@ -9,7 +9,15 @@ class Post extends Base {
 	}
 
 	public static function slug($slug) {
-		return static::get('slug', $slug);
+		$post = static::get('slug', $slug);
+		$post->total_comments = static::getCommentCount($post);
+		return $post;
+	}
+
+	private static function getCommentCount($post) {
+		return (int)static::left_join(Base::table('comments'), Base::table('comments.post'), '=', Base::table('posts.id'))
+			->where(Base::table('posts.id'), '=', $post->id)
+			->count();
 	}
 
 	private static function get($row, $val) {
