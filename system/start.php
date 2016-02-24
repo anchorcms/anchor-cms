@@ -26,9 +26,14 @@ require APP . 'run' . EXT;
 Input::detect(Request::method());
 
 /**
+ * Load session config
+ */
+Session::setOptions(Config::get('session'));
+
+/**
  * Read session data
  */
-Session::read();
+Session::start();
 
 /**
  * Route the request
