@@ -7,7 +7,7 @@ Route::collection(array('before' => 'auth,csrf,install_exists'), function() {
 	*/
 	Route::get(array('admin/categories', 'admin/categories/(:num)'), function($page = 1) {
 		$vars['messages'] = Notify::read();
-		$vars['categories'] = Category::paginate($page, Config::get('meta.posts_per_page'));
+		$vars['categories'] = Category::paginate($page, Config::get('admin.posts_per_page'));
 
 		return View::create('categories/index', $vars)
 			->partial('header', 'partials/header')

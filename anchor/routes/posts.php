@@ -6,7 +6,7 @@ Route::collection(array('before' => 'auth,csrf,install_exists'), function() {
 		List all posts and paginate through them
 	*/
 	Route::get(array('admin/posts', 'admin/posts/(:num)'), function($page = 1) {
-		$perpage = Post::perPage();
+		$perpage = Config::get('admin.posts_per_page');
 		$total = Post::count();
 		$posts = Post::sort('created', 'desc')->take($perpage)->skip(($page - 1) * $perpage)->get();
 		$url = Uri::to('admin/posts');
@@ -35,7 +35,7 @@ Route::collection(array('before' => 'auth,csrf,install_exists'), function() {
 		}
 
 		$query = Post::where('category', '=', $category->id);
-		$perpage = Post::perPage();
+		$perpage = Config::get('admin.posts_per_page');
 		$total = $query->count();
 		$posts = $query->sort('created', 'desc')->take($perpage)->skip(($page - 1) * $perpage)->get();
 		$url = Uri::to('admin/posts/category/' . $category->slug);
@@ -62,7 +62,7 @@ Route::collection(array('before' => 'auth,csrf,install_exists'), function() {
 
 		$query = Post::where('status', '=', $status);
 
-		$perpage = Config::meta('posts_per_page');
+		$perpage = Config::get('admin.posts_per_page');
 		$total = $query->count();
 		$posts = $query->sort('title')->take($perpage)->skip(($post - 1) * $perpage)->get();
 		$url = Uri::to('admin/posts/status');
