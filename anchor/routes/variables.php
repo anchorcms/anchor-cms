@@ -100,10 +100,10 @@ Route::collection(array('before' => 'auth,csrf,install_exists'), function() {
 		
 		$validator->add('valid_key', function($str) use($key) {
 			// no change
-			if($str == $key) return true;
+			if($str == $key) return false;
 
 			// check the new key $str is available
-			return Query::table(Base::table('meta'))->where('key', '=', $str)->count() == 0;
+			return Query::table(Base::table('meta'))->where('key', '=', $str)->count() != 0;
 		});
 
 		$validator->check('key')
