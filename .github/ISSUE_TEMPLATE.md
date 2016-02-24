@@ -1,16 +1,16 @@
-## Summary
+### Summary
 
 A brief but detailed explanation of the issue, bug or feature you are reporting.
 
-## Expected Behavior
+### Expected Behavior
 
 - A list of steps you expected to happen in order
 
-## Actual Behavior
+### Actual Behavior
 
 - A list of steps you actually encountered
 
-## Context details (if applicable)
+### Context details (if applicable)
 
 - Anchor version:
 - Server setup:
