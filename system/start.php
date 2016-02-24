@@ -43,7 +43,7 @@ $response = Router::create()->dispatch();
 /**
  * Update session
  */
-Session::write();
+Session::close();
 
 /**
  * Output stuff
