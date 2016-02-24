@@ -56,10 +56,6 @@ function receive($name = '') {
 function body_class() {
 	$classes = array();
 
-	//  Get the URL slug
-	$parts = explode('/', Uri::current());
-	$classes[] = count($parts) ? trim(current($parts)) : 'index';
-
 	//  Is it a posts page?
 	if(is_postspage()) {
 		$classes[] = 'posts';
