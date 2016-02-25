@@ -18,7 +18,10 @@ To determine your PHP version, create a new file with this PHP code: `<?php echo
 ### Installation
 
 1. Ensure that you have the required components.
-2. Download Anchor either from [here](http://anchorcms.com/download) or by cloning this Github repo or by running `composer create-project anchorcms/anchor-cms anchor`.
+2. Download Anchor either from [here](http://anchorcms.com/download) or by cloning this Github repo or by running:
+```
+composer create-project anchorcms/anchor-cms anchor
+```
 3. Upload Anchor through FTP/SFTP or whatever upload method you prefer to the public-facing directory of your site.
 4. Ensure that the permissions for the `content` and `anchor/config` folders are set to `0777`.
 5. Create a database for Anchor to install to. You may name it anything you like. The method for database creation varies depending on your webhost but may require using PHPMyAdmin or Sequel Pro. If you are unsure of how to create this, ask your host.
