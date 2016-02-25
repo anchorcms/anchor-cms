@@ -1,5 +1,4 @@
 <?php theme_include('header'); ?>
-	<?php echo article_total_comments(); ?>
 		<section class="content wrap" id="article-<?php echo article_id(); ?>">
 			<h1><?php echo article_title(); ?></h1>
 
