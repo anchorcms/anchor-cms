@@ -30,4 +30,5 @@ define('APP', PATH . 'anchor' . DS);
 define('SYS', PATH . 'system' . DS);
 define('EXT', '.php');
 
+require APP . 'composer_check' . EXT;
 require SYS . 'start' . EXT;
