@@ -3,6 +3,7 @@
 return array(
 	/*
 	 * Latest migration
+	 * overide for testing/development
 	 */
-	'current' => 211
+	'current' => MIGRATION_NUMBER
 );
