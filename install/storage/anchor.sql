@@ -82,7 +82,7 @@ CREATE TABLE `{{prefix}}posts` (
   `author` int(6) NOT NULL,
   `category` int(6) NOT NULL,
   `status` enum('draft','published','archived') NOT NULL,
-  `comments` tinyint(1) NOT NULL,
+  `comments` tinyint(1) DEFAULT 0,
   PRIMARY KEY (`id`),
   KEY `status` (`status`),
   KEY `slug` (`slug`)
