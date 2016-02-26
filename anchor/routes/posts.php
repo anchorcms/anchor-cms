@@ -158,7 +158,7 @@ Route::collection(array('before' => 'auth,csrf,install_exists'), function() {
 			unset($input['created']);
 		}
 
-		if(is_null($input['comments'])) {
+		if(empty($input['comments'])) {
 			$input['comments'] = 0;
 		}
 
