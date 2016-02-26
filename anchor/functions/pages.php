@@ -49,8 +49,9 @@ function page_status($page_item = null) {
 	return ($page_item ? $page_item->status : Registry::prop('page', 'status'));
 }
 
-function page_custom_field($key, $default = '') {
-	$id = Registry::prop('page', 'id');
+function page_custom_field($key, $default = '', $id = null) {
+	if( $id == null )
+		$id = Registry::prop('page', 'id');
 
 	if($extend = Extend::field('page', $key, $id)) {
 		return Extend::value($extend, $default);
