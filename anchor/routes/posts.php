@@ -252,7 +252,7 @@ Route::collection(array('before' => 'auth,csrf,install_exists'), function() {
 
 		$input['author'] = $user->id;
 
-		if(is_null($input['comments'])) {
+		if(empty($input['comments'])) {
 			$input['comments'] = 0;
 		}
 
