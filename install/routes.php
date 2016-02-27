@@ -86,7 +86,7 @@ Route::get('database', array('before' => 'check', 'main' => function() {
 }));
 
 Route::post('database', array('before' => 'check', 'main' => function() {
-	$database = Input::get(array('host', 'port', 'user', 'pass', 'name', 'collation', 'prefix'));
+	$database = Input::get(array('driver', 'host', 'port', 'user', 'pass', 'name', 'collation', 'prefix'));
 
 	// Escape the password input
 	$database['pass'] = addslashes($database['pass']);
@@ -117,6 +117,31 @@ Route::post('database', array('before' => 'check', 'main' => function() {
 	return Response::redirect('metadata');
 }));
 
+
+Route::post('database_sqlite', array('before' => 'check', 'main' => function() {
+	$database = Input::get(array('driver', 'path', 'collation', 'prefix'));
+
+	// test connection
+	try {
+		$connection = DB::factory(array(
+			'driver' => 'sqlite',
+			'database' => $database['path'],
+			'charset' => 'utf8',
+			'prefix' => $database['prefix']
+		));
+	}
+	catch(PDOException $e) {
+		Input::flash();
+
+		Notify::error($e->getMessage());
+
+		return Response::redirect('database');
+	}
+
+	Session::put('install.database', $database);
+
+	return Response::redirect('metadata');
+}));
 /*
 	Metadata
 */

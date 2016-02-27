@@ -39,31 +39,50 @@ class Installer {
 	}
 
 	private static function connect($settings) {
+		// !! Caution: change path for sqlite (otherwise, will stay in install dir
+		
 		$database = $settings['database'];
-
-		$config = array(
-			'driver' => 'mysql',
-			'database' => $database['name'],
-			'hostname' => $database['host'],
-			'port' => $database['port'],
-			'username' => $database['user'],
-			'password' => $database['pass'],
-			'charset' => 'utf8'
-		);
+		if(strcmp($database['driver'],'mysql') == 0) {
+			$config = array(
+				'driver' => 'mysql',
+				'database' => $database['name'],
+				'hostname' => $database['host'],
+				'port' => $database['port'],
+				'username' => $database['user'],
+				'password' => $database['pass'],
+				'charset' => 'utf8'
+			);
+		} elseif(strcmp($database['driver'], 'sqlite') == 0) {
+			$config = array(
+				'driver' => 'sqlite',
+				'database' => $database['path'],
+				'charset' => 'utf8'
+			);
+		}
 
 		static::$connection = DB::factory($config);
 	}
 
 	private static function schema($settings) {
 		$database = $settings['database'];
+		
+		if(strcmp($database['driver'],'mysql') == 0) {
+			$sql = Braces::compile(APP . 'storage/anchor.sql', array(
+				'now' => gmdate('Y-m-d H:i:s'),
+				'charset' => 'utf8',
+				'prefix' => $database['prefix']
+			));
+			static::$connection->instance()->query($sql);
 
-		$sql = Braces::compile(APP . 'storage/anchor.sql', array(
-			'now' => gmdate('Y-m-d H:i:s'),
-			'charset' => 'utf8',
-			'prefix' => $database['prefix']
-		));
+		} elseif(strcmp($database['driver'], 'sqlite') == 0) {
+			$sql = Braces::compile(APP . 'storage/anchor.sqlite.sql', array(
+				'now' => gmdate('Y-m-d H:i:s'),
+				'charset' => 'utf8',
+				'prefix' => $database['prefix']
+			));
+			static::$connection->instance()->exec($sql);
 
-		static::$connection->instance()->query($sql);
+		}
 	}
 
 	private static function metadata($settings) {
@@ -77,8 +96,8 @@ class Installer {
 		);
 
 		$query = Query::table($database['prefix'] . 'meta', static::$connection);
-
-		foreach($config as $key => $value) {
+		
+		foreach($config as $key => $value) {			
 			$query->insert(array('key' => $key, 'value' => $value));
 		}
 	}
@@ -88,7 +107,6 @@ class Installer {
 		$database = $settings['database'];
 
 		$query = Query::table($database['prefix'] . 'users', static::$connection);
-
 		$query->insert(array(
 			'username' => $account['username'],
 			'password' => Hash::make($account['password']),
@@ -103,17 +121,26 @@ class Installer {
 	private static function database($settings) {
 		$database = $settings['database'];
 
-		$distro = Braces::compile(APP . 'storage/database.distro.php', array(
-			'hostname' => $database['host'],
-			'port' => $database['port'],
-			'username' => $database['user'],
-			'password' => $database['pass'],
-			'database' => $database['name'],
-			'prefix' => $database['prefix']
-		));
+		if(strcmp($database['driver'],'mysql') == 0) {
+			$distro = Braces::compile(APP . 'storage/database.distro.php', array(
+				'hostname' => $database['host'],
+				'port' => $database['port'],
+				'username' => $database['user'],
+				'password' => $database['pass'],
+				'database' => $database['name'],
+				'prefix' => $database['prefix']
+			));
+		} elseif(strcmp($database['driver'],'sqlite') == 0) {
+			$distro = Braces::compile(APP . 'storage/database.distro.sqlite.php', array(
+				'path' => $database['path'],
+				'prefix' => $database['prefix']
+			));
 
+		}
+		
 		file_put_contents(PATH . 'anchor/config/db.php', $distro);
 	}
+
 
 	private static function application($settings) {
 		$distro = Braces::compile(APP . 'storage/application.distro.php', array(

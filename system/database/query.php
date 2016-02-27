@@ -189,7 +189,7 @@ class Query extends Builder {
 	 * @param array
 	 * @return object
 	 */
-	public function insert($row) {
+	public function insert($row) {	
 		list($result, $statement) = $this->connection->ask($this->build_insert($row), $this->bind);
 
 		return $statement->rowCount();
