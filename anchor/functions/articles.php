@@ -223,8 +223,9 @@ function article_author_email() {
  * @param  string
  * @return string
  */
-function article_custom_field($key, $default = '') {
-	$id = Registry::prop('article', 'id');
+function article_custom_field($key, $default = '', $id = null) {
+	if($id == null)
+		$id = Registry::prop('article', 'id');
 
 	if($extend = Extend::field('post', $key, $id)) {
 		return Extend::value($extend, $default);
