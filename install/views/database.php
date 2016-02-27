@@ -74,8 +74,8 @@
 		</fieldset>
 
 		<section class="options">
-			<a href="<?php echo uri_to('start'); ?>" class="btn quiet">&laquo; Back</a>
 			<button type="submit" class="btn">Next Step &raquo;</button>
+			<a href="<?php echo uri_to('start'); ?>" class="btn quiet">&laquo; Back</a>
 		</section>
 	</form>
 </section>
