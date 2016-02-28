@@ -2,7 +2,7 @@
 
 return array(
 
-	'menu' 		=> 'Menu',
-	'edit_menu' => 'Edit menu'
+    'menu'        => 'Menu',
+    'edit_menu' => 'Edit menu'
 
 );

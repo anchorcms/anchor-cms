@@ -9,24 +9,24 @@
 			<?php echo $messages; ?>
 
 			<?php echo Form::text('title', Input::previous('title'), array(
-				'placeholder' => __('pages.title'),
-				'autocomplete'=> 'off',
-				'autofocus' => 'true'
-			)); ?>
+                'placeholder' => __('pages.title'),
+                'autocomplete'=> 'off',
+                'autofocus' => 'true'
+            )); ?>
 
 			<aside class="buttons">
 				<?php echo Form::button(__('global.save'), array(
-					'type' => 'submit',
-					'class' => 'btn'
-				)); ?>
+                    'type' => 'submit',
+                    'class' => 'btn'
+                )); ?>
 				<a class="btn autosave-action autosave-label secondary" style="width: 154px;">Autosave: Off</a>
 				<?php echo Form::button(__('pages.redirect'), array(
-					'class' => 'btn secondary redirector'
-				)); ?>
+                    'class' => 'btn secondary redirector'
+                )); ?>
 
-				<?php echo Html::link('admin/pages' , __('global.cancel'), array(
-					'class' => 'btn cancel blue'
-				)); ?>
+				<?php echo Html::link('admin/pages', __('global.cancel'), array(
+                    'class' => 'btn cancel blue'
+                )); ?>
 
 			</aside>
 		</div>
@@ -35,16 +35,16 @@
 	<fieldset class="redirect">
 		<div class="wrap">
 			<?php echo Form::text('redirect', Input::previous('redirect'), array(
-				'placeholder' => __('pages.redirect_url')
-			)); ?>
+                'placeholder' => __('pages.redirect_url')
+            )); ?>
 		</div>
 	</fieldset>
 
 	<fieldset class="main">
 		<div class="wrap">
 			<?php echo Form::textarea('markdown', Input::previous('markdown'), array(
-				'placeholder' => __('pages.content_explain')
-			)); ?>
+                'placeholder' => __('pages.content_explain')
+            )); ?>
 
 			<?php echo $editor; ?>
 		</div>
@@ -77,11 +77,11 @@
 				<?php echo Form::select('parent', $pages, Input::previous('parent'), array('id' => 'label-parent')); ?>
 				<em><?php echo __('pages.parent_explain'); ?></em>
 			</p>
-			<?php if(count($pagetypes) > 0): ?>
+			<?php if (count($pagetypes) > 0): ?>
 			<p>
 				<label for="pagetype"><?php echo __('pages.pagetype'); ?>:</label>
 				<select id="pagetype" name="pagetype">
-					<?php foreach($pagetypes as $pagetype): ?>
+					<?php foreach ($pagetypes as $pagetype): ?>
 					<?php $selected = ($pagetype->key == 'all') ? ' selected="selected"' : ''; ?>
 					<option value="<?php echo $pagetype->key; ?>" <?php echo $selected; ?>><?php echo $pagetype->value; ?></option>
 					<?php endforeach; ?>
@@ -90,8 +90,8 @@
 			</p>
 			<?php endif; ?>
 			<div id="extended-fields">
-			<?php foreach($fields as $field): ?>
-				<?php if($field->pagetype == 'all'): ?>
+			<?php foreach ($fields as $field): ?>
+				<?php if ($field->pagetype == 'all'): ?>
 				<p>
 					<label for="extend_<?php echo $field->key; ?>"><?php echo $field->label; ?>:</label>
 					<?php echo Extend::html($field); ?>

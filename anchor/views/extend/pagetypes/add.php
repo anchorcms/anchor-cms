@@ -28,7 +28,7 @@
 		<aside class="buttons">
 			<?php echo Form::button(__('global.save'), array('class' => 'btn', 'type' => 'submit')); ?>
 
-			<?php echo Html::link('admin/extend/pagetypes' , __('global.cancel'), array('class' => 'btn cancel blue')); ?>
+			<?php echo Html::link('admin/extend/pagetypes', __('global.cancel'), array('class' => 'btn cancel blue')); ?>
 		</aside>
 	</form>
 </section>

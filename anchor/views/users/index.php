@@ -3,7 +3,7 @@
 <hgroup class="wrap">
 	<h1><?php echo __('users.users'); ?></h1>
 
-	<?php if(Auth::admin()) : ?>
+	<?php if (Auth::admin()) : ?>
 	<nav>
 		<?php echo Html::link('admin/users/add', __('users.create_user'), array('class' => 'btn')); ?>
 	</nav>
@@ -14,7 +14,7 @@
 	<?php echo $messages; ?>
 
 	<ul class="list">
-		<?php foreach($users->results as $user): ?>
+		<?php foreach ($users->results as $user): ?>
 		<li>
 			<a href="<?php echo Uri::to('admin/users/edit/' . $user->id); ?>">
 				<strong><?php echo $user->real_name; ?></strong>

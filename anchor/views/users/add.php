@@ -6,7 +6,7 @@
 
 <section class="wrap">
 	<?php echo $messages; ?>
-	<?php if(Auth::admin()) : ?>
+	<?php if (Auth::admin()) : ?>
 
 	<form method="post" action="<?php echo Uri::to('admin/users/add'); ?>" novalidate autocomplete="off" enctype="multipart/form-data">
 
@@ -36,7 +36,7 @@
 		</fieldset>
 
 		<fieldset class="half split">
-			<?php foreach($fields as $field): ?>
+			<?php foreach ($fields as $field): ?>
 			<p>
 				<label for="extend_<?php echo $field->key; ?>"><?php echo $field->label; ?>:</label>
 				<?php echo Extend::html($field); ?>
@@ -62,7 +62,7 @@
 		<aside class="buttons">
 			<?php echo Form::button(__('global.create'), array('class' => 'btn', 'type' => 'submit')); ?>
 
-			<?php echo Html::link('admin/users' , __('global.cancel'), array('class' => 'btn cancel blue')); ?>
+			<?php echo Html::link('admin/users', __('global.cancel'), array('class' => 'btn cancel blue')); ?>
 		</aside>
 	</form>
 	<?php else : ?>

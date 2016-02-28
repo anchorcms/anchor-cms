@@ -18,11 +18,11 @@
 		<meta http-equiv="X-UA-Compatible" content="chrome=1">
 		<meta name="viewport" content="width=600">
 	</head>
-	<body class="<?php echo Auth::guest() ? 'login' : 'admin'; ?> <?php echo str_replace('_','-',Config::app('language')); ?>">
+	<body class="<?php echo Auth::guest() ? 'login' : 'admin'; ?> <?php echo str_replace('_', '-', Config::app('language')); ?>">
 
 		<header class="top">
 			<div class="wrap">
-				<?php if(Auth::user()): ?>
+				<?php if (Auth::user()): ?>
 				<nav>
 					<ul>
 						<li class="logo">
@@ -30,8 +30,10 @@
 						</li>
 
 						<?php $menu = array('posts', 'comments', 'pages', 'categories', 'users', 'extend'); ?>
-						<?php foreach($menu as $url): ?>
-						<li <?php if(strpos(Uri::current(), $url) !== false) echo 'class="active"'; ?>>
+						<?php foreach ($menu as $url): ?>
+						<li <?php if (strpos(Uri::current(), $url) !== false) {
+    echo 'class="active"';
+} ?>>
 							<a href="<?php echo Uri::to('admin/' . $url); ?>">
 								<?php echo ucfirst(__($url . '.' . $url)); ?>
 							</a>

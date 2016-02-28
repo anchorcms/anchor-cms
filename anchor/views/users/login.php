@@ -12,18 +12,18 @@
 		<fieldset>
 			<p><label for="label-user"><?php echo __('users.username'); ?>:</label>
 			<?php echo Form::text('user', $user, array(
-				'id' => 'label-user',
-				'autocapitalize' => 'off',
-				'autofocus' => 'true',
-				'placeholder' => __('users.username')
-			)); ?></p>
+                'id' => 'label-user',
+                'autocapitalize' => 'off',
+                'autofocus' => 'true',
+                'placeholder' => __('users.username')
+            )); ?></p>
 
 			<p><label for="label-pass"><?php echo __('users.password'); ?>:</label>
 			<?php echo Form::password('pass', array(
-				'id' => 'pass',
-				'placeholder' => __('users.password'),
-				'autocomplete' => 'off'
-			)); ?></p>
+                'id' => 'pass',
+                'placeholder' => __('users.password'),
+                'autocomplete' => 'off'
+            )); ?></p>
 
 			<p class="buttons"><a href="<?php echo Uri::to('admin/amnesia'); ?>"><?php echo __('users.forgotten_password'); ?></a>
 			<button type="submit"><?php echo __('global.login'); ?></button></p>

@@ -2,7 +2,7 @@
 <section class="profile">
 	<h5><?php echo __('global.profile'); ?></h5>
 
-	<?php foreach($profile as $row): ?>
+	<?php foreach ($profile as $row): ?>
 	<p><code><?php echo $row['sql']; ?></code></p>
 	<?php endforeach; ?>
 

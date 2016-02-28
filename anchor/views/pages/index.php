@@ -3,7 +3,7 @@
 <hgroup class="wrap">
 	<h1><?php echo __('pages.pages'); ?></h1>
 
-	<?php if($pages->count): ?>
+	<?php if ($pages->count): ?>
 	<nav>
 		<?php echo Html::link('admin/pages/add', __('pages.create_page'), array('class' => 'btn')); ?>
 		<?php echo Html::link('admin/menu', __('menu.edit_menu'), array('class' => 'btn')); ?>
@@ -16,22 +16,22 @@
 
 	<nav class="sidebar statuses">
 		<?php echo Html::link('admin/pages', '<span class="icon"></span> ' . __('global.all'), array(
-			'class' => ($status == 'all') ? 'active' : ''
-		)); ?>
-		<?php foreach(array('published', 'draft', 'archived') as $type): ?>
+            'class' => ($status == 'all') ? 'active' : ''
+        )); ?>
+		<?php foreach (array('published', 'draft', 'archived') as $type): ?>
 		<?php echo Html::link('admin/pages/status/' . $type, '<span class="icon"></span> ' . __('global.' . $type), array(
-			'class' => ($status == $type) ? 'active' : ''
-		)); ?>
+            'class' => ($status == $type) ? 'active' : ''
+        )); ?>
 		<?php endforeach; ?>
 	</nav>
 
-	<?php if($pages->count): ?>
+	<?php if ($pages->count): ?>
 	<ul class="main list">
-		<?php foreach($pages->results as $item): $display_pages = array_merge(array($item), $item->children());?>
-			<?php foreach($display_pages as $page) : ?>
+		<?php foreach ($pages->results as $item): $display_pages = array_merge(array($item), $item->children());?>
+			<?php foreach ($display_pages as $page) : ?>
 			<li>
 				<a href="<?php echo Uri::to('admin/pages/edit/' . $page->data['id']); ?>">
-					<div class="<?php echo ($page->data['parent'] != 0 ? 'indent' : ''); ?>">
+					<div class="<?php echo($page->data['parent'] != 0 ? 'indent' : ''); ?>">
 						<strong><?php echo $page->data['name']; ?></strong>
 						<span>
 							<?php echo $page->data['slug']; ?>

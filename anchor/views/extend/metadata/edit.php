@@ -35,7 +35,7 @@
 			<p>
 				<label for="label-posts_per_page"><?php echo __('metadata.posts_per_page'); ?>:</label>
 				<?php echo Form::input('range', 'posts_per_page', Input::previous('posts_per_page', $meta['posts_per_page']),
-					array('min' => 1, 'max' => 15, 'id' => 'label-posts_per_page')); ?>
+                    array('min' => 1, 'max' => 15, 'id' => 'label-posts_per_page')); ?>
 				<em><?php echo __('metadata.posts_per_page_explain'); ?></em>
 				<em class="visible" id="posts_per_page_number"><?php echo $meta['posts_per_page']; ?></em>
 			</p>
@@ -73,7 +73,7 @@
 			<p>
 				<label for="label-theme"><?php echo __('metadata.current_theme'); ?>:</label>
 				<select id="label-theme" name="theme">
-					<?php foreach($themes as $theme => $about): ?>
+					<?php foreach ($themes as $theme => $about): ?>
 					<?php $selected = (Input::previous('theme', $meta['theme']) == $theme) ? ' selected' : ''; ?>
 					<option value="<?php echo $theme; ?>"<?php echo $selected; ?>>
 						<?php echo $about['name']; ?> by <?php echo $about['author']; ?>
@@ -88,7 +88,7 @@
 		<aside class="buttons">
 			<?php echo Form::button(__('global.save'), array('type' => 'submit', 'class' => 'btn')); ?>
 
-			<?php echo Html::link('admin/extend' , __('global.cancel'), array('class' => 'btn cancel blue')); ?>
+			<?php echo Html::link('admin/extend', __('global.cancel'), array('class' => 'btn cancel blue')); ?>
 		</aside>
 	</form>
 </section>
