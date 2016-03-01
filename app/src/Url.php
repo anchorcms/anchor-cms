@@ -13,7 +13,6 @@ class Url {
 	}
 
 	public function to($uri, $prepend = null) {
-        $this->uri->withQuery('');  //clears old query before outputing new path
 		$path = $this->root;
 
 		if($prepend) {
@@ -22,7 +21,7 @@ class Url {
 
 		$path .= '/' . ltrim($uri, '/');
 
-		return (string) $this->uri->withPath($path);
+		return (string) $this->uri->withPath($path)->withQuery('');
 	}
 
 }

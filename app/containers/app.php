@@ -1,8 +1,8 @@
 <?php
 
-return new Container([
+return [
 	'paths' => function() {
-		return require __DIR__ . '/paths.php';
+		return require __DIR__ . '/../paths.php';
 	},
 	'config' => function($app) {
 		return new Config($app['paths']['config']);
@@ -72,7 +72,7 @@ return new Container([
 		return new Http\Response;
 	},
 	'routes' => function($app) {
-		$routes = new Routing\RouteCollection(require __DIR__ . '/routes/default.php');
+		$routes = new Routing\RouteCollection(require __DIR__ . '/../routes/default.php');
 
 		$app['events']->trigger('routing', $routes);
 
@@ -110,12 +110,12 @@ return new Container([
 
 		return new Services\Rss($name, $description, $url);
 	},
-	'services' => new Container([
-		'posts' => function() {
-			global $app;
-			return new Services\Posts($app['posts'], $app['postmeta'], $app['extend'], $app['users'], $app['categories']);
-		},
-	]),
+	'services' => function($app) {
+		$obj = new \StdClass;
+		$obj->posts = new Services\Posts($app['posts'], $app['postmeta'], $app['extend'], $app['users'], $app['categories']);
+
+		return $obj;
+	},
 
 	/**
 	 * Mappers
@@ -168,4 +168,4 @@ return new Container([
 
 		return $mapper;
 	},
-]);
+];

@@ -3,7 +3,7 @@
 error_reporting(-1);
 ini_set('display_errors', true);
 
-// Make sure this is PHP 5.3 or later
+// Make sure this we have a good version of PHP
 if ( ! defined('PHP_VERSION_ID') || PHP_VERSION_ID < 50500) {
 	echo 'PHP 5.5.0 or later is required';
 	exit(1);
@@ -14,15 +14,11 @@ if( ! ini_get('date.timezone')) {
 	date_default_timezone_set('UTC');
 }
 
-// check composer is installed
-$autoload = __DIR__ . '/../vendor/autoload.php';
-
-if(false === is_file($autoload)) {
+// Check composer is installed
+if(false === is_file(__DIR__ . '/../vendor/autoload.php')) {
 	echo 'Composer not installed';
 	exit(1);
 }
-
-$composer = require $autoload;
 
 function dd() {
 	if( ! headers_sent()) {
@@ -54,7 +50,9 @@ function admin_url($url) {
 	return $app['url']->to($url, 'admin');
 }
 
-$app = require __DIR__ . '/container.php';
+require __DIR__ . '/../vendor/autoload.php';
+
+$app = new Pimple\Container(require __DIR__ . '/containers/app.php');
 
 $app['errors']->handler(function($exception) use($app) {
 	while(ob_get_level()) ob_end_clean();
@@ -84,11 +82,6 @@ $app['kernel']->redirectTrailingSlash();
 
 if(false === $app['installer']->isInstalled() || true === $app['installer']->installerRunning()) {
 	$app['routes']->set(require __DIR__ . '/routes/installer.php');
-}
-else {
-	if( ! $app['config']->get('app.debug')) {
-		$app['query']->disableProfile();
-	}
 }
 
 $app['events']->trigger('before_response');

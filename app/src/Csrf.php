@@ -9,8 +9,8 @@ class Csrf {
 	}
 
 	public function regenerateToken($length = 32) {
-		$pool = str_shuffle(str_repeat('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789', 10));
-		$token = substr($pool, 0, $length);
+		$bytes = random_bytes($length);
+		$token = bin2hex($bytes);
 
 		$this->session->put('csrf_token', $token);
 	}
