@@ -117,9 +117,12 @@ Route::collection(array('before' => 'auth,csrf,install_exists'), function () {
         if ($errors = $validator->errors()) {
             Input::flash();
 
-            Notify::error($errors);
+            // Notify::error($errors);
 
-            return Response::redirect('admin/pages/edit/' . $id);
+            return Response::json(array(
+                'id'     => $id,
+                'errors' => array_flatten($errors, array())
+            ));
         }
 
         if (empty($input['name'])) {
@@ -137,9 +140,12 @@ Route::collection(array('before' => 'auth,csrf,install_exists'), function () {
 
         Extend::process('page', $id);
 
-        Notify::success(__('pages.updated'));
+        // Notify::success(__('pages.updated'));
 
-        return Response::redirect('admin/pages/edit/' . $id);
+        return Response::json(array(
+            'id'           => $id,
+            'notification' => __('pages.updated')
+        ));
     });
 
     /*
@@ -210,9 +216,12 @@ Route::collection(array('before' => 'auth,csrf,install_exists'), function () {
         if ($errors = $validator->errors()) {
             Input::flash();
 
-            Notify::error($errors);
+            // Notify::error($errors);
 
-            return Response::redirect('admin/pages/add');
+            return Response::json(array(
+                'id'     => $id,
+                'errors' => array_flatten($errors, array())
+            ));
         }
 
         if (empty($input['name'])) {
@@ -225,11 +234,17 @@ Route::collection(array('before' => 'auth,csrf,install_exists'), function () {
 
         $page = Page::create($input);
 
-        Extend::process('page', $page->id);
+        $id = $page->id;
 
-        Notify::success(__('pages.created'));
+        Extend::process('page', $id);
+
+        // Notify::success(__('pages.created'));
         
-        return Response::redirect('admin/pages/edit/' . $page->id);
+        return Response::json(array(
+            'id'           => $id,
+            'notification' => __('pages.created'),
+            'redirect'     => Uri::to('admin/pages/edit/' . $id)
+        ));
     });
 
     /*

@@ -96,3 +96,24 @@ function eq($str)
 {
     return e($str, ENT_QUOTES);
 }
+
+/**
+ * Flatten an array
+ * 
+ * @param  Array  $array
+ * @param  Array  $return
+ * @return Array
+ */
+function array_flatten($array, $return)
+{
+    foreach($array as $item) {
+        if (is_array($item)) {
+            $return = array_flatten($item, $return);
+        } else {
+            if (isset($item)) {
+                $return[] = $item;
+            }
+        }
+    }
+    return $return;
+}

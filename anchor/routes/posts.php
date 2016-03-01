@@ -42,7 +42,6 @@ Route::collection(array('before' => 'auth,csrf,install_exists'), function () {
 
         $pagination = new Paginator($posts, $total, $page, $perpage, $url);
 
-        
         $vars['posts'] = $pagination;
         $vars['category'] = $category;
         $vars['categories'] = Category::sort('title')->get();
@@ -148,9 +147,12 @@ Route::collection(array('before' => 'auth,csrf,install_exists'), function () {
         if ($errors = $validator->errors()) {
             Input::flash();
 
-            Notify::error($errors);
+            // Notify::error($errors);
 
-            return Response::redirect('admin/posts/edit/' . $id);
+            return Response::json(array(
+                'id'     => $id,
+                'errors' => array_flatten($errors, array())
+            ));
         }
 
         $current_post = Post::find($id);
@@ -174,9 +176,12 @@ Route::collection(array('before' => 'auth,csrf,install_exists'), function () {
 
         Extend::process('post', $id);
 
-        Notify::success(__('posts.updated'));
+        // Notify::success(__('posts.updated'));
 
-        return Response::redirect('admin/posts/edit/' . $id);
+        return Response::json(array(
+            'id'           => $id,
+            'notification' => __('posts.updated')
+        ));
     });
 
     /*
@@ -243,9 +248,12 @@ Route::collection(array('before' => 'auth,csrf,install_exists'), function () {
         if ($errors = $validator->errors()) {
             Input::flash();
 
-            Notify::error($errors);
+            // Notify::error($errors);
 
-            return Response::redirect('admin/posts/add');
+            return Response::json(array(
+                'id'     => $id,
+                'errors' => array_flatten($errors, array())
+            ));
         }
 
         if (empty($input['created'])) {
@@ -268,14 +276,23 @@ Route::collection(array('before' => 'auth,csrf,install_exists'), function () {
 
         $post = Post::create($input);
 
-        Extend::process('post', $post->id);
+        $id = $post->id;
 
-        Notify::success(__('posts.created'));
+        Extend::process('post', $id);
+
+        // Notify::success(__('posts.created'));
         
         if (Input::get('autosave') === 'true') {
-            return Response::redirect('admin/posts/edit/' . $page->id);
+            return Response::json(array(
+                'id'           => $id,
+                'notification' => __('posts.updated'),
+            ));
         } else {
-            return Response::redirect('admin/posts');
+            return Response::json(array(
+                'id'           => $id,
+                'notification' => __('posts.created'),
+                'redirect'     => Uri::to('admin/posts/edit/' . $id)
+            ));
         }
     });
 
