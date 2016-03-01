@@ -291,8 +291,22 @@ Route::post('search', function () {
  * View pages
  */
 Route::get('(:all)', function ($uri) {
-    if (! $page = Page::slug($uri)) {
-        return Response::create(new Template('404'), 404);
+
+    $parts = explode('/', $uri);
+    $page = false;
+
+    if ($parts > 0) {
+        foreach($parts as $uri) {
+            $last = $page;
+
+            if (! $page = Page::slug($uri)) {
+                return Response::create(new Template('404'), 404);
+            }
+
+            if (($page->parent and !$last) or ($page->parent and $last->id != $page->parent)) {
+                return Response::create(new Template('404'), 404);
+            }
+        }
     }
 
     if ($page->redirect) {
