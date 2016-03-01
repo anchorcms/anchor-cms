@@ -42,9 +42,12 @@ Route::collection(array('before' => 'auth,csrf,install_exists'), function () {
     });
 
     Route::post('admin/users/edit/(:num)', function ($id) {
-        $input = Input::get(array('username', 'email', 'real_name', 'bio', 'status', 'role'));
+        $input = Input::get(array('username', 'email', 'real_name', 'bio', 'status'));
         $password_reset = false;
         
+        // Force admin for now
+        $input['role'] = 'administrator';
+
         // A little higher to avoid messing with the password
         foreach ($input as $key => &$value) {
             $value = eq($value);
@@ -120,8 +123,11 @@ Route::collection(array('before' => 'auth,csrf,install_exists'), function () {
     });
 
     Route::post('admin/users/add', function () {
-        $input = Input::get(array('username', 'email', 'real_name', 'password', 'bio', 'status', 'role'));
+        $input = Input::get(array('username', 'email', 'real_name', 'password', 'bio', 'status'));
         
+        // Force admin for now
+        $input['role'] = 'administrator';
+
         foreach ($input as $key => &$value) {
             if ($key === 'password') {
                 continue;

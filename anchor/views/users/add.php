@@ -28,11 +28,13 @@
 				<?php echo Form::select('status', $statuses, Input::previous('status'), array('id' => 'label-status')); ?>
 				<em><?php echo __('users.status_explain'); ?></em>
 			</p>
-			<p>
-				<label for="label-role"><?php echo __('users.role'); ?>:</label>
-				<?php echo Form::select('role', $roles, Input::previous('role'), array('id' => 'label-role')); ?>
-				<em><?php echo __('users.role_explain'); ?></em>
-			</p>
+			<?php if(false) : ?>
+				<p>
+					<label for="label-role"><?php echo __('users.role'); ?>:</label>
+					<?php echo Form::select('role', $roles, Input::previous('role'), array('id' => 'label-role')); ?>
+					<em><?php echo __('users.role_explain'); ?></em>
+				</p>
+			<?php endif; ?>
 		</fieldset>
 
 		<fieldset class="half split">
@@ -45,7 +47,7 @@
 			<p>
 				<label for="label-username"><?php echo __('users.username'); ?>:</label>
 				<?php echo Form::text('username', Input::previous('username'), array('id' => 'label-username')); ?>
-				<em><?php echo __('users.role_explain'); ?></em>
+				<em><?php echo __('users.username_explain'); ?></em>
 			</p>
 			<p>
 				<label for="label-password"><?php echo __('users.password'); ?>:</label>
