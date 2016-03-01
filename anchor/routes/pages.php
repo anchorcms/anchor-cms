@@ -132,7 +132,7 @@ Route::collection(array('before' => 'auth,csrf,install_exists'), function () {
         // encode title
         $input['title'] = e($input['title'], ENT_COMPAT);
 
-        $input['show_in_menu'] = is_null($input['show_in_menu']) ? 0 : 1;
+        $input['show_in_menu'] = is_null($input['show_in_menu']) || empty($input['show_in_menu']) ? 0 : 1;
 
         $input['html'] = parse($input['markdown']);
 
@@ -228,7 +228,7 @@ Route::collection(array('before' => 'auth,csrf,install_exists'), function () {
             $input['name'] = $input['title'];
         }
 
-        $input['show_in_menu'] = is_null($input['show_in_menu']) ? 0 : 1;
+        $input['show_in_menu'] = is_null($input['show_in_menu']) || empty($input['show_in_menu']) ? 0 : 1;
 
         $input['html'] = parse($input['markdown']);
 
