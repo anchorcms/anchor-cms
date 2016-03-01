@@ -61,7 +61,7 @@
 			<p>
 				<label for="collation">Collation</label>
 				<select id="collation" class="chosen-select" name="collation">
-					<?php foreach($collations as $code => $collation): ?>
+					<?php foreach ($collations as $code => $collation): ?>
 					<?php $selected = ($code == Input::previous('collation', 'utf8_unicode_ci')) ? ' selected' : ''; ?>
 					<option value="<?php echo $code; ?>" <?php echo $selected; ?>>
 						<?php echo $code; ?>
