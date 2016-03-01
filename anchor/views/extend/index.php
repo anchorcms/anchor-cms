@@ -32,12 +32,6 @@
 				<span><?php echo __('metadata.metadata_desc'); ?></span>
 			</a>
 		</li>
-		<li>
-			<a href="<?php echo Uri::to('admin/extend/plugins'); ?>">
-				<strong>Plugins</strong>
-				<span>Coming soon, yo!</span>
-			</a>
-		</li>
 	</ul>
 </section>
 
