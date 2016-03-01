@@ -291,7 +291,7 @@ Route::post('search', function () {
  * View pages
  */
 Route::get('(:all)', function ($uri) {
-    if (! $page = Page::slug($slug = basename($uri))) {
+    if (! $page = Page::slug($uri)) {
         return Response::create(new Template('404'), 404);
     }
 
