@@ -13,7 +13,7 @@ Route::collection(array('before' => 'auth,csrf,install_exists'), function () {
 
         $pagination = new Paginator($pages, $total, $page, $perpage, $url);
 
-        $vars['messages'] = Notify::read();
+        
         $vars['pages'] = $pagination;
         $vars['status'] = 'all';
 
@@ -38,7 +38,7 @@ Route::collection(array('before' => 'auth,csrf,install_exists'), function () {
 
         $pagination = new Paginator($pages, $total, $page, $perpage, $url);
 
-        $vars['messages'] = Notify::read();
+        
         $vars['pages'] = $pagination;
         $vars['status'] = $status;
 
@@ -51,7 +51,7 @@ Route::collection(array('before' => 'auth,csrf,install_exists'), function () {
         Edit Page
     */
     Route::get('admin/pages/edit/(:num)', function ($id) {
-        $vars['messages'] = Notify::read();
+        
         $vars['token'] = Csrf::token();
         $vars['deletable'] = (Page::count() > 1) && (Page::home()->id != $id) && (Page::posts()->id != $id);
         $vars['page'] = Page::find($id);
@@ -146,7 +146,7 @@ Route::collection(array('before' => 'auth,csrf,install_exists'), function () {
         Add Page
     */
     Route::get('admin/pages/add', function () {
-        $vars['messages'] = Notify::read();
+        
         $vars['token'] = Csrf::token();
         $vars['pages'] = Page::dropdown(array('exclude' => array(), 'show_empty_option' => true));
 

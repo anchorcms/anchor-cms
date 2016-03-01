@@ -2,7 +2,7 @@
 
 <section class="login content">
 
-	<?php echo $messages; ?>
+	
 
 	<form method="post" action="<?php echo Uri::to('admin/amnesia'); ?>">
 		<input name="token" type="hidden" value="<?php echo $token; ?>">

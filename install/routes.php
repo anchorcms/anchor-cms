@@ -11,7 +11,7 @@ Route::action('check', function () {
     Start (Language Select)
 */
 Route::get(array('/', 'start'), array('before' => 'check', 'main' => function () {
-    $vars['messages'] = Notify::read();
+    
 
     $vars['languages'] = languages();
     $vars['prefered_languages'] = prefered_languages();
@@ -57,7 +57,7 @@ Route::get('database', array('before' => 'check', 'main' => function () {
         return Response::redirect('start');
     }
 
-    $vars['messages'] = Notify::read();
+    
     $vars['collations'] = array(
         'utf8_bin' => 'Unicode (multilingual), Binary',
         'utf8_czech_ci' => 'Czech, case-insensitive',
@@ -127,7 +127,7 @@ Route::get('metadata', array('before' => 'check', 'main' => function () {
         return Response::redirect('database');
     }
 
-    $vars['messages'] = Notify::read();
+    
     $vars['site_path'] = dirname(dirname($_SERVER['SCRIPT_NAME']));
     $vars['themes'] = Themes::all();
 
@@ -178,7 +178,7 @@ Route::get('account', array('before' => 'check', 'main' => function () {
         return Response::redirect('metadata');
     }
 
-    $vars['messages'] = Notify::read();
+    
 
     return Layout::create('account', $vars);
 }));

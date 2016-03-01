@@ -20,6 +20,8 @@
 	</head>
 	<body class="<?php echo Auth::guest() ? 'login' : 'admin'; ?> <?php echo str_replace('_', '-', Config::app('language')); ?>">
 
+		<?php echo Notify::read(); ?>
+
 		<header class="top">
 			<div class="wrap">
 				<?php if (Auth::user()): ?>

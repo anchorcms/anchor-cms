@@ -8,7 +8,7 @@
 	</article>
 
 	<form method="post" action="<?php echo Uri::to('metadata'); ?>" autocomplete="off">
-		<?php echo $messages; ?>
+		
 
 		<fieldset>
 			<p>

@@ -2,7 +2,7 @@
 
 <section class="login content">
 
-	<?php echo $messages; ?>
+	
 	<?php $user = filter_var(Input::previous('user'), FILTER_SANITIZE_STRING); ?>
 
 	<form method="post" action="<?php echo Uri::to('admin/login'); ?>">

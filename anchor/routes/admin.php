@@ -50,7 +50,7 @@ Route::get('admin/login', array('before' => 'guest', 'main' => function () {
     if (!Auth::guest()) {
         return Response::redirect('admin/posts');
     }
-    $vars['messages'] = Notify::read();
+    
     $vars['token'] = Csrf::token();
 
     return View::create('users/login', $vars)
@@ -90,7 +90,7 @@ Route::get('admin/logout', function () {
     Amnesia
 */
 Route::get('admin/amnesia', array('before' => 'guest', 'main' => function () {
-    $vars['messages'] = Notify::read();
+    
     $vars['token'] = Csrf::token();
 
     return View::create('users/amnesia', $vars)
@@ -141,7 +141,7 @@ Route::post('admin/amnesia', array('before' => 'csrf', 'main' => function () {
     Reset password
 */
 Route::get('admin/reset/(:any)', array('before' => 'guest', 'main' => function ($key) {
-    $vars['messages'] = Notify::read();
+    
     $vars['token'] = Csrf::token();
     $vars['key'] = ($token = Session::get('token'));
 
@@ -194,7 +194,7 @@ Route::post('admin/reset/(:any)', array('before' => 'csrf', 'main' => function (
     Upgrade
 */
 Route::get('admin/upgrade', function () {
-    $vars['messages'] = Notify::read();
+    
     $vars['token'] = Csrf::token();
 
     $version = Config::meta('update_version');
@@ -212,7 +212,7 @@ Route::get('admin/upgrade', function () {
     List extend
 */
 Route::get('admin/extend', array('before' => 'auth', 'main' => function ($page = 1) {
-    $vars['messages'] = Notify::read();
+    
     $vars['token'] = Csrf::token();
 
     return View::create('extend/index', $vars)

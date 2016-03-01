@@ -5,7 +5,7 @@
 </hgroup>
 
 <section class="wrap">
-	<?php echo $messages; ?>
+	
 	<?php if (Auth::admin()) : ?>
 
 	<form method="post" action="<?php echo Uri::to('admin/users/add'); ?>" novalidate autocomplete="off" enctype="multipart/form-data">

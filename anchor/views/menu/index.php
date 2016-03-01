@@ -5,7 +5,7 @@
 </hgroup>
 
 <section class="wrap">
-	<?php echo $messages; ?>
+	
 
 	<?php if (count($pages)): ?>
 	<ul class="sortable">

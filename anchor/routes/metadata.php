@@ -6,7 +6,7 @@ Route::collection(array('before' => 'auth,install_exists'), function () {
         List Metadata
     */
     Route::get('admin/extend/metadata', function () {
-        $vars['messages'] = Notify::read();
+        
         $vars['token'] = Csrf::token();
 
         $vars['meta'] = Config::get('meta');

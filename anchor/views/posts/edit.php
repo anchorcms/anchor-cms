@@ -6,7 +6,7 @@
 
 	<fieldset class="header">
 		<div class="wrap">
-			<?php echo $messages; ?>
+			
 
 			<?php echo Form::text('title', Input::previous('title', $article->title), array(
                 'placeholder' => __('posts.title'),

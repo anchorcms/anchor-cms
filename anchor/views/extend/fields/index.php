@@ -9,7 +9,7 @@
 </hgroup>
 
 <section class="wrap">
-	<?php echo $messages; ?>
+	
 
 	<?php if (count($extend->results)): ?>
 	<ul class="list">

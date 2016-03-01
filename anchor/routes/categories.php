@@ -6,7 +6,7 @@ Route::collection(array('before' => 'auth,csrf,install_exists'), function () {
         List Categories
     */
     Route::get(array('admin/categories', 'admin/categories/(:num)'), function ($page = 1) {
-        $vars['messages'] = Notify::read();
+        
         $vars['categories'] = Category::paginate($page, Config::get('admin.posts_per_page'));
 
         return View::create('categories/index', $vars)
@@ -18,7 +18,7 @@ Route::collection(array('before' => 'auth,csrf,install_exists'), function () {
         Edit Category
     */
     Route::get('admin/categories/edit/(:num)', function ($id) {
-        $vars['messages'] = Notify::read();
+        
         $vars['token'] = Csrf::token();
         $vars['category'] = Category::find($id);
 
@@ -68,7 +68,7 @@ Route::collection(array('before' => 'auth,csrf,install_exists'), function () {
         Add Category
     */
     Route::get('admin/categories/add', function () {
-        $vars['messages'] = Notify::read();
+        
         $vars['token'] = Csrf::token();
 
         // extended fields

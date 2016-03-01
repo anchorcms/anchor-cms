@@ -6,7 +6,7 @@ Route::collection(array('before' => 'auth,csrf,install_exists'), function () {
         List Fields
     */
     Route::get(array('admin/extend/fields', 'admin/extend/fields/(:num)'), function ($page = 1) {
-        $vars['messages'] = Notify::read();
+        
         $vars['token'] = Csrf::token();
         $vars['extend'] = Extend::paginate($page, Config::get('admin.posts_per_page'));
 
@@ -19,7 +19,7 @@ Route::collection(array('before' => 'auth,csrf,install_exists'), function () {
         Add Field
     */
     Route::get('admin/extend/fields/add', function () {
-        $vars['messages'] = Notify::read();
+        
         $vars['token'] = Csrf::token();
         $vars['types'] = Extend::$types;
 
@@ -103,7 +103,7 @@ Route::collection(array('before' => 'auth,csrf,install_exists'), function () {
         Edit Field
     */
     Route::get('admin/extend/fields/edit/(:num)', function ($id) {
-        $vars['messages'] = Notify::read();
+        
         $vars['token'] = Csrf::token();
         $vars['types'] = Extend::$types;
         $vars['fields'] = Extend::$field_types;

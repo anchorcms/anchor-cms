@@ -1,4 +1,6 @@
 input, textarea, button {
+	padding: 11px 16px;
+	background: #fff;
 	color: #4a525f;
 
 	font-size: 15px;
@@ -9,13 +11,9 @@ input, textarea, button {
 	border-radius: 5px;
 }
 
-input, button {
-	padding: 11px 16px;
-	background: #fff;
-}
-
-textarea {
+textarea[name="markdown"] {
 	background: transparent;
+	padding: 0px;
 }
 
 form nav a {

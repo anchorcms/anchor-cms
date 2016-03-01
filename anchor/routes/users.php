@@ -6,7 +6,7 @@ Route::collection(array('before' => 'auth,csrf,install_exists'), function () {
         List users
     */
     Route::get(array('admin/users', 'admin/users/(:num)'), function ($page = 1) {
-        $vars['messages'] = Notify::read();
+        
         $vars['users'] = User::paginate($page, Config::get('admin.posts_per_page'));
 
         return View::create('users/index', $vars)
@@ -18,7 +18,7 @@ Route::collection(array('before' => 'auth,csrf,install_exists'), function () {
         Edit user
     */
     Route::get('admin/users/edit/(:num)', function ($id) {
-        $vars['messages'] = Notify::read();
+        
         $vars['token'] = Csrf::token();
         $vars['user'] = User::find($id);
 
@@ -97,7 +97,7 @@ Route::collection(array('before' => 'auth,csrf,install_exists'), function () {
         Add user
     */
     Route::get('admin/users/add', function () {
-        $vars['messages'] = Notify::read();
+        
         $vars['token'] = Csrf::token();
 
         // extended fields

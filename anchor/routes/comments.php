@@ -13,7 +13,7 @@ Route::collection(array('before' => 'auth,csrf,install_exists'), function () {
         $results = $query->take($perpage)->skip(($page - 1) * $perpage)->sort('date', 'desc')->get();
 
         $vars['comments'] = new Paginator($results, $count, $page, $perpage, Uri::to('admin/comments'));
-        $vars['messages'] = Notify::read();
+        
 
         $vars['statuses'] = array(
             array('url' => '', 'lang' => 'global.all', 'class' => 'active'),
@@ -45,7 +45,7 @@ Route::collection(array('before' => 'auth,csrf,install_exists'), function () {
         $results = $query->take($perpage)->skip(($page - 1) * $perpage)->sort('date', 'desc')->get();
 
         $vars['comments'] = new Paginator($results, $count, $page, $perpage, Uri::to('admin/comments/' . $status));
-        $vars['messages'] = Notify::read();
+        
 
         $vars['status'] = $status;
         $vars['statuses'] = array(
@@ -64,7 +64,7 @@ Route::collection(array('before' => 'auth,csrf,install_exists'), function () {
         Edit Comment
     */
     Route::get('admin/comments/edit/(:num)', function ($id) {
-        $vars['messages'] = Notify::read();
+        
         $vars['token'] = Csrf::token();
         $vars['comment'] = Comment::find($id);
 

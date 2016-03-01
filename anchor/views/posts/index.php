@@ -11,7 +11,7 @@
 </hgroup>
 
 <section class="wrap">
-	<?php echo $messages; ?>
+	
 
 	<nav class="sidebar">
 		<nav class="statuses">

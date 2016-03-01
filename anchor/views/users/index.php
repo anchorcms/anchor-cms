@@ -11,7 +11,7 @@
 </hgroup>
 
 <section class="wrap">
-	<?php echo $messages; ?>
+	
 
 	<ul class="list">
 		<?php foreach ($users->results as $user): ?>

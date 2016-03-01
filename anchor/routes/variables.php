@@ -6,7 +6,7 @@ Route::collection(array('before' => 'auth,csrf,install_exists'), function () {
         List Vars
     */
     Route::get('admin/extend/variables', function () {
-        $vars['messages'] = Notify::read();
+        
         $vars['token'] = Csrf::token();
 
         $variables = array();
@@ -28,7 +28,7 @@ Route::collection(array('before' => 'auth,csrf,install_exists'), function () {
         Add Var
     */
     Route::get('admin/extend/variables/add', function () {
-        $vars['messages'] = Notify::read();
+        
         $vars['token'] = Csrf::token();
 
         return View::create('extend/variables/add', $vars)
@@ -77,7 +77,7 @@ Route::collection(array('before' => 'auth,csrf,install_exists'), function () {
         Edit Var
     */
     Route::get('admin/extend/variables/edit/(:any)', function ($key) {
-        $vars['messages'] = Notify::read();
+        
         $vars['token'] = Csrf::token();
         $vars['variable'] = Query::table(Base::table('meta'))->where('key', '=', $key)->fetch();
 

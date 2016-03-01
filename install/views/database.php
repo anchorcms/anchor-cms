@@ -8,7 +8,7 @@
 	</article>
 
 	<form method="post" action="<?php echo uri_to('database'); ?>" autocomplete="off">
-		<?php echo $messages; ?>
+		
 
 		<fieldset>
 			<p>

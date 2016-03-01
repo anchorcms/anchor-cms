@@ -5,7 +5,7 @@
 </hgroup>
 
 <section class="wrap">
-	<?php echo $messages; ?>
+	
 
 	<nav class="sidebar statuses">
 		<?php foreach ($statuses as $data): extract($data); ?>

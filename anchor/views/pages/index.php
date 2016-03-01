@@ -12,7 +12,7 @@
 </hgroup>
 
 <section class="wrap">
-	<?php echo $messages; ?>
+	
 
 	<nav class="sidebar statuses">
 		<?php echo Html::link('admin/pages', '<span class="icon"></span> ' . __('global.all'), array(

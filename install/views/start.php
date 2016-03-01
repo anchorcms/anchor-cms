@@ -10,7 +10,7 @@
 	</article>
 
 	<form method="post" action="<?php echo uri_to('start'); ?>" autocomplete="off">
-		<?php echo $messages; ?>
+		
 
 		<fieldset>
 			<p>

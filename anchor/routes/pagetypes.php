@@ -6,7 +6,7 @@ Route::collection(array('before' => 'auth,csrf,install_exists'), function () {
         List Vars
     */
     Route::get('admin/extend/pagetypes', function () {
-        $vars['messages'] = Notify::read();
+        
         $vars['token'] = Csrf::token();
 
         $vars['pagetypes'] = Query::table(Base::table('pagetypes'))->sort('key')->get();
@@ -20,7 +20,7 @@ Route::collection(array('before' => 'auth,csrf,install_exists'), function () {
         Add Var
     */
     Route::get('admin/extend/pagetypes/add', function () {
-        $vars['messages'] = Notify::read();
+        
         $vars['token'] = Csrf::token();
 
         return View::create('extend/pagetypes/add', $vars)
@@ -67,7 +67,7 @@ Route::collection(array('before' => 'auth,csrf,install_exists'), function () {
         Edit Var
     */
     Route::get('admin/extend/pagetypes/edit/(:any)', function ($key) {
-        $vars['messages'] = Notify::read();
+        
         $vars['token'] = Csrf::token();
 
         $vars['pagetype'] = Query::table(Base::table('pagetypes'))->where('key', '=', $key)->fetch();

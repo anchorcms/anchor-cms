@@ -6,7 +6,7 @@ Route::collection(array('before' => 'auth,install_exists'), function () {
         List Menu Items
     */
     Route::get('admin/menu', function () {
-        $vars['messages'] = Notify::read();
+        
         $vars['pages'] = Page::where('show_in_menu', '=', 1)->sort('menu_order')->get();
 
         return View::create('menu/index', $vars)
