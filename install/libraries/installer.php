@@ -154,8 +154,8 @@ class installer
                 'index' => (is_cgi() ? 'index.php?/$1' : 'index.php/$1')
             ));
 
-            if (isset($htaccess) and is_writable($filepath = PATH . '.htaccess')) {
-                file_put_contents($filepath, $htaccess);
+            if (isset($htaccess) and is_writable($filepath = PATH)) {
+                file_put_contents($filepath . '.htaccess', $htaccess);
             } else {
                 Session::put('htaccess', $htaccess);
             }
