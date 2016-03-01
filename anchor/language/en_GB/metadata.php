@@ -2,8 +2,8 @@
 
 return array(
 
-    'metadata' => 'Site Metadata',
-    'metadata_desc' => 'Manage your site data',
+    'metadata' => 'Site Settings',
+    'metadata_desc' => 'Manage your site settings',
 
     'comment_settings' => 'Comments',
     'theme_settings' => 'Appearance',
@@ -14,7 +14,7 @@ return array(
     'sitename_missing' => 'Your site needs a name!',
 
     'sitedescription' => 'Site description',
-    'sitedescription_explain' => '',
+    'sitedescription_explain' => 'A description of your site',
     'sitedescription_missing' => 'Your site needs a description!',
 
     'homepage' => 'Home Page',
@@ -36,8 +36,7 @@ return array(
     'comment_notifications_explain' => '',
 
     'comment_moderation_keys' => 'Spam keywords',
-    'comment_moderation_keys_explain' => 'Comma separated list of keywords to blacklist against.
-		Comments will automatically be set as spam.',
+    'comment_moderation_keys_explain' => 'Comma separated list of keywords to blacklist against. Comments will automatically be set as spam.',
 
     'current_theme' => 'Current theme',
     'current_theme_explain' => '',
