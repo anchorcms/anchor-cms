@@ -28,7 +28,7 @@
 				<?php echo Form::select('status', $statuses, Input::previous('status'), array('id' => 'label-status')); ?>
 				<em><?php echo __('users.status_explain'); ?></em>
 			</p>
-			<?php if(false) : ?>
+			<?php if (false) : ?>
 				<p>
 					<label for="label-role"><?php echo __('users.role'); ?>:</label>
 					<?php echo Form::select('role', $roles, Input::previous('role'), array('id' => 'label-role')); ?>

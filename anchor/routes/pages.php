@@ -239,7 +239,7 @@ Route::collection(array('before' => 'auth,csrf,install_exists'), function () {
         Extend::process('page', $id);
 
         // Notify::success(__('pages.created'));
-        
+
         return Response::json(array(
             'id'           => $id,
             'notification' => __('pages.created'),

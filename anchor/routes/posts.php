@@ -281,7 +281,7 @@ Route::collection(array('before' => 'auth,csrf,install_exists'), function () {
         Extend::process('post', $id);
 
         // Notify::success(__('posts.created'));
-        
+
         if (Input::get('autosave') === 'true') {
             return Response::json(array(
                 'id'           => $id,

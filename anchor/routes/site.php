@@ -296,7 +296,7 @@ Route::get('(:all)', function ($uri) {
     $page = false;
 
     if ($parts > 0) {
-        foreach($parts as $uri) {
+        foreach ($parts as $uri) {
             $last = $page;
 
             if (! $page = Page::slug($uri)) {
