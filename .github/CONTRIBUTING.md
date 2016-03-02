@@ -18,6 +18,9 @@ This may be the case if you've not followed our guidelines, your code does not d
 ### I've translated Anchor to 'X' language, how do I submit this?
 Translations should be submitted to the official [anchor-translations](https://github.com/anchorcms/anchor-translations) repo, please check this repo before you start incase the translation has already been made.
 
+### How to submit feature requests
+If you would like to add submit a feature request then please go to our [Feathub page](http://feathub.com/anchorcms/anchor-cms). If it's not already on the list then please add it and provide a description in the comments section. If it already exists then please give the existing entry a thumbs up. :+1:
+
 ### How to submit issues
 Please follow the below points:
 - Check if bug is consistent in different environments
