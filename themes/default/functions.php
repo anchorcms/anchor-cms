@@ -77,5 +77,5 @@ function twitter_url()
 
 function total_articles()
 {
-    return Post::where(Base::table('posts.status'), '=', 'published')->count();
+    return total_posts();
 }
