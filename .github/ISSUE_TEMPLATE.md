@@ -1,6 +1,7 @@
 ### Summary
 
-A brief but detailed explanation of the issue, bug or feature you are reporting.
+A brief but detailed explanation of the issue you are reporting.
+**Please note:** If you would like to add submit a feature request then please go to our [Feathub page](http://feathub.com/anchorcms/anchor-cms).
 
 ### Expected Behaviour
 
