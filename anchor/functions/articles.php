@@ -97,7 +97,7 @@ function article_html()
  */
 function article_markdown()
 {
-    return Registry::prop('article', 'html');
+    return Registry::prop('article', 'markdown');
 }
 
 /**
