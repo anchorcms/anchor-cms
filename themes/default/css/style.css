@@ -196,6 +196,9 @@ h1 {
 	.content  ul, .content ol, .items li ul {
 		padding: 20px 30px;
 	}
+	.content .items {
+		padding: 0;
+	}
 		.content ul ul, .content ol ol, .items li ul ul {
 			padding: 0 20px;
 		}
