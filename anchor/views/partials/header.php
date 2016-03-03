@@ -28,7 +28,10 @@
 				<nav>
 					<ul>
 						<li class="logo">
-							<a href="<?php echo Uri::to('admin/panel'); ?>">Anchor CMS</a>
+							<?php 
+								$page = in_array(Config::meta('dashboard_page'), array('panel', 'pages', 'posts')) ? Config::meta('dashboard_page') : 'panel';
+							?>
+							<a href="<?php echo Uri::to('admin/' . $page); ?>">Anchor CMS</a>
 						</li>
 
 						<?php $menu = array('posts', 'comments', 'pages', 'categories', 'users', 'extend'); ?>

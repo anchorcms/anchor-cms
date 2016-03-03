@@ -23,6 +23,9 @@ return array(
     'postspage' => 'Posts Page',
     'postspage_explain' => '',
 
+    'dashboard_page' => 'Dashboard Page',
+    'dashboard_page_explain' => 'Default dashboard page',
+
     'posts_per_page' => 'Posts per page',
     'posts_per_page_explain' => '',
 

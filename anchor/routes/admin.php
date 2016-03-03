@@ -38,7 +38,9 @@ Route::get('admin', function () {
     if (Auth::guest()) {
         return Response::redirect('admin/login');
     }
-    return Response::redirect('admin/panel');
+
+    $page = in_array(Config::meta('dashboard_page'), array('panel', 'pages', 'posts')) ? Config::meta('dashboard_page') : 'panel';
+    return Response::redirect('admin/' . $page);
 });
 
 /*
@@ -74,7 +76,8 @@ Route::post('admin/login', array('before' => 'csrf', 'main' => function () {
         return Response::redirect('admin/upgrade');
     }
 
-    return Response::redirect('admin/panel');
+    $page = in_array(Config::meta('dashboard_page'), array('panel', 'pages', 'posts')) ? Config::meta('dashboard_page') : 'panel';
+    return Response::redirect('admin/' . $page);
 }));
 
 /*

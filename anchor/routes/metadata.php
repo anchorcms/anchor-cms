@@ -9,6 +9,12 @@ Route::collection(array('before' => 'auth,install_exists'), function () {
         
         $vars['token'] = Csrf::token();
 
+        $vars['dashboard_page_options'] = array(
+            'panel' => 'Welcome',
+            'posts' => 'Posts',
+            'pages' => 'Pages',
+        );
+
         $vars['meta'] = Config::get('meta');
         $vars['pages'] = Page::dropdown();
         $vars['themes'] = Themes::all();
@@ -22,11 +28,15 @@ Route::collection(array('before' => 'auth,install_exists'), function () {
         Update Metadata
     */
     Route::post('admin/extend/metadata', function () {
-        $input = Input::get(array('sitename', 'description', 'home_page', 'posts_page',
-            'posts_per_page', 'auto_published_comments', 'theme', 'comment_notifications', 'comment_moderation_keys', 'show_all_posts'));
+        $input = Input::get(array(
+            'sitename', 'description', 'home_page', 'posts_page',
+            'posts_per_page', 'auto_published_comments', 'theme', 
+            'comment_notifications', 'comment_moderation_keys', 
+            'show_all_posts', 'dashboard_page'
+        ));
         
-        foreach ($input as $key => &$value) {
-            $value = eq($value);
+        foreach ($input as $key => $value) {
+            $input[$key] = eq($value);
         }
         
         $validator = new Validator($input);
@@ -52,9 +62,9 @@ Route::collection(array('before' => 'auth,install_exists'), function () {
         $input['sitename'] = e($input['sitename'], ENT_COMPAT);
         $input['description'] = e($input['description'], ENT_COMPAT);
 
-        foreach ($input as $key => $value) {
-            $value = is_null($value) ? 0 : $value;
-            Query::table(Base::table('meta'))->where('key', '=', $key)->update(array('value' => $value));
+        foreach ($input as $key => $v) {
+            $v = is_null($v) ? 0 : $v;            
+            Query::table(Base::table('meta'))->where('key', '=', $key)->update(array('value' => $v));
         }
 
         Notify::success(__('metadata.updated'));

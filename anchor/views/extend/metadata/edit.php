@@ -12,6 +12,18 @@
 		<input name="token" type="hidden" value="<?php echo $token; ?>">
 
 		<fieldset class="split">
+			<legend>Admin Settings</legend>
+			<p>
+				<label for="label-dashboard_page"><?php echo __('metadata.dashboard_page', 'Dashboard page'); ?></label>
+				<?php echo Form::select('dashboard_page', $dashboard_page_options, Input::previous('dashboard_page', $meta['dashboard_page']), array(
+                    'id' => 'label-dashboard_page',
+                    'placeholder' => __('metadata.dashboard_page_explain', 'Default dashboard page')
+                )); ?>
+			</p>
+		</fieldset>
+
+		<fieldset class="split">
+			<legend>Site Settings</legend>
 			<p>
 				<label for="label-sitename"><?php echo __('metadata.sitename'); ?>:</label>
 				<?php echo Form::text('sitename', Input::previous('sitename', $meta['sitename']), array('id' => 'label-sitename')); ?>
