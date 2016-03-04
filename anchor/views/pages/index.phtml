@@ -1,0 +1,49 @@
+
+<header>
+	<h2>Pages</h2>
+
+	<a class="btn" href="/admin/pages/create">Create a new page</a>
+
+	<div class="pull-right">
+		<form method="get" action="/admin/pages">
+			<p><input placeholder="Search pages&hellip;" name="search">
+				<button type="submit">Search</button></p>
+		</form>
+	</div>
+</header>
+
+<main class="grid">
+	<div class="grid-col grid-1-3">
+		<p>Filter by status</p>
+		<ul>
+			<li><a href="<?php echo url('/admin/pages'); ?>">All</a></li>
+			<?php foreach($statuses as $status => $title): ?>
+			<li><a href="/admin/pages?status=<?php echo $status; ?>"><?php echo $title; ?></a></li>
+			<?php endforeach; ?>
+		</ul>
+	</div>
+
+	<div class="grid-col grid-2-3">
+		<ul class="listing">
+			<?php foreach($pages as $page): ?>
+			<li>
+				<a href="<?php echo url('/admin/pages/'.$page->id.'/edit'); ?>"><?php echo $page->title; ?></a>
+
+				<span class="badge <?php echo $page->status; ?>"><?php echo ucwords($page->status); ?></span>
+
+				<dl>
+					<dt>Created by</dt>
+					<dd><a href="<?php echo url('/admin/users/'.$page->author); ?>">admin</a></dd>
+
+					<?php if($page->parent): ?>
+					<dt>Child of</dt>
+					<dd><a href="/admin/pages/<?php echo $page->parent; ?>/edit">Parent page</a></dd>
+					<?php endif; ?>
+				</dl>
+			</li>
+			<?php endforeach; ?>
+		</ul>
+
+		<?php echo $paging->links(); ?>
+	</div>
+</main>

@@ -28,7 +28,7 @@
 		{"type": "vcs", "url": "git@github.com:rwarasaurus/router.git"}
 	],
 	"require": {
-		"php": ">=5.5",
+		"php": ">=7",
 		"cebe/markdown": "1.1.*@dev",
 		"rwarasaurus/forms": "dev-master",
 		"rwarasaurus/validation": "dev-master",
@@ -52,7 +52,7 @@
 	},
 	"autoload": {
 		"psr-4": {
-			"": "app/src/"
+			"": "anchor/src/"
 		}
 	}
 }

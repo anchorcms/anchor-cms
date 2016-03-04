@@ -1,0 +1,18 @@
+
+<header>
+	<h2>Global Variables</h2>
+
+	<a class="btn" href="/admin/vars/create">Create a new global variable</a>
+</header>
+
+<main>
+	<ul class="listing">
+		<?php foreach($metadata as $meta): ?>
+		<li>
+			<a href="<?php echo url('/admin/vars/'.$meta->key.'/edit'); ?>"><?php echo $meta->key; ?></a>
+		</li>
+		<?php endforeach; ?>
+	</ul>
+
+	<?php echo $paging->links(); ?>
+</main>

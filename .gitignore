@@ -9,6 +9,8 @@
 
 # files
 .htaccess
+.vagrant
+.phpintel
 
 # development files
 /adminer.php
@@ -20,12 +22,7 @@ Icon?
 Thumbs.db
 
 # folders
-/plugins
 /web/content
+/app/config
 /vendor
 /bin
-app/config
-/themes
-!/themes/default
-.vagrant
-.phpintel

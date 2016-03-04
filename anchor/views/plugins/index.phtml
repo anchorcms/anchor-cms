@@ -1,0 +1,12 @@
+
+<header>
+	<h2>Plugins</h2>
+</header>
+
+<main>
+	<ul class="listing">
+		<?php foreach($plugins as $id => $plugin): ?>
+		<li><a href="<?php echo url('/admin/plugins/'.$id.'/edit'); ?>"><?php echo $plugin; ?></a></li>
+		<?php endforeach; ?>
+	</ul>
+</main>
