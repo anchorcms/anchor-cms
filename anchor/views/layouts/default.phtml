@@ -9,20 +9,58 @@
 		<link rel="stylesheet" href="/assets/css/main.css">
 	</head>
 	<body>
-		<nav>
-			<a href="/admin">Anchor CMS</a>
-			<ul>
-				<li><a href="/admin/posts">Posts</a></li>
-				<li><a href="/admin/pages">Pages</a></li>
-				<li><a href="/admin/categories">Categories</a></li>
-				<li><a href="/admin/users">Users</a></li>
-				<li><a href="/admin/fields">Custom Fields</a></li>
-				<li><a href="/admin/vars">Global Variables</a></li>
-				<li><a href="/admin/meta">Settings</a></li>
-				<li><a href="/admin/themes">Themes</a></li>
-				<li><a href="/admin/plugins">Plugins</a></li>
-			</ul>
+		<nav class="nav-header">
+			<div class="wrap">
+				<a class="nav-logo" href="/admin">
+					<svg x="0px" y="0px" width="24" height="24">
+						<path fill-rule="evenodd" clip-rule="evenodd" d="M23.965,11.622l0.004,4.392L22.26,15.3
+							C20.483,19.251,16.635,22,12,22c-4.635,0-8.482-2.749-10.259-6.7l-1.709,0.714l0.004-4.392c-0.072-0.267,0.087-0.541,0.354-0.612
+							l4.654,1.962l-1.646,1.329c1.324,3.052,4.161,5.248,7.603,5.614V7.858C9.278,7.413,8,5.862,8,4c0-2.209,1.791-4,4-4
+							c2.209,0,4,1.791,4,4c0,1.862-1.277,3.413-3,3.858v12.057c3.444-0.367,6.264-2.572,7.579-5.633l-1.623-1.311l4.656-1.962
+							C23.877,11.081,24.036,11.355,23.965,11.622z M14,4c0-1.104-0.896-2-2-2c-1.104,0-2,0.896-2,2s0.896,2,2,2C13.104,6,14,5.104,14,4z"
+							/>
+					</svg>
+				</a>
+				<ul class="nav-menu">
+					<li><a href="/admin/posts">Posts</a></li>
+					<li><a href="/admin/pages">Pages</a></li>
+					<li><a href="/admin/categories">Categories</a></li>
+					<li><a href="/admin/users">Users</a></li>
+					<li>
+						<span>Extend</span>
+						<ul>
+							<li><a href="/admin/fields">Custom Fields</a></li>
+							<li><a href="/admin/vars">Global Variables</a></li>
+							<li><a href="/admin/meta">Settings</a></li>
+							<li><a href="/admin/themes">Themes</a></li>
+							<li><a href="/admin/plugins">Plugins</a></li>
+						</ul>
+					</li>
+					<li><a href="/">Visit Site</a></li>
+					<li><a href="/admin/auth/logout">Logout</a></li>
+				</ul>
+				<script>
+					(function() {
+						var url = window.location.pathname;
+						var elements = document.querySelectorAll('.nav-menu a');
+						Array.prototype.forEach.call(elements, function(element, index) {
+							var href = element.getAttribute('href');
+							if(href.indexOf('/admin') === 0 && url.indexOf(href) === 0) {
+								element.classList.add('active');
+							}
+						});
+						var elements = document.querySelectorAll('.nav-menu li ul');
+						Array.prototype.forEach.call(elements, function(element, index) {
+							var parent = element.parentNode,
+								height = parseInt(parent.offsetHeight, 10);
+
+							element.style.top = height + 'px';
+						});
+					})();
+				</script>
+			</div>
 		</nav>
+
 		<?php echo $body; ?>
 	</body>
 </html>

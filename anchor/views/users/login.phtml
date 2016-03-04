@@ -1,26 +1,26 @@
-<?php echo $messages; ?>
 
-<div class="form">
+<main>
+	<?php echo $messages; ?>
+
 	<?php echo $form->open(); ?>
 
 		<?php echo $form->getElement('token')->getHtml(); ?>
 
 		<?php foreach($form->getElementsExcluding(['submit', 'token']) as $element): ?>
 
-		<p class="field<?php if($element->getType()) echo ' input'; ?> <?php echo $element->getAttribute('name'); ?>">
+		<p>
 			<?php if($element->hasLabel()): ?>
-				<label for="<?php echo $element->getAttribute('name'); ?>"><?php echo $element->getLabel(); ?></label>
+			<label for="<?php echo $element->getAttribute('name'); ?>"><?php echo $element->getLabel(); ?></label>
 			<?php endif; ?>
-
 			<?php echo $element->getHtml(); ?>
 		</p>
 
 		<?php endforeach; ?>
 
-		<p class="submit">
+		<p>
 			<?php echo $form->getElement('submit')->getHtml(); ?>
-			<a class="btn subdued" href="/admin/auth/amnesia">Forgot password?</a>
+			<a class="btn" href="/admin/auth/amnesia">Forgot password?</a>
 		</p>
 
 	<?php echo $form->close(); ?>
-</div>
+</main>

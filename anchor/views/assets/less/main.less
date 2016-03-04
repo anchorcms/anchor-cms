@@ -1,40 +1,138 @@
-// out: ../css/main.css, compress: true
+// out: ../css/main.css
 
-@white: #fff;
-@black: #444;
-@blue: #646486;
+@import url('colors.less');
+@import url('normalize.less');
+@import url('base.less');
+@import url('helpers.less');
+@import url('grid.less');
+@import url('buttons.less');
+@import url('forms.less');
 
-html {
-	box-sizing: border-box;
+.wrap {
+	.clearfix;
+	max-width: 1080px;
+	margin: 0 auto;
 }
 
-*, *:before, *:after {
-	box-sizing: inherit;
+.unstyled-list {
+	padding: 0;
+	list-style-type: none;
 }
 
-body {
-	font-family: sans-serif;
-	color: @black;
-	background: @white;
+.nav-header {
+	.clearfix;
+	background: @dark-blue;
+	padding: .8rem 0;
 }
 
-a {
-	color: @blue;
-	text-decoration: none;
+.nav-logo {
+	.pull-left;
+	padding: .3rem 1.2rem;
+
+	svg {
+		path {
+			fill: #7b8eaa;
+		}
+	}
 }
 
-@gutter: 1rem;
+.nav-menu {
+	.clearfix;
+	.unstyled-list;
+	.pull-left;
+	margin: 0 0 0 1rem;
 
-.grid-col {
-	float: left;
-	padding: 0 @gutter;
-	&.grid-1-2 { width: 50%; }
-	&.grid-2-3 { width: 66.666666%; }
-	&.grid-1-3 { width: 33.333333%; }
+	li {
+		.pull-left;
+		font-size: 13px;
+		position: relative;
+
+		ul {
+			display: none;
+			width: 200px;
+			position: absolute;
+			top: 0;
+			left: 0;
+
+			li {
+				float: none;
+			}
+		}
+
+		&:hover {
+			ul {
+				display: block;
+				.unstyled-list;
+				margin: 0;
+				background: lighten(@dark-blue, 10%);
+				border-radius: .3rem;
+			}
+		}
+
+		a, span {
+			display: block;
+			padding: .6rem 1.2rem;
+			color: #7b8eaa;
+			border-radius: .3rem;
+			font-weight: bold;
+			transition: color 500ms;
+			cursor: pointer;
+
+			&:hover {
+				color: #a4b4cb;
+			}
+
+			&.active {
+				color: @dark-blue;
+				background: #687993;
+			}
+		}
+	}
 }
 
-.grid {
-	overflow: hidden;
-	margin: 0 -@gutter / 2;
-	.grid-col { padding: 0 @gutter / 2; }
+.heading {
+	.clearfix;
+	margin: 2rem 0;
+
+	position: relative;
+
+	.button-group {
+		position: absolute;
+		top: 0;
+		right: 0;
+	}
+}
+
+.badge {
+	text-transform: uppercase;
+	background: #e2e5eb;
+	color: #848f9f;
+	padding: .2rem .4rem;
+	font-size: 85%;
+	display: inline-block;
+}
+
+.listing {
+	.unstyled-list;
+
+	li {
+		.clearfix;
+		position: relative;
+		padding: 0 1rem;
+		border-bottom: 1px solid darken(@light-blue, 5%);
+
+		&:hover {
+			background: #e7eaee;
+		}
+
+		a {
+			padding: 1rem 0;
+		}
+
+		.badge {
+			position: absolute;
+			top: 1rem;
+			right: 0;
+		}
+	}
 }

@@ -1,18 +1,22 @@
 
-<header>
-	<h2>Custom Fields</h2>
+<div class="wrap">
+	<header class="heading">
+		<h2>Custom Fields</h2>
 
-	<a class="btn" href="/admin/fields/create">Create a new custom field</a>
-</header>
+		<div class="button-group">
+			<p><a class="btn primary" href="/admin/fields/create">Create a new custom field</a></p>
+		</div>
+	</header>
 
-<main>
-	<ul class="listing">
-		<?php foreach($fields as $field): ?>
-		<li>
-			<a href="<?php echo url('/admin/fields/'.$field->id.'/edit'); ?>"><?php echo $field->label; ?></a>
-		</li>
-		<?php endforeach; ?>
-	</ul>
+	<main>
+		<ul class="listing">
+			<?php foreach($fields as $field): ?>
+			<li>
+				<a href="<?php echo url('/admin/fields/'.$field->id.'/edit'); ?>"><?php echo $field->label; ?></a>
+			</li>
+			<?php endforeach; ?>
+		</ul>
 
-	<?php echo $paging->links(); ?>
-</main>
+		<?php echo $paging->links(); ?>
+	</main>
+</div>

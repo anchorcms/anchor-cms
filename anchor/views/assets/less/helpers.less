@@ -1,0 +1,14 @@
+// main: main.less
+
+.clearfix {
+	&:before, &:after {
+		content: ' ';
+		display: table;
+		clear: both;
+	}
+}
+
+.pull-left { float: left; }
+.pull-right { float: right; }
+
+.quiet { color: lighten(@blue, 20%); }

@@ -1,27 +1,23 @@
 
-<header>
-	<h2>Users</h2>
+<div class="wrap">
+	<header class="heading">
+		<h2>Users</h2>
 
-	<a class="btn" href="/admin/users/create">Create a new user</a>
+		<div class="button-group">
+			<p><a class="btn primary" href="/admin/users/create">Create a new user</a></p>
+		</div>
+	</header>
 
-	<div class="pull-right">
-		<form method="get" action="/admin/users">
-			<p><input placeholder="Search users&hellip;" name="search">
-				<button type="submit">Search</button></p>
-		</form>
-	</div>
-</header>
+	<main>
+		<ul class="listing">
+			<?php foreach($users as $user): ?>
+			<li>
+				<h3><a href="<?php echo url('/admin/users/'.$user->id.'/edit'); ?>"><?php echo $user->real_name; ?></a></h3>
+				<span class="badge <?php echo $user->role; ?>"><?php echo ucwords($user->role); ?></span>
+			</li>
+			<?php endforeach; ?>
+		</ul>
 
-<main>
-	<ul class="listing">
-		<?php foreach($users as $user): ?>
-		<li>
-			<a href="<?php echo url('/admin/users/'.$user->id.'/edit'); ?>"><?php echo $user->real_name; ?></a>
-
-			<span class="badge <?php echo $user->role; ?>"><?php echo ucwords($user->role); ?></span>
-		</li>
-		<?php endforeach; ?>
-	</ul>
-
-	<?php echo $paging->links(); ?>
-</main>
+		<?php echo $paging->links(); ?>
+	</main>
+</div>

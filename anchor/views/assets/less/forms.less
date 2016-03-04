@@ -1,0 +1,19 @@
+// main: main.less
+
+:focus {
+	outline: none;
+}
+
+label {
+	display: block;
+	padding: .2rem 0;
+}
+
+input:not([type="radio"]):not([type="checkbox"]):not([type="range"]) {
+	background: @white;
+	color: @black;
+	border: 1px solid darken(@light-blue, 10%);
+	padding: .8rem;
+	display: inline-block;
+	vertical-align: middle;
+}

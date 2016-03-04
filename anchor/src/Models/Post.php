@@ -4,15 +4,13 @@ namespace Models;
 
 class Post extends Model {
 
+	use Traits\Dates;
+
 	protected $meta;
 
 	protected $author;
 
 	protected $category;
-
-	public function getDate($format = 'jS M, Y') {
-		return \DateTime::createFromFormat('Y-m-d H:i:s', $this->created)->format($format);
-	}
 
 	public function setMeta(array $meta) {
 		$this->meta = $meta;

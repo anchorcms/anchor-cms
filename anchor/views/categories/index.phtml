@@ -1,18 +1,22 @@
 
-<header>
-	<h2>Categories</h2>
+<div class="wrap">
+	<header class="heading">
+		<h2>Categories</h2>
 
-	<a class="btn" href="/admin/categories/create">Create a new category</a>
-</header>
+		<div class="button-group">
+			<p><a class="btn" href="/admin/categories/create">Create a new category</a></p>
+		</div>
+	</header>
 
-<main>
-	<ul class="listing">
-		<?php foreach($categories as $category): ?>
-		<li>
-			<a href="<?php echo url('/admin/categories/'.$category->id.'/edit'); ?>"><?php echo $category->title; ?></a>
-		</li>
-		<?php endforeach; ?>
-	</ul>
+	<main>
+		<ul class="listing">
+			<?php foreach($categories as $category): ?>
+			<li>
+				<h3><a href="<?php echo url('/admin/categories/'.$category->id.'/edit'); ?>"><?php echo $category->title; ?></a></h3>
+			</li>
+			<?php endforeach; ?>
+		</ul>
 
-	<?php echo $paging->links(); ?>
-</main>
+		<?php echo $paging->links(); ?>
+	</main>
+</div>

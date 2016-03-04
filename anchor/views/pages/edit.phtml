@@ -1,10 +1,11 @@
+<div class="wrap">
+	<header class="heading">
+		<h2><?php echo $title; ?></h2>
+	</header>
 
-<header>
-	<h2><?php echo $title; ?></h2>
-</header>
+	<?php echo $messages; ?>
 
-<?php echo $messages; ?>
-
-<main>
-	<?php echo $this->render('partials/form', ['form' => $form]); ?>
-</main>
+	<main>
+		<?php echo $this->render('partials/form', ['form' => $form]); ?>
+	</main>
+</div>
