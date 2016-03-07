@@ -2,10 +2,12 @@
 
 html {
 	box-sizing: border-box;
+	height: 100%;
 }
 
 *, *:before, *:after {
 	box-sizing: inherit;
+	-webkit-font-smoothing: antialiased;
 }
 
 body {
@@ -13,6 +15,12 @@ body {
 	color: @black;
 	background: @light-blue;
 	font-size: 14px;
+	height: 100%;
+	transform-style: preserve-3d;
+
+	&.login {
+		background: @dark-blue;
+	}
 }
 
 a {

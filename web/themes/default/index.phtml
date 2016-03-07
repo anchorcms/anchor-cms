@@ -14,7 +14,7 @@
 				</a>
 			</h1>
 
-			<small>Posted by <?php echo $content->getAuthor()->getName(); ?> <em>on the <?php echo $content->getDate('dS M Y'); ?></em></small>
+			<small>Posted by <?php echo $content->getAuthor()->getName(); ?> <em>on the <?php echo $content->getRelativeModifiedDate(); ?></em></small>
 		</hgroup>
 
 		<div class="article-excerpt">

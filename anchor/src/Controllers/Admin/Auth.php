@@ -21,7 +21,7 @@ class Auth extends Backend {
 
 		$vars['form'] = $form;
 
-		return $this->renderTemplate('layouts/login', 'users/login', $vars);
+		return $this->renderTemplate('layouts/minimal', 'users/login', $vars);
 	}
 
 	public function postAttempt() {
@@ -109,7 +109,7 @@ class Auth extends Backend {
 
 		$vars['form'] = $form;
 
-		return $this->renderTemplate('layouts/login', 'users/amnesia', $vars);
+		return $this->renderTemplate('layouts/minimal', 'users/amnesia', $vars);
 	}
 
 }

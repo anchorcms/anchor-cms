@@ -9,11 +9,24 @@ label {
 	padding: .2rem 0;
 }
 
-input:not([type="radio"]):not([type="checkbox"]):not([type="range"]) {
+input:not([type="radio"]):not([type="checkbox"]):not([type="range"]), textarea {
 	background: @white;
 	color: @black;
 	border: 1px solid darken(@light-blue, 10%);
 	padding: .8rem;
-	display: inline-block;
+	display: block;
+	width: 100%;
 	vertical-align: middle;
+	border-radius: .3rem;
+}
+
+textarea {
+	resize: vertical;
+}
+
+form.inline {
+	input:not([type="radio"]):not([type="checkbox"]):not([type="range"]) {
+		display: inline-block;
+		width: auto;
+	}
 }

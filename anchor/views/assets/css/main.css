@@ -355,17 +355,24 @@ th {
 }
 html {
   box-sizing: border-box;
+  height: 100%;
 }
 *,
 *:before,
 *:after {
   box-sizing: inherit;
+  -webkit-font-smoothing: antialiased;
 }
 body {
   font-family: 'Helvetica Neue', 'Open Sans', 'DejaVu Sans', 'Arial', sans-serif;
   color: #444444;
   background: #eceef1;
   font-size: 14px;
+  height: 100%;
+  transform-style: preserve-3d;
+}
+body.login {
+  background: #444f5f;
 }
 a {
   color: #646486;
@@ -442,13 +449,23 @@ label {
   display: block;
   padding: .2rem 0;
 }
-input:not([type="radio"]):not([type="checkbox"]):not([type="range"]) {
+input:not([type="radio"]):not([type="checkbox"]):not([type="range"]),
+textarea {
   background: #ffffff;
   color: #444444;
   border: 1px solid #cfd4db;
   padding: .8rem;
-  display: inline-block;
+  display: block;
+  width: 100%;
   vertical-align: middle;
+  border-radius: .3rem;
+}
+textarea {
+  resize: vertical;
+}
+form.inline input:not([type="radio"]):not([type="checkbox"]):not([type="range"]) {
+  display: inline-block;
+  width: auto;
 }
 .wrap {
   max-width: 1080px;
@@ -459,6 +476,14 @@ input:not([type="radio"]):not([type="checkbox"]):not([type="range"]) {
   content: ' ';
   display: table;
   clear: both;
+}
+.wrap.narrow {
+  max-width: 340px;
+}
+.wrap.valign {
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
 }
 .unstyled-list {
   padding: 0;
@@ -478,7 +503,7 @@ input:not([type="radio"]):not([type="checkbox"]):not([type="range"]) {
   float: left;
   padding: .3rem 1.2rem;
 }
-.nav-logo svg path {
+svg path {
   fill: #7b8eaa;
 }
 .nav-menu {
@@ -550,6 +575,9 @@ input:not([type="radio"]):not([type="checkbox"]):not([type="range"]) {
   top: 0;
   right: 0;
 }
+footer {
+  color: #7d8693;
+}
 .badge {
   text-transform: uppercase;
   background: #e2e5eb;
@@ -583,4 +611,36 @@ input:not([type="radio"]):not([type="checkbox"]):not([type="range"]) {
   position: absolute;
   top: 1rem;
   right: 0;
+}
+.msg {
+  padding: .6rem .8rem;
+  margin: 1rem 0;
+  background: #ffffff;
+  border-radius: .3rem;
+}
+.msg.error {
+  border-left: 0.6rem solid #d34937;
+}
+.msg.success {
+  border-left: 0.6rem solid #6aad28;
+}
+.content-title {
+  background: #ffffff;
+  padding: 1rem 0;
+}
+.content-title input:not([type="radio"]):not([type="checkbox"]):not([type="range"]) {
+  border: none;
+  font-size: 200%;
+}
+.content-editor {
+  margin: 1rem 0;
+}
+.content-editor textarea {
+  font-family: monospace;
+  border: none;
+  background: transparent;
+  min-height: 20rem;
+}
+.highlight {
+  background: #ccd2d9;
 }
