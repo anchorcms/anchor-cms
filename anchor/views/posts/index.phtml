@@ -11,20 +11,22 @@
 					<a class="btn primary" href="/admin/posts/create">Create a new post</a></p>
 			</form>
 		</div>
+
+		<?php echo $messages; ?>
 	</header>
 
 	<main class="grid">
 		<div class="grid-col grid-1-4">
-			<p>Filter by status</p>
-			<ul>
+			<p class="upper small quiet">Filter by status</p>
+			<ul class="unstyled-list padded-list">
 				<li><a href="<?php echo url('/admin/posts'); ?>">All</a></li>
 				<?php foreach($statuses as $status => $title): ?>
 				<li><a href="/admin/posts?status=<?php echo $status; ?>"><?php echo $title; ?></a></li>
 				<?php endforeach; ?>
 			</ul>
 
-			<p>Filter by categories</p>
-			<ul>
+			<p class="upper small quiet">Filter by categories</p>
+			<ul class="unstyled-list padded-list">
 				<?php foreach($categories as $category): ?>
 				<li><a href="/admin/posts?category=<?php echo $category->id; ?>"><?php echo $category->title; ?></a></li>
 				<?php endforeach; ?>
@@ -32,6 +34,9 @@
 		</div>
 
 		<div class="grid-col grid-3-4">
+			<?php if(empty($posts)): ?>
+			<p class="text-center quiet empty">No Posts Found.</p>
+			<?php else: ?>
 			<ul class="listing">
 				<?php foreach($posts as $post): ?>
 				<li>
@@ -41,6 +46,7 @@
 				</li>
 				<?php endforeach; ?>
 			</ul>
+			<?php endif; ?>
 
 			<?php echo $paging->links(); ?>
 		</div>

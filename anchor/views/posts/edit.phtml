@@ -7,7 +7,7 @@
 		<div class="wrap">
 			<?php echo $messages; ?>
 
-			<?php $element = $form->getElement('title'); echo $element->withAttributes(['placeholder' => $element->getLabel()])->getHtml(); ?>
+			<?php $element = $form->getElement('title'); echo $element->withValue(e($element->getValue()))->withAttributes(['placeholder' => $element->getLabel()])->getHtml(); ?>
 		</div>
 	</header>
 
@@ -34,7 +34,8 @@
 	</div>
 
 	<div class="wrap">
-		<p><?php echo $form->getElement('submit')->withAttributes(['class' => 'btn primary'])->getHtml(); ?></p>
+		<p><?php echo $form->getElement('submit')->withAttributes(['class' => 'btn primary'])->getHtml(); ?>
+			<a class="btn danger" data-confirm="Are you sure?" href="/admin/posts/<?php echo $post->id; ?>/delete">Permanatly Delete</a></p>
 	</div>
 
 <?php echo $form->close(); ?>

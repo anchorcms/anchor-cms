@@ -1,0 +1,78 @@
+// main: main.less
+
+.nav {
+	.clearfix;
+	.unstyled-list;
+
+	&-item {
+		.pull-left;
+		font-size: 95%;
+		position: relative;
+		padding: 0 .4rem;
+
+		&--right {
+			.pull-right;
+		}
+
+		&:hover {
+			.nav-sub {
+				display: block;
+			}
+		}
+	}
+
+	&-link {
+		display: block;
+		padding: .6rem 1.2rem;
+		color: #7b8eaa;
+		border-radius: .3rem;
+		font-weight: bold;
+		transition: color 500ms, background 500ms;
+		cursor: pointer;
+
+		&:hover {
+			color: #a4b4cb;
+		}
+
+		&--active {
+			color: @dark-blue;
+			background: #687993;
+
+			&:hover {
+				color: @dark-blue;
+			}
+		}
+
+		&--darken {
+			background: #38414f;
+
+			&:hover {
+				background: #2f3744;
+			}
+		}
+	}
+
+	&-logo {
+		padding-top: .5rem;
+		display: block;
+	}
+}
+
+.nav-sub {
+	.unstyled-list;
+	.hidden;
+	position: absolute;
+	width: 140px;
+	background: @white;
+	border-radius: .3rem;
+	z-index: 100;
+
+	&-item {
+
+	}
+
+	&-link {
+		display: block;
+		padding: .6rem;
+	}
+}

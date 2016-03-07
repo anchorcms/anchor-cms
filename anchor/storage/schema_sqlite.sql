@@ -8,7 +8,7 @@ CREATE TABLE "{prefix}categories" (
 
 CREATE INDEX "{prefix}categories_slug" ON "{prefix}categories" ("slug");
 
-CREATE TABLE "{prefix}extend" (
+CREATE TABLE "{prefix}custom_fields" (
 	"id" INTEGER NOT NULL PRIMARY KEY,
 	"type" TEXT NOT NULL,
 	"field" TEXT NOT NULL,
@@ -17,7 +17,7 @@ CREATE TABLE "{prefix}extend" (
 	"attributes" TEXT NOT NULL
 );
 
-CREATE INDEX "{prefix}extend_type" ON "{prefix}extend" ("type");
+CREATE INDEX "{prefix}custom_fields_type" ON "{prefix}custom_fields" ("type");
 
 CREATE TABLE "{prefix}meta" (
 	"key" TEXT NOT NULL PRIMARY KEY,
@@ -54,11 +54,11 @@ CREATE INDEX "{prefix}pages_status" ON "{prefix}pages" ("status");
 CREATE TABLE "{prefix}post_meta" (
 	"id" INTEGER NOT NULL PRIMARY KEY,
 	"post" INTEGER NOT NULL,
-	"extend" INTEGER NOT NULL,
+	"custom_field_id" INTEGER NOT NULL,
 	"data" TEXT NOT NULL
 );
 
-CREATE INDEX "{prefix}post_meta_extend" ON "{prefix}post_meta" ("extend");
+CREATE INDEX "{prefix}post_meta_custom_field_id" ON "{prefix}post_meta" ("custom_field_id");
 CREATE INDEX "{prefix}post_meta_post" ON "{prefix}post_meta" ("post");
 
 CREATE TABLE "{prefix}posts" (

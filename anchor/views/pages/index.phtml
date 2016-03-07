@@ -4,18 +4,14 @@
 		<h2>Pages</h2>
 
 		<div class="button-group">
-			<form class="inline" method="get" action="/admin/pages">
-				<p><input placeholder="Search pages&hellip;" name="search">
-					<button class="btn" type="submit">Search</button>
-					<a class="btn primary" href="/admin/pages/create">Create a new page</a></p>
-			</form>
+			<p><a class="btn primary" href="/admin/pages/create">Create a new page</a></p>
 		</div>
 	</header>
 
 	<main class="grid">
 		<div class="grid-col grid-1-4">
-			<p>Filter by status</p>
-			<ul>
+			<p class="upper small quiet">Filter by status</p>
+			<ul class="unstyled-list padded-list">
 				<li><a href="<?php echo url('/admin/pages'); ?>">All</a></li>
 				<?php foreach($statuses as $status => $title): ?>
 				<li><a href="/admin/pages?status=<?php echo $status; ?>"><?php echo $title; ?></a></li>
@@ -24,6 +20,9 @@
 		</div>
 
 		<div class="grid-col grid-3-4">
+			<?php if(empty($pages)): ?>
+			<p class="text-center quiet empty">No Pages Found.</p>
+			<?php else: ?>
 			<ul class="listing">
 				<?php foreach($pages as $page): ?>
 				<li>
@@ -32,8 +31,7 @@
 				</li>
 				<?php endforeach; ?>
 			</ul>
-
-			<?php echo $paging->links(); ?>
+			<?php endif; ?>
 		</div>
 	</main>
 </div>

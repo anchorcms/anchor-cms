@@ -1,12 +1,17 @@
 
-<header>
-	<h2>Plugins</h2>
-</header>
+<div class="wrap">
+	<header class="heading">
+		<h2>Plugins</h2>
+	</header>
 
-<main>
-	<ul class="listing">
-		<?php foreach($plugins as $id => $plugin): ?>
-		<li><a href="<?php echo url('/admin/plugins/'.$id.'/edit'); ?>"><?php echo $plugin; ?></a></li>
-		<?php endforeach; ?>
-	</ul>
-</main>
+	<main>
+		<ul class="listing">
+			<?php foreach($plugins as $id => $plugin): ?>
+			<li>
+				<h3><a href="<?php echo url('/admin/plugins/'.$id.'/edit'); ?>"><?php echo $plugin; ?></a></h3>
+				<span class="badge">Disabled</span>
+			</li>
+			<?php endforeach; ?>
+		</ul>
+	</main>
+</div>

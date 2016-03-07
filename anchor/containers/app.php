@@ -52,6 +52,9 @@ return [
 	'markdown' => function() {
 		return new cebe\markdown\Markdown();
 	},
+	'slugify' => function() {
+		return new Slugify;
+	},
 	'view' => function($app) {
 		return new View($app['paths']['views']);
 	},

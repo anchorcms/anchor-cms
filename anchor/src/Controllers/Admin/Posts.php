@@ -82,7 +82,7 @@ class Posts extends Backend {
 		}
 
 		$now = date('Y-m-d H:i:s');
-		$slug = preg_replace('#\s+#', '-', $input['slug'] ?: $input['title']);
+		$slug = $this->slugify->parse($input['slug'] ?: $input['title']);
 		$html = $this->markdown->parse($input['content']);
 		$user = $this->session->get('user');
 
@@ -161,7 +161,7 @@ class Posts extends Backend {
 		}
 
 		$now = date('Y-m-d H:i:s');
-		$slug = preg_replace('#\s+#', '-', $input['slug'] ?: $input['title']);
+		$slug = $this->slugify->parse($input['slug'] ?: $input['title']);
 		$html = $this->markdown->parse($input['content']);
 
 		$this->posts->where('id', '=', $post->id)->update([
@@ -182,6 +182,19 @@ class Posts extends Backend {
 
 		$this->messages->success('Post updated');
 		return $this->response->withHeader('location', $this->url->to(sprintf('/admin/posts/%d/edit', $id)));
+	}
+
+	public function getDelete($request) {
+		$id = $request->getAttribute('id');
+		$post = $this->posts->where('id', '=', $id)->fetch();
+
+		if( ! $post) return $this->redirect('/admin/posts');
+
+		$this->posts->where('id', '=', $post->id)->delete();
+		$this->postmeta->where('post', '=', $post->id)->delete();
+
+		$this->messages->success('Post deleted');
+		return $this->redirect('/admin/posts');
 	}
 
 }

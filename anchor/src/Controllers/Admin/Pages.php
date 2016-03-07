@@ -6,28 +6,22 @@ class Pages extends Backend {
 
 	public function getIndex($request) {
 		$input = filter_var_array($request->getQueryParams(), [
-			'page' => FILTER_SANITIZE_NUMBER_INT,
 			'status' => FILTER_SANITIZE_STRING,
-			'search' => FILTER_SANITIZE_STRING,
 		]);
 
-		$total = $this->pages->filter($input)->count();
+		$query = $this->pages->sort('name');
 
-		$perpage = $this->meta->key('admin_posts_per_page', 10);
-		$pages = $this->pages->filter($input)->sort('title', 'asc')->take($perpage);
+		$statuses = ['published' => 'Published', 'draft' => 'Draft', 'archived' => 'Archived'];
 
-		if($input['page']) {
-			$offset = ($input['page'] - 1) * $perpage;
-			$pages->skip($offset);
+		if(array_key_exists($input['status'], $statuses)) {
+			$query->where('status', '=', $input['status']);
 		}
 
-		$paging = new \Paginator($this->url->to('/admin/pages'), $input['page'], $total, $perpage, $input);
+		$pages = $query->get();
 
 		$vars['title'] = 'Pages';
-		$vars['pages'] = $pages->get();
-		$vars['paging'] = $paging;
-		$vars['statuses'] = ['published' => 'Published', 'draft' => 'Draft', 'archived' => 'Archived'];
-		$vars['filters'] = $input;
+		$vars['statuses'] = $statuses;
+		$vars['pages'] = $pages;
 
 		return $this->renderTemplate('layouts/default', 'pages/index', $vars);
 	}
