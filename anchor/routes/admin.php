@@ -11,7 +11,7 @@ Route::action('auth', function () {
 
 Route::action('guest', function () {
     if (Auth::user()) {
-        return Response::redirect('admin/post');
+        return Response::redirect('admin/panel');
     }
 });
 
