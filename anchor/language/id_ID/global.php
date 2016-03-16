@@ -57,7 +57,7 @@ return array(
     // phrases
     'visit_your_site' => 'Kunjungi situs Anda',
     'powered_by_anchor' => 'Diberdayakan dengan Anchor, versi %s',
-    'make_blogging_beautiful' => 'Membuat <em>blogging</em> menjadi indah',
+    'make_blogging_beautiful' => 'Membuat ngeblog menjadi indah.',
 
     // intro
     'welcome_to_anchor' => 'Selamat datang di Anchor',
