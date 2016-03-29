@@ -1,8 +1,19 @@
 
 $script = <<SCRIPT
+wget https://www.dotdeb.org/dotdeb.gpg
+apt-key add dotdeb.gpg
+echo '
+deb http://packages.dotdeb.org jessie all
+deb-src http://packages.dotdeb.org jessie all
+' > /etc/apt/sources.list.d/dotdeb.list
+apt-key adv --keyserver keyserver.ubuntu.com --recv-keys C300EE8C
+echo '
+deb http://nginx.org/packages/debian/ jessie nginx
+deb-src http://nginx.org/packages/debian/ jessie nginx
+' > /etc/apt/sources.list.d/nginx.list
 apt-get -q update
 apt-get -y -q upgrade
-apt-get -y -q install dkms nginx php5-fpm php5-sqlite php5-mysqlnd php5-imagick php5-curl
+apt-get -y -q install dkms nginx php7.0-fpm php7.0-sqlite php7.0-mysqlnd php7.0-imagick php7.0-curl
 echo '
 server {
 	listen 80 default_server;
