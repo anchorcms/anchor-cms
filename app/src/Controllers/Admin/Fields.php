@@ -9,45 +9,40 @@ class Fields extends Backend {
 			'page' => FILTER_SANITIZE_NUMBER_INT,
 		]);
 
-		$total = $this->extend->count();
+		$total = $this->container['mappers.customFields']->count();
 
-		$perpage = $this->meta->key('admin_posts_per_page', 10);
-		$fields = $this->extend->sort('key', 'asc')->take($perpage);
+		$perpage = $this->container['mappers.meta']->key('admin_posts_per_page', 10);
+		$fields = $this->container['mappers.customFields']->sort('key', 'asc')->take($perpage);
 
 		if($input['page']) {
 			$offset = ($input['page'] - 1) * $perpage;
 			$fields->skip($offset);
 		}
 
-		$paging = new \Paginator($this->url->to('/admin/fields'), $input['page'], $total, $perpage, $input);
+		$paging = new \Paginator($this->container['url']->to('/admin/fields'), $input['page'], $total, $perpage, $input);
 
 		$vars['title'] = 'Custom Fields';
 		$vars['fields'] = $fields->get();
 		$vars['paging'] = $paging;
-		$vars['form'] = $this->createForm();
 
 		return $this->renderTemplate('layouts/default', 'fields/index', $vars);
 	}
 
 	public function getCreate() {
-		$vars['title'] = 'Creating a new custom field';
-		$vars['form'] = $this->createForm();
-
-		return $this->renderTemplate('layouts/default', 'fields/create', $vars);
-	}
-
-	protected function createForm() {
 		$form = new \Forms\CustomField([
 			'method' => 'post',
-			'action' => $this->url->to('/admin/fields/save'),
+			'action' => $this->container['url']->to('/admin/fields/save'),
 		]);
 		$form->init();
-		$form->getElement('token')->setValue($this->csrf->token());
+		$form->getElement('_token')->setValue($this->container['csrf']->token());
 
 		// re-populate submitted data
-		$form->setValues($this->session->getFlash('input', []));
+		$form->setValues($this->container['session']->getFlash('input', []));
 
-		return $form;
+		$vars['title'] = 'Creating a new custom field';
+		$vars['form'] = $form;
+
+		return $this->renderTemplate('layouts/default', 'fields/create', $vars);
 	}
 
 	public function postSave() {
@@ -55,17 +50,17 @@ class Fields extends Backend {
 		$form->init();
 
 		$input = filter_input_array(INPUT_POST, $form->getFilters());
-		$validator = $this->validation->create($input, $form->getRules());
+		$validator = $this->container['validation']->create($input, $form->getRules());
 
-		$validator->addRule(new \Forms\ValidateToken($this->csrf->token()), 'token');
+		$validator->addRule(new \Forms\ValidateToken($this->container['csrf']->token()), '_token');
 
 		if(false === $validator->isValid()) {
-			$this->messages->error($validator->getMessages());
-			$this->session->putFlash('input', $input);
-			return $this->response->withHeader('location', $this->url->to('/admin/fields/create'));
+			$this->container['messages']->error($validator->getMessages());
+			$this->container['session']->putFlash('input', $input);
+			return $this->redirect($this->container['url']->to('/admin/fields/create'));
 		}
 
-		$id = $this->extend->insert([
+		$id = $this->container['mappers.customFields']->insert([
 			'type' => $input['type'],
 			'field' => $input['field'],
 			'key' => $input['key'],
@@ -73,26 +68,26 @@ class Fields extends Backend {
 			'attributes' => '{}',
 		]);
 
-		$this->messages->success('Custom field created');
-		return $this->response->withHeader('location', $this->url->to(sprintf('/admin/fields/%d/edit', $id)));
+		$this->container['messages']->success('Custom field created');
+		return $this->redirect($this->container['url']->to(sprintf('/admin/fields/%d/edit', $id)));
 	}
 
 	public function getEdit($request) {
 		$id = $request->getAttribute('id');
-		$field = $this->extend->where('id', '=', $id)->fetch();
+		$field = $this->container['mappers.customFields']->where('id', '=', $id)->fetch();
 
 		$form = new \Forms\CustomField([
 			'method' => 'post',
-			'action' => $this->url->to(sprintf('/admin/fields/%d/update', $field->id)),
+			'action' => $this->container['url']->to(sprintf('/admin/fields/%d/update', $field->id)),
 		]);
 		$form->init();
-		$form->getElement('token')->setValue($this->csrf->token());
+		$form->getElement('_token')->setValue($this->container['csrf']->token());
 
 		// set default values from post
 		$form->setValues($field->toArray());
 
 		// re-populate old input
-		$form->setValues($this->session->getFlash('input', []));
+		$form->setValues($this->container['session']->getFlash('input', []));
 
 		$vars['title'] = sprintf('Editing &ldquo;%s&rdquo;', $field->label);
 		$vars['form'] = $form;
@@ -102,31 +97,31 @@ class Fields extends Backend {
 
 	public function postUpdate($request) {
 		$id = $request->getAttribute('id');
-		$field = $this->extend->where('id', '=', $id)->fetch();
+		$field = $this->container['mappers.customFields']->where('id', '=', $id)->fetch();
 
 		$form = new \Forms\CustomField;
 		$form->init();
 
 		$input = filter_input_array(INPUT_POST, $form->getFilters());
-		$validator = $this->validation->create($input, $form->getRules());
+		$validator = $this->container['validation']->create($input, $form->getRules());
 
-		$validator->addRule(new \Forms\ValidateToken($this->csrf->token()), 'token');
+		$validator->addRule(new \Forms\ValidateToken($this->container['csrf']->token()), '_token');
 
 		if(false === $validator->isValid()) {
-			$this->messages->error($validator->getMessages());
-			$this->session->putFlash('input', $input);
-			return $this->response->withHeader('location', $this->url->to(sprintf('/admin/fields/%d/edit', $post->id)));
+			$this->container['messages']->error($validator->getMessages());
+			$this->container['session']->putFlash('input', $input);
+			return $this->redirect($this->container['url']->to(sprintf('/admin/fields/%d/edit', $post->id)));
 		}
 
-		$this->extend->where('id', '=', $field->id)->update([
+		$this->container['mappers.customFields']->where('id', '=', $field->id)->update([
 			'type' => $input['type'],
 			'field' => $input['field'],
 			'key' => $input['key'],
 			'label' => $input['label'],
 		]);
 
-		$this->messages->success('Custom field updated');
-		return $this->response->withHeader('location', $this->url->to(sprintf('/admin/fields/%d/edit', $id)));
+		$this->container['messages']->success('Custom field updated');
+		return $this->redirect($this->container['url']->to(sprintf('/admin/fields/%d/edit', $id)));
 	}
 
 }

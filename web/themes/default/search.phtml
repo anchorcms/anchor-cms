@@ -1,24 +1,24 @@
 <aside class="site-description wrap">
 	<h1>
-		<?php echo $meta->description; ?>
+		<?php echo site_description(); ?>
 	</h1>
 </aside>
 
 <ul class="stories wrap">
-	<?php while($content->loop()): ?>
+	<?php while(search_results()): ?>
 	<li>
 		<hgroup>
 			<h1>
-				<a href="/<?php echo $content->getCategory()->slug; ?>/<?php echo $content->slug; ?>">
-					<?php echo $content->title; ?>
+				<a href="<?php echo article_url(); ?>">
+					<?php echo article_title(); ?>
 				</a>
 			</h1>
 
-			<small>Posted by <?php echo $content->getAuthor()->getName(); ?> <em>on the <?php echo $content->getDate('dS M Y'); ?></em></small>
+			<small>Posted by <?php echo article_author(); ?> <em>on the <?php echo article_date(); ?></em></small>
 		</hgroup>
 
 		<div class="article-excerpt">
-			<?php echo $content->html; ?>
+			<?php echo article_content(); ?>
 		</div>
 	</li>
 	<?php endwhile; ?>
@@ -30,12 +30,11 @@
 			<h2>Categories</h2>
 
 			<ul>
-				<?php while($categories->loop()): ?>
+				<?php while(categories()): ?>
 				<li>
-					<a href="/category/<?php echo $categories->slug; ?>" title="<?php echo $categories->description; ?>">
-						<?php echo $categories->title; ?>
-
-						<small><?php echo $categories->postCount(); ?></small>
+					<a href="<?php echo category_url(); ?>" title="<?php echo category_description(); ?>">
+						<?php echo category_title(); ?>
+						<small><?php echo category_count(); ?></small>
 					</a>
 				</li>
 				<?php endwhile; ?>
@@ -45,8 +44,8 @@
 		<div class="half-width">
 			<h2>Search my blog</h2>
 
-			<form action="/search" method="get">
-				<input name="q" type="search" placeholder="Search anything here.">
+			<form action="<?php echo search_url(); ?>" method="get">
+				<?php echo search_form_input('placeholder="Search anything here."'); ?>
 				<button type="submit">Search</button>
 			</form>
 		</div>

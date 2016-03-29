@@ -1,0 +1,30 @@
+// main: main.less
+
+:root {
+	font-size: .875em;
+}
+
+body {
+	font-family: 'Open Sans', sans-serif;
+	font-size: 1rem;
+	line-height: 162%;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	font-weight: normal;
+}
+
+.text {
+	&--small {
+		font-size: 90%;
+	}
+	&--upper {
+		text-transform: uppercase;
+	}
+	&--quiet {
+		color: lighten(@blue, 30%);
+	}
+	&--center {
+		text-align: center;
+	}
+}

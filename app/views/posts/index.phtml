@@ -5,10 +5,10 @@
 		<h2>Posts</h2>
 
 		<div class="button-group">
-			<form class="inline" method="get" action="/admin/posts">
+			<form class="form--inline" method="get" action="/admin/posts">
 				<p><input placeholder="Search posts&hellip;" name="search">
-					<button class="btn" type="submit">Search</button>
-					<a class="btn primary" href="/admin/posts/create">Create a new post</a></p>
+					<button class="button" type="submit">Search</button>
+					<a class="button button--primary" href="/admin/posts/create">Create a new post</a></p>
 			</form>
 		</div>
 
@@ -17,38 +17,41 @@
 
 	<main class="grid">
 		<div class="grid-col grid-1-4">
-			<p class="upper small quiet">Filter by status</p>
-			<ul class="unstyled-list padded-list">
+			<p class="text--upper text--small text--quiet">Filter by status</p>
+			<ul class="list--unstyled list--padded">
 				<li><a href="<?php echo url('/admin/posts'); ?>">All</a></li>
 				<?php foreach($statuses as $status => $title): ?>
 				<li><a href="/admin/posts?status=<?php echo $status; ?>"><?php echo $title; ?></a></li>
 				<?php endforeach; ?>
 			</ul>
 
-			<p class="upper small quiet">Filter by categories</p>
-			<ul class="unstyled-list padded-list">
+			<p class="text--upper text--small text--quiet">Filter by categories</p>
+			<ul class="list--unstyled list--padded">
 				<?php foreach($categories as $category): ?>
-				<li><a href="/admin/posts?category=<?php echo $category->id; ?>"><?php echo $category->title; ?></a></li>
+				<li><a href="/admin/posts?category=<?php echo $category->id; ?>">
+					<?php echo $category->title; ?> <span class="badge"><?php echo $category->post_count; ?></span></a></li>
 				<?php endforeach; ?>
 			</ul>
 		</div>
 
 		<div class="grid-col grid-3-4">
 			<?php if(empty($posts)): ?>
-			<p class="text-center quiet empty">No Posts Found.</p>
+			<p class="text--center text--quiet">No Posts Found.</p>
 			<?php else: ?>
 			<ul class="listing">
 				<?php foreach($posts as $post): ?>
 				<li>
 					<h3><a href="<?php echo url('/admin/posts/'.$post->id.'/edit'); ?>"><?php echo $post->title; ?></a></h3>
-					<span class="badge <?php echo $post->status; ?>"><?php echo $post->status; ?></span>
-					<p><time class="quiet"><?php echo $post->getRelativeModifiedDate(); ?></time></p>
+					<span class="badge badge--pinned"><?php echo $post->status; ?></span>
+					<p><time class="text--quiet"><?php echo $post->getRelativeModifiedDate(); ?></time></p>
 				</li>
 				<?php endforeach; ?>
 			</ul>
 			<?php endif; ?>
 
-			<?php echo $paging->links(); ?>
+			<div class="pagination">
+				<?php echo $paging->links(); ?>
+			</div>
 		</div>
 	</main>
 

@@ -1,21 +1,11 @@
 <?php echo $form->open(); ?>
 
-	<?php echo $form->getElement('token')->getHtml(); ?>
+	<?php echo $form->getElement('_token')->getHtml(); ?>
 
-	<?php foreach($form->getElementsExcluding(['submit', 'token']) as $element): ?>
-
-	<p>
-		<?php if($element->hasLabel()): ?>
-		<label for="<?php echo $element->getAttribute('name'); ?>"><?php echo $element->getLabel(); ?></label>
-		<?php endif; ?>
-
-		<?php echo $element->getHtml(); ?>
-	</p>
-
-	<?php endforeach; ?>
+	<?php echo $this->render('partials/form-elements', ['elements' => $form->getElementsExcluding(['submit', '_token'])]); ?>
 
 	<p>
-		<?php echo $form->getElement('submit')->withAttributes(['class' => 'btn'])->getHtml(); ?>
+		<?php echo $form->getElement('submit')->withAttributes(['class' => 'button button--primary'])->getHtml(); ?>
 	</p>
 
 <?php echo $form->close(); ?>

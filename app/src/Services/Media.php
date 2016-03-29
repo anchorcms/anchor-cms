@@ -34,7 +34,7 @@ class Media {
 	}
 
 	public function getUploadPath() {
-		$path = sprintf('%s/%s', $this->path, date('Y/n'));
+		$path = $this->path; //sprintf('%s/%s', $this->path, date('Y/n'));
 
 		if(false === is_dir($path)) {
 			mkdir($path, 0755, true);
@@ -102,7 +102,7 @@ class Media {
 			}
 
 			$files[] = [
-				'name' => $file->getFilename(),
+				'name' => $file->getBasename(),
 				'modified' => $file->getMTime(),
 			];
 		}

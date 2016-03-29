@@ -1,59 +1,42 @@
-<nav>
-	<a class="anchor-logo">Anchor CMS</a>
 
-	<ul>
-		<li>Language and timezone</li>
-		<li class="elapsed">Database setup</li>
-		<li>Site metadata</li>
-		<li>Your account</li>
-		<li>All done!</li>
-	</ul>
-</nav>
+<h2>What&apos;s your database details?</h2>
 
-<div class="content">
-	<h1>What’s your database details?</h1>
-	<?php echo $form->open(); ?>
+<?php echo $form->open(); ?>
 
-	<?php echo $messages; ?>
+<?php echo $messages; ?>
 
-	<?php foreach($form->getElements(['driver']) as $element): ?>
-	<p><label for="<?php echo $element->getName(); ?>"><?php echo $element->getLabel(); ?></label> <?php echo $element->getHtml(); ?></p>
+<?php foreach($form->getElements(['driver']) as $element): ?>
+<p><label for="<?php echo $element->getName(); ?>"><?php echo $element->getLabel(); ?></label> <?php echo $element->getHtml(); ?></p>
+<?php endforeach; ?>
+
+<div class="mysql">
+	<div class="multi">
+	<?php foreach($form->getElements(['host', 'port']) as $element): ?>
+		<p>
+			<label for="<?php echo $element->getName(); ?>"><?php echo $element->getLabel(); ?></label>
+			<?php echo $element->getHtml(); ?>
+		</p>
 	<?php endforeach; ?>
-
-	<div class="mysql">
-		<div class="multi">
-		<?php foreach($form->getElements(['host', 'port']) as $element): ?>
-			<p>
-				<label for="<?php echo $element->getName(); ?>"><?php echo $element->getLabel(); ?></label>
-				<?php echo $element->getHtml(); ?>
-			</p>
-		<?php endforeach; ?>
-		</div>
-
-		<div class="multi half">
-		<?php foreach($form->getElements(['user', 'pass']) as $element): ?>
-			<p>
-				<label for="<?php echo $element->getName(); ?>"><?php echo $element->getLabel(); ?></label>
-				<?php echo $element->getHtml(); ?>
-			</p>
-		<?php endforeach; ?>
-		</div>
 	</div>
 
-	<?php foreach($form->getElementsExcluding(['driver', 'host', 'port', 'user', 'pass', 'submit']) as $element): ?>
-	<p><label for="<?php echo $element->getName(); ?>"><?php echo $element->getLabel(); ?></label> <?php echo $element->getHtml(); ?></p>
+	<div class="multi half">
+	<?php foreach($form->getElements(['user', 'pass']) as $element): ?>
+		<p>
+			<label for="<?php echo $element->getName(); ?>"><?php echo $element->getLabel(); ?></label>
+			<?php echo $element->getHtml(); ?>
+		</p>
 	<?php endforeach; ?>
-
-	<p><a class="btn subdued" href="<?php echo $backUrl; ?>">Back</a>
-		<?php echo $form->getElement('submit')->getHtml(); ?></p>
-
-	<?php echo $form->close(); ?>
+	</div>
 </div>
 
-<small>
-	You’re installing Anchor version 1.0.
-	<a href="//twitter.com/anchorcms" target="_blank">Need help?</a>
-</small>
+<?php foreach($form->getElementsExcluding(['driver', 'host', 'port', 'user', 'pass', 'submit']) as $element): ?>
+<p><label for="<?php echo $element->getName(); ?>"><?php echo $element->getLabel(); ?></label> <?php echo $element->getHtml(); ?></p>
+<?php endforeach; ?>
+
+<p><a class="button" href="<?php echo $backUrl; ?>">Back</a>
+	<?php echo $form->getElement('submit')->withAttributes(['class' => 'button button--primary float--right'])->getHtml(); ?></p>
+
+<?php echo $form->close(); ?>
 
 <script>
 	(function(doc) {

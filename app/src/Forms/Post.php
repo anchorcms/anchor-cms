@@ -11,27 +11,28 @@ class Post extends Form {
 
 	public function init() {
 		$this->setFilters([
-			'token' => FILTER_SANITIZE_STRING,
+			'_token' => FILTER_SANITIZE_STRING,
 			'title' => FILTER_SANITIZE_STRING,
 			'content' => FILTER_UNSAFE_RAW,
 			'slug' => FILTER_SANITIZE_STRING,
 			'category' => FILTER_SANITIZE_NUMBER_INT,
 			'status' => FILTER_SANITIZE_STRING,
+			'published' => FILTER_SANITIZE_STRING,
 		]);
 
 		$this->setRules([
 			'title' => ['label' => 'Title', 'rules' => ['required']],
 		]);
 
-		$this->addElement(new \Forms\Elements\Hidden('token'));
+		$this->addElement(new \Forms\Elements\Hidden('_token'));
 
 		$this->addElement(new \Forms\Elements\Input('title', [
 			'label' => 'Title',
 			'attributes' => [
-        		'autofocus' => true,
-        		'placeholder' => 'What’s your post called?',
-        		'class' => 'title'
-        	]
+				'autofocus' => true,
+				'placeholder' => 'What’s your post called?',
+				'class' => 'title'
+			]
 		]));
 
 		$this->addElement(new \Forms\Elements\Input('slug', [
@@ -54,6 +55,11 @@ class Post extends Form {
 				'published' => 'Published',
 				'archived' => 'Archived',
 			],
+		]));
+
+		$this->addElement(new \Forms\Elements\Input('published', [
+			'label' => 'Published Date',
+			'value' => '0000-00-00 00:00:00',
 		]));
 
 		$this->addElement(new \Forms\Elements\Submit('submit', [

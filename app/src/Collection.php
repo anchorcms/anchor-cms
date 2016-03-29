@@ -21,7 +21,7 @@ class Collection implements Countable, JsonSerializable, IteratorAggregate {
 	public function last($key, $default = null) {
 		$value = $this->get($key);
 
-		if(is_array($value) {
+		if(is_array($value)) {
 			$index = count($value) - 1;
 
 			return $value[$index];

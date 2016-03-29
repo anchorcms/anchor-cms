@@ -16,4 +16,8 @@ class Users extends Mapper {
 		return $this->where('username', '=', $name)->fetch();
 	}
 
+	public function fetchByEmail($email) {
+		return $this->where('email', '=', $email)->fetch();
+	}
+
 }

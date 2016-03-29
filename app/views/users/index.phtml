@@ -4,7 +4,7 @@
 		<h2>Users</h2>
 
 		<div class="button-group">
-			<p><a class="btn primary" href="/admin/users/create">Create a new user</a></p>
+			<p><a class="button button--primary" href="/admin/users/create">Create a new user</a></p>
 		</div>
 	</header>
 
@@ -12,8 +12,18 @@
 		<ul class="listing">
 			<?php foreach($users as $user): ?>
 			<li>
-				<h3><a href="<?php echo url('/admin/users/'.$user->id.'/edit'); ?>"><?php echo $user->real_name; ?></a></h3>
-				<span class="badge <?php echo $user->role; ?>"><?php echo ucwords($user->role); ?></span>
+				<h3><a href="<?php echo url('/admin/users/'.$user->id.'/edit'); ?>"><?php echo $user->name; ?></a></h3>
+				<span class="badge--pinned">
+					<span class="badge">
+						<?php echo $user->role; ?>
+					</span>
+					<?php if( ! $user->isActive()): ?>
+					<span class="badge">
+						<?php echo $user->status; ?>
+					</span>
+					<?php endif; ?>
+				</span>
+				<p class="text--quiet"><?php echo $user->username; ?></p>
 			</li>
 			<?php endforeach; ?>
 		</ul>

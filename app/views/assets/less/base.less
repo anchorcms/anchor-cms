@@ -2,7 +2,6 @@
 
 html {
 	box-sizing: border-box;
-	height: 100%;
 }
 
 *, *:before, *:after {
@@ -11,30 +10,15 @@ html {
 }
 
 body {
-	font-family: 'Open Sans', 'DejaVu Sans', 'Arial', sans-serif;
 	color: @black;
-	background: @light-blue;
-	font-size: 14px;
-	height: 100%;
-	transform-style: preserve-3d;
-
-	&.login {
-		background: @dark-blue;
-	}
+	background: @background;
 }
 
 a {
-	color: @blue;
+	color: lighten(@blue, 22%);
 	text-decoration: none;
 }
 
 h1, h2, h3, h4, h5, h6 {
-	font-weight: normal;
-	color: @blue;
-}
-
-svg {
-	path {
-		fill: #7b8eaa;
-	}
+	color: lighten(@blue, 28%);
 }

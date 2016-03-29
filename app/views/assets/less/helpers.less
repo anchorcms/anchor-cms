@@ -1,19 +1,30 @@
 // main: main.less
 
 .clearfix {
-	&:before, &:after {
+	&:before, &::after {
 		content: ' ';
 		display: table;
+	}
+
+	&:after {
 		clear: both;
 	}
 }
 
-.pull-left { float: left; }
-.pull-right { float: right; }
+.float {
+	&--left {
+		float: left;
+	}
+	&--right {
+		float: right;
+	}
+}
 
-.small { font-size: 90%; }
-.upper { text-transform: uppercase; }
-.quiet { color: lighten(@blue, 20%); }
-.hidden { display: none; }
-.text-center { text-align: center; }
-.empty { padding: 2rem 0; }
+.display {
+	&--hidden {
+		display: none;
+	}
+	&--visible {
+		display: inherit;
+	}
+}

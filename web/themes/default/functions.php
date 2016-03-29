@@ -4,7 +4,7 @@
 function words(ContentIterator $content) {
 	$text = strip_tags($content->html);
 
-	return count(preg_split('#\s+#', $text));
+	return count(preg_split('#\s+#', trim($text)));
 }
 
 // from wiki
@@ -22,14 +22,7 @@ function ordinal($num) {
 function nth(ContentIterator $content) {
 	global $app;
 
-	return $app['posts']->where('status', '=', 'published')->where('created', '<', $content->created)->count() + 1;
-}
-
-// fallback to first valid argument
-function fallback() {
-	foreach(func_get_args() as $arg) {
-		if($arg or is_array($arg)) return $arg;
-	}
-
-	return false;
+	return $app['mappers.posts']->where('status', '=', 'published')
+		->where('created', '<', $content->created)
+		->count() + 1;
 }

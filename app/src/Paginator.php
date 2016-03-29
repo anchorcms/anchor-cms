@@ -10,10 +10,10 @@ class Paginator {
 
 	protected $params;
 
-	public function __construct($url, $page, $total, $perpage, array $params = []) {
-		$this->page = max(1, $page);
-		$this->pages = ceil($total / $perpage);
+	public function __construct($url, $page, $pages, $perpage, array $params = []) {
 		$this->url = $url;
+		$this->page = max(1, $page);
+		$this->pages = ceil($pages / $perpage);
 		$this->params = $params;
 	}
 

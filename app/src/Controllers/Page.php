@@ -7,14 +7,14 @@ class Page extends Frontend {
 	public function getIndex($request) {
 		$slug = $request->getAttribute('page');
 
-		$page = $this->pages->slug($slug);
+		$page = $this->container['mappers.pages']->slug($slug);
 
 		if(false === $page) {
 			return $this->notFound();
 		}
 
 		// redirect homepage
-		if($page->id == $this->meta->key('home_page')) {
+		if($page->id == $this->container['mappers.meta']->key('home_page')) {
 			return $this->redirect('/');
 		}
 
@@ -22,7 +22,7 @@ class Page extends Frontend {
 	}
 
 	public function getHome() {
-		$page = $this->pages->id($this->meta->key('home_page'));
+		$page = $this->container['mappers.pages']->id($this->container['mappers.meta']->key('home_page'));
 
 		if(false === $page) {
 			return $this->notFound();
@@ -32,35 +32,35 @@ class Page extends Frontend {
 	}
 
 	public function getCategory($request) {
-		$page = $this->pages->id($this->meta->key('posts_page'));
+		$page = $this->container['mappers.pages']->id($this->container['mappers.meta']->key('posts_page'));
 
 		$slug = $request->getAttribute('category');
-		$category = $this->categories->slug($slug);
+		$category = $this->container['mappers.categories']->slug($slug);
 
-		if(false == $category || false == $page) {
+		if(false === $category || false === $page) {
 			return $this->notFound();
 		}
 
 		// set globals
 		$vars['page'] = $page;
 		$vars['category'] = $category;
-		$vars['meta'] = $this->meta->all();
+		$vars['meta'] = $this->container['mappers.meta']->all();
 
-		$pages = $this->pages->menu();
+		$pages = $this->container['mappers.pages']->menu();
 		$vars['menu'] = new \ContentIterator($pages);
 
-		$categories = $this->categories->allPublished();
+		$categories = $this->container['mappers.categories']->allPublished();
 		$vars['categories'] = new \ContentIterator($categories);
 
 		$pagenum = filter_input(INPUT_GET, 'page', FILTER_SANITIZE_NUMBER_INT, ['options' => ['default' => 1]]);
-		$perpage = $this->meta->key('posts_per_page');
+		$perpage = $this->container['mappers.meta']->key('posts_per_page');
 
-		$posts = $this->services->posts->getPosts(['page' => $pagenum, 'perpage' => $perpage, 'category' => $category->id]);
+		$posts = $this->container['services.posts']->getPosts(['page' => $pagenum, 'perpage' => $perpage, 'category' => $category->id]);
 
 		$content = new \ContentIterator($posts);
 		$vars['content'] = $content;
 
-		return $this->theme->render(['category', 'posts', 'index'], $vars);
+		return $this->container['theme']->render(['category', 'posts', 'index'], $vars);
 	}
 
 	protected function showPage($page) {
@@ -69,20 +69,20 @@ class Page extends Frontend {
 
 		// set globals
 		$vars['page'] = $page;
-		$vars['meta'] = $this->meta->all();
+		$vars['meta'] = $this->container['mappers.meta']->all();
 
-		$pages = $this->pages->menu();
+		$pages = $this->container['mappers.pages']->menu();
 		$vars['menu'] = new \ContentIterator($pages);
 
-		$categories = $this->categories->allPublished();
+		$categories = $this->container['mappers.categories']->allPublished();
 		$vars['categories'] = new \ContentIterator($categories);
 
 		// is posts page
-		if($page->id == $this->meta->key('posts_page')) {
+		if($page->id == $this->container['mappers.meta']->key('posts_page')) {
 			$pagenum = filter_input(INPUT_GET, 'page', FILTER_SANITIZE_NUMBER_INT, ['options' => ['default' => 1]]);
-			$perpage = $this->meta->key('posts_per_page');
+			$perpage = $this->container['mappers.meta']->key('posts_per_page');
 
-			$posts = $this->services->posts->getPosts(['page' => $pagenum, 'perpage' => $perpage]);
+			$posts = $this->container['services.posts']->getPosts(['page' => $pagenum, 'perpage' => $perpage]);
 
 			$vars['content'] = new \ContentIterator($posts);
 			$names[] = 'posts';
@@ -94,7 +94,7 @@ class Page extends Frontend {
 
 		$names[] = 'index';
 
-		return $this->theme->render($names, $vars);
+		return $this->container['theme']->render($names, $vars);
 	}
 
 }

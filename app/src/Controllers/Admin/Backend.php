@@ -9,29 +9,26 @@ abstract class Backend extends AbstractController {
 
 	protected $private = true;
 
-	public function __construct(Container $app) {
-		$this->setContainer($app);
-		$this->view->setPath($this->paths['views']);
-	}
+	public function before($request) {
+		$this->container['view']->setPath($this->container['paths']['views']);
 
-	public function before() {
-		if(true === $this->private && false === $this->session->has('user')) {
-			$this->session->putFlash('messages', ['Please login to continue']);
+		if(true === $this->private && false === $this->container['session']->has('user')) {
+			$this->container['session']->putFlash('messages', ['Please login to continue']);
 
-			return $this->redirect($this->url->to('/admin/auth/login?forward='.$this->request->getUri()->getPath()));
+			return $this->redirect($this->container['url']->to('/admin/auth/login?forward='.$request->getUri()->getPath()));
 		}
 	}
 
 	protected function renderProfile() {
-		return $this->view->render('debug', [
-			'profile' => $this->query->getProfile(),
+		return $this->container['view']->render('debug', [
+			'profile' => $this->container['query']->getProfile(),
 			'memory' => round(memory_get_usage() / 1024 / 1024, 2),
 			'memory_peak' => round(memory_get_peak_usage() / 1024 / 1024, 2),
 		]);
 	}
 
 	public function after($response) {
-		if($this->config->get('app.debug')) {
+		if($this->container['config']->get('app.debug')) {
 			$body = $response->getBody();
 
 			if($body) {
@@ -47,11 +44,12 @@ abstract class Backend extends AbstractController {
 	}
 
 	protected function renderTemplate($layout, $template, array $vars = []) {
-		$vars['messages'] = $this->messages->render();
-		$vars['uri'] = $this->request->getUri();
-		$vars['body'] = $this->view->render($template, $vars);
+		$vars['sitename'] = $this->container['mappers.meta']->key('sitename');
+		$vars['messages'] = $this->container['messages']->render();
+		$vars['uri'] = $this->container['middleware.request']->getUri();
+		$vars['body'] = $this->container['view']->render($template, $vars);
 
-		return $this->view->render($layout, $vars);
+		return $this->container['view']->render($layout, $vars);
 	}
 
 }

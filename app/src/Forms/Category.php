@@ -5,7 +5,7 @@ namespace Forms;
 class Category extends Form {
 
 	public function init() {
-		$this->addElement(new \Forms\Elements\Hidden('token'));
+		$this->addElement(new \Forms\Elements\Hidden('_token'));
 
 		$this->addElement(new \Forms\Elements\Input('title', [
 			'label' => 'Title',
@@ -32,7 +32,7 @@ class Category extends Form {
 
 	public function getFilters() {
 		return [
-			'token' => FILTER_SANITIZE_STRING,
+			'_token' => FILTER_SANITIZE_STRING,
 			'title' => FILTER_SANITIZE_STRING,
 			'slug' => FILTER_SANITIZE_STRING,
 			'description' => FILTER_SANITIZE_STRING,

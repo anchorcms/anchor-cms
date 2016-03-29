@@ -4,6 +4,8 @@ class Theme {
 
 	protected $view;
 
+	protected $vars = [];
+
 	protected $theme;
 
 	protected $paths;
@@ -19,6 +21,18 @@ class Theme {
 		$this->paths = $paths;
 		$this->events = $events;
 		$this->setLayout($layout);
+	}
+
+	public function getVars() {
+		return $this->vars;
+	}
+
+	public function getVar($key, $default = null) {
+		return array_key_exists($key, $this->vars) ? $this->vars[$key] : $default;
+	}
+
+	public function setVars(array $vars) {
+		$this->vars = $vars;
 	}
 
 	/**
@@ -89,6 +103,8 @@ class Theme {
 	 * @return string
 	 */
 	public function render(array $templates, array $vars = []) {
+		$this->setVars($vars);
+
 		$template = $this->getTemplate($templates);
 		$vars['body'] = $this->view->render($template, $vars);
 

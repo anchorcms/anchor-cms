@@ -4,12 +4,12 @@
 ?>
 <article class="wrap">
 	<hgroup>
-		<h1><?php echo $content->title; ?></h1>
-		<p>Posted by <?php echo $content->getAuthor()->getName(); ?> <em>on the <?php echo $content->getRelativeModifiedDate(); ?></em></p>
+		<h1><?php echo article_title(); ?></h1>
+		<p>Posted by <?php echo article_author(); ?> <em>on the <?php echo article_date(); ?></em></p>
 	</hgroup>
 
 	<div class="article-content">
-		<?php echo $content->html; ?>
+		<?php echo article_content(); ?>
 	</div>
 
 	<small>

@@ -5,7 +5,7 @@ namespace Forms;
 class CustomField extends Form {
 
 	public function init() {
-		$this->addElement(new \Forms\Elements\Hidden('token'));
+		$this->addElement(new \Forms\Elements\Hidden('_token'));
 
 		$this->addElement(new \Forms\Elements\Select('type', [
 			'label' => 'Content Type',
@@ -41,7 +41,7 @@ class CustomField extends Form {
 
 	public function getFilters() {
 		return [
-			'token' => FILTER_SANITIZE_STRING,
+			'_token' => FILTER_SANITIZE_STRING,
 			'type' => FILTER_SANITIZE_STRING,
 			'field' => FILTER_SANITIZE_STRING,
 			'key' => FILTER_SANITIZE_STRING,

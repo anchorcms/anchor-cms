@@ -1,0 +1,32 @@
+<?php foreach($elements as $element): ?>
+
+<div class="form-element">
+	<?php if($element->hasLabel()): ?>
+	<label class="form-element-label" for="<?php echo $element->getAttribute('name'); ?>"><?php echo $element->getLabel(); ?></label>
+	<?php endif; ?>
+
+	<div class="form-element-input">
+		<?php echo $element->getHtml(); ?>
+		<?php if('checkbox' == $element->getType()): ?>
+		<div class="form-element-input-checkbox"></div>
+		<?php endif; ?>
+	</div>
+</div>
+
+<?php endforeach; ?>
+
+<script>
+	(function() {
+		var elements = document.querySelectorAll('.form-element-input-checkbox');
+
+		var toggle = function(event) {
+			event.preventDefault();
+			var input = this.parentNode.querySelector('input[type=checkbox]');
+			input.checked = !input.checked;
+		};
+
+		Array.prototype.forEach.call(elements, function(element, index) {
+			element.addEventListener('click', toggle, false);
+		});
+	})();
+</script>

@@ -1,33 +1,14 @@
-<nav>
-	<a class="anchor-logo">Anchor CMS</a>
+<h2>Tell us a little bit about your blog.</h2>
 
-	<ul>
-		<li>Language and timezone</li>
-		<li>Database setup</li>
-		<li class="elapsed">Site metadata</li>
-		<li>Your account</li>
-		<li>All done!</li>
-	</ul>
-</nav>
+<?php echo $form->open(); ?>
 
-<div class="content">
-	<h1>Tell us a little bit about your blog.</h1>
+<?php echo $messages; ?>
 
-	<?php echo $form->open(); ?>
+<?php foreach($form->getElementsExcluding(['submit']) as $element): ?>
+<p><label for="<?php echo $element->getName(); ?>"><?php echo $element->getLabel(); ?></label> <?php echo $element->getHtml(); ?></p>
+<?php endforeach; ?>
 
-	<?php echo $messages; ?>
+<p><a class="button" href="<?php echo $backUrl; ?>">Back</a>
+	<?php echo $form->getElement('submit')->withAttributes(['class' => 'button button--primary float--right'])->getHtml(); ?></p>
 
-	<?php foreach($form->getElementsExcluding(['submit']) as $element): ?>
-	<p><label for="<?php echo $element->getName(); ?>"><?php echo $element->getLabel(); ?></label> <?php echo $element->getHtml(); ?></p>
-	<?php endforeach; ?>
-
-	<p><a class="btn subdued" href="<?php echo $backUrl; ?>">Back</a>
-		<?php echo $form->getElement('submit')->getHtml(); ?></p>
-
-	<?php echo $form->close(); ?>
-</div>
-
-<small>
-	You’re installing Anchor version 1.0.
-	<a href="//twitter.com/anchorcms" target="_blank">Need help?</a>
-</small>
+<?php echo $form->close(); ?>

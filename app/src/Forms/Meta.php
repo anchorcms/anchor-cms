@@ -11,7 +11,7 @@ class Meta extends Form {
 
 	public function init() {
 		$this->setFilters([
-			'token' => FILTER_SANITIZE_STRING,
+			'_token' => FILTER_SANITIZE_STRING,
 			'sitename' => FILTER_SANITIZE_STRING,
 			'description' => FILTER_SANITIZE_STRING,
 			'posts_per_page' => FILTER_SANITIZE_NUMBER_INT,
@@ -22,7 +22,7 @@ class Meta extends Form {
 		]);
 
 		$this->setRules([
-			'token' => ['required'],
+			'_token' => ['required'],
 			'sitename' => ['required'],
 			'description' => ['required'],
 			'posts_per_page' => ['required'],
@@ -32,7 +32,7 @@ class Meta extends Form {
 			'theme' => ['required'],
 		]);
 
-		$this->addElement(new \Forms\Elements\Hidden('token'));
+		$this->addElement(new \Forms\Elements\Hidden('_token'));
 
 		$this->addElement(new \Forms\Elements\Input('sitename', [
 			'label' => 'Site Name',

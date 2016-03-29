@@ -4,16 +4,12 @@ namespace Models;
 
 class User extends Model {
 
-	public function isPassword($password) {
-		return password_verify($password, $this->password);
-	}
-
 	public function isActive() {
 		return $this->status == 'active';
 	}
 
 	public function getName() {
-		return $this->real_name;
+		return $this->name;
 	}
 
 	public function getEmail() {
@@ -22,8 +18,9 @@ class User extends Model {
 
 	public function getEmailEncoded() {
 		$encoded = '';
+		$len = strlen($this->email);
 
-		for($index = 0; $index < strlen($this->email); $index++) {
+		for($index = 0; $index < $len; $index++) {
 			$encoded .= '&#'.ord($this->email[$index]).';';
 		}
 

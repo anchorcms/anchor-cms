@@ -2,16 +2,22 @@
 
 .nav {
 	.clearfix;
-	.unstyled-list;
+	list-style-type: none;
+	padding: 0;
+
+	&-header {
+		.clearfix;
+		background: @blue;
+	}
 
 	&-item {
-		.pull-left;
+		float: left;
 		font-size: 95%;
 		position: relative;
 		padding: 0 .4rem;
 
 		&--right {
-			.pull-right;
+			float: right;
 		}
 
 		&:hover {
@@ -24,30 +30,30 @@
 	&-link {
 		display: block;
 		padding: .6rem 1.2rem;
-		color: #7b8eaa;
+		color: lighten(@blue, 30%);
 		border-radius: .3rem;
 		font-weight: bold;
-		transition: color 500ms, background 500ms;
 		cursor: pointer;
+		transition: color 500ms, background 500ms;
 
 		&:hover {
-			color: #a4b4cb;
+			color: lighten(@blue, 50%);
 		}
 
 		&--active {
-			color: @dark-blue;
-			background: #687993;
+			color: @blue;
+			background: lighten(@blue, 20%);
 
 			&:hover {
-				color: @dark-blue;
+				color: @blue;
 			}
 		}
 
 		&--darken {
-			background: #38414f;
+			background: darken(@blue, 5%);
 
 			&:hover {
-				background: #2f3744;
+				background: darken(@blue, 10%);
 			}
 		}
 	}
@@ -59,20 +65,67 @@
 }
 
 .nav-sub {
-	.unstyled-list;
-	.hidden;
+	list-style-type: none;
+	padding: 0;
+	display: none;
+
 	position: absolute;
+	top: 38px;
+	left: -22px;
+
 	width: 140px;
-	background: @white;
+	background: lighten(@blue, 6%);
 	border-radius: .3rem;
 	z-index: 100;
 
-	&-item {
+	&:before {
+		width: 0;
+		height: 0;
+		border-style: solid;
+		border-width: 0 6px 6px 6px;
+		border-color: transparent transparent lighten(@blue, 6%) transparent;
 
+		position: absolute;
+		top: -6px;
+		left: calc(50% - 6px);
+
+		display: block;
+		content: ' ';
+	}
+
+	&-item {
+		border-bottom: 1px solid lighten(@blue, 10%);
+
+		&:last-child {
+			border-bottom: none;
+		}
 	}
 
 	&-link {
+		color: @white;
 		display: block;
 		padding: .6rem;
+		text-align: center;
+		transition: color 250ms;
+
+		&:hover {
+			color: lighten(@blue, 50%);
+		}
+	}
+}
+
+.nav-crumb {
+	list-style-type: none;
+	padding: 0;
+	.clearfix;
+
+	&-item {
+		float: left;
+		color: @blue;
+		padding: 0 .6rem;
+
+		&--elapsed {
+			color: @blue;
+		}
 	}
 }

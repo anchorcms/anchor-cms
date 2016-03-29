@@ -49,8 +49,7 @@ class Installer {
 	}
 
 	public function run(array $input) {
-		$bytes = openssl_random_pseudo_bytes(32);
-		$input['secret'] = bin2hex($bytes);
+		$input['secret'] = bin2hex(random_bytes(32));
 
 		$this->copySampleConfig($input);
 		$pdo = $this->connectDatabase($input);
@@ -105,10 +104,11 @@ class Installer {
 			'username' => $input['username'],
 			'password' => password_hash($input['password'], PASSWORD_BCRYPT, ['cost' => 12]),
 			'email' => $input['email'],
-			'real_name' => $input['username'],
+			'name' => $input['username'],
 			'bio' => 'The bouse',
 			'status' => 'active',
 			'role' => 'admin',
+			'token' => '',
 		]);
 
 		$page = $query->table($input['prefix'].'pages')->insert([
@@ -131,6 +131,7 @@ class Installer {
 			'html' => '<p>Hello World!</p>'."\r\n\r\n".'<p>This is the first post.</p>',
 			'created' => date('Y-m-d H:i:s'),
 			'modified' => date('Y-m-d H:i:s'),
+			'published' => date('Y-m-d H:i:s'),
 			'author' => $user,
 			'category' => $category,
 			'status' => 'published',

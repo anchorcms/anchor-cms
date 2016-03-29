@@ -8,29 +8,30 @@ class Search extends Frontend {
 		$keywords = filter_input(INPUT_GET, 'q', FILTER_SANITIZE_STRING);
 
 		// set globals
-		$vars['meta'] = $this->meta->all();
+		$vars['meta'] = $this->container['mappers.meta']->all();
+		$vars['keywords'] = $keywords;
 
-		$pages = $this->pages->menu();
+		$pages = $this->container['mappers.pages']->menu();
 		$vars['menu'] = new \ContentIterator($pages);
 
-		$categories = $this->categories->allPublished();
+		$categories = $this->container['mappers.categories']->allPublished();
 		$vars['categories'] = new \ContentIterator($categories);
 
 		$page = new \Models\Page(['title' => sprintf('Search "%s"', $keywords)]);
 		$vars['page'] = $page;
 
-		$posts = $this->posts->whereNested(function($where) use($keywords) {
+		$posts = $this->container['mappers.posts']->whereNested(function($where) use($keywords) {
 				$where('title', 'like', '%'.$keywords.'%')->or('content', 'like', '%'.$keywords.'%');
 			})
 			->where('status', '=', 'published')
 			->get();
 
-		$this->services->posts->hydrate($posts);
+		$this->container['services.posts']->hydrate($posts);
 
 		$content = new \ContentIterator($posts);
 		$vars['content'] = $content;
 
-		return $this->theme->render(['search', 'index'], $vars);
+		return $this->container['theme']->render(['search', 'index'], $vars);
 	}
 
 }

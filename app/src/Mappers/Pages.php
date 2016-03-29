@@ -40,6 +40,8 @@ class Pages extends Mapper {
 	}
 
 	public function dropdownOptions(array $options = []) {
+		$options[0] = 'None';
+
 		foreach($this->where('status', '=', 'published')->sort('title')->get() as $page) {
 			$options[$page->id] = sprintf('%s (%s)', $page->name, $page->title);
 		}

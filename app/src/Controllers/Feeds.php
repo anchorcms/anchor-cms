@@ -4,11 +4,11 @@ namespace Controllers;
 
 class Feeds extends Frontend {
 
-	public function getRss() {
-		$posts = $this->posts->where('status', '=', 'published')->sort('created', 'desc')->take(20)->get();
-		$this->services->posts->hydrate($posts);
+	public function getRss($request) {
+		$posts = $this->container['mappers.posts']->where('status', '=', 'published')->sort('created', 'desc')->take(20)->get();
+		$this->container['services.posts']->hydrate($posts);
 
-		$uri = clone $this->request->getUri();
+		$uri = clone $request->getUri();
 
 		foreach($posts as $post) {
 			$category = $post->getCategory();
@@ -18,7 +18,7 @@ class Feeds extends Frontend {
 
 			$author = $post->getAuthor();
 
-			$this->rss->item([
+			$this->container['services.rss']->item([
 				'title' => $post->title,
 				'content' => $post->html,
 				'link' => $postUri,
@@ -29,9 +29,9 @@ class Feeds extends Frontend {
 		}
 
 		$body = new \Http\Stream;
-		$body->write($this->rss->output());
+		$body->write($this->container['services.rss']->output());
 
-		return $this->response->withBody($body)->withHeader('content-type', 'application/xml');
+		return $this->container['middleware.response']->withBody($body)->withHeader('content-type', 'application/xml');
 	}
 
 }

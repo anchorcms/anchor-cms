@@ -1,22 +1,49 @@
 // main: main.less
 
-.btn {
+.button {
 	display: inline-block;
-	border: none;
+
 	text-align: center;
-	padding: .6rem 1rem;
-	color: @light-blue;
-	background: @dark-blue;
+	padding: .5rem 1rem;
 	border-radius: .3rem;
 	vertical-align: middle;
+	color: @white;
+	background: lighten(@blue, 40%);
+	border: 1px solid lighten(@blue, 40%);
+	font-size: inherit;
+	line-height: inherit;
 
-	&.primary {
-		color: @white;
-		background: @green;
+	&-group {
+		display: inline-block;
 	}
 
-	&.danger {
+	&--primary {
+		background: @green;
+		border: 1px solid @green;
+	}
+
+	&--dark {
+		background: linear-gradient(to bottom, darken(@blue, 6%) 0%, darken(@blue, 10%) 100%);
+		border: none;
+
+		&:hover {
+			color: darken(@white, 10%);
+		}
+	}
+
+	&--danger {
 		color: @white;
 		background: @red;
+		border: 1px solid @red;
+	}
+
+	&--wide {
+		display: block;
+		width: 100%;
+	}
+
+	&--small {
+		padding: .2rem .8rem;
+		border-radius: .2rem;
 	}
 }

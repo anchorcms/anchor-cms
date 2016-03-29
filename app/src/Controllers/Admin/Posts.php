@@ -12,10 +12,10 @@ class Posts extends Backend {
 			'search' => FILTER_SANITIZE_STRING,
 		]);
 
-		$total = $this->posts->filter($input)->count();
+		$total = $this->container['mappers.posts']->filter($input)->count();
 
-		$perpage = $this->meta->key('admin_posts_per_page', 10);
-		$query = $this->posts->filter($input)->sort('modified', 'desc')->take($perpage);
+		$perpage = $this->container['mappers.meta']->key('admin_posts_per_page', 10);
+		$query = $this->container['mappers.posts']->filter($input)->sort('modified', 'desc')->take($perpage);
 
 		if($input['page']) {
 			$offset = ($input['page'] - 1) * $perpage;
@@ -24,12 +24,12 @@ class Posts extends Backend {
 
 		$posts = $query->get();
 
-		$paging = new \Paginator($this->url->to('/admin/posts'), $input['page'], $total, $perpage, $input);
+		$paging = new \Paginator($this->container['url']->to('/admin/posts'), $input['page'], $total, $perpage, $input);
 
-		$vars['title'] = sprintf('Posts - %s', $this->meta->key('sitename'));
+		$vars['title'] = 'Posts';
 		$vars['posts'] = $posts;
 		$vars['paging'] = $paging;
-		$vars['categories'] = $this->categories->get();
+		$vars['categories'] = $this->container['mappers.categories']->allPublished();
 		$vars['statuses'] = ['published' => 'Published', 'draft' => 'Draft', 'archived' => 'Archived'];
 		$vars['filters'] = $input;
 
@@ -45,17 +45,17 @@ class Posts extends Backend {
 	public function getCreate() {
 		$form = new \Forms\Post([
 			'method' => 'post',
-			'action' => $this->url->to('/admin/posts/save'),
+			'action' => $this->container['url']->to('/admin/posts/save'),
 		]);
 		$form->init();
-		$form->getElement('token')->setValue($this->csrf->token());
-		$form->getElement('category')->setOptions($this->categories->dropdownOptions());
+		$form->getElement('_token')->setValue($this->container['csrf']->token());
+		$form->getElement('category')->setOptions($this->container['mappers.categories']->dropdownOptions());
 
 		// append custom fields
-		$this->customFields->appendFields($form, 'post');
+		$this->container['services.customFields']->appendFields($form, 'post');
 
 		// re-populate submitted data
-		$form->setValues($this->session->getFlash('input', []));
+		$form->setValues($this->container['session']->getFlash('input', []));
 
 		$vars['title'] = 'Creating a new post';
 		$vars['form'] = $form;
@@ -68,31 +68,32 @@ class Posts extends Backend {
 		$form->init();
 
 		// append custom fields
-		$this->customFields->appendFields($form, 'post');
+		$this->container['services.customFields']->appendFields($form, 'post');
 
 		$input = filter_input_array(INPUT_POST, $form->getFilters());
-		$validator = $this->validation->create($input, $form->getRules());
+		$validator = $this->container['validation']->create($input, $form->getRules());
 
-		$validator->addRule(new \Forms\ValidateToken($this->csrf->token()), 'token');
+		$validator->addRule(new \Forms\ValidateToken($this->container['csrf']->token()), '_token');
 
 		if(false === $validator->isValid()) {
-			$this->messages->error($validator->getMessages());
-			$this->session->putFlash('input', $input);
-			return $this->response->withHeader('location', $this->url->to('/admin/posts/create'));
+			$this->container['messages']->error($validator->getMessages());
+			$this->container['session']->putFlash('input', $input);
+			return $this->redirect($this->container['url']->to('/admin/posts/create'));
 		}
 
 		$now = date('Y-m-d H:i:s');
-		$slug = $this->slugify->parse($input['slug'] ?: $input['title']);
-		$html = $this->markdown->parse($input['content']);
-		$user = $this->session->get('user');
+		$slug = $this->container['slugify']->slug($input['slug'] ?: $input['title']);
+		$html = $this->container['markdown']->convertToHtml($input['content']);
+		$user = $this->container['session']->get('user');
 
-		$id = $this->posts->insert([
+		$id = $this->container['mappers.posts']->insert([
 			'author' => $user,
 			'category' => $input['category'],
 			'status' => $input['status'],
 
 			'created' => $now,
 			'modified' => $now,
+			'published' => $input['published'] ?: $now,
 
 			'title' => $input['title'],
 			'slug' => $slug,
@@ -102,35 +103,35 @@ class Posts extends Backend {
 		]);
 
 		// save custom fields
-		$this->customFields->saveFields($request, $input, 'post', $id);
+		$this->container['services.customFields']->saveFields($request, $input, 'post', $id);
 
-		$this->messages->success('Post created');
-		return $this->response->withHeader('location', $this->url->to(sprintf('/admin/posts/%d/edit', $id)));
+		$this->container['messages']->success('Post created');
+		return $this->redirect($this->container['url']->to(sprintf('/admin/posts/%d/edit', $id)));
 	}
 
 	public function getEdit($request) {
 		$id = $request->getAttribute('id');
-		$post = $this->posts->where('id', '=', $id)->fetch();
+		$post = $this->container['mappers.posts']->where('id', '=', $id)->fetch();
 
 		$form = new \Forms\Post([
 			'method' => 'post',
-			'action' => $this->url->to(sprintf('/admin/posts/%d/update', $post->id)),
+			'action' => $this->container['url']->to(sprintf('/admin/posts/%d/update', $post->id)),
 		]);
 		$form->init();
-		$form->getElement('token')->setValue($this->csrf->token());
-		$form->getElement('category')->setOptions($this->categories->dropdownOptions());
+		$form->getElement('_token')->setValue($this->container['csrf']->token());
+		$form->getElement('category')->setOptions($this->container['mappers.categories']->dropdownOptions());
 
 		// set default values from post
 		$form->setValues($post->toArray());
 
 		// append custom fields
-		$this->customFields->appendFields($form, 'post');
+		$this->container['services.customFields']->appendFields($form, 'post');
 
 		// get custom field values
-		$form->setValues($this->customFields->getFieldValues('post', $id));
+		$form->setValues($this->container['services.customFields']->getFieldValues('post', $id));
 
 		// re-populate old input
-		$form->setValues($this->session->getFlash('input', []));
+		$form->setValues($this->container['session']->getFlash('input', []));
 
 		$vars['title'] = sprintf('Editing &ldquo;%s&rdquo;', $post->title);
 		$vars['form'] = $form;
@@ -141,34 +142,35 @@ class Posts extends Backend {
 
 	public function postUpdate($request) {
 		$id = $request->getAttribute('id');
-		$post = $this->posts->where('id', '=', $id)->fetch();
+		$post = $this->container['mappers.posts']->where('id', '=', $id)->fetch();
 
 		$form = new \Forms\Post;
 		$form->init();
 
 		// append custom fields
-		$this->customFields->appendFields($form, 'post');
+		$this->container['services.customFields']->appendFields($form, 'post');
 
 		$input = filter_input_array(INPUT_POST, $form->getFilters());
-		$validator = $this->validation->create($input, $form->getRules());
+		$validator = $this->container['validation']->create($input, $form->getRules());
 
-		$validator->addRule(new \Forms\ValidateToken($this->csrf->token()), 'token');
+		$validator->addRule(new \Forms\ValidateToken($this->container['csrf']->token()), '_token');
 
 		if(false === $validator->isValid()) {
-			$this->messages->error($validator->getMessages());
-			$this->session->putFlash('input', $input);
-			return $this->response->withHeader('location', $this->url->to(sprintf('/admin/posts/%d/edit', $post->id)));
+			$this->container['messages']->error($validator->getMessages());
+			$this->container['session']->putFlash('input', $input);
+			return $this->redirect($this->container['url']->to(sprintf('/admin/posts/%d/edit', $post->id)));
 		}
 
 		$now = date('Y-m-d H:i:s');
-		$slug = $this->slugify->parse($input['slug'] ?: $input['title']);
-		$html = $this->markdown->parse($input['content']);
+		$slug = $this->container['slugify']->slug($input['slug'] ?: $input['title']);
+		$html = $this->container['markdown']->convertToHtml($input['content']);
 
-		$this->posts->where('id', '=', $post->id)->update([
+		$this->container['mappers.posts']->where('id', '=', $post->id)->update([
 			'category' => $input['category'],
 			'status' => $input['status'],
 
 			'modified' => $now,
+			'published' => $input['published'] ?: $now,
 
 			'title' => $input['title'],
 			'slug' => strtolower($slug),
@@ -178,23 +180,25 @@ class Posts extends Backend {
 		]);
 
 		// update custom fields
-		$this->customFields->saveFields($request, $input, 'post', $id);
+		$this->container['services.customFields']->saveFields($request, $input, 'post', $id);
 
-		$this->messages->success('Post updated');
-		return $this->response->withHeader('location', $this->url->to(sprintf('/admin/posts/%d/edit', $id)));
+		$this->container['messages']->success('Post updated');
+		return $this->redirect($this->container['url']->to(sprintf('/admin/posts/%d/edit', $id)));
 	}
 
 	public function getDelete($request) {
 		$id = $request->getAttribute('id');
-		$post = $this->posts->where('id', '=', $id)->fetch();
+		$post = $this->container['mappers.posts']->where('id', '=', $id)->fetch();
 
-		if( ! $post) return $this->redirect('/admin/posts');
+		if( ! $post) {
+			return $this->redirect($this->container['url']->to('/admin/posts'));
+		}
 
-		$this->posts->where('id', '=', $post->id)->delete();
-		$this->postmeta->where('post', '=', $post->id)->delete();
+		$this->container['mappers.posts']->where('id', '=', $post->id)->delete();
+		$this->container['mappers.postmeta']->where('post', '=', $post->id)->delete();
 
-		$this->messages->success('Post deleted');
-		return $this->redirect('/admin/posts');
+		$this->container['messages']->success('Post deleted');
+		return $this->redirect($this->container['url']->to('/admin/posts'));
 	}
 
 }

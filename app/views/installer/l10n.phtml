@@ -1,32 +1,14 @@
-<nav>
-	<a class="anchor-logo">Anchor CMS</a>
 
-	<ul>
-		<li class="elapsed">Language and timezone</li>
-		<li>Database setup</li>
-		<li>Site metadata</li>
-		<li>Your account</li>
-		<li>All done!</li>
-	</ul>
-</nav>
+<h2>Where in the world are you?</h2>
 
-<div class="i10n content">
-	<h1>Where in the world are you?</h1>
+<?php echo $form->open(); ?>
 
-	<?php echo $form->open(); ?>
+<?php echo $messages; ?>
 
-	<?php echo $messages; ?>
+<?php foreach($form->getElementsExcluding(['submit']) as $element): ?>
+<p><label for="<?php echo $element->getName(); ?>"><?php echo $element->getLabel(); ?></label> <?php echo $element->getHtml(); ?></p>
+<?php endforeach; ?>
 
-	<?php foreach($form->getElementsExcluding(['submit']) as $element): ?>
-	<p><label for="<?php echo $element->getName(); ?>"><?php echo $element->getLabel(); ?></label> <?php echo $element->getHtml(); ?></p>
-	<?php endforeach; ?>
+<p><?php echo $form->getElement('submit')->withAttributes(['class' => 'button button--primary'])->getHtml(); ?></p>
 
-	<p><?php echo $form->getElement('submit')->getHtml(); ?></p>
-
-	<?php echo $form->close(); ?>
-</div>
-
-<small>
-	You’re installing Anchor version 1.0.
-	<a href="//twitter.com/anchorcms" target="_blank">Need help?</a>
-</small>
+<?php echo $form->close(); ?>

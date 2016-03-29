@@ -21,11 +21,16 @@ class Posts {
 	}
 
 	public function hydrate(array $posts) {
+		if(empty($posts)) {
+			// nothing to do.
+			return;
+		}
+
 		$keys = $this->getKeys($posts);
 
 		$prefix = $this->posts->getTablePrefix();
 
-		$meta = $this->postmeta->join($prefix . 'extend', $prefix . 'extend.id', '=', $prefix . 'post_meta.extend')
+		$meta = $this->postmeta->join($prefix . 'custom_fields', $prefix . 'custom_fields.id', '=', $prefix . 'post_meta.custom_field')
 			->whereIn('post', $keys)->get();
 
 		array_walk($meta, function($row) {
@@ -34,9 +39,7 @@ class Posts {
 
 		$keys = $this->getKeys($posts, 'author');
 
-		$users = $this->users->select(['id', 'username', 'email', 'real_name', 'bio', 'status', 'role'])
-			->whereIn('id', $keys)
-			->get();
+		$users = $this->users->whereIn('id', $keys)->get();
 
 		$keys = $this->getKeys($posts, 'category');
 

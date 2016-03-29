@@ -7,6 +7,18 @@
 	<?php echo $messages; ?>
 
 	<main>
-		<?php echo $this->render('partials/form', ['form' => $form]); ?>
+		<?php echo $form->open(); ?>
+
+			<?php echo $form->getElement('_token')->getHtml(); ?>
+
+			<?php echo $this->render('partials/form-elements', ['elements' => $form->getElementsExcluding(['submit', '_token'])]); ?>
+
+			<p>
+				<?php echo $form->getElement('submit')->withAttributes(['class' => 'button button--primary'])->getHtml(); ?>
+				<a class="button button--danger" data-confirm="Are you sure?" href="/admin/vars/<?php echo $meta->id; ?>/delete">Permanatly Delete</a>
+			</p>
+
+		<?php echo $form->close(); ?>
+
 	</main>
 </div>

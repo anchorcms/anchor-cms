@@ -5,10 +5,8 @@ namespace Controllers\Admin;
 class Plugins extends Backend {
 
 	public function getIndex() {
-		$plugins = $this->plugins->getPlugins();
-
 		$vars['title'] = 'Plugins';
-		$vars['plugins'] = $plugins;
+		$vars['plugins'] = $this->container['services.plugins']->getPlugins();
 
 		return $this->renderTemplate('layouts/default', 'plugins/index', $vars);
 	}

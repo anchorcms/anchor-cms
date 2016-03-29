@@ -1,40 +1,14 @@
 
 <?php echo $form->open(); ?>
 
-	<?php echo $form->getElement('token')->getHtml(); ?>
+	<?php echo $form->getElement('_token')->getHtml(); ?>
 
-	<header class="content-title">
-		<div class="wrap">
-			<?php echo $messages; ?>
-
-			<?php $element = $form->getElement('title'); echo $element->withAttributes(['placeholder' => $element->getLabel()])->getHtml(); ?>
-		</div>
-	</header>
-
-	<main class="content-editor">
-		<div class="wrap">
-			<?php $element = $form->getElement('content');
-				echo $element->withAttributes(['placeholder' => $element->getLabel()])->getHtml(); ?>
-		</div>
-	</main>
-
-	<div class="highlight">
-		<div class="wrap">
-			<?php foreach($form->getElementsExcluding(['submit', 'token', 'title', 'content']) as $element): ?>
-
-			<p>
-				<?php if($element->hasLabel()): ?>
-				<label for="<?php echo $element->getAttribute('name'); ?>"><?php echo $element->getLabel(); ?></label>
-				<?php endif; ?>
-				<?php echo $element->getHtml(); ?>
-			</p>
-
-			<?php endforeach; ?>
-		</div>
-	</div>
+	<?php echo $this->render('partials/content', ['form' => $form]); ?>
 
 	<div class="wrap">
-		<p><?php echo $form->getElement('submit')->withAttributes(['class' => 'btn primary'])->getHtml(); ?></p>
+		<p><?php echo $form->getElement('submit')->withAttributes(['class' => 'button button--primary'])->getHtml(); ?></p>
 	</div>
 
 <?php echo $form->close(); ?>
+
+<?php echo $this->render('partials/messages-float', ['messages' => $messages]); ?>

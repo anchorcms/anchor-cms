@@ -1,3 +1,20 @@
+
 <div class="wrap">
-	Soon
+	<header class="heading">
+		<h2>Themes</h2>
+	</header>
+
+	<main>
+		<ul class="tiles">
+			<?php foreach($themes as $theme): ?>
+			<li class="tiles-item">
+				<figure>
+					<img src="">
+					<figcaption><?php echo $theme; ?>
+						<a href="#">Set as default</a></figcaption>
+				</figure>
+			</li>
+			<?php endforeach; ?>
+		</ul>
+	</main>
 </div>

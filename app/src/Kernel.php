@@ -45,8 +45,11 @@ class Kernel {
 
 		if($path != '/' && substr($path, -1) == '/') {
 			header('Location: ' . $this->request->getUri()->withPath(rtrim($path, '/')), true, 301);
-			exit;
+
+			return true;
 		}
+
+		return false;
 	}
 
 	public function getResponse() {
@@ -75,7 +78,10 @@ class Kernel {
 		list($class, $method) = explode('@', $route);
 
 		$name = $this->formatClassName($class);
-		$instance = new $name($this->container);
+
+		$instance = new $name;
+
+		$instance->setContainer($this->container);
 
 		if(method_exists($instance, 'before')) {
 			$output = $instance->before($this->request);

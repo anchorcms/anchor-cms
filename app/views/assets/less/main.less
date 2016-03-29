@@ -1,124 +1,16 @@
-// out: ../css/main.css
+// out: ../css/main.css, compress: true
 
-@import url('colors.less');
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,300,600');
+
+@import url('vars.less');
 @import url('normalize.less');
 @import url('base.less');
 @import url('helpers.less');
+@import url('type.less');
 @import url('grid.less');
 @import url('buttons.less');
 @import url('forms.less');
+
 @import url('nav.less');
-
-.wrap {
-	.clearfix;
-	max-width: 1080px;
-	margin: 0 auto;
-
-	&.narrow {
-		max-width: 340px;
-	}
-
-	&.valign {
-		position: relative;
-		top: 50%;
-		transform: translateY(-50%);
-	}
-}
-
-.unstyled-list {
-	padding: 0;
-	list-style-type: none;
-}
-
-.padded-list {
-	li {
-		padding: .6rem 1rem;
-		display: block;
-		border-bottom: 1px solid darken(@light-blue, 5%);
-	}
-}
-
-.nav-header {
-	.clearfix;
-	background: @dark-blue;
-}
-
-.heading {
-	.clearfix;
-	position: relative;
-
-	.button-group {
-		position: absolute;
-		top: 0;
-		right: 0;
-	}
-}
-
-.badge {
-	text-transform: uppercase;
-	background: #e2e5eb;
-	color: #848f9f;
-	padding: .2rem .4rem;
-	font-size: 85%;
-	display: inline-block;
-}
-
-.listing {
-	.unstyled-list;
-
-	li {
-		.clearfix;
-		position: relative;
-		padding: 0 1rem;
-		border-bottom: 1px solid darken(@light-blue, 5%);
-
-		&:hover {
-			background: #e7eaee;
-		}
-
-		a {
-			padding: 1rem 0;
-		}
-
-		.badge {
-			position: absolute;
-			top: 1rem;
-			right: 1rem;
-		}
-	}
-}
-
-.msg {
-	padding: .6rem .8rem;
-	margin: 1rem 0;
-	color: @white;
-	border-radius: .3rem;
-
-	&.error { background: @red; }
-	&.success { background: @green; }
-}
-
-.content-title {
-	background: @white;
-	padding: 1rem 0;
-
-	input:not([type="radio"]):not([type="checkbox"]):not([type="range"]) {
-		border: none;
-		font-size: 200%;
-	}
-}
-
-.content-editor {
-	margin: 1rem 0;
-
-	textarea {
-		font-family: monospace;
-		border: none;
-		background: transparent;
-		min-height: 20rem;
-	}
-}
-
-.highlight {
-	background: #ccd2d9;
-}
+@import url('elements.less');
+@import url('media.less');

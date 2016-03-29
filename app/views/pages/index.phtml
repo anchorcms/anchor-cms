@@ -4,14 +4,14 @@
 		<h2>Pages</h2>
 
 		<div class="button-group">
-			<p><a class="btn primary" href="/admin/pages/create">Create a new page</a></p>
+			<p><a class="button button--primary" href="/admin/pages/create">Create a new page</a></p>
 		</div>
 	</header>
 
 	<main class="grid">
 		<div class="grid-col grid-1-4">
-			<p class="upper small quiet">Filter by status</p>
-			<ul class="unstyled-list padded-list">
+			<p class="text--upper text--small text--quiet">Filter by status</p>
+			<ul class="list--unstyled list--padded">
 				<li><a href="<?php echo url('/admin/pages'); ?>">All</a></li>
 				<?php foreach($statuses as $status => $title): ?>
 				<li><a href="/admin/pages?status=<?php echo $status; ?>"><?php echo $title; ?></a></li>
@@ -21,13 +21,13 @@
 
 		<div class="grid-col grid-3-4">
 			<?php if(empty($pages)): ?>
-			<p class="text-center quiet empty">No Pages Found.</p>
+			<p class="text--center text--quiet">No Pages Found.</p>
 			<?php else: ?>
 			<ul class="listing">
 				<?php foreach($pages as $page): ?>
 				<li>
 					<h3><a href="<?php echo url('/admin/pages/'.$page->id.'/edit'); ?>"><?php echo $page->title; ?></a></h3>
-					<span class="badge <?php echo $page->status; ?>"><?php echo $page->status; ?></span>
+					<span class="badge badge--pinned"><?php echo $page->status; ?></span>
 				</li>
 				<?php endforeach; ?>
 			</ul>

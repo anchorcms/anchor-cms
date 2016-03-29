@@ -2,7 +2,7 @@
 
 return [
 	'paths' => function() {
-		return require __DIR__ . '/../paths.php';
+		return require __DIR__ . '/paths.php';
 	},
 	'config' => function($app) {
 		return new Config($app['paths']['config']);
@@ -50,7 +50,7 @@ return [
 		return new Messages($app['session'], $app['view'], 'partials/messages');
 	},
 	'markdown' => function() {
-		return new cebe\markdown\Markdown();
+		return new League\CommonMark\CommonMarkConverter;
 	},
 	'slugify' => function() {
 		return new Slugify;
@@ -62,113 +62,116 @@ return [
 		return new Theme($app['view'], $app['paths'], $app['events']);
 	},
 	'url' => function($app) {
-		return new Url($app['request']);
+		return new Url($app['middleware.request']);
 	},
 
 	/**
 	 * Middleware
 	 */
-	'request' => function() {
+	'middleware.request' => function() {
 		return new Http\ServerRequest($_GET, $_POST, $_SERVER, $_COOKIE, $_FILES);
 	},
-	'response' => function() {
+	'middleware.response' => function() {
 		return new Http\Response;
 	},
-	'routes' => function($app) {
-		$routes = new Routing\RouteCollection(require __DIR__ . '/../routes/default.php');
+	'middleware.routes' => function($app) {
+		$routes = new Routing\RouteCollection(require __DIR__ . '/routes/default.php');
 
 		$app['events']->trigger('routing', $routes);
 
 		return $routes;
 	},
-	'router' => function($app) {
-		return new Routing\UriMatcher($app['routes']);
+	'middleware.router' => function($app) {
+		return new Routing\UriMatcher($app['middleware.routes']);
 	},
-	'kernel' => function($app) {
-		return new Kernel($app['request'], $app['router'], $app);
-	},
-
-	/**
-	 * Services
-	 */
-	'media' => function($app) {
-		return new Services\Media($app['paths']['content']);
-	},
-	'installer' => function($app) {
-		return new Services\Installer($app['paths'], $app['session']);
-	},
-	'customFields' => function($app) {
-		return new Services\CustomFields($app['extend'], $app['postmeta'], $app['pagemeta'], $app['media']);
-	},
-	'themes' => function($app) {
-		return new Services\Themes($app['paths']['themes']);
-	},
-	'plugins' => function($app) {
-		return new Services\Plugins($app['paths']['plugins']);
-	},
-	'rss' => function($app) {
-		$name = $app['meta']->key('sitename');
-		$description = $app['meta']->key('description');
-		$url = $app['request']->getUri();
-
-		return new Services\Rss($name, $description, $url);
-	},
-	'services' => function($app) {
-		$obj = new \StdClass;
-		$obj->posts = new Services\Posts($app['posts'], $app['postmeta'], $app['extend'], $app['users'], $app['categories']);
-
-		return $obj;
+	'middleware.kernel' => function($app) {
+		return new Kernel($app['middleware.request'], $app['middleware.router'], $app);
 	},
 
 	/**
 	 * Mappers
 	 */
-	'categories' => function($app) {
+	'mappers.categories' => function($app) {
 		$mapper = new Mappers\Categories($app['query'], new Models\Category);
 		$mapper->setTablePrefix($app['config']->get('db.table_prefix'));
 
 		return $mapper;
 	},
-	'meta' => function($app) {
+	'mappers.meta' => function($app) {
 		$mapper = new Mappers\Meta($app['query'], new DB\Row);
 		$mapper->setTablePrefix($app['config']->get('db.table_prefix'));
 
 		return $mapper;
 	},
-	'pages' => function($app) {
+	'mappers.pages' => function($app) {
 		$mapper = new Mappers\Pages($app['query'], new Models\Page);
 		$mapper->setTablePrefix($app['config']->get('db.table_prefix'));
 
 		return $mapper;
 	},
-	'pagemeta' => function($app) {
+	'mappers.pagemeta' => function($app) {
 		$mapper = new Mappers\PageMeta($app['query'], new DB\Row);
 		$mapper->setTablePrefix($app['config']->get('db.table_prefix'));
 
 		return $mapper;
 	},
-	'posts' => function($app) {
+	'mappers.posts' => function($app) {
 		$mapper = new Mappers\Posts($app['query'], new Models\Post);
 		$mapper->setTablePrefix($app['config']->get('db.table_prefix'));
 
 		return $mapper;
 	},
-	'postmeta' => function($app) {
+	'mappers.postmeta' => function($app) {
 		$mapper = new Mappers\PostMeta($app['query'], new DB\Row);
 		$mapper->setTablePrefix($app['config']->get('db.table_prefix'));
 
 		return $mapper;
 	},
-	'users' => function($app) {
+	'mappers.users' => function($app) {
 		$mapper = new Mappers\Users($app['query'], new Models\User);
 		$mapper->setTablePrefix($app['config']->get('db.table_prefix'));
 
 		return $mapper;
 	},
-	'extend' => function($app) {
-		$mapper = new Mappers\Extend($app['query'], new DB\Row);
+	'mappers.customFields' => function($app) {
+		$mapper = new Mappers\CustomFields($app['query'], new DB\Row);
 		$mapper->setTablePrefix($app['config']->get('db.table_prefix'));
 
 		return $mapper;
+	},
+
+	/*
+	 * Services
+	 */
+	'services.media' => function($app) {
+		return new Services\Media($app['paths']['content']);
+	},
+	'services.installer' => function($app) {
+		return new Services\Installer($app['paths'], $app['session']);
+	},
+	'services.themes' => function($app) {
+		return new Services\Themes($app['paths']['themes']);
+	},
+	'services.plugins' => function($app) {
+		return new Services\Plugins($app['paths']['plugins']);
+	},
+	'services.rss' => function($app) {
+		$name = $app['mappers.meta']->key('sitename');
+		$description = $app['mappers.meta']->key('description');
+		$url = $app['middleware.request']->getUri();
+
+		return new Services\Rss($name, $description, $url);
+	},
+	'services.posts' => function($app) {
+		return new Services\Posts($app['mappers.posts'], $app['mappers.postmeta'], $app['mappers.customFields'], $app['mappers.users'], $app['mappers.categories']);
+	},
+	'services.customFields' => function($app) {
+		return new Services\CustomFields($app['mappers.customFields'], $app['mappers.postmeta'], $app['mappers.pagemeta'], $app['services.media']);
+	},
+	'services.postman' => function($app) {
+		return new Services\Postman($app['config']->get('mail'));
+	},
+	'services.auth' => function($app) {
+		return new Services\Auth($app['config'], $app['mappers.users']);
 	},
 ];

@@ -4,7 +4,7 @@ namespace Services;
 
 class CustomFields {
 
-	protected $extend;
+	protected $fields;
 
 	protected $postmeta;
 
@@ -12,21 +12,14 @@ class CustomFields {
 
 	protected $media;
 
-	protected $map;
-
-	public function __construct($extend, $postmeta, $pagemeta) {
-		$this->extend = $extend;
+	public function __construct($fields, $postmeta, $pagemeta) {
+		$this->fields = $fields;
 		$this->postmeta = $postmeta;
 		$this->pagemeta = $pagemeta;
-		$this->map = [];
 	}
 
 	protected function getFields($type) {
-		if(array_key_exists($type, $this->map)) {
-			return $this->map[$type];
-		}
-
-		return $this->map[$type] = $this->extend->where('type', '=', $type)->get();
+		return $this->fields->where('type', '=', $type)->get();
 	}
 
 	public function getFieldValues($type, $id) {
@@ -35,7 +28,7 @@ class CustomFields {
 		$table = $type.'meta';
 
 		foreach($fields as $field) {
-			$meta = $this->$table->where('extend', '=', $field->id)->where($type, '=', $id)->fetch();
+			$meta = $this->$table->where('custom_field', '=', $field->id)->where($type, '=', $id)->fetch();
 
 			if($meta) $values[$field->key] = json_decode($meta->data, true);
 		}
@@ -63,16 +56,18 @@ class CustomFields {
 				$value = json_encode($input[$field->key]);
 			}
 
-			$query = $this->$table->where($type, '=', $id)->where('extend', '=', $field->id);
-			$count = clone $query;
+			$meta = $this->$table->where($type, '=', $id)
+				->where('custom_field', '=', $field->id)
+				->fetch();
 
-			if($count->count()) {
-				$query->update(['data' => $value]);
+			if($meta) {
+				$meta->data = $value;
+				$this->$table->save($meta);
 			}
 			else {
 				$this->$table->insert([
 					$type => $id,
-					'extend' => $field->id,
+					'custom_field' => $field->id,
 					'data' => $value,
 				]);
 			}
@@ -98,27 +93,19 @@ class CustomFields {
 	}
 
 	protected function appendImageField($form, $field, $attributes) {
-		$input = new \Forms\Elements\File('_'.$field->key, [
+		$input = new \Forms\Elements\File($field->key, [
 			'label' => $field->label,
 			'attributes' => $attributes,
 		]);
-
-		$form->addElement($input);
-
-		$input = new \Forms\Elements\Hidden($field->key);
 
 		$form->addElement($input);
 	}
 
 	protected function appendFileField($form, $field, $attributes) {
-		$input = new \Forms\Elements\File('_'.$field->key, [
+		$input = new \Forms\Elements\File($field->key, [
 			'label' => $field->label,
 			'attributes' => $attributes,
 		]);
-
-		$form->addElement($input);
-
-		$input = new \Forms\Elements\Hidden($field->key);
 
 		$form->addElement($input);
 	}

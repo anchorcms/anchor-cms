@@ -1,0 +1,22 @@
+<div class="display--hidden">
+	<?php echo $messages; ?>
+</div>
+<script>
+	(function() {
+		var messages = document.querySelector('.messages');
+
+		if(messages) {
+			messages.classList.add('messages--float');
+			messages.parentNode.classList.remove('display--hidden');
+			setTimeout(function() {
+				messages.classList.add('messages--float-in');
+			}, 100);
+			setTimeout(function() {
+				messages.classList.add('messages--float-out');
+			}, 2800);
+			setTimeout(function() {
+				messages.parentNode.parentNode.removeChild(messages.parentNode);
+			}, 3000);
+		}
+	})();
+</script>

@@ -7,6 +7,7 @@ return [
 	'/admin/auth/attempt' => 'controllers\\admin\\auth@attempt',
 	'/admin/auth/logout' => 'controllers\\admin\\auth@logout',
 	'/admin/auth/amnesia' => 'controllers\\admin\\auth@amnesia',
+	'/admin/auth/reset' => 'controllers\\admin\\auth@reset',
 
 	'/admin/posts' => 'controllers\\admin\\posts@index',
 	'/admin/posts/create' => 'controllers\\admin\\posts@create',
@@ -21,6 +22,8 @@ return [
 	'/admin/pages/:id/edit' => 'controllers\\admin\\pages@edit',
 	'/admin/pages/:id/update' => 'controllers\\admin\\pages@update',
 	'/admin/pages/:id/delete' => 'controllers\\admin\\pages@delete',
+
+	'/admin/content/preview' => 'controllers\\admin\\content@preview',
 
 	'/admin/categories' => 'controllers\\admin\\categories@index',
 	'/admin/categories/create' => 'controllers\\admin\\categories@create',
@@ -53,6 +56,7 @@ return [
 	'/admin/meta' => 'controllers\\admin\\meta@index',
 	'/admin/meta/update' => 'controllers\\admin\\meta@update',
 
+	'/admin/media' => 'controllers\\admin\\media@index',
 	'/admin/media/upload' => 'controllers\\admin\\media@upload',
 
 	'/admin/themes' => 'controllers\\admin\\themes@index',

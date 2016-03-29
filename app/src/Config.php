@@ -6,36 +6,37 @@ class Config {
 
 	protected $config;
 
-	public function __construct($path) {
+	public function __construct($path, array $config = []) {
 		$this->path = $path;
-		$this->config = [];
+		$this->config = $config;
 	}
 
 	public function load($name) {
 		if(false === array_key_exists($name, $this->config)) {
-			$this->config[$name] = require $this->path . '/' . $name . '.php';
+			$path = $this->path . '/' . $name . '.php';
+
+			if(false === is_file($path)) {
+				throw new \RuntimeException(sprintf('Config file not found "%s"', $path));
+			}
+
+			$this->config[$name] = require $path;
 		}
 
 		return $this->config[$name];
 	}
 
-	public function get($name) {
-		$keys = explode('.', $name);
+	public function get($path, $default = false) {
+		$keys = explode('.', $path);
 
+		// shift the first key which is the file name to load from
 		$config = $this->load(array_shift($keys));
 
 		foreach($keys as $key) {
-			if(array_key_exists($key, $config)) {
-				if(is_array($config[$key])) {
-					$config &= $config[$key];
-				}
-				else {
-					return $config[$key];
-				}
+			if(false === array_key_exists($key, $config)) {
+				return $default;
 			}
-			else {
-				throw new InvalidArgumentException(sprintf('Index not found: %s', $key));
-			}
+
+			$config = &$config[$key];
 		}
 
 		return $config;

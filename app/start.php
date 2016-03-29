@@ -1,12 +1,11 @@
 <?php
 
 error_reporting(-1);
-ini_set('display_errors', true);
 
 // Make sure this we have a good version of PHP
-if ( ! defined('PHP_VERSION_ID') || PHP_VERSION_ID < 7) {
+if( ! defined('PHP_VERSION_ID') || PHP_VERSION_ID < 7) {
 	echo 'PHP 7 or later is required';
-	exit(1);
+	return;
 }
 
 // Set default timezone to UTC
@@ -17,44 +16,40 @@ if( ! ini_get('date.timezone')) {
 // Check composer is installed
 if(false === is_file(__DIR__ . '/../vendor/autoload.php')) {
 	echo 'Composer not installed :(';
-	exit(1);
+	return;
 }
 
-function dd() {
-	if( ! headers_sent()) {
-		header('content-type: text/plain');
-	}
-	call_user_func_array('var_dump', func_get_args());
-	exit(1);
-}
-
-function e($str) {
-	return htmlspecialchars($str, ENT_COMPAT, 'UTF-8', false);
-}
-
-function url($url) {
-	global $app;
-
-	return $app['url']->to($url);
-}
-
-function asset($url) {
-	global $app;
-
-	return $app['url']->to($url);
-}
-
-function admin_url($url) {
-	global $app;
-
-	return $app['url']->to($url, 'admin');
-}
-
+require __DIR__ . '/helpers.php';
 require __DIR__ . '/../vendor/autoload.php';
 
-$app = new Pimple\Container(require __DIR__ . '/containers/app.php');
+$app = new Pimple\Container(require __DIR__ . '/container.php');
 
-$app['errors']->handler(function($exception) use($app) {
+$app['errors']->handler(function(DB\SqlException $exception) {
+	while(ob_get_level()) ob_end_clean();
+	http_response_code(500);
+	echo sprintf('<html>
+			<head>
+				<title>SqlException</title>
+				<style>html,body { color: #333; padding: 2rem; font: 1rem/1.5rem sans-serif; }</style>
+			</head>
+			<body>
+				<h1>SqlException</h1>
+				<p>%s in %s:%d</p>
+				<h3>SQL</h3>
+				<pre>%s</pre>
+				<h3>Params</h3>
+				<pre>%s</pre>
+			</body>
+		</html>',
+		$exception->getMessage(),
+		$exception->getFile(),
+		$exception->getLine(),
+		$exception->getSql(),
+		json_encode($exception->getParams())
+	);
+});
+
+$app['errors']->handler(function(Throwable $exception) {
 	while(ob_get_level()) ob_end_clean();
 	http_response_code(500);
 	echo sprintf('<html>
@@ -78,24 +73,25 @@ $app['errors']->handler(function($exception) use($app) {
 
 $app['errors']->register();
 
-$app['kernel']->redirectTrailingSlash();
+$app['middleware.kernel']->redirectTrailingSlash();
 
-if(false === $app['installer']->isInstalled() || true === $app['installer']->installerRunning()) {
-	$app['routes']->set(require __DIR__ . '/routes/installer.php');
+if(false === $app['services.installer']->isInstalled() || true === $app['services.installer']->installerRunning()) {
+	$app['middleware.routes']->set(require __DIR__ . '/routes/installer.php');
 }
 
 $app['events']->trigger('before_response');
 
-$response = $app['kernel']->getResponse();
+$response = $app['middleware.kernel']->getResponse();
 
 $app['events']->trigger('after_response');
 
 if($app['session']->started()) {
-	$app['session']->rotate()->close();
+	$app['session']->rotate();
+	$app['session']->close();
 }
 
 $app['events']->trigger('before_output');
 
-$app['kernel']->outputResponse($response);
+$app['middleware.kernel']->outputResponse($response);
 
 $app['events']->trigger('after_output');

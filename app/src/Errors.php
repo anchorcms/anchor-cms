@@ -18,9 +18,22 @@ class Errors {
 		$this->handlers->attach($callback);
 	}
 
+	public function matches($exception, $handler) {
+		$reflection = new \ReflectionFunction($handler);
+		$arguments  = $reflection->getParameters();
+
+		$first = current($arguments);
+		$type = (string) $first->getType();
+
+		return ($exception instanceof $type);
+	}
+
 	public function exception($exception) {
 		foreach($this->handlers as $handler) {
-			$handler($exception);
+			if($this->matches($exception, $handler)) {
+				$handler($exception);
+				$this->halt();
+			}
 		}
 
 		$this->halt();

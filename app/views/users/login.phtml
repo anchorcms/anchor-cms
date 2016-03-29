@@ -1,30 +1,24 @@
 
-<script>document.querySelector('body').classList.add('login');</script>
-
-<main class="wrap valign narrow">
-	<p>
-		<svg x="0px" y="0px" width="24" height="24">
-			<path fill-rule="evenodd" clip-rule="evenodd" d="M23.965,11.622l0.004,4.392L22.26,15.3
-				C20.483,19.251,16.635,22,12,22c-4.635,0-8.482-2.749-10.259-6.7l-1.709,0.714l0.004-4.392c-0.072-0.267,0.087-0.541,0.354-0.612
-				l4.654,1.962l-1.646,1.329c1.324,3.052,4.161,5.248,7.603,5.614V7.858C9.278,7.413,8,5.862,8,4c0-2.209,1.791-4,4-4
-				c2.209,0,4,1.791,4,4c0,1.862-1.277,3.413-3,3.858v12.057c3.444-0.367,6.264-2.572,7.579-5.633l-1.623-1.311l4.656-1.962
-				C23.877,11.081,24.036,11.355,23.965,11.622z M14,4c0-1.104-0.896-2-2-2c-1.104,0-2,0.896-2,2s0.896,2,2,2C13.104,6,14,5.104,14,4z"
-				/>
+<main class="wrap wrap--thin">
+	<h1 class="text--center">
+		<svg class="logo" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="24" height="24">
+			<path class="logo-path" d="M23.9463284,11.622 L23.9503284,16.014 L22.2413284,15.3 C20.4643284,19.251 16.6163284,22 11.9813284,22 C7.34632837,22 3.49932837,19.251 1.72232837,15.3 L0.01332837,16.014 L0.01732837,11.622 C-0.05467163,11.355 0.10432837,11.081 0.37132837,11.01 L5.02532837,12.972 L3.37932837,14.301 C4.70332837,17.353 7.54032837,19.549 10.9823284,19.915 L10.9823284,7.858 C9.25932837,7.413 7.98132837,5.862 7.98132837,4 C7.98132837,1.791 9.77232837,0 11.9813284,0 C14.1903284,0 15.9813284,1.791 15.9813284,4 C15.9813284,5.862 14.7043284,7.413 12.9813284,7.858 L12.9813284,19.915 C16.4253284,19.548 19.2453284,17.343 20.5603284,14.282 L18.9373284,12.971 L23.5933284,11.009 C23.8583284,11.081 24.0173284,11.355 23.9463284,11.622 L23.9463284,11.622 Z M13.9813284,4 C13.9813284,2.896 13.0853284,2 11.9813284,2 C10.8773284,2 9.98132837,2.896 9.98132837,4 C9.98132837,5.104 10.8773284,6 11.9813284,6 C13.0853284,6 13.9813284,5.104 13.9813284,4 L13.9813284,4 Z"></path>
 		</svg>
-	</p>
+	</h1>
 
 	<?php echo $messages; ?>
 
 	<?php echo $form->open(); ?>
 
-		<?php echo $form->getElement('token')->getHtml(); ?>
+	<?php echo $form->getElement('_token')->getHtml(); ?>
 
-		<?php foreach($form->getElementsExcluding(['submit', 'token']) as $element): ?>
-		<p><?php echo $element->withAttributes(['placeholder' => $element->getLabel()])->getHtml(); ?></p>
-		<?php endforeach; ?>
+	<?php foreach($form->getElementsExcluding(['submit', '_token']) as $element): ?>
+	<p><?php echo $element->withAttributes(['placeholder' => $element->getLabel()])->getHtml(); ?></p>
+	<?php endforeach; ?>
 
-		<p class="pull-right"><a href="/admin/auth/amnesia">Forgotten your password?</a></p>
-		<p><?php echo $form->getElement('submit')->withAttributes(['class' => 'btn primary'])->getHtml(); ?></p>
+	<p><?php echo $form->getElement('submit')->withAttributes(['class' => 'button button--dark button--wide'])->getHtml(); ?></p>
+	<p class="text--center text--small"><a href="/admin/auth/amnesia">Forgotten your password?</a></p>
 
 	<?php echo $form->close(); ?>
+
 </main>

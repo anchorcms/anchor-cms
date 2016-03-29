@@ -11,7 +11,7 @@ class Page extends Form {
 
 	public function init() {
 		$this->setFilters([
-			'token' => FILTER_SANITIZE_STRING,
+			'_token' => FILTER_SANITIZE_STRING,
 			'parent' => FILTER_SANITIZE_NUMBER_INT,
 			'slug' => FILTER_SANITIZE_STRING,
 			'name' => FILTER_SANITIZE_STRING,
@@ -27,7 +27,7 @@ class Page extends Form {
 			'title' => ['label' => 'Title', 'rules' => ['required']],
 		]);
 
-		$this->addElement(new \Forms\Elements\Hidden('token'));
+		$this->addElement(new \Forms\Elements\Hidden('_token'));
 
 		$this->addElement(new \Forms\Elements\Select('parent', [
 			'label' => 'Parent',

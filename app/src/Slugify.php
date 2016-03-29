@@ -2,10 +2,26 @@
 
 class Slugify {
 
-	public function parse($str) {
-		$str = preg_replace('#[^A-Za-z0-9\s]+#', '', html_entity_decode($str, ENT_QUOTES, 'UTF-8'));
+	/**
+	 * Format a string to be a valid uri string
+	 */
+	public function slug($string, $separator = '-') {
+		// convert entities
+		$string = html_entity_decode($string, ENT_QUOTES, 'UTF-8');
 
-		return preg_replace('#\s+#', '-', strtolower($str));
+		// replace non letters
+		$string = preg_replace('#[^\w\d\s]+#u', ' ', $string);
+
+		// replace spaces and separators
+		$string = preg_replace('#['.$separator.'\s]+#', $separator, $string);
+
+		// trim spaces and separators
+		$string = trim($string, $separator . " \t\n\r\0\x0B");
+
+		// lower case
+		$string = mb_strtolower($string);
+
+		return $string;
 	}
 
 }

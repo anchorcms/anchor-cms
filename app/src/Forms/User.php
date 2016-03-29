@@ -5,9 +5,9 @@ namespace Forms;
 class User extends Form {
 
 	public function init() {
-		$this->addElement(new \Forms\Elements\Hidden('token'));
+		$this->addElement(new \Forms\Elements\Hidden('_token'));
 
-		$this->addElement(new \Forms\Elements\Input('real_name', [
+		$this->addElement(new \Forms\Elements\Input('name', [
 			'label' => 'Name',
 		]));
 
@@ -53,11 +53,11 @@ class User extends Form {
 
 	public function getFilters() {
 		return [
-			'token' => FILTER_SANITIZE_STRING,
+			'_token' => FILTER_SANITIZE_STRING,
 			'username' => FILTER_SANITIZE_STRING,
 			'password' => FILTER_UNSAFE_RAW,
 			'email' => FILTER_SANITIZE_STRING,
-			'real_name' => FILTER_SANITIZE_STRING,
+			'name' => FILTER_SANITIZE_STRING,
 			'bio' => FILTER_SANITIZE_STRING,
 			'status' => FILTER_SANITIZE_STRING,
 			'role' => FILTER_SANITIZE_STRING,
@@ -66,10 +66,10 @@ class User extends Form {
 
 	public function getRules() {
 		return [
-			'username' => ['label' => 'Username', 'rules' => ['required', 'length:4,200']],
-			'password' => ['label' => 'Password', 'rules' => ['required', 'length:8,200']],
-			'email' => ['label' => 'Email Address', 'rules' => ['required', 'email']],
-			'real_name' => ['label' => 'Real Name', 'rules' => ['required']],
+			'username' => ['label' => 'Username', 'rules' => ['length:4,200']],
+			'password' => ['label' => 'Password', 'rules' => ['length:8,200']],
+			'email' => ['label' => 'Email Address', 'rules' => ['email']],
+			'name' => ['label' => 'Name', 'rules' => ['required']],
 			'status' => ['label' => 'Status', 'rules' => ['required']],
 			'role' => ['label' => 'Role', 'rules' => ['required']],
 		];

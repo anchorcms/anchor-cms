@@ -4,7 +4,7 @@
 		<h2>Custom Fields</h2>
 
 		<div class="button-group">
-			<p><a class="btn primary" href="/admin/fields/create">Create a new custom field</a></p>
+			<p><a class="button button--primary" href="/admin/fields/create">Create a new custom field</a></p>
 		</div>
 	</header>
 
@@ -12,7 +12,8 @@
 		<ul class="listing">
 			<?php foreach($fields as $field): ?>
 			<li>
-				<a href="<?php echo url('/admin/fields/'.$field->id.'/edit'); ?>"><?php echo $field->label; ?></a>
+				<h3><a href="<?php echo url('/admin/fields/'.$field->id.'/edit'); ?>"><?php echo $field->label; ?></a></h3>
+				<span class="badge badge--pinned"><?php echo $field->type; ?> <?php echo $field->field; ?></span>
 			</li>
 			<?php endforeach; ?>
 		</ul>

@@ -5,8 +5,8 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="robots" content="noindex,nofollow">
-		<title><?php echo $title; ?></title>
-		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,300,600">
+		<title><?php echo $title; ?> &mdash; <?php echo $sitename; ?></title>
+		<link rel="icon" type="image/svg+xml" href="/assets/img/logo.svg">
 		<link rel="stylesheet" href="/assets/css/main.css">
 	</head>
 	<body>
@@ -20,29 +20,10 @@
 
 		<footer>
 			<div class="wrap">
-				<p class="quiet small">Powered by Anchor, version 1.0 <span class="pull-right">Make blogging beautiful</span></p>
+				<p class="text--quiet text--small">Powered by Anchor, version 1.0 <span class="pull-right">Make blogging beautiful</span></p>
 			</div>
 		</footer>
 
-		<script>
-			var confirm = function(event) {
-				var element = this;
-
-				if( ! element.classList.contains('confirm-click')) {
-					event.preventDefault();
-					element.setAttribute('data-text', this.innerHTML);
-					element.innerHTML = element.getAttribute('data-confirm');
-					element.classList.add('confirm-click');
-					setTimeout(function() {
-						element.innerHTML = element.getAttribute('data-text');
-						element.classList.remove('confirm-click');
-					}, 3000);
-				}
-			};
-			var elements = document.querySelectorAll('.danger');
-			Array.prototype.forEach.call(elements, function(element, index) {
-				element.addEventListener('click', confirm, false);
-			});
-		</script>
+		<script src="/assets/js/global.js"></script>
 	</body>
 </html>

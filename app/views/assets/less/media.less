@@ -1,0 +1,143 @@
+// main: main.less
+
+@media-container-gutter: 4rem;
+
+.media {
+
+	&-overlay {
+		position: fixed;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		left: 0;
+
+		z-index: 1000;
+		background: rgba(0, 0, 0, .6);
+	}
+
+	&-container {
+		position: fixed;
+		right: @media-container-gutter;
+		left: @media-container-gutter;
+		top: @media-container-gutter;
+		bottom: @media-container-gutter;
+
+		z-index: 1001;
+		background: #fff;
+	}
+
+	&-layout {
+		position: relative;
+		height: 100%;
+	}
+
+	&-sidebar {
+		float: right;
+		width: 6rem;
+		height: 100%;
+		background: lighten(@blue, 70%);
+		transition: width 250ms;
+
+		&--extended {
+			width: 14rem;
+		}
+	}
+
+	&-button-close {
+		display: block;
+		margin: 2rem 0;
+		svg {
+			display: block;
+			margin: 0 auto;
+			path {
+				fill: lighten(@blue, 40%);
+			}
+		}
+	}
+
+	&-queue {
+		padding: 0 1rem;
+		&-item {
+			margin: 1rem 0;
+			background: lighten(@blue, 40%);
+			border-radius: .2rem;
+			text-align: right;
+			vertical-align: middle;
+			&-progress {
+				text-align: center;
+				display: inline-block;
+				padding: 0 .6rem;
+				border-radius: .2rem;
+				margin: .4rem;
+				color: #fff;
+				font-size: 80%;
+				background: lighten(@blue, 60%);
+				vertical-align: middle;
+			}
+		}
+	}
+
+	&-header {
+		height: calc(10% - 1px);
+		border-bottom: 1px solid lighten(@blue, 70%);
+
+		&-title {
+			margin: 0;
+			padding: 1.8rem 1rem;
+		}
+	}
+
+	&-body {
+		height: 90%;
+		overflow: auto;
+	}
+
+	&-list {
+		list-style-type: none;
+		padding: 0;
+		margin: 0;
+		.clearfix;
+
+		&-item {
+			float: left;
+			margin: 1rem;
+			a {
+				display: block;
+				position: relative;
+				width: 250px;
+				height: 225px;
+				border: 1px solid lighten(@blue, 50%);
+				overflow: hidden;
+
+				&:hover {
+					border: 1px solid lighten(@blue, 30%);
+				}
+
+				span {
+					display: block;
+					position: absolute;
+					left: 0;
+					right: 0;
+					bottom: 0;
+					padding: 1rem;
+					z-index: 2;
+					background: @white;
+					font-size: 90%;
+					white-space: nowrap;
+					overflow: hidden;
+					text-overflow: ellipsis;
+				}
+
+				img {
+					position: absolute;
+					top: 0;
+					left: 0;
+					display: block;
+					max-width: 100%;
+					z-index: 1;
+				}
+			}
+		}
+	}
+
+}

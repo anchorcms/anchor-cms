@@ -5,7 +5,7 @@ namespace Forms;
 class CustomVars extends Form {
 
 	public function init() {
-		$this->addElement(new \Forms\Elements\Hidden('token'));
+		$this->addElement(new \Forms\Elements\Hidden('_token'));
 
 		$this->addElement(new \Forms\Elements\Input('key', [
 			'label' => 'Key',
@@ -23,7 +23,7 @@ class CustomVars extends Form {
 
 	public function getFilters() {
 		return [
-			'token' => FILTER_SANITIZE_STRING,
+			'_token' => FILTER_SANITIZE_STRING,
 			'key' => FILTER_SANITIZE_STRING,
 			'value' => FILTER_UNSAFE_RAW,
 		];

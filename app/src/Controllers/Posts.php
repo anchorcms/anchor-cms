@@ -5,11 +5,14 @@ namespace Controllers;
 class Posts extends Frontend {
 
 	public function getIndex($request) {
-		$page = $this->pages->where('id', '=', $this->meta->key('posts_page'))
+		$page = $this->container['mappers.pages']->where('id', '=', $this->container['mappers.meta']->key('posts_page'))
 			->where('status', '=', 'published')
 			->fetch();
 
-		$article = $this->posts->where('slug', '=', $request->getAttribute('post'))
+		$slug = $request->getAttribute('post');
+		$decoded = rawurldecode($slug);
+
+		$article = $this->container['mappers.posts']->where('slug', '=', $decoded)
 			->where('status', '=', 'published')
 			->fetch();
 
@@ -20,20 +23,20 @@ class Posts extends Frontend {
 
 		// set globals
 		$vars['page'] = $page;
-		$vars['meta'] = $this->meta->all();
+		$vars['meta'] = $this->container['mappers.meta']->all();
 
-		$pages = $this->pages->menu();
+		$pages = $this->container['mappers.pages']->menu();
 		$vars['menu'] = new \ContentIterator($pages);
 
-		$categories = $this->categories->allPublished();
+		$categories = $this->container['mappers.categories']->allPublished();
 		$vars['categories'] = new \ContentIterator($categories);
 
-		$this->services->posts->hydrate([$article]);
+		$this->container['services.posts']->hydrate([$article]);
 
 		$content = new \ContentIterator([$article]);
 		$vars['content'] = $content;
 
-		return $this->theme->render(['article', 'index'], $vars);
+		return $this->container['theme']->render(['article', 'index'], $vars);
 	}
 
 }

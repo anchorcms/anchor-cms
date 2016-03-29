@@ -1,0 +1,40 @@
+<header class="content-title">
+	<div class="wrap">
+		<?php $element = $form->getElement('title'); $value = e($element->getValue());
+			echo $element->withValue($value)
+					->withAttributes(['placeholder' => $element->getLabel()])
+					->getHtml(); ?>
+	</div>
+</header>
+
+<nav class="content-toolbar">
+	<div class="wrap">
+		<ul class="list--unstyled">
+			<li class="list-item--inline"><a class="media-library-toggle button button--small" href="#">Insert Image</a></li>
+			<li class="list-item--inline"><a class="content-preview-toggle button button--small" href="#">Preview</a></li>
+			<li class="list-item--inline float--right">
+				<?php echo $form->getElement('submit')->withAttributes(['class' => 'button button--primary button--small'])->getHtml(); ?>
+			</li>
+		</ul>
+	</div>
+</nav>
+
+<main class="content-editor">
+	<div class="wrap">
+		<?php echo $form->getElement('content')->getHtml(); ?>
+	</div>
+</main>
+
+<div class="highlight">
+	<div class="wrap">
+		<?php echo $this->render('partials/form-elements', [
+			'elements' => $form->getElementsExcluding(['submit', '_token', 'title', 'content'])
+		]); ?>
+	</div>
+</div>
+
+<script src="/assets/js/toolbar.js"></script>
+<script src="/assets/js/editor.js"></script>
+<script src="/assets/js/preview.js"></script>
+
+<?php echo $this->render('partials/media-library'); ?>

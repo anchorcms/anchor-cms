@@ -1,5 +1,9 @@
 // main: main.less
 
+@form-input-padding: .5rem .8rem;
+@form-input-border-radius: .3rem;
+@form-label-width: 12rem;
+
 :focus {
 	outline: none;
 }
@@ -9,24 +13,87 @@ label {
 	padding: .2rem 0;
 }
 
-input:not([type="radio"]):not([type="checkbox"]):not([type="range"]), textarea {
+input:not([type="radio"]):not([type="checkbox"]):not([type="range"]), textarea, select, .form-element-input-checkbox {
 	background: @white;
 	color: @black;
-	border: 1px solid darken(@light-blue, 10%);
-	padding: .6rem .8rem;
+	border: 1px solid darken(@background, 20%);
+	padding: @form-input-padding;
 	display: block;
 	width: 100%;
 	vertical-align: middle;
-	border-radius: .3rem;
+	border-radius: @form-input-border-radius;
+	font-family: inherit;
+	font-size: inherit;
+	line-height: inherit;
+
+	&[readonly] {
+		background: lighten(@blue, 66%);
+	}
 }
 
 textarea {
 	resize: vertical;
 }
 
-form.inline {
-	input:not([type="radio"]):not([type="checkbox"]):not([type="range"]) {
+.form--inline {
+	input:not([type="radio"]):not([type="checkbox"]):not([type="range"]), textarea, select {
 		display: inline-block;
 		width: auto;
 	}
+}
+
+.form-element {
+	.clearfix;
+	margin: 1rem 0;
+
+	&-input {
+		margin-left: @form-label-width;
+
+		input:not([type="radio"]):not([type="checkbox"]):not([type="range"]), textarea, select, .form-element-input-checkbox {
+			border: none;
+			border-radius: 0;
+			border-top-right-radius: @form-input-border-radius;
+			border-bottom-right-radius: @form-input-border-radius;
+		}
+
+		textarea {
+			border-bottom-left-radius: @form-input-border-radius;
+		}
+
+		&-checkbox {
+			width: 3.2rem;
+			cursor: pointer;
+
+			&:after {
+				display: inlin-block;
+				padding: 0 .4rem;
+				content: '✘';
+				color: @red;
+				border-radius: @form-input-border-radius;
+			}
+		}
+
+		input[type=checkbox] {
+			display: none;
+		}
+
+		input[type=checkbox]:checked + &-checkbox:after {
+			content: '✔';
+			color: @green;
+		}
+	}
+
+	&-label {
+		color: lighten(@blue, 25%);
+		background: lighten(@blue, 60%);
+		text-align: center;
+		float: left;
+		width: @form-label-width;
+		padding: @form-input-padding;
+		vertical-align: middle;
+		border-radius: 0;
+		border-top-left-radius: @form-input-border-radius;
+		border-bottom-left-radius: @form-input-border-radius;
+	}
+
 }

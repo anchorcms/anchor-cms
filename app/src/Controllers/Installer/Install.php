@@ -2,22 +2,20 @@
 
 namespace Controllers\Installer;
 
-use Pimple\Container;
 use Controllers\AbstractController;
 
 class Install extends AbstractController {
 
-	public function __construct(Container $container) {
-		$this->setContainer($container);
-		$this->view->setPath($this->paths['views']);
+	public function before() {
+		$this->container['view']->setPath($this->container['paths']['views']);
 	}
 
 	protected function renderTemplate($layout, $template, array $vars = []) {
-		$vars['messages'] = $this->messages->render();
-		$vars['webroot'] = $this->url->to('/');
-		$vars['body'] = $this->view->render($template, $vars);
+		$vars['messages'] = $this->container['messages']->render();
+		$vars['webroot'] = $this->container['url']->to('/');
+		$vars['body'] = $this->container['view']->render($template, $vars);
 
-		return $this->view->render($layout, $vars);
+		return $this->container['view']->render($layout, $vars);
 	}
 
 	public function getIndex() {
@@ -31,13 +29,13 @@ class Install extends AbstractController {
 	public function getL10n() {
 		$form = new \Forms\Installer\L10n([
 			'method' => 'post',
-			'action' => $this->url->to('/l10n'),
+			'action' => $this->container['url']->to('/l10n'),
 			'autocomplete' => 'off',
 		]);
 		$form->init();
 
 		// populate from session
-		$data = $this->session->get('install', []);
+		$data = $this->container['session']->get('install', []);
 		$form->setValues($data);
 
 		$vars['title'] = 'Installin\' Anchor CMS';
@@ -51,13 +49,13 @@ class Install extends AbstractController {
 
 		$input = filter_input_array(INPUT_POST, $form->getFilters());
 
-		$data = $this->session->get('install', []);
-		$this->session->put('install', array_merge($data, $input));
+		$data = $this->container['session']->get('install', []);
+		$this->container['session']->put('install', array_merge($data, $input));
 
-		$validator = $this->validation->create($input, $form->getRules());
+		$validator = $this->container['validation']->create($input, $form->getRules());
 
 		if(false === $validator->isValid()) {
-			$this->messages->error($validator->getMessages());
+			$this->container['messages']->error($validator->getMessages());
 
 			return $this->redirect('/l10n');
 		}
@@ -68,18 +66,18 @@ class Install extends AbstractController {
 	public function getDatabase() {
 		$form = new \Forms\Installer\Database([
 			'method' => 'post',
-			'action' => $this->url->to('/database'),
+			'action' => $this->container['url']->to('/database'),
 			'autocomplete' => 'off',
 		]);
 		$form->init();
 
 		// populate from session
-		$data = $this->session->get('install', []);
+		$data = $this->container['session']->get('install', []);
 		$form->setValues($data);
 
 		$vars['title'] = 'Installin\' Anchor CMS';
 		$vars['form'] = $form;
-		$vars['backUrl'] = $this->url->to('/l10n');
+		$vars['backUrl'] = $this->container['url']->to('/l10n');
 
 		return $this->renderTemplate('installer/layout', 'installer/database', $vars);
 	}
@@ -89,8 +87,8 @@ class Install extends AbstractController {
 
 		$input = filter_input_array(INPUT_POST, $form->getFilters());
 
-		$data = $this->session->get('install', []);
-		$this->session->put('install', array_merge($data, $input));
+		$data = $this->container['session']->get('install', []);
+		$this->container['session']->put('install', array_merge($data, $input));
 
 		$rules = $form->getRules();
 
@@ -100,20 +98,18 @@ class Install extends AbstractController {
 			$rules['user'] = ['required'];
 		}
 
-		$validator = $this->validation->create($input, $rules);
+		$validator = $this->container['validation']->create($input, $rules);
 
 		try {
-			$pdo = $this->installer->connectDatabase($input);
+			$pdo = $this->container['services.installer']->connectDatabase($input);
+			$pdo = null;
 		}
 		catch(\PDOException $e) {
 			$validator->setInvalid($e->getMessage());
 		}
-		finally {
-			$pdo = null;
-		}
 
 		if(false === $validator->isValid()) {
-			$this->messages->error($validator->getMessages());
+			$this->container['messages']->error($validator->getMessages());
 			return $this->redirect('/database');
 		}
 
@@ -123,20 +119,20 @@ class Install extends AbstractController {
 	public function getMetadata() {
 		$form = new \Forms\Installer\Metadata([
 			'method' => 'post',
-			'action' => $this->url->to('/metadata'),
+			'action' => $this->container['url']->to('/metadata'),
 			'autocomplete' => 'off',
 		]);
 		$form->init();
 
-		$form->getElement('site_path')->setValue($this->url->to('/'));
+		$form->getElement('site_path')->setValue($this->container['url']->to('/'));
 
 		// populate from session
-		$data = $this->session->get('install', []);
+		$data = $this->container['session']->get('install', []);
 		$form->setValues($data);
 
 		$vars['title'] = 'Installin\' Anchor CMS';
 		$vars['form'] = $form;
-		$vars['backUrl'] = $this->url->to('/database');
+		$vars['backUrl'] = $this->container['url']->to('/database');
 
 		return $this->renderTemplate('installer/layout', 'installer/metadata', $vars);
 	}
@@ -146,13 +142,13 @@ class Install extends AbstractController {
 
 		$input = filter_input_array(INPUT_POST, $form->getFilters());
 
-		$data = $this->session->get('install', []);
-		$this->session->put('install', array_merge($data, $input));
+		$data = $this->container['session']->get('install', []);
+		$this->container['session']->put('install', array_merge($data, $input));
 
-		$validator = $this->validation->create($input, $form->getRules());
+		$validator = $this->container['validation']->create($input, $form->getRules());
 
 		if(false === $validator->isValid()) {
-			$this->messages->error($validator->getMessages());
+			$this->container['messages']->error($validator->getMessages());
 			return $this->redirect('/metadata');
 		}
 
@@ -162,18 +158,18 @@ class Install extends AbstractController {
 	public function getAccount() {
 		$form = new \Forms\Installer\Account([
 			'method' => 'post',
-			'action' => $this->url->to('/account'),
+			'action' => $this->container['url']->to('/account'),
 			'autocomplete' => 'off',
 		]);
 		$form->init();
 
 		// populate from session
-		$data = $this->session->get('install', []);
+		$data = $this->container['session']->get('install', []);
 		$form->setValues($data);
 
 		$vars['title'] = 'Installin\' Anchor CMS';
 		$vars['form'] = $form;
-		$vars['backUrl'] = $this->url->to('/metadata');
+		$vars['backUrl'] = $this->container['url']->to('/metadata');
 
 		return $this->renderTemplate('installer/layout', 'installer/account', $vars);
 	}
@@ -183,28 +179,28 @@ class Install extends AbstractController {
 
 		$input = filter_input_array(INPUT_POST, $form->getFilters());
 
-		$data = $this->session->get('install', []);
-		$this->session->put('install', array_merge($data, $input));
+		$data = $this->container['session']->get('install', []);
+		$this->container['session']->put('install', array_merge($data, $input));
 
-		$validator = $this->validation->create($input, $form->getRules());
+		$validator = $this->container['validation']->create($input, $form->getRules());
 
 		if(false === $validator->isValid()) {
-			$this->messages->error($validator->getMessages());
+			$this->container['messages']->error($validator->getMessages());
 			return $this->redirect('/account');
 		}
 
-		$data = $this->session->get('install', []);
-		$this->installer->run($data);
+		$data = $this->container['session']->get('install', []);
+		$this->container['services.installer']->run($data);
 
 		return $this->redirect('/complete');
 	}
 
 	public function getComplete() {
 		$vars['title'] = 'Installin\' Anchor CMS';
-		$vars['adminUrl'] = $this->url->to('/admin');
-		$vars['siteUrl'] = $this->url->to('/');
+		$vars['adminUrl'] = $this->container['url']->to('/admin');
+		$vars['siteUrl'] = $this->container['url']->to('/');
 
-		$this->session->remove('install');
+		$this->container['session']->remove('install');
 
 		return $this->renderTemplate('installer/layout', 'installer/finished', $vars);
 	}

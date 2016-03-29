@@ -6,17 +6,30 @@ class Auth extends Backend {
 
 	protected $private = false;
 
+	public function getStart() {
+		if($this->container['session']->has('user')) {
+			$forward = filter_input(INPUT_GET, 'forward', FILTER_SANITIZE_URL, [
+				'options' => [
+					'default' => $this->container['url']->to('/admin/posts'),
+				],
+			]);
+
+			return $this->redirect($forward);
+		}
+		return $this->redirect($this->container['url']->to('/admin/auth/login'));
+	}
+
 	public function getLogin() {
 		$vars['title'] = 'Login';
 
 		$form = new \Forms\Login([
 			'method' => 'post',
-			'action' => $this->url->to('/admin/auth/attempt'),
+			'action' => $this->container['url']->to('/admin/auth/attempt'),
 		]);
 		$form->init();
-		$form->getElement('token')->setValue($this->csrf->token());
+		$form->getElement('_token')->setValue($this->container['csrf']->token());
 
-		$values = $this->session->getFlash('input', []);
+		$values = $this->container['session']->getFlash('input', []);
 		$form->setValues($values);
 
 		$vars['form'] = $form;
@@ -29,44 +42,41 @@ class Auth extends Backend {
 		$input = $form->getFilters();
 
 		// validate input
-		$validator = $this->validation->create($input, $form->getRules());
+		$validator = $this->container['validation']->create($input, $form->getRules());
 
 		// check token
-		if($this->csrf->verify($input['token']) === false) {
-			$validator->setInvalid('Invalid token');
-		}
+		$validator->addRule(new \Forms\ValidateToken($this->container['csrf']->token()), '_token');
 
 		if($validator->isValid()) {
-			// check username
-			$user = $this->users->fetchByUsername($input['username']);
+			$user = $this->container['services.auth']->login($input['username'], $input['password']);
 
 			if(false === $user) {
-				$validator->setInvalid('Invalid details');
+				$validator->setInvalid('Sorry, we don&apos;t reconise those details');
 			}
-			// validate password
-			elseif(false === $user->isPassword($input['password'])) {
-				$validator->setInvalid('Invalid details');
-			}
-			// is active
 			elseif(false === $user->isActive()) {
-				$validator->setInvalid('Your account is inactive');
+				$validator->setInvalid('Your account have not active');
 			}
 		}
 
 		if(false === $validator->isValid()) {
-			$this->messages->error($validator->getMessages());
-			$this->session->putFlash('input', ['username' => $input['username']]);
+			$this->container['messages']->error($validator->getMessages());
+			$this->container['session']->putFlash('input', ['username' => $input['username']]);
 
-			return $this->redirect($this->url->to('/admin/auth/login'));
+			return $this->redirect($this->container['url']->to('/admin/auth/login'));
+		}
+
+		// check password and update it
+		if($this->container['services.auth']->checkPasswordHash($user->password)) {
+			$this->container['services.auth']->changePassword($user, $input['password']);
 		}
 
 		// create session
-		$this->session->put('user', $user->id);
+		$this->container['session']->put('user', $user->id);
 
 		// redirect
 		$forward = filter_input(INPUT_GET, 'forward', FILTER_SANITIZE_URL, [
 			'options' => [
-				'default' => $this->url->to('/admin/posts'),
+				'default' => $this->container['url']->to('/admin/posts'),
 			],
 		]);
 
@@ -74,24 +84,11 @@ class Auth extends Backend {
 	}
 
 	public function getLogout() {
-		$this->session->clear();
-		$this->session->regenerate(true);
+		$this->container['session']->clear();
+		$this->container['session']->regenerate(true);
 
-		$this->messages->success('You are now logged out');
-		return $this->redirect($this->url->to('/admin/auth/login'));
-	}
-
-	public function getStart() {
-		if($this->session->has('user')) {
-			$forward = filter_input(INPUT_GET, 'forward', FILTER_SANITIZE_URL, [
-				'options' => [
-					'default' => $this->url->to('/admin/posts'),
-				],
-			]);
-
-			return $this->redirect($forward);
-		}
-		return $this->redirect($this->url->to('/admin/auth/login'));
+		$this->container['messages']->success('You are now logged out');
+		return $this->redirect($this->container['url']->to('/admin/auth/login'));
 	}
 
 	public function getAmnesia() {
@@ -99,17 +96,116 @@ class Auth extends Backend {
 
 		$form = new \Forms\Amnesia([
 			'method' => 'post',
-			'action' => $this->url->to('/admin/auth/amnesia'),
+			'action' => $this->container['url']->to('/admin/auth/amnesia'),
 		]);
 		$form->init();
-		$form->getElement('token')->setValue($this->csrf->token());
+		$form->getElement('_token')->setValue($this->container['csrf']->token());
 
-		$values = $this->session->getFlash('input', []);
+		$values = $this->container['session']->getFlash('input', []);
 		$form->setValues($values);
 
 		$vars['form'] = $form;
 
 		return $this->renderTemplate('layouts/minimal', 'users/amnesia', $vars);
+	}
+
+	public function postAmnesia($request) {
+		$form = new \Forms\Amnesia;
+		$input = $form->getFilters();
+
+		// validate input
+		$validator = $this->container['validation']->create($input, $form->getRules());
+
+		// check token
+		$validator->addRule(new \Forms\ValidateToken($this->container['csrf']->token()), '_token');
+
+		if($validator->isValid()) {
+			// check username
+			$user = $this->container['mappers.users']->fetchByEmail($input['email']);
+
+			if(false === $user) {
+				$validator->setInvalid('Sorry, we don&apos;t reconise those details');
+			}
+			// is active
+			elseif(false === $user->isActive()) {
+				$validator->setInvalid('Your account have not active');
+			}
+		}
+
+		if(false === $validator->isValid()) {
+			$this->container['messages']->error($validator->getMessages());
+			$this->container['session']->putFlash('input', ['email' => $input['email']]);
+
+			return $this->redirect($this->container['url']->to('/admin/auth/amnesia'));
+		}
+
+		$to = [$user->email => $user->name];
+		$from = $this->container['config']->get('mail.from');
+		$subject = sprintf('[%s] Password Reset', $this->container['mappers.meta']->key('sitename'));
+
+		$token = $this->container['services.auth']->resetToken($user);
+
+		$link = $this->container['url']->to('/admin/auth/reset?token=' . $token);
+		$body = $this->renderTemplate('layouts/email', 'users/reset-password-email', ['link' => $link, 'user' => $user]);
+
+		$this->container['services.postman']->deliver($to, $from, $subject, $body);
+
+		$this->container['messages']->success(['We have sent a email with further instructions']);
+		return $this->redirect('/admin/auth/login');
+	}
+
+	public function getReset($request) {
+		// check token
+		$token = filter_input(INPUT_GET, 'token', FILTER_SANITIZE_STRING);
+		$user = $this->container['services.auth']->verifyToken($token);
+
+		if( ! $user) {
+			$this->container['messages']->error(['Invalid reset token']);
+			return $this->redirect($this->container['url']->to('/admin/auth/login'));
+		}
+
+		$vars['title'] = 'Reset Password';
+
+		$form = new \Forms\Reset([
+			'method' => 'post',
+			'action' => $this->container['url']->to('/admin/auth/reset?token=' . $token),
+		]);
+		$form->init();
+		$form->getElement('_token')->setValue($this->container['csrf']->token());
+
+		$vars['form'] = $form;
+
+		return $this->renderTemplate('layouts/minimal', 'users/reset', $vars);
+	}
+
+	public function postReset($request) {
+		// check token
+		$token = filter_input(INPUT_GET, 'token', FILTER_SANITIZE_STRING);
+		$user = $this->container['services.auth']->verifyToken($token);
+
+		if( ! $user) {
+			$this->container['messages']->error(['Invalid reset token']);
+			return $this->redirect($this->container['url']->to('/admin/auth/login'));
+		}
+
+		$form = new \Forms\Reset;
+		$input = $form->getFilters();
+
+		// validate input
+		$validator = $this->container['validation']->create($input, $form->getRules());
+
+		// check token
+		$validator->addRule(new \Forms\ValidateToken($this->container['csrf']->token()), '_token');
+
+		if(false === $validator->isValid()) {
+			$this->container['messages']->error($validator->getMessages());
+			return $this->redirect($this->container['url']->to('/admin/auth/reset?token=' . $token));
+		}
+
+		$this->container['services.auth']->changePassword($user, $input['password']);
+
+		$this->container['messages']->success(['Your password has been reset']);
+		return $this->redirect($this->container['url']->to('/admin/auth/login'));
 	}
 
 }
