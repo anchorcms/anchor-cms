@@ -9,25 +9,13 @@ class Themes {
 	}
 
 	public function getThemes() {
-		$themes = [];
-
 		$if = new \FilesystemIterator($this->path, \FilesystemIterator::SKIP_DOTS);
 
 		foreach($if as $file) {
-			if($file->isDir()) {
-				$key = $file->getBasename();
+			if(false === $file->isDir()) continue;
 
-				$name = ucwords($key);
-
-				$themes[$key] = $name;
-			}
+			yield new Themes\Theme($file->getPathname());
 		}
-
-		return $themes;
-	}
-
-	public function dropdownOptions() {
-		return $this->getThemes();
 	}
 
 }

@@ -5,13 +5,17 @@
 	</header>
 
 	<main>
-		<ul class="tiles">
+		<ul class="tiles grid">
 			<?php foreach($themes as $theme): ?>
-			<li class="tiles-item">
-				<figure>
-					<img src="">
-					<figcaption><?php echo $theme; ?>
-						<a href="#">Set as default</a></figcaption>
+			<li class="tile grid-col grid-1-3">
+				<figure class="tile-figure">
+					<img class="tile-figure-img" src="http://placehold.it/360x180">
+					<figcaption class="tile-figure-caption">
+						<?php if( ! $theme->isActive()): ?>
+						<a class="float--right button button--small" href="#">Make Active</a>
+						<?php endif; ?>
+						<?php echo $theme->getName(); ?>
+					</figcaption>
 				</figure>
 			</li>
 			<?php endforeach; ?>

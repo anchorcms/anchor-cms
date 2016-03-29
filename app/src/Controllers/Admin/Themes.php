@@ -10,4 +10,13 @@ class Themes extends Backend {
 
 		return $this->renderTemplate('layouts/default', 'themes/index', $vars);
 	}
+
+	public function postActivate() {
+		$theme = filter_input(INPUT_POST, 'theme', FILTER_SANITIZE_STRING);
+
+		$this->container['mappers.meta']->where('key', '=', 'theme')->update(['value' => $theme]);
+
+		return $this->jsonResponse(['result' => true]);
+	}
+
 }

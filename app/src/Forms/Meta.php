@@ -18,7 +18,6 @@ class Meta extends Form {
 			'admin_posts_per_page' => FILTER_SANITIZE_NUMBER_INT,
 			'home_page' => FILTER_SANITIZE_NUMBER_INT,
 			'posts_page' => FILTER_SANITIZE_NUMBER_INT,
-			'theme' => FILTER_SANITIZE_STRING,
 		]);
 
 		$this->setRules([
@@ -29,7 +28,6 @@ class Meta extends Form {
 			'admin_posts_per_page' => ['required'],
 			'home_page' => ['required'],
 			'posts_page' => ['required'],
-			'theme' => ['required'],
 		]);
 
 		$this->addElement(new \Forms\Elements\Hidden('_token'));
@@ -56,10 +54,6 @@ class Meta extends Form {
 
 		$this->addElement(new \Forms\Elements\Select('posts_page', [
 			'label' => 'Posts Page',
-		]));
-
-		$this->addElement(new \Forms\Elements\Select('theme', [
-			'label' => 'Theme',
 		]));
 
 		$this->addElement(new \Forms\Elements\Submit('submit', [

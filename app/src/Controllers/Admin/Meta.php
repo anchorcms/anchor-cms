@@ -21,10 +21,6 @@ class Meta extends Backend {
 
 		$form->getElement('posts_page')->setOptions($options);
 
-		$options = $this->container['services.themes']->dropdownOptions();
-
-		$form->getElement('theme')->setOptions($options);
-
 		$values = [];
 
 		foreach($meta as $row) {

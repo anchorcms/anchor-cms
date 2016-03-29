@@ -125,6 +125,26 @@
 	}
 }
 
+.tiles {
+	list-style-type: none;
+	padding: 0;
+}
+
+.tile {
+	&-figure {
+		margin: 0;
+
+		&-img {
+			max-width: 100%;
+		}
+
+		&-caption {
+
+		}
+	}
+
+}
+
 .messages {
 	transition: right 500ms, opacity 200ms;
 
@@ -216,15 +236,5 @@
 	}
 	strong {
 		background: lighten(@blue, 60%);
-	}
-}
-
-.tiles {
-	padding: 0;
-	list-style-type: none;
-	.clearfix;
-	&-item {
-		float: left;
-		width: 33.33333333%;
 	}
 }
