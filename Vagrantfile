@@ -40,8 +40,8 @@ listen.group = www-data
 pm = static
 pm.max_children = 5
 pm.max_requests = 500
-' > /etc/php5/fpm/pool.d/www.conf
-service php5-fpm restart
+' > /etc/php/7.0/fpm/pool.d/www.conf
+service php7.0-fpm restart
 SCRIPT
 
 Vagrant.configure("2") do |config|
