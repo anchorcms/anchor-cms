@@ -10,18 +10,10 @@ return [
 	'db' => function($app) {
 		$config = $app['config']->get('db');
 
-		if($config['driver'] == 'sqlite') {
-			$dns = sprintf('%s:%s', $config['driver'], $app['paths']['storage'] . '/' . $config['dbname']);
-			$pdo = new PDO($dns);
-		}
-
-		if($config['driver'] == 'mysql') {
-			$dns = sprintf('%s:host=%s;dbname=%s', $config['driver'], $config['host'], $config['dbname']);
-			$pdo = new PDO($dns, $config['user'], $config['pass']);
-		}
-
-		$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-		$pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+		$pdo = new PDO($dns, $config['user'], $config['pass'], [
+			PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+			PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
+		]);
 
 		return $pdo;
 	},
@@ -34,11 +26,30 @@ return [
 	'events' => function() {
 		return new Events\EventManager();
 	},
-	'session' => function() {
-		$s = new Session\Session();
-		$s->start();
+	'session' => function($app) {
+		// try to create the folder is it does not exist
+		if(false === is_dir($app['paths']['sessions'])) {
+			mkdir($app['paths']['sessions']);
+		}
 
-		return $s;
+		// use builtin file handler
+		$handler = new \SessionHandler;
+
+		$storage = new Session\NativeStorage($handler, [
+			'entropy_length' => 32,
+			'use_cookies' => true,
+			'use_only_cookies' => true,
+			'cookie_lifetime' => 0,
+			'gc_probability' => 0,
+			'name' => 'anchor',
+			'save_path' => $app['paths']['sessions'],
+			'save_handler' => 'files',
+			'hash_function' => 'sha256',
+		]);
+
+		$session = new Session\Session($storage);
+
+		return $session;
 	},
 	'csrf' => function($app) {
 		return new Csrf($app['session']);

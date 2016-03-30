@@ -7,6 +7,7 @@ use Controllers\AbstractController;
 class Install extends AbstractController {
 
 	public function before() {
+		$this->container['session']->start();
 		$this->container['view']->setPath($this->container['paths']['views']);
 	}
 

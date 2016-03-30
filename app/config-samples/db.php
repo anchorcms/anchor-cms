@@ -1,13 +1,8 @@
 <?php
 
 return [
-	'driver' => '{driver}',
-
-	'host' => '{host}',
-	'port' => '{port}',
+	'dns' => '{dns}',
 	'user' => '{user}',
 	'pass' => '{pass}',
-
-	'dbname' => '{dbname}',
 	'table_prefix' => '{prefix}',
 ];

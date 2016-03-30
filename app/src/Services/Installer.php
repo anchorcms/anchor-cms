@@ -16,7 +16,7 @@ class Installer {
 	public function isInstalled() {
 		$path = $this->paths['config'];
 
-		foreach(['db', 'app'] as $file) {
+		foreach(['db', 'app', 'mail'] as $file) {
 			$dest = $path . sprintf('/%s.php', $file);
 
 			// missing config file, assume not installed
@@ -30,22 +30,18 @@ class Installer {
 		return $this->session->has('install');
 	}
 
-	public function connectDatabase(array $input) {
-		// test connection
-		if($input['driver'] == 'mysql') {
-			$dns = sprintf('mysql:host=%s;port=%d;dbname=%s', $input['host'], $input['port'], $input['dbname']);
-
-			return new \PDO($dns, $input['user'], $input['pass']);
-		}
-
-		// test file
+	public function buildDns(array $input) {
 		if($input['driver'] == 'sqlite') {
-			$dns = sprintf('sqlite:%s', $this->paths['storage'] . '/' . $input['dbname']);
-
-			return new \PDO($dns);
+			return sprintf('sqlite:%s', $this->paths['storage'] . '/' . $input['dbname']);
 		}
 
-		throw new \ErrorException(sprintf('Unsupported database driver "%s"', $input['driver']));
+		return sprintf('%s:host=%s;port=%d;dbname=%s', $input['driver'], $input['host'], $input['port'], $input['dbname']);
+	}
+
+	public function connectDatabase(array $input) {
+		$dns = $this->buildDns($input);
+
+		return new \PDO($dns, $input['user'], $input['pass']);
 	}
 
 	public function run(array $input) {
@@ -62,7 +58,7 @@ class Installer {
 
 		if(false === is_dir($path)) mkdir($path);
 
-		foreach(['db', 'app'] as $file) {
+		foreach(['db', 'app', 'mail'] as $file) {
 			$src = $path . sprintf('/../config-samples/%s.php', $file);
 			$dest = $path . sprintf('/%s.php', $file);
 

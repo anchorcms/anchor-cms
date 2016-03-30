@@ -22,7 +22,11 @@ Icon?
 Thumbs.db
 
 # folders
+/app/storage
+!/app/storage/*.sql
 /web/content
+/web/themes
+!/web/themes/default
 /app/config
 /vendor
 /bin

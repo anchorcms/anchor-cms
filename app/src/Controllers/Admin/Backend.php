@@ -10,6 +10,8 @@ abstract class Backend extends AbstractController {
 	protected $private = true;
 
 	public function before($request) {
+		$this->container['session']->start();
+
 		$this->container['view']->setPath($this->container['paths']['views']);
 
 		if(true === $this->private && false === $this->container['session']->has('user')) {
