@@ -16,7 +16,8 @@ class Themes extends Backend {
 
 		$this->container['mappers.meta']->where('key', '=', 'theme')->update(['value' => $theme]);
 
-		return $this->jsonResponse(['result' => true]);
+		$this->container['messages']->success(['Theme updated']);
+		return $this->redirect($this->container['url']->to('/admin/themes'));
 	}
 
 }

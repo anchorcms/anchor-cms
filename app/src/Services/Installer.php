@@ -27,19 +27,21 @@ class Installer {
 	}
 
 	public function installerRunning() {
-		return $this->session->has('install');
+		return $this->session->started() && $this->session->has('install');
 	}
 
 	public function buildDns(array $input) {
 		$parts = [];
 
 		if($input['driver'] == 'sqlite') {
-			$input['dbname'] = $this->paths['storage'] . '/' . $input['dbname'];
+			$parts['dbname'] = $this->paths['storage'] . '/' . $input['dbname'];
+
+			return sprintf('%s:%s', $input['driver'], implode(';', $parts));
 		}
 
 		foreach(['host', 'port', 'dbname'] as $part) {
 			if(array_key_exists($part, $input)) {
-				$parts[] = sprintf('%s=%s', $parts, $input[$part]);
+				$parts[] = sprintf('%s=%s', $part, $input[$part]);
 			}
 		}
 

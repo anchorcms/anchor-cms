@@ -4,8 +4,13 @@ namespace Services;
 
 class Themes {
 
-	public function __construct($path) {
+	protected $path;
+
+	protected $current;
+
+	public function __construct($path, $current = null) {
 		$this->path = $path;
+		$this->current = $current;
 	}
 
 	public function getThemes() {
@@ -14,7 +19,13 @@ class Themes {
 		foreach($if as $file) {
 			if(false === $file->isDir()) continue;
 
-			yield new Themes\Theme($file->getPathname());
+			$theme = new Themes\Theme($file->getPathname());
+
+			if($theme->getName() == $this->current) {
+				$theme->setActive();
+			}
+
+			yield $theme;
 		}
 	}
 

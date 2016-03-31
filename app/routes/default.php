@@ -60,6 +60,8 @@ return [
 	'/admin/media/upload' => 'controllers\\admin\\media@upload',
 
 	'/admin/themes' => 'controllers\\admin\\themes@index',
+	'/admin/themes/activate' => 'controllers\\admin\\themes@activate',
+
 	'/admin/plugins' => 'controllers\\admin\\plugins@index',
 
 	// frontend

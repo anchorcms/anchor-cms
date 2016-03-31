@@ -5,6 +5,8 @@
 	</header>
 
 	<main>
+		<?php echo $messages; ?>
+
 		<ul class="tiles grid">
 			<?php foreach($themes as $theme): ?>
 			<li class="tile grid-col grid-1-3">
@@ -12,9 +14,18 @@
 					<img class="tile-figure-img" src="http://placehold.it/360x180">
 					<figcaption class="tile-figure-caption">
 						<?php if( ! $theme->isActive()): ?>
-						<a class="float--right button button--small" href="#">Make Active</a>
+						<form action="/admin/themes/activate" method="post">
+							<input name="theme" type="hidden" value="<?php echo $theme->getName(); ?>">
+							<button class="float--right button button--small" type="submit">Make Active</button>
+						</form>
 						<?php endif; ?>
+
+						<?php if($theme->hasManifest()): $info = $theme->getManifest(); ?>
+						<?php echo $info->name; ?><br>
+						<span class="text--small">Version <?php echo $info->version; ?> Author <?php echo $info->author; ?></span>
+						<?php else: ?>
 						<?php echo $theme->getName(); ?>
+						<?php endif; ?>
 					</figcaption>
 				</figure>
 			</li>

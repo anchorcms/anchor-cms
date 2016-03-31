@@ -37,8 +37,8 @@ class View {
 		return is_file($path);
 	}
 
-	public function render($template, array $vars = []) {
-		$path = $this->getTemplatePath($template);
+	public function render($template, array $vars = [], array $_files = []) {
+		$_path = $this->getTemplatePath($template);
 
 		if(false === is_file($path)) {
 			throw new \InvalidArgumentException(sprintf('Template file does not exists: %s', $path));
@@ -48,7 +48,9 @@ class View {
 
 		extract($vars, EXTR_SKIP);
 
-		require $path;
+		foreach($_files as $_file) require $_file;
+
+		require $_path;
 
 		return ob_get_clean();
 	}

@@ -161,7 +161,9 @@ return [
 		return new Services\Installer($app['paths'], $app['session']);
 	},
 	'services.themes' => function($app) {
-		return new Services\Themes($app['paths']['themes']);
+		$current = $app['mappers.meta']->select(['value'])->where('key', '=', 'theme')->column();
+
+		return new Services\Themes($app['paths']['themes'], $current);
 	},
 	'services.plugins' => function($app) {
 		return new Services\Plugins($app['paths']['plugins']);
