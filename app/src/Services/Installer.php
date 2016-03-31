@@ -31,11 +31,19 @@ class Installer {
 	}
 
 	public function buildDns(array $input) {
+		$parts = [];
+
 		if($input['driver'] == 'sqlite') {
-			return sprintf('sqlite:%s', $this->paths['storage'] . '/' . $input['dbname']);
+			$input['dbname'] = $this->paths['storage'] . '/' . $input['dbname'];
 		}
 
-		return sprintf('%s:host=%s;port=%d;dbname=%s', $input['driver'], $input['host'], $input['port'], $input['dbname']);
+		foreach(['host', 'port', 'dbname'] as $part) {
+			if(array_key_exists($part, $input)) {
+				$parts[] = sprintf('%s=%s', $parts, $input[$part]);
+			}
+		}
+
+		return sprintf('%s:%s', $input['driver'], implode(';', $parts));
 	}
 
 	public function connectDatabase(array $input) {
@@ -66,6 +74,7 @@ class Installer {
 			if(is_file($dest)) continue;
 
 			$sample = file_get_contents($src);
+			$input['dns'] = $this->buildDns($input);
 			$keys = array_map(function($key) { return sprintf('{%s}', $key); }, array_keys($input));
 			file_put_contents($dest, str_replace($keys, array_values($input), $sample));
 		}

@@ -10,7 +10,7 @@ return [
 	'db' => function($app) {
 		$config = $app['config']->get('db');
 
-		$pdo = new PDO($dns, $config['user'], $config['pass'], [
+		$pdo = new PDO($config['dns'], $config['user'], $config['pass'], [
 			PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
 			PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
 		]);
