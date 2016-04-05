@@ -258,7 +258,7 @@ class extend extends Base
             $data = call_user_func_array(array('Extend', 'process_' . $extend->field), array($extend, $item));
 
             // save data
-            if (! is_null($data)) {
+            if (! is_null($data) and $data != '[]') {
                 $table = static::table($extend->type . '_meta');
                 $query = Query::table($table)
                     ->where('extend', '=', $extend->id)
