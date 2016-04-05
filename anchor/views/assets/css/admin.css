@@ -756,62 +756,55 @@ input[type='range'], ::-webkit-slider-thumb {
 	display: none;
 }
 
-#upload-file {
-	position: fixed;
-	left: 0;
-	right: 0;
-	top: 0;
-	bottom: 0;
-	z-index: -1;
-
-	opacity: 0;
-	background: rgba(178,190,208,.75);
-
-	-webkit-transition: opacity .25s, background .25s;
-	-moz-transition: opacity .25s, background .25s;
-	-ms-transition: opacity .25s, background .25s;
-	-o-transition: opacity .25s, background .25s;
-	transition: opacity .25s, background .25s;
+#upload-file{
+    pointer-events: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(178,190,208,.75);
+    z-index: 250000;
+    display: none;
+    text-align: center;
+    transition: opacity 250ms;
+}
+#upload-file.active {
+    opacity: 1;
+}
+#upload-file.success {
+    background: rgba(119,181,47,.75);
 }
 
-	#upload-file.success {
-		background: rgba(119,181,47,.75);
-	}
+#upload-file span {
+    position: absolute;
+    left: 50%;
+    top: 50%;
 
-	.draggy #upload-file {
-		opacity: 1;
-		z-index: 10000;
-	}
+    width: 250px;
+    height: 30px;
+    padding-top: 50px;
+    margin: -40px 0 0 -125px;
 
-	#upload-file span {
-		position: absolute;
-		left: 50%;
-		top: 50%;
+    font-weight: bold;
+    font-size: 17px;
+    line-height: 30px;
+    text-align: center;
 
-		width: 250px;
-		height: 30px;
-		padding-top: 50px;
-		margin: -40px 0 0 -125px;
+    color: #768498;
+    background: url('../img/cloud.png') no-repeat 50% 0;
 
-		font-weight: bold;
-		font-size: 17px;
-		line-height: 30px;
-		text-align: center;
+    -webkit-transition: color .25s;
+    -moz-transition: color .25s;
+    -ms-transition: color .25s;
+    -o-transition: color .25s;
+    transition: color .25s;
+}
 
-		color: #768498;
-		background: url('../img/cloud.png') no-repeat 50% 0;
-
-		-webkit-transition: color .25s;
-		-moz-transition: color .25s;
-		-ms-transition: color .25s;
-		-o-transition: color .25s;
-		transition: color .25s;
-	}
-
-		#upload-file.success span {
-			color: #fff;
-			background-image: url('../img/tick.png');
-		}
+#upload-file.success span {
+    color: #fff;
+    background-image: url('../img/tick.png');
+}
 
 	.indent{
 		padding-left: 40px;
