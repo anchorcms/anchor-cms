@@ -11,7 +11,8 @@ Route::action('auth', function () {
 
 Route::action('guest', function () {
     if (Auth::user()) {
-        return Response::redirect('admin/post');
+        $page = in_array(Config::meta('dashboard_page'), array('panel', 'pages', 'posts')) ? Config::meta('dashboard_page') : 'panel';
+        return Response::redirect('admin/' . $page);
     }
 });
 
