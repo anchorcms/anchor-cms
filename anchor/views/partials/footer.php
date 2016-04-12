@@ -1,5 +1,5 @@
 
-		<?php if(Auth::user()): ?>
+		<?php if (Auth::user()): ?>
 		<footer class="wrap bottom">
 			<small><?php echo __('global.powered_by_anchor', VERSION); ?></small>
 			<em><?php echo __('global.make_blogging_beautiful'); ?></em>

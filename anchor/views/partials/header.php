@@ -18,20 +18,27 @@
 		<meta http-equiv="X-UA-Compatible" content="chrome=1">
 		<meta name="viewport" content="width=600">
 	</head>
-	<body class="<?php echo Auth::guest() ? 'login' : 'admin'; ?> <?php echo str_replace('_','-',Config::app('language')); ?>">
+	<body class="<?php echo Auth::guest() ? 'login' : 'admin'; ?> <?php echo str_replace('_', '-', Config::app('language')); ?>">
+
+		<?php echo Notify::read(); ?>
 
 		<header class="top">
 			<div class="wrap">
-				<?php if(Auth::user()): ?>
+				<?php if (Auth::user()): ?>
 				<nav>
 					<ul>
 						<li class="logo">
-							<a href="<?php echo Uri::to('admin/panel'); ?>">Anchor CMS</a>
+							<?php 
+								$page = in_array(Config::meta('dashboard_page'), array('panel', 'pages', 'posts')) ? Config::meta('dashboard_page') : 'panel';
+							?>
+							<a href="<?php echo Uri::to('admin/' . $page); ?>">Anchor CMS</a>
 						</li>
 
 						<?php $menu = array('posts', 'comments', 'pages', 'categories', 'users', 'extend'); ?>
-						<?php foreach($menu as $url): ?>
-						<li <?php if(strpos(Uri::current(), $url) !== false) echo 'class="active"'; ?>>
+						<?php foreach ($menu as $url): ?>
+						<li <?php if (strpos(Uri::current(), $url) !== false) {
+    echo 'class="active"';
+} ?>>
 							<a href="<?php echo Uri::to('admin/' . $url); ?>">
 								<?php echo ucfirst(__($url . '.' . $url)); ?>
 							</a>

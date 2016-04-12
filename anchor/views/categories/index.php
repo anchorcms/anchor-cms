@@ -9,10 +9,10 @@
 </hgroup>
 
 <section class="wrap">
-	<?php echo $messages; ?>
+	
 
 	<ul class="list">
-		<?php foreach($categories->results as $category): ?>
+		<?php foreach ($categories->results as $category): ?>
 		<li>
 			<a href="<?php echo Uri::to('admin/categories/edit/' . $category->id); ?>">
 				<strong><?php echo $category->title; ?></strong>

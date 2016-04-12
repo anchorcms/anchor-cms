@@ -1,6 +1,5 @@
 input, textarea, button {
 	padding: 11px 16px;
-
 	background: #fff;
 	color: #4a525f;
 
@@ -10,6 +9,23 @@ input, textarea, button {
 
 	border: none;
 	border-radius: 5px;
+}
+
+textarea[name="markdown"] {
+	background: transparent;
+	padding: 0px;
+}
+
+form nav a {
+	margin-right: 8px;
+	padding-bottom: 2px;
+	opacity: 0.8;
+	transition: color .25s, opacity .25s;
+}
+
+form nav a:hover {
+	opacity: 1;
+	border-bottom: 1px solid #486899;
 }
 
 input[type='range'], ::-webkit-slider-thumb {

@@ -5,7 +5,7 @@
 </hgroup>
 
 <section class="wrap">
-	<?php echo $messages; ?>
+	
 
 	<form method="post" action="<?php echo Uri::to('admin/extend/variables/edit/' . $variable->key); ?>" novalidate>
 
@@ -29,10 +29,10 @@
 		<aside class="buttons">
 			<?php echo Form::button(__('global.update'), array('class' => 'btn', 'type' => 'submit')); ?>
 
-			<?php echo Html::link('admin/extend/variables' , __('global.cancel'), array('class' => 'btn cancel blue')); ?>
+			<?php echo Html::link('admin/extend/variables', __('global.cancel'), array('class' => 'btn cancel blue')); ?>
 
 			<?php echo Html::link('admin/extend/variables/delete/' . $variable->key,
-				__('global.delete'), array('class' => 'btn delete red')); ?>
+                __('global.delete'), array('class' => 'btn delete red')); ?>
 		</aside>
 	</form>
 </section>

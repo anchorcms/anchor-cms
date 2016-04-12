@@ -5,7 +5,7 @@
 </hgroup>
 
 <section class="wrap">
-	<?php echo $messages; ?>
+	
 
 	<form method="post" action="<?php echo Uri::to('admin/extend/fields/edit/' . $field->id); ?>" novalidate>
 
@@ -18,10 +18,10 @@
 				<em><?php echo __('extend.type_explain'); ?></em>
 			</p>
 
-			<p <?php if($field->type != 'page'): ?>style="display: none"<?php endif; ?>>
+			<p <?php if ($field->type != 'page'): ?>style="display: none"<?php endif; ?>>
 				<label for="pagetype"><?php echo __('extend.pagetype'); ?>:</label>
 				<select id="pagetype" name="pagetype">
-					<?php foreach($pagetypes as $pagetype): ?>
+					<?php foreach ($pagetypes as $pagetype): ?>
 					<?php $selected = (Input::previous('pagetype') == $pagetype->key || $field->pagetype == $pagetype->key) ? ' selected="selected"' : ''; ?>
 					<option value="<?php echo $pagetype->key; ?>" <?php echo $selected; ?>><?php echo $pagetype->value; ?></option>
 					<?php endforeach; ?>
@@ -32,7 +32,7 @@
 			<p>
 				<label for="field"><?php echo __('extend.field'); ?>:</label>
 				<select id="label-field" name="field">
-					<?php foreach($fields as $type): ?>
+					<?php foreach ($fields as $type): ?>
 					<?php $selected = (Input::previous('field', $field->field) == $type) ? ' selected' : ''; ?>
 					<option<?php echo $selected; ?>><?php echo $type; ?></option>
 					<?php endforeach; ?>
@@ -87,10 +87,10 @@
 
 			<?php echo Form::button(__('global.update'), array('class' => 'btn', 'type' => 'submit')); ?>
 
-			<?php echo Html::link('admin/extend/fields' , __('global.cancel'), array('class' => 'btn cancel blue')); ?>
+			<?php echo Html::link('admin/extend/fields', __('global.cancel'), array('class' => 'btn cancel blue')); ?>
 
 			<?php echo Html::link('admin/extend/fields/delete/' . $field->id,
-				__('global.delete'), array('class' => 'btn delete red')); ?>
+                __('global.delete'), array('class' => 'btn delete red')); ?>
 
 		</aside>
 	</form>

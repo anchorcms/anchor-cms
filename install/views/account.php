@@ -9,7 +9,7 @@
 	</article>
 
 	<form method="post" action="<?php echo uri_to('account'); ?>" autocomplete="off">
-		<?php echo $messages; ?>
+		
 
 		<fieldset>
 			<p>

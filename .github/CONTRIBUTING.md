@@ -2,7 +2,7 @@
 We're currently in the process of developing `v1.0` but there are still issues to iron out with the existing distro: `v0.x.x`. So we've compiled this short document to help you guys help *us*!
 
 ### What branch do I work from? How do I even pull request?
-There seems to have been a bit of confusion in the past, and yes our branches are currently a bit confusing in structure. If you want to conrtibute to the current version of Anchor then please work from the `pre-1.0-develop` branch. This is where any features/refactoring should be happening. If what you're planning on doing is fixing a bug then please work from the `master` branch, this branch will always have the latest *tagged* release of Anchor. When you submit a bug fix PR we'll also merge it into the current version `dev` branch.
+There seems to have been a bit of confusion in the past, and yes our branches are currently a bit confusing in structure. If you want to contribute to the current version of Anchor then please work from the `pre-1.0-develop` branch. This is where any features/refactoring should be happening. If what you're planning on doing is fixing a bug then please work from the `master` branch, this branch will always have the latest *tagged* release of Anchor. When you submit a bug fix PR we'll also merge it into the current version `dev` branch.
 
 We're planning on cleaning everything up once `1.0` is released, by following the simple Gitflow system which can be found in many Git GUI's, in the git extras package and so on.
 
@@ -17,6 +17,9 @@ This may be the case if you've not followed our guidelines, your code does not d
 
 ### I've translated Anchor to 'X' language, how do I submit this?
 Translations should be submitted to the official [anchor-translations](https://github.com/anchorcms/anchor-translations) repo, please check this repo before you start incase the translation has already been made.
+
+### How to submit feature requests
+If you would like to add submit a feature request then please go to our [Feathub page](http://feathub.com/anchorcms/anchor-cms). If it's not already on the list then please add it and provide a description in the comments section. If it already exists then please give the existing entry a thumbs up. :+1:
 
 ### How to submit issues
 Please follow the below points:

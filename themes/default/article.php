@@ -8,15 +8,15 @@
 
 			<section class="footnote">
 				<!-- Unfortunately, CSS means everything's got to be inline. -->
-				<p>This article is my <?php echo numeral(article_number(article_id()), true); ?> oldest. It is <?php echo count_words(article_markdown()); ?> words long<?php if(comments_open()): ?>, and it’s got <?php echo total_comments() . pluralise(total_comments(), ' comment'); ?> for now.<?php endif; ?> <?php echo article_custom_field('attribution'); ?></p>
+				<p>This article is my <?php echo numeral(article_number(article_id()), true); ?> oldest. It is <?php echo count_words(article_markdown()); ?> words long<?php if (comments_open()): ?>, and it’s got <?php echo total_comments() . pluralise(total_comments(), ' comment'); ?> for now.<?php endif; ?> <?php echo article_custom_field('attribution'); ?></p>
 			</section>
 		</section>
 
-		<?php if(comments_open()): ?>
+		<?php if (comments_open()): ?>
 		<section class="comments">
-			<?php if(has_comments()): ?>
+			<?php if (has_comments()): ?>
 			<ul class="commentlist">
-				<?php $i = 0; while(comments()): $i++; ?>
+				<?php $i = 0; while (comments()): $i++; ?>
 				<li class="comment" id="comment-<?php echo comment_id(); ?>">
 					<div class="wrap">
 						<h2><?php echo comment_name(); ?></h2>

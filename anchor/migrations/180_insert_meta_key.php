@@ -1,14 +1,15 @@
 <?php
 
-class Migration_insert_meta_key extends Migration {
+class Migration_insert_meta_key extends Migration
+{
 
-    public function up() {
+    public function up()
+    {
         $table = Base::table('meta');
 
-        if($this->has_table($table)) {
-
-            if( ! Query::table($table)->where('key', '=', 'show_all_posts')->count()) {
-                 Query::table($table)->insert(array(
+        if ($this->has_table($table)) {
+            if (! Query::table($table)->where('key', '=', 'show_all_posts')->count()) {
+                Query::table($table)->insert(array(
                     'key' => 'show_all_posts',
                     'value' => 0
                 ));
@@ -18,6 +19,7 @@ class Migration_insert_meta_key extends Migration {
         }
     }
 
-    public function down() {}
-
+    public function down()
+    {
+    }
 }

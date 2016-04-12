@@ -5,9 +5,9 @@
 </hgroup>
 
 <section class="wrap">
-	<?php echo $messages; ?>
+	
 
-	<?php if(Auth::admin() || Auth::me($user->id)) : ?>
+	<?php if (Auth::admin() || Auth::me($user->id)) : ?>
 	<form method="post" action="<?php echo Uri::to('admin/users/edit/' . $user->id); ?>" novalidate autocomplete="off" enctype="multipart/form-data">
 
 		<input name="token" type="hidden" value="<?php echo $token; ?>">
@@ -28,7 +28,7 @@
 				<?php echo Form::select('status', $statuses, Input::previous('status', $user->status), array('id' => 'label-status')); ?>
 				<em><?php echo __('users.status_explain'); ?></em>
 			</p>
-			<?php if(Auth::admin()) : ?>
+			<?php if (false && Auth::admin()) : ?>
 			<p>
 				<label for="label-role"><?php echo __('users.role'); ?>:</label>
 				<?php echo Form::select('role', $roles, Input::previous('role', $user->role), array('id' => 'label-role')); ?>
@@ -38,7 +38,7 @@
 		</fieldset>
 
 		<fieldset class="half split">
-			<?php foreach($fields as $field): ?>
+			<?php foreach ($fields as $field): ?>
 			<p>
 				<label for="extend_<?php echo $field->key; ?>"><?php echo $field->label; ?>:</label>
 				<?php echo Extend::html($field); ?>
@@ -62,11 +62,11 @@
 		</fieldset>
 		<aside class="buttons">
 			<?php echo Form::button(__('global.update'), array(
-				'class' => 'btn',
-				'type' => 'submit'
-			)); ?>
+                'class' => 'btn',
+                'type' => 'submit'
+            )); ?>
 
-			<?php echo Html::link('admin/users' , __('global.cancel'), array('class' => 'btn cancel blue')); ?>
+			<?php echo Html::link('admin/users', __('global.cancel'), array('class' => 'btn cancel blue')); ?>
 
 			<?php echo Html::link('admin/users/delete/' . $user->id, __('global.delete'), array('class' => 'btn delete red')); ?>
 		</aside>

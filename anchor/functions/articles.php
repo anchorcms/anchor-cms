@@ -1,39 +1,43 @@
 <?php
 
 /*
-	Theme functions for articles
+    Theme functions for articles
 */
 
 /**
  * Grab the id of the current article
  * @return int
  */
-function article_id() {
-	return Registry::prop('article', 'id');
+function article_id()
+{
+    return Registry::prop('article', 'id');
 }
 
 /**
  * Return the number of the article
  * @return int
  */
-function article_number() {
-	return Post::where(Base::table('posts.status'), '=', 'published')->where(Base::table('posts.id'), '<=', article_id())->count();
+function article_number()
+{
+    return Post::where(Base::table('posts.status'), '=', 'published')->where(Base::table('posts.id'), '<=', article_id())->count();
 }
 
 /**
  * Get the article title
  * @return string
  */
-function article_title() {
-	return Registry::prop('article', 'title');
+function article_title()
+{
+    return Registry::prop('article', 'title');
 }
 
 /**
  * Get the article slug
  * @return string
  */
-function article_slug() {
-	return Registry::prop('article', 'slug');
+function article_slug()
+{
+    return Registry::prop('article', 'slug');
 }
 
 /**
@@ -42,8 +46,9 @@ function article_slug() {
  * @param boolean
  * @return string
  */
-function article_previous_url($draft = false, $archive = false) {
-	return article_adjacent_url('previous', $draft, $archive);
+function article_previous_url($draft = false, $archive = false)
+{
+    return article_adjacent_url('previous', $draft, $archive);
 }
 
 /**
@@ -52,86 +57,96 @@ function article_previous_url($draft = false, $archive = false) {
  * @param boolean
  * @return string
  */
-function article_next_url($draft = false, $archive = false) {
-	return article_adjacent_url('next', $draft, $archive);
+function article_next_url($draft = false, $archive = false)
+{
+    return article_adjacent_url('next', $draft, $archive);
 }
 
 /**
  * Get the url of the current article
  * @return string
  */
-function article_url() {
-	$page = Registry::get('posts_page');
+function article_url()
+{
+    $page = Registry::get('posts_page');
 
-	return base_url($page->slug . '/' . article_slug());
+    return base_url($page->slug . '/' . article_slug());
 }
 
 /**
  * Get the article description
  * @return string
  */
-function article_description() {
-	return Registry::prop('article', 'description');
+function article_description()
+{
+    return Registry::prop('article', 'description');
 }
 
 /**
  * Get the html for the article
  * @return string
  */
-function article_html() {
-	return Registry::prop('article', 'html');
+function article_html()
+{
+    return Registry::prop('article', 'html');
 }
 
 /**
  * Get the markdown for the article
  * @return string
  */
-function article_markdown() {
-	return Registry::prop('article', 'html');
+function article_markdown()
+{
+    return Registry::prop('article', 'markdown');
 }
 
 /**
  * Grab the custom CSS for the article
  * @return string
  */
-function article_css() {
-	return Registry::prop('article', 'css');
+function article_css()
+{
+    return Registry::prop('article', 'css');
 }
 
 /**
 * Grab the custom JS for the article
 * @return string
 */
-function article_js() {
-	return Registry::prop('article', 'js');
+function article_js()
+{
+    return Registry::prop('article', 'js');
 }
 
 /**
 * Grab the time the article was created
 * @return string
 */
-function article_time() {
-	if($created = Registry::prop('article', 'created')) {
-		return Date::format($created, 'U');
-	}
+function article_time()
+{
+    if ($created = Registry::prop('article', 'created')) {
+        return Date::format($created, 'U');
+    }
 }
 
 /**
 * Grab the date the article was created
 * @return string
 */
-function article_date() {
-	if($created = Registry::prop('article', 'created')) {
-		return Date::format($created);
-	}
+function article_date()
+{
+    if ($created = Registry::prop('article', 'created')) {
+        return Date::format($created);
+    }
 }
 
 /**
 * Grab the current status of the article
 * @return string
 */
-function article_status() {
-	return Registry::prop('article', 'status');
+function article_status()
+{
+    return Registry::prop('article', 'status');
 }
 
 /**
@@ -140,12 +155,13 @@ function article_status() {
 *
 * @return string
 */
-function article_category() {
-	if($category = Registry::prop('article', 'category')) {
-		$categories = Registry::get('all_categories');
+function article_category()
+{
+    if ($category = Registry::prop('article', 'category')) {
+        $categories = Registry::get('all_categories');
 
-		return $categories[$category]->title;
-	}
+        return $categories[$category]->title;
+    }
 }
 
 /**
@@ -154,12 +170,13 @@ function article_category() {
 *
 * @return string
 */
-function article_category_slug() {
-	if($category = Registry::prop('article', 'category')) {
-		$categories = Registry::get('all_categories');
+function article_category_slug()
+{
+    if ($category = Registry::prop('article', 'category')) {
+        $categories = Registry::get('all_categories');
 
-		return $categories[$category]->slug;
-	}
+        return $categories[$category]->slug;
+    }
 }
 
 /**
@@ -168,52 +185,58 @@ function article_category_slug() {
 *
 * @return string
 */
-function article_category_url() {
-	if($category = Registry::prop('article', 'category')) {
-		$categories = Registry::get('all_categories');
+function article_category_url()
+{
+    if ($category = Registry::prop('article', 'category')) {
+        $categories = Registry::get('all_categories');
 
-		return base_url('category/' . $categories[$category]->slug);
-	}
+        return base_url('category/' . $categories[$category]->slug);
+    }
 }
 
 /**
  * Get the number of comments for this article
  * @return int
  */
-function article_total_comments() {
-	return Registry::prop('article', 'total_comments');
+function article_total_comments()
+{
+    return Registry::prop('article', 'total_comments');
 }
 
 /**
  * Get the author of this article
  * @return string
  */
-function article_author() {
-	return Registry::prop('article', 'author_name');
+function article_author()
+{
+    return Registry::prop('article', 'author_name');
 }
 
 /**
  * Get the id of the article author
  * @return int
  */
-function article_author_id() {
-	return Registry::prop('article', 'author_id');
+function article_author_id()
+{
+    return Registry::prop('article', 'author_id');
 }
 
 /**
  * Get the authors bio
  * @return string
  */
-function article_author_bio() {
-	return Registry::prop('article', 'author_bio');
+function article_author_bio()
+{
+    return Registry::prop('article', 'author_bio');
 }
 
 /**
  * Get the authors email
  * @return string
  */
-function article_author_email() {
-	return Registry::prop('article', 'author_email');
+function article_author_email()
+{
+    return Registry::prop('article', 'author_email');
 }
 
 /**
@@ -223,43 +246,48 @@ function article_author_email() {
  * @param  string
  * @return string
  */
-function article_custom_field($key, $default = '', $id = null) {
-	if($id == null)
-		$id = Registry::prop('article', 'id');
+function article_custom_field($key, $default = '', $id = null)
+{
+    if ($id == null) {
+        $id = Registry::prop('article', 'id');
+    }
 
-	if($extend = Extend::field('post', $key, $id)) {
-		return Extend::value($extend, $default);
-	}
+    if ($extend = Extend::field('post', $key, $id)) {
+        return Extend::value($extend, $default);
+    }
 
-	return $default;
+    return $default;
 }
 
 /**
  * Is this article customised?
  * @return boolean
  */
-function customised() {
-	if($itm = Registry::get('article')) {
-		return $itm->js or $itm->css;
-	}
+function customised()
+{
+    if ($itm = Registry::get('article')) {
+        return $itm->js or $itm->css;
+    }
 
-	return false;
+    return false;
 }
 
 /**
  * Alias for customised()
  * @return boolean
  */
-function article_customised() {
-	return customised();
+function article_customised()
+{
+    return customised();
 }
 
 /**
  * Get the article as an object
  * @return object
  */
-function article_object() {
-	return Registry::get('article');
+function article_object()
+{
+    return Registry::get('article');
 }
 
 /**
@@ -269,27 +297,32 @@ function article_object() {
 * @param boolean
 * @return string
 */
-function article_adjacent_url($side = 'next', $draft = false, $archived = false) {
-	$comparison = '>';
-	$order = 'asc';
+function article_adjacent_url($side = 'next', $draft = false, $archived = false)
+{
+    $comparison = '>';
+    $order = 'asc';
 
-	if(strtolower($side) == 'prev' || strtolower($side) == 'previous') {
-		$comparison = '<';
-		$order = 'desc';
-	}
+    if (strtolower($side) == 'prev' || strtolower($side) == 'previous') {
+        $comparison = '<';
+        $order = 'desc';
+    }
 
-	$page = Registry::get('posts_page');
-	$query = Post::where('created', $comparison, Registry::prop('article', 'created'));
+    $page = Registry::get('posts_page');
+    $query = Post::where('created', $comparison, Registry::prop('article', 'created'));
 
-	if(!$draft) $query = $query->where('status', '!=', 'draft');
-	if(!$archived) $query = $query->where('status', '!=', 'archived');
+    if (!$draft) {
+        $query = $query->where('status', '!=', 'draft');
+    }
+    if (!$archived) {
+        $query = $query->where('status', '!=', 'archived');
+    }
 
-	if($query->count()) {
-		$article = $query->sort('created', $order)->fetch();
-		$page = Registry::get('posts_page');
+    if ($query->count()) {
+        $article = $query->sort('created', $order)->fetch();
+        $page = Registry::get('posts_page');
 
-		return base_url($page->slug . '/' . $article->slug);
-	}
+        return base_url($page->slug . '/' . $article->slug);
+    }
 }
 
 /**
@@ -298,12 +331,13 @@ function article_adjacent_url($side = 'next', $draft = false, $archived = false)
 * @return object array
 */
 
-function related_posts($n) {
+function related_posts($n)
+{
     $posts = Post::get(Base::table('posts'), '=', 'published');
     $postarr = array();
-    foreach($posts as $post) :
-        if($post->id != article_id()) {
-            if($post->category == article_category_id()) {
+    foreach ($posts as $post) :
+        if ($post->id != article_id()) {
+            if ($post->category == article_category_id()) {
                 array_push($postarr, $post);
             }
         }
@@ -318,8 +352,9 @@ function related_posts($n) {
 * @return string
 */
 
-function article_category_id() {
-    if($category = Registry::prop('article', 'category')) {
+function article_category_id()
+{
+    if ($category = Registry::prop('article', 'category')) {
         $categories = Registry::get('all_categories');
         return $categories[$category]->id;
     }

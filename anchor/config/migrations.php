@@ -1,8 +1,9 @@
 <?php
 
 return array(
-	/*
-	 * Latest migration
-	 */
-	'current' => 211
+    /*
+     * Latest migration
+     * overide for testing/development
+     */
+    'current' => MIGRATION_NUMBER
 );

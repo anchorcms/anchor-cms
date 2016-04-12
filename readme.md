@@ -2,6 +2,9 @@
 
 Anchor is a super-simple, lightweight blog system, made to let you just write. [Check out the site](http://anchorcms.com/).
 
+###Feature Requests:
+If you would like to add submit a feature request then please go to our [Feathub page](http://feathub.com/anchorcms/anchor-cms).
+
 [![Feature Requests](http://feathub.com/anchorcms/anchor-cms?format=svg)](http://feathub.com/anchorcms/anchor-cms)
 
 ### Requirements

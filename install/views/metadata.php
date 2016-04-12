@@ -8,7 +8,7 @@
 	</article>
 
 	<form method="post" action="<?php echo Uri::to('metadata'); ?>" autocomplete="off">
-		<?php echo $messages; ?>
+		
 
 		<fieldset>
 			<p>
@@ -23,7 +23,7 @@
 				<i>A little bit about you or your blog.</i>
 
 				<textarea id="site_description" name="site_description"><?php echo Input::previous('site_description',
-					'It&rsquo;s not just any blog. It&rsquo;s an Anchor blog.'); ?></textarea>
+                    'It&rsquo;s not just any blog. It&rsquo;s an Anchor blog.'); ?></textarea>
 			</p>
 
 			<p>
@@ -32,12 +32,12 @@
 				<input id="site_path" name="site_path" value="<?php echo Input::previous('site_path', $site_path); ?>">
 			</p>
 
-			<?php if(count($themes) > 1): ?>
+			<?php if (count($themes) > 1): ?>
 			<p>
 				<label for="theme">Theme</label>
 				<i>Your Anchor theme.</i>
 				<select id="theme" name="theme">
-					<?php foreach($themes as $dir => $theme): ?>
+					<?php foreach ($themes as $dir => $theme): ?>
 					<option value="<?php echo $dir; ?>"><?php echo $theme['name']; ?> by <?php echo $theme['author']; ?></option>
 					<?php endforeach; ?>
 				</select>
@@ -50,19 +50,19 @@
 				<label for="rewrite">Clean Urls</label>
 				<i>Url rewiting</i>
 
-			<?php if(mod_rewrite()): ?>
+			<?php if (mod_rewrite()): ?>
 
 				<div class="more">Looks like you are running apache with <code>mod_rewrite</code> enabled.<br>
 				The installer will create the htaccess for you.</div>
 
-			<?php elseif(is_apache()): ?>
+			<?php elseif (is_apache()): ?>
 
 				<div class="more">Looks like you are running apache, but <code>mod_rewrite</code> is not enabled.</div>
 
 				<div class="more"><input id="rewrite" name="rewrite" type="checkbox" value="1">
 				Create the htaccess file for me anyway.</div>
 
-			<?php elseif(is_cgi()): ?>
+			<?php elseif (is_cgi()): ?>
 
 				<div class="more">Looks like you are running <code>PHP</code> as a fastcgi process.<br>
 				You will have to setup your own url rewriting.</div>

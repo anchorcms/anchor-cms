@@ -4,9 +4,9 @@
 	<article>
 		<h1>Woops!</h1>
 
-		<?php if(count($errors) > 1): ?>
+		<?php if (count($errors) > 1): ?>
 		<ul>
-			<?php foreach($errors as $error): ?>
+			<?php foreach ($errors as $error): ?>
 			<li><?php echo $error; ?></li>
 			<?php endforeach; ?>
 		</ul>

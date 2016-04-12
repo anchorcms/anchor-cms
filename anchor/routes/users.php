@@ -1,181 +1,189 @@
 <?php
 
-Route::collection(array('before' => 'auth,csrf,install_exists'), function() {
+Route::collection(array('before' => 'auth,csrf,install_exists'), function () {
 
-	/*
-		List users
-	*/
-	Route::get(array('admin/users', 'admin/users/(:num)'), function($page = 1) {
-		$vars['messages'] = Notify::read();
-		$vars['users'] = User::paginate($page, Config::get('admin.posts_per_page'));
+    /*
+        List users
+    */
+    Route::get(array('admin/users', 'admin/users/(:num)'), function ($page = 1) {
+        
+        $vars['users'] = User::paginate($page, Config::get('admin.posts_per_page'));
 
-		return View::create('users/index', $vars)
-			->partial('header', 'partials/header')
-			->partial('footer', 'partials/footer');
-	});
+        return View::create('users/index', $vars)
+            ->partial('header', 'partials/header')
+            ->partial('footer', 'partials/footer');
+    });
 
-	/*
-		Edit user
-	*/
-	Route::get('admin/users/edit/(:num)', function($id) {
-		$vars['messages'] = Notify::read();
-		$vars['token'] = Csrf::token();
-		$vars['user'] = User::find($id);
+    /*
+        Edit user
+    */
+    Route::get('admin/users/edit/(:num)', function ($id) {
+        
+        $vars['token'] = Csrf::token();
+        $vars['user'] = User::find($id);
 
-		// extended fields
-		$vars['fields'] = Extend::fields('user', $id);
+        // extended fields
+        $vars['fields'] = Extend::fields('user', $id);
 
-		$vars['statuses'] = array(
-			'inactive' => __('global.inactive'),
-			'active' => __('global.active')
-		);
+        $vars['statuses'] = array(
+            'inactive' => __('global.inactive'),
+            'active' => __('global.active')
+        );
 
-		$vars['roles'] = array(
-			'administrator' => __('global.administrator'),
-			'editor' => __('global.editor'),
-			'user' => __('global.user')
-		);
+        $vars['roles'] = array(
+            'administrator' => __('global.administrator'),
+            'editor' => __('global.editor'),
+            'user' => __('global.user')
+        );
 
-		return View::create('users/edit', $vars)
-			->partial('header', 'partials/header')
-			->partial('footer', 'partials/footer');
-	});
+        return View::create('users/edit', $vars)
+            ->partial('header', 'partials/header')
+            ->partial('footer', 'partials/footer');
+    });
 
-	Route::post('admin/users/edit/(:num)', function($id) {
-		$input = Input::get(array('username', 'email', 'real_name', 'bio', 'status', 'role'));
-		$password_reset = false;
-		
-		// A little higher to avoid messing with the password
-		foreach($input as $key => &$value) {
-			$value = eq($value);
-		}
-		
-		if($password = Input::get('password')) {
-			$input['password'] = $password;
-			$password_reset = true;
-		}
-		
-		$validator = new Validator($input);
-		
-		$validator->add('safe', function($str) use($id) {
-			return ($str != 'inactive' and Auth::user()->id == $id);
-		});
+    Route::post('admin/users/edit/(:num)', function ($id) {
+        $input = Input::get(array('username', 'email', 'real_name', 'bio', 'status'));
+        $password_reset = false;
+        
+        // Force admin for now
+        $input['role'] = 'administrator';
 
-		$validator->check('username')
-			->is_max(2, __('users.username_missing', 2));
+        // A little higher to avoid messing with the password
+        foreach ($input as $key => &$value) {
+            $value = eq($value);
+        }
+        
+        if ($password = Input::get('password')) {
+            $input['password'] = $password;
+            $password_reset = true;
+        }
+        
+        $validator = new Validator($input);
+        
+        $validator->add('safe', function ($str) use ($id) {
+            return ($str != 'inactive' and Auth::user()->id == $id);
+        });
 
-		$validator->check('email')
-			->is_email(__('users.email_missing'));
+        $validator->check('username')
+            ->is_max(2, __('users.username_missing', 2));
 
-		if($password_reset) {
-			$validator->check('password')
-				->is_max(6, __('users.password_too_short', 6));
-		}
+        $validator->check('email')
+            ->is_email(__('users.email_missing'));
 
-		if($errors = $validator->errors()) {
-			Input::flash();
+        if ($password_reset) {
+            $validator->check('password')
+                ->is_max(6, __('users.password_too_short', 6));
+        }
 
-			Notify::error($errors);
+        if ($errors = $validator->errors()) {
+            Input::flash();
 
-			return Response::redirect('admin/users/edit/' . $id);
-		}
+            Notify::error($errors);
 
-		if($password_reset) {
-			$input['password'] = Hash::make($input['password']);
-		}
+            return Response::redirect('admin/users/edit/' . $id);
+        }
 
-		User::update($id, $input);
+        if ($password_reset) {
+            $input['password'] = Hash::make($input['password']);
+        }
 
-		Extend::process('user', $id);
+        User::update($id, $input);
 
-		Notify::success(__('users.updated'));
+        Extend::process('user', $id);
 
-		return Response::redirect('admin/users/edit/' . $id);
-	});
+        Notify::success(__('users.updated'));
 
-	/*
-		Add user
-	*/
-	Route::get('admin/users/add', function() {
-		$vars['messages'] = Notify::read();
-		$vars['token'] = Csrf::token();
+        return Response::redirect('admin/users/edit/' . $id);
+    });
 
-		// extended fields
-		$vars['fields'] = Extend::fields('user');
+    /*
+        Add user
+    */
+    Route::get('admin/users/add', function () {
+        
+        $vars['token'] = Csrf::token();
 
-		$vars['statuses'] = array(
-			'inactive' => __('global.inactive'),
-			'active' => __('global.active')
-		);
+        // extended fields
+        $vars['fields'] = Extend::fields('user');
 
-		$vars['roles'] = array(
-			'administrator' => __('global.administrator'),
-			'editor' => __('global.editor'),
-			'user' => __('global.user')
-		);
+        $vars['statuses'] = array(
+            'inactive' => __('global.inactive'),
+            'active' => __('global.active')
+        );
 
-		return View::create('users/add', $vars)
-			->partial('header', 'partials/header')
-			->partial('footer', 'partials/footer');
-	});
+        $vars['roles'] = array(
+            'administrator' => __('global.administrator'),
+            'editor' => __('global.editor'),
+            'user' => __('global.user')
+        );
 
-	Route::post('admin/users/add', function() {
-		$input = Input::get(array('username', 'email', 'real_name', 'password', 'bio', 'status', 'role'));
-		
-		foreach($input as $key => &$value) {
-			if($key === 'password') continue; // Can't avoid, so skip.
-			$value = eq($value);
-		}
-		
-		$validator = new Validator($input);
+        return View::create('users/add', $vars)
+            ->partial('header', 'partials/header')
+            ->partial('footer', 'partials/footer');
+    });
 
-		$validator->check('username')
-			->is_max(3, __('users.username_missing', 2));
+    Route::post('admin/users/add', function () {
+        $input = Input::get(array('username', 'email', 'real_name', 'password', 'bio', 'status'));
+        
+        // Force admin for now
+        $input['role'] = 'administrator';
 
-		$validator->check('email')
-			->is_email(__('users.email_missing'));
+        foreach ($input as $key => &$value) {
+            if ($key === 'password') {
+                continue;
+            } // Can't avoid, so skip.
+            $value = eq($value);
+        }
+        
+        $validator = new Validator($input);
 
-		$validator->check('password')
-			->is_max(6, __('users.password_too_short', 6));
+        $validator->check('username')
+            ->is_max(3, __('users.username_missing', 2));
 
-		if($errors = $validator->errors()) {
-			Input::flash();
+        $validator->check('email')
+            ->is_email(__('users.email_missing'));
 
-			Notify::error($errors);
+        $validator->check('password')
+            ->is_max(6, __('users.password_too_short', 6));
 
-			return Response::redirect('admin/users/add');
-		}
+        if ($errors = $validator->errors()) {
+            Input::flash();
 
-		$input['password'] = Hash::make($input['password']);
+            Notify::error($errors);
 
-		$user = User::create($input);
+            return Response::redirect('admin/users/add');
+        }
 
-		Extend::process('user', $user->id);
+        $input['password'] = Hash::make($input['password']);
 
-		Notify::success(__('users.created'));
+        $user = User::create($input);
 
-		return Response::redirect('admin/users');
-	});
+        Extend::process('user', $user->id);
 
-	/*
-		Delete user
-	*/
-	Route::get('admin/users/delete/(:num)', function($id) {
-		$self = Auth::user();
+        Notify::success(__('users.created'));
 
-		if($self->id == $id) {
-			Notify::error(__('users.delete_error'));
+        return Response::redirect('admin/users');
+    });
 
-			return Response::redirect('admin/users/edit/' . $id);
-		}
+    /*
+        Delete user
+    */
+    Route::get('admin/users/delete/(:num)', function ($id) {
+        $self = Auth::user();
 
-		User::where('id', '=', $id)->delete();
+        if ($self->id == $id) {
+            Notify::error(__('users.delete_error'));
 
-		Query::table(Base::table('user_meta'))->where('user', '=', $id)->delete();
+            return Response::redirect('admin/users/edit/' . $id);
+        }
 
-		Notify::success(__('users.deleted'));
+        User::where('id', '=', $id)->delete();
 
-		return Response::redirect('admin/users');
-	});
+        Query::table(Base::table('user_meta'))->where('user', '=', $id)->delete();
+
+        Notify::success(__('users.deleted'));
+
+        return Response::redirect('admin/users');
+    });
 
 });

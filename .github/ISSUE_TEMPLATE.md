@@ -1,6 +1,6 @@
 ### Summary
 
-A brief but detailed explanation of the issue, bug or feature you are reporting.
+A brief but detailed explanation of the issue or bug you are reporting.
 
 ### Expected Behaviour
 

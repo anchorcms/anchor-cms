@@ -9,11 +9,11 @@
 </hgroup>
 
 <section class="wrap">
-	<?php echo $messages; ?>
+	
 
-	<?php if(count($variables)): ?>
+	<?php if (count($variables)): ?>
 	<ul class="list">
-		<?php foreach($variables as $var): ?>
+		<?php foreach ($variables as $var): ?>
 		<li>
 			<a href="<?php echo Uri::to('admin/extend/variables/edit/' . $var->key); ?>">
 				<strong><?php echo substr($var->key, strlen('custom_')); ?></strong>

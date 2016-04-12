@@ -1,12 +1,14 @@
 <?php
 
-class Migration_create_page_meta_table extends Migration {
+class Migration_create_page_meta_table extends Migration
+{
 
-	public function up() {
-		$table = Base::table('page_meta');
+    public function up()
+    {
+        $table = Base::table('page_meta');
 
-		if( ! $this->has_table($table)) {
-			$sql = "CREATE TABLE IF NOT EXISTS `' . $table . '` (
+        if (! $this->has_table($table)) {
+            $sql = "CREATE TABLE IF NOT EXISTS `' . $table . '` (
 				`id` int(6) NOT NULL AUTO_INCREMENT,
 				`page` int(6) NOT NULL,
 				`extend` int(6) NOT NULL,
@@ -16,10 +18,11 @@ class Migration_create_page_meta_table extends Migration {
 				KEY `extend` (`extend`)
 			) ENGINE=InnoDB";
 
-			DB::ask($sql);
-		}
-	}
+            DB::ask($sql);
+        }
+    }
 
-	public function down() {}
-
+    public function down()
+    {
+    }
 }
