@@ -68,7 +68,7 @@ function page_status($page_item = null)
 
 function page_custom_field($key, $default = '', $id = null)
 {
-    if ($id == null) {
+    if (is_null($id)) {
         $id = Registry::prop('page', 'id');
     }
 
