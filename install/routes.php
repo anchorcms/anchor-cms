@@ -178,9 +178,9 @@ Route::get('account', array('before' => 'check', 'main' => function () {
         return Response::redirect('metadata');
     }
 
-    
+    $vars['messages'] = Notify::read();
 
-    return Layout::create('account',);
+    return Layout::create('account', $vars);
 }));
 
 Route::post('account', array('before' => 'check', 'main' => function () {
