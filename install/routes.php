@@ -180,7 +180,7 @@ Route::get('account', array('before' => 'check', 'main' => function () {
 
     
 
-    return Layout::create('account', $vars);
+    return Layout::create('account',);
 }));
 
 Route::post('account', array('before' => 'check', 'main' => function () {
