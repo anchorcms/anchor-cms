@@ -40,8 +40,8 @@ class View {
 	public function render($template, array $vars = [], array $_files = []) {
 		$_path = $this->getTemplatePath($template);
 
-		if(false === is_file($path)) {
-			throw new \InvalidArgumentException(sprintf('Template file does not exists: %s', $path));
+		if(false === is_file($_path)) {
+			throw new \InvalidArgumentException(sprintf('Template file does not exists: %s', $_path));
 		}
 
 		ob_start();
