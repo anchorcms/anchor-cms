@@ -23,7 +23,7 @@ class anchor
         // import theming functions
         static::functions();
 
-        // check mirgrations are up to date
+        // check migrations are up to date
         static::migrations();
 
         // populate registry with globals
