@@ -95,7 +95,6 @@ Route::post('database', array('before' => 'check', 'main' => function () {
     try {
         $connection = DB::factory(array(
             'driver' => 'mysql',
-            'database' => $database['name'],
             'hostname' => $database['host'],
             'port' => $database['port'],
             'username' => $database['user'],
@@ -127,12 +126,10 @@ Route::get('metadata', array('before' => 'check', 'main' => function () {
         return Response::redirect('database');
     }
 
-    
-    $vars['site_path'] = dirname(dirname($_SERVER['SCRIPT_NAME']));
-    $vars['themes'] = Themes::all();
+    // windows users may return a \ so we replace it with a /
+    $vars['site_path'] = str_replace('\\','/', dirname(dirname($_SERVER['SCRIPT_NAME'])));
 
-    //  Fix for Windows screwing up directories
-    $vars['site_path'] = str_replace('\\', '/', $vars['site_path']);
+    $vars['themes'] = Themes::all();
 
     return Layout::create('metadata', $vars);
 }));
@@ -178,9 +175,7 @@ Route::get('account', array('before' => 'check', 'main' => function () {
         return Response::redirect('metadata');
     }
 
-    
-
-    return Layout::create('account', $vars);
+    return Layout::create('account', array());
 }));
 
 Route::post('account', array('before' => 'check', 'main' => function () {

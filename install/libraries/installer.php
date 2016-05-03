@@ -18,14 +18,22 @@ class installer
         // create database connection
         static::connect($settings);
 
-        // install tables
-        static::schema($settings);
+        // check we have not already installed
+        if (empty(static::$connection->instance()->query('SHOW DATABASES LIKE \'' . $settings['database']['name'] . '\';')->fetchColumn())) {
+            
+         // create the database and use the database
+         static::$connection->instance()->query('CREATE DATABASE `' . $settings['database']['name'] . '`;');
+         static::$connection->instance()->query('USE `' . $settings['database']['name'] . '`;');
+            
+         // install tables
+         static::schema($settings);
+ 
+         // insert metadata
+         static::metadata($settings);
 
-        // insert metadata
-        static::metadata($settings);
-
-        // create user account
-        static::account($settings);
+         // create user account
+         static::account($settings);
+        }
 
         // write database config
         static::database($settings);
@@ -44,9 +52,9 @@ class installer
     {
         $database = $settings['database'];
 
+        // we do not specify the database name as it may not exist
         $config = array(
             'driver' => 'mysql',
-            'database' => $database['name'],
             'hostname' => $database['host'],
             'port' => $database['port'],
             'username' => $database['user'],
@@ -125,7 +133,7 @@ class installer
     private static function application($settings)
     {
         $distro = Braces::compile(APP . 'storage/application.distro.php', array(
-            'url' => $settings['metadata']['site_path'],
+            'url' => addslashes($settings['metadata']['site_path']),
             'index' => (mod_rewrite() ? '' : 'index.php'),
             'key' => noise(),
             'language' => $settings['i18n']['language'],
