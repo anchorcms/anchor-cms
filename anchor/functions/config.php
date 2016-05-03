@@ -9,7 +9,7 @@ function set_theme_options($options, $value = null)
         $options = array($options => $value);
     }
 
-    // existsing options
+    // existing options
     $current = Config::get('theme', array());
 
     // merge theme config
