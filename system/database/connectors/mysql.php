@@ -49,7 +49,7 @@ class mysql extends Connector
         try {
             extract($config);
 
-            $dns = 'mysql:' . implode(';', array('dbname=' . $database, 'host=' . $hostname, 'port=' . $port, 'charset=' . $charset));
+            $dns = 'mysql:' . implode(';', isset($database) ? array('dbname=' . $database, 'host=' . $hostname, 'port=' . $port, 'charset=' . $charset) : array('host=' . $hostname, 'port=' . $port, 'charset=' . $charset));
             $this->pdo = new PDO($dns, $username, $password);
             $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         } catch (PDOException $e) {

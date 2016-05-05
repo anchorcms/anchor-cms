@@ -161,6 +161,11 @@ check('Anchor requires the php module <code>GD</code> to be installed.', functio
     return extension_loaded('gd');
 });
 
+// mb_strtolower() in anchor\helpers.php
+check('Anchor requires the php module <code>mbstring</code> to be installed.', function() {
+    return extension_loaded('mbstring');
+});
+
 if (count($GLOBALS['errors'])) {
     $vars['errors'] = $GLOBALS['errors'];
 
