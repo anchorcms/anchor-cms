@@ -19,11 +19,11 @@ class installer
         static::connect($settings);
 
         // check we have not already installed
-        if (empty(static::$connection->instance()->query('SHOW DATABASES LIKE \'' . $settings['database']['name'] . '\';')->fetchColumn())) {
+        if (empty(static::$connection->instance()->query('SHOW DATABASES LIKE \'' . static::$connection->instance()->quote($settings['database']['name']) . '\';')->fetchColumn())) {
             
          // create the database and use the database
-         static::$connection->instance()->query('CREATE DATABASE `' . $settings['database']['name'] . '`;');
-         static::$connection->instance()->query('USE `' . $settings['database']['name'] . '`;');
+         static::$connection->instance()->query('CREATE DATABASE `' . static::$connection->instance()->quote($settings['database']['name']) . '`;');
+         static::$connection->instance()->query('USE `' . static::$connection->instance()->quote($settings['database']['name']) . '`;');
             
          // install tables
          static::schema($settings);
