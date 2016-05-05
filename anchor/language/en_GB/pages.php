@@ -38,7 +38,7 @@ return array(
     'parent_explain' => '',
 
     'pagetype' => 'Page Type',
-    'pagetype_explain' => 'Select the set of field this page belong too.',
+    'pagetype_explain' => 'Select the page type this page best belongs to.',
 
     // messages
     'updated' => 'Your page was updated.',
