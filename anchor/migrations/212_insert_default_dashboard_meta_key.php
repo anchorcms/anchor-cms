@@ -1,5 +1,6 @@
 <?php
-class Migration_insert_dashboard_page_meta_key extends Migration
+
+class Migration_insert_default_dashboard_meta_key extends Migration
 {
 
     public function up()
