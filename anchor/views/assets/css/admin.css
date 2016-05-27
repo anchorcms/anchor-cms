@@ -816,7 +816,13 @@ input[type='range'], ::-webkit-slider-thumb {
 	.indent{
 		padding-left: 40px;
 	}
-
+.screen {
+	background: url('../img/posts-new.png');
+ display: inline-block;
+    width: 700px;
+    height: 363px;
+	
+}
 
 /*
 	Adition CSS code for translations 
