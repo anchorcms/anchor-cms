@@ -824,6 +824,28 @@ input[type='range'], ::-webkit-slider-thumb {
 	
 }
 
+
+.donate {
+	background: #fff;
+	padding-top: 1px;
+}
+
+.code {
+	display: inline-block;
+	padding: 0 22px;
+
+	color: #fff;
+	background: blue;
+
+	font-size: 13px;
+	line-height: 38px;
+	font-weight: bold;
+	text-align: center;
+	
+	border: none;
+	border-radius: 5px;
+}
+
 /*
 	Adition CSS code for translations 
 */
