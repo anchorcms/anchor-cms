@@ -10,6 +10,13 @@ Options -indexes
 
 	# Rewrite all other URLs to index.php/URL
 	RewriteRule ^(.*)$ {{index}} [L]
+
+	# Rewrite anchor directories to index.php even though they exist.
+	RewriteRule ^(system.*)$ index.php/$1 [L]
+	RewriteRule ^(anchor.*)$ index.php/$1 [L]
+	RewriteRule ^(content.*)$ index.php/$1 [L]
+	RewriteRule ^(themes.*)$ index.php/$1 [L]
+	RewriteRule ^(vendor.*)$ index.php/$1 [L]
 </IfModule>
 
 <IfModule !mod_rewrite.c>
