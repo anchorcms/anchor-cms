@@ -16,11 +16,11 @@ Options -indexes
 	RewriteCond %{REQUEST_FILENAME} -f
 	RewriteRule .* - [S=5]
 
-	RewriteRule ^(system(?:$|\/.*$)) {{index}}[L]
-	RewriteRule ^(anchor(?:$|\/.*$)) {{index}}[L]
+	RewriteRule ^(system(?:$|\/.*$)) {{index}} [L]
+	RewriteRule ^(anchor(?:$|\/.*$)) {{index}} [L]
 	RewriteRule ^(content(?:$|\/.*$)) {{index}} [L]
-	RewriteRule ^(themes(?:$|\/.*$)) {{index}}[L]
-	RewriteRule ^(vendor(?:$|\/.*$)) {{index}}[L]
+	RewriteRule ^(themes(?:$|\/.*$)) {{index}} [L]
+	RewriteRule ^(vendor(?:$|\/.*$)) {{index}} [L]
 </IfModule>
 
 <IfModule !mod_rewrite.c>
