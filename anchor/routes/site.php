@@ -240,8 +240,6 @@ Route::get(array('search', 'search/(:any)', 'search/(:any)/(:any)', 'search/(:an
 
     // get search term
     $term = filter_var($slug, FILTER_SANITIZE_STRING);
-    Session::put(slug($term), $term);
-    //$term = Session::get($slug); //this was for POST only searches
 
     // revert double-dashes back to spaces
     $term = str_replace('--', ' ', $term);
@@ -252,7 +250,7 @@ Route::get(array('search', 'search/(:any)', 'search/(:any)/(:any)', 'search/(:an
 
     // Posts, pages, or all
     if ($whatSearching === 'posts') {
-        list($total, $results) = (Post::search($term, $offset, Post::perPage()));
+        list($total, $results) = Post::search($term, $offset, Post::perPage());
     } elseif ($whatSearching === 'pages') {
         list($total, $results) = Page::search($term, $offset);
     } else {
@@ -261,7 +259,7 @@ Route::get(array('search', 'search/(:any)', 'search/(:any)/(:any)', 'search/(:an
         $total = $postResults[0] + $pageResults[0];
         $results = array_merge($postResults[1], $pageResults[1]);
     }
-    
+
     // search templating vars
     Registry::set('page', $page);
     Registry::set('page_offset', $offset);
@@ -279,10 +277,17 @@ Route::post('search', function () {
 
     // What searching
     $whatSearch = Input::get('whatSearch', ''); // get what we are searching for
-    $whatSearch = $whatSearch === 'posts' ? 'posts' : $whatSearch === 'pages' ? 'pages' : 'all'; // clamp the choices
 
-    Session::put(slug($term), $term);
-    Session::put($whatSearch, $whatSearch);
+    // clamp the choices
+    switch ($whatSearch) {
+        case 'posts':
+            break;
+        case 'pages':
+            break;
+        default:
+            $whatSearch = 'all';
+            break;
+    }
 
     return Response::redirect('search/' . $whatSearch . '/' . slug($term));
 });
