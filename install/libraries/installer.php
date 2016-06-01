@@ -151,7 +151,7 @@ class installer
         if (mod_rewrite() or (is_apache() and $settings['metadata']['rewrite'])) {
             $htaccess = Braces::compile(APP . 'storage/htaccess.distro', array(
                 'base' => $settings['metadata']['site_path'],
-                'index' => (is_cgi() ? 'index.php?/$1' : 'index.php/$1')
+                'index' => 'index.php?/$1'
             ));
 
             if (isset($htaccess) and is_writable($filepath = PATH)) {
