@@ -238,21 +238,21 @@ Route::get(array('search', 'search/(:any)', 'search/(:any)/(:any)', 'search/(:an
     $page->title = 'Search';
     $page->slug = 'search';
 
-    // get search term
-    $term = filter_var($slug, FILTER_SANITIZE_STRING);
-    Session::put(slug($term), $term);
-    //$term = Session::get($slug); //this was for POST only searches
-
-    // revert double-dashes back to spaces
-    $term = str_replace('--', ' ', $term);
-
     if ($offset <= 0) {
         return Response::create(new Template('404'), 404);
     }
 
+    // Convert custom escaped characters and escape MySQL special characters.
+    // http://stackoverflow.com/questions/712580/list-of-special-characters-for-sql-like-clause
+    $term = str_replace(
+                array('-sl-', '-bsl-', '-sp-', '%', '_'),
+                array('/', '\\\\', ' ', '\\%', '\\_'),
+                $slug
+            );
+
     // Posts, pages, or all
     if ($whatSearching === 'posts') {
-        list($total, $results) = (Post::search($term, $offset, Post::perPage()));
+        list($total, $results) = Post::search($term, $offset, Post::perPage());
     } elseif ($whatSearching === 'pages') {
         list($total, $results) = Page::search($term, $offset);
     } else {
@@ -261,11 +261,17 @@ Route::get(array('search', 'search/(:any)', 'search/(:any)/(:any)', 'search/(:an
         $total = $postResults[0] + $pageResults[0];
         $results = array_merge($postResults[1], $pageResults[1]);
     }
-    
+
     // search templating vars
+    $safeTerm = eq(str_replace(
+                    array('\\\\', '\\%', '\\_'),
+                    array('\\', '%', '_'),
+                    $term
+                ));
+
     Registry::set('page', $page);
     Registry::set('page_offset', $offset);
-    Registry::set('search_term', $term);
+    Registry::set('search_term', $safeTerm);
     Registry::set('search_results', new Items($results));
     Registry::set('total_posts', $total);
 
@@ -273,18 +279,29 @@ Route::get(array('search', 'search/(:any)', 'search/(:any)/(:any)', 'search/(:an
 });
 
 Route::post('search', function () {
-    // Search term
-    $term = filter_var(Input::get('term', ''), FILTER_SANITIZE_STRING); // sanitize search term
-    $term = str_replace(' ', '--', $term); // replace spaces with double-dash to pass through url
+    // Search term, placeholders for / and \
+    $term = str_replace(
+                array('/', '\\', ' '),
+                array('-sl-', '-bsl-', '-sp-'),
+                Input::get('term', '')
+            );
+    $term = rawurlencode($term);
 
-    // What searching
-    $whatSearch = Input::get('whatSearch', ''); // get what we are searching for
-    $whatSearch = $whatSearch === 'posts' ? 'posts' : $whatSearch === 'pages' ? 'pages' : 'all'; // clamp the choices
+    // Get what we are searching for
+    $whatSearch = Input::get('whatSearch', '');
 
-    Session::put(slug($term), $term);
-    Session::put($whatSearch, $whatSearch);
+    // clamp the choices
+    switch ($whatSearch) {
+        case 'posts':
+            break;
+        case 'pages':
+            break;
+        default:
+            $whatSearch = 'all';
+            break;
+    }
 
-    return Response::redirect('search/' . $whatSearch . '/' . slug($term));
+    return Response::redirect('search/' . $whatSearch . '/' . $term);
 });
 
 /**
