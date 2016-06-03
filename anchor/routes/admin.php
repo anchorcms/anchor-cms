@@ -52,7 +52,7 @@ Route::get('admin/login', array('before' => 'guest', 'main' => function () {
     if (!Auth::guest()) {
         return Response::redirect('admin/posts');
     }
-    
+
     $vars['token'] = Csrf::token();
 
     return View::create('users/login', $vars)
@@ -93,7 +93,7 @@ Route::get('admin/logout', function () {
     Amnesia
 */
 Route::get('admin/amnesia', array('before' => 'guest', 'main' => function () {
-    
+
     $vars['token'] = Csrf::token();
 
     return View::create('users/amnesia', $vars)
@@ -144,7 +144,7 @@ Route::post('admin/amnesia', array('before' => 'csrf', 'main' => function () {
     Reset password
 */
 Route::get('admin/reset/(:any)', array('before' => 'guest', 'main' => function ($key) {
-    
+
     $vars['token'] = Csrf::token();
     $vars['key'] = ($token = Session::get('token'));
 
@@ -197,7 +197,7 @@ Route::post('admin/reset/(:any)', array('before' => 'csrf', 'main' => function (
     Upgrade
 */
 Route::get('admin/upgrade', function () {
-    
+
     $vars['token'] = Csrf::token();
 
     $version = Config::meta('update_version');
@@ -215,7 +215,7 @@ Route::get('admin/upgrade', function () {
     List extend
 */
 Route::get('admin/extend', array('before' => 'auth', 'main' => function ($page = 1) {
-    
+
     $vars['token'] = Csrf::token();
 
     return View::create('extend/index', $vars)
@@ -242,10 +242,43 @@ Route::post('admin/get_fields', array('before' => 'auth', 'main' => function () 
     Upload an image
 */
 Route::post('admin/upload', array('before' => 'auth', 'main' => function () {
-    $uploader = new Uploader(PATH . 'content', array('png', 'jpg', 'bmp', 'gif', 'pdf'));
+    //Check if yyyy/mm folders exist and create if they do not.
+    if (!file_exists(PATH . 'content' . DS . date('Y'))) {
+        mkdir(PATH . 'content' . DS .  date('Y'));
+    }
+    $path = PATH . 'content' . DS . date('Y') . DS . date('m');
+    if (!file_exists($path)) {
+        mkdir($path);
+    }
+    
+    //Don't overwrite uploaded files, rename in the pattern name.ext, name-1.ext, name-2.ext
+    while (file_exists($path . DS . $_FILES['file']['name'])) {
+        $parts = explode('.', $_FILES['file']['name']);
+
+        $ext = array_pop($parts);
+        $name = implode('.', $parts);
+
+        $parts = explode('-', $name);
+        $iteration = array_pop($parts);
+        $name = implode('-', $parts);
+
+        if (is_numeric($iteration) && is_int((int)$iteration)) {
+            $iteration = (int)$iteration + 1;
+        } else {
+            if (strlen($name) === 0) {
+                $name = $iteration;
+            } else {
+                $name .= '-' . $iteration;
+            }
+            $iteration = 1;
+        }
+        $_FILES['file']['name'] = $name . '-' . $iteration . '.' . $ext;
+    }
+
+    $uploader = new Uploader($path, array('png', 'jpg', 'bmp', 'gif', 'pdf'));
     $filepath = $uploader->upload($_FILES['file']);
 
-    $uri = Config::app('url', '/') . 'content/' . basename($filepath);
+    $uri = Config::app('url', '/') . '/content/' . date('Y/m/') . basename($filepath);
     $output = array('uri' => $uri);
 
     return Response::json($output);
