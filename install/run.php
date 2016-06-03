@@ -39,38 +39,32 @@ if ($route = Arr::get($_GET, 'route', '/')) {
 */
 function timezones()
 {
-    $list = DateTimeZone::listIdentifiers();
-    $data = array();
-    foreach ($list as $id => $zone) {
-        $date= new DateTime(null, new DateTimeZone($zone));
-        $ds = $date->format('I');
-        $offset = $date->getOffset();
-        $gmt = round(abs($offset / 3600), 2);
-        $gmt = ($ds == 1 ? $gmt : $gmt-1);
-        $minutes = fmod($gmt, 1);
-        if ($minutes == 0) {
-            $offset_label = $gmt.'&nbsp;&nbsp;';
-        } elseif ($minutes == 0.5) {
-            $offset_label = (int)$gmt.'.30';
-        } elseif ($minutes == 0.75) {
-            $offset_label = (int)$gmt.'.45';
-        }
-        $sign = $offset > 0 ? '+' : '-';
-        if ($offset == 0) {
-            $sign = ' ';
-            $offset = '';
-        }
-        $label = 'GMT' . $sign . $offset_label . '&nbsp;'  . $zone;
-        $data[$offset][$zone] = array('offset'=> $offset, 'label' => $label, 'timezone_id' => $zone);
-    }
-    ksort($data);
     $timezones = array();
-    foreach ($data as $offsets) {
-        ksort($offsets);
-        foreach ($offsets as $zone) {
-            $timezones[] = $zone;
+    $now = new DateTime('now', new DateTimeZone('UTC'));
+
+    foreach (DateTimeZone::listIdentifiers() as $timezone) {
+        $now->setTimezone(new DateTimeZone($timezone));
+        $offset = $now->getOffset();
+
+        $hours = intval($offset / 3600);
+        $minutes = abs(intval($offset % 3600 / 60));
+
+        //Create the label
+        $label = 'GMT';
+        if ($offset) {
+            $label .= ($hours < 0 ? '' : '+') . $hours;
+            $label .= $minutes ? '.' . $minutes : '&nbsp;&nbsp;';
         }
+        $label .= '&nbsp;' . $timezone;
+
+        $timezones[] = array('offset' => $offset, 'timezone_id' => $timezone, 'label' => $label);
     }
+
+    //Sort by offset, and then by timezone_id.
+    usort($timezones, function($a, $b) {
+        return ($a['offset'] - $b['offset']) - strcmp($b['timezone_id'], $a['timezone_id']);
+    });
+
     return $timezones;
 }
 
@@ -144,12 +138,12 @@ function check($message, $action)
 }
 
 check('<code>content</code> directory needs to be writable
-	so we can upload your images and files.', function () {
+    so we can upload your images and files.', function () {
     return is_writable(PATH . 'content');
 });
 
 check('<code>anchor/config</code> directory needs to be temporarily writable
-	so we can create your application and database configuration files.', function () {
+    so we can create your application and database configuration files.', function () {
     return is_writable(PATH . 'anchor/config');
 });
 
