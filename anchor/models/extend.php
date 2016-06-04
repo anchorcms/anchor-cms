@@ -43,15 +43,15 @@ class extend extends Base
         switch ($extend->field) {
             case 'text':
                 if (! empty($extend->value->text)) {
-                    $value = $extend->value->text;
+                    $value = eq($extend->value->text);
                 }
                 break;
 
             case 'html':
                 if (! empty($extend->value->html)) {
-                    $md = new Markdown;
+                    $md = new Parsedown();
 
-                    $value = $md->transform($extend->value->html);
+                    $value = $md->text($extend->value->html);
                 }
                 break;
 
@@ -186,8 +186,8 @@ class extend extends Base
         // not as files.
         $image_upload = Input::get('extend.' . $extend->key);
         if ($image_upload) {
-            $filename = basename($image_upload);
-            $name = $filename;
+            $filename = str_replace(Config::app('url') . '/content', '', $image_upload);
+            $name = basename($filename);
         }
 
         $data = compact('name', 'filename');
