@@ -2,4 +2,4 @@
 
 namespace Models;
 
-class Page extends Model {}
+class Page extends AbstractModel {}

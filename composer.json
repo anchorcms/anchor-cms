@@ -20,11 +20,9 @@
 	"repositories": [
 		{"type": "vcs", "url": "git@github.com:rwarasaurus/forms.git"},
 		{"type": "vcs", "url": "git@github.com:rwarasaurus/validation.git"},
-		{"type": "vcs", "url": "git@github.com:rwarasaurus/db.git"},
-		{"type": "vcs", "url": "git@github.com:rwarasaurus/session.git"},
 		{"type": "vcs", "url": "git@github.com:rwarasaurus/events.git"},
-		{"type": "vcs", "url": "git@github.com:rwarasaurus/http.git"},
-		{"type": "vcs", "url": "git@github.com:rwarasaurus/router.git"}
+		{"type": "vcs", "url": "git@github.com:rwarasaurus/router.git"},
+		{"type": "vcs", "url": "git@github.com:ircmaxell/Tari-PHP"}
 	],
 	"require": {
 		"php": ">=7",
@@ -36,7 +34,10 @@
 		"rwarasaurus/session": "dev-master",
 		"rwarasaurus/events": "dev-master",
 		"rwarasaurus/http": "dev-master",
-		"rwarasaurus/router": "dev-master"
+		"rwarasaurus/router": "dev-master",
+		"guzzlehttp/psr7": "^1.3",
+		"doctrine/dbal": "^2.5",
+		"ircmaxell/Tari-PHP": "dev-master"
 	},
 	"require-dev": {
 		"phpspec/phpspec": "~2",

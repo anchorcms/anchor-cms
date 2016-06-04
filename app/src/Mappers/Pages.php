@@ -2,25 +2,28 @@
 
 namespace Mappers;
 
-class Pages extends Mapper {
+class Pages extends AbstractMapper {
 
 	protected $primary = 'id';
 
 	protected $name = 'pages';
 
 	public function id($id) {
-		return $this->where('id', '=', $id)->fetch();
+		return $this->fetchByAttribute('id', $id);
 	}
 
 	public function slug($slug) {
-		return $this->where('slug', '=', $slug)->fetch();
+		return $this->fetchByAttribute('slug', $slug);
 	}
 
 	public function menu() {
-		return $this->where('status', '=', 'published')
-			->where('show_in_menu', '=', '1')
-			->sort('menu_order', 'asc')
-			->get();
+		$query = $this->query();
+
+		$query->where('status = '.$query->createPositionalParameter('published'))
+			->andWhere('show_in_menu = '.$query->createPositionalParameter('1'))
+			->orderBy('menu_order', 'ASC');
+
+		return $this->fetchAll($query);
 	}
 
 	public function filter(array $input) {

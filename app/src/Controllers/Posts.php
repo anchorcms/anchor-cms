@@ -28,7 +28,7 @@ class Posts extends Frontend {
 		$pages = $this->container['mappers.pages']->menu();
 		$vars['menu'] = new \ContentIterator($pages);
 
-		$categories = $this->container['mappers.categories']->allPublished();
+		$categories = $this->container['mappers.categories']->all();
 		$vars['categories'] = new \ContentIterator($categories);
 
 		$this->container['services.posts']->hydrate([$article]);

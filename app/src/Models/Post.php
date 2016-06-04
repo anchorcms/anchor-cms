@@ -2,9 +2,9 @@
 
 namespace Models;
 
-class Post extends Model {
+class Post extends AbstractModel {
 
-	use Traits\Dates;
+	use \Traits\Dates;
 
 	protected $meta;
 

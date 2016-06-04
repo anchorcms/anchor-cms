@@ -49,7 +49,7 @@ class Page extends Frontend {
 		$pages = $this->container['mappers.pages']->menu();
 		$vars['menu'] = new \ContentIterator($pages);
 
-		$categories = $this->container['mappers.categories']->allPublished();
+		$categories = $this->container['mappers.categories']->all();
 		$vars['categories'] = new \ContentIterator($categories);
 
 		$pagenum = filter_input(INPUT_GET, 'page', FILTER_SANITIZE_NUMBER_INT, ['options' => ['default' => 1]]);
@@ -74,7 +74,7 @@ class Page extends Frontend {
 		$pages = $this->container['mappers.pages']->menu();
 		$vars['menu'] = new \ContentIterator($pages);
 
-		$categories = $this->container['mappers.categories']->allPublished();
+		$categories = $this->container['mappers.categories']->all();
 		$vars['categories'] = new \ContentIterator($categories);
 
 		// is posts page

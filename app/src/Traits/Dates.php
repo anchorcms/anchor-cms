@@ -1,6 +1,6 @@
 <?php
 
-namespace Models\Traits;
+namespace Traits;
 
 trait Dates {
 

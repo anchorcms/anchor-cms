@@ -77,16 +77,18 @@ class Posts {
 
 		$offset = ($params['page'] - 1) * $params['perpage'];
 
-		$query = $this->posts->where('status', '=', $params['status'])
-			->sort('created', 'desc')
-			->take($params['perpage'])
-			->skip($offset);
+		$query = $this->posts->query();
+
+		$query->where('status = '.$query->createPositionalParameter($params['status']))
+			->orderBy('created', 'DESC')
+			->setMaxResults($params['perpage'])
+			->setFirstResult($offset);
 
 		if(isset($params['category'])) {
-			$query->where('category', '=', $params['category']);
+			$query->andWhere('category = '.$query->createPositionalParameter($params['category']));
 		}
 
-		$posts = $query->get();
+		$posts = $this->posts->fetchAll($query);
 
 		$this->hydrate($posts);
 

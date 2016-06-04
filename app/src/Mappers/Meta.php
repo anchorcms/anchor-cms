@@ -4,30 +4,28 @@ namespace Mappers;
 
 use StdClass;
 
-class Meta extends Mapper {
+class Meta extends AbstractMapper {
 
 	protected $primary = 'key';
 
 	protected $name = 'meta';
 
 	public function all() {
-		$data = new StdClass;
+		$sql = $this->query();
+		$meta = [];
 
-		foreach($this->get() as $row) {
-			$data->{$row->key} = $row->value;
+		foreach($this->db->fetchAll($sql) as $row) {
+			$meta[$row['key']] = $row['value'];
 		}
 
-		return $data;
+		return $meta;
 	}
 
 	public function key($key, $default = null) {
-		$row = $this->select(['value'])->where('key', '=', $key)->fetch();
+		$sql = $this->query()->select('value')->where('key = ?');
+		$value = $this->db->fetchColumn($sql, [$key]);
 
-		if(false === $row) {
-			return $default;
-		}
-
-		return $row->value;
+		return false === $value ? $default : $value;
 	}
 
 }

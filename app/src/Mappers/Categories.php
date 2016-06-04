@@ -2,39 +2,40 @@
 
 namespace Mappers;
 
-class Categories extends Mapper {
+class Categories extends AbstractMapper {
 
 	protected $primary = 'id';
 
 	protected $name = 'categories';
 
 	public function id($id) {
-		return $this->where('id', '=', $id)->fetch();
+		return $this->fetchByAttribute('id', $id);
 	}
 
 	public function slug($slug) {
-		return $this->where('slug', '=', $slug)->fetch();
+		return $this->fetchByAttribute('slug', $slug);
 	}
 
 	public function dropdownOptions() {
 		$categories = [];
 
-		foreach($this->sort('title')->get() as $category) {
+		foreach($this->all() as $category) {
 			$categories[$category->id] = $category->title;
 		}
 
 		return $categories;
 	}
 
-	public function allPublished() {
-		$tp = $this->prefix;
+	public function all() {
+		$sql = $this->query()->orderBy('title', 'ASC');
+		$results = $this->db->fetchAll($sql);
+		$models = [];
 
-		return $this->select([$tp.'categories.*', 'COUNT('.$tp.'posts.category) AS post_count'])
-			->join($tp.'posts', $tp.'posts.category', '=', $tp.'categories.id')
-			->where($tp.'posts.status', '=', 'published')
-			->sort($tp.'categories.title')
-			->group($tp.'posts.category')
-			->get();
+		foreach($results as $row) {
+			$models[] = (clone $this->prototype)->withAttributes($row);
+		}
+
+		return $models;
 	}
 
 }

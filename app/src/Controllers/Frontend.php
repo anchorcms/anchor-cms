@@ -14,6 +14,7 @@ abstract class Frontend extends AbstractController {
 	public function notFound() {
 		$page = new \Models\Page([
 			'title' => 'Not Found',
+			'slug' => 'not-found',
 			'html' => 'The resource you’re looking for doesn’t exist!'
 		]);
 

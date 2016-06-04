@@ -2,7 +2,7 @@
 
 namespace Mappers;
 
-class CustomFields extends Mapper {
+class CustomFields extends AbstractMapper {
 
 	protected $primary = 'id';
 

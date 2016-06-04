@@ -2,7 +2,7 @@
 
 namespace Mappers;
 
-class PageMeta extends Mapper {
+class PageMeta extends AbstractMapper {
 
 	protected $primary = 'id';
 

@@ -8,17 +8,9 @@ return [
 		return new Config($app['paths']['config']);
 	},
 	'db' => function($app) {
-		$config = $app['config']->get('db');
-
-		$pdo = new PDO($config['dns'], $config['user'], $config['pass'], [
-			PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-			PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
-		]);
-
-		return $pdo;
-	},
-	'query' => function($app) {
-		return new DB\Query($app['db']);
+		$params = $app['config']->get('db');
+		$config = new \Doctrine\DBAL\Configuration();
+		return Doctrine\DBAL\DriverManager::getConnection($params, $config);
 	},
 	'errors' => function() {
 		return new Errors();
@@ -32,22 +24,13 @@ return [
 			mkdir($app['paths']['sessions']);
 		}
 
-		// use builtin file handler
-		$handler = new \SessionHandler;
+		$storage = new Session\FileStorage($app['paths']['sessions']);
 
-		$storage = new Session\NativeStorage($handler, [
-			'entropy_length' => 32,
-			'use_cookies' => true,
-			'use_only_cookies' => true,
-			'cookie_lifetime' => 0,
-			'gc_probability' => 0,
-			'name' => 'anchor',
-			'save_path' => $app['paths']['sessions'],
-			'save_handler' => 'files',
-			'hash_function' => 'sha256',
-		]);
+		$cookies = new Session\Cookies($app['http.request'], $app['http.response']);
 
-		$session = new Session\Session($storage);
+		$session = new Session\Session('anchor-cms', $cookies, $storage);
+
+		$session->start();
 
 		return $session;
 	},
@@ -73,79 +56,79 @@ return [
 		return new Theme($app['view'], $app['paths'], $app['events']);
 	},
 	'url' => function($app) {
-		return new Url($app['middleware.request']);
+		return new Url($app['http.request']);
 	},
 
 	/**
 	 * Middleware
 	 */
-	'middleware.request' => function() {
-		return new Http\ServerRequest($_GET, $_POST, $_SERVER, $_COOKIE, $_FILES);
+	'http.request' => function() {
+		return GuzzleHttp\Psr7\ServerRequest::fromGlobals();
 	},
-	'middleware.response' => function() {
-		return new Http\Response;
+	'http.response' => function() {
+		return new GuzzleHttp\Psr7\Response;
 	},
-	'middleware.routes' => function($app) {
+	'http.routes' => function($app) {
 		$routes = new Routing\RouteCollection(require __DIR__ . '/routes/default.php');
 
 		$app['events']->trigger('routing', $routes);
 
 		return $routes;
 	},
-	'middleware.router' => function($app) {
-		return new Routing\UriMatcher($app['middleware.routes']);
+	'http.router' => function($app) {
+		return new Routing\UriMatcher($app['http.routes']);
 	},
-	'middleware.kernel' => function($app) {
-		return new Kernel($app['middleware.request'], $app['middleware.router'], $app);
+	'http.kernel' => function($app) {
+		return new Kernel($app['http.router']);
 	},
 
 	/**
 	 * Mappers
 	 */
 	'mappers.categories' => function($app) {
-		$mapper = new Mappers\Categories($app['query'], new Models\Category);
+		$mapper = new Mappers\Categories($app['db'], new Models\Category);
 		$mapper->setTablePrefix($app['config']->get('db.table_prefix'));
 
 		return $mapper;
 	},
 	'mappers.meta' => function($app) {
-		$mapper = new Mappers\Meta($app['query'], new DB\Row);
+		$mapper = new Mappers\Meta($app['db'], new DB\Row);
 		$mapper->setTablePrefix($app['config']->get('db.table_prefix'));
 
 		return $mapper;
 	},
 	'mappers.pages' => function($app) {
-		$mapper = new Mappers\Pages($app['query'], new Models\Page);
+		$mapper = new Mappers\Pages($app['db'], new Models\Page);
 		$mapper->setTablePrefix($app['config']->get('db.table_prefix'));
 
 		return $mapper;
 	},
 	'mappers.pagemeta' => function($app) {
-		$mapper = new Mappers\PageMeta($app['query'], new DB\Row);
+		$mapper = new Mappers\PageMeta($app['db'], new DB\Row);
 		$mapper->setTablePrefix($app['config']->get('db.table_prefix'));
 
 		return $mapper;
 	},
 	'mappers.posts' => function($app) {
-		$mapper = new Mappers\Posts($app['query'], new Models\Post);
+		$mapper = new Mappers\Posts($app['db'], new Models\Post);
 		$mapper->setTablePrefix($app['config']->get('db.table_prefix'));
 
 		return $mapper;
 	},
 	'mappers.postmeta' => function($app) {
-		$mapper = new Mappers\PostMeta($app['query'], new DB\Row);
+		$mapper = new Mappers\PostMeta($app['db'], new DB\Row);
 		$mapper->setTablePrefix($app['config']->get('db.table_prefix'));
 
 		return $mapper;
 	},
 	'mappers.users' => function($app) {
-		$mapper = new Mappers\Users($app['query'], new Models\User);
+		$mapper = new Mappers\Users($app['db'], new Models\User);
 		$mapper->setTablePrefix($app['config']->get('db.table_prefix'));
 
 		return $mapper;
 	},
 	'mappers.customFields' => function($app) {
-		$mapper = new Mappers\CustomFields($app['query'], new DB\Row);
+		$mapper = new Mappers\CustomFields($app['db'], new DB\Row);
 		$mapper->setTablePrefix($app['config']->get('db.table_prefix'));
 
 		return $mapper;

@@ -2,7 +2,7 @@
 
 namespace Mappers;
 
-class Posts extends Mapper {
+class Posts extends AbstractMapper {
 
 	protected $primary = 'id';
 

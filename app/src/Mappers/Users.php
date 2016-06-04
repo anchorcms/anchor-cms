@@ -2,7 +2,7 @@
 
 namespace Mappers;
 
-class Users extends Mapper {
+class Users extends AbstractMapper {
 
 	protected $primary = 'id';
 

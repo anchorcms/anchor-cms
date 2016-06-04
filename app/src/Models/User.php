@@ -2,7 +2,7 @@
 
 namespace Models;
 
-class User extends Model {
+class User extends AbstractModel {
 
 	public function isActive() {
 		return $this->status == 'active';

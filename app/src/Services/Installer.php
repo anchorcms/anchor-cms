@@ -16,6 +16,7 @@ class Installer {
 	public function isInstalled() {
 		$path = $this->paths['config'];
 
+		// check config files
 		foreach(['db', 'app', 'mail'] as $file) {
 			$dest = $path . sprintf('/%s.php', $file);
 
