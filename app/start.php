@@ -73,51 +73,21 @@ $app['errors']->handler(function(Throwable $exception) {
 
 $app['errors']->register();
 
-/*
 if(false === $app['services.installer']->isInstalled() || true === $app['services.installer']->installerRunning()) {
 	$app['http.routes']->set(require __DIR__ . '/routes/installer.php');
 }
-*/
 
-$app['events']->trigger('before_response');
-
-$factory = new Tari\Adapter\Guzzle\Factory;
-
-$server = new Tari\Server($factory);
-
-$server->append(function($request, $frame) {
-	$response = $frame->next($request);
-	return $response->withHeader('X-Powered-By', 'Tari-PHP');
+$app['http.server']->append(function($request, $frame) use($app) {
+	$app['theme']->setTheme($app['mappers.meta']->key('theme', 'default'));
+	return $frame->next($request);
 });
 
-$server->append(function($request, $frame) use($app) {
-	$response = $frame->next($request);
+$app['http.server']->append(new Middleware\Auth($app['session']));
+$app['http.server']->append(new Middleware\Kernel($app));
+$app['http.server']->append(new Middleware\Session($app['session']));
 
-	$response = $app['http.kernel']->getResponse($request, $response, function($class) use($app) {
-		$name = '\\' . implode('\\', array_map('ucfirst', explode('\\', $class)));
-		$controller = new $name;
-		$controller->setContainer($app);
-		return $controller;
-	});
-
-	return $response;
+$response = $app['http.server']->run($app['http.request'], function($request) use($app) {
+	return $app['http.factory']->createResponse(404, [], 'Not Found');
 });
-
-$default = function($request) use ($factory) {
-	// Default to a 404 NOT FOUND response
-	return $factory->createResponse(404, [], 'Not Found');
-};
-
-$response = $server->run($app['http.request'], $default);
-
-$app['events']->trigger('after_response');
-
-if($app['session']->started()) {
-	$app['session']->rotate()->close();
-}
-
-$app['events']->trigger('before_output');
 
 $app['http.kernel']->outputResponse($response);
-
-$app['events']->trigger('after_output');

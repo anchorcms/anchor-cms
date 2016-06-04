@@ -19,20 +19,18 @@ return [
 		return new Events\EventManager();
 	},
 	'session' => function($app) {
-		// try to create the folder is it does not exist
+		$session = new Session\Session($app['session.cookies'], $app['session.storage']);
+		$session->start();
+		return $session;
+	},
+	'session.cookies' => function($app) {
+		return new Session\Cookies;
+	},
+	'session.storage' => function($app) {
 		if(false === is_dir($app['paths']['sessions'])) {
 			mkdir($app['paths']['sessions']);
 		}
-
-		$storage = new Session\FileStorage($app['paths']['sessions']);
-
-		$cookies = new Session\Cookies($app['http.request'], $app['http.response']);
-
-		$session = new Session\Session('anchor-cms', $cookies, $storage);
-
-		$session->start();
-
-		return $session;
+		return new Session\FileStorage($app['paths']['sessions']);
 	},
 	'csrf' => function($app) {
 		return new Csrf($app['session']);
@@ -65,9 +63,6 @@ return [
 	'http.request' => function() {
 		return GuzzleHttp\Psr7\ServerRequest::fromGlobals();
 	},
-	'http.response' => function() {
-		return new GuzzleHttp\Psr7\Response;
-	},
 	'http.routes' => function($app) {
 		$routes = new Routing\RouteCollection(require __DIR__ . '/routes/default.php');
 
@@ -80,6 +75,12 @@ return [
 	},
 	'http.kernel' => function($app) {
 		return new Kernel($app['http.router']);
+	},
+	'http.factory' => function() {
+		return new Tari\Adapter\Guzzle\Factory;
+	},
+	'http.server' => function($app) {
+		return new Tari\Server($app['http.factory']);
 	},
 
 	/**

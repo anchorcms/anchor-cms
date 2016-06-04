@@ -45,5 +45,5 @@ function category_url() {
 function category_count() {
 	global $app;
 
-	return $app['theme']->getVar('categories')->postCount();
+	return 0; //$app['theme']->getVar('categories')->postCount();
 }

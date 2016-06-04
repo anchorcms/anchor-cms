@@ -2,6 +2,8 @@
 
 namespace Session;
 
+use Psr\Http\Message\ResponseInterface;
+
 class Session {
 
 	protected $cookies;
@@ -12,14 +14,22 @@ class Session {
 
 	protected $id;
 
-	protected $name;
+	protected $options;
 
 	protected $started;
 
-	public function __construct($name, $cookies, $storage) {
-		$this->name = $name;
+	public function __construct($cookies, $storage, array $options = []) {
 		$this->cookies = $cookies;
 		$this->storage = $storage;
+		$defaults = [
+			'name' => 'PHPSESSID',
+			'expire' => 0,
+			'path' => '',
+			'domain' => '',
+			'secure' => false,
+			'httponly' => false,
+		];
+		$this->options = array_merge($defaults, $options);
 		$this->data = [];
 		$this->started = false;
 	}
@@ -29,8 +39,8 @@ class Session {
 	}
 
 	public function start() {
-		if($this->cookies->has($this->name)) {
-			$this->id = $this->cookies->get($this->name);
+		if($this->cookies->has($this->options['name'])) {
+			$this->id = $this->cookies->get($this->options['name']);
 		}
 		else {
 			$this->id = $this->generateId();
@@ -45,13 +55,42 @@ class Session {
 		return $this->started;
 	}
 
-	public function close() {
+	public function close(ResponseInterface $response) {
 		if( ! $this->started) {
 			throw new RuntimeException('Session has not been started');
 		}
 
-		$this->cookies->put($this->name, $this->id);
+		$response->withAddedHeader('Set-Cookie', $this->getCookie());
 		$this->storage->write($this->id, $this->data);
+	}
+
+	protected function getCookie() {
+		$pairs = [
+			sprintf('%s=%s', $this->options['name'], $this->id),
+		];
+
+		if($this->options['expire']) {
+			$time = $this->options['expire'] + time();
+			$pairs[] = sprintf('expires=%s', date(DATE_RFC2822, $time));
+		}
+
+		if($this->options['path']) {
+			$pairs[] = sprintf('path=%s', $this->options['path']);
+		}
+
+		if($this->options['domain']) {
+			$pairs[] = sprintf('domain=%s', $this->options['domain']);
+		}
+
+		if($this->options['secure']) {
+			$pairs[] = 'secure';
+		}
+
+		if($this->options['httponly']) {
+			$pairs[] = 'HttpOnly';
+		}
+
+		return implode('; ', $pairs);
 	}
 
 	public function has($key) {

@@ -3,13 +3,13 @@
 	<head>
 		<meta charset="utf-8">
 		<title><?php echo page_title(); ?> &mdash; <?php echo site_name(); ?></title>
-		<meta name="description" content="<?php echo $meta->description; ?>">
+		<meta name="description" content="<?php echo $meta['description']; ?>">
 
 		<link rel="stylesheet" href="<?php echo asset_url('assets/css/styles.css'); ?>">
 	</head>
 	<body class="<?php echo $page->slug; ?>">
 		<header>
-			<a href="<?php echo base_url('/'); ?>" class="logo"><?php echo $meta->sitename; ?></a>
+			<a href="<?php echo base_url('/'); ?>" class="logo"><?php echo $meta['sitename']; ?></a>
 
 			<nav>
 				<ul>
@@ -35,7 +35,7 @@
 					<li><a href="<?php echo base_url('/'); ?>'" title="Return to my website.">Home</a></li>
 				</ul>
 
-				<p>&copy; <?php echo date('Y'); ?> <?php echo $meta->sitename; ?>. All rights reserved.</p>
+				<p>&copy; <?php echo date('Y'); ?> <?php echo $meta['sitename']; ?>. All rights reserved.</p>
 			</div>
 		</footer>
 	</body>

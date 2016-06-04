@@ -13,7 +13,7 @@ class ContentIterator implements Countable, Iterator {
 	public function __get($key) {
 		$item = $this->current();
 
-		return $item->getAttribute($key);
+		return $item->$key;
 	}
 
 	public function __call($method, array $args) {

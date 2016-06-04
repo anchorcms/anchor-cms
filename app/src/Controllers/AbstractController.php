@@ -13,14 +13,14 @@ abstract class AbstractController {
 	}
 
 	protected function redirect($uri) {
-		return $this->container['middleware.response']->withStatus(302, 'Found')->withHeader('location', $uri);
+		return $this->container['http.factory']->createResponse(302, ['location' => $uri], '');
 	}
 
 	protected function jsonResponse(array $data) {
 		$stream = new \Http\Stream();
 		$stream->write(json_encode($data));
 
-		return $this->container['middleware.response']->withHeader('content-type', 'application/json')->withBody($stream);
+		return $this->container['http.factory']->createResponse(200, ['content-type' => 'application/json'], $stream);
 	}
 
 }

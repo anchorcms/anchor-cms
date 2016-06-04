@@ -13,7 +13,7 @@ function base_url($url = '') {
 function current_url() {
 	global $app;
 
-	return (string) $app['request']->getUri();
+	return (string) $app['http.request']->getUri();
 }
 
 function raw_current_url() {

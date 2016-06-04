@@ -7,10 +7,6 @@ use Controllers\AbstractController;
 
 abstract class Frontend extends AbstractController {
 
-	public function before() {
-		$this->container['theme']->setTheme($this->container['mappers.meta']->key('theme', 'default'));
-	}
-
 	public function notFound() {
 		$page = new \Models\Page([
 			'title' => 'Not Found',
@@ -29,12 +25,9 @@ abstract class Frontend extends AbstractController {
 		$vars['content'] = new \ContentIterator([$page]);
 		$vars['page'] = $page;
 
-		$template = $this->container['theme']->render(['404', 'page', 'index'], $vars);
+		$body = $this->container['theme']->render(['404', 'page', 'index'], $vars);
 
-		$body = new \Http\Stream;
-		$body->write($template);
-
-		return $this->container['middleware.response']->withStatus(404, 'Not Found')->withBody($body);
+		return $this->container['http.factory']->createResponse(404, [], $body);
 	}
 
 }
