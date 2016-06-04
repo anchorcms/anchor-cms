@@ -47,7 +47,7 @@ function parse($str, $markdown = true)
         $str = str_replace($search, $replace, $str);
     }
 
-    $str = html_entity_decode($str, ENT_NOQUOTES, System\Config::app('encoding'));
+    // $str = html_entity_decode($str, ENT_NOQUOTES, System\Config::app('encoding'));
 
     //  Parse Markdown as well?
     if ($markdown === true) {
