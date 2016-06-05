@@ -1,5 +1,7 @@
 <?php echo $header; ?>
 
+<?php echo Notify::read(); ?>
+
 <section class="content small">
 	<h1>Install complete!</h1>
 

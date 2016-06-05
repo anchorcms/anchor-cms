@@ -5,10 +5,12 @@
 		<h1>Site metadata</h1>
 
 		<p>In order to personalise your Anchor blog, it's recommended you add some metadata about your site. This can all be changed at any time, though.</p>
+
+		<?php echo Notify::read(); ?>
 	</article>
 
 	<form method="post" action="<?php echo Uri::to('metadata'); ?>" autocomplete="off">
-		
+
 
 		<fieldset>
 			<p>

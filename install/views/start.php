@@ -7,10 +7,12 @@
 		<p>If you were looking for a truly lightweight blogging experience, you&rsquo;ve
 		found the right place. Simply fill in the details below, and you&rsquo;ll have your
 		new blog set up in no time.</p>
+
+		<?php echo Notify::read(); ?>
 	</article>
 
 	<form method="post" action="<?php echo uri_to('start'); ?>" autocomplete="off">
-		
+
 
 		<fieldset>
 			<p>

@@ -119,9 +119,9 @@ class uploader
     {
         $ext = pathinfo($filename, PATHINFO_EXTENSION);
 
-        $ext = strtolower($ext);
-
         $filename = basename($filename, '.' . $ext);
+
+        $ext = strtolower($ext);
 
         return $this->format_filename($filename) . '.' . $ext;
     }

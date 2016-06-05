@@ -60,7 +60,7 @@ class validator
 
     public function check($key)
     {
-        $this->key = isset($this->payload[$key]) ? $key : null;
+        $this->key = array_key_exists($key, $this->payload) ? $key : null;
         $this->value = isset($this->payload[$this->key]) ? $this->payload[$this->key] : null;
 
         return $this;

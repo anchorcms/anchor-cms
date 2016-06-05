@@ -13,7 +13,7 @@ Route::collection(array('before' => 'auth,csrf,install_exists'), function () {
 
         $pagination = new Paginator($posts, $total, $page, $perpage, $url);
 
-        
+
         $vars['posts'] = $pagination;
         $vars['categories'] = Category::sort('title')->get();
         $vars['status'] = 'all';
@@ -68,7 +68,7 @@ Route::collection(array('before' => 'auth,csrf,install_exists'), function () {
 
         $pagination = new Paginator($posts, $total, $post, $perpage, $url);
 
-        
+
         $vars['posts'] = $pagination;
         $vars['status'] = $status;
         $vars['categories'] = Category::sort('title')->get();
@@ -83,7 +83,7 @@ Route::collection(array('before' => 'auth,csrf,install_exists'), function () {
         Edit post
     */
     Route::get('admin/posts/edit/(:num)', function ($id) {
-        
+
         $vars['token'] = Csrf::token();
         $vars['article'] = Post::find($id);
         $vars['page'] = Registry::get('posts_page');
@@ -116,17 +116,17 @@ Route::collection(array('before' => 'auth,csrf,install_exists'), function () {
 
         // convert to ascii
         $input['slug'] = slug($input['slug']);
-        
+
         // an array of items that we shouldn't encode - they're no XSS threat
         $dont_encode = array('description', 'markdown', 'css', 'js');
-        
+
         foreach ($input as $key => &$value) {
             if (in_array($key, $dont_encode)) {
                 continue;
             }
             $value = eq($value);
         }
-        
+
         $validator = new Validator($input);
 
         $validator->add('duplicate', function ($str) use ($id) {
@@ -188,7 +188,7 @@ Route::collection(array('before' => 'auth,csrf,install_exists'), function () {
         Add new post
     */
     Route::get('admin/posts/add', function () {
-        
+
         $vars['token'] = Csrf::token();
         $vars['page'] = Registry::get('posts_page');
 
@@ -220,17 +220,17 @@ Route::collection(array('before' => 'auth,csrf,install_exists'), function () {
 
         // convert to ascii
         $input['slug'] = slug($input['slug']);
-        
+
         // an array of items that we shouldn't encode - they're no XSS threat
         $dont_encode = array('description', 'markdown', 'css', 'js');
-        
+
         foreach ($input as $key => &$value) {
             if (in_array($key, $dont_encode)) {
                 continue;
             }
             $value = eq($value);
         }
-        
+
         $validator = new Validator($input);
 
         $validator->add('duplicate', function ($str) {
@@ -299,14 +299,23 @@ Route::collection(array('before' => 'auth,csrf,install_exists'), function () {
     /*
         Preview post
     */
-    Route::post('admin/posts/preview', function () {
-        $markdown = Input::get('markdown');
+    Route::get('admin/posts/preview/(:num)', function ($postId) {
+        //Load functions, even though this is an admin page.
+        Anchor::functions(true);
 
-        // apply markdown processing
-        $md = new Markdown;
-        $output = Json::encode(array('markdown' => $md->transform($markdown)));
+        $posts_page = Registry::get('posts_page');
 
-        return Response::create($output, 200, array('content-type' => 'application/json'));
+        if (!$post = Post::id($postId)) {
+            return Response::create(new Template('404'), 404);
+        }
+
+        $post->title .= ' (' . __('global.preview') . ')';
+
+        Registry::set('page', $posts_page);
+        Registry::set('article', $post);
+        Registry::set('category', Category::find($post->category));
+
+        return new Template('article');
     });
 
     /*
