@@ -35,7 +35,7 @@ function slug($string, $separator = '-')
 function parse($str, $markdown = true)
 {
     // process tags
-    $pattern = '/[\{\{]{1}([a-z]+)[\}\}]{1}/i';
+    $pattern = '/{{([\w]+)}}/i';
 
     if (preg_match_all($pattern, $str, $matches)) {
         list($search, $replace) = $matches;
@@ -46,8 +46,6 @@ function parse($str, $markdown = true)
 
         $str = str_replace($search, $replace, $str);
     }
-
-    // $str = html_entity_decode($str, ENT_NOQUOTES, System\Config::app('encoding'));
 
     //  Parse Markdown as well?
     if ($markdown === true) {
