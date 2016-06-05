@@ -12,22 +12,23 @@ class Auth implements ServerMiddlewareInterface {
 
 	protected $session;
 
-	public function __construct($session) {
+	protected $protected;
+
+	public function __construct($session, array $protected) {
 		$this->session = $session;
+		$this->protected = $protected;
 	}
 
 	public function handle(ServerRequestInterface $request, ServerFrameInterface $frame): ResponseInterface {
 		$path = $request->getUri()->getPath();
 
-		if(strpos('/admin', $path) === false) {
-			return $frame->next($request);
+		foreach($this->protected as $pattern) {
+			if(preg_match('#^'.$pattern.'#', $path) && false === $this->session->has('user')) {
+				return $frame->factory()->createResponse(302, ['Location' => '/admin/login'], '');
+			}
 		}
 
-		if($this->session->has('user')) {
-			return $frame->next($request);
-		}
-
-		return $frame->factory()->createResponse()->withHeader('Location', '/admin/login');
+		return $frame->next($request);
 	}
 
 }

@@ -155,7 +155,7 @@ return [
 	'services.rss' => function($app) {
 		$name = $app['mappers.meta']->key('sitename');
 		$description = $app['mappers.meta']->key('description');
-		$url = $app['middleware.request']->getUri();
+		$url = clone $app['http.request']->getUri();
 
 		return new Services\Rss($name, $description, $url);
 	},

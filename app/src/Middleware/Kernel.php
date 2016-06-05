@@ -28,7 +28,7 @@ class Kernel implements ServerMiddlewareInterface {
 
 		$response = $this->container['http.kernel']->getResponse($request, $response, [$this, 'resolveController']);
 
-		if( ! $response instanceof Psr\Http\Message\ResponseInterface) {
+		if( ! $response instanceof ResponseInterface) {
 			$response = $frame->factory()->createResponse(200, [], $response);
 		}
 

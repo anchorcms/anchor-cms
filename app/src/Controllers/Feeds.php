@@ -4,8 +4,14 @@ namespace Controllers;
 
 class Feeds extends Frontend {
 
-	public function getRss($request) {
-		$posts = $this->container['mappers.posts']->where('status', '=', 'published')->sort('created', 'desc')->take(20)->get();
+	public function getRss($request, $response) {
+		$query = $this->container['mappers.posts']->query();
+
+		$query->where('status = '.$query->createPositionalParameter('published'))
+			->orderBy('created', 'DESC')
+			->setMaxResults(20);
+
+		$posts = $this->container['mappers.posts']->fetchAll($query);
 		$this->container['services.posts']->hydrate($posts);
 
 		$uri = clone $request->getUri();
@@ -28,10 +34,12 @@ class Feeds extends Frontend {
 			]);
 		}
 
-		$body = new \Http\Stream;
-		$body->write($this->container['services.rss']->output());
+		$xml = $this->container['services.rss']->output();
 
-		return $this->container['middleware.response']->withBody($body)->withHeader('content-type', 'application/xml');
+		$body = $response->getBody();
+		$body->write($xml);
+
+		return $response->withStatus(200)->withBody($body)->withHeader('content-type', 'application/xml');
 	}
 
 }

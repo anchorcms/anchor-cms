@@ -82,7 +82,9 @@ $app['http.server']->append(function($request, $frame) use($app) {
 	return $frame->next($request);
 });
 
-$app['http.server']->append(new Middleware\Auth($app['session']));
+$app['http.server']->append(new Middleware\Auth($app['session'], [
+	'/admin/(pages|posts)',
+]));
 $app['http.server']->append(new Middleware\Kernel($app));
 $app['http.server']->append(new Middleware\Session($app['session']));
 
