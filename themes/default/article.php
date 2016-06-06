@@ -3,7 +3,7 @@
 			<h1><?php echo article_title(); ?></h1>
 
 			<article>
-				<?php echo article_markdown(); ?>
+				<?php echo article_html(); ?>
 			</article>
 
 			<section class="footnote">
