@@ -5,10 +5,12 @@
 		<h1>Your database details</h1>
 
 		<p>Firstly, we’ll need a database. Anchor needs them to store all of your blog’s information, so it’s vital you fill these in correctly. If you don’t know what these are, you’ll need to contact your webhost.</p>
+
+		<?php echo Notify::read(); ?>
 	</article>
 
 	<form method="post" action="<?php echo uri_to('database'); ?>" autocomplete="off">
-		
+
 
 		<fieldset>
 			<p>
