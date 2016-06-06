@@ -7,6 +7,8 @@
 
 		<link rel="stylesheet" href="<?php echo asset('views/assets/css/install.css'); ?>">
 		<link rel="stylesheet" href="<?php echo asset('views/assets/css/chosen.css'); ?>">
+		<link rel="stylesheet" href="<?php echo asset('views/assets/css/font-awesome.min.css'); ?>">
+		<link rel="stylesheet" href="<?php echo asset('views/assets/css/flaticon.css'); ?>">
 	</head>
 	<body>
 
@@ -14,11 +16,11 @@
 			<img src="<?php echo asset('views/assets/img/logo.png'); ?>">
 
 			<ul>
-				<li class="start database metadata account complete">Language and timezone</li>
-				<li class="database metadata account complete">Database setup</li>
-				<li class="metadata account complete">Site metadata</li>
-				<li class="account complete">Your account</li>
-				<li class="complete">All done!</li>
+				<li class="start database metadata account complete"><i class="flaticon-shape"></i></li>
+				<li class="database metadata account complete"><i class="flaticon-connection"></i></li>
+				<li class="metadata account complete"><i class="flaticon-monitor"></i></li>
+				<li class="account complete"><i class="flaticon-avatar"></i></li>
+				<li class="complete"><i class="flaticon-mark"></i></li>
 			</ul>
 		</nav>
 

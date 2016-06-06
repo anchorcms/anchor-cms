@@ -19,9 +19,15 @@
 					<span class="info">Anchor's language.</span>
 				</label>
 				<select id="lang" class="chosen-select" name="language">
+<<<<<<< HEAD
+					<?php foreach($languages as $lang): ?>
+						<?php $selected = in_array($lang, $prefered_languages) ? ' selected' : ''; ?>
+						<option<?php echo $selected; ?>><?php echo $lang; ?></option>
+=======
 					<?php foreach ($languages as $lang): ?>
 					<?php $selected = in_array($lang, $prefered_languages) ? ' selected' : ''; ?>
 					<option<?php echo $selected; ?>><?php echo $lang; ?></option>
+>>>>>>> anchorcms/master
 					<?php endforeach; ?>
 				</select>
 			</p>
@@ -33,6 +39,14 @@
 				</label>
 				<select id="timezone" class="chosen-select" name="timezone">
 					<?php $set = false; ?>
+<<<<<<< HEAD
+					<?php foreach($timezones as $zone): ?>
+						<?php $selected = ($set === false and $current_timezone == $zone['offset']) ? ' selected' : ''; ?>
+						<option value="<?php echo $zone['timezone_id']; ?>"<?php echo $selected; ?>>
+							<?php echo $zone['label']; ?>
+						</option>
+						<?php if($selected) $set = true; ?>
+=======
 					<?php foreach ($timezones as $zone): ?>
 					<?php $selected = ($set === false and $current_timezone == $zone['offset']) ? ' selected' : ''; ?>
 					<option value="<?php echo $zone['timezone_id']; ?>"<?php echo $selected; ?>>
@@ -41,6 +55,7 @@
 					<?php if ($selected) {
     $set = true;
 } ?>
+>>>>>>> anchorcms/master
 					<?php endforeach; ?>
 				</select>
 			</p>

@@ -47,17 +47,25 @@ class error
 					<head>
 						<title>Uncaught Exception</title>
 						<style>
-							body{font-family:"Open Sans",arial,sans-serif;background:#FFF;color:#333;margin:2em}
-							code{background:#D1E751;border-radius:4px;padding:2px 6px}
+							body{font-family:"Open Sans",arial,sans-serif;background:#FFF;color:#333;margin:0;background-color:#D7DCE3}
+							code,pre{background:#f0f0f0;border-radius:4px;padding:10px;display:block;}
+							h1{display:block;background-color:#444F5F;color:#fff;padding:30px;font-weight:100;margin:0}
+							h3{display:block;background-color:#A4ADBB;color:#fff;padding:5px 30px;font-weight:100;margin:10px 0 0 0;border-radius:4px 4px 0 0;}
+							.code-block{padding:10px 20px;}
+							.brt{border-radius:0 0 4px 4px;}
+							pre{margin:0;overflow:scroll;}
 						</style>
 					</head>
 					<body>
 						<h1>Uncaught Exception</h1>
-						<p><code>' . $e->getMessage() . '</code></p>
-						<h3>Origin</h3>
-						<p><code>' . substr($e->getFile(), strlen(PATH)) . ' on line ' . $e->getLine() . '</code></p>
-						<h3>Trace</h3>
-						<pre>' . $e->getTraceAsString() . '</pre>
+						<div class="code-block">
+							<h3>Error Message</h3>
+							<code class="brt">' . $e->getMessage() . '</code>
+							<h3>Origin</h3>
+							<code class="brt">' . substr( $e->getFile(), strlen( PATH ) ) . ' on line ' . $e->getLine() . '</code>
+							<h3>Trace</h3>
+							<pre class="brt">' . $e->getTraceAsString() . '</pre>
+						</div>
 					</body>
 					</html>';
             }

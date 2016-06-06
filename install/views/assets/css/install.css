@@ -21,9 +21,9 @@ html {
 		margin: 40px auto;
 	}
 
-	@media ( max-width: 1023px ) {
+	@media ( max-width: 960px ) {
 		body {
-			width: 748px;
+			max-width: 100%;
 		}
 	}
 
@@ -113,6 +113,7 @@ nav {
 	nav ul {
 		float: left;
 	}
+	
 
 	nav li, nav img {
 		float: left;
@@ -128,7 +129,7 @@ nav {
 		margin-top: -11px;
 		margin-right: 80px;
 
-		padding: 0 10px;
+		padding: 0 5px 0 0px;
 	}
 
 		nav li:last-child {
@@ -147,7 +148,14 @@ nav {
 
 	@media ( max-width: 1023px ) {
 		nav li {
-			margin-right: 28px;
+			margin-right: 15px;
+		}
+	}
+	
+	@media ( max-width: 960px ) {
+		nav {
+			padding-left: 30px;
+			padding-right: 30px;
 		}
 	}
 
@@ -167,8 +175,17 @@ a {
 	border-radius: 5px;
 }
 
+@media ( max-width: 960px ) {
+	.content {
+		max-width: 100%;
+		margin: 0 30px;
+		padding: 40px 30px;
+	}
+}
+
 .options {
 	margin-top: 2em;
+	margin-bottom: 4em;
 }
 
 article {}
@@ -202,10 +219,14 @@ fieldset {
 }
 
 form {
-	width: 900px;
 	margin-top: 2em;
 }
 
+@media ( max-width: 960px ) {
+	form {
+		max-width: 100%;
+	}
+}
 	form p {
 		position: relative;
 		margin-bottom: 15px;
@@ -236,25 +257,38 @@ label {
 	font-size: 13px;
 	line-height: 18px;
 	font-weight: 500;
-
 	display: block;
 	padding-top: 3px;
 	float: left;
-	width: 220px;
-
+	width: 100%;
+	margin-bottom: 15px;
 	cursor: pointer;
+}
+
+@media ( max-width: 748px ) {
+	label strong
+	{
+		display: block;
+	}
 }
 
 input:not([type="checkbox"]), textarea, select {
 	padding: 8px 20px;
 	border: none;
 	border-radius: 5px;
-
+	
 	font: 13px/25px "Helvetica Neue", "Open Sans", "DejaVu Sans", "Arial", sans-serif;
 	color: #576170;
 
 	width: 400px;
-	margin-bottom: 10px;
+	margin: 10px 0;
+}
+
+@media ( max-width: 748px ) {
+	input:not([type="checkbox"]), textarea, select {
+		width: 85%;
+	}
+
 }
 
 	textarea {
@@ -315,9 +349,20 @@ select {
 	}
 
 form .btn {
-	margin-left: 220px;
+/* 	margin-left: 220px; */
+	float: right;
 }
 
 form .quiet {
 	margin-right: 25px;
+}
+
+footer
+{
+    margin: 0 30px;
+}
+
+footer a
+{
+	float: right;
 }

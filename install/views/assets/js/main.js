@@ -3,7 +3,7 @@ $(function(){
         disable_search_threshold: 10,
         search_contains: true,
         no_results_text: "Oops, nothing found!",
-        width: "444px"
+        width: "100%"
     });
 
     // Toggle the password field type
