@@ -81,7 +81,11 @@
 			</p>
 			<p>
 				<label for="label-parent"><?php echo __('pages.parent'); ?>:</label>
-				<?php echo Form::select('parent', $pages, Input::previous('parent', $page->parent), array('id' => 'label-parent')); ?>
+				<?php
+				// prevent posts page from incorrectly being a parent.
+				unset($pages[intval(Registry::get('posts_page')->id)]);
+
+				echo Form::select('parent', $pages, Input::previous('parent', $page->parent), array('id' => 'label-parent')); ?>
 				<em><?php echo __('pages.parent_explain'); ?></em>
 			</p>
 			<?php if (count($pagetypes) > 0): ?>
