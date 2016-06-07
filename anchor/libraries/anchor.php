@@ -51,9 +51,9 @@ class anchor
         Config::set('meta', $meta);
     }
 
-    public static function functions()
+    public static function functions($force = false)
     {
-        if (! is_admin()) {
+        if (! is_admin() || $force) {
             $fi = new FilesystemIterator(APP . 'functions', FilesystemIterator::SKIP_DOTS);
 
             foreach ($fi as $file) {
