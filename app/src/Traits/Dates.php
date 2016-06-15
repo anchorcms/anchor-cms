@@ -1,6 +1,6 @@
 <?php
 
-namespace Traits;
+namespace Anchorcms\Traits;
 
 trait Dates {
 

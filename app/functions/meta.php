@@ -1,5 +1,7 @@
 <?php
 
+namespace Anchorcms;
+
 function site_name() {
 	global $app;
 

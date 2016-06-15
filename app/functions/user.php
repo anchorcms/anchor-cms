@@ -1,5 +1,7 @@
 <?php
 
+namespace Anchorcms;
+
 function user_authed() {}
 function user_authed_id() {}
 function user_authed_name() {}

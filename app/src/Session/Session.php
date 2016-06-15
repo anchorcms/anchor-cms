@@ -1,6 +1,6 @@
 <?php
 
-namespace Session;
+namespace Anchorcms\Session;
 
 use Psr\Http\Message\ResponseInterface;
 
@@ -51,8 +51,16 @@ class Session {
 		$this->started = true;
 	}
 
-	public function started() {
+	public function started(): bool {
 		return $this->started;
+	}
+
+	protected function commit() {
+		if( ! $this->started) {
+			throw new RuntimeException('Session has not been started');
+		}
+
+		$this->storage->write($this->id, $this->data);
 	}
 
 	public function close(ResponseInterface $response) {
@@ -60,11 +68,14 @@ class Session {
 			throw new RuntimeException('Session has not been started');
 		}
 
-		$response->withAddedHeader('Set-Cookie', $this->getCookie());
-		$this->storage->write($this->id, $this->data);
+		$response = $response->withHeader('Set-Cookie', $this->cookie());
+
+		$this->commit();
+
+		return $response;
 	}
 
-	protected function getCookie() {
+	protected function cookie(): string {
 		$pairs = [
 			sprintf('%s=%s', $this->options['name'], $this->id),
 		];
@@ -93,37 +104,37 @@ class Session {
 		return implode('; ', $pairs);
 	}
 
-	public function has($key) {
+	public function has($key): bool {
 		return array_key_exists($key, $this->data);
 	}
 
-	public function get($key, $default = null) {
-		return $this->data[$key] ?: $default;
+	public function get(string $key, $default = null) {
+		return $this->data[$key] ?? $default;
 	}
 
-	public function put($key, $value) {
+	public function put(string $key, string $value) {
 		$this->data[$key] = $value;
 
 		return $this;
 	}
 
-	public function push($key, $value) {
+	public function push(string $key, string $value) {
 		$this->data[$key][] = $value;
 
 		return $this;
 	}
 
-	public function rotate() {
+	public function rotate(): Session {
 		$this->data['_stash_out'] = $this->data['_stash_in'] ?? [];
 
 		return $this;
 	}
 
-	public function getStash($key, $default = null) {
+	public function getStash(string $key, $default = null) {
 		return $this->data['_stash_out'][$key] ?? $default;
 	}
 
-	public function putStash($key, $value) {
+	public function putStash(string $key, string $value): Session {
 		$this->data['_stash_in'][$key] = $value;
 
 		return $this;

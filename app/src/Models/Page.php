@@ -1,5 +1,5 @@
 <?php
 
-namespace Models;
+namespace Anchorcms\Models;
 
 class Page extends AbstractModel {}

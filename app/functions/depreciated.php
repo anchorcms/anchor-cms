@@ -1,5 +1,7 @@
 <?php
 
+namespace Anchorcms;
+
 require __DIR__ . '/comments.php';
 
 function set_theme_options($options, $value = null) {

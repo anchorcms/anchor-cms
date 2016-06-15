@@ -45,7 +45,7 @@
 	},
 	"autoload": {
 		"psr-4": {
-			"": "app/src/"
+			"Anchorcms\\": "app/src/"
 		}
 	}
 }

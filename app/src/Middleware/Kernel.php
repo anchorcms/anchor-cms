@@ -1,6 +1,6 @@
 <?php
 
-namespace Middleware;
+namespace Anchorcms\Middleware;
 
 use Tari\ServerMiddlewareInterface;
 use Tari\ServerFrameInterface;
@@ -17,7 +17,7 @@ class Kernel implements ServerMiddlewareInterface {
 	}
 
 	public function resolveController($name) {
-		$name = '\\' . implode('\\', array_map('ucfirst', explode('\\', $name)));
+		$name = '\\Anchorcms\\' . implode('\\', array_map('ucfirst', explode('\\', $name)));
 		$controller = new $name;
 		$controller->setContainer($this->container);
 		return $controller;
@@ -26,13 +26,7 @@ class Kernel implements ServerMiddlewareInterface {
 	public function handle(ServerRequestInterface $request, ServerFrameInterface $frame): ResponseInterface {
 		$response = $frame->next($request);
 
-		$response = $this->container['http.kernel']->getResponse($request, $response, [$this, 'resolveController']);
-
-		if( ! $response instanceof ResponseInterface) {
-			$response = $frame->factory()->createResponse(200, [], $response);
-		}
-
-		return $response;
+		return $this->container['http.kernel']->getResponse($request, $response, [$this, 'resolveController']);
 	}
 
 }

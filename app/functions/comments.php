@@ -1,5 +1,7 @@
 <?php
 
+namespace Anchorcms;
+
 function has_comments() {
 	throw new DepreciatedFunctionException(__FUNCTION__ . ' function is depreciated');
 }

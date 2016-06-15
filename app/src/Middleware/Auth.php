@@ -1,6 +1,6 @@
 <?php
 
-namespace Middleware;
+namespace Anchorcms\Middleware;
 
 use Tari\ServerMiddlewareInterface;
 use Tari\ServerFrameInterface;

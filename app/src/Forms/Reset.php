@@ -1,8 +1,8 @@
 <?php
 
-namespace Forms;
+namespace Anchorcms\Forms;
 
-class Reset extends Form implements ValidatableInterface {
+class Reset extends \Forms\Form implements ValidatableInterface {
 
 	public function init() {
 		$this->addElement(new \Forms\Elements\Hidden('_token'));

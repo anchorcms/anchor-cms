@@ -1,8 +1,8 @@
 <?php
 
-namespace Forms;
+namespace Anchorcms\Forms;
 
-class Login extends Form implements ValidatableInterface {
+class Login extends \Forms\Form implements ValidatableInterface {
 
 	public function init() {
 		$this->addElement(new \Forms\Elements\Hidden('_token'));

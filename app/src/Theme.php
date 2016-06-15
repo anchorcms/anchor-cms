@@ -1,5 +1,7 @@
 <?php
 
+namespace Anchorcms;
+
 class Theme {
 
 	protected $view;

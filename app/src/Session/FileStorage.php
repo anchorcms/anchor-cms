@@ -1,6 +1,6 @@
 <?php
 
-namespace Session;
+namespace Anchorcms\Session;
 
 class FileStorage {
 
@@ -19,7 +19,7 @@ class FileStorage {
 
 		$contents = file_get_contents($path);
 
-		return json_decode($contents);
+		return json_decode($contents, true);
 	}
 
 	public function write($id, array $data) {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Services\Themes;
+namespace Anchorcms\Services\Themes;
 
 class Theme extends \View {
 

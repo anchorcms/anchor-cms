@@ -5,7 +5,7 @@ return [
 		return require __DIR__ . '/paths.php';
 	},
 	'config' => function($app) {
-		return new Config($app['paths']['config']);
+		return new Anchorcms\Config($app['paths']['config']);
 	},
 	'db' => function($app) {
 		$params = $app['config']->get('db');
@@ -13,48 +13,53 @@ return [
 		return Doctrine\DBAL\DriverManager::getConnection($params, $config);
 	},
 	'errors' => function() {
-		return new Errors();
+		return new Anchorcms\Errors();
 	},
 	'events' => function() {
 		return new Events\EventManager();
 	},
 	'session' => function($app) {
-		$session = new Session\Session($app['session.cookies'], $app['session.storage']);
-		$session->start();
-		return $session;
+		return new Anchorcms\Session\Session($app['session.cookies'], $app['session.storage'], [
+			'name' => '_s',
+			'expire' => 3600,
+			'path' => '',
+			'domain' => '',
+			'secure' => false,
+			'httponly' => true,
+		]);
 	},
 	'session.cookies' => function($app) {
-		return new Session\Cookies;
+		return new Anchorcms\Session\Cookies;
 	},
 	'session.storage' => function($app) {
 		if(false === is_dir($app['paths']['sessions'])) {
-			mkdir($app['paths']['sessions']);
+			mkdir($app['paths']['sessions'], 0700, true);
 		}
-		return new Session\FileStorage($app['paths']['sessions']);
+		return new Anchorcms\Session\FileStorage($app['paths']['sessions']);
 	},
 	'csrf' => function($app) {
-		return new Csrf($app['session']);
+		return new Anchorcms\Csrf($app['session']);
 	},
 	'validation' => function() {
 		return new Validation\Validation;
 	},
 	'messages' => function($app) {
-		return new Messages($app['session'], $app['view'], 'partials/messages');
+		return new Anchorcms\Messages($app['session'], $app['view'], 'partials/messages');
 	},
 	'markdown' => function() {
 		return new League\CommonMark\CommonMarkConverter;
 	},
 	'slugify' => function() {
-		return new Slugify;
+		return new Anchorcms\Slugify;
 	},
 	'view' => function($app) {
-		return new View($app['paths']['views']);
+		return new Anchorcms\View($app['paths']['views']);
 	},
 	'theme' => function($app) {
-		return new Theme($app['view'], $app['paths'], $app['events']);
+		return new Anchorcms\Theme($app['view'], $app['paths'], $app['events']);
 	},
 	'url' => function($app) {
-		return new Url($app['http.request']);
+		return new Anchorcms\Url($app['http.request']);
 	},
 
 	/**
@@ -74,7 +79,7 @@ return [
 		return new Routing\UriMatcher($app['http.routes']);
 	},
 	'http.kernel' => function($app) {
-		return new Kernel($app['http.router']);
+		return new Anchorcms\Kernel($app['http.router']);
 	},
 	'http.factory' => function() {
 		return new Tari\Adapter\Guzzle\Factory;
@@ -87,49 +92,49 @@ return [
 	 * Mappers
 	 */
 	'mappers.categories' => function($app) {
-		$mapper = new Mappers\Categories($app['db'], new Models\Category);
+		$mapper = new Anchorcms\Mappers\Categories($app['db'], new Models\Category);
 		$mapper->setTablePrefix($app['config']->get('db.table_prefix'));
 
 		return $mapper;
 	},
 	'mappers.meta' => function($app) {
-		$mapper = new Mappers\Meta($app['db'], new DB\Row);
+		$mapper = new Anchorcms\Mappers\Meta($app['db'], new DB\Row);
 		$mapper->setTablePrefix($app['config']->get('db.table_prefix'));
 
 		return $mapper;
 	},
 	'mappers.pages' => function($app) {
-		$mapper = new Mappers\Pages($app['db'], new Models\Page);
+		$mapper = new Anchorcms\Mappers\Pages($app['db'], new Models\Page);
 		$mapper->setTablePrefix($app['config']->get('db.table_prefix'));
 
 		return $mapper;
 	},
 	'mappers.pagemeta' => function($app) {
-		$mapper = new Mappers\PageMeta($app['db'], new DB\Row);
+		$mapper = new Anchorcms\Mappers\PageMeta($app['db'], new DB\Row);
 		$mapper->setTablePrefix($app['config']->get('db.table_prefix'));
 
 		return $mapper;
 	},
 	'mappers.posts' => function($app) {
-		$mapper = new Mappers\Posts($app['db'], new Models\Post);
+		$mapper = new Anchorcms\Mappers\Posts($app['db'], new Models\Post);
 		$mapper->setTablePrefix($app['config']->get('db.table_prefix'));
 
 		return $mapper;
 	},
 	'mappers.postmeta' => function($app) {
-		$mapper = new Mappers\PostMeta($app['db'], new DB\Row);
+		$mapper = new Anchorcms\Mappers\PostMeta($app['db'], new DB\Row);
 		$mapper->setTablePrefix($app['config']->get('db.table_prefix'));
 
 		return $mapper;
 	},
 	'mappers.users' => function($app) {
-		$mapper = new Mappers\Users($app['db'], new Models\User);
+		$mapper = new Anchorcms\Mappers\Users($app['db'], new Models\User);
 		$mapper->setTablePrefix($app['config']->get('db.table_prefix'));
 
 		return $mapper;
 	},
 	'mappers.customFields' => function($app) {
-		$mapper = new Mappers\CustomFields($app['db'], new DB\Row);
+		$mapper = new Anchorcms\Mappers\CustomFields($app['db'], new DB\Row);
 		$mapper->setTablePrefix($app['config']->get('db.table_prefix'));
 
 		return $mapper;
@@ -139,36 +144,36 @@ return [
 	 * Services
 	 */
 	'services.media' => function($app) {
-		return new Services\Media($app['paths']['content']);
+		return new Anchorcms\Services\Media($app['paths']['content']);
 	},
 	'services.installer' => function($app) {
-		return new Services\Installer($app['paths'], $app['session']);
+		return new Anchorcms\Services\Installer($app['paths'], $app['session']);
 	},
 	'services.themes' => function($app) {
 		$current = $app['mappers.meta']->select(['value'])->where('key', '=', 'theme')->column();
 
-		return new Services\Themes($app['paths']['themes'], $current);
+		return new Anchorcms\Services\Themes($app['paths']['themes'], $current);
 	},
 	'services.plugins' => function($app) {
-		return new Services\Plugins($app['paths']['plugins']);
+		return new Anchorcms\Services\Plugins($app['paths']['plugins']);
 	},
 	'services.rss' => function($app) {
 		$name = $app['mappers.meta']->key('sitename');
 		$description = $app['mappers.meta']->key('description');
 		$url = clone $app['http.request']->getUri();
 
-		return new Services\Rss($name, $description, $url);
+		return new Anchorcms\Services\Rss($name, $description, $url);
 	},
 	'services.posts' => function($app) {
-		return new Services\Posts($app['mappers.posts'], $app['mappers.postmeta'], $app['mappers.customFields'], $app['mappers.users'], $app['mappers.categories']);
+		return new Anchorcms\Services\Posts($app['mappers.posts'], $app['mappers.postmeta'], $app['mappers.customFields'], $app['mappers.users'], $app['mappers.categories']);
 	},
 	'services.customFields' => function($app) {
-		return new Services\CustomFields($app['mappers.customFields'], $app['mappers.postmeta'], $app['mappers.pagemeta'], $app['services.media']);
+		return new Anchorcms\Services\CustomFields($app['mappers.customFields'], $app['mappers.postmeta'], $app['mappers.pagemeta'], $app['services.media']);
 	},
 	'services.postman' => function($app) {
-		return new Services\Postman($app['config']->get('mail'));
+		return new Anchorcms\Services\Postman($app['config']->get('mail'));
 	},
 	'services.auth' => function($app) {
-		return new Services\Auth($app['config'], $app['mappers.users']);
+		return new Anchorcms\Services\Auth($app['config'], $app['mappers.users']);
 	},
 ];

@@ -1,5 +1,7 @@
 <?php
 
+namespace Anchorcms;
+
 class Slugify {
 
 	/**

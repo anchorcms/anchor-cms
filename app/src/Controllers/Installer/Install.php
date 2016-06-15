@@ -1,34 +1,31 @@
 <?php
 
-namespace Controllers\Installer;
+namespace Anchorcms\Controllers\Installer;
 
-use Controllers\AbstractController;
+use Psr\Http\Message\{
+	ServerRequestInterface,
+	ResponseInterface
+};
+use Anchorcms\Controllers\AbstractController;
 
 class Install extends AbstractController {
 
-	public function before() {
-		$this->container['session']->start();
-		$this->container['view']->setPath($this->container['paths']['views']);
-	}
-
-	protected function renderTemplate($layout, $template, array $vars = []) {
+	protected function renderTemplate(ResponseInterface $response, string $layout, string $template, array $vars = []) {
 		$vars['messages'] = $this->container['messages']->render();
 		$vars['webroot'] = $this->container['url']->to('/');
 		$vars['body'] = $this->container['view']->render($template, $vars);
 
-		return $this->container['view']->render($layout, $vars);
+		$output = $this->container['view']->render($layout, $vars);
+
+		$response->getBody()->write($output);
 	}
 
-	public function getIndex() {
-		//  We don't need a welcome screen (I think).
-		return $this->redirect('/l10n');
-
-		//$vars['title'] = 'Welcome to Anchor';
-		//return $this->renderWith('installer/layout.phtml', 'installer/index.phtml', $vars);
+	public function getIndex(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface {
+		return $response->withStatus(302)->withHeader('Location', '/l10n');
 	}
 
-	public function getL10n() {
-		$form = new \Forms\Installer\L10n([
+	public function getL10n(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface {
+		$form = new \Anchorcms\Forms\Installer\L10n([
 			'method' => 'post',
 			'action' => $this->container['url']->to('/l10n'),
 			'autocomplete' => 'off',
@@ -42,11 +39,13 @@ class Install extends AbstractController {
 		$vars['title'] = 'Installin\' Anchor CMS';
 		$vars['form'] = $form;
 
-		return $this->renderTemplate('installer/layout', 'installer/l10n', $vars);
+		$this->renderTemplate($response, 'installer/layout', 'installer/l10n', $vars);
+
+		return $response;
 	}
 
-	public function postL10n() {
-		$form = new \Forms\Installer\L10n;
+	public function postL10n(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface {
+		$form = new Forms\Installer\L10n;
 
 		$input = filter_input_array(INPUT_POST, $form->getFilters());
 
@@ -57,14 +56,13 @@ class Install extends AbstractController {
 
 		if(false === $validator->isValid()) {
 			$this->container['messages']->error($validator->getMessages());
-
 			return $this->redirect('/l10n');
 		}
 
 		return $this->redirect('/database');
 	}
 
-	public function getDatabase() {
+	public function getDatabase(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface {
 		$form = new \Forms\Installer\Database([
 			'method' => 'post',
 			'action' => $this->container['url']->to('/database'),
@@ -83,7 +81,7 @@ class Install extends AbstractController {
 		return $this->renderTemplate('installer/layout', 'installer/database', $vars);
 	}
 
-	public function postDatabase() {
+	public function postDatabase(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface {
 		$form = new \Forms\Installer\Database;
 
 		$input = filter_input_array(INPUT_POST, $form->getFilters());
@@ -117,7 +115,7 @@ class Install extends AbstractController {
 		return $this->redirect('/metadata');
 	}
 
-	public function getMetadata() {
+	public function getMetadata(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface {
 		$form = new \Forms\Installer\Metadata([
 			'method' => 'post',
 			'action' => $this->container['url']->to('/metadata'),
@@ -138,7 +136,7 @@ class Install extends AbstractController {
 		return $this->renderTemplate('installer/layout', 'installer/metadata', $vars);
 	}
 
-	public function postMetadata() {
+	public function postMetadata(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface {
 		$form = new \Forms\Installer\Metadata;
 
 		$input = filter_input_array(INPUT_POST, $form->getFilters());
@@ -156,7 +154,7 @@ class Install extends AbstractController {
 		return $this->redirect('/account');
 	}
 
-	public function getAccount() {
+	public function getAccount(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface {
 		$form = new \Forms\Installer\Account([
 			'method' => 'post',
 			'action' => $this->container['url']->to('/account'),
@@ -175,7 +173,7 @@ class Install extends AbstractController {
 		return $this->renderTemplate('installer/layout', 'installer/account', $vars);
 	}
 
-	public function postAccount() {
+	public function postAccount(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface {
 		$form = new \Forms\Installer\Account;
 
 		$input = filter_input_array(INPUT_POST, $form->getFilters());
@@ -196,7 +194,7 @@ class Install extends AbstractController {
 		return $this->redirect('/complete');
 	}
 
-	public function getComplete() {
+	public function getComplete(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface {
 		$vars['title'] = 'Installin\' Anchor CMS';
 		$vars['adminUrl'] = $this->container['url']->to('/admin');
 		$vars['siteUrl'] = $this->container['url']->to('/');

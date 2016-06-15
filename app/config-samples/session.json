@@ -1,0 +1,8 @@
+{
+	"name": "anchor",
+	"expire": "3600",
+	"path": "/",
+	"domain": "",
+	"secure": "false",
+	"httponly": "true"
+}

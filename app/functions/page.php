@@ -1,5 +1,7 @@
 <?php
 
+namespace Anchorcms;
+
 function page_id() {
 	global $app;
 

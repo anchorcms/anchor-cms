@@ -1,6 +1,6 @@
 <?php
 
-namespace Services;
+namespace Anchorcms\Services;
 
 use FilesystemIterator;
 use RuntimeException;

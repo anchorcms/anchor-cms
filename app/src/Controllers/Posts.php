@@ -1,6 +1,6 @@
 <?php
 
-namespace Controllers;
+namespace Anchorcms\Controllers;
 
 class Posts extends Frontend {
 

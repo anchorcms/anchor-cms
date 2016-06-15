@@ -1,22 +1,24 @@
 <?php
 
-error_reporting(-1);
-
 // Make sure this we have a good version of PHP
 if( ! defined('PHP_VERSION_ID') || PHP_VERSION_ID < 7) {
 	echo 'PHP 7 or later is required';
 	return;
 }
 
-// Set default timezone to UTC
-if( ! ini_get('date.timezone')) {
-	date_default_timezone_set('UTC');
-}
-
 // Check composer is installed
 if(false === is_file(__DIR__ . '/../vendor/autoload.php')) {
 	echo 'Composer not installed :(';
 	return;
+}
+
+// report all errors
+error_reporting(-1);
+ini_set('display_errors', true);
+
+// Set default timezone to UTC
+if( ! ini_get('date.timezone')) {
+	date_default_timezone_set('UTC');
 }
 
 require __DIR__ . '/helpers.php';
@@ -73,20 +75,39 @@ $app['errors']->handler(function(Throwable $exception) {
 
 $app['errors']->register();
 
-if(false === $app['services.installer']->isInstalled() || true === $app['services.installer']->installerRunning()) {
+// check install
+if(false === $app['services.installer']->isInstalled() ||
+	// installation is complete but we still need to show the completed screen
+	true === $app['services.installer']->installerRunning()) {
+	// register router to run the installer
 	$app['http.routes']->set(require __DIR__ . '/routes/installer.php');
+
+	// start the session for installer
+	$app['http.server']->append(function($request, $frame) use($app) {
+		$app['session']->start();
+		return $frame->next($request);
+	});
+
+	// set the view path to internal to run the installer
+	$app['http.server']->append(function($request, $frame) use($app) {
+		$app['view']->setPath($app['paths']['views']);
+		return $frame->next($request);
+	});
+}
+// middlewares to include when installed
+else {
+	$app['http.server']->append(function($request, $frame) use($app) {
+		$app['theme']->setTheme($app['mappers.meta']->key('theme', 'default'));
+		return $frame->next($request);
+	});
+
+	$app['http.server']->append(new Middleware\Auth($app['session'], [
+		'/admin/(pages|posts)',
+	]));
 }
 
-$app['http.server']->append(function($request, $frame) use($app) {
-	$app['theme']->setTheme($app['mappers.meta']->key('theme', 'default'));
-	return $frame->next($request);
-});
-
-$app['http.server']->append(new Middleware\Auth($app['session'], [
-	'/admin/(pages|posts)',
-]));
-$app['http.server']->append(new Middleware\Kernel($app));
-$app['http.server']->append(new Middleware\Session($app['session']));
+$app['http.server']->append(new Anchorcms\Middleware\Session($app['session']));
+$app['http.server']->append(new Anchorcms\Middleware\Kernel($app));
 
 $response = $app['http.server']->run($app['http.request'], function($request) use($app) {
 	return $app['http.factory']->createResponse(404, [], 'Not Found');

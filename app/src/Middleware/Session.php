@@ -1,6 +1,6 @@
 <?php
 
-namespace Middleware;
+namespace Anchorcms\Middleware;
 
 use Tari\ServerMiddlewareInterface;
 use Tari\ServerFrameInterface;
@@ -20,7 +20,7 @@ class Session implements ServerMiddlewareInterface {
 		$response = $frame->next($request);
 
 		if($this->session->started()) {
-			$this->session->rotate()->close($response);
+			$response = $this->session->rotate()->close($response);
 		}
 
 		return $response;

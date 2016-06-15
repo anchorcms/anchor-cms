@@ -1,9 +1,9 @@
 <?php
 
-namespace Controllers\Admin;
+namespace Anchorcms\Controllers\Admin;
 
 use Pimple\Container;
-use Controllers\AbstractController;
+use Anchorcms\Controllers\AbstractController;
 
 abstract class Backend extends AbstractController {
 

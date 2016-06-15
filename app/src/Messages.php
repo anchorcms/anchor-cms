@@ -1,5 +1,7 @@
 <?php
 
+namespace Anchorcms;
+
 class Messages {
 
 	protected $session;
@@ -18,7 +20,7 @@ class Messages {
 	}
 
 	public function get() {
-		return $this->session->getFlash('_messages', []);
+		return $this->session->getStash('_messages', []);
 	}
 
 	public function render() {
@@ -38,7 +40,7 @@ class Messages {
 
 		$this->messages[$group] = array_merge($this->messages[$group], $message);
 
-		$this->session->putFlash('_messages', $this->messages);
+		$this->session->putStash('_messages', $this->messages);
 	}
 
 	public function __call($method, $args) {

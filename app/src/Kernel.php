@@ -1,21 +1,22 @@
 <?php
 
+namespace Anchorcms;
+
 use Routing\UriMatcher;
-use Psr\Http\Message\ServerRequestInterface;
-use Psr\Http\Message\ResponseInterface;
-use Pimple\Container;
-use Http\Response;
-use Http\Stream;
+use Psr\Http\Message\{
+	ServerRequestInterface,
+	ResponseInterface
+};
 
 class Kernel {
 
 	protected $router;
 
-	public function __construct($router) {
+	public function __construct(UriMatcher $router) {
 		$this->router = $router;
 	}
 
-	public function getResponse($request, $response, $controllerFactory) {
+	public function getResponse(ServerRequestInterface $request, ResponseInterface $response, callable $controllerFactory) {
 		$path = $request->getUri()->getPath();
 		$route = $this->router->match($path);
 
@@ -32,12 +33,20 @@ class Kernel {
 
 		$method = $verb . ucfirst($method);
 
-		return $instance->$method($request, $response, $this->router->getParams());
+		$output = $instance->$method($request, $response, $this->router->getParams());
+
+		if($output instanceof ResponseInterface) {
+			return $output;
+		}
+
+		$response->getBody()->write($output);
+
+		return $response;
 	}
 
 	public function outputResponse(ResponseInterface $response) {
 		if(true === headers_sent()) {
-			throw new \ErrorException('headers already sent.');
+			throw new \RuntimeException('headers already sent.');
 		}
 
 		header(sprintf('HTTP/%s %s %s',

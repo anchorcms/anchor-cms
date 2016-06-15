@@ -1,6 +1,6 @@
 <?php
 
-namespace Controllers\Admin;
+namespace Anchorcms\Controllers\Admin;
 
 class Categories extends Backend {
 

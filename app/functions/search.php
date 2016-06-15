@@ -1,5 +1,7 @@
 <?php
 
+namespace Anchorcms;
+
 function has_search_results() {
 	global $app;
 

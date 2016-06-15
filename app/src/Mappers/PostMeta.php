@@ -1,6 +1,6 @@
 <?php
 
-namespace Mappers;
+namespace Anchorcms\Mappers;
 
 class PostMeta extends AbstractMapper {
 

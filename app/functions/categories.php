@@ -1,5 +1,7 @@
 <?php
 
+namespace Anchorcms;
+
 function total_categories() {
 	global $app;
 

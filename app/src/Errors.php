@@ -1,5 +1,7 @@
 <?php
 
+namespace Anchorcms;
+
 class Errors {
 
 	protected $handlers;

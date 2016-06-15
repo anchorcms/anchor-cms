@@ -1,11 +1,11 @@
 <?php
 
-namespace Forms;
+namespace Anchorcms\Forms;
 
 use Forms\Traits\Filters;
 use Forms\Traits\FilterRules;
 
-class Post extends Form {
+class Post extends \Forms\Form {
 
 	use Filters, FilterRules;
 

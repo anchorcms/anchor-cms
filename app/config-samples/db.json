@@ -1,0 +1,7 @@
+{
+	"driver": "pdo_sqlite",
+	"user": "",
+	"password": "",
+	"path": "",
+	"table_prefix": ""
+}

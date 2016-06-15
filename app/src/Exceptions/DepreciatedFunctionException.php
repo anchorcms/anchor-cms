@@ -1,5 +1,5 @@
 <?php
 
-namespace Exceptions;
+namespace Anchorcms\Exceptions;
 
 class DepreciatedFunctionException extends \Exception {};

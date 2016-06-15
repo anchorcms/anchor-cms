@@ -1,8 +1,8 @@
 <?php
 
-namespace Forms;
+namespace Anchorcms\Forms;
 
-class CustomVars extends Form {
+class CustomVars extends \Forms\Form {
 
 	public function init() {
 		$this->addElement(new \Forms\Elements\Hidden('_token'));

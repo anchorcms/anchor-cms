@@ -1,5 +1,7 @@
 <?php
 
+namespace Anchorcms;
+
 class Config {
 
 	protected $path;
@@ -13,13 +15,13 @@ class Config {
 
 	public function load($name) {
 		if(false === array_key_exists($name, $this->config)) {
-			$path = $this->path . '/' . $name . '.php';
+			$path = $this->path . '/' . $name . '.json';
 
 			if(false === is_file($path)) {
 				throw new \RuntimeException(sprintf('Config file not found "%s"', $path));
 			}
 
-			$this->config[$name] = require $path;
+			$this->config[$name] = json_decode(file_get_contents($path), true);
 		}
 
 		return $this->config[$name];

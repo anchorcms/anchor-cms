@@ -1,6 +1,6 @@
 <?php
 
-namespace Forms\Installer;
+namespace Anchorcms\Forms\Installer;
 
 class Account extends \Forms\Form {
 

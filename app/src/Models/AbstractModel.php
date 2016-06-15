@@ -1,6 +1,6 @@
 <?php
 
-namespace Models;
+namespace Anchorcms\Models;
 
 abstract class AbstractModel {
 

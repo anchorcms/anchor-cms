@@ -1,5 +1,7 @@
 <?php
 
+namespace Anchorcms;
+
 function full_url($url = '') {
 	global $app;
 

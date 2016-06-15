@@ -1,6 +1,6 @@
 <?php
 
-namespace Controllers;
+namespace Anchorcms\Controllers;
 
 use Pimple\Container;
 use Controllers\AbstractController;

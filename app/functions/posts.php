@@ -1,5 +1,7 @@
 <?php
 
+namespace Anchorcms;
+
 function has_posts() {
 	global $app;
 

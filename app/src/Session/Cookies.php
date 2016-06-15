@@ -1,6 +1,6 @@
 <?php
 
-namespace Session;
+namespace Anchorcms\Session;
 
 class Cookies {
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Forms\Traits;
+namespace Anchorcms\Forms\Traits;
 
 trait FilterRules {
 

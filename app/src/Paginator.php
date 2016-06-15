@@ -1,5 +1,7 @@
 <?php
 
+namespace Anchorcms;
+
 class Paginator {
 
 	protected $page;

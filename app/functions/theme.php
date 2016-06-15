@@ -1,5 +1,7 @@
 <?php
 
+namespace Anchorcms;
+
 function theme_url($url = '') {
 	global $app;
 

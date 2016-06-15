@@ -1,6 +1,6 @@
 <?php
 
-namespace Services;
+namespace Anchorcms\Services;
 
 class Installer {
 
@@ -49,10 +49,10 @@ class Installer {
 		return sprintf('%s:%s', $input['driver'], implode(';', $parts));
 	}
 
-	public function connectDatabase(array $input) {
-		$dns = $this->buildDns($input);
+	public function connectDatabase(array $params) {
+		$dns = $this->buildDns($params);
 
-		return new \PDO($dns, $input['user'], $input['pass']);
+		return new \PDO($dns, $params['user'], $params['pass']);
 	}
 
 	public function run(array $input) {
@@ -67,19 +67,17 @@ class Installer {
 	protected function copySampleConfig(array $input) {
 		$path = $this->paths['config'];
 
-		if(false === is_dir($path)) mkdir($path);
+		if(false === is_dir($path)) {
+			mkdir($path, 0700, true);
+		}
 
-		foreach(['db', 'app', 'mail'] as $file) {
-			$src = $path . sprintf('/../config-samples/%s.php', $file);
-			$dest = $path . sprintf('/%s.php', $file);
+		$pattern = sprintf('%s/*.json', $path);
 
-			// skip if already exists
-			if(is_file($dest)) continue;
-
-			$sample = file_get_contents($src);
-			$input['dns'] = $this->buildDns($input);
-			$keys = array_map(function($key) { return sprintf('{%s}', $key); }, array_keys($input));
-			file_put_contents($dest, str_replace($keys, array_values($input), $sample));
+		foreach(glob($pattern) as $src) {
+			$dst = sprintf('%s/%s', $path, basename($src));
+			$contents = file_get_contents($src);
+			$params = json_decode($contents);
+			dd($params);
 		}
 	}
 

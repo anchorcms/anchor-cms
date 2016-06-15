@@ -1,5 +1,7 @@
 <?php
 
+namespace Anchorcms;
+
 class ContentIterator implements Countable, Iterator {
 
 	protected $index = -1;

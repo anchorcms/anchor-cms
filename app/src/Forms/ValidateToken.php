@@ -1,6 +1,6 @@
 <?php
 
-namespace Forms;
+namespace Anchorcms\Forms;
 
 use Validation\AbstractRule;
 
