@@ -1,7 +1,7 @@
 {
-	"name": "anchor",
+	"name": "anchorcms",
 	"expire": "3600",
-	"path": "/",
+	"path": "\/",
 	"domain": "",
 	"secure": "false",
 	"httponly": "true"

@@ -7,7 +7,10 @@ class Slugify {
 	/**
 	 * Format a string to be a valid uri string
 	 */
-	public function slug($string, $separator = '-') {
+	public function slug(string $string, string $separator = '-'): string {
+		// decode url encoded strings
+		$string = rawurldecode($string);
+
 		// convert entities
 		$string = html_entity_decode($string, ENT_QUOTES, 'UTF-8');
 

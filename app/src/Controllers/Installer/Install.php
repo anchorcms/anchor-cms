@@ -21,7 +21,7 @@ class Install extends AbstractController {
 	}
 
 	public function getIndex(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface {
-		return $response->withStatus(302)->withHeader('Location', '/l10n');
+		return $this->redirect($response, '/l10n');
 	}
 
 	public function getL10n(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface {
@@ -45,7 +45,7 @@ class Install extends AbstractController {
 	}
 
 	public function postL10n(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface {
-		$form = new Forms\Installer\L10n;
+		$form = new \Anchorcms\Forms\Installer\L10n;
 
 		$input = filter_input_array(INPUT_POST, $form->getFilters());
 
@@ -56,14 +56,14 @@ class Install extends AbstractController {
 
 		if(false === $validator->isValid()) {
 			$this->container['messages']->error($validator->getMessages());
-			return $this->redirect('/l10n');
+			return $this->redirect($response, '/l10n');
 		}
 
-		return $this->redirect('/database');
+		return $this->redirect($response, '/database');
 	}
 
 	public function getDatabase(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface {
-		$form = new \Forms\Installer\Database([
+		$form = new \Anchorcms\Forms\Installer\Database([
 			'method' => 'post',
 			'action' => $this->container['url']->to('/database'),
 			'autocomplete' => 'off',
@@ -78,30 +78,23 @@ class Install extends AbstractController {
 		$vars['form'] = $form;
 		$vars['backUrl'] = $this->container['url']->to('/l10n');
 
-		return $this->renderTemplate('installer/layout', 'installer/database', $vars);
+		$this->renderTemplate($response, 'installer/layout', 'installer/database', $vars);
+
+		return $response;
 	}
 
 	public function postDatabase(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface {
-		$form = new \Forms\Installer\Database;
+		$form = new \Anchorcms\Forms\Installer\Database;
 
 		$input = filter_input_array(INPUT_POST, $form->getFilters());
 
 		$data = $this->container['session']->get('install', []);
 		$this->container['session']->put('install', array_merge($data, $input));
 
-		$rules = $form->getRules();
-
-		if($input['driver'] == 'mysql') {
-			$rules['host'] = ['required'];
-			$rules['port'] = ['required'];
-			$rules['user'] = ['required'];
-		}
-
-		$validator = $this->container['validation']->create($input, $rules);
+		$validator = $this->container['validation']->create($input, $form->getRules());
 
 		try {
 			$pdo = $this->container['services.installer']->connectDatabase($input);
-			$pdo = null;
 		}
 		catch(\PDOException $e) {
 			$validator->setInvalid($e->getMessage());
@@ -109,14 +102,14 @@ class Install extends AbstractController {
 
 		if(false === $validator->isValid()) {
 			$this->container['messages']->error($validator->getMessages());
-			return $this->redirect('/database');
+			return $this->redirect($response, '/database');
 		}
 
-		return $this->redirect('/metadata');
+		return $this->redirect($response, '/metadata');
 	}
 
 	public function getMetadata(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface {
-		$form = new \Forms\Installer\Metadata([
+		$form = new \Anchorcms\Forms\Installer\Metadata([
 			'method' => 'post',
 			'action' => $this->container['url']->to('/metadata'),
 			'autocomplete' => 'off',
@@ -133,11 +126,13 @@ class Install extends AbstractController {
 		$vars['form'] = $form;
 		$vars['backUrl'] = $this->container['url']->to('/database');
 
-		return $this->renderTemplate('installer/layout', 'installer/metadata', $vars);
+		$this->renderTemplate($response, 'installer/layout', 'installer/metadata', $vars);
+
+		return $response;
 	}
 
 	public function postMetadata(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface {
-		$form = new \Forms\Installer\Metadata;
+		$form = new \Anchorcms\Forms\Installer\Metadata;
 
 		$input = filter_input_array(INPUT_POST, $form->getFilters());
 
@@ -148,14 +143,14 @@ class Install extends AbstractController {
 
 		if(false === $validator->isValid()) {
 			$this->container['messages']->error($validator->getMessages());
-			return $this->redirect('/metadata');
+			return $this->redirect($response, '/metadata');
 		}
 
-		return $this->redirect('/account');
+		return $this->redirect($response, '/account');
 	}
 
 	public function getAccount(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface {
-		$form = new \Forms\Installer\Account([
+		$form = new \Anchorcms\Forms\Installer\Account([
 			'method' => 'post',
 			'action' => $this->container['url']->to('/account'),
 			'autocomplete' => 'off',
@@ -170,11 +165,13 @@ class Install extends AbstractController {
 		$vars['form'] = $form;
 		$vars['backUrl'] = $this->container['url']->to('/metadata');
 
-		return $this->renderTemplate('installer/layout', 'installer/account', $vars);
+		$this->renderTemplate($response, 'installer/layout', 'installer/account', $vars);
+
+		return $response;
 	}
 
 	public function postAccount(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface {
-		$form = new \Forms\Installer\Account;
+		$form = new \Anchorcms\Forms\Installer\Account;
 
 		$input = filter_input_array(INPUT_POST, $form->getFilters());
 
@@ -185,13 +182,13 @@ class Install extends AbstractController {
 
 		if(false === $validator->isValid()) {
 			$this->container['messages']->error($validator->getMessages());
-			return $this->redirect('/account');
+			return $this->redirect($response, '/account');
 		}
 
 		$data = $this->container['session']->get('install', []);
 		$this->container['services.installer']->run($data);
 
-		return $this->redirect('/complete');
+		return $this->redirect($response, '/complete');
 	}
 
 	public function getComplete(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface {
@@ -201,7 +198,9 @@ class Install extends AbstractController {
 
 		$this->container['session']->remove('install');
 
-		return $this->renderTemplate('installer/layout', 'installer/finished', $vars);
+		$this->renderTemplate($response, 'installer/layout', 'installer/finished', $vars);
+
+		return $response;
 	}
 
 }

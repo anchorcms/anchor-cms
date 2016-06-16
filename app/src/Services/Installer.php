@@ -2,6 +2,12 @@
 
 namespace Anchorcms\Services;
 
+use PDO;
+use Doctrine\DBAL\{
+	Configuration,
+	DriverManager
+};
+
 class Installer {
 
 	protected $paths;
@@ -13,54 +19,48 @@ class Installer {
 		$this->session = $session;
 	}
 
-	public function isInstalled() {
-		$path = $this->paths['config'];
+	public function isInstalled(): bool {
+		$pattern = sprintf('%s/*.json', $this->paths['config']);
+		$files = glob($pattern);
 
-		// check config files
-		foreach(['db', 'app', 'mail'] as $file) {
-			$dest = $path . sprintf('/%s.php', $file);
-
-			// missing config file, assume not installed
-			if(false === is_file($dest)) return false;
-		}
-
-		return true;
+		return count($files) > 0;
 	}
 
-	public function installerRunning() {
+	public function installerRunning(): bool {
 		return $this->session->started() && $this->session->has('install');
 	}
 
-	public function buildDns(array $input) {
+	public function buildDns(array $params) {
 		$parts = [];
 
-		if($input['driver'] == 'sqlite') {
-			$parts['dbname'] = $this->paths['storage'] . '/' . $input['dbname'];
-
-			return sprintf('%s:%s', $input['driver'], implode(';', $parts));
+		if($params['db_driver'] == 'pdo_sqlite') {
+			$parts[] = $this->paths['storage'] . '/' . $params['db_path'];
 		}
 
-		foreach(['host', 'port', 'dbname'] as $part) {
-			if(array_key_exists($part, $input)) {
-				$parts[] = sprintf('%s=%s', $part, $input[$part]);
-			}
+		if($params['db_driver'] == 'pdo_mysql') {
+			$parts[] = sprintf('host=%s', $params['db_host']);
+			$parts[] = sprintf('port=%s', $params['db_port']);
+			$parts[] = sprintf('dbname=%s', $params['db_dbname']);
 		}
 
-		return sprintf('%s:%s', $input['driver'], implode(';', $parts));
+		return sprintf('%s:%s', substr($params['db_driver'], 4), implode(';', $parts));
 	}
 
 	public function connectDatabase(array $params) {
 		$dns = $this->buildDns($params);
 
-		return new \PDO($dns, $params['user'], $params['pass']);
+		return new PDO($dns, $params['db_user'], $params['db_password']);
 	}
 
 	public function run(array $input) {
-		$input['secret'] = bin2hex(random_bytes(32));
+		$input['app_secret'] = bin2hex(random_bytes(32));
 
 		$this->copySampleConfig($input);
+
 		$pdo = $this->connectDatabase($input);
+
 		$this->runSchema($pdo, $input);
+
 		$this->setupDatabase($pdo, $input);
 	}
 
@@ -71,22 +71,31 @@ class Installer {
 			mkdir($path, 0700, true);
 		}
 
-		$pattern = sprintf('%s/*.json', $path);
+		$pattern = sprintf('%s/*.json', dirname($path) . '/config-samples');
 
 		foreach(glob($pattern) as $src) {
-			$dst = sprintf('%s/%s', $path, basename($src));
+			$file = pathinfo($src);
+			$dst = sprintf('%s/%s', $path, $file['basename']);
 			$contents = file_get_contents($src);
-			$params = json_decode($contents);
-			dd($params);
+			$params = json_decode($contents, true);
+
+			foreach(array_keys($params) as $key) {
+				$var = sprintf('%s_%s', $file['filename'], $key);
+				if(array_key_exists($var, $input)) {
+					$params[$key] = $input[$var];
+				}
+			}
+
+			file_put_contents($dst, json_encode($params, JSON_PRETTY_PRINT));
 		}
 	}
 
-	protected function runSchema(\PDO $pdo, array $input) {
-		$path = $this->paths['storage'] . '/schema_' . $input['driver'] . '.sql';
+	protected function runSchema(PDO $pdo, array $input) {
+		$path = $this->paths['resources'] . '/schema_' . substr($input['db_driver'], 4) . '.sql';
 		$schema = file_get_contents($path);
 
 		// replace table prefix
-		$schema = str_replace('{prefix}', $input['prefix'], $schema);
+		$schema = str_replace('{prefix}', $input['db_table_prefix'], $schema);
 
 		$pdo->beginTransaction();
 
@@ -97,27 +106,32 @@ class Installer {
 		$pdo->commit();
 	}
 
-	protected function setupDatabase(\PDO $pdo, array $input) {
-		$query = new \DB\Query($pdo);
+	protected function setupDatabase(PDO $pdo, array $input) {
+		$config = new Configuration();
+		$conn = DriverManager::getConnection(['pdo' => $pdo], $config);
 
-		$category = $query->table($input['prefix'].'categories')->insert([
+		$conn->insert($input['db_table_prefix'].'categories', [
 			'title' => 'Uncategorised',
 			'slug' => 'uncategorised',
 			'description' => 'Ain\'t no category here.',
 		]);
 
-		$user = $query->table($input['prefix'].'users')->insert([
-			'username' => $input['username'],
-			'password' => password_hash($input['password'], PASSWORD_BCRYPT, ['cost' => 12]),
-			'email' => $input['email'],
-			'name' => $input['username'],
+		$category = $conn->lastInsertId();
+
+		$conn->insert($input['db_table_prefix'].'users', [
+			'username' => $input['account_username'],
+			'password' => password_hash($input['account_password'], PASSWORD_DEFAULT, ['cost' => 12]),
+			'email' => $input['account_email'],
+			'name' => $input['account_username'],
 			'bio' => 'The bouse',
 			'status' => 'active',
 			'role' => 'admin',
 			'token' => '',
 		]);
 
-		$page = $query->table($input['prefix'].'pages')->insert([
+		$user = $conn->lastInsertId();
+
+		$conn->insert($input['db_table_prefix'].'pages', [
 			'parent' => 0,
 			'slug' => 'posts',
 			'name' => 'Posts',
@@ -130,7 +144,9 @@ class Installer {
 			'menu_order' => 0
 		]);
 
-		$post = $query->table($input['prefix'].'posts')->insert([
+		$page = $conn->lastInsertId();
+
+		$conn->insert($input['db_table_prefix'].'posts', [
 			'title' => 'Hello World',
 			'slug' => 'hello-world',
 			'content' => 'This is the first post.',
@@ -142,6 +158,8 @@ class Installer {
 			'category' => $category,
 			'status' => 'published',
 		]);
+
+		$post = $conn->lastInsertId();
 
 		$meta = [
 			'home_page' => $page,
@@ -156,7 +174,10 @@ class Installer {
 		];
 
 		foreach($meta as $key => $value) {
-			$query->table($input['prefix'].'meta')->insert(['key' => $key, 'value' => $value]);
+			$conn->insert($input['db_table_prefix'].'meta', [
+				'key' => $key,
+				'value' => $value,
+			]);
 		}
 	}
 

@@ -9,5 +9,6 @@ return [
 	'content' => __DIR__ . '/../web/content',
 	'views' => __DIR__ . '/views',
 	'storage' => __DIR__ . '/storage',
+	'resources' => __DIR__ . '/resources',
 	'sessions' => __DIR__ . '/storage/sessions',
 ];

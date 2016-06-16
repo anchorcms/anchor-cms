@@ -5,14 +5,14 @@ namespace Anchorcms\Forms\Installer;
 class L10n extends \Forms\Form {
 
 	public function init() {
-		$this->addElement(new \Forms\Elements\Select('lang', [
+		$this->addElement(new \Forms\Elements\Select('app_lang', [
 			'label' => 'Language',
 			'options' => ['en_GB' => 'English']
 		]));
 
 		$list = \DateTimeZone::listIdentifiers();
 
-		$this->addElement(new \Forms\Elements\Select('timezone', [
+		$this->addElement(new \Forms\Elements\Select('app_timezone', [
 			'label' => 'Timezone',
 			'options' => array_combine($list, $list),
 		]));
@@ -25,15 +25,15 @@ class L10n extends \Forms\Form {
 
 	public function getFilters() {
 		return [
-			'lang' => FILTER_SANITIZE_STRING,
-			'timezone' => FILTER_SANITIZE_STRING,
+			'app_lang' => FILTER_SANITIZE_STRING,
+			'app_timezone' => FILTER_SANITIZE_STRING,
 		];
 	}
 
 	public function getRules() {
 		return [
-			'lang' => ['required'],
-			'timezone' => ['required'],
+			'app_lang' => ['label' => 'Language', 'rules' => ['required']],
+			'app_timezone' => ['label' => 'Time Zone', 'rules' => ['required']],
 		];
 	}
 

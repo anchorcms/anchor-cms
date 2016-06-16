@@ -1,4 +1,6 @@
 {
+	"lang": "en_GB",
+	"timezone": "UTC",
 	"secret": "",
 	"debug": "false"
 }

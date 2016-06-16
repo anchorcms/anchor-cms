@@ -4,7 +4,7 @@ namespace Anchorcms\Session;
 
 use Psr\Http\Message\ResponseInterface;
 
-class Session {
+class Session implements SessionInterface, StorageInterface, StashInterface {
 
 	protected $cookies;
 
@@ -34,8 +34,24 @@ class Session {
 		$this->started = false;
 	}
 
-	protected function generateId() {
+	protected function generate(): string {
 		return bin2hex(random_bytes(32));
+	}
+
+	public function id(): string {
+		return $this->id;
+	}
+
+	public function name(): string {
+		return $this->options['name'];
+	}
+
+	public function migrate() {
+		$this->id = $this->generate();
+	}
+
+	public function destroy() {
+		$this->data = [];
 	}
 
 	public function start() {
@@ -43,7 +59,7 @@ class Session {
 			$this->id = $this->cookies->get($this->options['name']);
 		}
 		else {
-			$this->id = $this->generateId();
+			$this->id = $this->generate();
 		}
 
 		$this->data = $this->storage->read($this->id);
@@ -81,8 +97,11 @@ class Session {
 		];
 
 		if($this->options['expire']) {
-			$time = $this->options['expire'] + time();
-			$pairs[] = sprintf('expires=%s', date(DATE_RFC2822, $time));
+			$gmdate = new \DateTime;
+			$gmdate->setTimezone(new \DateTimeZone('UTC'));
+			$format = sprintf('PT%dS', $this->options['expire']);
+			$gmdate->add(new \DateInterval($format));
+			$pairs[] = sprintf('expires=%s', $gmdate->format(\DateTime::COOKIE));
 		}
 
 		if($this->options['path']) {
@@ -104,28 +123,39 @@ class Session {
 		return implode('; ', $pairs);
 	}
 
-	public function has($key): bool {
+	public function has(string $key): bool {
 		return array_key_exists($key, $this->data);
 	}
 
 	public function get(string $key, $default = null) {
-		return $this->data[$key] ?? $default;
+		return array_key_exists($key, $this->data) ? $this->data[$key] : $default;
 	}
 
-	public function put(string $key, string $value) {
+	public function all(): array {
+		return array_intersect_key(['_stash_in', '_stash_out'], $this->data);
+	}
+
+	public function put(string $key, $value): SessionInterface {
 		$this->data[$key] = $value;
 
 		return $this;
 	}
 
-	public function push(string $key, string $value) {
-		$this->data[$key][] = $value;
+	public function remove(string $key): SessionInterface {
+		if(array_key_exists($key, $this->data)) {
+			unset($this->data[$key]);
+		}
 
 		return $this;
 	}
 
-	public function rotate(): Session {
-		$this->data['_stash_out'] = $this->data['_stash_in'] ?? [];
+	public function rotate(): SessionInterface {
+		$this->data['_stash_out'] = [];
+
+		if(array_key_exists('_stash_in', $this->data)) {
+			$this->data['_stash_out'] = $this->data['_stash_in'];
+			unset($this->data['_stash_in']);
+		}
 
 		return $this;
 	}
@@ -134,10 +164,8 @@ class Session {
 		return $this->data['_stash_out'][$key] ?? $default;
 	}
 
-	public function putStash(string $key, string $value): Session {
+	public function putStash(string $key, $value) {
 		$this->data['_stash_in'][$key] = $value;
-
-		return $this;
 	}
 
 }

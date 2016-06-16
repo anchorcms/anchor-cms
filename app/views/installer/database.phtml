@@ -5,33 +5,28 @@
 
 <?php echo $messages; ?>
 
-<?php foreach($form->getElements(['driver']) as $element): ?>
-<p><label for="<?php echo $element->getName(); ?>"><?php echo $element->getLabel(); ?></label> <?php echo $element->getHtml(); ?></p>
+<?php foreach($form->getElements(['db_driver']) as $element): ?>
+<p><label for="<?php echo $element->getName(); ?>"><?php echo $element->getLabel(); ?></label>
+	<?php echo $element->getHtml(); ?></p>
 <?php endforeach; ?>
 
-<div class="mysql">
-	<div class="multi">
-	<?php foreach($form->getElements(['host', 'port']) as $element): ?>
-		<p>
-			<label for="<?php echo $element->getName(); ?>"><?php echo $element->getLabel(); ?></label>
-			<?php echo $element->getHtml(); ?>
-		</p>
+<div class="drivers pdo_mysql">
+	<?php foreach($form->getElementsExcluding(['db_driver', 'db_path', 'submit']) as $element): ?>
+	<p>
+		<label for="<?php echo $element->getName(); ?>"><?php echo $element->getLabel(); ?></label>
+		<?php echo $element->getHtml(); ?>
+	</p>
 	<?php endforeach; ?>
-	</div>
-
-	<div class="multi half">
-	<?php foreach($form->getElements(['user', 'pass']) as $element): ?>
-		<p>
-			<label for="<?php echo $element->getName(); ?>"><?php echo $element->getLabel(); ?></label>
-			<?php echo $element->getHtml(); ?>
-		</p>
-	<?php endforeach; ?>
-	</div>
 </div>
 
-<?php foreach($form->getElementsExcluding(['driver', 'host', 'port', 'user', 'pass', 'submit']) as $element): ?>
-<p><label for="<?php echo $element->getName(); ?>"><?php echo $element->getLabel(); ?></label> <?php echo $element->getHtml(); ?></p>
-<?php endforeach; ?>
+<div class="drivers pdo_sqlite">
+	<?php foreach($form->getElements(['db_path', 'db_table_prefix']) as $element): ?>
+	<p>
+		<label for="<?php echo $element->getName(); ?>"><?php echo $element->getLabel(); ?></label>
+		<?php echo $element->getHtml(); ?>
+	</p>
+	<?php endforeach; ?>
+</div>
 
 <p><a class="button" href="<?php echo $backUrl; ?>">Back</a>
 	<?php echo $form->getElement('submit')->withAttributes(['class' => 'button button--primary float--right'])->getHtml(); ?></p>
@@ -39,14 +34,23 @@
 <?php echo $form->close(); ?>
 
 <script>
-	(function(doc) {
-		var select = doc.querySelector('select');
+	(function() {
+		var select = document.querySelector('select'),
+			nodes = document.querySelectorAll('.drivers');
 
 		var toggle = function() {
-			doc.querySelector('.mysql').style.display = (select.options[select.selectedIndex].value == 'mysql') ? 'block' : 'none';
+			var selected = select.selectedIndex, value = select.options[selected].value;
+			Array.prototype.forEach.call(nodes, function(node) {
+				if(node.classList.contains(value)) {
+					node.classList.remove('display--hidden');
+				}
+				else {
+					node.classList.add('display--hidden');
+				}
+			});
 		};
 
 		select.addEventListener('change', toggle, false);
 		select.dispatchEvent(new Event('change'));
-	})(document);
+	})();
 </script>
