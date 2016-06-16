@@ -21,7 +21,7 @@ class Metadata extends \Forms\Form {
 
 		$this->addElement(new \Forms\Elements\Submit('submit', [
 			'value' => 'Next',
-			'attributes' => ['class' => 'button primary']
+			'attributes' => ['class' => 'button button--primary float--right']
 		]));
 	}
 

@@ -101,7 +101,7 @@ class Theme extends \View {
 		}
 
 		$template = $this->getTemplate($templates);
-		return = $this->render($template, $vars, $files);
+		return $this->render($template, $vars, $files);
 	}
 
 }

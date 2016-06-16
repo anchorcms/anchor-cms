@@ -87,12 +87,6 @@ if(false === $app['services.installer']->isInstalled() ||
 		$app['session']->start();
 		return $frame->next($request);
 	});
-
-	// set the view path to internal to run the installer
-	$app['http.server']->append(function($request, $frame) use($app) {
-		$app['view']->setPath($app['paths']['views']);
-		return $frame->next($request);
-	});
 }
 // middlewares to include when installed
 else {

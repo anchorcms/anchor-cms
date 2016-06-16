@@ -10,16 +10,6 @@ use Anchorcms\Controllers\AbstractController;
 
 class Install extends AbstractController {
 
-	protected function renderTemplate(ResponseInterface $response, string $layout, string $template, array $vars = []) {
-		$vars['messages'] = $this->container['messages']->render();
-		$vars['webroot'] = $this->container['url']->to('/');
-		$vars['body'] = $this->container['view']->render($template, $vars);
-
-		$output = $this->container['view']->render($layout, $vars);
-
-		$response->getBody()->write($output);
-	}
-
 	public function getIndex(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface {
 		return $this->redirect($response, '/l10n');
 	}
@@ -188,19 +178,7 @@ class Install extends AbstractController {
 		$data = $this->container['session']->get('install', []);
 		$this->container['services.installer']->run($data);
 
-		return $this->redirect($response, '/complete');
-	}
-
-	public function getComplete(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface {
-		$vars['title'] = 'Installin\' Anchor CMS';
-		$vars['adminUrl'] = $this->container['url']->to('/admin');
-		$vars['siteUrl'] = $this->container['url']->to('/');
-
-		$this->container['session']->remove('install');
-
-		$this->renderTemplate($response, 'installer/layout', 'installer/finished', $vars);
-
-		return $response;
+		return $this->redirect($response, '/');
 	}
 
 }

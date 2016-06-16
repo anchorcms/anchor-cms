@@ -6,15 +6,15 @@ class Messages {
 
 	protected $session;
 
-	protected $view;
+	protected $mustache;
 
 	protected $template;
 
 	protected $messages;
 
-	public function __construct($session, $view, $template, array $messages = []) {
+	public function __construct($session, $mustache, $template, array $messages = []) {
 		$this->session = $session;
-		$this->view = $view;
+		$this->mustache = $mustache;
 		$this->template = $template;
 		$this->messages = $messages;
 	}
@@ -24,7 +24,7 @@ class Messages {
 	}
 
 	public function render() {
-		return $this->view->render($this->template, [
+		return $this->mustache->loadTemplate($this->template)->render([
 			'messages' => $this->get(),
 		]);
 	}

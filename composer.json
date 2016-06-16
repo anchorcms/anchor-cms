@@ -26,15 +26,16 @@
 	],
 	"require": {
 		"php": ">=7",
-		"league/commonmark": "~0.12",
+		"league/commonmark": "~0.1",
 		"pimple/pimple": "~3",
 		"rwarasaurus/forms": "dev-master",
 		"rwarasaurus/validation": "dev-master",
 		"rwarasaurus/events": "dev-master",
 		"rwarasaurus/router": "dev-master",
-		"guzzlehttp/psr7": "^1.3",
-		"doctrine/dbal": "^2.5",
-		"ircmaxell/Tari-PHP": "dev-master"
+		"guzzlehttp/psr7": "~1",
+		"doctrine/dbal": "~2",
+		"ircmaxell/Tari-PHP": "dev-master",
+		"mustache/mustache": "~2"
 	},
 	"require-dev": {
 		"phpspec/phpspec": "~2",

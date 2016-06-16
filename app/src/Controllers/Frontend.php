@@ -3,11 +3,12 @@
 namespace Anchorcms\Controllers;
 
 use Anchorcms\ContentIterator;
+use Anchorcms\Models\Page;
 
 abstract class Frontend extends AbstractController {
 
 	public function notFound() {
-		$page = new \Models\Page([
+		$page = new Page([
 			'title' => 'Not Found',
 			'slug' => 'not-found',
 			'html' => 'The resource you’re looking for doesn’t exist!'
@@ -18,7 +19,7 @@ abstract class Frontend extends AbstractController {
 		$pages = $this->container['mappers.pages']->menu();
 		$vars['menu'] = new ContentIterator($pages);
 
-		$categories = $this->container['mappers.categories']->allPublished();
+		$categories = $this->container['mappers.categories']->all();
 		$vars['categories'] = new ContentIterator($categories);
 
 		$vars['content'] = new ContentIterator([$page]);

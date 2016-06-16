@@ -44,16 +44,24 @@ return [
 		return new Validation\Validation;
 	},
 	'messages' => function($app) {
-		return new Anchorcms\Messages($app['session'], $app['view'], 'partials/messages');
+		return new Anchorcms\Messages($app['session'], $app['mustache'], 'partials/messages');
 	},
 	'markdown' => function() {
 		return new League\CommonMark\CommonMarkConverter;
 	},
+	'mustache' => function($app) {
+		return new Mustache_Engine([
+			'loader' => new Mustache_Loader_FilesystemLoader($app['paths']['views']),
+			'cache' => $app['paths']['storage'].'/cache/mustache',
+			'escape' => function($value) {
+				return htmlspecialchars($value, ENT_COMPAT, 'UTF-8', false);
+			},
+			'charset' => 'UTF-8',
+			'strict_callables' => true,
+		]);
+	},
 	'slugify' => function() {
 		return new Anchorcms\Slugify;
-	},
-	'view' => function($app) {
-		return new Anchorcms\View($app['paths']['views']);
 	},
 	'theme' => function($app) {
 		return new Anchorcms\Theme($app['view'], $app['paths'], $app['events']);

@@ -46,12 +46,20 @@ class Session implements SessionInterface, StorageInterface, StashInterface {
 		return $this->options['name'];
 	}
 
-	public function migrate() {
+	public function migrate(): SessionInterface {
 		$this->id = $this->generate();
+
+		return $this;
 	}
 
-	public function destroy() {
+	public function destroy(): SessionInterface {
 		$this->data = [];
+
+		// we should commit immediately after a wipe
+		// to make sure data stored is also wiped
+		$this->commit();
+
+		return $this;
 	}
 
 	public function start() {

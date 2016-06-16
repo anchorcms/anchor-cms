@@ -2,11 +2,20 @@
 
 namespace Anchorcms\Controllers\Admin;
 
+use Psr\Http\Message\{
+	ServerRequestInterface,
+	ResponseInterface
+};
+use Anchorcms\Forms\{
+	Login,
+	Amnesia,
+	Reset,
+	ValidateToken
+};
+
 class Auth extends Backend {
 
-	protected $private = false;
-
-	public function getStart() {
+	public function getStart(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface {
 		if($this->container['session']->has('user')) {
 			$forward = filter_input(INPUT_GET, 'forward', FILTER_SANITIZE_URL, [
 				'options' => [
@@ -14,38 +23,40 @@ class Auth extends Backend {
 				],
 			]);
 
-			return $this->redirect($forward);
+			return $this->redirect($response, $forward);
 		}
-		return $this->redirect($this->container['url']->to('/admin/auth/login'));
+		return $this->redirect($response, $this->container['url']->to('/admin/auth/login'));
 	}
 
-	public function getLogin() {
+	public function getLogin(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface {
 		$vars['title'] = 'Login';
 
-		$form = new \Forms\Login([
+		$form = new Login([
 			'method' => 'post',
 			'action' => $this->container['url']->to('/admin/auth/attempt'),
 		]);
 		$form->init();
 		$form->getElement('_token')->setValue($this->container['csrf']->token());
 
-		$values = $this->container['session']->getFlash('input', []);
+		$values = $this->container['session']->getStash('input', []);
 		$form->setValues($values);
 
 		$vars['form'] = $form;
 
-		return $this->renderTemplate('layouts/minimal', 'users/login', $vars);
+		$this->renderTemplate($response, 'layouts/minimal', 'users/login', $vars);
+
+		return $response;
 	}
 
-	public function postAttempt() {
-		$form = new \Forms\Login;
+	public function postAttempt(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface {
+		$form = new Login;
 		$input = $form->getFilters();
 
 		// validate input
 		$validator = $this->container['validation']->create($input, $form->getRules());
 
 		// check token
-		$validator->addRule(new \Forms\ValidateToken($this->container['csrf']->token()), '_token');
+		$validator->addRule(new ValidateToken($this->container['csrf']->token()), '_token');
 
 		if($validator->isValid()) {
 			$user = $this->container['services.auth']->login($input['username'], $input['password']);
@@ -62,7 +73,7 @@ class Auth extends Backend {
 			$this->container['messages']->error($validator->getMessages());
 			$this->container['session']->putFlash('input', ['username' => $input['username']]);
 
-			return $this->redirect($this->container['url']->to('/admin/auth/login'));
+			return $this->redirect($response, $this->container['url']->to('/admin/auth/login'));
 		}
 
 		// check password and update it
@@ -80,37 +91,37 @@ class Auth extends Backend {
 			],
 		]);
 
-		return $this->redirect($forward);
+		return $this->redirect($response, $forward);
 	}
 
-	public function getLogout() {
-		$this->container['session']->clear();
-		$this->container['session']->regenerate(true);
-
+	public function getLogout(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface {
+		$this->container['session']->destroy()->migrate();
 		$this->container['messages']->success('You are now logged out');
-		return $this->redirect($this->container['url']->to('/admin/auth/login'));
+		return $this->redirect($response, $this->container['url']->to('/admin/auth/login'));
 	}
 
-	public function getAmnesia() {
+	public function getAmnesia(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface {
 		$vars['title'] = 'Forgotten Password';
 
-		$form = new \Forms\Amnesia([
+		$form = new Amnesia([
 			'method' => 'post',
 			'action' => $this->container['url']->to('/admin/auth/amnesia'),
 		]);
 		$form->init();
 		$form->getElement('_token')->setValue($this->container['csrf']->token());
 
-		$values = $this->container['session']->getFlash('input', []);
+		$values = $this->container['session']->getStash('input', []);
 		$form->setValues($values);
 
 		$vars['form'] = $form;
 
-		return $this->renderTemplate('layouts/minimal', 'users/amnesia', $vars);
+		$this->renderTemplate($response, 'layouts/minimal', 'users/amnesia', $vars);
+
+		return $response;
 	}
 
-	public function postAmnesia($request) {
-		$form = new \Forms\Amnesia;
+	public function postAmnesia(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface {
+		$form = new Amnesia;
 		$input = $form->getFilters();
 
 		// validate input
@@ -134,9 +145,9 @@ class Auth extends Backend {
 
 		if(false === $validator->isValid()) {
 			$this->container['messages']->error($validator->getMessages());
-			$this->container['session']->putFlash('input', ['email' => $input['email']]);
+			$this->container['session']->putStash('input', ['email' => $input['email']]);
 
-			return $this->redirect($this->container['url']->to('/admin/auth/amnesia'));
+			return $this->redirect($response, $this->container['url']->to('/admin/auth/amnesia'));
 		}
 
 		$to = [$user->email => $user->name];
@@ -151,22 +162,22 @@ class Auth extends Backend {
 		$this->container['services.postman']->deliver($to, $from, $subject, $body);
 
 		$this->container['messages']->success(['We have sent a email with further instructions']);
-		return $this->redirect('/admin/auth/login');
+		return $this->redirect($response, '/admin/auth/login');
 	}
 
-	public function getReset($request) {
+	public function getReset(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface {
 		// check token
 		$token = filter_input(INPUT_GET, 'token', FILTER_SANITIZE_STRING);
 		$user = $this->container['services.auth']->verifyToken($token);
 
 		if( ! $user) {
 			$this->container['messages']->error(['Invalid reset token']);
-			return $this->redirect($this->container['url']->to('/admin/auth/login'));
+			return $this->redirect($response, $this->container['url']->to('/admin/auth/login'));
 		}
 
 		$vars['title'] = 'Reset Password';
 
-		$form = new \Forms\Reset([
+		$form = new Reset([
 			'method' => 'post',
 			'action' => $this->container['url']->to('/admin/auth/reset?token=' . $token),
 		]);
@@ -175,37 +186,39 @@ class Auth extends Backend {
 
 		$vars['form'] = $form;
 
-		return $this->renderTemplate('layouts/minimal', 'users/reset', $vars);
+		$this->renderTemplate($response, 'layouts/minimal', 'users/reset', $vars);
+
+		return $response;
 	}
 
-	public function postReset($request) {
+	public function postReset(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface {
 		// check token
 		$token = filter_input(INPUT_GET, 'token', FILTER_SANITIZE_STRING);
 		$user = $this->container['services.auth']->verifyToken($token);
 
 		if( ! $user) {
 			$this->container['messages']->error(['Invalid reset token']);
-			return $this->redirect($this->container['url']->to('/admin/auth/login'));
+			return $this->redirect($response, $this->container['url']->to('/admin/auth/login'));
 		}
 
-		$form = new \Forms\Reset;
+		$form = new Reset;
 		$input = $form->getFilters();
 
 		// validate input
 		$validator = $this->container['validation']->create($input, $form->getRules());
 
 		// check token
-		$validator->addRule(new \Forms\ValidateToken($this->container['csrf']->token()), '_token');
+		$validator->addRule(new ValidateToken($this->container['csrf']->token()), '_token');
 
 		if(false === $validator->isValid()) {
 			$this->container['messages']->error($validator->getMessages());
-			return $this->redirect($this->container['url']->to('/admin/auth/reset?token=' . $token));
+			return $this->redirect($response, $this->container['url']->to('/admin/auth/reset?token=' . $token));
 		}
 
 		$this->container['services.auth']->changePassword($user, $input['password']);
 
 		$this->container['messages']->success(['Your password has been reset']);
-		return $this->redirect($this->container['url']->to('/admin/auth/login'));
+		return $this->redirect($response, $this->container['url']->to('/admin/auth/login'));
 	}
 
 }
