@@ -1,24 +1,24 @@
 <aside class="site-description wrap">
 	<h1>
-		<?php echo site_description(); ?>
+		<?php echo \Anchorcms\site_description(); ?>
 	</h1>
 </aside>
 
 <ul class="stories wrap">
-	<?php while(posts()): ?>
+	<?php while(\Anchorcms\posts()): ?>
 	<li>
 		<hgroup>
 			<h1>
-				<a href="<?php echo article_url(); ?>">
-					<?php echo article_title(); ?>
+				<a href="<?php echo \Anchorcms\article_url(); ?>">
+					<?php echo \Anchorcms\article_title(); ?>
 				</a>
 			</h1>
 
-			<small>Posted by <?php echo article_author(); ?> <em>on the <?php echo article_date(); ?></em></small>
+			<small>Posted by <?php echo \Anchorcms\article_author(); ?> <em>on the <?php echo \Anchorcms\article_date(); ?></em></small>
 		</hgroup>
 
 		<div class="article-excerpt">
-			<?php echo article_content(); ?>
+			<?php echo \Anchorcms\article_content(); ?>
 		</div>
 	</li>
 	<?php endwhile; ?>
@@ -30,11 +30,11 @@
 			<h2>Categories</h2>
 
 			<ul>
-				<?php while(categories()): ?>
+				<?php while(\Anchorcms\categories()): ?>
 				<li>
-					<a href="<?php echo category_url(); ?>" title="<?php echo category_description(); ?>">
-						<?php echo category_title(); ?>
-						<small><?php echo category_count(); ?></small>
+					<a href="<?php echo \Anchorcms\category_url(); ?>" title="<?php echo \Anchorcms\category_description(); ?>">
+						<?php echo \Anchorcms\category_title(); ?>
+						<small><?php echo \Anchorcms\category_count(); ?></small>
 					</a>
 				</li>
 				<?php endwhile; ?>
@@ -44,8 +44,8 @@
 		<div class="half-width">
 			<h2>Search my blog</h2>
 
-			<form action="<?php echo search_url(); ?>" method="get">
-				<?php echo search_form_input('placeholder="Search anything here."'); ?>
+			<form action="<?php echo \Anchorcms\search_url(); ?>" method="get">
+				<?php echo \Anchorcms\search_form_input('placeholder="Search anything here."'); ?>
 				<button type="submit">Search</button>
 			</form>
 		</div>

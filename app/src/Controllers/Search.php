@@ -2,6 +2,8 @@
 
 namespace Anchorcms\Controllers;
 
+use Anchorcms\ContentIterator;
+
 class Search extends Frontend {
 
 	public function getIndex($request) {
@@ -12,10 +14,10 @@ class Search extends Frontend {
 		$vars['keywords'] = $keywords;
 
 		$pages = $this->container['mappers.pages']->menu();
-		$vars['menu'] = new \ContentIterator($pages);
+		$vars['menu'] = new ContentIterator($pages);
 
 		$categories = $this->container['mappers.categories']->allPublished();
-		$vars['categories'] = new \ContentIterator($categories);
+		$vars['categories'] = new ContentIterator($categories);
 
 		$page = new \Models\Page(['title' => sprintf('Search "%s"', $keywords)]);
 		$vars['page'] = $page;
@@ -28,7 +30,7 @@ class Search extends Frontend {
 
 		$this->container['services.posts']->hydrate($posts);
 
-		$content = new \ContentIterator($posts);
+		$content = new ContentIterator($posts);
 		$vars['content'] = $content;
 
 		return $this->container['theme']->render(['search', 'index'], $vars);

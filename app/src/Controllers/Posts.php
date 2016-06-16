@@ -2,6 +2,8 @@
 
 namespace Anchorcms\Controllers;
 
+use Anchorcms\ContentIterator;
+
 class Posts extends Frontend {
 
 	public function getIndex($request) {
@@ -26,14 +28,14 @@ class Posts extends Frontend {
 		$vars['meta'] = $this->container['mappers.meta']->all();
 
 		$pages = $this->container['mappers.pages']->menu();
-		$vars['menu'] = new \ContentIterator($pages);
+		$vars['menu'] = new ContentIterator($pages);
 
 		$categories = $this->container['mappers.categories']->all();
-		$vars['categories'] = new \ContentIterator($categories);
+		$vars['categories'] = new ContentIterator($categories);
 
 		$this->container['services.posts']->hydrate([$article]);
 
-		$content = new \ContentIterator([$article]);
+		$content = new ContentIterator([$article]);
 		$vars['content'] = $content;
 
 		return $this->container['theme']->render(['article', 'index'], $vars);

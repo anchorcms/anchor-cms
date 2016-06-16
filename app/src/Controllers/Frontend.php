@@ -2,8 +2,7 @@
 
 namespace Anchorcms\Controllers;
 
-use Pimple\Container;
-use Controllers\AbstractController;
+use Anchorcms\ContentIterator;
 
 abstract class Frontend extends AbstractController {
 
@@ -17,12 +16,12 @@ abstract class Frontend extends AbstractController {
 		$vars['meta'] = $this->container['mappers.meta']->all();
 
 		$pages = $this->container['mappers.pages']->menu();
-		$vars['menu'] = new \ContentIterator($pages);
+		$vars['menu'] = new ContentIterator($pages);
 
 		$categories = $this->container['mappers.categories']->allPublished();
-		$vars['categories'] = new \ContentIterator($categories);
+		$vars['categories'] = new ContentIterator($categories);
 
-		$vars['content'] = new \ContentIterator([$page]);
+		$vars['content'] = new ContentIterator([$page]);
 		$vars['page'] = $page;
 
 		$body = $this->container['theme']->render(['404', 'page', 'index'], $vars);

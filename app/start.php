@@ -101,7 +101,7 @@ else {
 		return $frame->next($request);
 	});
 
-	$app['http.server']->append(new Middleware\Auth($app['session'], [
+	$app['http.server']->append(new Anchorcms\Middleware\Auth($app['session'], [
 		'/admin/(pages|posts)',
 	]));
 }

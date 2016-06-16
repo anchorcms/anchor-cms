@@ -55,6 +55,10 @@ class Installer {
 	public function run(array $input) {
 		$input['app_secret'] = bin2hex(random_bytes(32));
 
+		if($input['db_path']) {
+			$input['db_path'] = $this->paths['storage'] . '/' . $params['db_path'];
+		}
+
 		$this->copySampleConfig($input);
 
 		$pdo = $this->connectDatabase($input);

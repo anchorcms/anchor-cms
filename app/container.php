@@ -92,49 +92,49 @@ return [
 	 * Mappers
 	 */
 	'mappers.categories' => function($app) {
-		$mapper = new Anchorcms\Mappers\Categories($app['db'], new Models\Category);
+		$mapper = new Anchorcms\Mappers\Categories($app['db'], new Anchorcms\Models\Category);
 		$mapper->setTablePrefix($app['config']->get('db.table_prefix'));
 
 		return $mapper;
 	},
 	'mappers.meta' => function($app) {
-		$mapper = new Anchorcms\Mappers\Meta($app['db'], new DB\Row);
+		$mapper = new Anchorcms\Mappers\Meta($app['db'], new Anchorcms\Models\Meta);
 		$mapper->setTablePrefix($app['config']->get('db.table_prefix'));
 
 		return $mapper;
 	},
 	'mappers.pages' => function($app) {
-		$mapper = new Anchorcms\Mappers\Pages($app['db'], new Models\Page);
+		$mapper = new Anchorcms\Mappers\Pages($app['db'], new Anchorcms\Models\Page);
 		$mapper->setTablePrefix($app['config']->get('db.table_prefix'));
 
 		return $mapper;
 	},
 	'mappers.pagemeta' => function($app) {
-		$mapper = new Anchorcms\Mappers\PageMeta($app['db'], new DB\Row);
+		$mapper = new Anchorcms\Mappers\PageMeta($app['db'], new Anchorcms\Models\Meta);
 		$mapper->setTablePrefix($app['config']->get('db.table_prefix'));
 
 		return $mapper;
 	},
 	'mappers.posts' => function($app) {
-		$mapper = new Anchorcms\Mappers\Posts($app['db'], new Models\Post);
+		$mapper = new Anchorcms\Mappers\Posts($app['db'], new Anchorcms\Models\Post);
 		$mapper->setTablePrefix($app['config']->get('db.table_prefix'));
 
 		return $mapper;
 	},
 	'mappers.postmeta' => function($app) {
-		$mapper = new Anchorcms\Mappers\PostMeta($app['db'], new DB\Row);
+		$mapper = new Anchorcms\Mappers\PostMeta($app['db'], new Anchorcms\Models\Meta);
 		$mapper->setTablePrefix($app['config']->get('db.table_prefix'));
 
 		return $mapper;
 	},
 	'mappers.users' => function($app) {
-		$mapper = new Anchorcms\Mappers\Users($app['db'], new Models\User);
+		$mapper = new Anchorcms\Mappers\Users($app['db'], new Anchorcms\Models\User);
 		$mapper->setTablePrefix($app['config']->get('db.table_prefix'));
 
 		return $mapper;
 	},
 	'mappers.customFields' => function($app) {
-		$mapper = new Anchorcms\Mappers\CustomFields($app['db'], new DB\Row);
+		$mapper = new Anchorcms\Mappers\CustomFields($app['db'], new Anchorcms\Models\Meta);
 		$mapper->setTablePrefix($app['config']->get('db.table_prefix'));
 
 		return $mapper;

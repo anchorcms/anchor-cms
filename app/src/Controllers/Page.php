@@ -2,6 +2,8 @@
 
 namespace Anchorcms\Controllers;
 
+use Anchorcms\ContentIterator;
+
 class Page extends Frontend {
 
 	public function getIndex($request) {
@@ -47,17 +49,17 @@ class Page extends Frontend {
 		$vars['meta'] = $this->container['mappers.meta']->all();
 
 		$pages = $this->container['mappers.pages']->menu();
-		$vars['menu'] = new \ContentIterator($pages);
+		$vars['menu'] = new ContentIterator($pages);
 
 		$categories = $this->container['mappers.categories']->all();
-		$vars['categories'] = new \ContentIterator($categories);
+		$vars['categories'] = new ContentIterator($categories);
 
 		$pagenum = filter_input(INPUT_GET, 'page', FILTER_SANITIZE_NUMBER_INT, ['options' => ['default' => 1]]);
 		$perpage = $this->container['mappers.meta']->key('posts_per_page');
 
 		$posts = $this->container['services.posts']->getPosts(['page' => $pagenum, 'perpage' => $perpage, 'category' => $category->id]);
 
-		$content = new \ContentIterator($posts);
+		$content = new ContentIterator($posts);
 		$vars['content'] = $content;
 
 		return $this->container['theme']->render(['category', 'posts', 'index'], $vars);
@@ -72,10 +74,10 @@ class Page extends Frontend {
 		$vars['meta'] = $this->container['mappers.meta']->all();
 
 		$pages = $this->container['mappers.pages']->menu();
-		$vars['menu'] = new \ContentIterator($pages);
+		$vars['menu'] = new ContentIterator($pages);
 
 		$categories = $this->container['mappers.categories']->all();
-		$vars['categories'] = new \ContentIterator($categories);
+		$vars['categories'] = new ContentIterator($categories);
 
 		// is posts page
 		if($page->id == $this->container['mappers.meta']->key('posts_page')) {
@@ -84,11 +86,11 @@ class Page extends Frontend {
 
 			$posts = $this->container['services.posts']->getPosts(['page' => $pagenum, 'perpage' => $perpage]);
 
-			$vars['content'] = new \ContentIterator($posts);
+			$vars['content'] = new ContentIterator($posts);
 			$names[] = 'posts';
 		}
 		else {
-			$vars['content'] = new \ContentIterator([$page]);
+			$vars['content'] = new ContentIterator([$page]);
 			$names[] = 'page';
 		}
 
