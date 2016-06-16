@@ -1,0 +1,14 @@
+<h2>Tell us a little bit about your blog.</h2>
+
+{{& form.open }}
+
+{{& messages }}
+
+{{# form }}
+<p>
+	{{# hasLabel }}<label for="{{ getName }}">{{ getLabel }}</label>{{/ hasLabel }}
+	{{& getHtml }}
+</p>
+{{/ form }}
+
+{{& form.close }}

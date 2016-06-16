@@ -1,0 +1,48 @@
+
+<h2>What&apos;s your database details?</h2>
+
+{{& form.open }}
+
+{{& messages }}
+
+{{# form }}
+<p>
+	{{# hasLabel }}<label for="{{ getName }}">{{ getLabel }}</label>{{/ hasLabel }}
+	{{& getHtml }}
+</p>
+{{/ form }}
+
+{{& form.close }}
+
+<script>
+	(function() {
+		var select = document.querySelector('select');
+
+		var toggle = function() {
+			var selected = select.selectedIndex,
+				value = select.options[selected].value;
+
+			var nodes = document.querySelectorAll('[name=db_host],[name=db_port],[name=db_user],[name=db_password],[name=db_dbname],[name=db_path]');
+			Array.prototype.forEach.call(nodes, function(node) {
+				node.parentNode.classList.remove('display--hidden');
+			});
+
+			if(value == 'pdo_sqlite') {
+				var nodes = document.querySelectorAll('[name=db_host],[name=db_port],[name=db_user],[name=db_password],[name=db_dbname]');
+				Array.prototype.forEach.call(nodes, function(node) {
+					node.parentNode.classList.add('display--hidden');
+				});
+			}
+
+			if(value == 'pdo_mysql') {
+				var nodes = document.querySelectorAll('[name=db_path]');
+				Array.prototype.forEach.call(nodes, function(node) {
+					node.parentNode.classList.add('display--hidden');
+				});
+			}
+		};
+
+		select.addEventListener('change', toggle, false);
+		select.dispatchEvent(new Event('change'));
+	})();
+</script>
