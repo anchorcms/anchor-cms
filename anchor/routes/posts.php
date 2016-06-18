@@ -155,13 +155,6 @@ Route::collection(array('before' => 'auth,csrf,install_exists'), function () {
             ));
         }
 
-        $current_post = Post::find($id);
-        if ($current_post->status == 'draft') {
-            $input['created'] = Date::mysql('now');
-        } else {
-            unset($input['created']);
-        }
-
         if (empty($input['comments'])) {
             $input['comments'] = 0;
         }
