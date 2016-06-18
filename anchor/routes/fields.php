@@ -6,7 +6,7 @@ Route::collection(array('before' => 'auth,csrf,install_exists'), function () {
         List Fields
     */
     Route::get(array('admin/extend/fields', 'admin/extend/fields/(:num)'), function ($page = 1) {
-        
+
         $vars['token'] = Csrf::token();
         $vars['extend'] = Extend::paginate($page, Config::get('admin.posts_per_page'));
 
@@ -19,7 +19,7 @@ Route::collection(array('before' => 'auth,csrf,install_exists'), function () {
         Add Field
     */
     Route::get('admin/extend/fields/add', function () {
-        
+
         $vars['token'] = Csrf::token();
         $vars['types'] = Extend::$types;
 
@@ -34,25 +34,25 @@ Route::collection(array('before' => 'auth,csrf,install_exists'), function () {
 
     Route::post('admin/extend/fields/add', function () {
         $input = Input::get(array('type', 'field', 'key', 'label', 'attributes', 'pagetype'));
-        
+
         if (empty($input['key'])) {
             $input['key'] = $input['label'];
         }
-        
+
         $input['key'] = slug($input['key'], '_');
-        
+
         // an array of items that we shouldn't encode - they're no XSS threat
         $dont_encode = array('attributes');
-        
+
         foreach ($input as $key => &$value) {
             if (in_array($key, $dont_encode)) {
                 continue;
             }
             $value = eq($value);
         }
-        
+
         $validator = new Validator($input);
-        
+
         $validator->add('valid_key', function ($str) use ($input) {
             return Extend::where('key', '=', $str)
                 ->where('type', '=', $input['type'])->count() == 0;
@@ -103,7 +103,7 @@ Route::collection(array('before' => 'auth,csrf,install_exists'), function () {
         Edit Field
     */
     Route::get('admin/extend/fields/edit/(:num)', function ($id) {
-        
+
         $vars['token'] = Csrf::token();
         $vars['types'] = Extend::$types;
         $vars['fields'] = Extend::$field_types;
@@ -125,19 +125,19 @@ Route::collection(array('before' => 'auth,csrf,install_exists'), function () {
 
     Route::post('admin/extend/fields/edit/(:num)', function ($id) {
         $input = Input::get(array('type', 'field', 'key', 'label', 'attributes', 'pagetype'));
-        
+
         if (empty($input['key'])) {
             $input['key'] = $input['label'];
         }
-        
+
         $input['key'] = slug($input['key'], '_');
-        
-        foreach ($input as $key => &$value) {
+
+        array_walk_recursive($input, function(&$value) {
             $value = eq($value);
-        }
-        
+        });
+
         $validator = new Validator($input);
-        
+
         $validator->add('valid_key', function ($str) use ($id, $input) {
             return Extend::where('key', '=', $str)
                 ->where('type', '=', $input['type'])
