@@ -110,6 +110,7 @@ Route::get($posts_page->slug . '/(:any)', function ($slug) use ($posts_page) {
 
     if ($post->status != 'published') {
         if (!Auth::user()) {
+            Registry::set('article', false);
             return Response::create(new Template('404'), 404);
         }
     }
@@ -334,6 +335,7 @@ Route::get('(:all)', function ($uri) {
 
     if ($page->status != 'published') {
         if (!Auth::user()) {
+            Registry::set('page', false);
             return Response::create(new Template('404'), 404);
         }
     }
