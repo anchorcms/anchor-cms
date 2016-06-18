@@ -84,9 +84,25 @@ function normalize($str)
 /**
  * Encode html to entities
  */
-function e($str, $quotes = ENT_NOQUOTES)
-{
-    return htmlspecialchars($str, $quotes, Config::app('encoding'), false);
+function e($str, $quotes = ENT_NOQUOTES) {
+    
+    if(is_array($str)){
+        
+        $arr = array();
+        
+        foreach ($str as $key => $value){
+            if(!is_array($value)){
+                $arr += array($key => e($value));
+            } else {
+                $arr[$key]= e($value);
+            }
+        }
+        
+        return $arr;
+        
+    }
+    
+  return htmlspecialchars($str, $quotes, Config::app('encoding'), false);
 }
 
 /**
