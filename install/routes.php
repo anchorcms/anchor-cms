@@ -11,7 +11,7 @@ Route::action('check', function () {
     Start (Language Select)
 */
 Route::get(array('/', 'start'), array('before' => 'check', 'main' => function () {
-    
+
 
     $vars['languages'] = languages();
     $vars['prefered_languages'] = prefered_languages();
@@ -57,7 +57,7 @@ Route::get('database', array('before' => 'check', 'main' => function () {
         return Response::redirect('start');
     }
 
-    
+
     $vars['collations'] = array(
         'utf8_bin' => 'Unicode (multilingual), Binary',
         'utf8_czech_ci' => 'Czech, case-insensitive',
@@ -102,7 +102,7 @@ Route::post('database', array('before' => 'check', 'main' => function () {
             'charset' => 'utf8',
             'prefix' => $database['prefix']
         ));
-    } catch (PDOException $e) {
+    } catch (Exception $e) {
         Input::flash();
 
         Notify::error($e->getMessage());
@@ -175,7 +175,9 @@ Route::get('account', array('before' => 'check', 'main' => function () {
         return Response::redirect('metadata');
     }
 
-    return Layout::create('account', array());
+    $vars['messages'] = Notify::read();
+
+    return Layout::create('account', $vars);
 }));
 
 Route::post('account', array('before' => 'check', 'main' => function () {
