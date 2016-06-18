@@ -6,7 +6,7 @@
 
 	<fieldset class="header">
 		<div class="wrap">
-			
+
 
 			<?php echo Form::text('title', Input::previous('title', $article->title), array(
                 'placeholder' => __('posts.title'),
@@ -19,7 +19,12 @@
                     'type' => 'submit',
                     'class' => 'btn'
                 )); ?>
-				
+
+				<?php echo Html::link('admin/posts/preview/' . $article->id, __('global.preview'), array(
+					'class' => 'btn blue',
+					'target' => '_blank'
+				)); ?>
+
 				<?php echo Html::link('admin/posts', __('global.cancel'), array(
                     'class' => 'btn cancel blue'
                 )); ?>
