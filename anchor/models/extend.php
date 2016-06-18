@@ -178,7 +178,7 @@ class extend extends Base
 
             if ($filepath = static::upload($file)) {
                 $filename = basename($filepath);
-                self::resizeImage($filepath);
+                self::resizeImage($extend, $filepath);
             }
         }
 
