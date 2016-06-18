@@ -131,6 +131,10 @@ function check($message, $action)
     }
 }
 
+check('<code>We were unable to run composer our selves. Please run "composer install" from the command line to install Anchor. If you do not have composer installed please see <a href="https://getcomposer.org/">https://getcomposer.org/</a></code>', function() {
+    return file_exists(PATH . 'vendor');
+});
+
 check('<code>content</code> directory needs to be writable
 	so we can upload your images and files.', function () {
     return is_writable(PATH . 'content');

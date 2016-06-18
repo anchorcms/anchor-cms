@@ -13,7 +13,6 @@
 
 	<form method="post" action="<?php echo uri_to('start'); ?>" autocomplete="off">
 
-
 		<fieldset>
 			<p>
 				<label for="lang">
@@ -36,13 +35,11 @@
 				<select id="timezone" class="chosen-select" name="timezone">
 					<?php $set = false; ?>
 					<?php foreach ($timezones as $zone): ?>
-					<?php $selected = ($set === false and $current_timezone == $zone['offset']) ? ' selected' : ''; ?>
-					<option value="<?php echo $zone['timezone_id']; ?>"<?php echo $selected; ?>>
-						<?php echo $zone['label']; ?>
-					</option>
-					<?php if ($selected) {
-    $set = true;
-} ?>
+						<?php $selected = ($set === false and $current_timezone == $zone['offset']) ? ' selected' : ''; ?>
+						<option value="<?php echo $zone['timezone_id']; ?>"<?php echo $selected; ?>>
+							<?php echo $zone['label']; ?>
+						</option>
+						<?php if ($selected) $set = true; ?>
 					<?php endforeach; ?>
 				</select>
 			</p>

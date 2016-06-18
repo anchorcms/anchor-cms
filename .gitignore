@@ -42,3 +42,6 @@ humans.txt
 
 # Composer vendor
 vendor/
+
+# Don't want to commit .lock files
+*.lock

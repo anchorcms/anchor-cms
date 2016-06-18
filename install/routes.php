@@ -4,7 +4,12 @@
     Filters
 */
 Route::action('check', function () {
-
+    /* Check if you have installed credit to Striker */
+    if(file_exists(APP . 'install.lock')) {
+        return Layout::create('installed', array(
+            'installed' => true
+        ));
+    }
 });
 
 /*
@@ -237,6 +242,7 @@ Route::get('complete', function () {
     // scrub session now we are done
     Session::erase('install');
 
+    file_put_contents(APP.'install.lock', time());
     return Layout::create('complete', $vars);
 });
 
