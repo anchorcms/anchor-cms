@@ -3,5 +3,5 @@
 	"version": "1.0",
 	"author": "Idiot",
 	"thumbnail": "assets/img/thumbnail.png",
-	"extension": "phtml"
+	"extension": ".mustache"
 }

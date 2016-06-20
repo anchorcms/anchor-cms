@@ -2,19 +2,16 @@
 
 // Make sure this we have a good version of PHP
 if( ! defined('PHP_VERSION_ID') || PHP_VERSION_ID < 7) {
-	echo 'PHP 7 or later is required';
-	return;
+	throw new RuntimeException('PHP 7 or later is required');
 }
 
 // Check composer is installed
 if(false === is_file(__DIR__ . '/../vendor/autoload.php')) {
-	echo 'Composer not installed :(';
-	return;
+	throw new RuntimeException('Composer not installed :(');
 }
 
 // report all errors
 error_reporting(-1);
-ini_set('display_errors', true);
 
 // Set default timezone to UTC
 if( ! ini_get('date.timezone')) {
@@ -90,11 +87,6 @@ if(false === $app['services.installer']->isInstalled() ||
 }
 // middlewares to include when installed
 else {
-	$app['http.server']->append(function($request, $frame) use($app) {
-		$app['theme']->setTheme($app['mappers.meta']->key('theme', 'default'));
-		return $frame->next($request);
-	});
-
 	$app['http.server']->append(new Anchorcms\Middleware\Auth($app['session'], [
 		'/admin/(pages|posts)',
 	]));

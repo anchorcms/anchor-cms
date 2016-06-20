@@ -64,7 +64,8 @@ return [
 		return new Anchorcms\Slugify;
 	},
 	'theme' => function($app) {
-		return new Anchorcms\Theme($app['view'], $app['paths'], $app['events']);
+		$path = $app['paths']['themes'] . '/' . $app['mappers.meta']->key('theme', 'default');
+		return new Anchorcms\Services\Themes\Theme($app['mustache'], $path);
 	},
 	'url' => function($app) {
 		return new Anchorcms\Url($app['http.request']);

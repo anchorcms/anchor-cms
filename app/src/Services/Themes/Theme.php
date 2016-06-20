@@ -2,38 +2,76 @@
 
 namespace Anchorcms\Services\Themes;
 
-class Theme extends \View {
+class Theme {
 
+	/**
+	 * Folder where the theme lives
+	 * @var string
+	 */
 	protected $path;
 
+	/**
+	 * Instance of mustache
+	 * @var object
+	 */
+	protected $mustache;
+
+	/**
+	 * The basename of the theme
+	 * @var string
+	 */
 	protected $name;
 
-	protected $active = false;
-
+	/**
+	 * The json decoded contents of the manifest file
+	 * @var object
+	 */
 	protected $manifest;
 
-	protected $layout;
+	/**
+	 * The file extension of the templates
+	 * @var string
+	 */
+	protected $ext = '.mustache';
 
-	public function __construct($path) {
-		$this->ext = '.php';
-		$this->path = $path;
+	/**
+	 * The theme constructorrr
+	 * @param object Mustache_Engine
+	 * @param string Theme path
+	 */
+	public function __construct(\Mustache_Engine $mustache, string $path) {
+		$this->path = realpath($path);
+		$this->mustache = $mustache;
 		$this->name = basename($path);
+		$this->loadManifest();
 
-		if(is_file($this->path . '/manifest.json')) {
-			$this->manifest = json_decode(file_get_contents($this->path . '/manifest.json'));
+		$loader = new \Mustache_Loader_FilesystemLoader($this->path, ['extension' => $this->ext]);
+		$this->mustache->setLoader($loader);
+	}
+
+	/*
+	 *
+	 */
+	public function loadManifest() {
+		if($this->hasManifest()) {
+			$json = file_get_contents($this->getManifestFilepath());
+			$this->manifest = json_decode($json);
 			$this->ext = $this->manifest->extension;
-
-			if(is_file($this->path . '/layout.' . $this->ext)) {
-				$this->layout = $this->path . '/layout.' . $this->ext;
-			}
 		}
 	}
 
 	/*
 	 *
 	 */
+	public function getManifestFilepath() {
+		return $this->path . '/manifest.json';
+	}
+
+	/*
+	 *
+	 */
 	public function hasManifest() {
-		return null !== $this->manifest;
+		return is_file($this->getManifestFilepath());
 	}
 
 	/*
@@ -70,38 +108,44 @@ class Theme extends \View {
 	 * @param array
 	 * @return string
 	 */
-	protected function getTemplate(array $names) {
+	public function getTemplate(array $names) {
 		foreach($names as $name) {
 			if($this->templateExists($name)) {
 				return $name;
 			}
 		}
 
-		throw new \ErrorException(sprintf('Template not found: %s', $name));
+		throw new \InvalidArgumentException(sprintf('Template files not found: %s', json_encode($names)));
+	}
+
+	/**
+	 * Checks if a template file exists
+	 *
+	 * @param string
+	 * @return bool
+	 */
+	public function templateExists(string $name): bool {
+		return is_file(sprintf('%s/%s.%s', $this->path, $name, $this->ext));
 	}
 
 	/*
 	 *
 	 */
-	public function renderTemplate(array $templates, array $vars = []) {
-		$files = [
-			$this->paths['app'] . '/functions.php',
-		];
-
-		if(is_file($this->path . '/functions.php')) {
-			$files[] = $this->path . '/functions.php';
-		}
-
-		if($this->layout) {
+	public function render(array $templates, array $vars = []) {
+		if($this->templateExists('layout')) {
 			$template = $this->getTemplate($templates);
-			$vars['body'] = $this->render($template, $vars, $files);
+			$body = $this->mustache->loadTemplate($template);
 
-			$template = $this->getTemplate([$this->layout]);
-			return $this->render($template, $vars, $files);
+			$this->container['mustache']->setPartials([
+				'body' => $body->render($vars),
+			]);
+
+			$layout = $this->container['mustache']->loadTemplate('layout');
+			return $layout->render($vars);
 		}
 
 		$template = $this->getTemplate($templates);
-		return $this->render($template, $vars, $files);
+		return $this->mustache->loadTemplate($template)->render($vars);
 	}
 
 }
