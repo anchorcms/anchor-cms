@@ -89,7 +89,7 @@ class Session implements SessionInterface, StorageInterface, StashInterface {
 
 	public function close(ResponseInterface $response) {
 		if( ! $this->started) {
-			throw new RuntimeException('Session has not been started');
+			return $response;
 		}
 
 		$response = $response->withHeader('Set-Cookie', $this->cookie());

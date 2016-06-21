@@ -7,44 +7,37 @@ if( ! defined('PHP_VERSION_ID') || PHP_VERSION_ID < 7) {
 
 // Check composer is installed
 if(false === is_file(__DIR__ . '/../vendor/autoload.php')) {
-	throw new RuntimeException('Composer not installed :(');
+	throw new RuntimeException('Composer not installed');
 }
 
-// report all errors
-error_reporting(-1);
+/**
+ * Handy debug dump function
+ */
+class RuntimeDebugException extends Exception {}
 
-// Set default timezone to UTC
-if( ! ini_get('date.timezone')) {
-	date_default_timezone_set('UTC');
+function dd(...$args) {
+	throw new RuntimeDebugException(var_export($args, true));
 }
 
-require __DIR__ . '/helpers.php';
 require __DIR__ . '/../vendor/autoload.php';
 
+// create the container
 $app = new Pimple\Container(require __DIR__ . '/container.php');
 
-$app['errors']->handler(function(DB\SqlException $exception) {
+// Setup Error handling
+$app['errors']->handler(function(RuntimeDebugException $exception) {
 	while(ob_get_level()) ob_end_clean();
 	http_response_code(500);
 	echo sprintf('<html>
 			<head>
-				<title>SqlException</title>
+				<title>Debug</title>
 				<style>html,body { color: #333; padding: 2rem; font: 1rem/1.5rem sans-serif; }</style>
 			</head>
 			<body>
-				<h1>SqlException</h1>
-				<p>%s in %s:%d</p>
-				<h3>SQL</h3>
-				<pre>%s</pre>
-				<h3>Params</h3>
 				<pre>%s</pre>
 			</body>
 		</html>',
-		$exception->getMessage(),
-		$exception->getFile(),
-		$exception->getLine(),
-		$exception->getSql(),
-		json_encode($exception->getParams())
+		$exception->getMessage()
 	);
 });
 
@@ -53,16 +46,17 @@ $app['errors']->handler(function(Throwable $exception) {
 	http_response_code(500);
 	echo sprintf('<html>
 			<head>
-				<title>Uncaught Exception</title>
+				<title>Whoops</title>
 				<style>html,body { color: #333; padding: 2rem; font: 1rem/1.5rem sans-serif; }</style>
 			</head>
 			<body>
-				<h1>Uncaught Exception</h1>
+				<h1>%s</h1>
 				<p>%s in %s:%d</p>
 				<h3>Stack Trace</h3>
 				<pre>%s</pre>
 			</body>
 		</html>',
+		get_class($exception),
 		$exception->getMessage(),
 		$exception->getFile(),
 		$exception->getLine(),
@@ -70,7 +64,15 @@ $app['errors']->handler(function(Throwable $exception) {
 	);
 });
 
+// Register Error handler
 $app['errors']->register();
+
+// Set a default Timezone if theres nothing set
+if( ! ini_get('date.timezone')) {
+	date_default_timezone_set('UTC');
+}
+// Set Timezone from the config or use the default
+date_default_timezone_set($app['config']->get('app.timezone', date_default_timezone_get()));
 
 // check install
 if(false === $app['services.installer']->isInstalled() ||

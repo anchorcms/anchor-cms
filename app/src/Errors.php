@@ -33,16 +33,9 @@ class Errors {
 	public function exception($exception) {
 		foreach($this->handlers as $handler) {
 			if($this->matches($exception, $handler)) {
-				$handler($exception);
-				$this->halt();
+				return $handler($exception);
 			}
 		}
-
-		$this->halt();
-	}
-
-	public function halt() {
-		exit(1);
 	}
 
 	public function native($code, $message, $file, $line) {

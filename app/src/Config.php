@@ -18,7 +18,7 @@ class Config {
 			$path = $this->path . '/' . $name . '.json';
 
 			if(false === is_file($path)) {
-				throw new \RuntimeException(sprintf('Config file not found "%s"', $path));
+				return [];
 			}
 
 			$this->config[$name] = json_decode(file_get_contents($path), true);

@@ -141,7 +141,7 @@ class Installer {
 			'status' => 'published',
 			'redirect' => '',
 			'show_in_menu' => 1,
-			'menu_order' => 0
+			'menu_order' => 0,
 		]);
 
 		$page = $conn->lastInsertId();
@@ -156,7 +156,7 @@ class Installer {
 			'status' => 'published',
 			'redirect' => '',
 			'show_in_menu' => 1,
-			'menu_order' => 0
+			'menu_order' => 1,
 		]);
 
 		$conn->insert($input['db_table_prefix'].'posts', [

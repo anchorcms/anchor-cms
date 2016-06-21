@@ -23,7 +23,9 @@ class Install extends AbstractController {
 		$form->init();
 
 		// populate from session
-		$data = $this->container['session']->get('install', []);
+		$data = $this->container['session']->get('install', [
+			'app_timezone' => date_default_timezone_get(),
+		]);
 		$form->setValues($data);
 
 		$vars['title'] = 'Installin\' Anchor CMS';
@@ -106,7 +108,7 @@ class Install extends AbstractController {
 		]);
 		$form->init();
 
-		$form->getElement('site_path')->setValue($this->container['url']->to('/'));
+		$form->getElement('site_path')->setValue('/');
 
 		// populate from session
 		$data = $this->container['session']->get('install', []);
@@ -177,6 +179,8 @@ class Install extends AbstractController {
 
 		$data = $this->container['session']->get('install', []);
 		$this->container['services.installer']->run($data);
+
+		$this->container['session']->remove('install');
 
 		return $this->redirect($response, '/');
 	}
