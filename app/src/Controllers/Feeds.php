@@ -2,44 +2,35 @@
 
 namespace Anchorcms\Controllers;
 
+use Psr\Http\Message\{
+	ServerRequestInterface,
+	ResponseInterface
+};
+
 class Feeds extends Frontend {
 
-	public function getRss($request, $response) {
-		$query = $this->container['mappers.posts']->query();
-
-		$query->where('status = '.$query->createPositionalParameter('published'))
-			->orderBy('created', 'DESC')
-			->setMaxResults(20);
-
-		$posts = $this->container['mappers.posts']->fetchAll($query);
-		$this->container['services.posts']->hydrate($posts);
-
-		$uri = clone $request->getUri();
+	public function getRss(ServerRequestInterface $request, ResponseInterface $response) {
+		$posts = $this->container['services.posts']->getPosts([
+			'perpage' => 20,
+		]);
 
 		foreach($posts as $post) {
-			$category = $post->getCategory();
-			$categoryUri = (string) $uri->withPath(sprintf('/categories/%s', $category->slug));
-
-			$postUri = (string) $uri->withPath(sprintf('/%s/%s', $category->slug, $post->slug));
-
 			$author = $post->getAuthor();
+			$category = $post->getCategory();
 
 			$this->container['services.rss']->item([
 				'title' => $post->title,
 				'content' => $post->html,
-				'link' => $postUri,
+				'link' => $this->container['url']->to($post->url()),
 				'author' => [$author->getEmail(), $author->getName()],
-				'date' => \DateTime::createFromFormat('Y-m-d H:i:s', $post->created),
-				'category' => [$categoryUri, $category->title],
+				'date' => \DateTime::createFromFormat('Y-m-d H:i:s', $post->published),
+				'category' => [$this->container['url']->to($category->url()), $category->title],
 			]);
 		}
 
-		$xml = $this->container['services.rss']->output();
+		$body = $this->container['services.rss']->output();
 
-		$body = $response->getBody();
-		$body->write($xml);
-
-		return $response->withStatus(200)->withBody($body)->withHeader('content-type', 'application/xml');
+		return $this->container['http.factory']->createResponse(200, ['content-type' => 'application/xml'], $body);
 	}
 
 }

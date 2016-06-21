@@ -73,7 +73,7 @@ return [
 		return new Anchorcms\Services\Themes\Theme($app['mustache'], $path);
 	},
 	'url' => function($app) {
-		return new Anchorcms\Url($app['http.request']);
+		return new Anchorcms\Url($app['http.request'], new GuzzleHttp\Psr7\Uri);
 	},
 
 	/**
@@ -174,9 +174,8 @@ return [
 	'services.rss' => function($app) {
 		$name = $app['mappers.meta']->key('sitename');
 		$description = $app['mappers.meta']->key('description');
-		$url = clone $app['http.request']->getUri();
 
-		return new Anchorcms\Services\Rss($name, $description, $url);
+		return new Anchorcms\Services\Rss($name, $description, $app['url']->to('/'));
 	},
 	'services.posts' => function($app) {
 		return new Anchorcms\Services\Posts($app['mappers.posts'], $app['mappers.postmeta'], $app['mappers.customFields'], $app['mappers.users'], $app['mappers.categories']);

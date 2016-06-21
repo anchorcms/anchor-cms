@@ -28,8 +28,8 @@ abstract class AbstractController implements ControllerInterface {
 		$response->getBody()->write($output);
 	}
 
-	protected function redirect(ResponseInterface $response, string $uri, int $status = 302): ResponseInterface {
-		return $response->withStatus($status)->withHeader('Location', $uri);
+	protected function redirect(ResponseInterface $response, string $path, int $status = 302): ResponseInterface {
+		return $response->withStatus($status)->withHeader('Location', $path);
 	}
 
 }

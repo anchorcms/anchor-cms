@@ -2,13 +2,15 @@
 
 namespace Anchorcms\Services;
 
+use Psr\Http\Message\UriInterface;
+
 class Rss {
 
 	protected $document;
 
 	protected $channel;
 
-	public function __construct($name, $description, $url, $language = 'en', $ttl = 60) {
+	public function __construct($name, $description, UriInterface $url, $language = 'en', $ttl = 60) {
 		// create a dom xml object
 		$this->document = new \DOMDocument('1.0', 'UTF-8');
 
