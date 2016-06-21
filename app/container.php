@@ -55,15 +55,13 @@ return [
 	},
 	'mustache' => function($app) {
 		return new Mustache_Engine([
+			'loader' => new Mustache_Loader_FilesystemLoader($app['paths']['views']),
 			//'cache' => $app['paths']['storage'].'/cache/mustache',
 			'escape' => function($value) {
 				return htmlspecialchars($value, ENT_COMPAT, 'UTF-8', false);
 			},
 			'charset' => 'UTF-8',
 		]);
-	},
-	'mustache.loader' => function($app) {
-		return new Mustache_Loader_FilesystemLoader($app['paths']['views']);
 	},
 	'slugify' => function() {
 		return new Anchorcms\Slugify;

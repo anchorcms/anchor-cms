@@ -71,7 +71,7 @@ class Auth extends Backend {
 
 		if(false === $validator->isValid()) {
 			$this->container['messages']->error($validator->getMessages());
-			$this->container['session']->putFlash('input', ['username' => $input['username']]);
+			$this->container['session']->putStash('input', ['username' => $input['username']]);
 
 			return $this->redirect($response, $this->container['url']->to('/admin/auth/login'));
 		}

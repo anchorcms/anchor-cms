@@ -25,7 +25,7 @@ class Login extends \Forms\Form implements ValidatableInterface {
 		$this->addElement(new \Forms\Elements\Submit('submit', [
 			'value' => 'Log In',
 			'attributes' => [
-				'class' => 'button',
+				'class' => 'button button--dark button--wide',
 			],
 		]));
 	}
