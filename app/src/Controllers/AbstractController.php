@@ -14,18 +14,14 @@ abstract class AbstractController implements ControllerInterface {
 	}
 
 	protected function renderTemplate(ResponseInterface $response, string $layout, string $template, array $vars = []) {
-		$vars['messages'] = $this->container['messages']->render();
-
-		$body = $this->container['mustache']->loadTemplate($template);
-
-		$this->container['mustache']->setPartials([
-			'body' => $body->render($vars),
+		$vars['messages'] = $this->container['view']->render('partials/messages', [
+			'messages' => $this->container['messages']->get(),
 		]);
 
-		$layout = $this->container['mustache']->loadTemplate($layout);
-		$output = $layout->render($vars);
+		$vars['body'] = $this->container['view']->render($template, $vars);
 
-		$response->getBody()->write($output);
+		$layout = $this->container['view']->render($layout, $vars);
+		$response->getBody()->write($layout);
 	}
 
 	protected function redirect(ResponseInterface $response, string $path, int $status = 302): ResponseInterface {

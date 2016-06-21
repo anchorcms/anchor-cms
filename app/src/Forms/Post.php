@@ -2,10 +2,11 @@
 
 namespace Anchorcms\Forms;
 
-use Forms\Traits\Filters;
-use Forms\Traits\FilterRules;
+use Forms\Form;
+use Anchorcms\Forms\Traits\Filters;
+use Anchorcms\Forms\Traits\FilterRules;
 
-class Post extends \Forms\Form {
+class Post extends Form {
 
 	use Filters, FilterRules;
 
@@ -63,8 +64,10 @@ class Post extends \Forms\Form {
 		]));
 
 		$this->addElement(new \Forms\Elements\Submit('submit', [
-			'value' => 'Save changes',
-			'attributes' => ['class' => 'button'],
+			'value' => 'Save Changes',
+			'attributes' => [
+				'class' => 'button button--primary',
+			],
 		]));
 	}
 

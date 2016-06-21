@@ -19,7 +19,7 @@
 		<div class="grid-col grid-1-4">
 			<p class="text--upper text--small text--quiet">Filter by status</p>
 			<ul class="list--unstyled list--padded">
-				<li><a href="<?php echo url('/admin/posts'); ?>">All</a></li>
+				<li><a href="/admin/posts">All</a></li>
 				<?php foreach($statuses as $status => $title): ?>
 				<li><a href="/admin/posts?status=<?php echo $status; ?>"><?php echo $title; ?></a></li>
 				<?php endforeach; ?>
@@ -29,7 +29,7 @@
 			<ul class="list--unstyled list--padded">
 				<?php foreach($categories as $category): ?>
 				<li><a href="/admin/posts?category=<?php echo $category->id; ?>">
-					<?php echo $category->title; ?> <span class="badge"><?php echo $category->post_count; ?></span></a></li>
+					<?php echo $category->title; ?> <span class="badge"><?php echo $category->post_count ?? 0; ?></span></a></li>
 				<?php endforeach; ?>
 			</ul>
 		</div>
@@ -41,7 +41,7 @@
 			<ul class="listing">
 				<?php foreach($posts as $post): ?>
 				<li>
-					<h3><a href="<?php echo url('/admin/posts/'.$post->id.'/edit'); ?>"><?php echo $post->title; ?></a></h3>
+					<h3><a href="/admin/posts/<?php echo $post->id; ?>/edit"><?php echo $post->title; ?></a></h3>
 					<span class="badge badge--pinned"><?php echo $post->status; ?></span>
 					<p><time class="text--quiet"><?php echo $post->getRelativeModifiedDate(); ?></time></p>
 				</li>

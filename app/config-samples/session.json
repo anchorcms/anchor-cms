@@ -1,8 +1,8 @@
 {
 	"name": "anchorcms",
-	"expire": "3600",
+	"expire": "0",
 	"path": "\/",
 	"domain": "",
-	"secure": "false",
-	"httponly": "true"
+	"secure": "0",
+	"httponly": "1"
 }

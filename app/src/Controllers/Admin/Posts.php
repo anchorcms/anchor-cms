@@ -2,9 +2,16 @@
 
 namespace Anchorcms\Controllers\Admin;
 
+use Psr\Http\Message\{
+	ServerRequestInterface,
+	ResponseInterface
+};
+use Anchorcms\Paginator;
+use Anchorcms\Forms\Post as PostForm;
+
 class Posts extends Backend {
 
-	public function getIndex($request) {
+	public function getIndex(ServerRequestInterface $request, ResponseInterface $response, array $args) {
 		$input = filter_var_array($request->getQueryParams(), [
 			'page' => FILTER_SANITIZE_NUMBER_INT,
 			'category' => FILTER_SANITIZE_NUMBER_INT,
@@ -12,34 +19,42 @@ class Posts extends Backend {
 			'search' => FILTER_SANITIZE_STRING,
 		]);
 
-		$total = $this->container['mappers.posts']->filter($input)->count();
+		$query = $this->container['mappers.posts']->query();
 
-		$perpage = $this->container['mappers.meta']->key('admin_posts_per_page', 10);
-		$query = $this->container['mappers.posts']->filter($input)->sort('modified', 'desc')->take($perpage);
-
-		if($input['page']) {
-			$offset = ($input['page'] - 1) * $perpage;
-			$query->skip($offset);
+		if($input['category']) {
+			$query->andWhere('category = :category')
+				->setParameter('category', $input['category']);
 		}
 
-		$posts = $query->get();
+		if($input['search']) {
+			$query->andWhere('title LIKE :search')
+				->setParameter('search', '%'.$input['search'].'%');
+		}
 
-		$paging = new \Paginator($this->container['url']->to('/admin/posts'), $input['page'], $total, $perpage, $input);
+		$count = (clone $query)->select('COUNT(*)');
+		$total = $this->container['db']->fetchColumn($count);
 
+		$perpage = $this->container['mappers.meta']->key('admin_posts_per_page', 10);
+		$offset = ($input['page'] ?: 1 - 1) * $perpage;
+
+		$query->orderBy('modified', 'DESC')
+			->setMaxResults($perpage)
+			->setFirstResult($offset);
+
+		$posts = $this->container['mappers.posts']->fetchAll($query);
+
+		$paging = new Paginator($this->container['url']->to('/admin/posts'), $input['page'], $total, $perpage, $input);
+
+		$vars['sitename'] = $this->container['mappers.meta']->key('sitename');
 		$vars['title'] = 'Posts';
+		$vars['hasPosts'] = ! empty($posts);
 		$vars['posts'] = $posts;
 		$vars['paging'] = $paging;
-		$vars['categories'] = $this->container['mappers.categories']->allPublished();
-		$vars['statuses'] = ['published' => 'Published', 'draft' => 'Draft', 'archived' => 'Archived'];
+		$vars['categories'] = $this->container['mappers.categories']->all();
+		$vars['statuses'] = $this->container['services.posts']->getStatuses();
 		$vars['filters'] = $input;
 
-		/*
-		$items = [];
-		$this->events->trigger('admin_menu', & $items);
-		$vars['plugins'] = $items;
-		*/
-
-		return $this->renderTemplate('layouts/default', 'posts/index', $vars);
+		return $this->renderTemplate($response, 'layouts/default', 'posts/index', $vars);
 	}
 
 	public function getCreate() {
@@ -109,11 +124,11 @@ class Posts extends Backend {
 		return $this->redirect($this->container['url']->to(sprintf('/admin/posts/%d/edit', $id)));
 	}
 
-	public function getEdit($request) {
-		$id = $request->getAttribute('id');
-		$post = $this->container['mappers.posts']->where('id', '=', $id)->fetch();
+	public function getEdit(ServerRequestInterface $request, ResponseInterface $response, array $args) {
+		$id = $args['id'];
+		$post = $this->container['mappers.posts']->id($id);
 
-		$form = new \Forms\Post([
+		$form = new PostForm([
 			'method' => 'post',
 			'action' => $this->container['url']->to(sprintf('/admin/posts/%d/update', $post->id)),
 		]);
@@ -131,13 +146,20 @@ class Posts extends Backend {
 		$form->setValues($this->container['services.customFields']->getFieldValues('post', $id));
 
 		// re-populate old input
-		$form->setValues($this->container['session']->getFlash('input', []));
+		$form->setValues($this->container['session']->getStash('input', []));
 
+		$vars['sitename'] = $this->container['mappers.meta']->key('sitename');
 		$vars['title'] = sprintf('Editing &ldquo;%s&rdquo;', $post->title);
 		$vars['form'] = $form;
 		$vars['post'] = $post;
 
-		return $this->renderTemplate('layouts/default', 'posts/edit', $vars);
+		$partials['content'] = $this->container['mustache']->loadTemplate('partials/content')->render([
+			'form' => $form,
+		]);
+
+		$this->renderTemplate($response, 'layouts/default', 'posts/edit', $vars, $partials);
+
+		return $response;
 	}
 
 	public function postUpdate($request) {

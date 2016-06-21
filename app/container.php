@@ -23,14 +23,8 @@ return [
 		return new Events\EventManager();
 	},
 	'session' => function($app) {
-		return new Anchorcms\Session\Session($app['session.cookies'], $app['session.storage'], [
-			'name' => '_s',
-			'expire' => 3600,
-			'path' => '',
-			'domain' => '',
-			'secure' => false,
-			'httponly' => true,
-		]);
+		$config = $app['config']->get('session');
+		return new Anchorcms\Session\Session($app['session.cookies'], $app['session.storage'], $config);
 	},
 	'session.cookies' => function($app) {
 		return new Anchorcms\Session\Cookies;
@@ -48,20 +42,22 @@ return [
 		return new Validation\Validation;
 	},
 	'messages' => function($app) {
-		return new Anchorcms\Messages($app['session'], $app['mustache'], 'partials/messages');
+		return new Anchorcms\Messages($app['session']);
 	},
 	'markdown' => function() {
 		return new League\CommonMark\CommonMarkConverter;
 	},
 	'mustache' => function($app) {
 		return new Mustache_Engine([
-			'loader' => new Mustache_Loader_FilesystemLoader($app['paths']['views']),
-			//'cache' => $app['paths']['storage'].'/cache/mustache',
+			'cache' => $app['paths']['storage'].'/cache/mustache',
 			'escape' => function($value) {
 				return htmlspecialchars($value, ENT_COMPAT, 'UTF-8', false);
 			},
 			'charset' => 'UTF-8',
 		]);
+	},
+	'view' => function($app) {
+		return new Anchorcms\View($app['paths']['views'], 'phtml');
 	},
 	'slugify' => function() {
 		return new Anchorcms\Slugify;

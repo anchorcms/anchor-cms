@@ -26,8 +26,8 @@ class Session implements SessionInterface, StorageInterface, StashInterface {
 			'expire' => 0,
 			'path' => '',
 			'domain' => '',
-			'secure' => false,
-			'httponly' => false,
+			'secure' => 0,
+			'httponly' => 1,
 		];
 		$this->options = array_merge($defaults, $options);
 		$this->data = [];
@@ -88,7 +88,7 @@ class Session implements SessionInterface, StorageInterface, StashInterface {
 	}
 
 	public function close(ResponseInterface $response) {
-		if( ! $this->started) {
+		if(false === $this->started) {
 			return $response;
 		}
 

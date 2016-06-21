@@ -1,0 +1,11 @@
+<?php if( ! empty($messages)): ?>
+<div class="messages">
+	<?php foreach($messages as $serverity => $group): ?>
+	<ul class="<?php echo $serverity; ?>">
+		<?php foreach($group as $message): ?>
+		<li><?php echo $message; ?></li>
+		<?php endforeach; ?>
+	</ul>
+	<?php endforeach; ?>
+</div>
+<?php endif; ?>

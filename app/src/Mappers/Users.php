@@ -9,15 +9,15 @@ class Users extends AbstractMapper {
 	protected $name = 'users';
 
 	public function fetchById($id) {
-		return $this->where('id', '=', $id)->fetch();
+		return $this->fetchByAttribute('id', $id);
 	}
 
 	public function fetchByUsername($name) {
-		return $this->where('username', '=', $name)->fetch();
+		return $this->fetchByAttribute('username', $name);
 	}
 
 	public function fetchByEmail($email) {
-		return $this->where('email', '=', $email)->fetch();
+		return $this->fetchByAttribute('email', $email);
 	}
 
 }

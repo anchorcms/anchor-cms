@@ -1,6 +1,6 @@
 <header class="content-title">
 	<div class="wrap">
-		<?php $element = $form->getElement('title'); $value = e($element->getValue());
+		<?php $element = $form->getElement('title'); $value = $this->e($element->getValue());
 			echo $element->withValue($value)
 					->withAttributes(['placeholder' => $element->getLabel()])
 					->getHtml(); ?>

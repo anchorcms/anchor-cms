@@ -2,31 +2,20 @@
 
 namespace Anchorcms;
 
+use Anchorcms\Session\StashInterface;
+
 class Messages {
 
 	protected $session;
 
-	protected $mustache;
+	protected $messages = [];
 
-	protected $template;
-
-	protected $messages;
-
-	public function __construct($session, $mustache, $template, array $messages = []) {
+	public function __construct(StashInterface $session) {
 		$this->session = $session;
-		$this->mustache = $mustache;
-		$this->template = $template;
-		$this->messages = $messages;
 	}
 
 	public function get() {
 		return $this->session->getStash('_messages', []);
-	}
-
-	public function render() {
-		return $this->mustache->loadTemplate($this->template)->render([
-			'messages' => $this->get(),
-		]);
 	}
 
 	public function add($message, $group) {

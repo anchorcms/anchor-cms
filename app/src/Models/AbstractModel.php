@@ -10,6 +10,10 @@ abstract class AbstractModel {
 		$this->withAttributes($attributes);
 	}
 
+	public function toArray() {
+		return $this->attributes;
+	}
+
 	public function withAttributes(array $attributes) {
 		$this->attributes = $attributes;
 

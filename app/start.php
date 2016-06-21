@@ -89,6 +89,15 @@ if(false === $app['services.installer']->isInstalled() ||
 }
 // middlewares to include when installed
 else {
+	// start the session for admin
+	$app['http.server']->append(function($request, $frame) use($app) {
+		if(strpos($request->getUri()->getPath(), '/admin') === 0) {
+			$app['session']->start();
+		}
+		return $frame->next($request);
+	});
+
+	// protected admin pages
 	$app['http.server']->append(new Anchorcms\Middleware\Auth($app['session'], [
 		'/admin/(pages|posts)',
 	]));

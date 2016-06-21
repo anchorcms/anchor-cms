@@ -6,20 +6,18 @@
 		</svg>
 	</h1>
 
-	{{& messages }}
+	<?php echo $messages; ?>
 
-	{{& form.open }}
+	<?php echo $form->open(); ?>
 
-	{{# form }}
-	<p>
-		{{# hasLabel }}
-		<label>{{ getLabel }}</label>
-		{{/ hasLabel }}
-		{{& getHtml }}
-	</p>
-	{{/ form }}
+	<?php echo $form->getElement('_token')->getHtml(); ?>
 
+	<?php foreach($form->getElementsExcluding(['submit', '_token']) as $element): ?>
+	<p><?php echo $element->withAttributes(['placeholder' => $element->getLabel()])->getHtml(); ?></p>
+	<?php endforeach; ?>
+
+	<p><?php echo $form->getElement('submit')->withAttributes(['class' => 'button button--dark button--wide'])->getHtml(); ?></p>
 	<p class="text--center text--small"><a href="/admin/auth/amnesia">Forgotten your password?</a></p>
 
-	{{& form.close }}
+	<?php echo $form->close(); ?>
 </main>

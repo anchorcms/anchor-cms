@@ -19,7 +19,10 @@ class CustomFields {
 	}
 
 	protected function getFields($type) {
-		return $this->fields->where('type', '=', $type)->get();
+		$query = $this->fields->query();
+		$query->where('type = :type')
+			->setParameter('type', $type);
+		return $this->fields->fetchAll($query);
 	}
 
 	public function getFieldValues($type, $id) {
@@ -28,7 +31,14 @@ class CustomFields {
 		$table = $type.'meta';
 
 		foreach($fields as $field) {
-			$meta = $this->$table->where('custom_field', '=', $field->id)->where($type, '=', $id)->fetch();
+			$query = $this->$table->query();
+
+			$query->where($type . ' = :id')
+					->setParameter('id', $id)
+				->where('custom_field = :custom_field')
+					->setParameter('custom_field', $field->id);
+
+			$meta = $this->db->fetchAssoc($query->getSQL(), $query->getParameters());
 
 			if($meta) $values[$field->key] = json_decode($meta->data, true);
 		}

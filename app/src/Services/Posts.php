@@ -12,6 +12,14 @@ class Posts {
 		$this->categories = $categories;
 	}
 
+	public function getStatuses() {
+		return [
+			'published' => 'Published',
+			'draft' => 'Draft',
+			'archived' => 'Archived',
+		];
+	}
+
 	public function getMapper() {
 		return $this->posts;
 	}
