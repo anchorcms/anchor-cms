@@ -19,8 +19,10 @@ class Pages extends AbstractMapper {
 	public function menu() {
 		$query = $this->query();
 
-		$query->where('status = '.$query->createPositionalParameter('published'))
-			->andWhere('show_in_menu = '.$query->createPositionalParameter('1'))
+		$query->where('status = :status')
+			->setParameter('status', 'published')
+			->andWhere('show_in_menu = :show_in_menu')
+			->setParameter('show_in_menu', '1')
 			->orderBy('menu_order', 'ASC');
 
 		return $this->fetchAll($query);

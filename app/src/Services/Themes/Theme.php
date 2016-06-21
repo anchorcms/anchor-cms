@@ -125,7 +125,7 @@ class Theme {
 	 * @return bool
 	 */
 	public function templateExists(string $name): bool {
-		return is_file(sprintf('%s/%s.%s', $this->path, $name, $this->ext));
+		return is_file(sprintf('%s/%s%s', $this->path, $name, $this->ext));
 	}
 
 	/*
@@ -136,11 +136,11 @@ class Theme {
 			$template = $this->getTemplate($templates);
 			$body = $this->mustache->loadTemplate($template);
 
-			$this->container['mustache']->setPartials([
+			$this->mustache->setPartials([
 				'body' => $body->render($vars),
 			]);
 
-			$layout = $this->container['mustache']->loadTemplate('layout');
+			$layout = $this->mustache->loadTemplate('layout');
 			return $layout->render($vars);
 		}
 

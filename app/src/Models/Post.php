@@ -46,4 +46,8 @@ class Post extends AbstractModel {
 		return $this->category;
 	}
 
+	public function url() {
+		return sprintf('/%s/%s', $this->category->slug, $this->slug);
+	}
+
 }

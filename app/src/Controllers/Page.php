@@ -2,14 +2,24 @@
 
 namespace Anchorcms\Controllers;
 
-use Anchorcms\ContentIterator;
+use Psr\Http\Message\{
+	ServerRequestInterface,
+	ResponseInterface
+};
+use Anchorcms\Models\Page as PageModel;
 
 class Page extends Frontend {
 
-	public function getIndex($request) {
-		$slug = $request->getAttribute('page');
-
-		$page = $this->container['mappers.pages']->slug($slug);
+	/**
+	 * View a single generic page
+	 *
+	 * @param ServerRequestInterface $request
+	 * @param ResponseInterface $response
+	 * @param array $args
+	 * @return mixed String | ResponseInterface
+	 */
+	public function getIndex(ServerRequestInterface $request, ResponseInterface $response, array $args) {
+		$page = $this->container['mappers.pages']->slug($args['page']);
 
 		if(false === $page) {
 			return $this->notFound();
@@ -17,15 +27,27 @@ class Page extends Frontend {
 
 		// redirect homepage
 		if($page->id == $this->container['mappers.meta']->key('home_page')) {
-			return $this->redirect('/');
+			return $this->redirect($response, '/');
 		}
 
 		return $this->showPage($page);
 	}
 
-	public function getHome() {
-		$page = $this->container['mappers.pages']->id($this->container['mappers.meta']->key('home_page'));
+	/**
+	 * View the homepage which can be either the posts listing or a generic page
+	 *
+	 * @param ServerRequestInterface $request
+	 * @param ResponseInterface $response
+	 * @param array $args
+	 * @return mixed String | ResponseInterface
+	 */
+	public function getHome(ServerRequestInterface $request, ResponseInterface $response, array $args) {
+		// get the homepage ID
+		$id = $this->container['mappers.meta']->key('home_page');
+		// find the homepage
+		$page = $this->container['mappers.pages']->id($id);
 
+		// has the homepage been deleted? doh!
 		if(false === $page) {
 			return $this->notFound();
 		}
@@ -33,64 +55,75 @@ class Page extends Frontend {
 		return $this->showPage($page);
 	}
 
-	public function getCategory($request) {
-		$page = $this->container['mappers.pages']->id($this->container['mappers.meta']->key('posts_page'));
+	/**
+	 * View a category homepage listing the posts in that category
+	 *
+	 * @param ServerRequestInterface $request
+	 * @param ResponseInterface $response
+	 * @param array $args
+	 * @return mixed String | ResponseInterface
+	 */
+	public function getCategory(ServerRequestInterface $request, ResponseInterface $response, array $args) {
+		// fetch category by slug
+		$category = $this->container['mappers.categories']->slug($args['category']);
 
-		$slug = $request->getAttribute('category');
-		$category = $this->container['mappers.categories']->slug($slug);
-
-		if(false === $category || false === $page) {
+		if(false === $category) {
 			return $this->notFound();
 		}
+
+		// create a page for our category
+		$page = new PageModel([
+			'title' => $category->title,
+		]);
 
 		// set globals
 		$vars['page'] = $page;
 		$vars['category'] = $category;
 		$vars['meta'] = $this->container['mappers.meta']->all();
-
-		$pages = $this->container['mappers.pages']->menu();
-		$vars['menu'] = new ContentIterator($pages);
-
-		$categories = $this->container['mappers.categories']->all();
-		$vars['categories'] = new ContentIterator($categories);
+		$vars['menu'] = $this->container['mappers.pages']->menu();
+		$vars['categories'] = $this->container['mappers.categories']->all();
 
 		$pagenum = filter_input(INPUT_GET, 'page', FILTER_SANITIZE_NUMBER_INT, ['options' => ['default' => 1]]);
 		$perpage = $this->container['mappers.meta']->key('posts_per_page');
 
-		$posts = $this->container['services.posts']->getPosts(['page' => $pagenum, 'perpage' => $perpage, 'category' => $category->id]);
-
-		$content = new ContentIterator($posts);
-		$vars['content'] = $content;
+		$posts = $this->container['services.posts']->getPosts([
+			'page' => $pagenum,
+			'perpage' => $perpage,
+			'category' => $category->id,
+		]);
+		$vars['posts'] = $posts;
 
 		return $this->container['theme']->render(['category', 'posts', 'index'], $vars);
 	}
 
-	protected function showPage($page) {
+	/**
+	 * Render a page
+	 *
+	 * @param object PageModel
+	 * @return string Template output
+	 */
+	protected function showPage(PageModel $page) {
 		// name of template files to check for
 		$names = [];
 
 		// set globals
 		$vars['page'] = $page;
 		$vars['meta'] = $this->container['mappers.meta']->all();
+		$vars['menu'] = $this->container['mappers.pages']->menu();
+		$vars['categories'] = $this->container['mappers.categories']->all();
 
-		$pages = $this->container['mappers.pages']->menu();
-		$vars['menu'] = new ContentIterator($pages);
-
-		$categories = $this->container['mappers.categories']->all();
-		$vars['categories'] = new ContentIterator($categories);
-
-		// is posts page
+		// is this page the post listings page?
 		if($page->id == $this->container['mappers.meta']->key('posts_page')) {
 			$pagenum = filter_input(INPUT_GET, 'page', FILTER_SANITIZE_NUMBER_INT, ['options' => ['default' => 1]]);
 			$perpage = $this->container['mappers.meta']->key('posts_per_page');
 
-			$posts = $this->container['services.posts']->getPosts(['page' => $pagenum, 'perpage' => $perpage]);
-
-			$vars['content'] = new ContentIterator($posts);
+			$vars['posts'] = $this->container['services.posts']->getPosts([
+				'page' => 1 * $pagenum, // make a positive int
+				'perpage' => $perpage,
+			]);
 			$names[] = 'posts';
 		}
 		else {
-			$vars['content'] = new ContentIterator([$page]);
 			$names[] = 'page';
 		}
 

@@ -11,10 +11,9 @@ class Meta extends AbstractMapper {
 	protected $name = 'meta';
 
 	public function all() {
-		$sql = $this->query();
 		$meta = [];
 
-		foreach($this->db->fetchAll($sql) as $row) {
+		foreach($this->db->fetchAll($this->query()) as $row) {
 			$meta[$row['key']] = $row['value'];
 		}
 
@@ -22,8 +21,11 @@ class Meta extends AbstractMapper {
 	}
 
 	public function key($key, $default = null) {
-		$sql = $this->query()->select('value')->where('key = ?');
-		$value = $this->db->fetchColumn($sql, [$key]);
+		$query = $this->query()->select('value')
+			->where('key = :key')
+			->setParameter('key', $key);
+
+		$value = $this->db->fetchColumn($query->getSQL(), $query->getParameters());
 
 		return false === $value ? $default : $value;
 	}

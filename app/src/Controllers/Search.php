@@ -2,7 +2,11 @@
 
 namespace Anchorcms\Controllers;
 
-use Anchorcms\ContentIterator;
+use Psr\Http\Message\{
+	ServerRequestInterface,
+	ResponseInterface
+};
+use Anchorcms\Models\Page as PageModel;
 
 class Search extends Frontend {
 
@@ -11,27 +15,27 @@ class Search extends Frontend {
 
 		// set globals
 		$vars['meta'] = $this->container['mappers.meta']->all();
+		$vars['menu'] = $this->container['mappers.pages']->menu();
+		$vars['categories'] = $this->container['mappers.categories']->all();
+
+		$page = new PageModel([
+			'title' => sprintf('Search "%s"', $keywords),
+		]);
+		$vars['page'] = $page;
 		$vars['keywords'] = $keywords;
 
-		$pages = $this->container['mappers.pages']->menu();
-		$vars['menu'] = new ContentIterator($pages);
+		$query = $this->container['mappers.posts']->query();
 
-		$categories = $this->container['mappers.categories']->all();
-		$vars['categories'] = new ContentIterator($categories);
+		$query->where('status = :status')
+			->setParameter('status', 'published')
+			->where('title LIKE :keywords')
+			->setParameter('keywords', '%'.$keywords.'%');
 
-		$page = new \Models\Page(['title' => sprintf('Search "%s"', $keywords)]);
-		$vars['page'] = $page;
-
-		$posts = $this->container['mappers.posts']->whereNested(function($where) use($keywords) {
-				$where('title', 'like', '%'.$keywords.'%')->or('content', 'like', '%'.$keywords.'%');
-			})
-			->where('status', '=', 'published')
-			->get();
-
+		$posts = $this->container['mappers.posts']->fetchAll($query);
 		$this->container['services.posts']->hydrate($posts);
 
-		$content = new ContentIterator($posts);
-		$vars['content'] = $content;
+		$vars['posts'] = $posts;
+		$vars['hasPosts'] = ! empty($posts);
 
 		return $this->container['theme']->render(['search', 'index'], $vars);
 	}

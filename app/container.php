@@ -9,8 +9,12 @@ return [
 	},
 	'db' => function($app) {
 		$params = $app['config']->get('db');
-		$config = new \Doctrine\DBAL\Configuration();
+		$config = new Doctrine\DBAL\Configuration();
+		$config->setSQLLogger($app['db.logger']);
 		return Doctrine\DBAL\DriverManager::getConnection($params, $config);
+	},
+	'db.logger' => function() {
+		return new \Doctrine\DBAL\Logging\DebugStack;
 	},
 	'errors' => function() {
 		return new Anchorcms\Errors();
@@ -51,14 +55,15 @@ return [
 	},
 	'mustache' => function($app) {
 		return new Mustache_Engine([
-			'loader' => new Mustache_Loader_FilesystemLoader($app['paths']['views']),
-			'cache' => $app['paths']['storage'].'/cache/mustache',
+			//'cache' => $app['paths']['storage'].'/cache/mustache',
 			'escape' => function($value) {
 				return htmlspecialchars($value, ENT_COMPAT, 'UTF-8', false);
 			},
 			'charset' => 'UTF-8',
-			'strict_callables' => true,
 		]);
+	},
+	'mustache.loader' => function($app) {
+		return new Mustache_Loader_FilesystemLoader($app['paths']['views']);
 	},
 	'slugify' => function() {
 		return new Anchorcms\Slugify;

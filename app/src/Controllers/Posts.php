@@ -2,43 +2,54 @@
 
 namespace Anchorcms\Controllers;
 
-use Anchorcms\ContentIterator;
+use Psr\Http\Message\{
+	ServerRequestInterface,
+	ResponseInterface
+};
+use Anchorcms\Models\Page as PageModel;
 
 class Posts extends Frontend {
 
-	public function getIndex($request) {
-		$page = $this->container['mappers.pages']->where('id', '=', $this->container['mappers.meta']->key('posts_page'))
-			->where('status', '=', 'published')
-			->fetch();
+	/**
+	 * view a single post
+	 * @param  [type] $request [description]
+	 * @return [type]          [description]
+	 */
+	public function getIndex(ServerRequestInterface $request, ResponseInterface $response, array $args) {
+		// get post by slug
+		$article = $this->container['mappers.posts']->slug($args['post']);
 
-		$slug = $request->getAttribute('post');
-		$decoded = rawurldecode($slug);
-
-		$article = $this->container['mappers.posts']->where('slug', '=', $decoded)
-			->where('status', '=', 'published')
-			->fetch();
-
-		// page or post not found
-		if( ! $page || ! $article) {
+		// post not found
+		if(false === $article) {
 			return $this->notFound();
 		}
 
-		// set globals
-		$vars['page'] = $page;
-		$vars['meta'] = $this->container['mappers.meta']->all();
-
-		$pages = $this->container['mappers.pages']->menu();
-		$vars['menu'] = new ContentIterator($pages);
-
-		$categories = $this->container['mappers.categories']->all();
-		$vars['categories'] = new ContentIterator($categories);
-
+		// hydrate post
 		$this->container['services.posts']->hydrate([$article]);
 
-		$content = new ContentIterator([$article]);
-		$vars['content'] = $content;
+		// redirect to the correct category slug
+		if($article->getCategory()->slug != $args['category']) {
+			return $this->redirect($response, $article->url());
+		}
 
-		return $this->container['theme']->render(['article', 'index'], $vars);
+		// create mock page for post
+		$page = new PageModel([
+			'title' => $article->title,
+		]);
+
+		$vars['page'] = $page;
+		$vars['post'] = $article;
+
+		// set globals
+		$vars['meta'] = $this->container['mappers.meta']->all();
+		$vars['menu'] = $this->container['mappers.pages']->menu();
+		$vars['categories'] = $this->container['mappers.categories']->all();
+
+		return $this->container['theme']->render([
+			sprintf('article-%s', $article->slug),
+			sprintf('article-%s', $article->getCategory()->slug),
+			'article',
+		], $vars);
 	}
 
 }

@@ -101,13 +101,9 @@ class Installer {
 		// replace table prefix
 		$schema = str_replace('{prefix}', $input['db_table_prefix'], $schema);
 
-		$pdo->beginTransaction();
-
 		foreach(explode(';', $schema) as $sql) {
 			$pdo->exec($sql);
 		}
-
-		$pdo->commit();
 	}
 
 	protected function setupDatabase(PDO $pdo, array $input) {
@@ -124,7 +120,7 @@ class Installer {
 
 		$conn->insert($input['db_table_prefix'].'users', [
 			'username' => $input['account_username'],
-			'password' => password_hash($input['account_password'], PASSWORD_DEFAULT, ['cost' => 12]),
+			'password' => password_hash($input['account_password'], PASSWORD_DEFAULT, ['cost' => 14]),
 			'email' => $input['account_email'],
 			'name' => $input['account_username'],
 			'bio' => 'The bouse',
@@ -150,11 +146,24 @@ class Installer {
 
 		$page = $conn->lastInsertId();
 
+		$conn->insert($input['db_table_prefix'].'pages', [
+			'parent' => 0,
+			'slug' => 'about',
+			'name' => 'About',
+			'title' => 'About Me',
+			'content' => 'Welcome to my about me section.',
+			'html' => '<p>Welcome to my about me section.</p>',
+			'status' => 'published',
+			'redirect' => '',
+			'show_in_menu' => 1,
+			'menu_order' => 0
+		]);
+
 		$conn->insert($input['db_table_prefix'].'posts', [
 			'title' => 'Hello World',
 			'slug' => 'hello-world',
-			'content' => 'This is the first post.',
-			'html' => '<p>Hello World!</p>'."\r\n\r\n".'<p>This is the first post.</p>',
+			'content' => 'Hello World!' . "\n\n" . 'This is the first post.',
+			'html' => '<p>Hello World!</p>'."\n\n".'<p>This is the first post.</p>',
 			'created' => date('Y-m-d H:i:s'),
 			'modified' => date('Y-m-d H:i:s'),
 			'published' => date('Y-m-d H:i:s'),
@@ -162,8 +171,6 @@ class Installer {
 			'category' => $category,
 			'status' => 'published',
 		]);
-
-		$post = $conn->lastInsertId();
 
 		$meta = [
 			'home_page' => $page,

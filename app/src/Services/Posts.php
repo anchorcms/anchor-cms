@@ -17,53 +17,41 @@ class Posts {
 	}
 
 	protected function getKeys(array $posts, $property = 'id') {
-		return array_map(function($post) use($property) { return $post->getAttribute($property); }, $posts);
+		return array_map(function($post) use($property) {
+			return $post->$property;
+		}, $posts);
 	}
 
 	public function hydrate(array $posts) {
-		if(empty($posts)) {
-			// nothing to do.
-			return;
-		}
-
-		$keys = $this->getKeys($posts);
-
-		$prefix = $this->posts->getTablePrefix();
-
-		$meta = $this->postmeta->join($prefix . 'custom_fields', $prefix . 'custom_fields.id', '=', $prefix . 'post_meta.custom_field')
-			->whereIn('post', $keys)->get();
-
-		array_walk($meta, function($row) {
-			$row->data = json_decode($row->data);
-		});
-
-		$keys = $this->getKeys($posts, 'author');
-
-		$users = $this->users->whereIn('id', $keys)->get();
-
+		// hydrate category
 		$keys = $this->getKeys($posts, 'category');
 
-		$categories = $this->categories->whereIn('id', $keys)->get();
+		$query = $this->categories->query();
+
+		$query->add('where', $query->expr()->in('id', $keys));
+
+		$categories = $this->categories->fetchAll($query);
+
+		// hydrate author
+		$keys = $this->getKeys($posts, 'author');
+
+		$query = $this->users->query();
+
+		$query->add('where', $query->expr()->in('id', $keys));
+
+		$users = $this->users->fetchAll($query);
 
 		foreach($posts as $post) {
-			$filtered = array_filter($meta, function($row) use($post) {
-				return $row->post == $post->id;
-			});
+			$post->setCategory(array_reduce($categories, function($carry, $category) use($post) {
+				return $post->category == $category->id ? $category : $carry;
+			}));
 
-			$post->setMeta($filtered);
-
-			$author = array_reduce($users, function($carry, $row) use($post) {
-				return $row->id == $post->author ? $row : $carry;
-			});
-
-			$post->setAuthor($author);
-
-			$category = array_reduce($categories, function($carry, $row) use($post) {
-				return $row->id == $post->category ? $row : $carry;
-			});
-
-			$post->setCategory($category);
+			$post->setAuthor(array_reduce($users, function($carry, $user) use($post) {
+				return $post->author == $user->id ? $user : $carry;
+			}));
 		}
+
+		return $posts;
 	}
 
 	public function getPosts(array $params = []) {
@@ -71,21 +59,24 @@ class Posts {
 			'page' => 1,
 			'perpage' => 10,
 			'status' => 'published',
+			'sort' => 'published',
 		];
 
 		$params = array_merge($defaults, $params);
 
 		$offset = ($params['page'] - 1) * $params['perpage'];
 
-		$query = $this->posts->query();
-
-		$query->where('status = '.$query->createPositionalParameter($params['status']))
-			->orderBy('created', 'DESC')
+		$query = $this->posts->query()
+			->orderBy($params['sort'], 'DESC')
 			->setMaxResults($params['perpage'])
 			->setFirstResult($offset);
 
-		if(isset($params['category'])) {
-			$query->andWhere('category = '.$query->createPositionalParameter($params['category']));
+		$query->andWhere('status = :status')
+			->setParameter('status', $params['status']);
+
+		if( ! empty($params['category'])) {
+			$query->andWhere('category = :category')
+				->setParameter('category', $params['category']);
 		}
 
 		$posts = $this->posts->fetchAll($query);

@@ -20,6 +20,10 @@ abstract class AbstractModel {
 		return $this->attributes[$key];
 	}
 
+	public function __isset($key) {
+		return array_key_exists($key, $this->attributes);
+	}
+
 	public function __set($key, $value) {
 		throw new \RuntimeException('Models are readonly');
 	}

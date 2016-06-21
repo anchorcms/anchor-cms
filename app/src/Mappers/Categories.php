@@ -27,8 +27,8 @@ class Categories extends AbstractMapper {
 	}
 
 	public function all() {
-		$sql = $this->query()->orderBy('title', 'ASC');
-		$results = $this->db->fetchAll($sql);
+		$query = $this->query()->orderBy('title', 'ASC');
+		$results = $this->db->fetchAll($query);
 		$models = [];
 
 		foreach($results as $row) {

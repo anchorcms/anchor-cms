@@ -49,14 +49,14 @@ class Auth {
 		return password_verify($password, $hash);
 	}
 
-	public function changePassword($user, $password) {
+	public function changePassword(User $user, string $password) {
 		$this->users->where('id', '=', $user->id)->update([
 			'password' => $this->hashPassword($password),
 			'token' => '',
 		]);
 	}
 
-	public function resetToken($user) {
+	public function resetToken(User $user): string {
 		$token = bin2hex(random_bytes(64));
 		$key = $this->config->get('app.secret');
 		$hash = hash_hmac('sha512', $token, $key);
@@ -66,11 +66,11 @@ class Auth {
 		return $token;
 	}
 
-	public function verifyToken($token) {
+	public function verifyToken(string $token, string $key): bool {
 		$key = $this->config->get('app.secret');
 		$hash = hash_hmac('sha512', $token, $key);
 
-		return $this->users->where('token', '=', $hash)->fetch();
+		return $this->users->where('token', '=', $hash)->count() > 0;
 	}
 
 }
