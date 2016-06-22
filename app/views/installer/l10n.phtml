@@ -1,0 +1,17 @@
+
+<h2>Where in the world are you?</h2>
+
+<?php echo $messages; ?>
+
+<?php echo $form->open(); ?>
+
+<?php foreach($form as $element): ?>
+<p>
+	<?php if($element->hasLabel()): ?>
+	<label for="<?php echo $element->getName(); ?>"><?php echo $element->getLabel(); ?></label>
+	<?php endif; ?>
+	<?php echo $element->getHtml(); ?>
+</p>
+<?php endforeach; ?>
+
+<?php echo $form->close(); ?>

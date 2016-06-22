@@ -5,6 +5,8 @@ namespace Anchorcms\Forms\Installer;
 class Account extends \Forms\Form {
 
 	public function init() {
+		$this->addElement(new \Forms\Elements\Hidden('_token'));
+
 		$this->addElement(new \Forms\Elements\Input('account_username', [
 			'label' => 'Username',
 			'value' => 'admin',

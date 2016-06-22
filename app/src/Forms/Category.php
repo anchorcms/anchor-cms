@@ -10,10 +10,10 @@ class Category extends \Forms\Form {
 		$this->addElement(new \Forms\Elements\Input('title', [
 			'label' => 'Title',
 			'attributes' => [
-        		'autofocus' => true,
-        		'placeholder' => 'What’s your category called?',
-        		'class' => 'title'
-        	]
+				'autofocus' => true,
+				'placeholder' => 'What’s your category called?',
+				'class' => 'title'
+			]
 		]));
 
 		$this->addElement(new \Forms\Elements\Input('slug', [

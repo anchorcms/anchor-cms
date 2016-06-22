@@ -5,6 +5,8 @@ namespace Anchorcms\Forms\Installer;
 class Metadata extends \Forms\Form {
 
 	public function init() {
+		$this->addElement(new \Forms\Elements\Hidden('_token'));
+
 		$this->addElement(new \Forms\Elements\Input('site_name', [
 			'label' => 'Site Name',
 			'value' => 'My First Anchor Blog',
