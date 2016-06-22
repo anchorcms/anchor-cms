@@ -1,0 +1,42 @@
+<aside class="site-description wrap">
+	<h1>{{ meta.description }}</h1>
+</aside>
+
+<ul class="stories wrap">
+	{{# posts }}
+	<li>
+		<hgroup>
+			<h1><a href="{{ url }}">{{ title }}</a></h1>
+			<small>Posted by {{ getAuthor.name }} <em>on the {{ published }}</em></small>
+		</hgroup>
+		<div class="article-excerpt">
+			{{& html }}
+		</div>
+	</li>
+	{{/ posts }}
+</ul>
+
+<section class="related-content">
+	<div class="wrap">
+		<div class="half-width">
+			<h2>Categories</h2>
+			<ul>
+				{{# categories }}
+				<li>
+					<a href="{{ url }}" title="{{ description }}">
+						{{ title }}
+						<small>{{ post_count }}</small>
+					</a>
+				</li>
+				{{/ categories }}
+			</ul>
+		</div>
+		<div class="half-width">
+			<h2>Search my blog</h2>
+			<form action="/search" method="get">
+				<input name="q" placeholder="Search anything here.">
+				<button type="submit">Search</button>
+			</form>
+		</div>
+	</div>
+</section>

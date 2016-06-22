@@ -11,8 +11,6 @@
 
 /app/storage
 /web/content
-/web/themes
-!/web/themes/default
 /app/config
 /vendor
 /bin

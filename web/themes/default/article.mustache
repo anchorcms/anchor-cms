@@ -1,0 +1,18 @@
+<article class="wrap">
+	<hgroup>
+		<h1>{{ post.title }}</h1>
+		<p>Posted by {{ post.getAuthor.name }} <em>on the {{ post.published }}</em></p>
+	</hgroup>
+
+	<div class="article-content">
+		{{& post.html }}
+	</div>
+
+	<small>
+		<p>This article is my 1st. It is 0 words long.</p>
+	</small>
+</article>
+
+<section class="related-content">
+
+</section>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>{{ page.title }} &mdash; {{ meta.sitename }}</title>
+		<meta name="description" content="{{ meta.site_description }}">
+		<link rel="stylesheet" href="/themes/default/assets/css/styles.css">
+	</head>
+	<body class="{{ page.slug }}">
+		<header>
+			<a href="/" class="logo">{{ meta.sitename }}</a>
+			<nav>
+				<ul>
+					{{# menu }}
+					<li class="active"><a href="{{ url }}">{{ title }}</a></li>
+					{{/ menu }}
+				</ul>
+			</nav>
+		</header>
+
+		<section class="content">
+			{{> body }}
+		</section>
+
+		<footer>
+			<div class="wrap">
+				<ul>
+					<li><a href="/feeds/rss">RSS</a></li>
+					<li><a href="https://twitter.com/anchorcms">@anchorcms</a></li>
+					<li><a href="/admin" title="Administer your site!">Admin area</a></li>
+					<li><a href="/" title="Return to my website.">Home</a></li>
+				</ul>
+
+				<p>&copy; {{ meta.sitename }}. All rights reserved.</p>
+			</div>
+		</footer>
+	</body>
+</html>
