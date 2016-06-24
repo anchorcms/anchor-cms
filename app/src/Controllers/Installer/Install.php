@@ -172,6 +172,14 @@ class Install extends AbstractController {
 
 		$validator = $this->container['validation']->create($input, $form->getRules());
 
+		$validator->addRule(function($value) {
+			$daftPasswords = [
+				'password',
+				'12345678',
+			];
+			return [false === in_array($value, $daftPasswords), 'Get out of here! Choose a better password'];
+		}, 'account_password');
+
 		if(false === $validator->isValid()) {
 			$this->container['messages']->error($validator->getMessages());
 			return $this->redirect($response, '/account');

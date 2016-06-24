@@ -5,7 +5,7 @@
 
 <?php echo $form->open(); ?>
 
-<?php foreach($form as $element): ?>
+<?php foreach($form->getElementsExcluding(['submit']) as $element): ?>
 <p>
 	<?php if($element->hasLabel()): ?>
 	<label for="<?php echo $element->getName(); ?>"><?php echo $element->getLabel(); ?></label>
@@ -13,5 +13,7 @@
 	<?php echo $element->getHtml(); ?>
 </p>
 <?php endforeach; ?>
+
+<p><?php echo $form->getElement('submit')->withAttribute('class', 'button button--primary float--right')->getHtml(); ?></p>
 
 <?php echo $form->close(); ?>

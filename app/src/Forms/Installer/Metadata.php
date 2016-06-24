@@ -37,9 +37,9 @@ class Metadata extends \Forms\Form {
 
 	public function getRules() {
 		return [
-			'site_name' => ['required'],
-			'site_description' => ['required'],
-			'site_path' => ['required'],
+			'site_name' => ['label' => 'Site Name', 'rules' => ['required']],
+			'site_description' => ['label' => 'Site Description', 'rules' => ['required']],
+			'site_path' => ['label' => 'Site Path', 'rules' => ['required']],
 		];
 	}
 

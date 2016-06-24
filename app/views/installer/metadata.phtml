@@ -1,14 +1,19 @@
 <h2>Tell us a little bit about your blog.</h2>
 
-{{& form.open }}
+<?php echo $messages; ?>
 
-{{& messages }}
+<?php echo $form->open(); ?>
 
-{{# form }}
+<?php foreach($form->getElementsExcluding(['submit']) as $element): ?>
 <p>
-	{{# hasLabel }}<label for="{{ getName }}">{{ getLabel }}</label>{{/ hasLabel }}
-	{{& getHtml }}
+	<?php if($element->hasLabel()): ?>
+	<label for="<?php echo $element->getName(); ?>"><?php echo $element->getLabel(); ?></label>
+	<?php endif; ?>
+	<?php echo $element->getHtml(); ?>
 </p>
-{{/ form }}
+<?php endforeach; ?>
 
-{{& form.close }}
+<p><a href="/database" class="button">Back</a>
+	<?php echo $form->getElement('submit')->withAttribute('class', 'button button--primary float--right')->getHtml(); ?></p>
+
+<?php echo $form->close(); ?>

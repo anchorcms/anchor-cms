@@ -36,9 +36,9 @@ class Account extends \Forms\Form {
 
 	public function getRules() {
 		return [
-			'account_username' => ['required'],
-			'account_email' => ['email'],
-			'account_password' => ['required'],
+			'account_username' => ['label' => 'Username', 'rules' => ['length:3,']],
+			'account_email' => ['label' => 'Email Address', 'rules' => ['email']],
+			'account_password' => ['label' => 'Password', 'rules' => ['length:8,']],
 		];
 	}
 
