@@ -77,11 +77,7 @@ return [
 		return GuzzleHttp\Psr7\ServerRequest::fromGlobals();
 	},
 	'http.routes' => function($app) {
-		$routes = new Routing\RouteCollection(require __DIR__ . '/routes/default.php');
-
-		$app['events']->trigger('routing', $routes);
-
-		return $routes;
+		return new Routing\RouteCollection(require __DIR__ . '/routes/default.php');
 	},
 	'http.router' => function($app) {
 		return new Routing\UriMatcher($app['http.routes']);

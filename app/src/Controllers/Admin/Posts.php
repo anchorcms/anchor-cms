@@ -7,7 +7,10 @@ use Psr\Http\Message\{
 	ResponseInterface
 };
 use Anchorcms\Paginator;
-use Anchorcms\Forms\Post as PostForm;
+use Anchorcms\Forms\{
+	Post as PostForm,
+	ValidateToken
+};
 
 class Posts extends Backend {
 
@@ -57,7 +60,7 @@ class Posts extends Backend {
 		return $this->renderTemplate($response, 'layouts/default', 'posts/index', $vars);
 	}
 
-	public function getCreate() {
+	public function getCreate(ServerRequestInterface $request, ResponseInterface $response, array $args) {
 		$form = new \Forms\Post([
 			'method' => 'post',
 			'action' => $this->container['url']->to('/admin/posts/save'),
@@ -78,7 +81,7 @@ class Posts extends Backend {
 		return $this->renderTemplate('layouts/default', 'posts/create', $vars);
 	}
 
-	public function postSave($request) {
+	public function postSave(ServerRequestInterface $request, ResponseInterface $response, array $args) {
 		$form = new \Forms\Post;
 		$form->init();
 
@@ -162,11 +165,15 @@ class Posts extends Backend {
 		return $response;
 	}
 
-	public function postUpdate($request) {
-		$id = $request->getAttribute('id');
-		$post = $this->container['mappers.posts']->where('id', '=', $id)->fetch();
+	public function postUpdate(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface {
+		// get post to update
+		$post = $this->container['mappers.posts']->id($args['id']);
 
-		$form = new \Forms\Post;
+		if( ! $post) {
+			throw new \InvalidArgumentException('post not found');
+		}
+
+		$form = new PostForm;
 		$form->init();
 
 		// append custom fields
@@ -175,19 +182,19 @@ class Posts extends Backend {
 		$input = filter_input_array(INPUT_POST, $form->getFilters());
 		$validator = $this->container['validation']->create($input, $form->getRules());
 
-		$validator->addRule(new \Forms\ValidateToken($this->container['csrf']->token()), '_token');
+		$validator->addRule(new ValidateToken($this->container['csrf']->token()), '_token');
 
 		if(false === $validator->isValid()) {
 			$this->container['messages']->error($validator->getMessages());
-			$this->container['session']->putFlash('input', $input);
-			return $this->redirect($this->container['url']->to(sprintf('/admin/posts/%d/edit', $post->id)));
+			$this->container['session']->putStash('input', $input);
+			return $this->redirect($response, $this->container['url']->to(sprintf('/admin/posts/%d/edit', $post->id)));
 		}
 
 		$now = date('Y-m-d H:i:s');
 		$slug = $this->container['slugify']->slug($input['slug'] ?: $input['title']);
 		$html = $this->container['markdown']->convertToHtml($input['content']);
 
-		$this->container['mappers.posts']->where('id', '=', $post->id)->update([
+		$this->container['mappers.posts']->update($post->id, [
 			'category' => $input['category'],
 			'status' => $input['status'],
 
@@ -202,18 +209,18 @@ class Posts extends Backend {
 		]);
 
 		// update custom fields
-		$this->container['services.customFields']->saveFields($request, $input, 'post', $id);
+		$this->container['services.customFields']->saveFields($request, $input, 'post', $post->id);
 
 		$this->container['messages']->success('Post updated');
-		return $this->redirect($this->container['url']->to(sprintf('/admin/posts/%d/edit', $id)));
+		return $this->redirect($response, $this->container['url']->to(sprintf('/admin/posts/%d/edit', $post->id)));
 	}
 
-	public function getDelete($request) {
-		$id = $request->getAttribute('id');
-		$post = $this->container['mappers.posts']->where('id', '=', $id)->fetch();
+	public function getDelete(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface {
+		// check post before
+		$post = $this->container['mappers.posts']->where('id', '=', $args['id'])->fetch();
 
 		if( ! $post) {
-			return $this->redirect($this->container['url']->to('/admin/posts'));
+			return $this->redirect($response, $this->container['url']->to('/admin/posts'));
 		}
 
 		$this->container['mappers.posts']->where('id', '=', $post->id)->delete();

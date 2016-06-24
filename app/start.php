@@ -106,6 +106,14 @@ else {
 $app['http.server']->append(new Anchorcms\Middleware\Session($app['session']));
 $app['http.server']->append(new Anchorcms\Middleware\Kernel($app));
 
+// append debug output
+if($app['config']->get('app.debug')) {
+	$app['http.server']->append(function($request, $frame) use($app) {
+		$response = $frame->next($request);
+		return $response->withHeader('x-test', 'fail');
+	});
+}
+
 $response = $app['http.server']->run($app['http.request'], function($request) use($app) {
 	return $app['http.factory']->createResponse(404, [], 'Not Found');
 });

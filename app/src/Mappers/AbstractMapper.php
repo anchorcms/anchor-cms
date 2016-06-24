@@ -27,6 +27,10 @@ abstract class AbstractMapper {
 		return $this->prefix;
 	}
 
+	public function getTableName(): string {
+		return $this->prefix.$this->name;
+	}
+
 	public function query(): QueryBuilder {
 		return $this->db->createQueryBuilder()
 			->select('*')
@@ -51,6 +55,10 @@ abstract class AbstractMapper {
 		}
 
 		return $models;
+	}
+
+	public function update(int $id, array $params): bool {
+		return $this->db->update($this->getTableName(), $params, [$this->primary => $id]);
 	}
 
 }
