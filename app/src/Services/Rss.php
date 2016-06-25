@@ -2,6 +2,9 @@
 
 namespace Anchorcms\Services;
 
+use DOMDocument;
+use DOMElement;
+use DateTime;
 use Psr\Http\Message\UriInterface;
 
 class Rss
@@ -11,13 +14,13 @@ class Rss
 
     protected $channel;
 
-    public function __construct($name, $description, UriInterface $url, $language = 'en', $ttl = 60)
+    public function __construct(string $name, string $description, UriInterface $url, string $language = 'en', int $ttl = 60)
     {
         // create a dom xml object
-        $this->document = new \DOMDocument('1.0', 'UTF-8');
+        $this->document = new DOMDocument('1.0', 'UTF-8');
 
         // create our rss feed
-        $rss = $this->element('rss', null, [
+        $rss = $this->element('rss', '', [
             'version' => '2.0',
             'xmlns:atom' => 'http://www.w3.org/2005/Atom',
             'xmlns:content' => 'http://purl.org/rss/1.0/modules/content',
@@ -55,7 +58,7 @@ class Rss
         $this->channel->appendChild($copyright);
 
         // atom self link
-        $atom = $this->element('atom:link', null, array(
+        $atom = $this->element('atom:link', '', array(
             'href' => $url,
             'rel' => 'self',
             'type' => 'application/rss+xml'
@@ -63,7 +66,7 @@ class Rss
         $this->channel->appendChild($atom);
     }
 
-    protected function element($name, $value = null, $attributes = array())
+    protected function element(string $name, string $value = '', array $attributes = []): DOMElement
     {
         $element = $this->document->createElement($name);
 
@@ -82,31 +85,31 @@ class Rss
         return $element;
     }
 
-    protected function itemTitle($str, $item)
+    protected function itemTitle(string $str, DOMElement $item)
     {
         $element = $this->element('title', $str);
         $item->appendChild($element);
     }
 
-    protected function itemLink($str, $item)
+    protected function itemLink(string $str, DOMElement $item)
     {
         $element = $this->element('guid', $str);
         $item->appendChild($element);
     }
 
-    protected function itemDesc($str, $item)
+    protected function itemDesc(string $str, DOMElement $item)
     {
         $element = $this->element('description', $str);
         $item->appendChild($element);
     }
 
-    protected function itemDate(\DateTime $date, $item)
+    protected function itemDate(DateTime $date, DOMElement $item)
     {
         $element = $this->element('pubDate', $date->format(\DateTime::RSS));
         $item->appendChild($element);
     }
 
-    protected function itemCategory(array $category, $item)
+    protected function itemCategory(array $category, DOMElement $item)
     {
         list($url, $name) = $category;
 
@@ -114,20 +117,20 @@ class Rss
         $item->appendChild($element);
     }
 
-    protected function itemCategories(array $categories, $item)
+    protected function itemCategories(array $categories, DOMElement $item)
     {
         foreach ($categories as $category) {
             $this->itemCategory($category, $item);
         }
     }
 
-    protected function itemAuthor(string $author, $item)
+    protected function itemAuthor(string $author, DOMElement $item)
     {
         $element = $this->element('author', $author);
         $item->appendChild($element);
     }
 
-    protected function itemAttachments(array $attachments, $item)
+    protected function itemAttachments(array $attachments, DOMElement $item)
     {
         foreach ($attachments as $attachment) {
             $element = $this->element('enclosure', null, $attachment);
@@ -135,7 +138,7 @@ class Rss
         }
     }
 
-    protected function itemContent($content, $item)
+    protected function itemContent(string $content, DOMElement $item)
     {
         $element = $this->element('content:encoded', $content);
         $item->appendChild($element);
@@ -152,7 +155,7 @@ class Rss
         }
     }
 
-    public function output()
+    public function output(): string
     {
         // dump xml tree
         return $this->document->saveXML();

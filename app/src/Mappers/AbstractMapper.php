@@ -6,7 +6,7 @@ use Doctrine\DBAL\Query\QueryBuilder;
 use Doctrine\DBAL\Connection;
 use Anchorcms\Models\AbstractModel;
 
-abstract class AbstractMapper
+abstract class AbstractMapper implements MapperInterface
 {
 
     protected $db;

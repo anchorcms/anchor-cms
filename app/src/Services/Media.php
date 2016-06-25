@@ -40,7 +40,7 @@ class Media
 
     public function getUploadPath()
     {
-        $path = $this->path; //sprintf('%s/%s', $this->path, date('Y/n'));
+        $path = $this->path;
 
         if (false === is_dir($path)) {
             mkdir($path, 0755, true);

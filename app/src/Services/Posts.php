@@ -2,10 +2,12 @@
 
 namespace Anchorcms\Services;
 
+use Anchorcms\Mappers\MapperInterface;
+
 class Posts
 {
 
-    public function __construct($posts, $postmeta, $extend, $users, $categories)
+    public function __construct(MapperInterface $posts, MapperInterface $postmeta, MapperInterface $extend, MapperInterface $users, MapperInterface $categories)
     {
         $this->posts = $posts;
         $this->postmeta = $postmeta;
@@ -14,7 +16,7 @@ class Posts
         $this->categories = $categories;
     }
 
-    public function getStatuses()
+    public function getStatuses(): array
     {
         return [
             'published' => 'Published',
@@ -23,12 +25,12 @@ class Posts
         ];
     }
 
-    public function getMapper()
+    public function getMapper(): MapperInterface
     {
         return $this->posts;
     }
 
-    protected function getKeys(array $posts, $property = 'id')
+    protected function getKeys(array $posts, string $property = 'id'): array
     {
         return array_map(function ($post) use ($property) {
             return $post->$property;
@@ -68,7 +70,7 @@ class Posts
         return $posts;
     }
 
-    public function getPosts(array $params = [])
+    public function getPosts(array $params = []): array
     {
         $defaults = [
             'page' => 1,

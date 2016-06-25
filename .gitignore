@@ -2,7 +2,6 @@
 *.log
 *.lock
 *.sqlite
-*.swp
 *.codekit
 *.esproj
 

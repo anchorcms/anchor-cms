@@ -2,6 +2,9 @@
 
 namespace Anchorcms\Services;
 
+use Anchorcms\Mappers\MapperInterface;
+use Psr\Http\Message\ServerRequestInterface;
+
 class CustomFields
 {
 
@@ -13,14 +16,14 @@ class CustomFields
 
     protected $media;
 
-    public function __construct($fields, $postmeta, $pagemeta)
+    public function __construct(array $fields, MapperInterface $postmeta, MapperInterface $pagemeta)
     {
         $this->fields = $fields;
         $this->postmeta = $postmeta;
         $this->pagemeta = $pagemeta;
     }
 
-    protected function getFields($type)
+    protected function getFields(string $type): array
     {
         $query = $this->fields->query();
         $query->where('type = :type')
@@ -28,7 +31,7 @@ class CustomFields
         return $this->fields->fetchAll($query);
     }
 
-    public function getFieldValues($type, $id)
+    public function getFieldValues(string $type, int $id): array
     {
         $fields = $this->getFields($type);
         $values = [];
@@ -52,7 +55,7 @@ class CustomFields
         return $values;
     }
 
-    public function saveFields($request, array $input, $type, $id)
+    public function saveFields(ServerRequestInterface $request, array $input, string $type, int $id)
     {
         $fields = $this->getFields($type);
         $table = $type.'meta';
@@ -89,7 +92,7 @@ class CustomFields
         }
     }
 
-    protected function appendTextField($form, $field, $attributes)
+    protected function appendTextField($form, $field, array $attributes)
     {
         $input = new \Forms\Elements\Input($field->key, [
             'label' => $field->label,
@@ -99,7 +102,7 @@ class CustomFields
         $form->addElement($input);
     }
 
-    protected function appendHtmlField($form, $field, $attributes)
+    protected function appendHtmlField($form, $field, array $attributes)
     {
         $input = new \Forms\Elements\Textarea($field->key, [
             'label' => $field->label,
@@ -109,7 +112,7 @@ class CustomFields
         $form->addElement($input);
     }
 
-    protected function appendImageField($form, $field, $attributes)
+    protected function appendImageField($form, $field, array $attributes)
     {
         $input = new \Forms\Elements\File($field->key, [
             'label' => $field->label,
@@ -119,7 +122,7 @@ class CustomFields
         $form->addElement($input);
     }
 
-    protected function appendFileField($form, $field, $attributes)
+    protected function appendFileField($form, $field, array $attributes)
     {
         $input = new \Forms\Elements\File($field->key, [
             'label' => $field->label,
