@@ -2,10 +2,10 @@
 
 namespace Anchorcms\Forms;
 
-interface ValidatableInterface {
+interface ValidatableInterface
+{
 
-	public function getFilters();
+    public function getFilters();
 
-	public function getRules();
-
+    public function getRules();
 }

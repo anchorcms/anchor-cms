@@ -4,50 +4,58 @@ namespace Anchorcms\Models;
 
 use Anchorcms\Traits\Dates;
 
-class Post extends AbstractModel {
+class Post extends AbstractModel
+{
 
-	use Dates;
+    use Dates;
 
-	protected $meta;
+    protected $meta;
 
-	protected $author;
+    protected $author;
 
-	protected $category;
+    protected $category;
 
-	public function setMeta(array $meta) {
-		$this->meta = $meta;
-	}
+    public function setMeta(array $meta)
+    {
+        $this->meta = $meta;
+    }
 
-	public function getMeta($key, $default = null) {
-		return array_reduce($this->meta, function($default, $row) use($key) {
-			return $row->key == $key ? $row->data : $default;
-		}, $default);
-	}
+    public function getMeta($key, $default = null)
+    {
+        return array_reduce($this->meta, function ($default, $row) use ($key) {
+            return $row->key == $key ? $row->data : $default;
+        }, $default);
+    }
 
-	public function hasMeta($key) {
-		return array_reduce($this->meta, function($default, $row) use($key) {
-			return $row->key == $key ? true : $default;
-		}, false);
-	}
+    public function hasMeta($key)
+    {
+        return array_reduce($this->meta, function ($default, $row) use ($key) {
+            return $row->key == $key ? true : $default;
+        }, false);
+    }
 
-	public function setAuthor($author) {
-		$this->author = $author;
-	}
+    public function setAuthor($author)
+    {
+        $this->author = $author;
+    }
 
-	public function getAuthor() {
-		return $this->author;
-	}
+    public function getAuthor()
+    {
+        return $this->author;
+    }
 
-	public function setCategory($category) {
-		$this->category = $category;
-	}
+    public function setCategory($category)
+    {
+        $this->category = $category;
+    }
 
-	public function getCategory() {
-		return $this->category;
-	}
+    public function getCategory()
+    {
+        return $this->category;
+    }
 
-	public function url() {
-		return sprintf('/%s/%s', $this->category->slug, $this->slug);
-	}
-
+    public function url()
+    {
+        return sprintf('/%s/%s', $this->category->slug, $this->slug);
+    }
 }

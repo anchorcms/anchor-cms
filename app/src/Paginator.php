@@ -2,62 +2,68 @@
 
 namespace Anchorcms;
 
-class Paginator {
+class Paginator
+{
 
-	protected $page;
+    protected $page;
 
-	protected $pages;
+    protected $pages;
 
-	protected $url;
+    protected $url;
 
-	protected $params;
+    protected $params;
 
-	public function __construct($url, $page, $pages, $perpage, array $params = []) {
-		$this->url = $url;
-		$this->page = max(1, $page);
-		$this->pages = ceil($pages / $perpage);
-		$this->params = $params;
-	}
+    public function __construct($url, $page, $pages, $perpage, array $params = [])
+    {
+        $this->url = $url;
+        $this->page = max(1, $page);
+        $this->pages = ceil($pages / $perpage);
+        $this->params = $params;
+    }
 
-	protected function html($page, $text) {
-		$qs = http_build_query(array_merge($this->params, ['page' => $page]));
-		$url = sprintf('%s?%s', $this->url, $qs);
+    protected function html($page, $text)
+    {
+        $qs = http_build_query(array_merge($this->params, ['page' => $page]));
+        $url = sprintf('%s?%s', $this->url, $qs);
 
-		return '<a href="' . $url . '">' . $text . '</a>';
-	}
+        return '<a href="' . $url . '">' . $text . '</a>';
+    }
 
-	public function links() {
-		$links = [];
-		$range = 4;
+    public function links()
+    {
+        $links = [];
+        $range = 4;
 
-		if($this->pages == 1) {
-			return '';
-		}
+        if ($this->pages == 1) {
+            return '';
+        }
 
-		if($this->page > 1) {
-			$links[] = $this->html($this->page - 1, 'Previous');
-		}
+        if ($this->page > 1) {
+            $links[] = $this->html($this->page - 1, 'Previous');
+        }
 
-		for($i = $this->page - $range; $i < $this->page + $range; $i++) {
-			if($i < 0) continue;
+        for ($i = $this->page - $range; $i < $this->page + $range; $i++) {
+            if ($i < 0) {
+                continue;
+            }
 
-			$page = $i + 1;
+            $page = $i + 1;
 
-			if($page > $this->pages) break;
+            if ($page > $this->pages) {
+                break;
+            }
 
-			if($page == $this->page) {
-				$links[] = '<strong>' . $page . '</strong>';
-			}
-			else {
-				$links[] = $this->html($page, $page);
-			}
-		}
+            if ($page == $this->page) {
+                $links[] = '<strong>' . $page . '</strong>';
+            } else {
+                $links[] = $this->html($page, $page);
+            }
+        }
 
-		if($this->page < $this->pages) {
-			$links[] = $this->html($this->page + 1, 'Next');
-		}
+        if ($this->page < $this->pages) {
+            $links[] = $this->html($this->page + 1, 'Next');
+        }
 
-		return implode(' ', $links);
-	}
-
+        return implode(' ', $links);
+    }
 }

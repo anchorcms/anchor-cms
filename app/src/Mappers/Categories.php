@@ -2,40 +2,44 @@
 
 namespace Anchorcms\Mappers;
 
-class Categories extends AbstractMapper {
+class Categories extends AbstractMapper
+{
 
-	protected $primary = 'id';
+    protected $primary = 'id';
 
-	protected $name = 'categories';
+    protected $name = 'categories';
 
-	public function id($id) {
-		return $this->fetchByAttribute('id', $id);
-	}
+    public function id($id)
+    {
+        return $this->fetchByAttribute('id', $id);
+    }
 
-	public function slug($slug) {
-		return $this->fetchByAttribute('slug', $slug);
-	}
+    public function slug($slug)
+    {
+        return $this->fetchByAttribute('slug', $slug);
+    }
 
-	public function dropdownOptions() {
-		$categories = [];
+    public function dropdownOptions()
+    {
+        $categories = [];
 
-		foreach($this->all() as $category) {
-			$categories[$category->id] = $category->title;
-		}
+        foreach ($this->all() as $category) {
+            $categories[$category->id] = $category->title;
+        }
 
-		return $categories;
-	}
+        return $categories;
+    }
 
-	public function all() {
-		$query = $this->query()->orderBy('title', 'ASC');
-		$results = $this->db->fetchAll($query);
-		$models = [];
+    public function all()
+    {
+        $query = $this->query()->orderBy('title', 'ASC');
+        $results = $this->db->fetchAll($query);
+        $models = [];
 
-		foreach($results as $row) {
-			$models[] = (clone $this->prototype)->withAttributes($row);
-		}
+        foreach ($results as $row) {
+            $models[] = (clone $this->prototype)->withAttributes($row);
+        }
 
-		return $models;
-	}
-
+        return $models;
+    }
 }

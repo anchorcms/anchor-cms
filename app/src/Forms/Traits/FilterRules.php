@@ -2,26 +2,30 @@
 
 namespace Anchorcms\Forms\Traits;
 
-trait FilterRules {
+trait FilterRules
+{
 
-	protected $rules = [];
+    protected $rules = [];
 
-	public function getRules() {
-		return $this->rules;
-	}
+    public function getRules()
+    {
+        return $this->rules;
+    }
 
-	public function setRules(array $rules) {
-		$this->rules = $rules;
-	}
+    public function setRules(array $rules)
+    {
+        $this->rules = $rules;
+    }
 
-	public function withRules(array $rules) {
-		$this->setRules($rules);
+    public function withRules(array $rules)
+    {
+        $this->setRules($rules);
 
-		return $this;
-	}
+        return $this;
+    }
 
-	public function pushRule($key, $value) {
-		$this->filters[$key] = $value;
-	}
-
+    public function pushRule($key, $value)
+    {
+        $this->filters[$key] = $value;
+    }
 }

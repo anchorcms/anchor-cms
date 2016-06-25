@@ -2,10 +2,10 @@
 
 namespace Anchorcms\Mappers;
 
-class CustomFields extends AbstractMapper {
+class CustomFields extends AbstractMapper
+{
 
-	protected $primary = 'id';
+    protected $primary = 'id';
 
-	protected $name = 'custom_fields';
-
+    protected $name = 'custom_fields';
 }

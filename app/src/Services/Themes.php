@@ -2,31 +2,35 @@
 
 namespace Anchorcms\Services;
 
-class Themes {
+class Themes
+{
 
-	protected $path;
+    protected $path;
 
-	protected $current;
+    protected $current;
 
-	public function __construct($path, $current = null) {
-		$this->path = $path;
-		$this->current = $current;
-	}
+    public function __construct($path, $current = null)
+    {
+        $this->path = $path;
+        $this->current = $current;
+    }
 
-	public function getThemes() {
-		$if = new \FilesystemIterator($this->path, \FilesystemIterator::SKIP_DOTS);
+    public function getThemes()
+    {
+        $if = new \FilesystemIterator($this->path, \FilesystemIterator::SKIP_DOTS);
 
-		foreach($if as $file) {
-			if(false === $file->isDir()) continue;
+        foreach ($if as $file) {
+            if (false === $file->isDir()) {
+                continue;
+            }
 
-			$theme = new Themes\Theme($file->getPathname());
+            $theme = new Themes\Theme($file->getPathname());
 
-			if($theme->getName() == $this->current) {
-				$theme->setActive();
-			}
+            if ($theme->getName() == $this->current) {
+                $theme->setActive();
+            }
 
-			yield $theme;
-		}
-	}
-
+            yield $theme;
+        }
+    }
 }

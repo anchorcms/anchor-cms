@@ -4,30 +4,32 @@ namespace Anchorcms\Mappers;
 
 use StdClass;
 
-class Meta extends AbstractMapper {
+class Meta extends AbstractMapper
+{
 
-	protected $primary = 'key';
+    protected $primary = 'key';
 
-	protected $name = 'meta';
+    protected $name = 'meta';
 
-	public function all() {
-		$meta = [];
+    public function all()
+    {
+        $meta = [];
 
-		foreach($this->db->fetchAll($this->query()) as $row) {
-			$meta[$row['key']] = $row['value'];
-		}
+        foreach ($this->db->fetchAll($this->query()) as $row) {
+            $meta[$row['key']] = $row['value'];
+        }
 
-		return $meta;
-	}
+        return $meta;
+    }
 
-	public function key($key, $default = null) {
-		$query = $this->query()->select('value')
-			->where('key = :key')
-			->setParameter('key', $key);
+    public function key($key, $default = null)
+    {
+        $query = $this->query()->select('value')
+            ->where('key = :key')
+            ->setParameter('key', $key);
 
-		$value = $this->db->fetchColumn($query->getSQL(), $query->getParameters());
+        $value = $this->db->fetchColumn($query->getSQL(), $query->getParameters());
 
-		return false === $value ? $default : $value;
-	}
-
+        return false === $value ? $default : $value;
+    }
 }

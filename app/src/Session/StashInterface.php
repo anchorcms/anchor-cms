@@ -2,12 +2,12 @@
 
 namespace Anchorcms\Session;
 
-interface StashInterface {
+interface StashInterface
+{
 
-	public function rotate();
+    public function rotate();
 
-	public function getStash(string $key);
+    public function getStash(string $key);
 
-	public function putStash(string $key, $value);
-
+    public function putStash(string $key, $value);
 }

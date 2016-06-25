@@ -2,14 +2,14 @@
 
 namespace Anchorcms\Session;
 
-interface StorageInterface {
+interface StorageInterface
+{
 
-	public function has(string $key): bool;
+    public function has(string $key): bool;
 
-	public function get(string $key);
+    public function get(string $key);
 
-	public function put(string $key, $value);
+    public function put(string $key, $value);
 
-	public function remove(string $key);
-
+    public function remove(string $key);
 }

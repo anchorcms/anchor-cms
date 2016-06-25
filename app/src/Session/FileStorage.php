@@ -2,34 +2,37 @@
 
 namespace Anchorcms\Session;
 
-class FileStorage {
+class FileStorage
+{
 
-	protected $path;
+    protected $path;
 
-	public function __construct($path) {
-		$this->path = $path;
-	}
+    public function __construct($path)
+    {
+        $this->path = $path;
+    }
 
-	public function read($id) {
-		$path = sprintf('%s/%s.sess', $this->path, $id);
+    public function read($id)
+    {
+        $path = sprintf('%s/%s.sess', $this->path, $id);
 
-		if(false === is_file($path)) {
-			return [];
-		}
+        if (false === is_file($path)) {
+            return [];
+        }
 
-		$contents = file_get_contents($path);
+        $contents = file_get_contents($path);
 
-		return json_decode($contents, true);
-	}
+        return json_decode($contents, true);
+    }
 
-	public function write($id, array $data) {
-		$path = sprintf('%s/%s.sess', $this->path, $id);
+    public function write($id, array $data)
+    {
+        $path = sprintf('%s/%s.sess', $this->path, $id);
 
-		if(false === file_put_contents($path, json_encode($data), LOCK_EX)) {
-			throw new RuntimeException('Failed to write session file');
-		}
+        if (false === file_put_contents($path, json_encode($data), LOCK_EX)) {
+            throw new RuntimeException('Failed to write session file');
+        }
 
-		return true;
-	}
-
+        return true;
+    }
 }

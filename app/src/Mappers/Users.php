@@ -2,22 +2,25 @@
 
 namespace Anchorcms\Mappers;
 
-class Users extends AbstractMapper {
+class Users extends AbstractMapper
+{
 
-	protected $primary = 'id';
+    protected $primary = 'id';
 
-	protected $name = 'users';
+    protected $name = 'users';
 
-	public function fetchById($id) {
-		return $this->fetchByAttribute('id', $id);
-	}
+    public function fetchById($id)
+    {
+        return $this->fetchByAttribute('id', $id);
+    }
 
-	public function fetchByUsername($name) {
-		return $this->fetchByAttribute('username', $name);
-	}
+    public function fetchByUsername($name)
+    {
+        return $this->fetchByAttribute('username', $name);
+    }
 
-	public function fetchByEmail($email) {
-		return $this->fetchByAttribute('email', $email);
-	}
-
+    public function fetchByEmail($email)
+    {
+        return $this->fetchByAttribute('email', $email);
+    }
 }

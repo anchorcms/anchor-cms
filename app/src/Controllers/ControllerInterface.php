@@ -4,8 +4,8 @@ namespace Anchorcms\Controllers;
 
 use Pimple\Container;
 
-interface ControllerInterface {
+interface ControllerInterface
+{
 
-	public function setContainer(Container $container);
-
+    public function setContainer(Container $container);
 }

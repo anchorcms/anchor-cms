@@ -6,59 +6,67 @@ use Doctrine\DBAL\Query\QueryBuilder;
 use Doctrine\DBAL\Connection;
 use Anchorcms\Models\AbstractModel;
 
-abstract class AbstractMapper {
+abstract class AbstractMapper
+{
 
-	protected $db;
+    protected $db;
 
-	protected $prototype;
+    protected $prototype;
 
-	protected $prefix = '';
+    protected $prefix = '';
 
-	public function __construct(Connection $db, AbstractModel $prototype) {
-		$this->db = $db;
-		$this->prototype = $prototype;
-	}
+    public function __construct(Connection $db, AbstractModel $prototype)
+    {
+        $this->db = $db;
+        $this->prototype = $prototype;
+    }
 
-	public function setTablePrefix(string $prefix) {
-		$this->prefix = $prefix;
-	}
+    public function setTablePrefix(string $prefix)
+    {
+        $this->prefix = $prefix;
+    }
 
-	public function getTablePrefix(): string {
-		return $this->prefix;
-	}
+    public function getTablePrefix(): string
+    {
+        return $this->prefix;
+    }
 
-	public function getTableName(): string {
-		return $this->prefix.$this->name;
-	}
+    public function getTableName(): string
+    {
+        return $this->prefix.$this->name;
+    }
 
-	public function query(): QueryBuilder {
-		return $this->db->createQueryBuilder()
-			->select('*')
-			->from($this->prefix.$this->name);
-	}
+    public function query(): QueryBuilder
+    {
+        return $this->db->createQueryBuilder()
+            ->select('*')
+            ->from($this->prefix.$this->name);
+    }
 
-	public function fetchByAttribute(string $key, string $value) {
-		$query = $this->query()
-			->where(sprintf('%s = :attr', $key))
-			->setParameter('attr', $value);
+    public function fetchByAttribute(string $key, string $value)
+    {
+        $query = $this->query()
+            ->where(sprintf('%s = :attr', $key))
+            ->setParameter('attr', $value);
 
-		$row = $this->db->fetchAssoc($query->getSQL(), $query->getParameters());
+        $row = $this->db->fetchAssoc($query->getSQL(), $query->getParameters());
 
-		return false === $row ? false : (clone $this->prototype)->withAttributes($row);
-	}
+        return false === $row ? false : (clone $this->prototype)->withAttributes($row);
+    }
 
-	public function fetchAll(QueryBuilder $query): array {
-		$models = [];
+    public function fetchAll(QueryBuilder $query): array
+    {
+        $models = [];
 
-		foreach($this->db->fetchAll($query->getSQL(), $query->getParameters()) as $row) {
-			$models[] = (clone $this->prototype)->withAttributes($row);
-		}
+        foreach ($this->db->fetchAll($query->getSQL(), $query->getParameters()) as $row) {
+            $models[] = (clone $this->prototype)->withAttributes($row);
+        }
 
-		return $models;
-	}
+        return $models;
+    }
 
-	public function update(int $id, array $params): bool {
-		return $this->db->update($this->getTableName(), $params, [$this->primary => $id]);
-	}
-
+    public function update(int $id, array $params): bool
+    {
+        return $this->db->update($this->getTableName(), $params, [$this->primary => $id]);
+    }
 }

@@ -9,7 +9,7 @@ use Psr\Http\Message\{
 
 class Feeds extends Frontend {
 
-	public function getRss(ServerRequestInterface $request, ResponseInterface $response) {
+	public function getRss(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface {
 		$posts = $this->container['services.posts']->getPosts([
 			'perpage' => 20,
 		]);
@@ -22,7 +22,7 @@ class Feeds extends Frontend {
 				'title' => $post->title,
 				'content' => $post->html,
 				'link' => $this->container['url']->to($post->url()),
-				'author' => [$author->getEmail(), $author->getName()],
+				'author' => $author->getName(),
 				'date' => \DateTime::createFromFormat('Y-m-d H:i:s', $post->published),
 				'category' => [$this->container['url']->to($category->url()), $category->title],
 			]);

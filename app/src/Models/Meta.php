@@ -2,4 +2,6 @@
 
 namespace Anchorcms\Models;
 
-class Meta extends AbstractModel {}
+class Meta extends AbstractModel
+{
+}

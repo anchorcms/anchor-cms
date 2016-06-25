@@ -2,26 +2,30 @@
 
 namespace Anchorcms\Forms\Traits;
 
-trait Filters {
+trait Filters
+{
 
-	protected $filters = [];
+    protected $filters = [];
 
-	public function getFilters() {
-		return $this->filters;
-	}
+    public function getFilters()
+    {
+        return $this->filters;
+    }
 
-	public function setFilters(array $filters) {
-		$this->filters = $filters;
-	}
+    public function setFilters(array $filters)
+    {
+        $this->filters = $filters;
+    }
 
-	public function withFilters(array $filters) {
-		$this->setFilters($filters);
+    public function withFilters(array $filters)
+    {
+        $this->setFilters($filters);
 
-		return $this;
-	}
+        return $this;
+    }
 
-	public function pushFilter($key, $value) {
-		$this->filters[$key] = $value;
-	}
-
+    public function pushFilter($key, $value)
+    {
+        $this->filters[$key] = $value;
+    }
 }
