@@ -2,9 +2,10 @@
 
 namespace Anchorcms\Controllers\Admin;
 
-class Content extends Backend
-{
+use Anchorcms\Controllers\AbstractController;
 
+class Content extends AbstractController
+{
     public function postPreview($request)
     {
         $makrdown = filter_input(INPUT_POST, 'content', FILTER_UNSAFE_RAW);

@@ -4,14 +4,14 @@ namespace Anchorcms\Controllers\Admin;
 
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
+use Anchorcms\Controllers\AbstractController;
 use Anchorcms\Forms\Login;
 use Anchorcms\Forms\Amnesia;
 use Anchorcms\Forms\Reset;
 use Anchorcms\Forms\ValidateToken;
 
-class Auth extends Backend
+class Auth extends AbstractController
 {
-
     public function getStart(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
         if ($this->container['session']->has('user')) {

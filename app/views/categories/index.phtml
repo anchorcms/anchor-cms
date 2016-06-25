@@ -12,7 +12,7 @@
 		<ul class="listing">
 			<?php foreach($categories as $category): ?>
 			<li>
-				<h3><a href="<?php echo url('/admin/categories/'.$category->id.'/edit'); ?>"><?php echo $category->title; ?></a></h3>
+				<h3><a href="/admin/categories/<?php echo $category->id; ?>/edit"><?php echo $category->title; ?></a></h3>
 			</li>
 			<?php endforeach; ?>
 		</ul>

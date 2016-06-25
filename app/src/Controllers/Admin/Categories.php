@@ -2,32 +2,40 @@
 
 namespace Anchorcms\Controllers\Admin;
 
-class Categories extends Backend
-{
+use Anchorcms\Controllers\AbstractController;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Message\ResponseInterface;
+use Anchorcms\Paginator;
+use Anchorcms\Forms\Post as PostForm;
+use Anchorcms\Forms\ValidateToken;
 
-    public function getIndex()
+class Categories extends AbstractController
+{
+    public function getIndex(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-        $input = filter_var_array($_GET, [
-            'page' => FILTER_SANITIZE_NUMBER_INT,
-        ]);
+        $params = $request->getQueryParams();
+        $page = filter_var($params['page'] ?? 1, FILTER_SANITIZE_NUMBER_INT);
 
         $total = $this->container['mappers.categories']->count();
-
         $perpage = $this->container['mappers.meta']->key('admin_posts_per_page', 10);
-        $categories = $this->container['mappers.categories']->sort('title', 'asc')->take($perpage);
+        $offset = ($page - 1) * $perpage;
 
-        if ($input['page']) {
-            $offset = ($input['page'] - 1) * $perpage;
-            $categories->skip($offset);
-        }
+        $query = $this->container['mappers.categories']->query()->orderBy('title', 'ASC')
+            ->setFirstResult($offset)
+            ->setMaxResults($perpage);
 
-        $paging = new \Paginator($this->container['url']->to('/admin/categories'), $input['page'], $total, $perpage, $input);
+        $categories = $this->container['mappers.categories']->fetchAll($query);
 
+        $paging = new Paginator($this->container['url']->to('/admin/categories'), $page, $total, $perpage);
+
+        $vars['sitename'] = $this->container['mappers.meta']->key('sitename');
         $vars['title'] = 'Categories';
-        $vars['categories'] = $categories->get();
+        $vars['categories'] = $categories;
         $vars['paging'] = $paging;
 
-        return $this->renderTemplate('layouts/default', 'categories/index', $vars);
+        $this->renderTemplate($response, 'layouts/default', 'categories/index', $vars);
+
+        return $response;
     }
 
     public function getCreate()

@@ -2,9 +2,10 @@
 
 namespace Anchorcms\Controllers\Admin;
 
-class Themes extends Backend
-{
+use Anchorcms\Controllers\AbstractController;
 
+class Themes extends AbstractController
+{
     public function getIndex()
     {
         $vars['title'] = 'Themes';

@@ -2,15 +2,15 @@
 
 namespace Anchorcms\Controllers\Admin;
 
+use Anchorcms\Controllers\AbstractController;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Anchorcms\Paginator;
 use Anchorcms\Forms\Post as PostForm;
 use Anchorcms\Forms\ValidateToken;
 
-class Posts extends Backend
+class Posts extends AbstractController
 {
-
     public function getIndex(ServerRequestInterface $request, ResponseInterface $response, array $args)
     {
         $input = filter_var_array($request->getQueryParams(), [

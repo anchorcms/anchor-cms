@@ -2,9 +2,10 @@
 
 namespace Anchorcms\Controllers\Admin;
 
-class Media extends Backend
-{
+use Anchorcms\Controllers\AbstractController;
 
+class Media extends AbstractController
+{
     public function getIndex()
     {
         if ($since = filter_input(INPUT_GET, 'since', FILTER_SANITIZE_STRING)) {

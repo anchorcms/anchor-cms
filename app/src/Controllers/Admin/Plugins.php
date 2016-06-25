@@ -2,9 +2,10 @@
 
 namespace Anchorcms\Controllers\Admin;
 
-class Plugins extends Backend
-{
+use Anchorcms\Controllers\AbstractController;
 
+class Plugins extends AbstractController
+{
     public function getIndex()
     {
         $vars['title'] = 'Plugins';

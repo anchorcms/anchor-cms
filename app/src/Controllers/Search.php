@@ -3,15 +3,15 @@
 namespace Anchorcms\Controllers;
 
 use Psr\Http\Message\ServerRequestInterface;
-use Psr\Http\Message\ResponseInterface;
 use Anchorcms\Models\Page as PageModel;
 
 class Search extends Frontend
 {
 
-    public function getIndex($request)
+    public function getIndex(ServerRequestInterface $request): string
     {
-        $keywords = filter_input(INPUT_GET, 'q', FILTER_SANITIZE_STRING);
+        $qs = $request->getUri()->getQuery();
+        $keywords = filter_var($qs['q'] ?? '', FILTER_SANITIZE_STRING);
 
         // set globals
         $vars['meta'] = $this->container['mappers.meta']->all();

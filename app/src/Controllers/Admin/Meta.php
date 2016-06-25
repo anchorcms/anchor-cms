@@ -2,9 +2,10 @@
 
 namespace Anchorcms\Controllers\Admin;
 
-class Meta extends Backend
-{
+use Anchorcms\Controllers\AbstractController;
 
+class Meta extends AbstractController
+{
     public function getIndex()
     {
         $meta = $this->container['mappers.meta']->where('key', 'NOT LIKE', 'custom_%')->get();

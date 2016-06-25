@@ -8,7 +8,6 @@ use Anchorcms\Controllers\AbstractController;
 
 class Install extends AbstractController
 {
-
     public function getIndex(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
         return $this->redirect($response, '/l10n');

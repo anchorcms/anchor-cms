@@ -2,9 +2,10 @@
 
 namespace Anchorcms\Controllers\Admin;
 
-class Fields extends Backend
-{
+use Anchorcms\Controllers\AbstractController;
 
+class Fields extends AbstractController
+{
     public function getIndex()
     {
         $input = filter_var_array($_GET, [

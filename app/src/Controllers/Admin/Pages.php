@@ -2,9 +2,10 @@
 
 namespace Anchorcms\Controllers\Admin;
 
-class Pages extends Backend
-{
+use Anchorcms\Controllers\AbstractController;
 
+class Pages extends AbstractController
+{
     public function getIndex($request)
     {
         $input = filter_var_array($request->getQueryParams(), [

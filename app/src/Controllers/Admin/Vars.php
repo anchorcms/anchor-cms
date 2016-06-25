@@ -2,9 +2,10 @@
 
 namespace Anchorcms\Controllers\Admin;
 
-class Vars extends Backend
-{
+use Anchorcms\Controllers\AbstractController;
 
+class Vars extends AbstractController
+{
     protected $prefix = 'global_';
 
     public function getIndex()

@@ -2,16 +2,13 @@
 
 namespace Anchorcms\Mappers;
 
-use StdClass;
-
 class Meta extends AbstractMapper
 {
-
     protected $primary = 'key';
 
     protected $name = 'meta';
 
-    public function all()
+    public function all(): array
     {
         $meta = [];
 
@@ -22,7 +19,7 @@ class Meta extends AbstractMapper
         return $meta;
     }
 
-    public function key($key, $default = null)
+    public function key(string $key, $default = null): string
     {
         $query = $this->query()->select('value')
             ->where('key = :key')
