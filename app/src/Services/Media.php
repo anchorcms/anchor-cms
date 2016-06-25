@@ -4,6 +4,7 @@ namespace Anchorcms\Services;
 
 use FilesystemIterator;
 use RuntimeException;
+use Psr\Http\Message\UploadedFileInterface;
 
 class Media
 {
@@ -52,7 +53,7 @@ class Media
         return $path;
     }
 
-    public function upload(\Http\UploadedFile $file)
+    public function upload(UploadedFileInterface $file)
     {
         switch ($file->getError()) {
             case UPLOAD_ERR_OK:

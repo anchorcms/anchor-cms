@@ -8,7 +8,7 @@ class Media extends Backend
     public function getIndex()
     {
         if ($since = filter_input(INPUT_GET, 'since', FILTER_SANITIZE_STRING)) {
-            $files = $this->container['services.media']->get(function ($file) use ($since) {
+            $files = $this->container['services.media']->get(function (\SplFileInfo $file) use ($since) {
                 return $file->getMTime() > $since;
             });
         } else {
