@@ -2,42 +2,41 @@
 
 namespace Anchorcms\Controllers;
 
-use Psr\Http\Message\{
-	ServerRequestInterface,
-	ResponseInterface
-};
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Message\ResponseInterface;
 use Anchorcms\Models\Page as PageModel;
 
-class Search extends Frontend {
+class Search extends Frontend
+{
 
-	public function getIndex($request) {
-		$keywords = filter_input(INPUT_GET, 'q', FILTER_SANITIZE_STRING);
+    public function getIndex($request)
+    {
+        $keywords = filter_input(INPUT_GET, 'q', FILTER_SANITIZE_STRING);
 
-		// set globals
-		$vars['meta'] = $this->container['mappers.meta']->all();
-		$vars['menu'] = $this->container['mappers.pages']->menu();
-		$vars['categories'] = $this->container['mappers.categories']->all();
+        // set globals
+        $vars['meta'] = $this->container['mappers.meta']->all();
+        $vars['menu'] = $this->container['mappers.pages']->menu();
+        $vars['categories'] = $this->container['mappers.categories']->all();
 
-		$page = new PageModel([
-			'title' => sprintf('Search "%s"', $keywords),
-		]);
-		$vars['page'] = $page;
-		$vars['keywords'] = $keywords;
+        $page = new PageModel([
+            'title' => sprintf('Search "%s"', $keywords),
+        ]);
+        $vars['page'] = $page;
+        $vars['keywords'] = $keywords;
 
-		$query = $this->container['mappers.posts']->query();
+        $query = $this->container['mappers.posts']->query();
 
-		$query->where('status = :status')
-			->setParameter('status', 'published')
-			->where('title LIKE :keywords')
-			->setParameter('keywords', '%'.$keywords.'%');
+        $query->where('status = :status')
+            ->setParameter('status', 'published')
+            ->where('title LIKE :keywords')
+            ->setParameter('keywords', '%'.$keywords.'%');
 
-		$posts = $this->container['mappers.posts']->fetchAll($query);
-		$this->container['services.posts']->hydrate($posts);
+        $posts = $this->container['mappers.posts']->fetchAll($query);
+        $this->container['services.posts']->hydrate($posts);
 
-		$vars['posts'] = $posts;
-		$vars['hasPosts'] = ! empty($posts);
+        $vars['posts'] = $posts;
+        $vars['hasPosts'] = ! empty($posts);
 
-		return $this->container['theme']->render(['search', 'index'], $vars);
-	}
-
+        return $this->container['theme']->render(['search', 'index'], $vars);
+    }
 }

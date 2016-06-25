@@ -40,7 +40,6 @@ class Meta extends Backend
     public function postUpdate($request)
     {
         $id = $request->getAttribute('id');
-        $meta = $this->container['mappers.meta']->where('key', '=', $id)->fetch();
 
         $form = new \Forms\Meta;
         $form->init();

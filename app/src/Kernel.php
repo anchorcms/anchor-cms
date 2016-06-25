@@ -3,65 +3,66 @@
 namespace Anchorcms;
 
 use Routing\UriMatcher;
-use Psr\Http\Message\{
-	ServerRequestInterface,
-	ResponseInterface
-};
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Message\ResponseInterface;
 
-class Kernel {
+class Kernel
+{
 
-	protected $router;
+    protected $router;
 
-	public function __construct(UriMatcher $router) {
-		$this->router = $router;
-	}
+    public function __construct(UriMatcher $router)
+    {
+        $this->router = $router;
+    }
 
-	public function getResponse(ServerRequestInterface $request, ResponseInterface $response, callable $controllerFactory): ResponseInterface {
-		$path = $request->getUri()->getPath();
-		$route = $this->router->match($path);
+    public function getResponse(ServerRequestInterface $request, ResponseInterface $response, callable $controllerFactory): ResponseInterface
+    {
+        $path = $request->getUri()->getPath();
+        $route = $this->router->match($path);
 
-		if(false === $route) {
-			throw new \Routing\RouteNotFoundException('Not Found');
-		}
+        if (false === $route) {
+            throw new \Routing\RouteNotFoundException('Not Found');
+        }
 
-		list($class, $method) = explode('@', $route, 2);
+        list($class, $method) = explode('@', $route, 2);
 
-		$instance = $controllerFactory($class);
+        $instance = $controllerFactory($class);
 
-		$params = $request->getServerParams();
-		$verb = array_key_exists('REQUEST_METHOD', $params) ? strtolower($params['REQUEST_METHOD']) : 'get';
+        $params = $request->getServerParams();
+        $verb = array_key_exists('REQUEST_METHOD', $params) ? strtolower($params['REQUEST_METHOD']) : 'get';
 
-		$method = $verb . ucfirst($method);
+        $method = $verb . ucfirst($method);
 
-		$output = $instance->$method($request, $response, $this->router->getParams());
+        $output = $instance->$method($request, $response, $this->router->getParams());
 
-		if($output instanceof ResponseInterface) {
-			return $output;
-		}
+        if ($output instanceof ResponseInterface) {
+            return $output;
+        }
 
-		$response->getBody()->write($output);
+        $response->getBody()->write($output);
 
-		return $response;
-	}
+        return $response;
+    }
 
-	public function outputResponse(ResponseInterface $response) {
-		if(true === headers_sent()) {
-			throw new \RuntimeException('headers already sent.');
-		}
+    public function outputResponse(ResponseInterface $response)
+    {
+        if (true === headers_sent()) {
+            throw new \RuntimeException('headers already sent.');
+        }
 
-		header(sprintf('HTTP/%s %s %s',
-			$response->getProtocolVersion(),
-			$response->getStatusCode(),
-			$response->getReasonPhrase()
-		));
+        header(sprintf('HTTP/%s %s %s',
+            $response->getProtocolVersion(),
+            $response->getStatusCode(),
+            $response->getReasonPhrase()
+        ));
 
-		foreach($response->getHeaders() as $name => $values) {
-			foreach($values as $value) {
-				header(sprintf('%s: %s', $name, $value));
-			}
-		}
+        foreach ($response->getHeaders() as $name => $values) {
+            foreach ($values as $value) {
+                header(sprintf('%s: %s', $name, $value));
+            }
+        }
 
-		echo $response->getBody();
-	}
-
+        echo $response->getBody();
+    }
 }

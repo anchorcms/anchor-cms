@@ -14,9 +14,9 @@ class Plugins
     {
         $plugins = [];
 
-        $if = new \FilesystemIterator($this->path, \FilesystemIterator::SKIP_DOTS);
+        $fi = new \FilesystemIterator($this->path, \FilesystemIterator::SKIP_DOTS);
 
-        foreach ($if as $file) {
+        foreach ($fi as $file) {
             if ($file->isDir()) {
                 $key = $file->getBasename();
 
@@ -31,7 +31,7 @@ class Plugins
 
     public function init()
     {
-        $if = new \FilesystemIterator($this->path, \FilesystemIterator::SKIP_DOTS);
+        $fi = new \FilesystemIterator($this->path, \FilesystemIterator::SKIP_DOTS);
 
         foreach ($fi as $file) {
             $this->load($file);
