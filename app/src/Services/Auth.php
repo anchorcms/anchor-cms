@@ -2,6 +2,8 @@
 
 namespace Anchorcms\Services;
 
+use Anchorcms\Models\User as UserModel;
+
 class Auth
 {
 
@@ -54,7 +56,7 @@ class Auth
         return password_verify($password, $hash);
     }
 
-    public function changePassword(User $user, string $password)
+    public function changePassword(UserModel $user, string $password)
     {
         $this->users->where('id', '=', $user->id)->update([
             'password' => $this->hashPassword($password),
@@ -62,7 +64,7 @@ class Auth
         ]);
     }
 
-    public function resetToken(User $user): string
+    public function resetToken(UserModel $user): string
     {
         $token = bin2hex(random_bytes(64));
         $key = $this->config->get('app.secret');

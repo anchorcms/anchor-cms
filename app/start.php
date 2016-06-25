@@ -10,18 +10,6 @@ if (false === is_file(__DIR__ . '/../vendor/autoload.php')) {
     throw new RuntimeException('Composer not installed');
 }
 
-/**
- * Handy debug dump function
- */
-class RuntimeDebugException extends Exception
-{
-}
-
-function dd(...$args)
-{
-    throw new RuntimeDebugException(var_export($args, true));
-}
-
 require __DIR__ . '/../vendor/autoload.php';
 
 // create the container
@@ -122,7 +110,7 @@ if ($app['config']->get('app.debug')) {
 }
 
 $response = $app['http.server']->run($app['http.request'], function ($request) use ($app) {
-    return $app['http.factory']->createResponse(404, [], 'Not Found');
+    return $app['http.factory']->createResponse(200, [], '');
 });
 
 $app['http.kernel']->outputResponse($response);
