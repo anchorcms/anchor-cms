@@ -2,9 +2,8 @@
 
 namespace Anchorcms\Models;
 
-abstract class AbstractModel
+abstract class AbstractModel implements ModelInterface
 {
-
     protected $attributes;
 
     public function __construct(array $attributes = [])

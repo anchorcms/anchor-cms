@@ -105,6 +105,7 @@ $app['http.server']->append(new Anchorcms\Middleware\Kernel($app));
 if ($app['config']->get('app.debug')) {
     $app['http.server']->append(function (Psr\Http\Message\ServerRequestInterface $request, Tari\ServerFrameInterface $frame) use ($app) {
         // append to body
+        return $frame->next($request);
     });
 }
 

@@ -3,6 +3,7 @@
 namespace Anchorcms\Models;
 
 use Anchorcms\Traits\Dates;
+use Anchorcms\Models\ModelInterface;
 
 class Post extends AbstractModel
 {
@@ -22,14 +23,14 @@ class Post extends AbstractModel
 
     public function getMeta($key, $default = null)
     {
-        return array_reduce($this->meta, function ($default, $row) use ($key) {
+        return array_reduce($this->meta, function ($default, ModelInterface $row) use ($key) {
             return $row->key == $key ? $row->data : $default;
         }, $default);
     }
 
     public function hasMeta($key)
     {
-        return array_reduce($this->meta, function ($default, $row) use ($key) {
+        return array_reduce($this->meta, function ($default, ModelInterface $row) use ($key) {
             return $row->key == $key ? true : $default;
         }, false);
     }

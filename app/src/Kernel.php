@@ -16,7 +16,7 @@ class Kernel {
 		$this->router = $router;
 	}
 
-	public function getResponse(ServerRequestInterface $request, ResponseInterface $response, callable $controllerFactory) {
+	public function getResponse(ServerRequestInterface $request, ResponseInterface $response, callable $controllerFactory): ResponseInterface {
 		$path = $request->getUri()->getPath();
 		$route = $this->router->match($path);
 
