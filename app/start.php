@@ -77,7 +77,7 @@ if (false === $app['services.installer']->isInstalled() ||
     $app['http.routes']->set(require __DIR__ . '/routes/installer.php');
 
     // start the session for installer
-    $app['http.server']->append(function ($request, $frame) use ($app) {
+    $app['http.server']->append(function (Psr\Http\Message\ServerRequestInterface $request, Tari\ServerFrameInterface $frame) use ($app) {
         $app['session']->start();
         return $frame->next($request);
     });
@@ -85,7 +85,7 @@ if (false === $app['services.installer']->isInstalled() ||
 // middlewares to include when installed
 else {
     // start the session for admin
-    $app['http.server']->append(function ($request, $frame) use ($app) {
+    $app['http.server']->append(function (Psr\Http\Message\ServerRequestInterface $request, Tari\ServerFrameInterface $frame) use ($app) {
         if (strpos($request->getUri()->getPath(), '/admin') === 0) {
             $app['session']->start();
         }
@@ -103,9 +103,8 @@ $app['http.server']->append(new Anchorcms\Middleware\Kernel($app));
 
 // append debug output
 if ($app['config']->get('app.debug')) {
-    $app['http.server']->append(function ($request, $frame) use ($app) {
-        $response = $frame->next($request);
-        return $response->withHeader('x-test', 'fail');
+    $app['http.server']->append(function (Psr\Http\Message\ServerRequestInterface $request, Tari\ServerFrameInterface $frame) use ($app) {
+        // append to body
     });
 }
 

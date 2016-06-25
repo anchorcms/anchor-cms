@@ -25,12 +25,12 @@ class View
         $this->ext = $ext;
     }
 
-    public function e(string $str)
+    public function e(string $str): string
     {
         return htmlentities($str, ENT_COMPAT | ENT_HTML5, 'UTF-8', false);
     }
 
-    public function render(string $template, array $vars = [])
+    public function render(string $template, array $vars = []): string
     {
         ob_start();
 
