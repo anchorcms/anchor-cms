@@ -30,7 +30,7 @@ class FileStorage
         $path = sprintf('%s/%s.sess', $this->path, $id);
 
         if (false === file_put_contents($path, json_encode($data), LOCK_EX)) {
-            throw new RuntimeException('Failed to write session file');
+            throw new \RuntimeException('Failed to write session file');
         }
 
         return true;

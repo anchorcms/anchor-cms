@@ -90,7 +90,7 @@ class Session implements SessionInterface, StorageInterface, StashInterface
     protected function commit()
     {
         if (! $this->started) {
-            throw new RuntimeException('Session has not been started');
+            throw new \RuntimeException('Session has not been started');
         }
 
         $this->storage->write($this->id, $this->data);

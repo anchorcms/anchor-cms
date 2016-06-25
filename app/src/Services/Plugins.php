@@ -40,16 +40,6 @@ class Plugins
 
     public function load($file)
     {
-        $plugin = $file->getPathname() . '/src/Plugin.php';
-
-        if (false === is_file($plugin)) {
-            return false;
-        }
-
-        require $plugin;
-
-        $class = '\\Plugins\\' . str_replace(' ', '', ucwords(str_replace('-', ' ', $file->getBasename())));
-        $obj = new $class();
-        $obj->init($app['events']);
+        // todo
     }
 }
