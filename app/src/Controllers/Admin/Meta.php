@@ -30,7 +30,7 @@ class Meta extends AbstractController
             $values[$row->key] = $row->value;
         }
 
-        $form->setValues($this->container['session']->getFlash('input', $values));
+        $form->setValues($this->container['session']->getStash('input', $values));
 
         $vars['title'] = 'Site Metadata';
         $vars['form'] = $form;
@@ -52,7 +52,7 @@ class Meta extends AbstractController
 
         if (false === $validator->isValid()) {
             $this->container['messages']->error($validator->getMessages());
-            $this->container['session']->putFlash('input', $input);
+            $this->container['session']->putStash('input', $input);
             return $this->redirect($this->container['url']->to('/admin/meta'));
         }
 

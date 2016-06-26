@@ -43,7 +43,7 @@ class Pages extends AbstractController
         $this->container['services.customFields']->appendFields($form, 'page');
 
         // re-populate submitted data
-        $form->setValues($this->container['session']->getFlash('input', []));
+        $form->setValues($this->container['session']->getStash('input', []));
 
         $element = $form->getElement('show_in_menu');
 
@@ -74,7 +74,7 @@ class Pages extends AbstractController
 
         if (false === $validator->isValid()) {
             $this->container['messages']->error($validator->getMessages());
-            $this->container['session']->putFlash('input', $input);
+            $this->container['session']->putStash('input', $input);
             return $this->redirect($this->container['url']->to('/admin/pages/create'));
         }
 
@@ -124,7 +124,7 @@ class Pages extends AbstractController
         $form->setValues($this->container['services.customFields']->getFieldValues('page', $id));
 
         // re-populate old input
-        $form->setValues($this->container['session']->getFlash('input', []));
+        $form->setValues($this->container['session']->getStash('input', []));
 
         $element = $form->getElement('show_in_menu');
 
@@ -159,7 +159,7 @@ class Pages extends AbstractController
 
         if (false === $validator->isValid()) {
             $this->container['messages']->error($validator->getMessages());
-            $this->container['session']->putFlash('input', $input);
+            $this->container['session']->putStash('input', $input);
             return $this->redirect($this->container['url']->to(sprintf('/admin/pages/%d/edit', $page->id)));
         }
 

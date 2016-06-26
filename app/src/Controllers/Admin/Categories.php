@@ -6,7 +6,7 @@ use Anchorcms\Controllers\AbstractController;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Anchorcms\Paginator;
-use Anchorcms\Forms\Post as PostForm;
+use Anchorcms\Forms\Category as CategoryForm;
 use Anchorcms\Forms\ValidateToken;
 
 class Categories extends AbstractController
@@ -38,9 +38,9 @@ class Categories extends AbstractController
         return $response;
     }
 
-    public function getCreate()
+    public function getCreate(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-        $form = new \Forms\Category([
+        $form = new CategoryForm([
             'method' => 'post',
             'action' => $this->container['url']->to('/admin/categories/save'),
         ]);
@@ -48,48 +48,54 @@ class Categories extends AbstractController
         $form->getElement('_token')->setValue($this->container['csrf']->token());
 
         // re-populate submitted data
-        $form->setValues($this->container['session']->getFlash('input', []));
+        $form->setValues($this->container['session']->getStash('input', []));
 
+        $vars['sitename'] = $this->container['mappers.meta']->key('sitename');
         $vars['title'] = 'Creating a new category';
         $vars['form'] = $form;
 
-        return $this->renderTemplate('layouts/default', 'categories/create', $vars);
+        $this->renderTemplate($response, 'layouts/default', 'categories/create', $vars);
+
+        return $response;
     }
 
-    public function postSave()
+    public function postSave(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-        $form = new \Forms\Category;
+        $form = new CategoryForm;
         $form->init();
 
-        $input = filter_input_array(INPUT_POST, $form->getFilters());
+        $input = filter_var_array($request->getParsedBody(), $form->getFilters());
         $validator = $this->container['validation']->create($input, $form->getRules());
 
-        $validator->addRule(new \Forms\ValidateToken($this->container['csrf']->token()), '_token');
+        $validator->addRule(new ValidateToken($this->container['csrf']->token()), '_token');
 
         if (false === $validator->isValid()) {
             $this->container['messages']->error($validator->getMessages());
-            $this->container['session']->putFlash('input', $input);
-            return $this->redirect($this->container['url']->to('/admin/categories/create'));
+            $this->container['session']->putStash('input', $input);
+            return $this->redirect($response, $this->container['url']->to('/admin/categories/create'));
         }
 
-        $slug = preg_replace('#\s+#', '-', $input['slug'] ?: $input['title']);
+        $slug = $this->container['slugify']->slug($input['slug'] ?: $input['title']);
 
         $id = $this->container['mappers.categories']->insert([
             'title' => $input['title'],
-            'slug' => strtolower($slug),
+            'slug' => $slug,
             'description' => $input['description'],
         ]);
 
         $this->container['messages']->success('Category created');
-        return $this->redirect($this->container['url']->to(sprintf('/admin/categories/%d/edit', $id)));
+        return $this->redirect($response, $this->container['url']->to(sprintf('/admin/categories/%d/edit', $id)));
     }
 
-    public function getEdit($request)
+    public function getEdit(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-        $id = $request->getAttribute('id');
-        $category = $this->container['mappers.categories']->where('id', '=', $id)->fetch();
+        $category = $this->container['mappers.categories']->id($args['id']);
 
-        $form = new \Forms\Category([
+        if (false === $category) {
+            throw new \InvalidArgumentException(sprintf('category not found %d', $args['id']));
+        }
+
+        $form = new CategoryForm([
             'method' => 'post',
             'action' => $this->container['url']->to(sprintf('/admin/categories/%d/update', $category->id))
         ]);
@@ -100,43 +106,49 @@ class Categories extends AbstractController
         $form->setValues($category->toArray());
 
         // re-populate old input
-        $form->setValues($this->container['session']->getFlash('input', []));
+        $form->setValues($this->container['session']->getStash('input', []));
 
+        $vars['sitename'] = $this->container['mappers.meta']->key('sitename');
         $vars['title'] = sprintf('Editing &ldquo;%s&rdquo;', $category->title);
         $vars['category'] = $category;
         $vars['form'] = $form;
 
-        return $this->renderTemplate('layouts/default', 'categories/edit', $vars);
+        $this->renderTemplate($response, 'layouts/default', 'categories/edit', $vars);
+
+        return $response;
     }
 
-    public function postUpdate($request)
+    public function postUpdate(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-        $id = $request->getAttribute('id');
-        $category = $this->container['mappers.categories']->where('id', '=', $id)->fetch();
+        $category = $this->container['mappers.categories']->id($args['id']);
 
-        $form = new \Forms\Category;
+        if (false === $category) {
+            throw new \InvalidArgumentException(sprintf('category not found %d', $args['id']));
+        }
+
+        $form = new CategoryForm;
         $form->init();
 
-        $input = filter_input_array(INPUT_POST, $form->getFilters());
+        $input = filter_var_array($request->getParsedBody(), $form->getFilters());
         $validator = $this->container['validation']->create($input, $form->getRules());
 
-        $validator->addRule(new \Forms\ValidateToken($this->container['csrf']->token()), '_token');
+        $validator->addRule(new ValidateToken($this->container['csrf']->token()), '_token');
 
         if (false === $validator->isValid()) {
             $this->container['messages']->error($validator->getMessages());
-            $this->container['session']->putFlash('input', $input);
-            return $this->redirect($this->container['url']->to(sprintf('/admin/categories/%d/edit', $post->id)));
+            $this->container['session']->putStash('input', $input);
+            return $this->redirect($response, $this->container['url']->to(sprintf('/admin/categories/%d/edit', $post->id)));
         }
 
-        $slug = preg_replace('#\s+#', '-', $input['slug'] ?: $input['title']);
+        $slug = $this->container['slugify']->slug($input['slug'] ?: $input['title']);
 
-        $this->container['mappers.categories']->where('id', '=', $category->id)->update([
+        $this->container['mappers.categories']->update($category->id, [
             'title' => $input['title'],
-            'slug' => strtolower($slug),
+            'slug' => $slug,
             'description' => $input['description'],
         ]);
 
         $this->container['messages']->success('Category updated');
-        return $this->redirect($this->container['url']->to(sprintf('/admin/categories/%d/edit', $id)));
+        return $this->redirect($response, $this->container['url']->to(sprintf('/admin/categories/%d/edit', $category->id)));
     }
 }

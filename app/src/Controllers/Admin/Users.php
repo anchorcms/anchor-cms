@@ -39,7 +39,7 @@ class Users extends AbstractController
         ]);
         $form->init();
         $form->getElement('_token')->setValue($this->container['csrf']->token());
-        $form->setValues($this->container['session']->getFlash('input', []));
+        $form->setValues($this->container['session']->getStash('input', []));
 
         $vars['title'] = 'Creating a new user';
         $vars['form'] = $form;
@@ -75,7 +75,7 @@ class Users extends AbstractController
 
         if (false === $validator->isValid()) {
             $this->container['messages']->error($validator->getMessages());
-            $this->container['session']->putFlash('input', $input);
+            $this->container['session']->putStash('input', $input);
             return $this->redirect($this->container['url']->to('/admin/users/create'));
         }
 
@@ -112,7 +112,7 @@ class Users extends AbstractController
         $form->setValues($user->toArray());
 
         // re-populate old input
-        $form->setValues($this->container['session']->getFlash('input', []));
+        $form->setValues($this->container['session']->getStash('input', []));
 
         $vars['title'] = sprintf('Editing &ldquo;%s&rdquo;', $user->name);
         $vars['user'] = $user;
@@ -143,7 +143,7 @@ class Users extends AbstractController
 
         if (false === $validator->isValid()) {
             $this->container['messages']->error($validator->getMessages());
-            $this->container['session']->putFlash('input', $input);
+            $this->container['session']->putStash('input', $input);
             return $this->redirect($this->container['url']->to(sprintf('/admin/users/%d/edit', $user->id)));
         }
 

@@ -72,7 +72,7 @@ class Posts extends AbstractController
         $this->container['services.customFields']->appendFields($form, 'post');
 
         // re-populate submitted data
-        $form->setValues($this->container['session']->getFlash('input', []));
+        $form->setValues($this->container['session']->getStash('input', []));
 
         $vars['title'] = 'Creating a new post';
         $vars['form'] = $form;
@@ -95,7 +95,7 @@ class Posts extends AbstractController
 
         if (false === $validator->isValid()) {
             $this->container['messages']->error($validator->getMessages());
-            $this->container['session']->putFlash('input', $input);
+            $this->container['session']->putStash('input', $input);
             return $this->redirect($this->container['url']->to('/admin/posts/create'));
         }
 

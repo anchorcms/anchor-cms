@@ -74,4 +74,11 @@ abstract class AbstractMapper implements MapperInterface
     {
         return $this->db->update($this->getTableName(), $params, [$this->primary => $id]);
     }
+
+    public function insert(array $params): int
+    {
+        $this->db->insert($this->getTableName(), $params);
+
+        return $this->db->lastInsertId();
+    }
 }

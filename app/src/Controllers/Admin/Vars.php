@@ -31,7 +31,7 @@ class Vars extends AbstractController
         $form->getElement('_token')->setValue($this->container['csrf']->token());
 
         // re-populate submitted data
-        $form->setValues($this->container['session']->getFlash('input', []));
+        $form->setValues($this->container['session']->getStash('input', []));
 
         $vars['title'] = 'Creating a new custom variable';
         $vars['form'] = $form;
@@ -67,7 +67,7 @@ class Vars extends AbstractController
 
         if (false === $validator->isValid()) {
             $this->container['messages']->error($validator->getMessages());
-            $this->container['session']->putFlash('input', $input);
+            $this->container['session']->putStash('input', $input);
             return $this->redirect($this->container['url']->to('/admin/vars/create'));
         }
 
@@ -99,7 +99,7 @@ class Vars extends AbstractController
         $form->setValues($meta->toArray());
 
         // re-populate old input
-        $form->setValues($this->container['session']->getFlash('input', []));
+        $form->setValues($this->container['session']->getStash('input', []));
 
         $vars['title'] = sprintf('Editing &ldquo;%s&rdquo;', $meta->key);
         $vars['form'] = $form;
@@ -123,7 +123,7 @@ class Vars extends AbstractController
 
         if (false === $validator->isValid()) {
             $this->container['messages']->error($validator->getMessages());
-            $this->container['session']->putFlash('input', $input);
+            $this->container['session']->putStash('input', $input);
             return $this->redirect($this->container['url']->to(sprintf('/admin/vars/%s/edit', $meta->id)));
         }
 

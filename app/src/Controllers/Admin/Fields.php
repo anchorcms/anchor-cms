@@ -41,7 +41,7 @@ class Fields extends AbstractController
         $form->getElement('_token')->setValue($this->container['csrf']->token());
 
         // re-populate submitted data
-        $form->setValues($this->container['session']->getFlash('input', []));
+        $form->setValues($this->container['session']->getStash('input', []));
 
         $vars['title'] = 'Creating a new custom field';
         $vars['form'] = $form;
@@ -61,7 +61,7 @@ class Fields extends AbstractController
 
         if (false === $validator->isValid()) {
             $this->container['messages']->error($validator->getMessages());
-            $this->container['session']->putFlash('input', $input);
+            $this->container['session']->putStash('input', $input);
             return $this->redirect($this->container['url']->to('/admin/fields/create'));
         }
 
@@ -93,7 +93,7 @@ class Fields extends AbstractController
         $form->setValues($field->toArray());
 
         // re-populate old input
-        $form->setValues($this->container['session']->getFlash('input', []));
+        $form->setValues($this->container['session']->getStash('input', []));
 
         $vars['title'] = sprintf('Editing &ldquo;%s&rdquo;', $field->label);
         $vars['form'] = $form;
@@ -116,7 +116,7 @@ class Fields extends AbstractController
 
         if (false === $validator->isValid()) {
             $this->container['messages']->error($validator->getMessages());
-            $this->container['session']->putFlash('input', $input);
+            $this->container['session']->putStash('input', $input);
             return $this->redirect($this->container['url']->to(sprintf('/admin/fields/%d/edit', $post->id)));
         }
 
