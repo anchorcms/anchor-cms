@@ -7,7 +7,6 @@ use Psr\Http\Message\ResponseInterface;
 
 class Feeds extends Frontend
 {
-
     public function getRss(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
         $posts = $this->container['services.posts']->getPosts([

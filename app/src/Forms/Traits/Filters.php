@@ -4,7 +4,6 @@ namespace Anchorcms\Forms\Traits;
 
 trait Filters
 {
-
     protected $filters = [];
 
     public function getFilters()

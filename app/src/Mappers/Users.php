@@ -4,7 +4,6 @@ namespace Anchorcms\Mappers;
 
 class Users extends AbstractMapper
 {
-
     protected $primary = 'id';
 
     protected $name = 'users';

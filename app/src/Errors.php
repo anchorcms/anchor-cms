@@ -7,7 +7,6 @@ use ErrorException;
 
 class Errors
 {
-
     protected $handlers;
 
     public function __construct(array $handlers = [])

@@ -4,7 +4,6 @@ namespace Anchorcms\Mappers;
 
 class Categories extends AbstractMapper
 {
-
     protected $primary = 'id';
 
     protected $name = 'categories';

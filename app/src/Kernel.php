@@ -8,7 +8,6 @@ use Psr\Http\Message\ResponseInterface;
 
 class Kernel
 {
-
     protected $router;
 
     public function __construct(UriMatcher $router)
@@ -32,7 +31,7 @@ class Kernel
         $params = $request->getServerParams();
         $verb = array_key_exists('REQUEST_METHOD', $params) ? strtolower($params['REQUEST_METHOD']) : 'get';
 
-        $method = $verb . ucfirst($method);
+        $method = $verb.ucfirst($method);
 
         $output = $instance->$method($request, $response, $this->router->getParams());
 

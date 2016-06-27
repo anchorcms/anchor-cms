@@ -4,7 +4,6 @@ namespace Anchorcms\Session;
 
 class Cookies
 {
-
     protected $cookies;
 
     public function __construct(array $cookies = null)

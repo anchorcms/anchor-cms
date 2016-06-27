@@ -4,7 +4,6 @@ namespace Anchorcms\Mappers;
 
 class Pages extends AbstractMapper
 {
-
     protected $primary = 'id';
 
     protected $name = 'pages';

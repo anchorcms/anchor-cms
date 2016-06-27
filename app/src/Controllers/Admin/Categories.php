@@ -2,9 +2,9 @@
 
 namespace Anchorcms\Controllers\Admin;
 
-use Anchorcms\Controllers\AbstractController;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
+use Anchorcms\Controllers\AbstractController;
 use Anchorcms\Paginator;
 use Anchorcms\Forms\Category as CategoryForm;
 use Anchorcms\Forms\ValidateToken;
@@ -61,7 +61,7 @@ class Categories extends AbstractController
 
     public function postSave(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-        $form = new CategoryForm;
+        $form = new CategoryForm();
         $form->init();
 
         $input = filter_var_array($request->getParsedBody(), $form->getFilters());
@@ -72,6 +72,7 @@ class Categories extends AbstractController
         if (false === $validator->isValid()) {
             $this->container['messages']->error($validator->getMessages());
             $this->container['session']->putStash('input', $input);
+
             return $this->redirect($response, $this->container['url']->to('/admin/categories/create'));
         }
 
@@ -84,6 +85,7 @@ class Categories extends AbstractController
         ]);
 
         $this->container['messages']->success('Category created');
+
         return $this->redirect($response, $this->container['url']->to(sprintf('/admin/categories/%d/edit', $id)));
     }
 
@@ -97,7 +99,7 @@ class Categories extends AbstractController
 
         $form = new CategoryForm([
             'method' => 'post',
-            'action' => $this->container['url']->to(sprintf('/admin/categories/%d/update', $category->id))
+            'action' => $this->container['url']->to(sprintf('/admin/categories/%d/update', $category->id)),
         ]);
         $form->init();
         $form->getElement('_token')->setValue($this->container['csrf']->token());
@@ -126,7 +128,7 @@ class Categories extends AbstractController
             throw new \InvalidArgumentException(sprintf('category not found %d', $args['id']));
         }
 
-        $form = new CategoryForm;
+        $form = new CategoryForm();
         $form->init();
 
         $input = filter_var_array($request->getParsedBody(), $form->getFilters());
@@ -137,6 +139,7 @@ class Categories extends AbstractController
         if (false === $validator->isValid()) {
             $this->container['messages']->error($validator->getMessages());
             $this->container['session']->putStash('input', $input);
+
             return $this->redirect($response, $this->container['url']->to(sprintf('/admin/categories/%d/edit', $post->id)));
         }
 
@@ -149,6 +152,7 @@ class Categories extends AbstractController
         ]);
 
         $this->container['messages']->success('Category updated');
+
         return $this->redirect($response, $this->container['url']->to(sprintf('/admin/categories/%d/edit', $category->id)));
     }
 }

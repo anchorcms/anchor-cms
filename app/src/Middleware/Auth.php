@@ -9,7 +9,6 @@ use Psr\Http\Message\ResponseInterface;
 
 class Auth implements ServerMiddlewareInterface
 {
-
     protected $session;
 
     protected $protected;

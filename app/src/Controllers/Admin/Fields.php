@@ -51,7 +51,7 @@ class Fields extends AbstractController
 
     public function postSave()
     {
-        $form = new \Forms\CustomField;
+        $form = new \Forms\CustomField();
         $form->init();
 
         $input = filter_input_array(INPUT_POST, $form->getFilters());
@@ -62,6 +62,7 @@ class Fields extends AbstractController
         if (false === $validator->isValid()) {
             $this->container['messages']->error($validator->getMessages());
             $this->container['session']->putStash('input', $input);
+
             return $this->redirect($this->container['url']->to('/admin/fields/create'));
         }
 
@@ -74,6 +75,7 @@ class Fields extends AbstractController
         ]);
 
         $this->container['messages']->success('Custom field created');
+
         return $this->redirect($this->container['url']->to(sprintf('/admin/fields/%d/edit', $id)));
     }
 
@@ -106,7 +108,7 @@ class Fields extends AbstractController
         $id = $request->getAttribute('id');
         $field = $this->container['mappers.customFields']->where('id', '=', $id)->fetch();
 
-        $form = new \Forms\CustomField;
+        $form = new \Forms\CustomField();
         $form->init();
 
         $input = filter_input_array(INPUT_POST, $form->getFilters());
@@ -117,6 +119,7 @@ class Fields extends AbstractController
         if (false === $validator->isValid()) {
             $this->container['messages']->error($validator->getMessages());
             $this->container['session']->putStash('input', $input);
+
             return $this->redirect($this->container['url']->to(sprintf('/admin/fields/%d/edit', $post->id)));
         }
 
@@ -128,6 +131,7 @@ class Fields extends AbstractController
         ]);
 
         $this->container['messages']->success('Custom field updated');
+
         return $this->redirect($this->container['url']->to(sprintf('/admin/fields/%d/edit', $id)));
     }
 }

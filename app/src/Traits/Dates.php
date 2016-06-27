@@ -4,18 +4,17 @@ namespace Anchorcms\Traits;
 
 trait Dates
 {
-
     protected function getRelativeTime(\DateTime $date)
     {
-        $now = new \DateTime;
+        $now = new \DateTime();
         $diff = $now->diff($date);
 
         if ($diff->format('%d') < 1) {
-            return 'Today ' . $date->format('h:ia');
+            return 'Today '.$date->format('h:ia');
         }
 
         if ($diff->format('%d') < 3) {
-            return 'Yesterday ' . $date->format('h:ia');
+            return 'Yesterday '.$date->format('h:ia');
         }
 
         if ($diff->format('%y') < 1) {

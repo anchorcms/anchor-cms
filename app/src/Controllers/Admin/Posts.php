@@ -2,9 +2,9 @@
 
 namespace Anchorcms\Controllers\Admin;
 
-use Anchorcms\Controllers\AbstractController;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
+use Anchorcms\Controllers\AbstractController;
 use Anchorcms\Paginator;
 use Anchorcms\Forms\Post as PostForm;
 use Anchorcms\Forms\ValidateToken;
@@ -48,7 +48,7 @@ class Posts extends AbstractController
 
         $vars['sitename'] = $this->container['mappers.meta']->key('sitename');
         $vars['title'] = 'Posts';
-        $vars['hasPosts'] = ! empty($posts);
+        $vars['hasPosts'] = !empty($posts);
         $vars['posts'] = $posts;
         $vars['paging'] = $paging;
         $vars['categories'] = $this->container['mappers.categories']->all();
@@ -82,7 +82,7 @@ class Posts extends AbstractController
 
     public function postSave(ServerRequestInterface $request, ResponseInterface $response, array $args)
     {
-        $form = new \Forms\Post;
+        $form = new \Forms\Post();
         $form->init();
 
         // append custom fields
@@ -96,6 +96,7 @@ class Posts extends AbstractController
         if (false === $validator->isValid()) {
             $this->container['messages']->error($validator->getMessages());
             $this->container['session']->putStash('input', $input);
+
             return $this->redirect($this->container['url']->to('/admin/posts/create'));
         }
 
@@ -124,6 +125,7 @@ class Posts extends AbstractController
         $this->container['services.customFields']->saveFields($request, $input, 'post', $id);
 
         $this->container['messages']->success('Post created');
+
         return $this->redirect($this->container['url']->to(sprintf('/admin/posts/%d/edit', $id)));
     }
 
@@ -171,11 +173,11 @@ class Posts extends AbstractController
         // get post to update
         $post = $this->container['mappers.posts']->id($args['id']);
 
-        if (! $post) {
+        if (!$post) {
             throw new \InvalidArgumentException('post not found');
         }
 
-        $form = new PostForm;
+        $form = new PostForm();
         $form->init();
 
         // append custom fields
@@ -189,6 +191,7 @@ class Posts extends AbstractController
         if (false === $validator->isValid()) {
             $this->container['messages']->error($validator->getMessages());
             $this->container['session']->putStash('input', $input);
+
             return $this->redirect($response, $this->container['url']->to(sprintf('/admin/posts/%d/edit', $post->id)));
         }
 
@@ -214,6 +217,7 @@ class Posts extends AbstractController
         $this->container['services.customFields']->saveFields($request, $input, 'post', $post->id);
 
         $this->container['messages']->success('Post updated');
+
         return $this->redirect($response, $this->container['url']->to(sprintf('/admin/posts/%d/edit', $post->id)));
     }
 
@@ -222,7 +226,7 @@ class Posts extends AbstractController
         // check post before
         $post = $this->container['mappers.posts']->where('id', '=', $args['id'])->fetch();
 
-        if (! $post) {
+        if (!$post) {
             return $this->redirect($response, $this->container['url']->to('/admin/posts'));
         }
 
@@ -230,6 +234,7 @@ class Posts extends AbstractController
         $this->container['mappers.postmeta']->where('post', '=', $post->id)->delete();
 
         $this->container['messages']->success('Post deleted');
+
         return $this->redirect($this->container['url']->to('/admin/posts'));
     }
 }

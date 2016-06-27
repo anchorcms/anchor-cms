@@ -12,7 +12,7 @@
 		<ul class="listing">
 			<?php foreach($users as $user): ?>
 			<li>
-				<h3><a href="<?php echo url('/admin/users/'.$user->id.'/edit'); ?>"><?php echo $user->name; ?></a></h3>
+				<h3><a href="/admin/users/<?php echo $user->id; ?>/edit"><?php echo $user->name; ?></a></h3>
 				<span class="badge--pinned">
 					<span class="badge">
 						<?php echo $user->role; ?>

@@ -4,7 +4,6 @@ namespace Anchorcms\Session;
 
 class FileStorage
 {
-
     protected $path;
 
     public function __construct($path)

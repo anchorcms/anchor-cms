@@ -6,7 +6,6 @@ use Anchorcms\Models\User as UserModel;
 
 class Auth
 {
-
     protected $config;
 
     protected $users;

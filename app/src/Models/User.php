@@ -4,7 +4,6 @@ namespace Anchorcms\Models;
 
 class User extends AbstractModel
 {
-
     public function isActive()
     {
         return $this->status == 'active';
@@ -25,7 +24,7 @@ class User extends AbstractModel
         $encoded = '';
         $len = strlen($this->email);
 
-        for ($index = 0; $index < $len; $index++) {
+        for ($index = 0; $index < $len; ++$index) {
             $encoded .= '&#'.ord($this->email[$index]).';';
         }
 

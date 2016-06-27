@@ -7,7 +7,6 @@ use Psr\Http\Message\UriInterface;
 
 class Url
 {
-
     protected $host;
 
     protected $scheme;
@@ -24,7 +23,8 @@ class Url
 
     public function to(string $path): UriInterface
     {
-        $path = '/' . ltrim($path, '/');
+        $path = '/'.ltrim($path, '/');
+
         return (clone $this->uri)->withScheme($this->scheme)->withHost($this->host)->withPath($path);
     }
 }

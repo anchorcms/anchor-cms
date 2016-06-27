@@ -4,7 +4,6 @@ namespace Anchorcms\Forms\Traits;
 
 trait FilterRules
 {
-
     protected $rules = [];
 
     public function getRules()

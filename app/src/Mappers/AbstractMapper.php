@@ -8,7 +8,6 @@ use Anchorcms\Models\AbstractModel;
 
 abstract class AbstractMapper implements MapperInterface
 {
-
     protected $db;
 
     protected $prototype;

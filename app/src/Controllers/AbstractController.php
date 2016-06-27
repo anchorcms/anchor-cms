@@ -7,7 +7,6 @@ use Psr\Http\Message\ResponseInterface;
 
 abstract class AbstractController implements ControllerInterface
 {
-
     protected $container;
 
     public function setContainer(Container $container)

@@ -7,7 +7,6 @@ use Anchorcms\Models\Page as PageModel;
 
 class Search extends Frontend
 {
-
     public function getIndex(ServerRequestInterface $request): string
     {
         $qs = $request->getUri()->getQuery();
@@ -35,7 +34,7 @@ class Search extends Frontend
         $this->container['services.posts']->hydrate($posts);
 
         $vars['posts'] = $posts;
-        $vars['hasPosts'] = ! empty($posts);
+        $vars['hasPosts'] = !empty($posts);
 
         return $this->container['theme']->render(['search', 'index'], $vars);
     }

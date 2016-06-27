@@ -4,7 +4,6 @@ namespace Anchorcms;
 
 class View
 {
-
     protected $path;
 
     protected $ext;
@@ -36,7 +35,7 @@ class View
 
         extract($vars, EXTR_SKIP);
 
-        require $this->path . '/' . $template . '.' . $this->ext;
+        require $this->path.'/'.$template.'.'.$this->ext;
 
         return ob_get_clean();
     }

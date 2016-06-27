@@ -23,6 +23,7 @@ class Auth extends AbstractController
 
             return $this->redirect($response, $forward);
         }
+
         return $this->redirect($response, $this->container['url']->to('/admin/auth/login'));
     }
 
@@ -49,7 +50,7 @@ class Auth extends AbstractController
 
     public function postAttempt(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-        $form = new Login;
+        $form = new Login();
         $input = $form->getFilters();
 
         // validate input
@@ -97,6 +98,7 @@ class Auth extends AbstractController
     {
         $this->container['session']->destroy()->migrate();
         $this->container['messages']->success('You are now logged out');
+
         return $this->redirect($response, $this->container['url']->to('/admin/auth/login'));
     }
 
@@ -123,7 +125,7 @@ class Auth extends AbstractController
 
     public function postAmnesia(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-        $form = new Amnesia;
+        $form = new Amnesia();
         $input = $form->getFilters();
 
         // validate input
@@ -158,12 +160,13 @@ class Auth extends AbstractController
 
         $token = $this->container['services.auth']->resetToken($user);
 
-        $link = $this->container['url']->to('/admin/auth/reset?token=' . $token);
+        $link = $this->container['url']->to('/admin/auth/reset?token='.$token);
         $body = $this->renderTemplate('layouts/email', 'users/reset-password-email', ['link' => $link, 'user' => $user]);
 
         $this->container['services.postman']->deliver($to, $from, $subject, $body);
 
         $this->container['messages']->success(['We have sent a email with further instructions']);
+
         return $this->redirect($response, '/admin/auth/login');
     }
 
@@ -173,8 +176,9 @@ class Auth extends AbstractController
         $token = filter_input(INPUT_GET, 'token', FILTER_SANITIZE_STRING);
         $user = $this->container['services.auth']->verifyToken($token);
 
-        if (! $user) {
+        if (!$user) {
             $this->container['messages']->error(['Invalid reset token']);
+
             return $this->redirect($response, $this->container['url']->to('/admin/auth/login'));
         }
 
@@ -182,7 +186,7 @@ class Auth extends AbstractController
 
         $form = new Reset([
             'method' => 'post',
-            'action' => $this->container['url']->to('/admin/auth/reset?token=' . $token),
+            'action' => $this->container['url']->to('/admin/auth/reset?token='.$token),
         ]);
         $form->init();
         $form->getElement('_token')->setValue($this->container['csrf']->token());
@@ -200,12 +204,13 @@ class Auth extends AbstractController
         $token = filter_input(INPUT_GET, 'token', FILTER_SANITIZE_STRING);
         $user = $this->container['services.auth']->verifyToken($token);
 
-        if (! $user) {
+        if (!$user) {
             $this->container['messages']->error(['Invalid reset token']);
+
             return $this->redirect($response, $this->container['url']->to('/admin/auth/login'));
         }
 
-        $form = new Reset;
+        $form = new Reset();
         $input = $form->getFilters();
 
         // validate input
@@ -216,12 +221,14 @@ class Auth extends AbstractController
 
         if (false === $validator->isValid()) {
             $this->container['messages']->error($validator->getMessages());
-            return $this->redirect($response, $this->container['url']->to('/admin/auth/reset?token=' . $token));
+
+            return $this->redirect($response, $this->container['url']->to('/admin/auth/reset?token='.$token));
         }
 
         $this->container['services.auth']->changePassword($user, $input['password']);
 
         $this->container['messages']->success(['Your password has been reset']);
+
         return $this->redirect($response, $this->container['url']->to('/admin/auth/login'));
     }
 }

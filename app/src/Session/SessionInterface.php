@@ -6,7 +6,6 @@ use Psr\Http\Message\ResponseInterface;
 
 interface SessionInterface
 {
-
     public function id(): string;
 
     public function name(): string;

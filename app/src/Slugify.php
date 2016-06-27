@@ -4,9 +4,8 @@ namespace Anchorcms;
 
 class Slugify
 {
-
     /**
-     * Format a string to be a valid uri string
+     * Format a string to be a valid uri string.
      */
     public function slug(string $string, string $separator = '-'): string
     {
@@ -23,7 +22,7 @@ class Slugify
         $string = preg_replace('#['.$separator.'\s]+#', $separator, $string);
 
         // trim spaces and separators
-        $string = trim($string, $separator . " \t\n\r\0\x0B");
+        $string = trim($string, $separator." \t\n\r\0\x0B");
 
         // lower case
         $string = mb_strtolower($string);

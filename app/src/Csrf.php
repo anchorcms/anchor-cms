@@ -5,11 +5,10 @@ namespace Anchorcms;
 use Anchorcms\Session\StorageInterface;
 
 /**
- * Cross-Site Request Forgery Protection
+ * Cross-Site Request Forgery Protection.
  */
 class Csrf
 {
-
     protected $session;
 
     public function __construct(StorageInterface $session)

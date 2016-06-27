@@ -7,7 +7,6 @@ use Forms\Traits\FilterRules;
 
 class Page extends \Forms\Form
 {
-
     use Filters, FilterRules;
 
     public function init()
@@ -48,13 +47,13 @@ class Page extends \Forms\Form
             'attributes' => [
                 'autofocus' => true,
                 'placeholder' => 'What’s your page called?',
-                'class' => 'title'
-            ]
+                'class' => 'title',
+            ],
         ]));
 
         $this->addElement(new \Forms\Elements\Textarea('content', [
             'label' => 'Content',
-            'attributes' => ['class' => 'markdown-editor', 'placeholder' => 'Just write.']
+            'attributes' => ['class' => 'markdown-editor', 'placeholder' => 'Just write.'],
         ]));
 
         $this->addElement(new \Forms\Elements\Select('status', [

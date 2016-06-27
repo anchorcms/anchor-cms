@@ -4,7 +4,6 @@ namespace Anchorcms\Services;
 
 class Plugins
 {
-
     public function __construct($path)
     {
         $this->path = $path;

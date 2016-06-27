@@ -7,7 +7,6 @@ use Psr\Http\Message\ServerRequestInterface;
 
 class CustomFields
 {
-
     protected $fields;
 
     protected $postmeta;
@@ -28,6 +27,7 @@ class CustomFields
         $query = $this->fields->query();
         $query->where('type = :type')
             ->setParameter('type', $type);
+
         return $this->fields->fetchAll($query);
     }
 
@@ -40,7 +40,7 @@ class CustomFields
         foreach ($fields as $field) {
             $query = $this->$table->query();
 
-            $query->where($type . ' = :id')
+            $query->where($type.' = :id')
                     ->setParameter('id', $id)
                 ->where('custom_field = :custom_field')
                     ->setParameter('custom_field', $field->id);

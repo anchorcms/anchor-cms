@@ -4,7 +4,6 @@ namespace Anchorcms\Forms\Installer;
 
 class Metadata extends \Forms\Form
 {
-
     public function init()
     {
         $this->addElement(new \Forms\Elements\Hidden('_token'));
@@ -25,7 +24,7 @@ class Metadata extends \Forms\Form
 
         $this->addElement(new \Forms\Elements\Submit('submit', [
             'value' => 'Next',
-            'attributes' => ['class' => 'button button--primary float--right']
+            'attributes' => ['class' => 'button button--primary float--right'],
         ]));
     }
 

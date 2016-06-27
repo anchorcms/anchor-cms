@@ -7,7 +7,6 @@ use Forms\Traits\FilterRules;
 
 class Meta extends \Forms\Form
 {
-
     use Filters, FilterRules;
 
     public function init()

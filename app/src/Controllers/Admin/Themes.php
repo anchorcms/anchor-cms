@@ -21,6 +21,7 @@ class Themes extends AbstractController
         $this->container['mappers.meta']->where('key', '=', 'theme')->update(['value' => $theme]);
 
         $this->container['messages']->success(['Theme updated']);
+
         return $this->redirect($this->container['url']->to('/admin/themes'));
     }
 }

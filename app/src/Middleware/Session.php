@@ -9,7 +9,6 @@ use Psr\Http\Message\ResponseInterface;
 
 class Session implements ServerMiddlewareInterface
 {
-
     protected $session;
 
     public function __construct($session)

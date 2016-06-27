@@ -4,14 +4,13 @@ namespace Anchorcms\Forms\Installer;
 
 class L10n extends \Forms\Form
 {
-
     public function init()
     {
         $this->addElement(new \Forms\Elements\Hidden('_token'));
 
         $this->addElement(new \Forms\Elements\Select('app_lang', [
             'label' => 'Language',
-            'options' => ['en_GB' => 'English']
+            'options' => ['en_GB' => 'English'],
         ]));
 
         $list = \DateTimeZone::listIdentifiers();

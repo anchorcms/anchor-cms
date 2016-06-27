@@ -2,31 +2,41 @@
 
 namespace Anchorcms\Controllers\Admin;
 
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Message\ResponseInterface;
 use Anchorcms\Controllers\AbstractController;
 
 class Pages extends AbstractController
 {
-    public function getIndex($request)
+    public function getIndex(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
         $input = filter_var_array($request->getQueryParams(), [
             'status' => FILTER_SANITIZE_STRING,
         ]);
 
-        $query = $this->container['mappers.pages']->sort('name');
+        $query = $this->container['mappers.pages']->query();
 
-        $statuses = ['published' => 'Published', 'draft' => 'Draft', 'archived' => 'Archived'];
+        $statuses = [
+            'published' => 'Published',
+            'draft' => 'Draft',
+            'archived' => 'Archived',
+        ];
 
         if (array_key_exists($input['status'], $statuses)) {
-            $query->where('status', '=', $input['status']);
+            $query->where('status = :status')
+                ->setParameter('status', $input['status']);
         }
 
-        $pages = $query->get();
+        $pages = $this->container['mappers.pages']->fetchAll($query);
 
+        $vars['sitename'] = $this->container['mappers.meta']->key('sitename');
         $vars['title'] = 'Pages';
         $vars['statuses'] = $statuses;
         $vars['pages'] = $pages;
 
-        return $this->renderTemplate('layouts/default', 'pages/index', $vars);
+        $this->renderTemplate($response, 'layouts/default', 'pages/index', $vars);
+
+        return $response;
     }
 
     public function getCreate()
@@ -61,7 +71,7 @@ class Pages extends AbstractController
 
     public function postSave($request)
     {
-        $form = new \Forms\Page;
+        $form = new \Forms\Page();
         $form->init();
 
         // append custom fields
@@ -75,6 +85,7 @@ class Pages extends AbstractController
         if (false === $validator->isValid()) {
             $this->container['messages']->error($validator->getMessages());
             $this->container['session']->putStash('input', $input);
+
             return $this->redirect($this->container['url']->to('/admin/pages/create'));
         }
 
@@ -98,13 +109,14 @@ class Pages extends AbstractController
         $this->container['services.customFields']->saveFields($request, $input, 'page', $id);
 
         $this->container['messages']->success('Page created');
+
         return $this->redirect($this->container['url']->to(sprintf('/admin/pages/%d/edit', $id)));
     }
 
     public function getEdit($request)
     {
         $id = $request->getAttribute('id');
-        $page= $this->container['mappers.pages']->where('id', '=', $id)->fetch();
+        $page = $this->container['mappers.pages']->where('id', '=', $id)->fetch();
 
         $form = new \Forms\Page([
             'method' => 'post',
@@ -146,7 +158,7 @@ class Pages extends AbstractController
         $id = $request->getAttribute('id');
         $page = $this->container['mappers.pages']->where('id', '=', $id)->fetch();
 
-        $form = new \Forms\Page;
+        $form = new \Forms\Page();
         $form->init();
 
         // append custom fields
@@ -160,6 +172,7 @@ class Pages extends AbstractController
         if (false === $validator->isValid()) {
             $this->container['messages']->error($validator->getMessages());
             $this->container['session']->putStash('input', $input);
+
             return $this->redirect($this->container['url']->to(sprintf('/admin/pages/%d/edit', $page->id)));
         }
 
@@ -183,6 +196,7 @@ class Pages extends AbstractController
         $this->container['services.customFields']->saveFields($request, $input, 'post', $id);
 
         $this->container['messages']->success('Page updated');
+
         return $this->redirect($this->container['url']->to(sprintf('/admin/pages/%d/edit', $id)));
     }
 
@@ -191,7 +205,7 @@ class Pages extends AbstractController
         $id = $request->getAttribute('id');
         $page = $this->container['mappers.pages']->where('id', '=', $id)->fetch();
 
-        if (! $page) {
+        if (!$page) {
             return $this->redirect($this->container['url']->to('/admin/pages'));
         }
 
@@ -199,6 +213,7 @@ class Pages extends AbstractController
         $this->container['mappers.pagemeta']->where('page', '=', $page->id)->delete();
 
         $this->container['messages']->success('Page deleted');
+
         return $this->redirect($this->container['url']->to('/admin/pages'));
     }
 }

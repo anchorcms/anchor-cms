@@ -6,7 +6,6 @@ use Validation\AbstractRule;
 
 class ValidateToken extends AbstractRule
 {
-
     protected $token;
 
     protected $message = '%s is not a valid csrf token';

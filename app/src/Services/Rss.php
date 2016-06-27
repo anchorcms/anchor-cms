@@ -9,7 +9,6 @@ use Psr\Http\Message\UriInterface;
 
 class Rss
 {
-
     protected $document;
 
     protected $channel;
@@ -61,7 +60,7 @@ class Rss
         $atom = $this->element('atom:link', '', array(
             'href' => $url,
             'rel' => 'self',
-            'type' => 'application/rss+xml'
+            'type' => 'application/rss+xml',
         ));
         $this->channel->appendChild($atom);
     }
@@ -150,7 +149,7 @@ class Rss
         $this->channel->appendChild($item);
 
         foreach ($params as $key => $value) {
-            $method = 'item' . ucfirst($key);
+            $method = 'item'.ucfirst($key);
             $this->$method($value, $item);
         }
     }

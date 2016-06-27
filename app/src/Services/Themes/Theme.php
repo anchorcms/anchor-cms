@@ -4,39 +4,44 @@ namespace Anchorcms\Services\Themes;
 
 class Theme
 {
-
     /**
-     * Folder where the theme lives
+     * Folder where the theme lives.
+     *
      * @var string
      */
     protected $path;
 
     /**
-     * Instance of mustache
+     * Instance of mustache.
+     *
      * @var object
      */
     protected $mustache;
 
     /**
-     * The basename of the theme
+     * The basename of the theme.
+     *
      * @var string
      */
     protected $name;
 
     /**
-     * The json decoded contents of the manifest file
+     * The json decoded contents of the manifest file.
+     *
      * @var object
      */
     protected $manifest;
 
     /**
-     * The file extension of the templates
+     * The file extension of the templates.
+     *
      * @var string
      */
     protected $ext = '.mustache';
 
     /**
-     * The theme constructorrr
+     * The theme constructorrr.
+     *
      * @param object Mustache_Engine
      * @param string Theme path
      */
@@ -68,7 +73,7 @@ class Theme
      */
     public function getManifestFilepath()
     {
-        return $this->path . '/manifest.json';
+        return $this->path.'/manifest.json';
     }
 
     /*
@@ -112,9 +117,10 @@ class Theme
     }
 
     /**
-     * Returns the first template that exists
+     * Returns the first template that exists.
      *
      * @param array
+     *
      * @return string
      */
     public function getTemplate(array $names)
@@ -129,9 +135,10 @@ class Theme
     }
 
     /**
-     * Checks if a template file exists
+     * Checks if a template file exists.
      *
      * @param string
+     *
      * @return bool
      */
     public function templateExists(string $name): bool
@@ -153,10 +160,12 @@ class Theme
             ]);
 
             $layout = $this->mustache->loadTemplate('layout');
+
             return $layout->render($vars);
         }
 
         $template = $this->getTemplate($templates);
+
         return $this->mustache->loadTemplate($template)->render($vars);
     }
 }

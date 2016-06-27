@@ -6,13 +6,12 @@ use Anchorcms\Models\Page as PageModel;
 
 abstract class Frontend extends AbstractController
 {
-
     public function notFound()
     {
         $page = new PageModel([
             'title' => 'Not Found',
             'slug' => 'not-found',
-            'html' => '<p>The resource you’re looking for doesn’t exist!</p>'
+            'html' => '<p>The resource you’re looking for doesn’t exist!</p>',
         ]);
 
         $vars['meta'] = $this->container['mappers.meta']->all();

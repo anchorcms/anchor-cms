@@ -42,7 +42,7 @@ class Meta extends AbstractController
     {
         $id = $request->getAttribute('id');
 
-        $form = new \Forms\Meta;
+        $form = new \Forms\Meta();
         $form->init();
 
         $input = filter_input_array(INPUT_POST, $form->getFilters());
@@ -53,6 +53,7 @@ class Meta extends AbstractController
         if (false === $validator->isValid()) {
             $this->container['messages']->error($validator->getMessages());
             $this->container['session']->putStash('input', $input);
+
             return $this->redirect($this->container['url']->to('/admin/meta'));
         }
 
@@ -65,6 +66,7 @@ class Meta extends AbstractController
         }
 
         $this->container['messages']->success('Metadata updated');
+
         return $this->redirect($this->container['url']->to('/admin/meta'));
     }
 }

@@ -8,7 +8,6 @@ use Doctrine\DBAL\DriverManager;
 
 class Installer
 {
-
     protected $paths;
 
     protected $session;
@@ -37,7 +36,7 @@ class Installer
         $parts = [];
 
         if ($params['db_driver'] == 'pdo_sqlite') {
-            $parts[] = $this->paths['storage'] . '/' . $params['db_path'];
+            $parts[] = $this->paths['storage'].'/'.$params['db_path'];
         }
 
         if ($params['db_driver'] == 'pdo_mysql') {
@@ -77,10 +76,10 @@ class Installer
             mkdir($path, 0700, true);
         }
 
-        $pattern = sprintf('%s/*.json', dirname($path) . '/config-samples');
+        $pattern = sprintf('%s/*.json', dirname($path).'/config-samples');
 
         if ($input['db_path']) {
-            $input['db_path'] = $this->paths['storage'] . '/' . $input['db_path'];
+            $input['db_path'] = $this->paths['storage'].'/'.$input['db_path'];
         }
 
         foreach (glob($pattern) as $src) {
@@ -102,7 +101,7 @@ class Installer
 
     protected function runSchema(PDO $pdo, array $input)
     {
-        $path = $this->paths['resources'] . '/schema_' . substr($input['db_driver'], 4) . '.sql';
+        $path = $this->paths['resources'].'/schema_'.substr($input['db_driver'], 4).'.sql';
         $schema = file_get_contents($path);
 
         // replace table prefix
@@ -170,7 +169,7 @@ class Installer
         $conn->insert($input['db_table_prefix'].'posts', [
             'title' => 'Hello World',
             'slug' => 'hello-world',
-            'content' => 'Hello World!' . "\n\n" . 'This is the first post.',
+            'content' => 'Hello World!'."\n\n".'This is the first post.',
             'html' => '<p>Hello World!</p>'."\n\n".'<p>This is the first post.</p>',
             'created' => date('Y-m-d H:i:s'),
             'modified' => date('Y-m-d H:i:s'),

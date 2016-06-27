@@ -8,7 +8,6 @@ use Psr\Http\Message\UploadedFileInterface;
 
 class Media
 {
-
     protected $path;
 
     public function __construct($path)
@@ -30,7 +29,7 @@ class Media
         // remove white space
         $str = preg_replace('#\s+#', '-', $str);
 
-        return $str . '.' . $ext;
+        return $str.'.'.$ext;
     }
 
     public function getPath()
@@ -120,7 +119,8 @@ class Media
             if ($a['modified'] == $b['modified']) {
                 return 0;
             }
-            return $a['modified'] > $b['modified'] ? -1 : 1 ;
+
+            return $a['modified'] > $b['modified'] ? -1 : 1;
         });
 
         return $files;

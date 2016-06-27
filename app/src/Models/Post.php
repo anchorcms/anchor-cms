@@ -3,11 +3,9 @@
 namespace Anchorcms\Models;
 
 use Anchorcms\Traits\Dates;
-use Anchorcms\Models\ModelInterface;
 
 class Post extends AbstractModel
 {
-
     use Dates;
 
     protected $meta;

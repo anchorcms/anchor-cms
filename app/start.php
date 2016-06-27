@@ -1,19 +1,19 @@
 <?php
 
 // Make sure this we have a good version of PHP
-if (! defined('PHP_VERSION_ID') || PHP_VERSION_ID < 7) {
+if (!defined('PHP_VERSION_ID') || PHP_VERSION_ID < 7) {
     throw new RuntimeException('PHP 7 or later is required');
 }
 
 // Check composer is installed
-if (false === is_file(__DIR__ . '/../vendor/autoload.php')) {
+if (false === is_file(__DIR__.'/../vendor/autoload.php')) {
     throw new RuntimeException('Composer not installed');
 }
 
-require __DIR__ . '/../vendor/autoload.php';
+require __DIR__.'/../vendor/autoload.php';
 
 // create the container
-$app = new Pimple\Container(require __DIR__ . '/container.php');
+$app = new Pimple\Container(require __DIR__.'/container.php');
 
 // Setup Error handling
 $app['errors']->handler(function (RuntimeDebugException $exception) {
@@ -63,7 +63,7 @@ $app['errors']->handler(function (Throwable $exception) {
 $app['errors']->register();
 
 // Set a default Timezone if theres nothing set
-if (! ini_get('date.timezone')) {
+if (!ini_get('date.timezone')) {
     date_default_timezone_set('UTC');
 }
 // Set Timezone from the config or use the default
@@ -74,11 +74,12 @@ if (false === $app['services.installer']->isInstalled() ||
     // installation is complete but we still need to show the completed screen
     true === $app['services.installer']->installerRunning()) {
     // register router to run the installer
-    $app['http.routes']->set(require __DIR__ . '/routes/installer.php');
+    $app['http.routes']->set(require __DIR__.'/routes/installer.php');
 
     // start the session for installer
     $app['http.server']->append(function (Psr\Http\Message\ServerRequestInterface $request, Tari\ServerFrameInterface $frame) use ($app) {
         $app['session']->start();
+
         return $frame->next($request);
     });
 }
@@ -89,6 +90,7 @@ else {
         if (strpos($request->getUri()->getPath(), '/admin') === 0) {
             $app['session']->start();
         }
+
         return $frame->next($request);
     });
 

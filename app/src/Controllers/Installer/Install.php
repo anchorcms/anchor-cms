@@ -38,7 +38,7 @@ class Install extends AbstractController
 
     public function postL10n(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-        $form = new \Anchorcms\Forms\Installer\L10n;
+        $form = new \Anchorcms\Forms\Installer\L10n();
 
         $input = filter_input_array(INPUT_POST, $form->getFilters());
 
@@ -49,6 +49,7 @@ class Install extends AbstractController
 
         if (false === $validator->isValid()) {
             $this->container['messages']->error($validator->getMessages());
+
             return $this->redirect($response, '/l10n');
         }
 
@@ -79,7 +80,7 @@ class Install extends AbstractController
 
     public function postDatabase(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-        $form = new \Anchorcms\Forms\Installer\Database;
+        $form = new \Anchorcms\Forms\Installer\Database();
 
         $input = filter_input_array(INPUT_POST, $form->getFilters());
 
@@ -96,6 +97,7 @@ class Install extends AbstractController
 
         if (false === $validator->isValid()) {
             $this->container['messages']->error($validator->getMessages());
+
             return $this->redirect($response, '/database');
         }
 
@@ -128,7 +130,7 @@ class Install extends AbstractController
 
     public function postMetadata(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-        $form = new \Anchorcms\Forms\Installer\Metadata;
+        $form = new \Anchorcms\Forms\Installer\Metadata();
 
         $input = filter_input_array(INPUT_POST, $form->getFilters());
 
@@ -139,6 +141,7 @@ class Install extends AbstractController
 
         if (false === $validator->isValid()) {
             $this->container['messages']->error($validator->getMessages());
+
             return $this->redirect($response, '/metadata');
         }
 
@@ -169,7 +172,7 @@ class Install extends AbstractController
 
     public function postAccount(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-        $form = new \Anchorcms\Forms\Installer\Account;
+        $form = new \Anchorcms\Forms\Installer\Account();
 
         $input = filter_input_array(INPUT_POST, $form->getFilters());
 
@@ -183,11 +186,13 @@ class Install extends AbstractController
                 'password',
                 '12345678',
             ];
+
             return [false === in_array($value, $daftPasswords), 'Get out of here! Choose a better password'];
         }, 'account_password');
 
         if (false === $validator->isValid()) {
             $this->container['messages']->error($validator->getMessages());
+
             return $this->redirect($response, '/account');
         }
 

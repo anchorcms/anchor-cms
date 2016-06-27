@@ -4,7 +4,6 @@ namespace Anchorcms\Services;
 
 class Themes
 {
-
     protected $path;
 
     protected $current;

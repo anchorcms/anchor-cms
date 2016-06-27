@@ -4,7 +4,6 @@ namespace Anchorcms\Forms;
 
 class Category extends \Forms\Form
 {
-
     public function init()
     {
         $this->addElement(new \Forms\Elements\Hidden('_token'));
@@ -14,8 +13,8 @@ class Category extends \Forms\Form
             'attributes' => [
                 'autofocus' => true,
                 'placeholder' => 'What’s your category called?',
-                'class' => 'title'
-            ]
+                'class' => 'title',
+            ],
         ]));
 
         $this->addElement(new \Forms\Elements\Input('slug', [

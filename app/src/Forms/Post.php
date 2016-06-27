@@ -8,7 +8,6 @@ use Anchorcms\Forms\Traits\FilterRules;
 
 class Post extends Form
 {
-
     use Filters, FilterRules;
 
     public function init()
@@ -34,8 +33,8 @@ class Post extends Form
             'attributes' => [
                 'autofocus' => true,
                 'placeholder' => 'What’s your post called?',
-                'class' => 'title'
-            ]
+                'class' => 'title',
+            ],
         ]));
 
         $this->addElement(new \Forms\Elements\Input('slug', [
@@ -44,7 +43,7 @@ class Post extends Form
 
         $this->addElement(new \Forms\Elements\Textarea('content', [
             'label' => 'Content',
-            'attributes' => ['class' => 'markdown-editor', 'placeholder' => 'Just write.']
+            'attributes' => ['class' => 'markdown-editor', 'placeholder' => 'Just write.'],
         ]));
 
         $this->addElement(new \Forms\Elements\Select('category', [

@@ -6,7 +6,6 @@ use Anchorcms\Session\StashInterface;
 
 class Messages
 {
-
     protected $session;
 
     protected $messages = [];

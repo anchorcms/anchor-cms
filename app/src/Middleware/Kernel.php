@@ -9,7 +9,6 @@ use Psr\Http\Message\ResponseInterface;
 
 class Kernel implements ServerMiddlewareInterface
 {
-
     protected $container;
 
     public function __construct($container)
@@ -19,9 +18,10 @@ class Kernel implements ServerMiddlewareInterface
 
     public function resolveController($name)
     {
-        $name = '\\Anchorcms\\' . implode('\\', array_map('ucfirst', explode('\\', $name)));
-        $controller = new $name;
+        $name = '\\Anchorcms\\'.implode('\\', array_map('ucfirst', explode('\\', $name)));
+        $controller = new $name();
         $controller->setContainer($this->container);
+
         return $controller;
     }
 

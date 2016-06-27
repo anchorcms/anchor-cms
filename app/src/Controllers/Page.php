@@ -8,13 +8,13 @@ use Anchorcms\Models\Page as PageModel;
 
 class Page extends Frontend
 {
-
     /**
-     * View a single generic page
+     * View a single generic page.
      *
      * @param ServerRequestInterface $request
-     * @param ResponseInterface $response
-     * @param array $args
+     * @param ResponseInterface      $response
+     * @param array                  $args
+     *
      * @return mixed String | ResponseInterface
      */
     public function getIndex(ServerRequestInterface $request, ResponseInterface $response, array $args)
@@ -34,11 +34,12 @@ class Page extends Frontend
     }
 
     /**
-     * View the homepage which can be either the posts listing or a generic page
+     * View the homepage which can be either the posts listing or a generic page.
      *
      * @param ServerRequestInterface $request
-     * @param ResponseInterface $response
-     * @param array $args
+     * @param ResponseInterface      $response
+     * @param array                  $args
+     *
      * @return mixed String | ResponseInterface
      */
     public function getHome(ServerRequestInterface $request, ResponseInterface $response, array $args)
@@ -57,11 +58,12 @@ class Page extends Frontend
     }
 
     /**
-     * View a category homepage listing the posts in that category
+     * View a category homepage listing the posts in that category.
      *
      * @param ServerRequestInterface $request
-     * @param ResponseInterface $response
-     * @param array $args
+     * @param ResponseInterface      $response
+     * @param array                  $args
+     *
      * @return mixed String | ResponseInterface
      */
     public function getCategory(ServerRequestInterface $request, ResponseInterface $response, array $args)
@@ -99,9 +101,10 @@ class Page extends Frontend
     }
 
     /**
-     * Render a page
+     * Render a page.
      *
      * @param object PageModel
+     *
      * @return string Template output
      */
     protected function showPage(PageModel $page)

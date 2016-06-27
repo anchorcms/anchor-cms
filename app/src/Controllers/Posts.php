@@ -8,11 +8,12 @@ use Anchorcms\Models\Page as PageModel;
 
 class Posts extends Frontend
 {
-
     /**
-     * view a single post
-     * @param  [type] $request [description]
-     * @return [type]          [description]
+     * view a single post.
+     *
+     * @param [type] $request [description]
+     *
+     * @return [type] [description]
      */
     public function getIndex(ServerRequestInterface $request, ResponseInterface $response, array $args)
     {

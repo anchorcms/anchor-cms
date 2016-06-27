@@ -2,33 +2,55 @@
 
 namespace Anchorcms\Controllers\Admin;
 
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Message\ResponseInterface;
 use Anchorcms\Controllers\AbstractController;
+use Anchorcms\Paginator;
 
 class Users extends AbstractController
 {
-    public function getIndex()
+    public function getIndex(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-        $input = filter_var_array($_GET, [
-            'page' => FILTER_SANITIZE_NUMBER_INT,
-        ]);
+        $filters = [
+            'page' => [
+                'filter' => FILTER_VALIDATE_INT,
+                'flags' => FILTER_REQUIRE_SCALAR,
+                'options' => [
+                    'default' => 1,
+                    'min_range' => 1,
+                ],
+            ],
+        ];
+
+        $input = filter_var_array($request->getQueryParams(), $filters);
+
+        // why do i have to do this??? why is the default value ignored??
+        if (empty($input['page'])) {
+            $input['page'] = $filters['page']['options']['default'];
+        }
 
         $total = $this->container['mappers.users']->count();
         $perpage = $this->container['mappers.meta']->key('admin_posts_per_page', 10);
+        $offset = ($input['page'] - 1) * $perpage;
 
-        $users = $this->container['mappers.users']->sort('real_name', 'asc')->take($perpage);
+        $query = $this->container['mappers.users']->query();
 
-        if ($input['page']) {
-            $offset = ($input['page'] - 1) * $perpage;
-            $users->skip($offset);
-        }
+        $query->orderBy('name', 'ASC')
+            ->setMaxResults($perpage)
+            ->setFirstResult($offset);
 
-        $paging = new \Paginator($this->container['url']->to('/admin/users'), $input['page'], $total, $perpage, $input);
+        $users = $this->container['mappers.users']->fetchAll($query);
 
+        $paging = new Paginator($this->container['url']->to('/admin/users'), $input['page'], $total, $perpage);
+
+        $vars['sitename'] = $this->container['mappers.meta']->key('sitename');
         $vars['title'] = 'Users';
-        $vars['users'] = $users->get();
+        $vars['users'] = $users;
         $vars['paging'] = $paging;
 
-        return $this->renderTemplate('layouts/default', 'users/index', $vars);
+        $this->renderTemplate($response, 'layouts/default', 'users/index', $vars);
+
+        return $response;
     }
 
     public function getCreate()
@@ -49,7 +71,7 @@ class Users extends AbstractController
 
     public function postSave()
     {
-        $form = new \Forms\User;
+        $form = new \Forms\User();
         $form->init();
 
         $input = filter_input_array(INPUT_POST, $form->getFilters());
@@ -76,6 +98,7 @@ class Users extends AbstractController
         if (false === $validator->isValid()) {
             $this->container['messages']->error($validator->getMessages());
             $this->container['session']->putStash('input', $input);
+
             return $this->redirect($this->container['url']->to('/admin/users/create'));
         }
 
@@ -93,6 +116,7 @@ class Users extends AbstractController
         ]);
 
         $this->container['messages']->success('User created');
+
         return $this->redirect($this->container['url']->to(sprintf('/admin/users/%d/edit', $id)));
     }
 
@@ -126,7 +150,7 @@ class Users extends AbstractController
         $id = $request->getAttribute('id');
         $user = $this->container['mappers.users']->where('id', '=', $id)->fetch();
 
-        $form = new \Forms\User;
+        $form = new \Forms\User();
         $form->init();
 
         $input = filter_input_array(INPUT_POST, $form->getFilters());
@@ -144,6 +168,7 @@ class Users extends AbstractController
         if (false === $validator->isValid()) {
             $this->container['messages']->error($validator->getMessages());
             $this->container['session']->putStash('input', $input);
+
             return $this->redirect($this->container['url']->to(sprintf('/admin/users/%d/edit', $user->id)));
         }
 
@@ -164,6 +189,7 @@ class Users extends AbstractController
         $this->container['mappers.users']->where('id', '=', $user->id)->update($update);
 
         $this->container['messages']->success('User updated');
+
         return $this->redirect($this->container['url']->to(sprintf('/admin/users/%d/edit', $id)));
     }
 }

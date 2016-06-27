@@ -6,7 +6,6 @@ use Anchorcms\Mappers\MapperInterface;
 
 class Posts
 {
-
     public function __construct(MapperInterface $posts, MapperInterface $postmeta, MapperInterface $extend, MapperInterface $users, MapperInterface $categories)
     {
         $this->posts = $posts;
@@ -91,7 +90,7 @@ class Posts
         $query->andWhere('status = :status')
             ->setParameter('status', $params['status']);
 
-        if (! empty($params['category'])) {
+        if (!empty($params['category'])) {
             $query->andWhere('category = :category')
                 ->setParameter('category', $params['category']);
         }

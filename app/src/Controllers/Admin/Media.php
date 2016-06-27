@@ -23,7 +23,7 @@ class Media extends AbstractController
     {
         try {
             $files = $request->getUploadedFiles();
-            $url = '/content' . $this->container['services.media']->upload($files['file']);
+            $url = '/content'.$this->container['services.media']->upload($files['file']);
             $response = ['result' => true, 'path' => $url];
         } catch (\Exception $e) {
             $response = ['result' => false, 'message' => $e->getMessage()];

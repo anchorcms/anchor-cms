@@ -4,7 +4,6 @@ namespace Anchorcms;
 
 class Config
 {
-
     protected $path;
 
     protected $config;
@@ -23,7 +22,7 @@ class Config
         }
 
         // does the file exist?
-        $path = $this->path . '/' . $name . '.json';
+        $path = $this->path.'/'.$name.'.json';
 
         if (false === is_file($path)) {
             return [];

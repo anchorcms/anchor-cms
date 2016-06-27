@@ -4,7 +4,6 @@ namespace Anchorcms\Forms;
 
 class Amnesia extends \Forms\Form implements ValidatableInterface
 {
-
     public function init()
     {
         $this->addElement(new \Forms\Elements\Hidden('_token'));

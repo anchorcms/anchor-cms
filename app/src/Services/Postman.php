@@ -4,7 +4,6 @@ namespace Anchorcms\Services;
 
 class Postman
 {
-
     protected $eol = "\r\n";
 
     protected function compileHeaders(array $headers)
@@ -12,10 +11,10 @@ class Postman
         $list = [];
 
         foreach ($headers as $key => $value) {
-            $list[] = $key . ': ' . $value;
+            $list[] = $key.': '.$value;
         }
 
-        return implode($this->eol, $list) . $this->eol;
+        return implode($this->eol, $list).$this->eol;
     }
 
     protected function formatAddress(array $recipient)

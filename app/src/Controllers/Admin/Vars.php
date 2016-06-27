@@ -11,7 +11,7 @@ class Vars extends AbstractController
     public function getIndex()
     {
         $meta = $this->container['mappers.meta']
-            ->where('key', 'LIKE', $this->prefix . '%')
+            ->where('key', 'LIKE', $this->prefix.'%')
             ->sort('key', 'asc')
             ->get();
 
@@ -41,7 +41,7 @@ class Vars extends AbstractController
 
     public function postSave()
     {
-        $form = new \Forms\CustomVars;
+        $form = new \Forms\CustomVars();
         $form->init();
 
         $input = filter_input_array(INPUT_POST, $form->getFilters());
@@ -68,6 +68,7 @@ class Vars extends AbstractController
         if (false === $validator->isValid()) {
             $this->container['messages']->error($validator->getMessages());
             $this->container['session']->putStash('input', $input);
+
             return $this->redirect($this->container['url']->to('/admin/vars/create'));
         }
 
@@ -77,6 +78,7 @@ class Vars extends AbstractController
         ]);
 
         $this->container['messages']->success(['Custom variable created']);
+
         return $this->redirect($this->container['url']->to(sprintf('/admin/vars/%d/edit', $id)));
     }
 
@@ -113,7 +115,7 @@ class Vars extends AbstractController
         $id = $request->getAttribute('id');
         $meta = $this->container['mappers.meta']->where('id', '=', $id)->fetch();
 
-        $form = new \Forms\CustomVars;
+        $form = new \Forms\CustomVars();
         $form->init();
 
         $input = filter_input_array(INPUT_POST, $form->getFilters());
@@ -124,6 +126,7 @@ class Vars extends AbstractController
         if (false === $validator->isValid()) {
             $this->container['messages']->error($validator->getMessages());
             $this->container['session']->putStash('input', $input);
+
             return $this->redirect($this->container['url']->to(sprintf('/admin/vars/%s/edit', $meta->id)));
         }
 
@@ -132,6 +135,7 @@ class Vars extends AbstractController
         ]);
 
         $this->container['messages']->success(['Custom variable updated']);
+
         return $this->redirect($this->container['url']->to(sprintf('/admin/vars/%s/edit', $meta->id)));
     }
 
@@ -140,13 +144,14 @@ class Vars extends AbstractController
         $id = $request->getAttribute('id');
         $meta = $this->container['mappers.meta']->where('id', '=', $id)->fetch();
 
-        if (! $meta) {
+        if (!$meta) {
             return $this->redirect($this->container['url']->to('/admin/vars'));
         }
 
         $this->container['mappers.meta']->where('id', '=', $meta->id)->delete();
 
         $this->container['messages']->success(['Global variable deleted']);
+
         return $this->redirect($this->container['url']->to('/admin/vars'));
     }
 }

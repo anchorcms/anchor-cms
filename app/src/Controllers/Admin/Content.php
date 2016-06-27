@@ -10,6 +10,7 @@ class Content extends AbstractController
     {
         $makrdown = filter_input(INPUT_POST, 'content', FILTER_UNSAFE_RAW);
         $html = $this->container['markdown']->convertToHtml($makrdown);
+
         return $this->jsonResponse(['result' => true, 'html' => $html]);
     }
 }

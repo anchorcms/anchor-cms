@@ -4,7 +4,6 @@ namespace Anchorcms\Session;
 
 interface StorageInterface
 {
-
     public function has(string $key): bool;
 
     public function get(string $key);

@@ -6,7 +6,6 @@ use Psr\Http\Message\ResponseInterface;
 
 class Session implements SessionInterface, StorageInterface, StashInterface
 {
-
     protected $cookies;
 
     protected $storage;
@@ -89,7 +88,7 @@ class Session implements SessionInterface, StorageInterface, StashInterface
 
     protected function commit()
     {
-        if (! $this->started) {
+        if (!$this->started) {
             throw new \RuntimeException('Session has not been started');
         }
 
@@ -116,7 +115,7 @@ class Session implements SessionInterface, StorageInterface, StashInterface
         ];
 
         if ($this->options['expire']) {
-            $gmdate = new \DateTime;
+            $gmdate = new \DateTime();
             $gmdate->setTimezone(new \DateTimeZone('UTC'));
             $format = sprintf('PT%dS', $this->options['expire']);
             $gmdate->add(new \DateInterval($format));

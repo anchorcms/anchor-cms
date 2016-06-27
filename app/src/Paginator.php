@@ -4,7 +4,6 @@ namespace Anchorcms;
 
 class Paginator
 {
-
     protected $page;
 
     protected $pages;
@@ -26,7 +25,7 @@ class Paginator
         $qs = http_build_query(array_merge($this->params, ['page' => $page]));
         $url = sprintf('%s?%s', $this->url, $qs);
 
-        return '<a href="' . $url . '">' . $text . '</a>';
+        return '<a href="'.$url.'">'.$text.'</a>';
     }
 
     public function links()
@@ -42,7 +41,7 @@ class Paginator
             $links[] = $this->html($this->page - 1, 'Previous');
         }
 
-        for ($i = $this->page - $range; $i < $this->page + $range; $i++) {
+        for ($i = $this->page - $range; $i < $this->page + $range; ++$i) {
             if ($i < 0) {
                 continue;
             }
@@ -54,7 +53,7 @@ class Paginator
             }
 
             if ($page == $this->page) {
-                $links[] = '<strong>' . $page . '</strong>';
+                $links[] = '<strong>'.$page.'</strong>';
             } else {
                 $links[] = $this->html($page, $page);
             }
