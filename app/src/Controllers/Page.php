@@ -5,6 +5,7 @@ namespace Anchorcms\Controllers;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Anchorcms\Models\Page as PageModel;
+use Anchorcms\Filters;
 
 class Page extends Frontend
 {
@@ -15,14 +16,14 @@ class Page extends Frontend
      * @param ResponseInterface      $response
      * @param array                  $args
      *
-     * @return mixed String | ResponseInterface
+     * @return ResponseInterface
      */
-    public function getIndex(ServerRequestInterface $request, ResponseInterface $response, array $args)
+    public function getIndex(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
         $page = $this->container['mappers.pages']->slug($args['page']);
 
         if (false === $page) {
-            return $this->notFound();
+            return $this->notFound($request, $response, $args);
         }
 
         // redirect homepage
@@ -30,7 +31,7 @@ class Page extends Frontend
             return $this->redirect($response, '/');
         }
 
-        return $this->showPage($page);
+        return $this->showPage($request, $response, $page);
     }
 
     /**
@@ -40,9 +41,9 @@ class Page extends Frontend
      * @param ResponseInterface      $response
      * @param array                  $args
      *
-     * @return mixed String | ResponseInterface
+     * @return ResponseInterface
      */
-    public function getHome(ServerRequestInterface $request, ResponseInterface $response, array $args)
+    public function getHome(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
         // get the homepage ID
         $id = $this->container['mappers.meta']->key('home_page');
@@ -51,10 +52,10 @@ class Page extends Frontend
 
         // has the homepage been deleted? doh!
         if (false === $page) {
-            return $this->notFound();
+            return $this->notFound($request, $response, $args);
         }
 
-        return $this->showPage($page);
+        return $this->showPage($request, $response, $page);
     }
 
     /**
@@ -66,13 +67,13 @@ class Page extends Frontend
      *
      * @return mixed String | ResponseInterface
      */
-    public function getCategory(ServerRequestInterface $request, ResponseInterface $response, array $args)
+    public function getCategory(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
         // fetch category by slug
         $category = $this->container['mappers.categories']->slug($args['category']);
 
         if (false === $category) {
-            return $this->notFound();
+            return $this->notFound($request, $response, $args);
         }
 
         // create a page for our category
@@ -97,7 +98,9 @@ class Page extends Frontend
         ]);
         $vars['posts'] = $posts;
 
-        return $this->container['theme']->render(['category', 'posts', 'index'], $vars);
+        $this->container['theme']->render($response, ['category', 'posts', 'index'], $vars);
+
+        return $response;
     }
 
     /**
@@ -107,7 +110,7 @@ class Page extends Frontend
      *
      * @return string Template output
      */
-    protected function showPage(PageModel $page)
+    protected function showPage(ServerRequestInterface $request, ResponseInterface $response, PageModel $page)
     {
         // name of template files to check for
         $names = [];
@@ -120,13 +123,19 @@ class Page extends Frontend
 
         // is this page the post listings page?
         if ($page->id == $this->container['mappers.meta']->key('posts_page')) {
-            $pagenum = filter_input(INPUT_GET, 'page', FILTER_SANITIZE_NUMBER_INT, ['options' => ['default' => 1]]);
+            $pagenum = Filters::withDefault($request->getQueryParams(), 'page', FILTER_VALIDATE_INT, [
+                'options' => [
+                    'default' => 1,
+                    'min_range' => 1,
+                ],
+            ]);
             $perpage = $this->container['mappers.meta']->key('posts_per_page');
 
             $vars['posts'] = $this->container['services.posts']->getPosts([
-                'page' => 1 * $pagenum, // make a positive int
+                'page' => $pagenum, // make a positive int
                 'perpage' => $perpage,
             ]);
+
             $names[] = 'posts';
         } else {
             $names[] = 'page';
@@ -134,6 +143,8 @@ class Page extends Frontend
 
         $names[] = 'index';
 
-        return $this->container['theme']->render($names, $vars);
+        $this->container['theme']->render($response, $names, $vars);
+
+        return $response;
     }
 }

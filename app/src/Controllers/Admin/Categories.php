@@ -6,6 +6,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Anchorcms\Controllers\AbstractController;
 use Anchorcms\Paginator;
+use Anchorcms\Filters;
 use Anchorcms\Forms\Category as CategoryForm;
 use Anchorcms\Forms\ValidateToken;
 
@@ -13,20 +14,29 @@ class Categories extends AbstractController
 {
     public function getIndex(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-        $params = $request->getQueryParams();
-        $page = filter_var($params['page'] ?? 1, FILTER_SANITIZE_NUMBER_INT);
+        $input = Filters::withDefaults($request->getQueryParams(), [
+            'page' => [
+                'filter' => FILTER_VALIDATE_INT,
+                'flags' => FILTER_REQUIRE_SCALAR,
+                'options' => [
+                    'default' => 1,
+                    'min_range' => 1,
+                ],
+            ],
+        ]);
 
         $total = $this->container['mappers.categories']->count();
         $perpage = $this->container['mappers.meta']->key('admin_posts_per_page', 10);
-        $offset = ($page - 1) * $perpage;
+        $offset = ($input['page'] - 1) * $perpage;
 
-        $query = $this->container['mappers.categories']->query()->orderBy('title', 'ASC')
+        $query = $this->container['mappers.categories']->query()
+            ->orderBy('title', 'ASC')
             ->setFirstResult($offset)
             ->setMaxResults($perpage);
 
         $categories = $this->container['mappers.categories']->fetchAll($query);
 
-        $paging = new Paginator($this->container['url']->to('/admin/categories'), $page, $total, $perpage);
+        $paging = new Paginator($this->container['url']->to('/admin/categories'), $input['page'], $total, $perpage);
 
         $vars['sitename'] = $this->container['mappers.meta']->key('sitename');
         $vars['title'] = 'Categories';

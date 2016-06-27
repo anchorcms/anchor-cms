@@ -3,6 +3,7 @@
 namespace Anchorcms\Controllers;
 
 use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Message\ResponseInterface;
 use Anchorcms\Models\Page as PageModel;
 
 class Search extends Frontend

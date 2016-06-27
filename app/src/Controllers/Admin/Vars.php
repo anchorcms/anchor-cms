@@ -2,13 +2,15 @@
 
 namespace Anchorcms\Controllers\Admin;
 
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Message\ResponseInterface;
 use Anchorcms\Controllers\AbstractController;
 
 class Vars extends AbstractController
 {
     protected $prefix = 'global_';
 
-    public function getIndex()
+    public function getIndex(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
         $meta = $this->container['mappers.meta']
             ->where('key', 'LIKE', $this->prefix.'%')
@@ -21,7 +23,7 @@ class Vars extends AbstractController
         return $this->renderTemplate('layouts/default', 'vars/index', $vars);
     }
 
-    public function getCreate()
+    public function getCreate(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
         $form = new \Forms\CustomVars([
             'method' => 'post',
@@ -39,7 +41,7 @@ class Vars extends AbstractController
         return $this->renderTemplate('layouts/default', 'vars/create', $vars);
     }
 
-    public function postSave()
+    public function postSave(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
         $form = new \Forms\CustomVars();
         $form->init();
@@ -82,7 +84,7 @@ class Vars extends AbstractController
         return $this->redirect($this->container['url']->to(sprintf('/admin/vars/%d/edit', $id)));
     }
 
-    public function getEdit($request)
+    public function getEdit(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
         $id = $request->getAttribute('id');
         $meta = $this->container['mappers.meta']->where('id', '=', $id)->fetch();
@@ -110,7 +112,7 @@ class Vars extends AbstractController
         return $this->renderTemplate('layouts/default', 'vars/edit', $vars);
     }
 
-    public function postUpdate($request)
+    public function postUpdate(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
         $id = $request->getAttribute('id');
         $meta = $this->container['mappers.meta']->where('id', '=', $id)->fetch();
@@ -139,7 +141,7 @@ class Vars extends AbstractController
         return $this->redirect($this->container['url']->to(sprintf('/admin/vars/%s/edit', $meta->id)));
     }
 
-    public function getDelete($request)
+    public function getDelete(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
         $id = $request->getAttribute('id');
         $meta = $this->container['mappers.meta']->where('id', '=', $id)->fetch();

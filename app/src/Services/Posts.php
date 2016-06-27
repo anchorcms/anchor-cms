@@ -3,11 +3,17 @@
 namespace Anchorcms\Services;
 
 use Anchorcms\Mappers\MapperInterface;
+use Anchorcms\Models\ModelInterface;
 
 class Posts
 {
-    public function __construct(MapperInterface $posts, MapperInterface $postmeta, MapperInterface $extend, MapperInterface $users, MapperInterface $categories)
-    {
+    public function __construct(
+        MapperInterface $posts,
+        MapperInterface $postmeta,
+        MapperInterface $extend,
+        MapperInterface $users,
+        MapperInterface $categories
+    ) {
         $this->posts = $posts;
         $this->postmeta = $postmeta;
         $this->extend = $extend;

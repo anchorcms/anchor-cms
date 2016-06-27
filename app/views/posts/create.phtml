@@ -1,14 +1,47 @@
 
+<div class="wrap">
+	<?php echo $messages; ?>
+</div>
+
 <?php echo $form->open(); ?>
 
 	<?php echo $form->getElement('_token')->getHtml(); ?>
 
-	<?php echo $this->render('partials/content', ['form' => $form]); ?>
+	<header class="content-title">
+		<div class="wrap">
+			<?php $element = $form->getElement('title');
+				echo $element->withValue($element->getValue())
+						->withAttributes(['placeholder' => $element->getLabel()])
+						->getHtml(); ?>
+		</div>
+	</header>
+
+	<div class="highlight">
+		<div class="wrap">
+			<?php echo $this->render('partials/form-elements', [
+				'elements' => $form->getElementsExcluding(['submit', '_token', 'title', 'content'])
+			]); ?>
+		</div>
+	</div>
 
 	<div class="wrap">
-		<p><?php echo $form->getElement('submit')->withAttributes(['class' => 'button button--primary'])->getHtml(); ?></p>
+		<p><?php echo $form->getElement('submit')->withValue('Save and Continue')->withAttributes(['class' => 'button button--primary'])->getHtml(); ?></p>
 	</div>
 
 <?php echo $form->close(); ?>
 
-<?php echo $this->render('partials/messages-float', ['messages' => $messages]); ?>
+<script>
+	(function() {
+		var status = document.querySelector('select[name=status]'),
+			date = document.querySelector('input[name=published]');
+
+		var toggle = function() {
+			var val = status.options[status.selectedIndex].value,
+				tog = val == 'published' ? 'remove' : 'add';
+			date.parentNode.parentNode.classList[tog]('display--hidden');
+		};
+
+		status.addEventListener('change', toggle, false);
+		toggle();
+	})();
+</script>

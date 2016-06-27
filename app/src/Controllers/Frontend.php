@@ -2,11 +2,13 @@
 
 namespace Anchorcms\Controllers;
 
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Message\ResponseInterface;
 use Anchorcms\Models\Page as PageModel;
 
 abstract class Frontend extends AbstractController
 {
-    public function notFound()
+    public function notFound(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
         $page = new PageModel([
             'title' => 'Not Found',
@@ -19,8 +21,8 @@ abstract class Frontend extends AbstractController
         $vars['categories'] = $this->container['mappers.categories']->all();
         $vars['page'] = $page;
 
-        $body = $this->container['theme']->render(['404', 'page', 'index'], $vars);
+        $this->container['theme']->render($response, ['404', 'page', 'index'], $vars);
 
-        return $this->container['http.factory']->createResponse(404, [], $body);
+        return $response->withStatus(404);
     }
 }

@@ -2,6 +2,8 @@
 
 namespace Anchorcms\Services\Themes;
 
+use Psr\Http\Message\ResponseInterface;
+
 class Theme
 {
     /**
@@ -149,7 +151,7 @@ class Theme
     /*
      *
      */
-    public function render(array $templates, array $vars = [])
+    public function render(ResponseInterface $response, array $templates, array $vars = [])
     {
         if ($this->templateExists('layout')) {
             $template = $this->getTemplate($templates);
@@ -160,12 +162,12 @@ class Theme
             ]);
 
             $layout = $this->mustache->loadTemplate('layout');
-
-            return $layout->render($vars);
+            $html = $layout->render($vars);
+        } else {
+            $template = $this->getTemplate($templates);
+            $html = $this->mustache->loadTemplate($template)->render($vars);
         }
 
-        $template = $this->getTemplate($templates);
-
-        return $this->mustache->loadTemplate($template)->render($vars);
+        $response->getBody()->write($html);
     }
 }

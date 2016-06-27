@@ -5,12 +5,22 @@ namespace Anchorcms\Controllers\Admin;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Anchorcms\Controllers\AbstractController;
+use Anchorcms\Paginator;
+use Anchorcms\Filters;
 
 class Pages extends AbstractController
 {
     public function getIndex(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-        $input = filter_var_array($request->getQueryParams(), [
+        $input = Filters::withDefaults($request->getQueryParams(), [
+            'page' => [
+                'filter' => FILTER_VALIDATE_INT,
+                'flags' => FILTER_REQUIRE_SCALAR,
+                'options' => [
+                    'default' => 1,
+                    'min_range' => 1,
+                ],
+            ],
             'status' => FILTER_SANITIZE_STRING,
         ]);
 
@@ -27,19 +37,30 @@ class Pages extends AbstractController
                 ->setParameter('status', $input['status']);
         }
 
+        $total = $this->container['mappers.pages']->count(clone $query);
+        $perpage = $this->container['mappers.meta']->key('admin_posts_per_page', 10);
+        $offset = ($input['page'] - 1) * $perpage;
+
+        $query->orderBy('title', 'ASC')
+            ->setMaxResults($perpage)
+            ->setFirstResult($offset);
+
         $pages = $this->container['mappers.pages']->fetchAll($query);
+
+        $paging = new Paginator($this->container['url']->to('/admin/pages'), $input['page'], $total, $perpage, $input);
 
         $vars['sitename'] = $this->container['mappers.meta']->key('sitename');
         $vars['title'] = 'Pages';
         $vars['statuses'] = $statuses;
         $vars['pages'] = $pages;
+        $vars['paging'] = $paging;
 
         $this->renderTemplate($response, 'layouts/default', 'pages/index', $vars);
 
         return $response;
     }
 
-    public function getCreate()
+    public function getCreate(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
         $form = new \Forms\Page([
             'method' => 'post',
@@ -69,7 +90,7 @@ class Pages extends AbstractController
         return $this->renderTemplate('layouts/default', 'pages/create', $vars);
     }
 
-    public function postSave($request)
+    public function postSave(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
         $form = new \Forms\Page();
         $form->init();
@@ -113,7 +134,7 @@ class Pages extends AbstractController
         return $this->redirect($this->container['url']->to(sprintf('/admin/pages/%d/edit', $id)));
     }
 
-    public function getEdit($request)
+    public function getEdit(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
         $id = $request->getAttribute('id');
         $page = $this->container['mappers.pages']->where('id', '=', $id)->fetch();
@@ -153,7 +174,7 @@ class Pages extends AbstractController
         return $this->renderTemplate('layouts/default', 'pages/edit', $vars);
     }
 
-    public function postUpdate($request)
+    public function postUpdate(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
         $id = $request->getAttribute('id');
         $page = $this->container['mappers.pages']->where('id', '=', $id)->fetch();
@@ -200,7 +221,7 @@ class Pages extends AbstractController
         return $this->redirect($this->container['url']->to(sprintf('/admin/pages/%d/edit', $id)));
     }
 
-    public function getDelete($request)
+    public function getDelete(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
         $id = $request->getAttribute('id');
         $page = $this->container['mappers.pages']->where('id', '=', $id)->fetch();

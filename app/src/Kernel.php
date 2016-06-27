@@ -33,15 +33,7 @@ class Kernel
 
         $method = $verb.ucfirst($method);
 
-        $output = $instance->$method($request, $response, $this->router->getParams());
-
-        if ($output instanceof ResponseInterface) {
-            return $output;
-        }
-
-        $response->getBody()->write($output);
-
-        return $response;
+        return $instance->$method($request, $response, $this->router->getParams());
     }
 
     public function outputResponse(ResponseInterface $response)

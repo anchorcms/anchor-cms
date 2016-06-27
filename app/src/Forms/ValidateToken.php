@@ -10,12 +10,12 @@ class ValidateToken extends AbstractRule
 
     protected $message = '%s is not a valid csrf token';
 
-    public function __construct($token)
+    public function __construct(string $token)
     {
         $this->token = $token;
     }
 
-    public function isValid()
+    public function isValid(): bool
     {
         return hash_equals($this->getValue(), $this->token);
     }

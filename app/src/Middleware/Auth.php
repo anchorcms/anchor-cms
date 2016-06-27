@@ -6,6 +6,7 @@ use Tari\ServerMiddlewareInterface;
 use Tari\ServerFrameInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
+use Anchorcms\Session\StorageInterface;
 
 class Auth implements ServerMiddlewareInterface
 {
@@ -13,7 +14,7 @@ class Auth implements ServerMiddlewareInterface
 
     protected $protected;
 
-    public function __construct($session, array $protected)
+    public function __construct(StorageInterface $session, array $protected)
     {
         $this->session = $session;
         $this->protected = $protected;

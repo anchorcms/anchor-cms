@@ -31,7 +31,7 @@
 		"guzzlehttp/psr7": "~1",
 		"doctrine/dbal": "~2",
 		"mustache/mustache": "~2",
-		"rwarasaurus/forms": "dev-master",
+		"rwarasaurus/forms": "~0.1",
 		"rwarasaurus/validation": "dev-master",
 		"rwarasaurus/events": "dev-master",
 		"rwarasaurus/router": "dev-master",

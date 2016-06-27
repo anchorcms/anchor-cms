@@ -2,11 +2,13 @@
 
 namespace Anchorcms\Controllers\Admin;
 
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Message\ResponseInterface;
 use Anchorcms\Controllers\AbstractController;
 
 class Fields extends AbstractController
 {
-    public function getIndex()
+    public function getIndex(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
         $input = filter_var_array($_GET, [
             'page' => FILTER_SANITIZE_NUMBER_INT,
@@ -31,7 +33,7 @@ class Fields extends AbstractController
         return $this->renderTemplate('layouts/default', 'fields/index', $vars);
     }
 
-    public function getCreate()
+    public function getCreate(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
         $form = new \Forms\CustomField([
             'method' => 'post',
@@ -49,7 +51,7 @@ class Fields extends AbstractController
         return $this->renderTemplate('layouts/default', 'fields/create', $vars);
     }
 
-    public function postSave()
+    public function postSave(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
         $form = new \Forms\CustomField();
         $form->init();
@@ -79,7 +81,7 @@ class Fields extends AbstractController
         return $this->redirect($this->container['url']->to(sprintf('/admin/fields/%d/edit', $id)));
     }
 
-    public function getEdit($request)
+    public function getEdit(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
         $id = $request->getAttribute('id');
         $field = $this->container['mappers.customFields']->where('id', '=', $id)->fetch();
@@ -103,7 +105,7 @@ class Fields extends AbstractController
         return $this->renderTemplate('layouts/default', 'fields/edit', $vars);
     }
 
-    public function postUpdate($request)
+    public function postUpdate(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
         $id = $request->getAttribute('id');
         $field = $this->container['mappers.customFields']->where('id', '=', $id)->fetch();

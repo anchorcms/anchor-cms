@@ -4,7 +4,7 @@ namespace Anchorcms\Session;
 
 use Psr\Http\Message\ResponseInterface;
 
-interface SessionInterface
+interface SessionInterface extends StashInterface, StorageInterface
 {
     public function id(): string;
 

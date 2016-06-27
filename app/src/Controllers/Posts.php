@@ -15,14 +15,14 @@ class Posts extends Frontend
      *
      * @return [type] [description]
      */
-    public function getIndex(ServerRequestInterface $request, ResponseInterface $response, array $args)
+    public function getIndex(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
         // get post by slug
         $article = $this->container['mappers.posts']->slug($args['post']);
 
         // post not found
         if (false === $article) {
-            return $this->notFound();
+            return $this->notFound($request, $response, $args);
         }
 
         // hydrate post
@@ -46,10 +46,12 @@ class Posts extends Frontend
         $vars['menu'] = $this->container['mappers.pages']->menu();
         $vars['categories'] = $this->container['mappers.categories']->all();
 
-        return $this->container['theme']->render([
+        $this->container['theme']->render($response, [
             sprintf('article-%s', $article->slug),
             sprintf('article-%s', $article->getCategory()->slug),
             'article',
         ], $vars);
+
+        return $response;
     }
 }

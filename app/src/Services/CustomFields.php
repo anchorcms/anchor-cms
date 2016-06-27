@@ -15,7 +15,7 @@ class CustomFields
 
     protected $media;
 
-    public function __construct(array $fields, MapperInterface $postmeta, MapperInterface $pagemeta)
+    public function __construct(MapperInterface $fields, MapperInterface $postmeta, MapperInterface $pagemeta)
     {
         $this->fields = $fields;
         $this->postmeta = $postmeta;

@@ -6,12 +6,13 @@ use Tari\ServerMiddlewareInterface;
 use Tari\ServerFrameInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
+use Anchorcms\Session\SessionInterface;
 
 class Session implements ServerMiddlewareInterface
 {
     protected $session;
 
-    public function __construct($session)
+    public function __construct(SessionInterface $session)
     {
         $this->session = $session;
     }

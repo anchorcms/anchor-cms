@@ -6,15 +6,23 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Anchorcms\Controllers\AbstractController;
 use Anchorcms\Paginator;
+use Anchorcms\Filters;
 use Anchorcms\Forms\Post as PostForm;
 use Anchorcms\Forms\ValidateToken;
 
 class Posts extends AbstractController
 {
-    public function getIndex(ServerRequestInterface $request, ResponseInterface $response, array $args)
+    public function getIndex(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-        $input = filter_var_array($request->getQueryParams(), [
-            'page' => FILTER_SANITIZE_NUMBER_INT,
+        $input = Filters::withDefaults($request->getQueryParams(), [
+            'page' => [
+                'filter' => FILTER_VALIDATE_INT,
+                'flags' => FILTER_REQUIRE_SCALAR,
+                'options' => [
+                    'default' => 1,
+                    'min_range' => 1,
+                ],
+            ],
             'category' => FILTER_SANITIZE_NUMBER_INT,
             'status' => FILTER_SANITIZE_STRING,
             'search' => FILTER_SANITIZE_STRING,
@@ -27,16 +35,19 @@ class Posts extends AbstractController
                 ->setParameter('category', $input['category']);
         }
 
+        if ($input['status']) {
+            $query->andWhere('status = :status')
+                ->setParameter('status', $input['status']);
+        }
+
         if ($input['search']) {
             $query->andWhere('title LIKE :search')
                 ->setParameter('search', '%'.$input['search'].'%');
         }
 
-        $count = (clone $query)->select('COUNT(*)');
-        $total = $this->container['db']->fetchColumn($count);
-
+        $total = $this->container['mappers.posts']->count(clone $query);
         $perpage = $this->container['mappers.meta']->key('admin_posts_per_page', 10);
-        $offset = ($input['page'] ?: 1 - 1) * $perpage;
+        $offset = ($input['page'] - 1) * $perpage;
 
         $query->orderBy('modified', 'DESC')
             ->setMaxResults($perpage)
@@ -48,25 +59,26 @@ class Posts extends AbstractController
 
         $vars['sitename'] = $this->container['mappers.meta']->key('sitename');
         $vars['title'] = 'Posts';
-        $vars['hasPosts'] = !empty($posts);
         $vars['posts'] = $posts;
         $vars['paging'] = $paging;
         $vars['categories'] = $this->container['mappers.categories']->all();
         $vars['statuses'] = $this->container['services.posts']->getStatuses();
         $vars['filters'] = $input;
 
-        return $this->renderTemplate($response, 'layouts/default', 'posts/index', $vars);
+        $this->renderTemplate($response, 'layouts/default', 'posts/index', $vars);
+
+        return $response;
     }
 
-    public function getCreate(ServerRequestInterface $request, ResponseInterface $response, array $args)
+    public function getCreate(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-        $form = new \Forms\Post([
+        $form = new PostForm([
             'method' => 'post',
             'action' => $this->container['url']->to('/admin/posts/save'),
         ]);
         $form->init();
-        $form->getElement('_token')->setValue($this->container['csrf']->token());
-        $form->getElement('category')->setOptions($this->container['mappers.categories']->dropdownOptions());
+        $form->get('_token')->setValue($this->container['csrf']->token());
+        $form->get('category')->setOptions($this->container['mappers.categories']->dropdownOptions());
 
         // append custom fields
         $this->container['services.customFields']->appendFields($form, 'post');
@@ -74,30 +86,33 @@ class Posts extends AbstractController
         // re-populate submitted data
         $form->setValues($this->container['session']->getStash('input', []));
 
+        $vars['sitename'] = $this->container['mappers.meta']->key('sitename');
         $vars['title'] = 'Creating a new post';
         $vars['form'] = $form;
 
-        return $this->renderTemplate('layouts/default', 'posts/create', $vars);
+        $this->renderTemplate($response, 'layouts/default', 'posts/create', $vars);
+
+        return $response;
     }
 
-    public function postSave(ServerRequestInterface $request, ResponseInterface $response, array $args)
+    public function postSave(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-        $form = new \Forms\Post();
+        $form = new PostForm;
         $form->init();
 
         // append custom fields
         $this->container['services.customFields']->appendFields($form, 'post');
 
-        $input = filter_input_array(INPUT_POST, $form->getFilters());
+        $input = Filters::withDefaults($request->getParsedBody(), $form->getFilters());
         $validator = $this->container['validation']->create($input, $form->getRules());
 
-        $validator->addRule(new \Forms\ValidateToken($this->container['csrf']->token()), '_token');
+        $validator->addRule(new ValidateToken($this->container['csrf']->token()), '_token');
 
         if (false === $validator->isValid()) {
             $this->container['messages']->error($validator->getMessages());
             $this->container['session']->putStash('input', $input);
 
-            return $this->redirect($this->container['url']->to('/admin/posts/create'));
+            return $this->redirect($response, $this->container['url']->to('/admin/posts/create'));
         }
 
         $now = date('Y-m-d H:i:s');
@@ -124,12 +139,12 @@ class Posts extends AbstractController
         // save custom fields
         $this->container['services.customFields']->saveFields($request, $input, 'post', $id);
 
-        $this->container['messages']->success('Post created');
+        $this->container['messages']->success(['Post created']);
 
-        return $this->redirect($this->container['url']->to(sprintf('/admin/posts/%d/edit', $id)));
+        return $this->redirect($response, $this->container['url']->to(sprintf('/admin/posts/%d/edit', $id)));
     }
 
-    public function getEdit(ServerRequestInterface $request, ResponseInterface $response, array $args)
+    public function getEdit(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
         $id = $args['id'];
         $post = $this->container['mappers.posts']->id($id);
@@ -159,11 +174,7 @@ class Posts extends AbstractController
         $vars['form'] = $form;
         $vars['post'] = $post;
 
-        $partials['content'] = $this->container['mustache']->loadTemplate('partials/content')->render([
-            'form' => $form,
-        ]);
-
-        $this->renderTemplate($response, 'layouts/default', 'posts/edit', $vars, $partials);
+        $this->renderTemplate($response, 'layouts/default', 'posts/edit', $vars);
 
         return $response;
     }
@@ -216,7 +227,7 @@ class Posts extends AbstractController
         // update custom fields
         $this->container['services.customFields']->saveFields($request, $input, 'post', $post->id);
 
-        $this->container['messages']->success('Post updated');
+        $this->container['messages']->success(['Post updated']);
 
         return $this->redirect($response, $this->container['url']->to(sprintf('/admin/posts/%d/edit', $post->id)));
     }

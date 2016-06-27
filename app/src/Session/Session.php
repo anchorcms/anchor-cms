@@ -4,7 +4,7 @@ namespace Anchorcms\Session;
 
 use Psr\Http\Message\ResponseInterface;
 
-class Session implements SessionInterface, StorageInterface, StashInterface
+class Session implements SessionInterface
 {
     protected $cookies;
 

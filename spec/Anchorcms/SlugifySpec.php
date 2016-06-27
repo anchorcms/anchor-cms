@@ -1,6 +1,6 @@
 <?php
 
-namespace spec;
+namespace spec\Anchorcms;
 
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
@@ -8,7 +8,7 @@ use Prophecy\Argument;
 class SlugifySpec extends ObjectBehavior {
 
 	public function it_is_initializable() {
-		$this->shouldHaveType('Slugify');
+		$this->shouldHaveType('Anchorcms\Slugify');
 	}
 
 	public function it_should_trim_dashes() {

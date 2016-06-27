@@ -64,9 +64,12 @@ abstract class AbstractMapper implements MapperInterface
         return $models;
     }
 
-    public function count(): int
+    public function count(QueryBuilder $query = null): int
     {
-        return $this->db->fetchColumn($this->query()->select('COUNT(*)'));
+        if (null === $query) {
+            $query = $this->query()->select('COUNT(*)');
+        }
+        return $this->db->fetchColumn($query->select('COUNT(*)'));
     }
 
     public function update(int $id, array $params): bool

@@ -2,11 +2,13 @@
 
 namespace Anchorcms\Controllers\Admin;
 
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Message\ResponseInterface;
 use Anchorcms\Controllers\AbstractController;
 
 class Meta extends AbstractController
 {
-    public function getIndex()
+    public function getIndex(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
         $meta = $this->container['mappers.meta']->where('key', 'NOT LIKE', 'custom_%')->get();
 
@@ -38,7 +40,7 @@ class Meta extends AbstractController
         return $this->renderTemplate('layouts/default', 'meta/edit', $vars);
     }
 
-    public function postUpdate($request)
+    public function postUpdate(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
         $id = $request->getAttribute('id');
 

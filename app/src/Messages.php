@@ -8,45 +8,40 @@ class Messages
 {
     protected $session;
 
-    protected $messages = [];
+    protected $messages;
 
     public function __construct(StashInterface $session)
     {
         $this->session = $session;
+        $this->messages = [];
     }
 
-    public function get()
+    public function get(): array
     {
         return $this->session->getStash('_messages', []);
     }
 
-    public function add($message, $group)
+    public function notice(array $messages)
     {
-        if (false === array_key_exists($group, $this->messages)) {
-            $this->messages[$group] = [];
-        }
-
-        if (false === is_array($message)) {
-            $message = [$message];
-        }
-
-        $this->messages[$group] = array_merge($this->messages[$group], $message);
-
+        $this->messages['notice'] = $messages;
         $this->session->putStash('_messages', $this->messages);
     }
 
-    public function __call($method, $args)
+    public function success(array $messages)
     {
-        $groups = ['notice', 'success', 'warning', 'error'];
+        $this->messages['success'] = $messages;
+        $this->session->putStash('_messages', $this->messages);
+    }
 
-        if (false === in_array($method, $groups)) {
-            throw new \RuntimeException(sprintf('Call to undefined method "%s"', $method));
-        }
+    public function warning(array $messages)
+    {
+        $this->messages['warning'] = $messages;
+        $this->session->putStash('_messages', $this->messages);
+    }
 
-        if (empty($args)) {
-            throw new \InvalidArgumentException('You must provide a string or array of messages as the first argument.');
-        }
-
-        $this->add(array_shift($args), $method);
+    public function error(array $messages)
+    {
+        $this->messages['error'] = $messages;
+        $this->session->putStash('_messages', $this->messages);
     }
 }

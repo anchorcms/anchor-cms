@@ -6,12 +6,13 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Anchorcms\Controllers\AbstractController;
 use Anchorcms\Paginator;
+use Anchorcms\Filters;
 
 class Users extends AbstractController
 {
     public function getIndex(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-        $filters = [
+        $input = Filters::withDefaults($request->getQueryParams(), [
             'page' => [
                 'filter' => FILTER_VALIDATE_INT,
                 'flags' => FILTER_REQUIRE_SCALAR,
@@ -20,14 +21,7 @@ class Users extends AbstractController
                     'min_range' => 1,
                 ],
             ],
-        ];
-
-        $input = filter_var_array($request->getQueryParams(), $filters);
-
-        // why do i have to do this??? why is the default value ignored??
-        if (empty($input['page'])) {
-            $input['page'] = $filters['page']['options']['default'];
-        }
+        ]);
 
         $total = $this->container['mappers.users']->count();
         $perpage = $this->container['mappers.meta']->key('admin_posts_per_page', 10);
@@ -53,7 +47,7 @@ class Users extends AbstractController
         return $response;
     }
 
-    public function getCreate()
+    public function getCreate(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
         $form = new \Forms\User([
             'method' => 'post',
@@ -69,7 +63,7 @@ class Users extends AbstractController
         return $this->renderTemplate('layouts/default', 'users/create', $vars);
     }
 
-    public function postSave()
+    public function postSave(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
         $form = new \Forms\User();
         $form->init();
@@ -120,7 +114,7 @@ class Users extends AbstractController
         return $this->redirect($this->container['url']->to(sprintf('/admin/users/%d/edit', $id)));
     }
 
-    public function getEdit($request)
+    public function getEdit(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
         $id = $request->getAttribute('id');
         $user = $this->container['mappers.users']->where('id', '=', $id)->fetch();
@@ -145,7 +139,7 @@ class Users extends AbstractController
         return $this->renderTemplate('layouts/default', 'users/edit', $vars);
     }
 
-    public function postUpdate($request)
+    public function postUpdate(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
         $id = $request->getAttribute('id');
         $user = $this->container['mappers.users']->where('id', '=', $id)->fetch();
