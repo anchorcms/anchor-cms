@@ -108,6 +108,21 @@ class Posts extends AbstractController
 
         $validator->addRule(new ValidateToken($this->container['csrf']->token()), '_token');
 
+		// check duplicate slug
+		$slug = $this->container['slugify']->slug(empty($input['slug']) ? $input['title'] : $input['slug']);
+
+		if($validator->isValid() && $input['status'] == 'published') {
+			$query = $this->container['mappers.posts']->query()
+				->andWhere('slug = :slug')
+				->setParameter('slug', $slug)
+				->andWhere('status = :status')
+				->setParameter('status', $input['status']);
+
+			if($this->container['mappers.posts']->count($query)) {
+				$validator->setInvalid('Post slug already exists');
+			}
+		}
+
         if (false === $validator->isValid()) {
             $this->container['messages']->error($validator->getMessages());
             $this->container['session']->putStash('input', $input);
@@ -116,7 +131,6 @@ class Posts extends AbstractController
         }
 
         $now = date('Y-m-d H:i:s');
-        $slug = $this->container['slugify']->slug($input['slug'] ?: $input['title']);
         $html = $this->container['markdown']->convertToHtml($input['content']);
         $user = $this->container['session']->get('user');
 
@@ -199,6 +213,25 @@ class Posts extends AbstractController
 
         $validator->addRule(new ValidateToken($this->container['csrf']->token()), '_token');
 
+		// check duplicate slug
+		$slug = $this->container['slugify']->slug(empty($input['slug']) ? $input['title'] : $input['slug']);
+
+		if($validator->isValid() && $input['status'] == 'published') {
+			$query = $this->container['mappers.posts']->query()
+				->andWhere('slug = :slug')
+				->setParameter('slug', $slug)
+				->andWhere('status = :status')
+				->setParameter('status', $input['status'])
+				->andWhere('id <> :id')
+				->setParameter('id', $post->id);
+
+			$duplicates = $this->container['mappers.posts']->count($query);
+
+			if($duplicates > 0) {
+				$validator->setInvalid('Post slug already exists');
+			}
+		}
+
         if (false === $validator->isValid()) {
             $this->container['messages']->error($validator->getMessages());
             $this->container['session']->putStash('input', $input);
@@ -207,7 +240,6 @@ class Posts extends AbstractController
         }
 
         $now = date('Y-m-d H:i:s');
-        $slug = $this->container['slugify']->slug($input['slug'] ?: $input['title']);
         $html = $this->container['markdown']->convertToHtml($input['content']);
 
         $this->container['mappers.posts']->update($post->id, [
@@ -235,17 +267,23 @@ class Posts extends AbstractController
     public function getDelete(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
         // check post before
-        $post = $this->container['mappers.posts']->where('id', '=', $args['id'])->fetch();
+        $post = $this->container['mappers.posts']->id($args['id']);
 
         if (!$post) {
-            return $this->redirect($response, $this->container['url']->to('/admin/posts'));
+            throw new \InvalidArgumentException('post not found');
         }
 
-        $this->container['mappers.posts']->where('id', '=', $post->id)->delete();
-        $this->container['mappers.postmeta']->where('post', '=', $post->id)->delete();
+        $this->container['mappers.posts']->delete($post->id);
 
-        $this->container['messages']->success('Post deleted');
+        $query = $this->container['mappers.postmeta']->query()
+			->where('post = :post')
+			->setParameter('post', $post->id)
+			->delete($this->container['mappers.postmeta']->getTableName());
 
-        return $this->redirect($this->container['url']->to('/admin/posts'));
+		$this->container['db']->executeQuery($query->getSql(), $query->getParameters());
+
+        $this->container['messages']->success(['Post deleted']);
+
+        return $this->redirect($response, $this->container['url']->to('/admin/posts'));
     }
 }

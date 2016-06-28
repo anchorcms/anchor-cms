@@ -2,31 +2,24 @@
 
 namespace Anchorcms\Services;
 
-use Anchorcms\Models\User as UserModel;
+use Anchorcms\Mappers\MapperInterface;
 
 class Auth
 {
-    protected $config;
-
-    protected $users;
-
     protected $options = ['cost' => 14];
 
     protected $dummyHash;
 
-    public function __construct($config, $users)
+    public function __construct()
     {
-        $this->config = $config;
-        $this->users = $users;
-
         $string = bin2hex(random_bytes(64));
         $this->dummyHash = $this->hashPassword($string);
     }
 
-    public function login($username, $password)
+    public function login(MapperInterface $users, string $username, string $password)
     {
         // check username
-        $user = $this->users->fetchByUsername($username);
+        $user = $users->fetchByUsername($username);
 
         if (false === $user) {
             // protected against user enumeration
@@ -40,45 +33,33 @@ class Auth
         return false;
     }
 
-    public function hashPassword($password)
+    public function hashPassword(string $password): string
     {
         return password_hash($password, PASSWORD_DEFAULT, $this->options);
     }
 
-    public function checkPasswordHash($hash)
+    public function checkPasswordHash(string $hash): bool
     {
         return password_needs_rehash($hash, PASSWORD_DEFAULT, $this->options);
     }
 
-    public function verifyPassword($password, $hash)
+    public function verifyPassword(string $password, string $hash): bool
     {
         return password_verify($password, $hash);
     }
 
-    public function changePassword(UserModel $user, string $password)
+    public function changePassword(MapperInterface $users, int $user, string $password)
     {
-        $this->users->where('id', '=', $user->id)->update([
+        $users->update($user, [
             'password' => $this->hashPassword($password),
-            'token' => '',
         ]);
     }
 
-    public function resetToken(UserModel $user): string
+    public function resetToken(ModelInterface $user)
     {
-        $token = bin2hex(random_bytes(64));
-        $key = $this->config->get('app.secret');
-        $hash = hash_hmac('sha512', $token, $key);
-
-        $this->users->where('id', '=', $user->id)->update(['token' => $hash]);
-
-        return $token;
     }
 
-    public function verifyToken(string $token, string $key): bool
+    public function verifyToken(string $token, string $key)
     {
-        $key = $this->config->get('app.secret');
-        $hash = hash_hmac('sha512', $token, $key);
-
-        return $this->users->where('token', '=', $hash)->count() > 0;
     }
 }

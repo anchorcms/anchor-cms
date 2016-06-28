@@ -20,15 +20,7 @@ class Installer
 
     public function isInstalled(): bool
     {
-        $pattern = sprintf('%s/*.json', $this->paths['config']);
-        $files = glob($pattern);
-
-        return count($files) > 0;
-    }
-
-    public function installerRunning(): bool
-    {
-        return $this->session->started() && $this->session->has('install');
+        return is_dir($this->paths['config']);
     }
 
     public function buildDns(array $params)
@@ -55,7 +47,7 @@ class Installer
         return new PDO($dns, $params['db_user'], $params['db_password']);
     }
 
-    public function run(array $input)
+    public function run(array $input, Auth $auth)
     {
         $input['app_secret'] = bin2hex(random_bytes(32));
 
@@ -65,7 +57,7 @@ class Installer
 
         $this->runSchema($pdo, $input);
 
-        $this->setupDatabase($pdo, $input);
+        $this->setupDatabase($pdo, $input, $auth);
     }
 
     protected function copySampleConfig(array $input)
@@ -112,7 +104,7 @@ class Installer
         }
     }
 
-    protected function setupDatabase(PDO $pdo, array $input)
+    protected function setupDatabase(PDO $pdo, array $input, Auth $auth)
     {
         $config = new Configuration();
         $conn = DriverManager::getConnection(['pdo' => $pdo], $config);
@@ -127,13 +119,12 @@ class Installer
 
         $conn->insert($input['db_table_prefix'].'users', [
             'username' => $input['account_username'],
-            'password' => password_hash($input['account_password'], PASSWORD_DEFAULT, ['cost' => 14]),
+            'password' => $auth->hashPassword($input['account_password']),
             'email' => $input['account_email'],
             'name' => $input['account_username'],
             'bio' => 'The bouse',
             'status' => 'active',
             'role' => 'admin',
-            'token' => '',
         ]);
 
         $user = $conn->lastInsertId();

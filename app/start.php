@@ -70,9 +70,7 @@ if (!ini_get('date.timezone')) {
 date_default_timezone_set($app['config']->get('app.timezone', date_default_timezone_get()));
 
 // check install
-if (false === $app['services.installer']->isInstalled() ||
-    // installation is complete but we still need to show the completed screen
-    true === $app['services.installer']->installerRunning()) {
+if (false === $app['services.installer']->isInstalled()) {
     // register router to run the installer
     $app['http.routes']->set(require __DIR__.'/routes/installer.php');
 

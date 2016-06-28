@@ -61,7 +61,7 @@ class Auth extends AbstractController
         $validator->addRule(new ValidateToken($this->container['csrf']->token()), '_token');
 
         if ($validator->isValid()) {
-            $user = $this->container['services.auth']->login($input['username'], $input['password']);
+            $user = $this->container['services.auth']->login($this->container['mappers.users'], $input['username'], $input['password']);
 
             if (false === $user) {
                 $validator->setInvalid('Sorry, we don&apos;t reconise those details');
@@ -79,7 +79,8 @@ class Auth extends AbstractController
 
         // check password and update it
         if ($this->container['services.auth']->checkPasswordHash($user->password)) {
-            $this->container['services.auth']->changePassword($user, $input['password']);
+			// upgrade password
+            $this->container['services.auth']->changePassword($this->container['mappers.users'], $user->id, $input['password']);
         }
 
         // create session

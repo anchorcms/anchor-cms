@@ -16,6 +16,8 @@
 	};
 
 	var toggle = function(event) {
+		button.classList.toggle('button--danger');
+
 		event.preventDefault();
 
 		if(preview = editor.parentNode.querySelector('.content-preview')) {

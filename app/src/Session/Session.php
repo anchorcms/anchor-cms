@@ -101,7 +101,7 @@ class Session implements SessionInterface
             return $response;
         }
 
-        $response = $response->withHeader('Set-Cookie', $this->cookie());
+        $response = $response->withAddedHeader('Set-Cookie', $this->cookie());
 
         $this->commit();
 

@@ -79,6 +79,9 @@ return [
     'url' => function ($app) {
         return new Anchorcms\Url($app['http.request'], new GuzzleHttp\Psr7\Uri());
     },
+	'zxcvbn' => function() {
+		return new ZxcvbnPhp\Zxcvbn;
+	},
 
     /*
      * Middleware
@@ -187,6 +190,6 @@ return [
         return new Anchorcms\Services\Postman($app['config']->get('mail'));
     },
     'services.auth' => function ($app) {
-        return new Anchorcms\Services\Auth($app['config'], $app['mappers.users']);
+        return new Anchorcms\Services\Auth;
     },
 ];

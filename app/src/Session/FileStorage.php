@@ -6,12 +6,12 @@ class FileStorage
 {
     protected $path;
 
-    public function __construct($path)
+    public function __construct(string $path)
     {
         $this->path = $path;
     }
 
-    public function read($id)
+    public function read(string $id): array
     {
         $path = sprintf('%s/%s.sess', $this->path, $id);
 
@@ -24,11 +24,13 @@ class FileStorage
         return json_decode($contents, true);
     }
 
-    public function write($id, array $data)
+    public function write(string $id, array $data): bool
     {
         $path = sprintf('%s/%s.sess', $this->path, $id);
 
-        if (false === file_put_contents($path, json_encode($data), LOCK_EX)) {
+		$jsonString = json_encode($data);
+
+        if (false === file_put_contents($path, $jsonString, LOCK_EX)) {
             throw new \RuntimeException('Failed to write session file');
         }
 

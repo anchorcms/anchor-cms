@@ -96,11 +96,20 @@ CREATE TABLE "{prefix}users" (
 	"name" TEXT NOT NULL,
 	"bio" TEXT NOT NULL,
 	"status" TEXT NOT NULL,
-	"role" TEXT NOT NULL,
-	"token" TEXT NOT NULL
+	"role" TEXT NOT NULL
 );
 
 CREATE INDEX "{prefix}users_status" ON "{prefix}users" ("status");
 CREATE INDEX "{prefix}users_username" ON "{prefix}users" ("username");
 CREATE INDEX "{prefix}users_email" ON "{prefix}users" ("email");
-CREATE INDEX "{prefix}users_token" ON "{prefix}users" ("token");
+
+CREATE TABLE "{prefix}user_auth" (
+	"id" INTEGER NOT NULL PRIMARY KEY,
+	"user" INTEGER NOT NULL,
+	"expires" NUMERIC NOT NULL,
+	"token" TEXT NOT NULL
+);
+
+CREATE INDEX "{prefix}user_auth_user" ON "{prefix}user_auth" ("user");
+CREATE INDEX "{prefix}user_auth_token" ON "{prefix}user_auth" ("token");
+CREATE INDEX "{prefix}user_auth_expires" ON "{prefix}user_auth" ("expires");

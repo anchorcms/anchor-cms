@@ -96,7 +96,7 @@ class Post extends Form
 
         $this->append(new \Forms\Elements\Input('published', [
             'label' => 'Published Date',
-            'value' => '0000-00-00 00:00:00',
+            'value' => date('Y-m-d H:i:s'),
         ]));
 
         $this->append(new \Forms\Elements\Submit('submit', [

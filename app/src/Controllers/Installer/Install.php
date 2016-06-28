@@ -5,6 +5,7 @@ namespace Anchorcms\Controllers\Installer;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Anchorcms\Controllers\AbstractController;
+use Anchorcms\Filters;
 
 class Install extends AbstractController
 {
@@ -174,20 +175,15 @@ class Install extends AbstractController
     {
         $form = new \Anchorcms\Forms\Installer\Account();
 
-        $input = filter_input_array(INPUT_POST, $form->getFilters());
+        $input = Filters::withDefaults($request->getParsedBody(), $form->getFilters());
+		$validator = $this->container['validation']->create($input, $form->getRules());
 
         $data = $this->container['session']->get('install', []);
         $this->container['session']->put('install', array_merge($data, $input));
 
-        $validator = $this->container['validation']->create($input, $form->getRules());
-
         $validator->addRule(function ($value) {
-            $daftPasswords = [
-                'password',
-                '12345678',
-            ];
-
-            return [false === in_array($value, $daftPasswords), 'Get out of here! Choose a better password'];
+            $strength = $this->container['zxcvbn']->passwordStrength($value);
+            return [$strength['score'] > 0, 'Get out of here! Choose a better password'];
         }, 'account_password');
 
         if (false === $validator->isValid()) {
@@ -197,7 +193,9 @@ class Install extends AbstractController
         }
 
         $data = $this->container['session']->get('install', []);
-        $this->container['services.installer']->run($data);
+		// defer construction of auth service until the config files have
+		// been written and the database has been created
+        $this->container['services.installer']->run($data, $this->container['services.auth']);
 
         $this->container['session']->remove('install');
 

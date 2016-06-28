@@ -159,6 +159,14 @@ class Users extends AbstractController
 
         $validator->addRule(new \Forms\ValidateToken($this->container['csrf']->token()), '_token');
 
+		// make sure its a good password
+		if ( ! empty($input['password'])) {
+			$validator->addRule(function ($value) {
+	            $score = $this->container['zxcvbn']->passwordStrength($value);
+	            return [$score > 0, 'Get out of here! Choose a better password'];
+	        }, 'password');
+		}
+
         if (false === $validator->isValid()) {
             $this->container['messages']->error($validator->getMessages());
             $this->container['session']->putStash('input', $input);
