@@ -28,8 +28,9 @@ class Feeds extends Frontend
         }
 
         $body = $this->container['services.rss']->output();
+        $response->getBody()->write($body);
 
-        return $this->container['http.factory']->createResponse(200, ['content-type' => 'application/xml'], $body);
+        return $response->withStatus(200)->withHeader('content-type', 'application/xml');
     }
 
     public function getJson(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
@@ -55,7 +56,8 @@ class Feeds extends Frontend
         }
 
         $body = json_encode($items, JSON_PRETTY_PRINT);
+        $response->getBody()->write($body);
 
-        return $this->container['http.factory']->createResponse(200, ['content-type' => 'application/json'], $body);
+        return $response->withStatus(200)->withHeader('content-type', 'application/json');
     }
 }
