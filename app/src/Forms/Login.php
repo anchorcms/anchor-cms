@@ -2,13 +2,15 @@
 
 namespace Anchorcms\Forms;
 
-class Login extends \Forms\Form implements ValidatableInterface
+use Forms\Form;
+
+class Login extends Form implements ValidatableInterface
 {
     public function init()
     {
-        $this->addElement(new \Forms\Elements\Hidden('_token'));
+        $this->append(new \Forms\Elements\Hidden('_token'));
 
-        $this->addElement(new \Forms\Elements\Input('username', [
+        $this->append(new \Forms\Elements\Input('username', [
             'label' => 'Username',
             'attributes' => [
                 'autofocus' => 'true',
@@ -16,14 +18,14 @@ class Login extends \Forms\Form implements ValidatableInterface
             ],
         ]));
 
-        $this->addElement(new \Forms\Elements\Password('password', [
+        $this->append(new \Forms\Elements\Password('password', [
             'label' => 'Password',
             'attributes' => [
                 'placeholder' => 'Password',
             ],
         ]));
 
-        $this->addElement(new \Forms\Elements\Submit('submit', [
+        $this->append(new \Forms\Elements\Submit('submit', [
             'value' => 'Log In',
             'attributes' => [
                 'class' => 'button button--dark button--wide',
@@ -33,11 +35,11 @@ class Login extends \Forms\Form implements ValidatableInterface
 
     public function getFilters()
     {
-        return filter_input_array(INPUT_POST, [
+        return [
             '_token' => FILTER_SANITIZE_STRING,
             'username' => FILTER_SANITIZE_STRING,
             'password' => FILTER_UNSAFE_RAW,
-        ]);
+        ];
     }
 
     public function getRules()
@@ -45,10 +47,12 @@ class Login extends \Forms\Form implements ValidatableInterface
         return [
             '_token' => ['required'],
             'username' => [
-                'label' => 'Username', 'rules' => ['required'],
+                'label' => 'Username',
+                'rules' => ['required'],
             ],
             'password' => [
-                'label' => 'Password', 'rules' => ['required'],
+                'label' => 'Password',
+                'rules' => ['required'],
             ],
         ];
     }

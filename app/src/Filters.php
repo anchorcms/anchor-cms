@@ -2,17 +2,25 @@
 
 namespace Anchorcms;
 
+/**
+ * Wrapper for filter_var_array and filter_var to remove null values
+ * and replace them with their default values if one is set otherwise
+ * a empty string is used in its place
+ */
 class Filters
 {
-    // why do i have to do this??? why is the default value ignored??
+    /**
+     * Return filtered array from input array falling back to the option default
+     * of a empty string.
+     */
     public static function withDefaults(array $input, array $filters): array
     {
         $input = filter_var_array($input, $filters);
 
         foreach (array_keys($filters) as $key) {
             // if the value is null and there is a default value, use it
-            if (null === $input[$key] && isset($filters[$key]['options']['default'])) {
-                $input[$key] = $filters[$key]['options']['default'];
+            if (null === $input[$key]) {
+                $input[$key] = $filters[$key]['options']['default'] ?? '';
             }
         }
 
@@ -23,8 +31,8 @@ class Filters
     {
         $value = filter_var($input[$key] ?? null, $filter, $options);
 
-        if (null === $value && isset($options['options']['default'])) {
-            $value = $options['options']['default'];
+        if (null === $value) {
+            $value = $options['options']['default'] ?? '';
         }
 
         return $value;

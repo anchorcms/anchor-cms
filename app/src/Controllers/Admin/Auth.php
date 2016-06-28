@@ -5,6 +5,7 @@ namespace Anchorcms\Controllers\Admin;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Anchorcms\Controllers\AbstractController;
+use Anchorcms\Filters;
 use Anchorcms\Forms\Login;
 use Anchorcms\Forms\Amnesia;
 use Anchorcms\Forms\Reset;
@@ -51,7 +52,7 @@ class Auth extends AbstractController
     public function postAttempt(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
         $form = new Login();
-        $input = $form->getFilters();
+        $input = Filters::withDefaults($request->getParsedBody(), $form->getFilters());
 
         // validate input
         $validator = $this->container['validation']->create($input, $form->getRules());
