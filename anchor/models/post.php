@@ -13,11 +13,13 @@ class post extends Base
     public static function slug($slug)
     {
         $post = static::get('slug', $slug);
-        if(empty($post)):
-			return false;
-		endif;
-        $post->total_comments = static::getCommentCount($post);
-        return $post;
+        
+        if (!empty($post)) {
+            $post->total_comments = static::getCommentCount($post);
+            return $post;
+        }
+
+		return false;
     }
 
     private static function getCommentCount($post)
