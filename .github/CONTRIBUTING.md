@@ -1,10 +1,16 @@
 # Contributing to Anchor
-We're currently in the process of developing `v1.0` but there are still issues to iron out with the existing distro: `v0.x.x`. So we've compiled this short document to help you guys help *us*!
+We're currently in the process of developing `v1.0` but there are still issues to iron out with the existing distro: `v0.x.x`. So we've compiled this short document to help you guys help *us*! (we need help lol)
 
 ### What branch do I work from? How do I even pull request?
-There seems to have been a bit of confusion in the past, and yes our branches are currently a bit confusing in structure. If you want to contribute to the current version of Anchor then please work from the `pre-1.0-develop` branch. This is where any features/refactoring should be happening. If what you're planning on doing is fixing a bug then please work from the `master` branch, this branch will always have the latest *tagged* release of Anchor. When you submit a bug fix PR we'll also merge it into the current version `dev` branch.
+These are the branches in this project, and what they're for.
+- `master`
+  - This branch is for the current release of anchor, so 0.* releases. If you wish to submit a PR with a fix, please do it from this branch.
+- `pre-1.0-develop`
+  - This branch is for active development on the current relase, so 0.* etc. If you wish to PR with a feature that doesn't make a fix, please do so to this branch, but please make sure your branches are up to date.
+- `develop`
+  - This is for active development on the next major release of Anchor, so 1.0+, feel free to take a look at this, though please don't rely on this for your projects as it's still a WIP.
 
-We're planning on cleaning everything up once `1.0` is released, by following the simple Gitflow system which can be found in many Git GUI's, in the git extras package and so on.
+We're planning on cleaning everything up once `1.0` is released, so if you're able to follow these guidelines, it will make things much easier for us.
 
 #### Feature branches
 `feature/what-it-is`
@@ -40,4 +46,4 @@ If you're familiar with open source software, you probably know how important co
 Since the [PHP-FIG](http://www.php-fig.org) and their standards gain more and more followers and Anchor uses composer, which supports PSR-0 and PSR-4, all code should follow [PSR-1](http://www.php-fig.org/psr/psr-1) and [PSR-2](http://www.php-fig.org/psr/psr-2).
 More help on best practices for PHP development can be found on [PHP the right way](http://www.phptherightway.com).
 
-When working on a file, always enforce coding standards for the whole file. This increases the consistency of the code with every contribution!
+When working on a file, always enforce coding standards for the whole file. This increases the consistency of the code with every contribution! *If you don't, we may reject your pull requests.*
