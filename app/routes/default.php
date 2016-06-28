@@ -67,6 +67,7 @@ return [
     // frontend
     '/' => 'controllers\\page@home',
     '/feeds/rss' => 'controllers\\feeds@rss',
+    '/feeds/json' => 'controllers\\feeds@json',
     '/search' => 'controllers\\search@index',
     '/category/:category' => 'controllers\\page@category',
     '/:category/:post' => 'controllers\\posts@index',

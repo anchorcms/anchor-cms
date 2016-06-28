@@ -31,4 +31,31 @@ class Feeds extends Frontend
 
         return $this->container['http.factory']->createResponse(200, ['content-type' => 'application/xml'], $body);
     }
+
+    public function getJson(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
+    {
+        $posts = $this->container['services.posts']->getPosts([
+            'perpage' => 20,
+        ]);
+
+        $items = [];
+
+        foreach ($posts as $post) {
+            $items[] = [
+                'title' => $post->title,
+                'content' => $post->html,
+                'link' => (string) $this->container['url']->to($post->url()),
+                'author' => $post->getAuthor()->getName(),
+                'date' => \DateTime::createFromFormat('Y-m-d H:i:s', $post->published)->format(\DateTime::ATOM),
+                'category' => [
+                    (string) $this->container['url']->to($post->getCategory()->url()),
+                    $post->getCategory()->title,
+                ],
+            ];
+        }
+
+        $body = json_encode($items, JSON_PRETTY_PRINT);
+
+        return $this->container['http.factory']->createResponse(200, ['content-type' => 'application/json'], $body);
+    }
 }
