@@ -72,7 +72,7 @@ function page_description($default = '')
 	if ($title = Registry::prop('article', 'description')) {
 		return $title;
 	}
-	if ($title = Registry::prop('site', 'description')) {
+	if ($title = Config::meta('description')) {
 		return $title;
 	}
 	return $default;
