@@ -15,7 +15,6 @@ class Pages extends AbstractController
         $input = Filters::withDefaults($request->getQueryParams(), [
             'page' => [
                 'filter' => FILTER_VALIDATE_INT,
-                'flags' => FILTER_REQUIRE_SCALAR,
                 'options' => [
                     'default' => 1,
                     'min_range' => 1,

@@ -99,7 +99,7 @@ class Auth extends AbstractController
     public function getLogout(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
         $this->container['session']->destroy()->migrate();
-        $this->container['messages']->success('You are now logged out');
+        $this->container['messages']->success(['You are now logged out']);
 
         return $this->redirect($response, $this->container['url']->to('/admin/auth/login'));
     }
@@ -134,7 +134,7 @@ class Auth extends AbstractController
         $validator = $this->container['validation']->create($input, $form->getRules());
 
         // check token
-        $validator->addRule(new \Forms\ValidateToken($this->container['csrf']->token()), '_token');
+        $validator->addRule(new ValidateToken($this->container['csrf']->token()), '_token');
 
         if ($validator->isValid()) {
             // check username

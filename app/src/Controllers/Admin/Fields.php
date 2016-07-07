@@ -5,37 +5,29 @@ namespace Anchorcms\Controllers\Admin;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Anchorcms\Controllers\AbstractController;
+use Anchorcms\Filters;
+use Anchorcms\Forms\CustomField as CustomFieldForm;
+use Anchorcms\Forms\ValidateToken;
 
 class Fields extends AbstractController
 {
     public function getIndex(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-        $input = filter_var_array($_GET, [
-            'page' => FILTER_SANITIZE_NUMBER_INT,
-        ]);
+        $query = $this->container['mappers.customFields']->query();
+        $fields = $this->container['mappers.customFields']->fetchAll($query);
 
-        $total = $this->container['mappers.customFields']->count();
-
-        $perpage = $this->container['mappers.meta']->key('admin_posts_per_page', 10);
-        $fields = $this->container['mappers.customFields']->sort('key', 'asc')->take($perpage);
-
-        if ($input['page']) {
-            $offset = ($input['page'] - 1) * $perpage;
-            $fields->skip($offset);
-        }
-
-        $paging = new \Paginator($this->container['url']->to('/admin/fields'), $input['page'], $total, $perpage, $input);
-
+        $vars['sitename'] = $this->container['mappers.meta']->key('sitename');
         $vars['title'] = 'Custom Fields';
-        $vars['fields'] = $fields->get();
-        $vars['paging'] = $paging;
+        $vars['fields'] = $fields;
 
-        return $this->renderTemplate('layouts/default', 'fields/index', $vars);
+        $this->renderTemplate($response, 'layouts/default', 'fields/index', $vars);
+
+        return $response;
     }
 
     public function getCreate(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-        $form = new \Forms\CustomField([
+        $form = new CustomFieldForm([
             'method' => 'post',
             'action' => $this->container['url']->to('/admin/fields/save'),
         ]);
@@ -45,27 +37,30 @@ class Fields extends AbstractController
         // re-populate submitted data
         $form->setValues($this->container['session']->getStash('input', []));
 
+        $vars['sitename'] = $this->container['mappers.meta']->key('sitename');
         $vars['title'] = 'Creating a new custom field';
         $vars['form'] = $form;
 
-        return $this->renderTemplate('layouts/default', 'fields/create', $vars);
+        $this->renderTemplate($response, 'layouts/default', 'fields/create', $vars);
+
+        return $response;
     }
 
     public function postSave(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-        $form = new \Forms\CustomField();
+        $form = new CustomFieldForm;
         $form->init();
 
-        $input = filter_input_array(INPUT_POST, $form->getFilters());
+        $input = Filters::withDefaults($request->getParsedBody(), $form->getFilters());
         $validator = $this->container['validation']->create($input, $form->getRules());
 
-        $validator->addRule(new \Forms\ValidateToken($this->container['csrf']->token()), '_token');
+        $validator->addRule(new ValidateToken($this->container['csrf']->token()), '_token');
 
         if (false === $validator->isValid()) {
             $this->container['messages']->error($validator->getMessages());
             $this->container['session']->putStash('input', $input);
 
-            return $this->redirect($this->container['url']->to('/admin/fields/create'));
+            return $this->redirect($response, $this->container['url']->to('/admin/fields/create'));
         }
 
         $id = $this->container['mappers.customFields']->insert([
@@ -76,17 +71,16 @@ class Fields extends AbstractController
             'attributes' => '{}',
         ]);
 
-        $this->container['messages']->success('Custom field created');
+        $this->container['messages']->success(['Custom field created']);
 
-        return $this->redirect($this->container['url']->to(sprintf('/admin/fields/%d/edit', $id)));
+        return $this->redirect($response, $this->container['url']->to(sprintf('/admin/fields/%d/edit', $id)));
     }
 
     public function getEdit(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-        $id = $request->getAttribute('id');
-        $field = $this->container['mappers.customFields']->where('id', '=', $id)->fetch();
+        $field = $this->container['mappers.customFields']->fetchByAttribute('id', $args['id']);
 
-        $form = new \Forms\CustomField([
+        $form = new CustomFieldForm([
             'method' => 'post',
             'action' => $this->container['url']->to(sprintf('/admin/fields/%d/update', $field->id)),
         ]);
@@ -99,24 +93,26 @@ class Fields extends AbstractController
         // re-populate old input
         $form->setValues($this->container['session']->getStash('input', []));
 
+        $vars['sitename'] = $this->container['mappers.meta']->key('sitename');
         $vars['title'] = sprintf('Editing &ldquo;%s&rdquo;', $field->label);
         $vars['form'] = $form;
 
-        return $this->renderTemplate('layouts/default', 'fields/edit', $vars);
+        $this->renderTemplate($response, 'layouts/default', 'fields/edit', $vars);
+
+        return $response;
     }
 
     public function postUpdate(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-        $id = $request->getAttribute('id');
-        $field = $this->container['mappers.customFields']->where('id', '=', $id)->fetch();
+        $field = $this->container['mappers.customFields']->fetchByAttribute('id', $args['id']);
 
-        $form = new \Forms\CustomField();
+        $form = new CustomFieldForm;
         $form->init();
 
-        $input = filter_input_array(INPUT_POST, $form->getFilters());
+        $input = Filters::withDefaults($request->getParsedBody(), $form->getFilters());
         $validator = $this->container['validation']->create($input, $form->getRules());
 
-        $validator->addRule(new \Forms\ValidateToken($this->container['csrf']->token()), '_token');
+        $validator->addRule(new ValidateToken($this->container['csrf']->token()), '_token');
 
         if (false === $validator->isValid()) {
             $this->container['messages']->error($validator->getMessages());
@@ -125,15 +121,15 @@ class Fields extends AbstractController
             return $this->redirect($this->container['url']->to(sprintf('/admin/fields/%d/edit', $post->id)));
         }
 
-        $this->container['mappers.customFields']->where('id', '=', $field->id)->update([
+        $this->container['mappers.customFields']->update($field->id, [
             'type' => $input['type'],
             'field' => $input['field'],
             'key' => $input['key'],
             'label' => $input['label'],
         ]);
 
-        $this->container['messages']->success('Custom field updated');
+        $this->container['messages']->success(['Custom field updated']);
 
-        return $this->redirect($this->container['url']->to(sprintf('/admin/fields/%d/edit', $id)));
+        return $this->redirect($response, $this->container['url']->to(sprintf('/admin/fields/%d/edit', $field->id)));
     }
 }

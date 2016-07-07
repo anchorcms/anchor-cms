@@ -103,13 +103,13 @@ CREATE INDEX "{prefix}users_status" ON "{prefix}users" ("status");
 CREATE INDEX "{prefix}users_username" ON "{prefix}users" ("username");
 CREATE INDEX "{prefix}users_email" ON "{prefix}users" ("email");
 
-CREATE TABLE "{prefix}user_auth" (
+CREATE TABLE "{prefix}user_tokens" (
 	"id" INTEGER NOT NULL PRIMARY KEY,
 	"user" INTEGER NOT NULL,
 	"expires" NUMERIC NOT NULL,
 	"token" TEXT NOT NULL
 );
 
-CREATE INDEX "{prefix}user_auth_user" ON "{prefix}user_auth" ("user");
-CREATE INDEX "{prefix}user_auth_token" ON "{prefix}user_auth" ("token");
-CREATE INDEX "{prefix}user_auth_expires" ON "{prefix}user_auth" ("expires");
+CREATE INDEX "{prefix}user_tokens_user" ON "{prefix}user_tokens" ("user");
+CREATE INDEX "{prefix}user_tokens_token" ON "{prefix}user_tokens" ("token");
+CREATE INDEX "{prefix}user_tokens_expires" ON "{prefix}user_tokens" ("expires");
