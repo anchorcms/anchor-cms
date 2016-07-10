@@ -274,13 +274,7 @@ class Posts extends AbstractController
         }
 
         $this->container['mappers.posts']->delete($post->id);
-
-        $query = $this->container['mappers.postmeta']->query()
-			->where('post = :post')
-			->setParameter('post', $post->id)
-			->delete($this->container['mappers.postmeta']->getTableName());
-
-		$this->container['db']->executeQuery($query->getSql(), $query->getParameters());
+        $this->container['db']->delete($this->container['mappers.postmeta']->getTableName(), ['post' => $post->id]);
 
         $this->container['messages']->success(['Post deleted']);
 

@@ -167,9 +167,9 @@ return [
         return new Anchorcms\Services\Installer($app['paths'], $app['session']);
     },
     'services.themes' => function ($app) {
-        $current = $app['mappers.meta']->select(['value'])->where('key', '=', 'theme')->column();
+        $current = $app['mappers.meta']->key('theme');
 
-        return new Anchorcms\Services\Themes($app['paths']['themes'], $current);
+        return new Anchorcms\Services\Themes($app['paths']['themes'], $app['mustache'], $current);
     },
     'services.plugins' => function ($app) {
         return new Anchorcms\Services\Plugins($app['paths']['plugins']);

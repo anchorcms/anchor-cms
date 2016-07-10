@@ -98,6 +98,7 @@ else {
     ]));
 }
 
+$app['http.server']->append(new Anchorcms\Middleware\RedirectTrailingSlash);
 $app['http.server']->append(new Anchorcms\Middleware\Session($app['session']));
 $app['http.server']->append(new Anchorcms\Middleware\Kernel($app));
 

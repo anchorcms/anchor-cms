@@ -6,11 +6,14 @@ class Themes
 {
     protected $path;
 
+    protected $engine;
+
     protected $current;
 
-    public function __construct($path, $current = null)
+    public function __construct($path, $engine, $current = null)
     {
         $this->path = $path;
+        $this->engine = $engine;
         $this->current = $current;
     }
 
@@ -23,7 +26,7 @@ class Themes
                 continue;
             }
 
-            $theme = new Themes\Theme($file->getPathname());
+            $theme = new Themes\Theme($this->engine, $file->getPathname());
 
             if ($theme->getName() == $this->current) {
                 $theme->setActive();

@@ -2,8 +2,8 @@
 
 namespace Anchorcms\Forms;
 
-use Forms\Traits\Filters;
-use Forms\Traits\FilterRules;
+use Anchorcms\Forms\Traits\Filters;
+use Anchorcms\Forms\Traits\FilterRules;
 
 class Page extends \Forms\Form
 {

@@ -12,15 +12,19 @@ class Vars extends AbstractController
 
     public function getIndex(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-        $meta = $this->container['mappers.meta']
-            ->where('key', 'LIKE', $this->prefix.'%')
-            ->sort('key', 'asc')
-            ->get();
+        $query = $this->container['mappers.meta']->query()
+            ->where('key LIKE :key')
+            ->setParameter('key', $this->prefix.'%')
+            ->orderBy('key', 'asc');
+        $meta = $this->container['mappers.meta']->fetchAll($query);
 
+        $vars['sitename'] = $this->container['mappers.meta']->key('sitename');
         $vars['title'] = 'Global Variables';
         $vars['metadata'] = $meta;
 
-        return $this->renderTemplate('layouts/default', 'vars/index', $vars);
+        $this->renderTemplate($response, 'layouts/default', 'vars/index', $vars);
+
+        return $response;
     }
 
     public function getCreate(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface

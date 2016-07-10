@@ -10,9 +10,12 @@ class Plugins extends AbstractController
 {
     public function getIndex(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
+        $vars['sitename'] = $this->container['mappers.meta']->key('sitename');
         $vars['title'] = 'Plugins';
         $vars['plugins'] = $this->container['services.plugins']->getPlugins();
 
-        return $this->renderTemplate('layouts/default', 'plugins/index', $vars);
+        $this->renderTemplate($response, 'layouts/default', 'plugins/index', $vars);
+
+        return $response;
     }
 }

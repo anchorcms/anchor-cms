@@ -10,10 +10,13 @@ class Themes extends AbstractController
 {
     public function getIndex(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
+        $vars['sitename'] = $this->container['mappers.meta']->key('sitename');
         $vars['title'] = 'Themes';
         $vars['themes'] = $this->container['services.themes']->getThemes();
 
-        return $this->renderTemplate('layouts/default', 'themes/index', $vars);
+        $this->renderTemplate($response, 'layouts/default', 'themes/index', $vars);
+
+        return $response;
     }
 
     public function postActivate(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface

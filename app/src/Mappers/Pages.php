@@ -52,7 +52,13 @@ class Pages extends AbstractMapper
     {
         $options[0] = 'None';
 
-        foreach ($this->where('status', '=', 'published')->sort('title')->get() as $page) {
+        $query = $this->query()
+            ->where('status = :status')
+            ->setParameter('status', 'published')
+            ->orderBy('title');
+        $pages = $this->fetchAll($query);
+
+        foreach ($pages as $page) {
             $options[$page->id] = sprintf('%s (%s)', $page->name, $page->title);
         }
 

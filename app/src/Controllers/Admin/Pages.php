@@ -7,6 +7,8 @@ use Psr\Http\Message\ResponseInterface;
 use Anchorcms\Controllers\AbstractController;
 use Anchorcms\Paginator;
 use Anchorcms\Filters;
+use Anchorcms\Forms\Page as PageForm;
+use Anchorcms\Forms\ValidateToken;
 
 class Pages extends AbstractController
 {
@@ -61,7 +63,7 @@ class Pages extends AbstractController
 
     public function getCreate(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-        $form = new \Forms\Page([
+        $form = new PageForm([
             'method' => 'post',
             'action' => $this->container['url']->to('/admin/pages/save'),
         ]);
@@ -83,30 +85,33 @@ class Pages extends AbstractController
 
         $element->setValue(1);
 
+        $vars['sitename'] = $this->container['mappers.meta']->key('sitename');
         $vars['title'] = 'Creating a new page';
         $vars['form'] = $form;
 
-        return $this->renderTemplate('layouts/default', 'pages/create', $vars);
+        $this->renderTemplate($response, 'layouts/default', 'pages/create', $vars);
+
+        return $response;
     }
 
     public function postSave(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-        $form = new \Forms\Page();
+        $form = new PageForm;
         $form->init();
 
         // append custom fields
         $this->container['services.customFields']->appendFields($form, 'page');
 
-        $input = filter_input_array(INPUT_POST, $form->getFilters());
+        $input = Filters::withDefaults($request->getParsedBody(), $form->getFilters());
         $validator = $this->container['validation']->create($input, $form->getRules());
 
-        $validator->addRule(new \Forms\ValidateToken($this->container['csrf']->token()), '_token');
+        $validator->addRule(new ValidateToken($this->container['csrf']->token()), '_token');
 
         if (false === $validator->isValid()) {
             $this->container['messages']->error($validator->getMessages());
             $this->container['session']->putStash('input', $input);
 
-            return $this->redirect($this->container['url']->to('/admin/pages/create'));
+            return $this->redirect($response, $this->container['url']->to('/admin/pages/create'));
         }
 
         $slug = $this->container['slugify']->slug($input['slug'] ?: $input['title']);
@@ -128,17 +133,16 @@ class Pages extends AbstractController
         // save custom fields
         $this->container['services.customFields']->saveFields($request, $input, 'page', $id);
 
-        $this->container['messages']->success('Page created');
+        $this->container['messages']->success(['Page created']);
 
-        return $this->redirect($this->container['url']->to(sprintf('/admin/pages/%d/edit', $id)));
+        return $this->redirect($response, $this->container['url']->to(sprintf('/admin/pages/%d/edit', $id)));
     }
 
     public function getEdit(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-        $id = $request->getAttribute('id');
-        $page = $this->container['mappers.pages']->where('id', '=', $id)->fetch();
+        $page = $this->container['mappers.pages']->id($args['id']);
 
-        $form = new \Forms\Page([
+        $form = new PageForm([
             'method' => 'post',
             'action' => $this->container['url']->to(sprintf('/admin/pages/%d/update', $page->id)),
         ]);
@@ -153,7 +157,7 @@ class Pages extends AbstractController
         $this->container['services.customFields']->appendFields($form, 'page');
 
         // get custom field values
-        $form->setValues($this->container['services.customFields']->getFieldValues('page', $id));
+        $form->setValues($this->container['services.customFields']->getFieldValues('page', $page->id));
 
         // re-populate old input
         $form->setValues($this->container['session']->getStash('input', []));
@@ -166,40 +170,42 @@ class Pages extends AbstractController
 
         $element->setValue(1);
 
+        $vars['sitename'] = $this->container['mappers.meta']->key('sitename');
         $vars['title'] = sprintf('Editing &ldquo;%s&rdquo;', $page->title);
         $vars['page'] = $page;
         $vars['form'] = $form;
 
-        return $this->renderTemplate('layouts/default', 'pages/edit', $vars);
+        $this->renderTemplate($response, 'layouts/default', 'pages/edit', $vars);
+
+        return $response;
     }
 
     public function postUpdate(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-        $id = $request->getAttribute('id');
-        $page = $this->container['mappers.pages']->where('id', '=', $id)->fetch();
+        $page = $this->container['mappers.pages']->id($args['id']);
 
-        $form = new \Forms\Page();
+        $form = new PageForm;
         $form->init();
 
         // append custom fields
         $this->container['services.customFields']->appendFields($form, 'page');
 
-        $input = filter_input_array(INPUT_POST, $form->getFilters());
+        $input = Filters::withDefaults($request->getParsedBody(), $form->getFilters());
         $validator = $this->container['validation']->create($input, $form->getRules());
 
-        $validator->addRule(new \Forms\ValidateToken($this->container['csrf']->token()), '_token');
+        $validator->addRule(new ValidateToken($this->container['csrf']->token()), '_token');
 
         if (false === $validator->isValid()) {
             $this->container['messages']->error($validator->getMessages());
             $this->container['session']->putStash('input', $input);
 
-            return $this->redirect($this->container['url']->to(sprintf('/admin/pages/%d/edit', $page->id)));
+            return $this->redirect($response, $this->container['url']->to(sprintf('/admin/pages/%d/edit', $page->id)));
         }
 
         $slug = $this->container['slugify']->slug($input['slug'] ?: $input['title']);
         $html = $this->container['markdown']->convertToHtml($input['content']);
 
-        $this->container['mappers.pages']->where('id', '=', $page->id)->update([
+        $this->container['mappers.pages']->update($page->id, [
             'parent' => $input['parent'],
             'slug' => $slug,
             'name' => $input['name'] ?: $input['title'],
@@ -213,27 +219,25 @@ class Pages extends AbstractController
         ]);
 
         // update custom fields
-        $this->container['services.customFields']->saveFields($request, $input, 'post', $id);
+        $this->container['services.customFields']->saveFields($request, $input, 'post', $page->id);
 
-        $this->container['messages']->success('Page updated');
+        $this->container['messages']->success(['Page updated']);
 
-        return $this->redirect($this->container['url']->to(sprintf('/admin/pages/%d/edit', $id)));
+        return $this->redirect($response, $this->container['url']->to(sprintf('/admin/pages/%d/edit', $page->id)));
     }
 
     public function getDelete(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-        $id = $request->getAttribute('id');
-        $page = $this->container['mappers.pages']->where('id', '=', $id)->fetch();
+        $page = $this->container['mappers.pages']->id($args['id']);
 
         if (!$page) {
-            return $this->redirect($this->container['url']->to('/admin/pages'));
+            return $this->redirect($response, $this->container['url']->to('/admin/pages'));
         }
 
-        $this->container['mappers.pages']->where('id', '=', $page->id)->delete();
-        $this->container['mappers.pagemeta']->where('page', '=', $page->id)->delete();
+        $this->container['mappers.pages']->delete($page->id);
+        $this->container['db']->delete($this->container['mappers.pagemeta']->getTableName(), ['page' => $page->id]);
 
-        $this->container['messages']->success('Page deleted');
-
-        return $this->redirect($this->container['url']->to('/admin/pages'));
+        $this->container['messages']->success(['Page deleted']);
+        return $this->redirect($response, $this->container['url']->to('/admin/pages'));
     }
 }

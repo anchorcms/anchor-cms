@@ -8,11 +8,14 @@
 		</div>
 	</header>
 
+	<?php echo $messages; ?>
+
 	<main>
 		<ul class="listing">
 			<?php foreach($categories as $category): ?>
 			<li>
 				<h3><a href="/admin/categories/<?php echo $category->id; ?>/edit"><?php echo $category->title; ?></a></h3>
+				<span class="badge badge--pinned"><?php echo $category->slug; ?></span>
 			</li>
 			<?php endforeach; ?>
 		</ul>

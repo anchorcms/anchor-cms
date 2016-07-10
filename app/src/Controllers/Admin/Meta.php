@@ -5,14 +5,21 @@ namespace Anchorcms\Controllers\Admin;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Anchorcms\Controllers\AbstractController;
+use Anchorcms\Forms\Meta as MetaForm;
 
 class Meta extends AbstractController
 {
+    protected $prefix = 'global_';
+
     public function getIndex(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-        $meta = $this->container['mappers.meta']->where('key', 'NOT LIKE', 'custom_%')->get();
+        $query = $this->container['mappers.meta']->query()
+            ->where('key NOT LIKE :key')
+            ->setParameter('key', $this->prefix.'%')
+            ->orderBy('key', 'asc');
+        $meta = $this->container['mappers.meta']->fetchAll($query);
 
-        $form = new \Forms\Meta([
+        $form = new MetaForm([
             'method' => 'post',
             'action' => $this->container['url']->to('/admin/meta/update'),
         ]);
@@ -34,10 +41,13 @@ class Meta extends AbstractController
 
         $form->setValues($this->container['session']->getStash('input', $values));
 
+        $vars['sitename'] = $this->container['mappers.meta']->key('sitename');
         $vars['title'] = 'Site Metadata';
         $vars['form'] = $form;
 
-        return $this->renderTemplate('layouts/default', 'meta/edit', $vars);
+        $this->renderTemplate($response, 'layouts/default', 'meta/edit', $vars);
+
+        return $response;
     }
 
     public function postUpdate(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface

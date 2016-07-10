@@ -28,8 +28,7 @@
 			<p class="text--upper text--small text--quiet">Filter by categories</p>
 			<ul class="list--unstyled list--padded">
 				<?php foreach($categories as $category): ?>
-				<li><a href="/admin/posts?category=<?php echo $category->id; ?>">
-					<?php echo $category->title; ?> <span class="badge"><?php echo $category->post_count ?? 0; ?></span></a></li>
+				<li><a href="/admin/posts?category=<?php echo $category->id; ?>"><?php echo $category->title; ?></a></li>
 				<?php endforeach; ?>
 			</ul>
 		</div>
