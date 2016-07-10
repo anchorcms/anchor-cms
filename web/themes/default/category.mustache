@@ -1,8 +1,7 @@
 <aside class="site-description wrap">
-	<h1>{{ page.title }}</h1>
+	<h1>{{ category.title }}</h1>
 </aside>
 
-{{# hasPosts }}
 <ul class="stories wrap">
 	{{# posts }}
 	<li>
@@ -17,10 +16,11 @@
 	{{/ posts }}
 </ul>
 {{ paginator.links }}
-{{/ hasPosts }}
-{{^ hasPosts }}
-<p style="text-align: center;">No posts found for "{{ keywords }}"</p>
-{{/ hasPosts }}
+{{^ posts }}
+<div class="wrap">
+	<p style="text-align: center;">Oh no, there's nothing published here yet.</p>
+</div>
+{{/ posts }}
 
 <section class="related-content">
 	<div class="wrap">
@@ -40,7 +40,7 @@
 		<div class="half-width">
 			<h2>Search my blog</h2>
 			<form action="/search" method="get">
-				<input name="q" value="{{ keywords }}" placeholder="Search anything here.">
+				<input name="q" placeholder="Search anything here.">
 				<button type="submit">Search</button>
 			</form>
 		</div>
