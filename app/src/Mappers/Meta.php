@@ -8,25 +8,30 @@ class Meta extends AbstractMapper
 
     protected $name = 'meta';
 
+    protected $map = [];
+
     public function all(): array
     {
-        $meta = [];
-
         foreach ($this->db->fetchAll($this->query()) as $row) {
-            $meta[$row['key']] = $row['value'];
+            $this->map[$row['key']] = $row['value'];
         }
 
-        return $meta;
+        return $this->map;
     }
 
     public function key(string $key, $default = null): string
     {
+        // if we have already loaded it
+        if (array_key_exists($key, $this->map)) {
+            return $this->map[$key];
+        }
+
         $query = $this->query()->select('value')
             ->where('key = :key')
             ->setParameter('key', $key);
 
         $value = $this->db->fetchColumn($query->getSQL(), $query->getParameters());
 
-        return false === $value ? $default : $value;
+        return false === $value ? $default : $this->map[$key] = $value;
     }
 }

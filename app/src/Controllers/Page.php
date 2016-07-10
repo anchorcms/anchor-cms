@@ -6,6 +6,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Anchorcms\Models\Page as PageModel;
 use Anchorcms\Filters;
+use Anchorcms\Paginator;
 
 class Page extends Frontend
 {
@@ -15,12 +16,17 @@ class Page extends Frontend
      * @param ServerRequestInterface $request
      * @param ResponseInterface      $response
      * @param array                  $args
-     *
      * @return ResponseInterface
      */
     public function getIndex(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-        $page = $this->container['mappers.pages']->slug($args['page']);
+        $query = $this->container['mappers.pages']->query()
+            ->andWhere('slug = :slug')
+            ->setParameter('slug', $args['page'])
+            ->andWhere('status = :status')
+            ->setParameter('status', 'published')
+        ;
+        $page = $this->container['mappers.pages']->fetch($query);
 
         if (false === $page) {
             return $this->notFound($request, $response, $args);
@@ -40,7 +46,6 @@ class Page extends Frontend
      * @param ServerRequestInterface $request
      * @param ResponseInterface      $response
      * @param array                  $args
-     *
      * @return ResponseInterface
      */
     public function getHome(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
@@ -59,58 +64,12 @@ class Page extends Frontend
     }
 
     /**
-     * View a category homepage listing the posts in that category.
-     *
-     * @param ServerRequestInterface $request
-     * @param ResponseInterface      $response
-     * @param array                  $args
-     *
-     * @return mixed String | ResponseInterface
-     */
-    public function getCategory(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
-    {
-        // fetch category by slug
-        $category = $this->container['mappers.categories']->slug($args['category']);
-
-        if (false === $category) {
-            return $this->notFound($request, $response, $args);
-        }
-
-        // create a page for our category
-        $page = new PageModel([
-            'title' => $category->title,
-        ]);
-
-        // set globals
-        $vars['page'] = $page;
-        $vars['category'] = $category;
-        $vars['meta'] = $this->container['mappers.meta']->all();
-        $vars['menu'] = $this->container['mappers.pages']->menu();
-        $vars['categories'] = $this->container['mappers.categories']->all();
-
-        $pagenum = filter_input(INPUT_GET, 'page', FILTER_SANITIZE_NUMBER_INT, ['options' => ['default' => 1]]);
-        $perpage = $this->container['mappers.meta']->key('posts_per_page');
-
-        $posts = $this->container['services.posts']->getPosts([
-            'page' => $pagenum,
-            'perpage' => $perpage,
-            'category' => $category->id,
-        ]);
-        $vars['posts'] = $posts;
-
-        $this->container['theme']->render($response, ['category', 'posts', 'index'], $vars);
-
-        return $response;
-    }
-
-    /**
      * Render a page.
      *
      * @param object PageModel
-     *
-     * @return string Template output
+     * @return object ResponseInterface
      */
-    protected function showPage(ServerRequestInterface $request, ResponseInterface $response, PageModel $page)
+    protected function showPage(ServerRequestInterface $request, ResponseInterface $response, PageModel $page): ResponseInterface
     {
         // name of template files to check for
         $names = [];
@@ -119,7 +78,7 @@ class Page extends Frontend
         $vars['page'] = $page;
         $vars['meta'] = $this->container['mappers.meta']->all();
         $vars['menu'] = $this->container['mappers.pages']->menu();
-        $vars['categories'] = $this->container['mappers.categories']->all();
+        $vars['categories'] = $this->container['services.categories']->allWithPostCounts();
 
         // is this page the post listings page?
         if ($page->id == $this->container['mappers.meta']->key('posts_page')) {
@@ -131,13 +90,27 @@ class Page extends Frontend
             ]);
             $perpage = $this->container['mappers.meta']->key('posts_per_page');
 
-            $vars['posts'] = $this->container['services.posts']->getPosts([
-                'page' => $pagenum, // make a positive int
-                'perpage' => $perpage,
-            ]);
+            $query = $this->container['mappers.posts']->query()
+                ->andWhere('status = :status')
+                ->setParameter('status', 'published')
+            ;
+
+            $total = $this->container['mappers.posts']->count($query);
+            $pages = ceil($total / $perpage);
+            $offset = ($pagenum - 1) * $perpage;
+
+            $query->setMaxResults($perpage)
+                ->setFirstResult($offset);
+
+            $posts = $this->container['mappers.posts']->fetchAll($query);
+            $this->container['services.posts']->hydrate($posts);
+
+            $vars['posts'] = $posts;
+            $vars['paginator'] = new Paginator('/', $pagenum, $pages, $perpage);
 
             $names[] = 'posts';
         } else {
+            $names[] = sprintf('page-%s', $page->slug);
             $names[] = 'page';
         }
 

@@ -17,7 +17,7 @@ $app = new Pimple\Container(require __DIR__.'/container.php');
 
 // Setup Error handling
 $app['errors']->handler(function (RuntimeDebugException $exception) {
-    if(false === headers_sent()) {
+    if (false === headers_sent()) {
         http_response_code(500);
     }
     echo sprintf('<html>
@@ -34,7 +34,7 @@ $app['errors']->handler(function (RuntimeDebugException $exception) {
 });
 
 $app['errors']->handler(function (Throwable $exception) {
-    if(false === headers_sent()) {
+    if (false === headers_sent()) {
         http_response_code(500);
     }
     echo sprintf('<html>
@@ -92,7 +92,7 @@ else {
 
     // protected admin pages
     $app['http.server']->append(new Anchorcms\Middleware\Auth($app['session'], [
-        '/admin',
+        '/admin/(posts|pages|categories|users)',
     ]));
 }
 

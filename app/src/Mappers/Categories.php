@@ -29,13 +29,16 @@ class Categories extends AbstractMapper
         return $categories;
     }
 
-    public function all()
+    public function all(array $postCounts = [])
     {
         $query = $this->query()->orderBy('title', 'ASC');
         $results = $this->db->fetchAll($query);
         $models = [];
 
         foreach ($results as $row) {
+            $row['post_count'] = array_reduce($postCounts, function ($carry, $item) use ($row) {
+                return $row['id'] == $item['category'] ? $item['post_count'] : $carry;
+            }, 0);
             $models[] = (clone $this->prototype)->withAttributes($row);
         }
 

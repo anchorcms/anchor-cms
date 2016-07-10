@@ -12,10 +12,20 @@
 			<nav>
 				<ul>
 					{{# menu }}
-					<li class="active"><a href="{{ url }}">{{ title }}</a></li>
+					<li><a href="{{ url }}">{{ title }}</a></li>
 					{{/ menu }}
 				</ul>
 			</nav>
+			<script>
+				(function() {
+					var path = window.location.pathname;
+					Array.prototype.forEach.call(document.querySelectorAll('nav a'), function(node) {
+						if(path.indexOf(node.getAttribute('href')) === 0) {
+							node.parentNode.classList.add('active');
+						}
+					});
+				})();
+			</script>
 		</header>
 
 		<section class="content">
@@ -34,5 +44,7 @@
 				<p>&copy; {{ meta.sitename }}. All rights reserved.</p>
 			</div>
 		</footer>
+
+		<debug></debug>
 	</body>
 </html>

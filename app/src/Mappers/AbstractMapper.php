@@ -20,6 +20,16 @@ abstract class AbstractMapper implements MapperInterface
         $this->prototype = $prototype;
     }
 
+    public function getDb(): Connection
+    {
+        return $this->db;
+    }
+
+    public function getPrototype(): AbstractModel
+    {
+        return $this->prototype;
+    }
+
     public function setTablePrefix(string $prefix)
     {
         $this->prefix = $prefix;

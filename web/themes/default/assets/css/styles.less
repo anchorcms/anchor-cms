@@ -201,14 +201,14 @@ hgroup {
 	overflow: hidden;
 	padding: 40px 0;
 	margin-top: 80px;
-	
+
 	background: @background-dark;
 
 	h2 {
 		padding-bottom: .7em;
 		margin-bottom: 0;
 
-		border-bottom: 1px solid darken(@background-dark, 5%);		
+		border-bottom: 1px solid darken(@background-dark, 5%);
 	}
 
 	//  The categories lists
@@ -274,6 +274,21 @@ hgroup {
 		border-radius: 5px;
 
 		box-shadow: inset 0 2px 2px fade(@background-darkest, 10%);
+	}
+}
+
+.debug-info {
+	padding: 2rem;
+	table, p { margin: 1rem 0; }
+	table {
+		border-collapse: collapse;
+		width: 100%;
+		tr {
+			th, td {
+				border: 1px solid #efebe0;
+				padding: .6rem 1rem;
+			}
+		}
 	}
 }
 

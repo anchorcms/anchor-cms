@@ -15,7 +15,7 @@ class RedirectTrailingSlash implements ServerMiddlewareInterface
         $path = $request->getUri()->getPath();
 
         // last character is a slash?
-        if (substr($path, -1) === '/') {
+        if (substr($path, -1) === '/' && $path !== '/') {
             return $frame->factory()->createResponse(301, ['Location' => substr($path, 0, -1)]);
         }
 

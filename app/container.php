@@ -192,6 +192,9 @@ return [
     'services.posts' => function ($app) {
         return new Anchorcms\Services\Posts($app['mappers.posts'], $app['mappers.postmeta'], $app['mappers.customFields'], $app['mappers.users'], $app['mappers.categories']);
     },
+    'services.categories' => function ($app) {
+        return new Anchorcms\Services\Categories($app['mappers.categories'], $app['mappers.posts']);
+    },
     'services.customFields' => function ($app) {
         return new Anchorcms\Services\CustomFields($app['mappers.customFields'], $app['mappers.postmeta'], $app['mappers.pagemeta'], $app['services.media']);
     },

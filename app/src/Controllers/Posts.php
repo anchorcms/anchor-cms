@@ -18,7 +18,14 @@ class Posts extends Frontend
     public function getIndex(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
         // get post by slug
-        $article = $this->container['mappers.posts']->slug($args['post']);
+        $query = $this->container['mappers.posts']->query()
+            ->andWhere('slug = :slug')
+            ->setParameter('slug', $args['post'])
+            ->andWhere('status = :status')
+            ->setParameter('status', 'published')
+        ;
+
+        $article = $this->container['mappers.posts']->fetch($query);
 
         // post not found
         if (false === $article) {
@@ -44,7 +51,7 @@ class Posts extends Frontend
         // set globals
         $vars['meta'] = $this->container['mappers.meta']->all();
         $vars['menu'] = $this->container['mappers.pages']->menu();
-        $vars['categories'] = $this->container['mappers.categories']->all();
+        $vars['categories'] = $this->container['services.categories']->allWithPostCounts();
 
         $this->container['theme']->render($response, [
             sprintf('article-%s', $article->slug),

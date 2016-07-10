@@ -69,7 +69,9 @@ return [
     '/feeds/rss' => 'controllers\\feeds@rss',
     '/feeds/json' => 'controllers\\feeds@json',
     '/search' => 'controllers\\search@index',
-    '/category/:category' => 'controllers\\page@category',
+    '/category/:category' => 'controllers\\category@index',
+    '/category/:category/feeds/rss' => 'controllers\\category@rss',
+    '/category/:category/feeds/json' => 'controllers\\category@json',
     '/:category/:post' => 'controllers\\posts@index',
     '/:page' => 'controllers\\page@index',
 ];
