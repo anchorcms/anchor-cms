@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'start_time' => microtime(true),
     'paths' => function () {
         return require __DIR__.'/paths.php';
     },
@@ -10,7 +11,10 @@ return [
     'db' => function ($app) {
         $params = $app['config']->get('db');
         $config = new Doctrine\DBAL\Configuration();
-        $config->setSQLLogger($app['db.logger']);
+
+        if ($app['config']->get('app.debug')) {
+            $config->setSQLLogger($app['db.logger']);
+        }
 
         return Doctrine\DBAL\DriverManager::getConnection($params, $config);
     },
@@ -103,6 +107,11 @@ return [
     },
     'http.server' => function ($app) {
         return new Tari\Server($app['http.factory']);
+    },
+    'http.default' => function ($app) {
+        return function ($request) use ($app) {
+            return $app['http.factory']->createResponse(200, [], '');
+        };
     },
 
     /*

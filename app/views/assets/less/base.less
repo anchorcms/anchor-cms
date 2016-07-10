@@ -22,3 +22,15 @@ a {
 h1, h2, h3, h4, h5, h6 {
 	color: lighten(@blue, 28%);
 }
+
+table {
+	border-collapse: collapse;
+	width: 100%;
+
+	tr {
+		th, td {
+			border: 1px solid darken(@background, 8%);
+			padding: .6rem 1rem;
+		}
+	}
+}

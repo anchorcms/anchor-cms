@@ -26,7 +26,7 @@ class Auth implements ServerMiddlewareInterface
 
         foreach ($this->protected as $pattern) {
             if (preg_match('#^'.$pattern.'#', $path) && false === $this->session->has('user')) {
-                return $frame->factory()->createResponse(302, ['Location' => '/admin/auth/login'], '');
+                return $frame->factory()->createResponse(302, ['Location' => '/admin/auth/login']);
             }
         }
 

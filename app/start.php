@@ -17,10 +17,9 @@ $app = new Pimple\Container(require __DIR__.'/container.php');
 
 // Setup Error handling
 $app['errors']->handler(function (RuntimeDebugException $exception) {
-    while (ob_get_level()) {
-        ob_end_clean();
+    if(false === headers_sent()) {
+        http_response_code(500);
     }
-    http_response_code(500);
     echo sprintf('<html>
 			<head>
 				<title>Debug</title>
@@ -35,10 +34,9 @@ $app['errors']->handler(function (RuntimeDebugException $exception) {
 });
 
 $app['errors']->handler(function (Throwable $exception) {
-    while (ob_get_level()) {
-        ob_end_clean();
+    if(false === headers_sent()) {
+        http_response_code(500);
     }
-    http_response_code(500);
     echo sprintf('<html>
 			<head>
 				<title>Whoops</title>
@@ -75,7 +73,7 @@ if (false === $app['services.installer']->isInstalled()) {
     $app['http.routes']->set(require __DIR__.'/routes/installer.php');
 
     // start the session for installer
-    $app['http.server']->append(function (Psr\Http\Message\ServerRequestInterface $request, Tari\ServerFrameInterface $frame) use ($app) {
+    $app['http.server']->append(function ($request, $frame) use ($app) {
         $app['session']->start();
 
         return $frame->next($request);
@@ -84,7 +82,7 @@ if (false === $app['services.installer']->isInstalled()) {
 // middlewares to include when installed
 else {
     // start the session for admin
-    $app['http.server']->append(function (Psr\Http\Message\ServerRequestInterface $request, Tari\ServerFrameInterface $frame) use ($app) {
+    $app['http.server']->append(function ($request, $frame) use ($app) {
         if (strpos($request->getUri()->getPath(), '/admin') === 0) {
             $app['session']->start();
         }
@@ -94,7 +92,7 @@ else {
 
     // protected admin pages
     $app['http.server']->append(new Anchorcms\Middleware\Auth($app['session'], [
-        '/admin/(pages|posts)',
+        '/admin',
     ]));
 }
 
@@ -104,14 +102,9 @@ $app['http.server']->append(new Anchorcms\Middleware\Kernel($app));
 
 // append debug output
 if ($app['config']->get('app.debug')) {
-    $app['http.server']->append(function (Psr\Http\Message\ServerRequestInterface $request, Tari\ServerFrameInterface $frame) use ($app) {
-        // append to body
-        return $frame->next($request);
-    });
+    $app['http.server']->prepend(new Anchorcms\Middleware\Debug($app));
 }
 
-$response = $app['http.server']->run($app['http.request'], function ($request) use ($app) {
-    return $app['http.factory']->createResponse(200, [], '');
-});
+$response = $app['http.server']->run($app['http.request'], $app['http.default']);
 
 $app['http.kernel']->outputResponse($response);
