@@ -2,7 +2,7 @@
 
 namespace Anchorcms\Mappers;
 
-class Users extends AbstractMapper
+class UserTokens extends AbstractMapper
 {
     protected $primary = 'id';
 
@@ -12,5 +12,4 @@ class Users extends AbstractMapper
     {
         return $this->fetchByAttribute('id', $id);
     }
-
 }

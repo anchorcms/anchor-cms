@@ -79,9 +79,9 @@ return [
     'url' => function ($app) {
         return new Anchorcms\Url($app['http.request'], new GuzzleHttp\Psr7\Uri());
     },
-	'zxcvbn' => function() {
-		return new ZxcvbnPhp\Zxcvbn;
-	},
+    'zxcvbn' => function () {
+        return new ZxcvbnPhp\Zxcvbn;
+    },
 
     /*
      * Middleware

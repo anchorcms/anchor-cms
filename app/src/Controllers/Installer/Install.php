@@ -176,7 +176,7 @@ class Install extends AbstractController
         $form = new \Anchorcms\Forms\Installer\Account();
 
         $input = Filters::withDefaults($request->getParsedBody(), $form->getFilters());
-		$validator = $this->container['validation']->create($input, $form->getRules());
+        $validator = $this->container['validation']->create($input, $form->getRules());
 
         $data = $this->container['session']->get('install', []);
         $this->container['session']->put('install', array_merge($data, $input));
@@ -193,8 +193,8 @@ class Install extends AbstractController
         }
 
         $data = $this->container['session']->get('install', []);
-		// defer construction of auth service until the config files have
-		// been written and the database has been created
+        // defer construction of auth service until the config files have
+        // been written and the database has been created
         $this->container['services.installer']->run($data, $this->container['services.auth']);
 
         $this->container['session']->remove('install');

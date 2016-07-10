@@ -14,7 +14,7 @@ class Content extends AbstractController
         $makrdown = Filters::withDefault($request->getParsedBody(), 'content', FILTER_UNSAFE_RAW);
         $html = $this->container['markdown']->convertToHtml($makrdown);
 
-		$response->getBody()->write(json_encode(['result' => true, 'html' => $html]));
+        $response->getBody()->write(json_encode(['result' => true, 'html' => $html]));
 
         return $response->withStatus(200)->withHeader('content-type', 'application/json');
     }

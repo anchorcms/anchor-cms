@@ -79,7 +79,7 @@ class Auth extends AbstractController
 
         // check password and update it
         if ($this->container['services.auth']->checkPasswordHash($user->password)) {
-			// upgrade password
+            // upgrade password
             $this->container['services.auth']->changePassword($this->container['mappers.users'], $user->id, $input['password']);
         }
 

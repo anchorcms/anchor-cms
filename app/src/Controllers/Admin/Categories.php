@@ -86,7 +86,7 @@ class Categories extends AbstractController
                 ->andWhere('slug = :slug')
                 ->setParameter('slug', $slug);
 
-            if($this->container['mappers.categories']->count($query)) {
+            if ($this->container['mappers.categories']->count($query)) {
                 $validator->setInvalid('slug already used');
             }
         }
@@ -165,7 +165,7 @@ class Categories extends AbstractController
                 ->andWhere('id <> :id')
                 ->setParameter('id', $category->id);
 
-            if($this->container['mappers.categories']->count($query)) {
+            if ($this->container['mappers.categories']->count($query)) {
                 $validator->setInvalid('slug already used');
             }
         }
@@ -202,7 +202,7 @@ class Categories extends AbstractController
         $remaining = $this->container['mappers.categories']->count($query);
 
         // you cant delete all the categories
-        if($remaining < 1) {
+        if ($remaining < 1) {
             $this->container['messages']->error(['You cannot delete all categories']);
             return $this->redirect($response, $this->container['url']->to('/admin/categories'));
         }

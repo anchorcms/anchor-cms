@@ -68,7 +68,7 @@ abstract class AbstractMapper implements MapperInterface
     {
         $row = $this->db->fetchAssoc($query->getSQL(), $query->getParameters());
 
-        if( ! $row) {
+        if (! $row) {
             return false;
         }
 
@@ -94,7 +94,7 @@ abstract class AbstractMapper implements MapperInterface
         return $this->db->lastInsertId();
     }
 
-	public function delete(int $id): bool
+    public function delete(int $id): bool
     {
         return $this->db->delete($this->getTableName(), [$this->primary => $id]);
     }

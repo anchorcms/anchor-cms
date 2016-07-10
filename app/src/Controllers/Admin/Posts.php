@@ -108,20 +108,20 @@ class Posts extends AbstractController
 
         $validator->addRule(new ValidateToken($this->container['csrf']->token()), '_token');
 
-		// check duplicate slug
-		$slug = $this->container['slugify']->slug(empty($input['slug']) ? $input['title'] : $input['slug']);
+        // check duplicate slug
+        $slug = $this->container['slugify']->slug(empty($input['slug']) ? $input['title'] : $input['slug']);
 
-		if($validator->isValid() && $input['status'] == 'published') {
-			$query = $this->container['mappers.posts']->query()
-				->andWhere('slug = :slug')
-				->setParameter('slug', $slug)
-				->andWhere('status = :status')
-				->setParameter('status', $input['status']);
+        if ($validator->isValid() && $input['status'] == 'published') {
+            $query = $this->container['mappers.posts']->query()
+                ->andWhere('slug = :slug')
+                ->setParameter('slug', $slug)
+                ->andWhere('status = :status')
+                ->setParameter('status', $input['status']);
 
-			if($this->container['mappers.posts']->count($query)) {
-				$validator->setInvalid('Post slug already exists');
-			}
-		}
+            if ($this->container['mappers.posts']->count($query)) {
+                $validator->setInvalid('Post slug already exists');
+            }
+        }
 
         if (false === $validator->isValid()) {
             $this->container['messages']->error($validator->getMessages());
@@ -213,24 +213,24 @@ class Posts extends AbstractController
 
         $validator->addRule(new ValidateToken($this->container['csrf']->token()), '_token');
 
-		// check duplicate slug
-		$slug = $this->container['slugify']->slug(empty($input['slug']) ? $input['title'] : $input['slug']);
+        // check duplicate slug
+        $slug = $this->container['slugify']->slug(empty($input['slug']) ? $input['title'] : $input['slug']);
 
-		if($validator->isValid() && $input['status'] == 'published') {
-			$query = $this->container['mappers.posts']->query()
-				->andWhere('slug = :slug')
-				->setParameter('slug', $slug)
-				->andWhere('status = :status')
-				->setParameter('status', $input['status'])
-				->andWhere('id <> :id')
-				->setParameter('id', $post->id);
+        if ($validator->isValid() && $input['status'] == 'published') {
+            $query = $this->container['mappers.posts']->query()
+                ->andWhere('slug = :slug')
+                ->setParameter('slug', $slug)
+                ->andWhere('status = :status')
+                ->setParameter('status', $input['status'])
+                ->andWhere('id <> :id')
+                ->setParameter('id', $post->id);
 
-			$duplicates = $this->container['mappers.posts']->count($query);
+            $duplicates = $this->container['mappers.posts']->count($query);
 
-			if($duplicates > 0) {
-				$validator->setInvalid('Post slug already exists');
-			}
-		}
+            if ($duplicates > 0) {
+                $validator->setInvalid('Post slug already exists');
+            }
+        }
 
         if (false === $validator->isValid()) {
             $this->container['messages']->error($validator->getMessages());

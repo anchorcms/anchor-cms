@@ -28,7 +28,7 @@ class FileStorage
     {
         $path = sprintf('%s/%s.sess', $this->path, $id);
 
-		$jsonString = json_encode($data);
+        $jsonString = json_encode($data);
 
         if (false === file_put_contents($path, $jsonString, LOCK_EX)) {
             throw new \RuntimeException('Failed to write session file');
