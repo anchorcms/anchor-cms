@@ -7,6 +7,8 @@ use Psr\Http\Message\ResponseInterface;
 use Anchorcms\Controllers\AbstractController;
 use Anchorcms\Paginator;
 use Anchorcms\Filters;
+use Anchorcms\Forms\User as UserForm;
+use Anchorcms\Forms\ValidateToken;
 
 class Users extends AbstractController
 {
@@ -49,7 +51,7 @@ class Users extends AbstractController
 
     public function getCreate(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-        $form = new \Forms\User([
+        $form = new UserForm([
             'method' => 'post',
             'action' => $this->container['url']->to('/admin/users/save'),
         ]);
@@ -57,34 +59,35 @@ class Users extends AbstractController
         $form->getElement('_token')->setValue($this->container['csrf']->token());
         $form->setValues($this->container['session']->getStash('input', []));
 
+        $vars['sitename'] = $this->container['mappers.meta']->key('sitename');
         $vars['title'] = 'Creating a new user';
         $vars['form'] = $form;
 
-        return $this->renderTemplate('layouts/default', 'users/create', $vars);
+        $this->renderTemplate($response, 'layouts/default', 'users/create', $vars);
+
+        return $response;
     }
 
     public function postSave(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-        $form = new \Forms\User();
+        $form = new UserForm;
         $form->init();
 
-        $input = filter_input_array(INPUT_POST, $form->getFilters());
+        $input = Filters::withDefaults($request->getParsedBody(), $form->getFilters());
         $validator = $this->container['validation']->create($input, $form->getRules());
 
-        $validator->addRule(new \Forms\ValidateToken($this->container['csrf']->token()), '_token');
+        $validator->addRule(new ValidateToken($this->container['csrf']->token()), '_token');
 
         if ($validator->isValid()) {
-            $query = $this->container['mappers.users']
-                ->where('username', '=', $input['username']);
+            $user = $this->container['mappers.users']->fetchByUsername($input['username']);
 
-            if ($query->count()) {
+            if ($user) {
                 $validator->setInvalid('Username already taken');
             }
 
-            $query = $this->container['mappers.users']
-                ->where('email', '=', $input['email']);
+            $user = $this->container['mappers.users']->fetchByEmail($input['email']);
 
-            if ($query->count()) {
+            if ($user) {
                 $validator->setInvalid('Email address already in use');
             }
         }
@@ -93,7 +96,7 @@ class Users extends AbstractController
             $this->container['messages']->error($validator->getMessages());
             $this->container['session']->putStash('input', $input);
 
-            return $this->redirect($this->container['url']->to('/admin/users/create'));
+            return $this->redirect($response, $this->container['url']->to('/admin/users/create'));
         }
 
         $password = $this->container['services.auth']->hashPassword($input['password']);
@@ -106,20 +109,17 @@ class Users extends AbstractController
             'bio' => $input['bio'],
             'status' => $input['status'],
             'role' => $input['role'],
-            'token' => '',
         ]);
 
-        $this->container['messages']->success('User created');
-
-        return $this->redirect($this->container['url']->to(sprintf('/admin/users/%d/edit', $id)));
+        $this->container['messages']->success(['User created']);
+        return $this->redirect($response, $this->container['url']->to(sprintf('/admin/users/%d/edit', $id)));
     }
 
     public function getEdit(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-        $id = $request->getAttribute('id');
-        $user = $this->container['mappers.users']->where('id', '=', $id)->fetch();
+        $user = $this->container['mappers.users']->fetchById($args['id']);
 
-        $form = new \Forms\User([
+        $form = new UserForm([
             'method' => 'post',
             'action' => $this->container['url']->to(sprintf('/admin/users/%d/update', $user->id)),
         ]);
@@ -132,22 +132,24 @@ class Users extends AbstractController
         // re-populate old input
         $form->setValues($this->container['session']->getStash('input', []));
 
+        $vars['sitename'] = $this->container['mappers.meta']->key('sitename');
         $vars['title'] = sprintf('Editing &ldquo;%s&rdquo;', $user->name);
         $vars['user'] = $user;
         $vars['form'] = $form;
 
-        return $this->renderTemplate('layouts/default', 'users/edit', $vars);
+        $this->renderTemplate($response, 'layouts/default', 'users/edit', $vars);
+
+        return $response;
     }
 
     public function postUpdate(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-        $id = $request->getAttribute('id');
-        $user = $this->container['mappers.users']->where('id', '=', $id)->fetch();
+        $user = $this->container['mappers.users']->fetchById($args['id']);
 
-        $form = new \Forms\User();
+        $form = new UserForm;
         $form->init();
 
-        $input = filter_input_array(INPUT_POST, $form->getFilters());
+        $input = Filters::withDefaults($request->getParsedBody(), $form->getFilters());
         $rules = $form->getRules();
 
         // no password change so no validation
@@ -157,13 +159,13 @@ class Users extends AbstractController
 
         $validator = $this->container['validation']->create($input, $rules);
 
-        $validator->addRule(new \Forms\ValidateToken($this->container['csrf']->token()), '_token');
+        $validator->addRule(new ValidateToken($this->container['csrf']->token()), '_token');
 
         // make sure its a good password
         if (! empty($input['password'])) {
             $validator->addRule(function ($value) {
-                $score = $this->container['zxcvbn']->passwordStrength($value);
-                return [$score > 0, 'Get out of here! Choose a better password'];
+                $strength = $this->container['zxcvbn']->passwordStrength($value);
+                return [$strength['score'] > 0, 'Get out of here! Choose a better password'];
             }, 'password');
         }
 
@@ -171,7 +173,7 @@ class Users extends AbstractController
             $this->container['messages']->error($validator->getMessages());
             $this->container['session']->putStash('input', $input);
 
-            return $this->redirect($this->container['url']->to(sprintf('/admin/users/%d/edit', $user->id)));
+            return $this->redirect($response, $this->container['url']->to(sprintf('/admin/users/%d/edit', $user->id)));
         }
 
         $update = [
@@ -188,10 +190,9 @@ class Users extends AbstractController
             $update['password'] = $this->container['services.auth']->hashPassword($input['password']);
         }
 
-        $this->container['mappers.users']->where('id', '=', $user->id)->update($update);
+        $this->container['mappers.users']->update($user->id, $update);
 
-        $this->container['messages']->success('User updated');
-
-        return $this->redirect($this->container['url']->to(sprintf('/admin/users/%d/edit', $id)));
+        $this->container['messages']->success(['User updated']);
+        return $this->redirect($response, $this->container['url']->to(sprintf('/admin/users/%d/edit', $id)));
     }
 }
