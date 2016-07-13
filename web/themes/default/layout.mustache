@@ -20,7 +20,7 @@
 				(function() {
 					var path = window.location.pathname;
 					Array.prototype.forEach.call(document.querySelectorAll('nav a'), function(node) {
-						if(path.indexOf(node.getAttribute('href')) === 0) {
+						if(path == node.getAttribute('href')) {
 							node.parentNode.classList.add('active');
 						}
 					});

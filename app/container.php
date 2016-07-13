@@ -204,4 +204,7 @@ return [
     'services.auth' => function ($app) {
         return new Anchorcms\Services\Auth;
     },
+    'services.menu' => function ($app) {
+        return new Anchorcms\Services\Menu($app['mappers.meta'], $app['mappers.pages']);
+    },
 ];

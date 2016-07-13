@@ -46,7 +46,7 @@ class Search extends Frontend
 
         // set globals
         $vars['meta'] = $this->container['mappers.meta']->all();
-        $vars['menu'] = $this->container['mappers.pages']->menu();
+        $vars['menu'] = $this->container['services.menu']->get();
         $vars['categories'] = $this->container['services.categories']->allWithPostCounts();
         $vars['paginator'] = new Paginator('/search', $input['page'], $pages, $perpage, $input);
         $vars['page'] = $page;
