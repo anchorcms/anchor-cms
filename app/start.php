@@ -2,12 +2,16 @@
 
 // Make sure this we have a good version of PHP
 if (!defined('PHP_VERSION_ID') || PHP_VERSION_ID < 7) {
-    throw new RuntimeException('PHP 7 or later is required');
+    http_response_code(500);
+    echo file_get_contents(__DIR__.'/views/errors/requirements.html');
+    return 0;
 }
 
 // Check composer is installed
-if (false === is_file(__DIR__.'/../vendor/autoload.php')) {
-    throw new RuntimeException('Composer not installed');
+if (!is_file(__DIR__.'/../vendor/autoload.php')) {
+    http_response_code(500);
+    echo file_get_contents(__DIR__.'/views/errors/composer-not-installed.html');
+    return 0;
 }
 
 require __DIR__.'/../vendor/autoload.php';
@@ -16,23 +20,6 @@ require __DIR__.'/../vendor/autoload.php';
 $app = new Pimple\Container(require __DIR__.'/container.php');
 
 // Setup Error handling
-$app['errors']->handler(function (RuntimeDebugException $exception) {
-    if (false === headers_sent()) {
-        http_response_code(500);
-    }
-    echo sprintf('<html>
-			<head>
-				<title>Debug</title>
-				<style>html,body { color: #333; padding: 2rem; font: 1rem/1.5rem sans-serif; }</style>
-			</head>
-			<body>
-				<pre>%s</pre>
-			</body>
-		</html>',
-        $exception->getMessage()
-    );
-});
-
 $app['errors']->handler(function (Throwable $exception) {
     if (false === headers_sent()) {
         http_response_code(500);

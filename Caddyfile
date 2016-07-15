@@ -1,0 +1,7 @@
+:8080
+root web
+fastcgi / 127.0.0.1:9000 php
+rewrite {
+	if {file} not favicon.ico
+	to {path} {path}/ /index.php?{query}
+}
