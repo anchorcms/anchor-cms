@@ -30,4 +30,11 @@ abstract class AbstractController implements ControllerInterface
     {
         return $response->withStatus($status)->withHeader('Location', $path);
     }
+
+    protected function json(ResponseInterface $response, array $data): ResponseInterface
+    {
+        $response->getBody()->write(json_encode($data, JSON_PRETTY_PRINT));
+
+        return $response->withHeader('Contant-Type', 'application/json');
+    }
 }

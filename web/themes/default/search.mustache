@@ -16,7 +16,11 @@
 	</li>
 	{{/ posts }}
 </ul>
-{{ paginator.links }}
+
+<div class="wrap">
+	<p style="text-align: center;">{{& paginator.links }}</p>
+</div>
+
 {{/ hasPosts }}
 {{^ hasPosts }}
 <p style="text-align: center;">No posts found for "{{ keywords }}"</p>

@@ -1,4 +1,3 @@
-
 (function() {
 	var elements = document.querySelectorAll('[data-confirm]');
 
@@ -48,5 +47,4 @@
 		clearTimeout(idleTimer);
 		title.innerHTML = message;
 	}, false);
-
 })();

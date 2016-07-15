@@ -18,7 +18,10 @@ class Media extends AbstractController
             $files = $this->container['services.media']->get();
         }
 
-        return $this->jsonResponse(['result' => true, 'files' => $files]);
+        return $this->json($response, [
+            'result' => true,
+            'files' => $files,
+        ]);
     }
 
     public function postUpload(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
@@ -26,11 +29,11 @@ class Media extends AbstractController
         try {
             $files = $request->getUploadedFiles();
             $url = '/content'.$this->container['services.media']->upload($files['file']);
-            $response = ['result' => true, 'path' => $url];
+            $data = ['result' => true, 'path' => $url];
         } catch (\Exception $e) {
-            $response = ['result' => false, 'message' => $e->getMessage()];
+            $data = ['result' => false, 'message' => $e->getMessage()];
         }
 
-        return $this->jsonResponse($response);
+        return $this->json($response, $data);
     }
 }

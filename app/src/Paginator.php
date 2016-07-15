@@ -17,7 +17,7 @@ class Paginator
         $this->url = $url;
         $this->page = max(1, $page);
         $this->pages = ceil($pages / $perpage);
-        $this->params = $params;
+        $this->params = array_filter($params);
     }
 
     protected function html($page, $text)
