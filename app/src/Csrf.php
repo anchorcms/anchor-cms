@@ -2,7 +2,7 @@
 
 namespace Anchorcms;
 
-use Anchorcms\Session\StorageInterface;
+use Session\SessionInterface;
 
 /**
  * Cross-Site Request Forgery Protection.
@@ -11,7 +11,7 @@ class Csrf
 {
     protected $session;
 
-    public function __construct(StorageInterface $session)
+    public function __construct(SessionInterface $session)
     {
         $this->session = $session;
     }

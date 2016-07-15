@@ -2,7 +2,7 @@
 
 namespace Anchorcms;
 
-use Anchorcms\Session\StashInterface;
+use Session\SessionInterface;
 
 class Messages
 {
@@ -10,7 +10,7 @@ class Messages
 
     protected $messages;
 
-    public function __construct(StashInterface $session)
+    public function __construct(SessionInterface $session)
     {
         $this->session = $session;
         $this->messages = [];

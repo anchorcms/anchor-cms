@@ -30,17 +30,17 @@ return [
     'session' => function ($app) {
         $config = $app['config']->get('session');
 
-        return new Anchorcms\Session\Session($app['session.cookies'], $app['session.storage'], $config);
+        return new Session\Session($app['session.cookies'], $app['session.storage'], $config);
     },
     'session.cookies' => function ($app) {
-        return new Anchorcms\Session\Cookies();
+        return new Session\Cookies();
     },
     'session.storage' => function ($app) {
         if (false === is_dir($app['paths']['sessions'])) {
             mkdir($app['paths']['sessions'], 0700, true);
         }
 
-        return new Anchorcms\Session\FileStorage($app['paths']['sessions']);
+        return new Session\FileStorage($app['paths']['sessions']);
     },
     'csrf' => function ($app) {
         return new Anchorcms\Csrf($app['session']);

@@ -22,6 +22,7 @@
 		{"type": "vcs", "url": "git@github.com:rwarasaurus/validation.git"},
 		{"type": "vcs", "url": "git@github.com:rwarasaurus/events.git"},
 		{"type": "vcs", "url": "git@github.com:rwarasaurus/router.git"},
+		{"type": "vcs", "url": "git@github.com:rwarasaurus/session.git"},
 		{"type": "vcs", "url": "git@github.com:ircmaxell/tari-php"}
 	],
 	"require": {
@@ -31,10 +32,13 @@
 		"guzzlehttp/psr7": "~1",
 		"doctrine/dbal": "~2",
 		"mustache/mustache": "~2",
+
 		"rwarasaurus/forms": "~0.1",
 		"rwarasaurus/validation": "dev-master",
 		"rwarasaurus/events": "dev-master",
 		"rwarasaurus/router": "dev-master",
+		"rwarasaurus/session": "dev-master",
+
 		"ircmaxell/tari-php": "dev-master",
 		"defuse/php-encryption": "~2",
 		"bjeavons/zxcvbn-php": "~0.1"

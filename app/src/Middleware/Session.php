@@ -6,7 +6,7 @@ use Tari\ServerMiddlewareInterface;
 use Tari\ServerFrameInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
-use Anchorcms\Session\SessionInterface;
+use Session\SessionInterface;
 
 class Session implements ServerMiddlewareInterface
 {
@@ -22,7 +22,10 @@ class Session implements ServerMiddlewareInterface
         $response = $frame->next($request);
 
         if ($this->session->started()) {
-            $response = $this->session->rotate()->close($response);
+            $this->session->rotate()->close();
+
+            return $response->withHeader('Set-Cookie', $this->session->cookie())
+                ->withHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
         }
 
         return $response;
