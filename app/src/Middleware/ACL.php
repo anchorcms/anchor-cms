@@ -4,10 +4,8 @@ namespace Anchorcms\Middleware;
 
 use Tari\ServerMiddlewareInterface;
 use Tari\ServerFrameInterface;
-
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
-
 use Session\SessionInterface;
 use Anchorcms\Mappers\MapperInterface;
 use Anchorcms\Models\User;
@@ -30,13 +28,15 @@ class ACL implements ServerMiddlewareInterface
         $this->acl = $acl;
     }
 
-    private function fetchUser(): User {
+    private function fetchUser(): User
+    {
         return $this->session->has('user') ?
             $this->users->fetchById($this->session->get('user')) :
             new User(['role' => 'guest']);
     }
 
-    private function fetchRules(User $user): array {
+    private function fetchRules(User $user): array
+    {
         return $this->acl['rules'][$user->role] ?? [];
     }
 
@@ -48,7 +48,7 @@ class ACL implements ServerMiddlewareInterface
         }
 
         // make the session has been started
-        if(false === $this->session->started()) {
+        if (false === $this->session->started()) {
             $this->session->start();
         }
 
@@ -62,9 +62,9 @@ class ACL implements ServerMiddlewareInterface
         $rules = $this->fetchRules($user);
 
         // check at least one rule matches
-        foreach($rules as $rule) {
+        foreach ($rules as $rule) {
             // do we have access to this resource
-            if($rule == '*' || preg_match('#^'.preg_quote($rule).'#', $path)) {
+            if ($rule == '*' || preg_match('#^'.preg_quote($rule).'#', $path)) {
                 return $frame->next($request);
             }
         }

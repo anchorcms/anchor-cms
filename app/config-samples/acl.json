@@ -6,6 +6,9 @@
         ],
         "editor": [
             "\/admin\/(posts|pages|media)"
+        ],
+        "guest": [
+            "\/admin\/auth"
         ]
     }
 }

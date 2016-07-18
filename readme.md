@@ -1,16 +1,8 @@
 ## Anchor CMS
 
-Anchor is a super-simple, lightweight blog system, made to let you just write. [Check out the site](http://anchorcms.com/).
+[![SensioLabsInsight](https://insight.sensiolabs.com/projects/6d47b69c-c54b-4875-8d88-4cec20ff676c/mini.png)](https://insight.sensiolabs.com/projects/6d47b69c-c54b-4875-8d88-4cec20ff676c)
 
-- Mustache: for powerful control of the user interface
-- Markdown: for easy content creation
-- YAML: for simple configuration
-- Parsedown: for fast Markdown and Markdown Extra support
-- Doctrine Cache: layer for performance
-- Pimple Dependency Injection Container: for extensibility and maintainability
-- Symfony Event Dispatcher: for plugin event handling
-- Symfony Console: for CLI interface
-- Gregwar Image Library: for dynamic image manipulation
+Anchor is a super-simple, lightweight blog system, made to let you just write. [Check out the site](http://anchorcms.com/).
 
 ### Requirements
 

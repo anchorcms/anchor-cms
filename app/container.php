@@ -5,12 +5,12 @@ return [
     'paths' => function () {
         return require __DIR__.'/paths.php';
     },
-    'filesystem' => function($app) {
+    'filesystem' => function ($app) {
         return new League\Flysystem\Filesystem($app['filesystem.adapter.local'], [
             'visibility' => League\Flysystem\AdapterInterface::VISIBILITY_PUBLIC
         ]);
     },
-    'filesystem.adapter.local' => function($app) {
+    'filesystem.adapter.local' => function ($app) {
         return new League\Flysystem\Adapter\Local($app['paths']['content'], LOCK_EX, League\Flysystem\Adapter\Local::DISALLOW_LINKS, [
             'file' => [
                 'public' => 0744,
@@ -22,7 +22,7 @@ return [
             ]
         ]);
     },
-    'aws' => function($app) {
+    'aws' => function ($app) {
         return Aws\S3\S3Client::factory([
             'credentials' => [
                 'key' => $app['config']->get('aws.key'),
@@ -32,7 +32,7 @@ return [
             'version' => 'latest',
         ]);
     },
-    'filesystem.adapter.aws' => function($app) {
+    'filesystem.adapter.aws' => function ($app) {
         return new League\Flysystem\AwsS3v3\AwsS3Adapter($app['aws'], $app['config']->get('aws.bucket'));
     },
     'config' => function ($app) {

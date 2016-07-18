@@ -2,9 +2,8 @@
 
 namespace Anchorcms;
 
+abstract class Plugin
+{
 
-abstract class Plugin {
-
-	abstract public static function getSubscribedEvents(): array;
-
+    abstract public static function getSubscribedEvents(): array;
 }

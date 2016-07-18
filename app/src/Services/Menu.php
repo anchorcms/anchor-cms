@@ -24,8 +24,8 @@ class Menu
         // change the url of home page to / by setting the slug to a empty string
         $homepage = $this->meta->key('home_page');
 
-        foreach(array_keys($pages) as $index) {
-            if($pages[$index]->id == $homepage) {
+        foreach (array_keys($pages) as $index) {
+            if ($pages[$index]->id == $homepage) {
                 $attributes = $pages[$index]->toArray();
                 $attributes['slug'] = '';
                 $pages[$index] = new Page($attributes);

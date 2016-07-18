@@ -1,0 +1,14 @@
+global_exclude_dirs:
+    - web
+    - vendor
+    - spec
+    - bin
+    - app/config-samples
+    - app/resources
+    - app/routes
+    - app/views
+
+exclude_patterns:
+    - app/container.php
+    - app/paths.php
+    - app/start.php
