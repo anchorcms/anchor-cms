@@ -20,28 +20,29 @@
 	"repositories": [
 		{"type": "vcs", "url": "git@github.com:rwarasaurus/forms.git"},
 		{"type": "vcs", "url": "git@github.com:rwarasaurus/validation.git"},
-		{"type": "vcs", "url": "git@github.com:rwarasaurus/events.git"},
 		{"type": "vcs", "url": "git@github.com:rwarasaurus/router.git"},
 		{"type": "vcs", "url": "git@github.com:rwarasaurus/session.git"},
 		{"type": "vcs", "url": "git@github.com:ircmaxell/tari-php"}
 	],
 	"require": {
 		"php": ">=7",
-		"league/commonmark": "~0.1",
-		"pimple/pimple": "~3",
-		"guzzlehttp/psr7": "~1",
-		"doctrine/dbal": "~2",
-		"mustache/mustache": "~2",
 
 		"rwarasaurus/forms": "~0.1",
 		"rwarasaurus/validation": "dev-master",
-		"rwarasaurus/events": "dev-master",
 		"rwarasaurus/router": "dev-master",
 		"rwarasaurus/session": "dev-master",
 
+		"pimple/pimple": "~3",
+		"guzzlehttp/psr7": "~1",
 		"ircmaxell/tari-php": "dev-master",
-		"defuse/php-encryption": "~2",
-		"bjeavons/zxcvbn-php": "~0.1"
+		"doctrine/dbal": "~2",
+		"mustache/mustache": "~2",
+		"league/commonmark": "~0.1",
+		"bjeavons/zxcvbn-php": "~0.1",
+		"symfony/event-dispatcher": "~3",
+		"symfony/console": "~3",
+		"league/flysystem": "~1",
+		"league/flysystem-aws-s3-v3": "~1"
 	},
 	"require-dev": {
 		"phpspec/phpspec": "~2"

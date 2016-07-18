@@ -5,6 +5,36 @@ return [
     'paths' => function () {
         return require __DIR__.'/paths.php';
     },
+    'filesystem' => function($app) {
+        return new League\Flysystem\Filesystem($app['filesystem.adapter.local'], [
+            'visibility' => League\Flysystem\AdapterInterface::VISIBILITY_PUBLIC
+        ]);
+    },
+    'filesystem.adapter.local' => function($app) {
+        return new League\Flysystem\Adapter\Local($app['paths']['content'], LOCK_EX, League\Flysystem\Adapter\Local::DISALLOW_LINKS, [
+            'file' => [
+                'public' => 0744,
+                'private' => 0700,
+            ],
+            'dir' => [
+                'public' => 0755,
+                'private' => 0700,
+            ]
+        ]);
+    },
+    'aws' => function($app) {
+        return Aws\S3\S3Client::factory([
+            'credentials' => [
+                'key' => $app['config']->get('aws.key'),
+                'secret' => $app['config']->get('aws.secret'),
+            ],
+            'region' => $app['config']->get('aws.region'),
+            'version' => 'latest',
+        ]);
+    },
+    'filesystem.adapter.aws' => function($app) {
+        return new League\Flysystem\AwsS3v3\AwsS3Adapter($app['aws'], $app['config']->get('aws.bucket'));
+    },
     'config' => function ($app) {
         return new Anchorcms\Config($app['paths']['config']);
     },
@@ -170,7 +200,7 @@ return [
      * Services
      */
     'services.media' => function ($app) {
-        return new Anchorcms\Services\Media($app['paths']['content']);
+        return new Anchorcms\Services\Media($app['filesystem']);
     },
     'services.installer' => function ($app) {
         return new Anchorcms\Services\Installer($app['paths'], $app['session']);

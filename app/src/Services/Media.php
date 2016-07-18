@@ -5,14 +5,15 @@ namespace Anchorcms\Services;
 use FilesystemIterator;
 use RuntimeException;
 use Psr\Http\Message\UploadedFileInterface;
+use League\Flysystem\FilesystemInterface;
 
 class Media
 {
-    protected $path;
+    protected $filesystem;
 
-    public function __construct($path)
+    public function __construct(FilesystemInterface $filesystem)
     {
-        $this->path = $path;
+        $this->filesystem = $filesystem;
     }
 
     protected function formatFileName($str, $ext)
@@ -30,26 +31,6 @@ class Media
         $str = preg_replace('#\s+#', '-', $str);
 
         return $str.'.'.$ext;
-    }
-
-    public function getPath()
-    {
-        return $this->path;
-    }
-
-    public function getUploadPath()
-    {
-        $path = $this->path;
-
-        if (false === is_dir($path)) {
-            mkdir($path, 0755, true);
-        }
-
-        if (false === is_dir($path)) {
-            throw new \RuntimeException('Failed to create folder: '.$path);
-        }
-
-        return $path;
     }
 
     public function upload(UploadedFileInterface $file)
@@ -72,56 +53,24 @@ class Media
             'gif' => 'image/gif',
         ];
 
-        $mime = explode(';', $file->getClientMediaType())[0];
+        $mimetypeParts = explode(';', $file->getClientMediaType());
+        $mimetype = $mimetypeParts[0];
 
-        $ext = array_search($mime, $accepted);
+        $ext = array_search($mimetype, $accepted);
 
         if (false === $ext) {
             throw new RuntimeException('Unaccepted file format.');
         }
 
         $name = $this->formatFileName($file->getClientFilename(), $ext);
-        $dest = sprintf('%s/%s', $this->getUploadPath(), $name);
+        $this->filesystem->writeStream($name, $file->getStream());
 
-        if (false === $file->moveTo($dest)) {
-            throw new RuntimeException('Failed to move uploaded file.');
-        }
-
-        return substr($dest, strlen($this->getPath()));
+        return $name;
     }
 
-    public function get($filter = null)
+    public function get()
     {
-        $fi = new FilesystemIterator($this->path, FilesystemIterator::SKIP_DOTS);
-        $files = [];
-
-        foreach ($fi as $file) {
-            if (false === $file->isFile()) {
-                continue;
-            }
-
-            if (false === in_array($file->getExtension(), ['jpg', 'png', 'gif'])) {
-                continue;
-            }
-
-            if (null !== $filter && false === $filter($file)) {
-                continue;
-            }
-
-            $files[] = [
-                'name' => $file->getBasename(),
-                'modified' => $file->getMTime(),
-            ];
-        }
-
-        // newest files first
-        usort($files, function ($a, $b) {
-            if ($a['modified'] == $b['modified']) {
-                return 0;
-            }
-
-            return $a['modified'] > $b['modified'] ? -1 : 1;
-        });
+        $files = $this->filesystem->listPaths();
 
         return $files;
     }
