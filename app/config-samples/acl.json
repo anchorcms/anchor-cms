@@ -1,8 +1,11 @@
 {
-    "admin": [
-        "*"
-    ],
-    "editor": [
-        "\/admin\/(posts|pages)"
-    ]
+    "login": "\/admin\/auth\/login",
+    "rules": {
+        "admin": [
+            "*"
+        ],
+        "editor": [
+            "\/admin\/(posts|pages|media)"
+        ]
+    }
 }

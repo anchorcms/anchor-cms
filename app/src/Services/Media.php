@@ -18,17 +18,20 @@ class Media
 
     protected function formatFileName($str, $ext)
     {
-        // convert to ascii
-        $str = preg_replace('/[[:^print:]]/', '', $str);
+        // remove file extension
+        $str = rtrim($str, '.'.$ext);
 
         // lower case
         $str = strtolower($str);
 
-        // remove file extension
-        $str = rtrim($str, '.'.$ext);
+        // remove unwated characters
+        $str = preg_replace('/[^A-z0-9-_.]+/', '-', $str);
 
         // remove white space
         $str = preg_replace('#\s+#', '-', $str);
+
+        // remove dashes
+        $str = preg_replace('#[-]{2,}#', '-', $str);
 
         return $str.'.'.$ext;
     }
@@ -63,14 +66,14 @@ class Media
         }
 
         $name = $this->formatFileName($file->getClientFilename(), $ext);
-        $this->filesystem->writeStream($name, $file->getStream());
+        $this->filesystem->writeStream($name, $file->getStream()->detach());
 
         return $name;
     }
 
-    public function get()
+    public function listContents()
     {
-        $files = $this->filesystem->listPaths();
+        $files = $this->filesystem->listContents();
 
         return $files;
     }

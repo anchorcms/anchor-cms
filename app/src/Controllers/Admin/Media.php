@@ -10,10 +10,11 @@ class Media extends AbstractController
 {
     public function getIndex(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-        $files = $this->container['services.media']->get();
+        $files = $this->container['services.media']->listContents();
 
         return $this->json($response, [
             'result' => true,
+            'path' => $this->container['config']->get('uploads.url'),
             'files' => $files,
         ]);
     }
@@ -24,12 +25,12 @@ class Media extends AbstractController
             $files = $request->getUploadedFiles();
             $name = $this->container['services.media']->upload($files['file']);
 
-            $response = [
+            $data = [
                 'result' => true,
-                'path' => sprintf('/content/%s', $name),
+                'path' => sprintf('%s/%s', $this->container['config']->get('uploads.url'), $name),
             ];
         } catch (\Throwable $e) {
-            $response = [
+            $data = [
                 'result' => false,
                 'message' => $e->getMessage(),
             ];

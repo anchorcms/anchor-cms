@@ -196,7 +196,7 @@
 			try {
 				var response = JSON.parse(request.responseText);
 				Array.prototype.forEach.call(response.files, function(file) {
-					append('/content/' + file.name);
+					append(response.path + '/' + file.basename);
 				});
 				populated = true;
 			}
