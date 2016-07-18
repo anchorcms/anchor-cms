@@ -162,7 +162,7 @@ class Users extends AbstractController
         $validator->addRule(new ValidateToken($this->container['csrf']->token()), '_token');
 
         // make sure its a good password
-        if (! empty($input['password'])) {
+        if (! empty($input['password']) && $validator->isValid()) {
             $validator->addRule(function ($value) {
                 $strength = $this->container['zxcvbn']->passwordStrength($value);
                 return [$strength['score'] > 0, 'Get out of here! Choose a better password'];
@@ -193,6 +193,6 @@ class Users extends AbstractController
         $this->container['mappers.users']->update($user->id, $update);
 
         $this->container['messages']->success(['User updated']);
-        return $this->redirect($response, $this->container['url']->to(sprintf('/admin/users/%d/edit', $id)));
+        return $this->redirect($response, $this->container['url']->to(sprintf('/admin/users/%d/edit', $user->id)));
     }
 }

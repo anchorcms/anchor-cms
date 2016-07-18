@@ -1,0 +1,8 @@
+{
+    "admin": [
+        "*"
+    ],
+    "editor": [
+        "\/admin\/(posts|pages)"
+    ]
+}

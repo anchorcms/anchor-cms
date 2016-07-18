@@ -22,7 +22,7 @@ class Auth
         // check username
         $user = $users->fetchByUsername($username);
 
-        if (false === $user) {
+        if (false === $user || $user->status != 'active') {
             // protected against user enumeration
             $this->verifyPassword($password, $this->dummyHash);
 
