@@ -3,6 +3,7 @@
 namespace Anchorcms\Services;
 
 use Anchorcms\Mappers\MapperInterface;
+use Anchorcms\Models\ModelInterface;
 
 class Posts
 {
@@ -36,7 +37,7 @@ class Posts
 
     protected function getKeys(array $posts, string $property = 'id'): array
     {
-        return array_map(function ($post) use ($property) {
+        return array_map(function (ModelInterface $post) use ($property) {
             return $post->$property;
         }, $posts);
     }
@@ -62,11 +63,11 @@ class Posts
         $users = $this->users->fetchAll($query);
 
         foreach ($posts as $post) {
-            $post->setCategory(array_reduce($categories, function ($carry, $category) use ($post) {
+            $post->setCategory(array_reduce($categories, function ($carry, ModelInterface $category) use ($post) {
                 return $post->category == $category->id ? $category : $carry;
             }));
 
-            $post->setAuthor(array_reduce($users, function ($carry, $user) use ($post) {
+            $post->setAuthor(array_reduce($users, function ($carry, ModelInterface $user) use ($post) {
                 return $post->author == $user->id ? $user : $carry;
             }));
         }
