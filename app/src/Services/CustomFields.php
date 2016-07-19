@@ -50,7 +50,7 @@ class CustomFields
                 ->where('custom_field = :custom_field')
                     ->setParameter('custom_field', $field->id);
 
-            $meta = $this->db->fetchAssoc($query->getSQL(), $query->getParameters());
+            $meta = $this->$table->fetch($query);
 
             if ($meta) {
                 $values[$field->key] = json_decode($meta->data, true);
@@ -80,13 +80,18 @@ class CustomFields
                 $value = json_encode($input[$field->key]);
             }
 
-            $meta = $this->$table->where($type, '=', $id)
-                ->where('custom_field', '=', $field->id)
-                ->fetch();
+            $query = $this->$table->query()
+                ->andWhere(sprintf('%s = :id', $type))
+                ->setParameter('id', $id)
+                ->andWhere('custom_field = :field')
+                ->setParameter('field', $field->id);
+
+            $meta = $this->$table->fetch($query);
 
             if ($meta) {
-                $meta->data = $value;
-                $this->$table->save($meta);
+                $this->$table->update($id, [
+                    'data' => $value,
+                ]);
             } else {
                 $this->$table->insert([
                     $type => $id,
