@@ -2,7 +2,6 @@
 
 namespace Anchorcms\Services;
 
-use FilesystemIterator;
 use RuntimeException;
 use Psr\Http\Message\UploadedFileInterface;
 use League\Flysystem\FilesystemInterface;

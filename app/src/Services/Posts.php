@@ -3,7 +3,6 @@
 namespace Anchorcms\Services;
 
 use Anchorcms\Mappers\MapperInterface;
-use Anchorcms\Models\ModelInterface;
 
 class Posts
 {
