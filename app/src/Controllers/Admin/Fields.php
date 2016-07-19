@@ -8,6 +8,8 @@ use Anchorcms\Controllers\AbstractController;
 use Anchorcms\Filters;
 use Anchorcms\Forms\CustomField as CustomFieldForm;
 use Anchorcms\Forms\ValidateToken;
+use Validation\Validator;
+use Forms\Form;
 
 class Fields extends AbstractController
 {
@@ -27,11 +29,10 @@ class Fields extends AbstractController
 
     public function getCreate(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-        $form = new CustomFieldForm([
+        $form = $this->getForm([
             'method' => 'post',
             'action' => $this->container['url']->to('/admin/fields/save'),
         ]);
-        $form->init();
         $form->getElement('_token')->setValue($this->container['csrf']->token());
 
         // re-populate submitted data
@@ -48,13 +49,10 @@ class Fields extends AbstractController
 
     public function postSave(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-        $form = new CustomFieldForm;
-        $form->init();
+        $form = $this->getForm();
 
         $input = Filters::withDefaults($request->getParsedBody(), $form->getFilters());
-        $validator = $this->container['validation']->create($input, $form->getRules());
-
-        $validator->addRule(new ValidateToken($this->container['csrf']->token()), '_token');
+        $validator = $this->getValidator($input, $form);
 
         if (false === $validator->isValid()) {
             $this->container['messages']->error($validator->getMessages());
@@ -80,11 +78,10 @@ class Fields extends AbstractController
     {
         $field = $this->container['mappers.customFields']->fetchByAttribute('id', $args['id']);
 
-        $form = new CustomFieldForm([
+        $form = $this->getForm([
             'method' => 'post',
             'action' => $this->container['url']->to(sprintf('/admin/fields/%d/update', $field->id)),
         ]);
-        $form->init();
         $form->getElement('_token')->setValue($this->container['csrf']->token());
 
         // set default values from post
@@ -106,13 +103,10 @@ class Fields extends AbstractController
     {
         $field = $this->container['mappers.customFields']->fetchByAttribute('id', $args['id']);
 
-        $form = new CustomFieldForm;
-        $form->init();
+        $form = $this->getForm();
 
         $input = Filters::withDefaults($request->getParsedBody(), $form->getFilters());
-        $validator = $this->container['validation']->create($input, $form->getRules());
-
-        $validator->addRule(new ValidateToken($this->container['csrf']->token()), '_token');
+        $validator = $this->getValidator($input, $form);
 
         if (false === $validator->isValid()) {
             $this->container['messages']->error($validator->getMessages());
@@ -131,5 +125,19 @@ class Fields extends AbstractController
         $this->container['messages']->success(['Custom field updated']);
 
         return $this->redirect($response, $this->container['url']->to(sprintf('/admin/fields/%d/edit', $field->id)));
+    }
+
+    protected function getValidator(array $input, Form $form): Validator
+    {
+        $validator = $this->container['validation']->create($input, $form->getRules());
+        $validator->addRule(new ValidateToken($this->container['csrf']->token()), '_token');
+        return $validator;
+    }
+
+    protected function getForm(array $attributes = []): Form
+    {
+        $form = new CustomFieldForm($attributes);
+        $form->init();
+        return $form;
     }
 }
