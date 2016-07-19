@@ -92,7 +92,7 @@ abstract class AbstractMapper implements MapperInterface
         return $this->db->fetchColumn($query->getSQL(), $query->getParameters());
     }
 
-    public function update(int $id, array $params): bool
+    public function update(string $id, array $params): bool
     {
         return $this->db->update($this->getTableName(), $params, [$this->primary => $id]);
     }

@@ -5,7 +5,9 @@ namespace Anchorcms\Controllers\Admin;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Anchorcms\Controllers\AbstractController;
+use Anchorcms\Filters;
 use Anchorcms\Forms\Meta as MetaForm;
+use Anchorcms\Forms\ValidateToken;
 
 class Meta extends AbstractController
 {
@@ -52,33 +54,30 @@ class Meta extends AbstractController
 
     public function postUpdate(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-        $id = $request->getAttribute('id');
-
-        $form = new \Forms\Meta();
+        $form = new MetaForm;
         $form->init();
 
-        $input = filter_input_array(INPUT_POST, $form->getFilters());
+        $input = Filters::withDefaults($request->getParsedBody(), $form->getFilters());
         $validator = $this->container['validation']->create($input, $form->getRules());
 
-        $validator->addRule(new \Forms\ValidateToken($this->container['csrf']->token()), '_token');
+        $validator->addRule(new ValidateToken($this->container['csrf']->token()), '_token');
 
         if (false === $validator->isValid()) {
             $this->container['messages']->error($validator->getMessages());
             $this->container['session']->putStash('input', $input);
 
-            return $this->redirect($this->container['url']->to('/admin/meta'));
+            return $this->redirect($response, $this->container['url']->to('/admin/meta'));
         }
 
         unset($input['token']);
 
         foreach ($input as $key => $value) {
-            $this->container['mappers.meta']->where('key', '=', $key)->update([
+            $this->container['mappers.meta']->update($key, [
                 'value' => $value,
             ]);
         }
 
-        $this->container['messages']->success('Metadata updated');
-
-        return $this->redirect($this->container['url']->to('/admin/meta'));
+        $this->container['messages']->success(['Metadata updated']);
+        return $this->redirect($response, $this->container['url']->to('/admin/meta'));
     }
 }
