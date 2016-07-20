@@ -10,6 +10,8 @@ use Anchorcms\Filters;
 use Anchorcms\Forms\Post as PostForm;
 use Anchorcms\Forms\ValidateToken;
 use Validation\ValidatorFactory;
+use Validation\Validator;
+use Forms\Form;
 
 class Posts extends AbstractController
 {
@@ -73,11 +75,10 @@ class Posts extends AbstractController
 
     public function getCreate(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-        $form = new PostForm([
+        $form = $this->getForm([
             'method' => 'post',
             'action' => $this->container['url']->to('/admin/posts/save'),
         ]);
-        $form->init();
         $form->get('_token')->setValue($this->container['csrf']->token());
         $form->get('category')->setOptions($this->container['mappers.categories']->dropdownOptions());
 
@@ -98,16 +99,13 @@ class Posts extends AbstractController
 
     public function postSave(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-        $form = new PostForm;
-        $form->init();
+        $form = $this->getForm();
 
         // append custom fields
         $this->container['services.customFields']->appendFields($form, 'post');
 
         $input = Filters::withDefaults($request->getParsedBody(), $form->getFilters());
-        $validator = ValidatorFactory::create($input, $form->getRules());
-
-        $validator->addRule(new ValidateToken($this->container['csrf']->token()), '_token');
+        $validator = $this->getValidator($input, $form);
 
         // check duplicate slug
         $slug = $this->container['slugify']->slug(empty($input['slug']) ? $input['title'] : $input['slug']);
@@ -164,11 +162,10 @@ class Posts extends AbstractController
         $id = $args['id'];
         $post = $this->container['mappers.posts']->id($id);
 
-        $form = new PostForm([
+        $form = $this->getForm([
             'method' => 'post',
             'action' => $this->container['url']->to(sprintf('/admin/posts/%d/update', $post->id)),
         ]);
-        $form->init();
         $form->getElement('_token')->setValue($this->container['csrf']->token());
         $form->getElement('category')->setOptions($this->container['mappers.categories']->dropdownOptions());
 
@@ -203,16 +200,13 @@ class Posts extends AbstractController
             throw new \InvalidArgumentException('post not found');
         }
 
-        $form = new PostForm();
-        $form->init();
+        $form = $this->getForm();
 
         // append custom fields
         $this->container['services.customFields']->appendFields($form, 'post');
 
         $input = Filters::withDefaults($request->getParsedBody(), $form->getFilters());
-        $validator = ValidatorFactory::create($input, $form->getRules());
-
-        $validator->addRule(new ValidateToken($this->container['csrf']->token()), '_token');
+        $validator = $this->getValidator($input, $form);
 
         // check duplicate slug
         $slug = $this->container['slugify']->slug(empty($input['slug']) ? $input['title'] : $input['slug']);
@@ -280,5 +274,19 @@ class Posts extends AbstractController
         $this->container['messages']->success(['Post deleted']);
 
         return $this->redirect($response, $this->container['url']->to('/admin/posts'));
+    }
+
+    protected function getValidator(array $input, Form $form): Validator
+    {
+        $validator = ValidatorFactory::create($input, $form->getRules());
+        $validator->addRule(new ValidateToken($this->container['csrf']->token()), '_token');
+        return $validator;
+    }
+
+    protected function getForm(array $attributes = []): Form
+    {
+        $form = new PostForm($attributes);
+        $form->init();
+        return $form;
     }
 }

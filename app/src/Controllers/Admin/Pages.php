@@ -104,7 +104,7 @@ class Pages extends AbstractController
         $this->container['services.customFields']->appendFields($form, 'page');
 
         $input = Filters::withDefaults($request->getParsedBody(), $form->getFilters());
-        $validator = $this->getValidator($input, $form->getRules());
+        $validator = $this->getValidator($input, $form);
 
         if (false === $validator->isValid()) {
             $this->container['messages']->error($validator->getMessages());
@@ -188,7 +188,7 @@ class Pages extends AbstractController
         $this->container['services.customFields']->appendFields($form, 'page');
 
         $input = Filters::withDefaults($request->getParsedBody(), $form->getFilters());
-        $validator = $this->getValidator($input, $form->getRules());
+        $validator = $this->getValidator($input, $form);
 
         if (false === $validator->isValid()) {
             $this->container['messages']->error($validator->getMessages());
