@@ -2,7 +2,9 @@
 
 namespace Anchorcms\Forms;
 
-class Category extends \Forms\Form
+use Forms\Form;
+
+class Category extends Form
 {
     public function init()
     {
@@ -31,7 +33,7 @@ class Category extends \Forms\Form
         ]));
     }
 
-    public function getFilters()
+    public function getFilters(): array
     {
         return [
             '_token' => FILTER_SANITIZE_STRING,
@@ -41,7 +43,7 @@ class Category extends \Forms\Form
         ];
     }
 
-    public function getRules()
+    public function getRules(): array
     {
         return [
             'title' => ['label' => 'Title', 'rules' => ['required']],

@@ -4,7 +4,7 @@ namespace Anchorcms\Forms;
 
 interface ValidatableInterface
 {
-    public function getFilters();
+    public function getFilters(): array;
 
-    public function getRules();
+    public function getRules(): array;
 }

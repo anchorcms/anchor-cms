@@ -2,11 +2,11 @@
 
 namespace Anchorcms\Forms\Traits;
 
-trait FilterRules
+trait FormRules
 {
     protected $rules = [];
 
-    public function getRules()
+    public function getRules(): array
     {
         return $this->rules;
     }

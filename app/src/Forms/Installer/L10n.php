@@ -2,7 +2,9 @@
 
 namespace Anchorcms\Forms\Installer;
 
-class L10n extends \Forms\Form
+use Forms\Form;
+
+class L10n extends Form
 {
     public function init()
     {
@@ -26,7 +28,7 @@ class L10n extends \Forms\Form
         ]));
     }
 
-    public function getFilters()
+    public function getFilters(): array
     {
         return [
             'app_lang' => FILTER_SANITIZE_STRING,
@@ -34,7 +36,7 @@ class L10n extends \Forms\Form
         ];
     }
 
-    public function getRules()
+    public function getRules(): array
     {
         return [
             'app_lang' => ['label' => 'Language', 'rules' => ['required']],

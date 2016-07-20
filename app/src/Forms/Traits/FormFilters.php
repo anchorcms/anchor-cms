@@ -2,11 +2,11 @@
 
 namespace Anchorcms\Forms\Traits;
 
-trait Filters
+trait FormFilters
 {
     protected $filters = [];
 
-    public function getFilters()
+    public function getFilters(): array
     {
         return $this->filters;
     }

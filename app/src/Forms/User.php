@@ -2,7 +2,9 @@
 
 namespace Anchorcms\Forms;
 
-class User extends \Forms\Form
+use Forms\Form;
+
+class User extends Form
 {
     public function init()
     {
@@ -52,7 +54,7 @@ class User extends \Forms\Form
         ]));
     }
 
-    public function getFilters()
+    public function getFilters(): array
     {
         return [
             '_token' => FILTER_SANITIZE_STRING,
@@ -66,7 +68,7 @@ class User extends \Forms\Form
         ];
     }
 
-    public function getRules()
+    public function getRules(): array
     {
         return [
             'username' => ['label' => 'Username', 'rules' => ['length:4,200']],

@@ -2,7 +2,9 @@
 
 namespace Anchorcms\Forms\Installer;
 
-class Database extends \Forms\Form
+use Forms\Form;
+
+class Database extends Form
 {
     public function init()
     {
@@ -57,7 +59,7 @@ class Database extends \Forms\Form
         ]));
     }
 
-    public function getFilters()
+    public function getFilters(): array
     {
         return [
             'db_driver' => FILTER_SANITIZE_STRING,
@@ -71,7 +73,7 @@ class Database extends \Forms\Form
         ];
     }
 
-    public function getRules()
+    public function getRules(): array
     {
         return [
             'db_driver' => ['required'],

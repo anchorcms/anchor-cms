@@ -2,7 +2,9 @@
 
 namespace Anchorcms\Forms\Installer;
 
-class Account extends \Forms\Form
+use Forms\Form;
+
+class Account extends Form
 {
     public function init()
     {
@@ -27,7 +29,7 @@ class Account extends \Forms\Form
         ]));
     }
 
-    public function getFilters()
+    public function getFilters(): array
     {
         return [
             'account_username' => FILTER_SANITIZE_STRING,
@@ -36,7 +38,7 @@ class Account extends \Forms\Form
         ];
     }
 
-    public function getRules()
+    public function getRules(): array
     {
         return [
             'account_username' => ['label' => 'Username', 'rules' => ['length:3,']],

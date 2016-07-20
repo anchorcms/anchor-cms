@@ -2,7 +2,9 @@
 
 namespace Anchorcms\Forms;
 
-class CustomVars extends \Forms\Form
+use Forms\Form;
+
+class CustomVars extends Form
 {
     public function init()
     {
@@ -22,7 +24,7 @@ class CustomVars extends \Forms\Form
         ]));
     }
 
-    public function getFilters()
+    public function getFilters(): array
     {
         return [
             '_token' => FILTER_SANITIZE_STRING,
@@ -31,7 +33,7 @@ class CustomVars extends \Forms\Form
         ];
     }
 
-    public function getRules()
+    public function getRules(): array
     {
         return [
             'key' => ['label' => 'Key', 'rules' => ['required']],

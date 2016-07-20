@@ -6,6 +6,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Anchorcms\Controllers\AbstractController;
 use Anchorcms\Forms\ValidateToken;
+use Anchorcms\Filters;
 use Validation\ValidatorFactory;
 
 class Vars extends AbstractController

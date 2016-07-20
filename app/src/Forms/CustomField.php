@@ -2,7 +2,9 @@
 
 namespace Anchorcms\Forms;
 
-class CustomField extends \Forms\Form
+use Forms\Form;
+
+class CustomField extends Form
 {
     public function init()
     {
@@ -40,7 +42,7 @@ class CustomField extends \Forms\Form
         ]));
     }
 
-    public function getFilters()
+    public function getFilters(): array
     {
         return [
             '_token' => FILTER_SANITIZE_STRING,
@@ -51,7 +53,7 @@ class CustomField extends \Forms\Form
         ];
     }
 
-    public function getRules()
+    public function getRules(): array
     {
         return [
             'type' => ['label' => 'Content Type', 'rules' => ['required']],

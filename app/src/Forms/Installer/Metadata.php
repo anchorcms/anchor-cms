@@ -2,7 +2,9 @@
 
 namespace Anchorcms\Forms\Installer;
 
-class Metadata extends \Forms\Form
+use Forms\Form;
+
+class Metadata extends Form
 {
     public function init()
     {
@@ -28,7 +30,7 @@ class Metadata extends \Forms\Form
         ]));
     }
 
-    public function getFilters()
+    public function getFilters(): array
     {
         return [
             'site_name' => FILTER_SANITIZE_STRING,
@@ -37,7 +39,7 @@ class Metadata extends \Forms\Form
         ];
     }
 
-    public function getRules()
+    public function getRules(): array
     {
         return [
             'site_name' => ['label' => 'Site Name', 'rules' => ['required']],

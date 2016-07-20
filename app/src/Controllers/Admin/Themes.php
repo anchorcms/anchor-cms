@@ -5,6 +5,7 @@ namespace Anchorcms\Controllers\Admin;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Anchorcms\Controllers\AbstractController;
+use Anchorcms\Filters;
 
 class Themes extends AbstractController
 {

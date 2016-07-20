@@ -2,12 +2,13 @@
 
 namespace Anchorcms\Forms;
 
-use Anchorcms\Forms\Traits\Filters;
-use Anchorcms\Forms\Traits\FilterRules;
+use Forms\Form;
+use Anchorcms\Forms\Traits\FormFilters;
+use Anchorcms\Forms\Traits\FormRules;
 
-class Meta extends \Forms\Form
+class Meta extends Form
 {
-    use Filters, FilterRules;
+    use FormFilters, FormRules;
 
     public function init()
     {

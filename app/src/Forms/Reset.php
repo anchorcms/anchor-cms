@@ -2,7 +2,9 @@
 
 namespace Anchorcms\Forms;
 
-class Reset extends \Forms\Form implements ValidatableInterface
+use Forms\Form;
+
+class Reset extends Form implements ValidatableInterface
 {
     public function init()
     {
@@ -23,15 +25,15 @@ class Reset extends \Forms\Form implements ValidatableInterface
         ]));
     }
 
-    public function getFilters()
+    public function getFilters(): array
     {
-        return Filters::withDefaults($request->getParsedBody(), [
+        return [
             '_token' => FILTER_SANITIZE_STRING,
             'password' => FILTER_UNSAFE_RAW,
-        ]);
+        ];
     }
 
-    public function getRules()
+    public function getRules(): array
     {
         return [
             '_token' => ['required'],

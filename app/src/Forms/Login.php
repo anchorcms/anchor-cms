@@ -33,7 +33,7 @@ class Login extends Form implements ValidatableInterface
         ]));
     }
 
-    public function getFilters()
+    public function getFilters(): array
     {
         return [
             '_token' => FILTER_SANITIZE_STRING,
@@ -42,7 +42,7 @@ class Login extends Form implements ValidatableInterface
         ];
     }
 
-    public function getRules()
+    public function getRules(): array
     {
         return [
             '_token' => ['required'],

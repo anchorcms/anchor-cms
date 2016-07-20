@@ -3,12 +3,12 @@
 namespace Anchorcms\Forms;
 
 use Forms\Form;
-use Anchorcms\Forms\Traits\Filters;
-use Anchorcms\Forms\Traits\FilterRules;
+use Anchorcms\Forms\Traits\FormFilters;
+use Anchorcms\Forms\Traits\FormRules;
 
 class Post extends Form
 {
-    use Filters, FilterRules;
+    use FormFilters, FormRules;
 
     public function init()
     {
