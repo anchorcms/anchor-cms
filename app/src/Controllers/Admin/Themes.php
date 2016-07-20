@@ -21,7 +21,7 @@ class Themes extends AbstractController
 
     public function postActivate(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-        $theme = filter_input(INPUT_POST, 'theme', FILTER_SANITIZE_STRING);
+        $theme = Filters::withDefault($request->getParsedBody(), 'theme', FILTER_SANITIZE_STRING);
 
         $this->container['mappers.meta']->where('key', '=', 'theme')->update(['value' => $theme]);
 

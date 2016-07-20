@@ -9,6 +9,9 @@ use Anchorcms\Paginator;
 use Anchorcms\Filters;
 use Anchorcms\Forms\Page as PageForm;
 use Anchorcms\Forms\ValidateToken;
+use Validation\ValidatorFactory;
+use Validation\Validator;
+use Forms\Form;
 
 class Pages extends AbstractController
 {
@@ -63,11 +66,10 @@ class Pages extends AbstractController
 
     public function getCreate(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-        $form = new PageForm([
+        $form = $this->getForm([
             'method' => 'post',
             'action' => $this->container['url']->to('/admin/pages/save'),
         ]);
-        $form->init();
         $form->getElement('_token')->setValue($this->container['csrf']->token());
         $form->getElement('parent')->setOptions($this->container['mappers.pages']->dropdownOptions());
 
@@ -96,16 +98,13 @@ class Pages extends AbstractController
 
     public function postSave(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-        $form = new PageForm;
-        $form->init();
+        $form = $this->getForm();
 
         // append custom fields
         $this->container['services.customFields']->appendFields($form, 'page');
 
         $input = Filters::withDefaults($request->getParsedBody(), $form->getFilters());
-        $validator = $this->container['validation']->create($input, $form->getRules());
-
-        $validator->addRule(new ValidateToken($this->container['csrf']->token()), '_token');
+        $validator = $this->getValidator($input, $form->getRules());
 
         if (false === $validator->isValid()) {
             $this->container['messages']->error($validator->getMessages());
@@ -142,11 +141,10 @@ class Pages extends AbstractController
     {
         $page = $this->container['mappers.pages']->id($args['id']);
 
-        $form = new PageForm([
+        $form = $this->getForm([
             'method' => 'post',
             'action' => $this->container['url']->to(sprintf('/admin/pages/%d/update', $page->id)),
         ]);
-        $form->init();
         $form->getElement('_token')->setValue($this->container['csrf']->token());
         $form->getElement('parent')->setOptions($this->container['mappers.pages']->dropdownOptions([0 => 'None']));
 
@@ -184,16 +182,13 @@ class Pages extends AbstractController
     {
         $page = $this->container['mappers.pages']->id($args['id']);
 
-        $form = new PageForm;
-        $form->init();
+        $form = $this->getForm();
 
         // append custom fields
         $this->container['services.customFields']->appendFields($form, 'page');
 
         $input = Filters::withDefaults($request->getParsedBody(), $form->getFilters());
-        $validator = $this->container['validation']->create($input, $form->getRules());
-
-        $validator->addRule(new ValidateToken($this->container['csrf']->token()), '_token');
+        $validator = $this->getValidator($input, $form->getRules());
 
         if (false === $validator->isValid()) {
             $this->container['messages']->error($validator->getMessages());
@@ -239,5 +234,19 @@ class Pages extends AbstractController
 
         $this->container['messages']->success(['Page deleted']);
         return $this->redirect($response, $this->container['url']->to('/admin/pages'));
+    }
+
+    protected function getValidator(array $input, Form $form): Validator
+    {
+        $validator = ValidatorFactory::create($input, $form->getRules());
+        $validator->addRule(new ValidateToken($this->container['csrf']->token()), '_token');
+        return $validator;
+    }
+
+    protected function getForm(array $attributes = []): Form
+    {
+        $form = new PageForm($attributes);
+        $form->init();
+        return $form;
     }
 }

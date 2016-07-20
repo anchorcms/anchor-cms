@@ -2,7 +2,7 @@
 
 namespace Anchorcms\Forms;
 
-use Validation\AbstractRule;
+use Validation\Rules\AbstractRule;
 
 class ValidateToken extends AbstractRule
 {

@@ -8,6 +8,7 @@ use Anchorcms\Controllers\AbstractController;
 use Anchorcms\Filters;
 use Anchorcms\Forms\CustomField as CustomFieldForm;
 use Anchorcms\Forms\ValidateToken;
+use Validation\ValidatorFactory;
 use Validation\Validator;
 use Forms\Form;
 
@@ -129,7 +130,7 @@ class Fields extends AbstractController
 
     protected function getValidator(array $input, Form $form): Validator
     {
-        $validator = $this->container['validation']->create($input, $form->getRules());
+        $validator = ValidatorFactory::create($input, $form->getRules());
         $validator->addRule(new ValidateToken($this->container['csrf']->token()), '_token');
         return $validator;
     }

@@ -28,7 +28,7 @@
 		"php": ">=7",
 
 		"rwarasaurus/forms": "~0.1",
-		"rwarasaurus/validation": "dev-master",
+		"rwarasaurus/validation": "~0.1",
 		"rwarasaurus/router": "dev-master",
 		"rwarasaurus/session": "dev-master",
 

@@ -6,6 +6,8 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Anchorcms\Controllers\AbstractController;
 use Anchorcms\Filters;
+use Anchorcms\Forms\ValidateToken;
+use Validation\ValidatorFactory;
 
 class Install extends AbstractController
 {
@@ -41,12 +43,12 @@ class Install extends AbstractController
     {
         $form = new \Anchorcms\Forms\Installer\L10n();
 
-        $input = filter_input_array(INPUT_POST, $form->getFilters());
+        $input = Filters::withDefaults($request->getParsedBody(), $form->getFilters());
 
         $data = $this->container['session']->get('install', []);
         $this->container['session']->put('install', array_merge($data, $input));
 
-        $validator = $this->container['validation']->create($input, $form->getRules());
+        $validator = ValidatorFactory::create($input, $form->getRules());
 
         if (false === $validator->isValid()) {
             $this->container['messages']->error($validator->getMessages());
@@ -83,12 +85,12 @@ class Install extends AbstractController
     {
         $form = new \Anchorcms\Forms\Installer\Database();
 
-        $input = filter_input_array(INPUT_POST, $form->getFilters());
+        $input = Filters::withDefaults($request->getParsedBody(), $form->getFilters());
 
         $data = $this->container['session']->get('install', []);
         $this->container['session']->put('install', array_merge($data, $input));
 
-        $validator = $this->container['validation']->create($input, $form->getRules());
+        $validator = ValidatorFactory::create($input, $form->getRules());
 
         try {
             $this->container['services.installer']->connectDatabase($input);
@@ -133,12 +135,12 @@ class Install extends AbstractController
     {
         $form = new \Anchorcms\Forms\Installer\Metadata();
 
-        $input = filter_input_array(INPUT_POST, $form->getFilters());
+        $input = Filters::withDefaults($request->getParsedBody(), $form->getFilters());
 
         $data = $this->container['session']->get('install', []);
         $this->container['session']->put('install', array_merge($data, $input));
 
-        $validator = $this->container['validation']->create($input, $form->getRules());
+        $validator = ValidatorFactory::create($input, $form->getRules());
 
         if (false === $validator->isValid()) {
             $this->container['messages']->error($validator->getMessages());
@@ -176,7 +178,7 @@ class Install extends AbstractController
         $form = new \Anchorcms\Forms\Installer\Account();
 
         $input = Filters::withDefaults($request->getParsedBody(), $form->getFilters());
-        $validator = $this->container['validation']->create($input, $form->getRules());
+        $validator = ValidatorFactory::create($input, $form->getRules());
 
         $data = $this->container['session']->get('install', []);
         $this->container['session']->put('install', array_merge($data, $input));

@@ -9,6 +9,7 @@ use Anchorcms\Paginator;
 use Anchorcms\Filters;
 use Anchorcms\Forms\User as UserForm;
 use Anchorcms\Forms\ValidateToken;
+use Validation\ValidatorFactory;
 
 class Users extends AbstractController
 {
@@ -74,7 +75,7 @@ class Users extends AbstractController
         $form->init();
 
         $input = Filters::withDefaults($request->getParsedBody(), $form->getFilters());
-        $validator = $this->container['validation']->create($input, $form->getRules());
+        $validator = ValidatorFactory::create($input, $form->getRules());
 
         $validator->addRule(new ValidateToken($this->container['csrf']->token()), '_token');
 
@@ -157,7 +158,7 @@ class Users extends AbstractController
             unset($rules['password']);
         }
 
-        $validator = $this->container['validation']->create($input, $rules);
+        $validator = ValidatorFactory::create($input, $rules);
 
         $validator->addRule(new ValidateToken($this->container['csrf']->token()), '_token');
 

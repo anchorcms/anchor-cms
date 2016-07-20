@@ -25,7 +25,7 @@ class Slugify
         $string = trim($string, $separator." \t\n\r\0\x0B");
 
         // lower case
-        $string = mb_strtolower($string);
+        $string = strtolower($string);
 
         return $string;
     }

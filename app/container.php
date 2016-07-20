@@ -22,19 +22,6 @@ return [
             ]
         ]);
     },
-    'aws' => function ($app) {
-        return Aws\S3\S3Client::factory([
-            'credentials' => [
-                'key' => $app['config']->get('aws.key'),
-                'secret' => $app['config']->get('aws.secret'),
-            ],
-            'region' => $app['config']->get('aws.region'),
-            'version' => 'latest',
-        ]);
-    },
-    'filesystem.adapter.aws' => function ($app) {
-        return new League\Flysystem\AwsS3v3\AwsS3Adapter($app['aws'], $app['config']->get('aws.bucket'));
-    },
     'config' => function ($app) {
         return new Anchorcms\Config($app['paths']['config']);
     },
@@ -75,9 +62,6 @@ return [
     'csrf' => function ($app) {
         return new Anchorcms\Csrf($app['session']);
     },
-    'validation' => function () {
-        return new Validation\Validation();
-    },
     'messages' => function ($app) {
         return new Anchorcms\Messages($app['session']);
     },
@@ -111,7 +95,7 @@ return [
         return new Anchorcms\Services\Themes\Theme($app['mustache'], $path);
     },
     'url' => function ($app) {
-        return new Anchorcms\Url($app['http.request'], new GuzzleHttp\Psr7\Uri());
+        return new Anchorcms\Url($app['http.request']->getServerParams(), new GuzzleHttp\Psr7\Uri());
     },
     'zxcvbn' => function () {
         return new ZxcvbnPhp\Zxcvbn;

@@ -5,6 +5,8 @@ namespace Anchorcms\Controllers\Admin;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Anchorcms\Controllers\AbstractController;
+use Anchorcms\Forms\ValidateToken;
+use Validation\ValidatorFactory;
 
 class Vars extends AbstractController
 {
@@ -50,8 +52,8 @@ class Vars extends AbstractController
         $form = new \Forms\CustomVars();
         $form->init();
 
-        $input = filter_input_array(INPUT_POST, $form->getFilters());
-        $validator = $this->container['validation']->create($input, $form->getRules());
+        $input = Filters::withDefaults($request->getParsedBody(), $form->getFilters());
+        $validator = ValidatorFactory::create($input, $form->getRules());
 
         $validator->addRule(new \Forms\ValidateToken($this->container['csrf']->token()), '_token');
 
@@ -124,8 +126,8 @@ class Vars extends AbstractController
         $form = new \Forms\CustomVars();
         $form->init();
 
-        $input = filter_input_array(INPUT_POST, $form->getFilters());
-        $validator = $this->container['validation']->create($input, $form->getRules());
+        $input = Filters::withDefaults($request->getParsedBody(), $form->getFilters());
+        $validator = ValidatorFactory::create($input, $form->getRules());
 
         $validator->addRule(new \Forms\ValidateToken($this->container['csrf']->token()), '_token');
 

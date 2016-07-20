@@ -10,19 +10,20 @@ use Anchorcms\Forms\Login;
 use Anchorcms\Forms\Amnesia;
 use Anchorcms\Forms\Reset;
 use Anchorcms\Forms\ValidateToken;
+use Validation\ValidatorFactory;
 
 class Auth extends AbstractController
 {
     public function getStart(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
         if ($this->container['session']->has('user')) {
-            $forward = filter_input(INPUT_GET, 'forward', FILTER_SANITIZE_URL, [
+            $forward = Filters::withDefault($request->getQueryParams(), 'forward', FILTER_VALIDATE_URL, [
                 'options' => [
                     'default' => $this->container['url']->to('/admin/posts'),
                 ],
             ]);
 
-            return $this->redirect($response, $forward);
+            return $this->redirect($response, rawurldecode($forward));
         }
 
         return $this->redirect($response, $this->container['url']->to('/admin/auth/login'));
@@ -55,7 +56,7 @@ class Auth extends AbstractController
         $input = Filters::withDefaults($request->getParsedBody(), $form->getFilters());
 
         // validate input
-        $validator = $this->container['validation']->create($input, $form->getRules());
+        $validator = ValidatorFactory::create($input, $form->getRules());
 
         // check token
         $validator->addRule(new ValidateToken($this->container['csrf']->token()), '_token');
@@ -87,13 +88,13 @@ class Auth extends AbstractController
         $this->container['session']->put('user', $user->id);
 
         // redirect
-        $forward = filter_input(INPUT_GET, 'forward', FILTER_SANITIZE_URL, [
+        $forward = Filters::withDefault($request->getQueryParams(), 'forward', FILTER_VALIDATE_URL, [
             'options' => [
                 'default' => $this->container['url']->to('/admin/posts'),
             ],
         ]);
 
-        return $this->redirect($response, $forward);
+        return $this->redirect($response, rawurldecode($forward));
     }
 
     public function getLogout(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
@@ -131,7 +132,7 @@ class Auth extends AbstractController
         $input = $form->getFilters();
 
         // validate input
-        $validator = $this->container['validation']->create($input, $form->getRules());
+        $validator = ValidatorFactory::create($input, $form->getRules());
 
         // check token
         $validator->addRule(new ValidateToken($this->container['csrf']->token()), '_token');
@@ -175,7 +176,7 @@ class Auth extends AbstractController
     public function getReset(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
         // check token
-        $token = filter_input(INPUT_GET, 'token', FILTER_SANITIZE_STRING);
+        $token = Filters::withDefault($request->getQueryParams(), 'token', FILTER_SANITIZE_STRING);
         $user = $this->container['services.auth']->verifyToken($token);
 
         if (!$user) {
@@ -203,7 +204,7 @@ class Auth extends AbstractController
     public function postReset(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
         // check token
-        $token = filter_input(INPUT_GET, 'token', FILTER_SANITIZE_STRING);
+        $token = Filters::withDefault($request->getQueryParams(), 'token', FILTER_SANITIZE_STRING);
         $user = $this->container['services.auth']->verifyToken($token);
 
         if (!$user) {
@@ -216,7 +217,7 @@ class Auth extends AbstractController
         $input = $form->getFilters();
 
         // validate input
-        $validator = $this->container['validation']->create($input, $form->getRules());
+        $validator = ValidatorFactory::create($input, $form->getRules());
 
         // check token
         $validator->addRule(new ValidateToken($this->container['csrf']->token()), '_token');

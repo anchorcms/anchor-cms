@@ -9,6 +9,7 @@ use Anchorcms\Paginator;
 use Anchorcms\Filters;
 use Anchorcms\Forms\Post as PostForm;
 use Anchorcms\Forms\ValidateToken;
+use Validation\ValidatorFactory;
 
 class Posts extends AbstractController
 {
@@ -104,7 +105,7 @@ class Posts extends AbstractController
         $this->container['services.customFields']->appendFields($form, 'post');
 
         $input = Filters::withDefaults($request->getParsedBody(), $form->getFilters());
-        $validator = $this->container['validation']->create($input, $form->getRules());
+        $validator = ValidatorFactory::create($input, $form->getRules());
 
         $validator->addRule(new ValidateToken($this->container['csrf']->token()), '_token');
 
@@ -208,8 +209,8 @@ class Posts extends AbstractController
         // append custom fields
         $this->container['services.customFields']->appendFields($form, 'post');
 
-        $input = filter_input_array(INPUT_POST, $form->getFilters());
-        $validator = $this->container['validation']->create($input, $form->getRules());
+        $input = Filters::withDefaults($request->getParsedBody(), $form->getFilters());
+        $validator = ValidatorFactory::create($input, $form->getRules());
 
         $validator->addRule(new ValidateToken($this->container['csrf']->token()), '_token');
 

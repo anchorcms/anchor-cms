@@ -2,7 +2,6 @@
 
 namespace Anchorcms;
 
-use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\UriInterface;
 
 class Url
@@ -13,12 +12,11 @@ class Url
 
     protected $uri;
 
-    public function __construct(ServerRequestInterface $request, UriInterface $uri)
+    public function __construct(array $serverParams, UriInterface $uri)
     {
         $this->uri = $uri;
-        $params = $request->getServerParams();
-        $this->host = empty($params['HTTP_HOST']) ? 'localhost' : $params['HTTP_HOST'];
-        $this->scheme = empty($params['HTTPS']) ? 'http' : 'https';
+        $this->host = empty($serverParams['HTTP_HOST']) ? 'localhost' : $serverParams['HTTP_HOST'];
+        $this->scheme = empty($serverParams['HTTPS']) ? 'http' : 'https';
     }
 
     public function to(string $path): UriInterface

@@ -9,6 +9,7 @@ use Anchorcms\Paginator;
 use Anchorcms\Filters;
 use Anchorcms\Forms\Category as CategoryForm;
 use Anchorcms\Forms\ValidateToken;
+use Validation\ValidatorFactory;
 
 class Categories extends AbstractController
 {
@@ -75,7 +76,7 @@ class Categories extends AbstractController
         $form->init();
 
         $input = Filters::withDefaults($request->getParsedBody(), $form->getFilters());
-        $validator = $this->container['validation']->create($input, $form->getRules());
+        $validator = ValidatorFactory::create($input, $form->getRules());
 
         $validator->addRule(new ValidateToken($this->container['csrf']->token()), '_token');
 
@@ -152,7 +153,7 @@ class Categories extends AbstractController
         $form->init();
 
         $input = Filters::withDefaults($request->getParsedBody(), $form->getFilters());
-        $validator = $this->container['validation']->create($input, $form->getRules());
+        $validator = ValidatorFactory::create($input, $form->getRules());
 
         $validator->addRule(new ValidateToken($this->container['csrf']->token()), '_token');
 

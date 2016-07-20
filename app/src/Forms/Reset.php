@@ -25,7 +25,7 @@ class Reset extends \Forms\Form implements ValidatableInterface
 
     public function getFilters()
     {
-        return filter_input_array(INPUT_POST, [
+        return Filters::withDefaults($request->getParsedBody(), [
             '_token' => FILTER_SANITIZE_STRING,
             'password' => FILTER_UNSAFE_RAW,
         ]);

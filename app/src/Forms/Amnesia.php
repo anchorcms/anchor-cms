@@ -26,7 +26,7 @@ class Amnesia extends \Forms\Form implements ValidatableInterface
 
     public function getFilters()
     {
-        return filter_input_array(INPUT_POST, [
+        return Filters::withDefaults($request->getParsedBody(), [
             '_token' => FILTER_SANITIZE_STRING,
             'email' => FILTER_SANITIZE_STRING,
         ]);
