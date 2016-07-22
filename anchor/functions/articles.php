@@ -63,7 +63,7 @@ function article_next_url($draft = false, $archive = false)
 }
 
 /**
- * Get the url of the current article
+ * Get the relative url of the current article
  * @return string
  */
 function article_url()
@@ -71,6 +71,16 @@ function article_url()
     $page = Registry::get('posts_page');
 
     return base_url($page->slug . '/' . article_slug());
+}
+
+/**
+ * Get the full url of the current article
+ * @return string
+ */
+function article_full_url() {
+	$page = Registry::get('posts_page');
+
+	return full_url($page->slug . '/' . article_slug());
 }
 
 /**
