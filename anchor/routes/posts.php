@@ -64,7 +64,7 @@ Route::collection(array('before' => 'auth,csrf,install_exists'), function () {
         $perpage = Config::get('admin.posts_per_page');
         $total = $query->count();
         $posts = $query->sort('title')->take($perpage)->skip(($post - 1) * $perpage)->get();
-        $url = Uri::to('admin/posts/status');
+        $url = Uri::to('admin/posts/status/' . $status);
 
         $pagination = new Paginator($posts, $total, $post, $perpage, $url);
 
