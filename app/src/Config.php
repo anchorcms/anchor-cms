@@ -22,9 +22,9 @@ class Config
         }
 
         // does the file exist?
-        $path = $this->path.'/'.$name.'.json';
+        $path = sprintf('%s/%s.json', $this->path, $name);
 
-        if (false === is_file($path)) {
+        if (! is_file($path) || ! is_readable($path)) {
             return [];
         }
 
@@ -52,7 +52,7 @@ class Config
         $config = $this->load($filename);
 
         foreach ($keys as $key) {
-            if (false === array_key_exists($key, $config)) {
+            if (! array_key_exists($key, $config)) {
                 return $default;
             }
 

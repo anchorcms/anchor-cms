@@ -62,7 +62,7 @@ class Errors
             return $this->matches($exception, $handler);
         });
 
-        // invoke filtered handlers
+        // call filtered handlers
         foreach ($handlers as $handler) {
             $handler($exception);
         }

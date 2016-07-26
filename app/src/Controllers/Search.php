@@ -48,7 +48,7 @@ class Search extends Frontend
         $vars['meta'] = $this->container['mappers.meta']->all();
         $vars['menu'] = $this->container['services.menu']->get();
         $vars['categories'] = $this->container['services.categories']->allWithPostCounts();
-        $vars['paginator'] = new Paginator('/search', $input['page'], $pages, $perpage, $input);
+        $vars['paginator'] = new Paginator('/search', $input['page'], $pages, $input);
         $vars['page'] = $page;
         $vars['keywords'] = $input['q'];
         $vars['posts'] = $posts;

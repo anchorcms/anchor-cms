@@ -12,36 +12,58 @@ class Paginator
 
     protected $params;
 
-    public function __construct($url, $page, $pages, $perpage, array $params = [])
+    protected $linkPageFormat = '<a href="{{ url }}">{{ text }}</a>';
+
+    protected $currentPageFormat = '<strong>{{ text }}</strong>';
+
+    protected $pageNumberFormat = '<span>Page {{ page }} of  {{ pages }}</span>';
+
+    protected $langFirstPage = 'First';
+
+    protected $langNextPage = 'Next';
+
+    protected $langPreviousPage = 'Previous';
+
+    protected $langLastPage = 'Last';
+
+    protected $range = 4;
+
+    public function __construct(string $url, int $page, int $pages, array $params = [])
     {
         $this->url = $url;
         $this->page = max(1, $page);
-        $this->pages = ceil($pages / $perpage);
+        $this->pages = $pages;
         $this->params = array_filter($params);
     }
 
-    protected function html($page, $text)
+    protected function link(int $page, string $text): string
     {
-        $qs = http_build_query(array_merge($this->params, ['page' => $page]));
-        $url = sprintf('%s?%s', $this->url, $qs);
+        $query = http_build_query(array_merge($this->params, ['page' => $page]));
+        $url = sprintf('%s?%s', $this->url, $query);
 
-        return '<a href="'.$url.'">'.$text.'</a>';
+        return str_replace(['{{ url }}', '{{ text }}'], [$url, $text], $this->linkPageFormat);
     }
 
-    public function links()
+    protected function number(int $page): string
+    {
+        return str_replace('{{ text }}', $page, $this->currentPageFormat);
+    }
+
+    public function links(): string
     {
         $links = [];
-        $range = 4;
 
         if ($this->pages == 1) {
             return '';
         }
 
         if ($this->page > 1) {
-            $links[] = $this->html($this->page - 1, 'Previous');
+            $links[] = $this->link(1, $this->langFirstPage);
+
+            $links[] = $this->link($this->page - 1, $this->langPreviousPage);
         }
 
-        for ($i = $this->page - $range; $i < $this->page + $range; ++$i) {
+        for ($i = $this->page - $this->range; $i < $this->page + $this->range; ++$i) {
             if ($i < 0) {
                 continue;
             }
@@ -53,15 +75,19 @@ class Paginator
             }
 
             if ($page == $this->page) {
-                $links[] = '<strong>'.$page.'</strong>';
+                $links[] = $this->number($page);
             } else {
-                $links[] = $this->html($page, $page);
+                $links[] = $this->link($page, $page);
             }
         }
 
         if ($this->page < $this->pages) {
-            $links[] = $this->html($this->page + 1, 'Next');
+            $links[] = $this->link($this->page + 1, $this->langNextPage);
+
+            $links[] = $this->link($this->pages, $this->langLastPage);
         }
+
+        $links[] = str_replace(['{{ page }}', '{{ pages }}'], [$this->page, $this->pages], $this->pageNumberFormat);
 
         return implode(' ', $links);
     }

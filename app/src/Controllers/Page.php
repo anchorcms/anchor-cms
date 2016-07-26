@@ -106,7 +106,7 @@ class Page extends Frontend
             $this->container['services.posts']->hydrate($posts);
 
             $vars['posts'] = $posts;
-            $vars['paginator'] = new Paginator('/', $pagenum, $pages, $perpage);
+            $vars['paginator'] = new Paginator('/', $pagenum, $pages);
 
             $names[] = 'posts';
         } else {
