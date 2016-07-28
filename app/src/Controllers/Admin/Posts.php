@@ -108,7 +108,7 @@ class Posts extends AbstractController
         $validator = $this->getValidator($input, $form);
 
         // check duplicate slug
-        $slug = $this->container['slugify']->slug(empty($input['slug']) ? $input['title'] : $input['slug']);
+        $slug = $this->container['slugify']->slugify(empty($input['slug']) ? $input['title'] : $input['slug']);
 
         if ($validator->isValid() && $input['status'] == 'published') {
             $query = $this->container['mappers.posts']->query()
@@ -209,7 +209,7 @@ class Posts extends AbstractController
         $validator = $this->getValidator($input, $form);
 
         // check duplicate slug
-        $slug = $this->container['slugify']->slug(empty($input['slug']) ? $input['title'] : $input['slug']);
+        $slug = $this->container['slugify']->slugify(empty($input['slug']) ? $input['title'] : $input['slug']);
 
         if ($validator->isValid() && $input['status'] == 'published') {
             $query = $this->container['mappers.posts']->query()

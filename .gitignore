@@ -1,6 +1,5 @@
 *.phar
 *.log
-*.lock
 *.sqlite
 *.codekit
 *.esproj

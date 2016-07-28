@@ -87,7 +87,7 @@ return [
         return new Anchorcms\View($app['paths']['views'], 'phtml');
     },
     'slugify' => function () {
-        return new Anchorcms\Slugify();
+        return new Cocur\Slugify\Slugify;
     },
     'theme' => function ($app) {
         $path = $app['paths']['themes'].'/'.$app['mappers.meta']->key('theme', 'default');

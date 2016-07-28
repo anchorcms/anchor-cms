@@ -113,7 +113,7 @@ class Pages extends AbstractController
             return $this->redirect($response, $this->container['url']->to('/admin/pages/create'));
         }
 
-        $slug = $this->container['slugify']->slug($input['slug'] ?: $input['title']);
+        $slug = $this->container['slugify']->slugify($input['slug'] ?: $input['title']);
         $html = $this->container['markdown']->convertToHtml($input['content']);
 
         $id = $this->container['mappers.pages']->insert([
@@ -197,7 +197,7 @@ class Pages extends AbstractController
             return $this->redirect($response, $this->container['url']->to(sprintf('/admin/pages/%d/edit', $page->id)));
         }
 
-        $slug = $this->container['slugify']->slug($input['slug'] ?: $input['title']);
+        $slug = $this->container['slugify']->slugify($input['slug'] ?: $input['title']);
         $html = $this->container['markdown']->convertToHtml($input['content']);
 
         $this->container['mappers.pages']->update($page->id, [

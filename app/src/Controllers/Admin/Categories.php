@@ -80,7 +80,7 @@ class Categories extends AbstractController
 
         $validator->addRule(new ValidateToken($this->container['csrf']->token()), '_token');
 
-        $slug = $this->container['slugify']->slug($input['slug'] ?: $input['title']);
+        $slug = $this->container['slugify']->slugify($input['slug'] ?: $input['title']);
 
         if ($validator->isValid()) {
             $query = $this->container['mappers.categories']->query()
@@ -157,7 +157,7 @@ class Categories extends AbstractController
 
         $validator->addRule(new ValidateToken($this->container['csrf']->token()), '_token');
 
-        $slug = $this->container['slugify']->slug($input['slug'] ?: $input['title']);
+        $slug = $this->container['slugify']->slugify($input['slug'] ?: $input['title']);
 
         if ($validator->isValid()) {
             $query = $this->container['mappers.categories']->query()

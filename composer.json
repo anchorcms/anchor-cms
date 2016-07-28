@@ -41,7 +41,8 @@
 		"bjeavons/zxcvbn-php": "~0.1",
 		"symfony/event-dispatcher": "~3",
 		"symfony/console": "~3",
-		"league/flysystem": "~1"
+		"league/flysystem": "~1",
+		"cocur/slugify": "~2"
 	},
 	"require-dev": {
 		"phpspec/phpspec": "~2"
