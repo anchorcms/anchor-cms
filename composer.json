@@ -27,14 +27,14 @@
 	"require": {
 		"php": ">=7",
 
-		"rwarasaurus/forms": "~0.1",
-		"rwarasaurus/validation": "~0.1",
 		"rwarasaurus/router": "dev-master",
 		"rwarasaurus/session": "dev-master",
+		"ircmaxell/tari-php": "dev-master",
 
+		"rwarasaurus/forms": "~0.1",
+		"rwarasaurus/validation": "~0.1",
 		"pimple/pimple": "~3",
 		"guzzlehttp/psr7": "~1",
-		"ircmaxell/tari-php": "dev-master",
 		"doctrine/dbal": "~2",
 		"mustache/mustache": "~2",
 		"league/commonmark": "~0.1",

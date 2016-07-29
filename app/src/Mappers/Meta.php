@@ -4,7 +4,7 @@ namespace Anchorcms\Mappers;
 
 class Meta extends AbstractMapper
 {
-    protected $primary = 'key';
+    protected $primary = 'id';
 
     protected $name = 'meta';
 
@@ -19,7 +19,7 @@ class Meta extends AbstractMapper
         return $this->map;
     }
 
-    public function key(string $key, $default = null): string
+    public function key(string $key, $default = ''): string
     {
         // if we have already loaded it
         if (array_key_exists($key, $this->map)) {

@@ -36,6 +36,11 @@ class Paginator
         $this->params = array_filter($params);
     }
 
+    public static function create(string $url, int $page, int $pages, array $params = [])
+    {
+        return new static($url, $page, $pages, $params);
+    }
+
     protected function link(int $page, string $text): string
     {
         $query = http_build_query(array_merge($this->params, ['page' => $page]));

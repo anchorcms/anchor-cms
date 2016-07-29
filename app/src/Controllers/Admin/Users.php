@@ -38,7 +38,7 @@ class Users extends AbstractController
 
         $users = $this->container['mappers.users']->fetchAll($query);
 
-        $paging = new Paginator($this->container['url']->to('/admin/users'), $input['page'], $total, $perpage);
+        $paging = Paginator::create($this->container['url']->to('/admin/users'), $input['page'], ceil($total / $perpage));
 
         $vars['sitename'] = $this->container['mappers.meta']->key('sitename');
         $vars['title'] = 'Users';

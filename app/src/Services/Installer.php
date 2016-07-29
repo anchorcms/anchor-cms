@@ -180,6 +180,7 @@ class Installer
             'sitename' => $input['site_name'],
             'description' => $input['site_description'],
             'theme' => 'default',
+            'global_twitter' => 'anchorcms',
         ];
 
         foreach ($meta as $key => $value) {

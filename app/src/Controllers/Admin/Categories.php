@@ -37,7 +37,7 @@ class Categories extends AbstractController
 
         $categories = $this->container['mappers.categories']->fetchAll($query);
 
-        $paging = new Paginator($this->container['url']->to('/admin/categories'), $input['page'], $total, $perpage);
+        $paging = Paginator::create($this->container['url']->to('/admin/categories'), $input['page'], ceil($total / $perpage));
 
         $vars['sitename'] = $this->container['mappers.meta']->key('sitename');
         $vars['title'] = 'Categories';

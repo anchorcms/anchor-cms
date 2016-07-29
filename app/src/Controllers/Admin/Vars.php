@@ -6,8 +6,10 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Anchorcms\Controllers\AbstractController;
 use Anchorcms\Forms\ValidateToken;
+use Anchorcms\Forms\CustomVars;
 use Anchorcms\Filters;
 use Validation\ValidatorFactory;
+use Forms\FormInterface;
 
 class Vars extends AbstractController
 {
@@ -32,42 +34,38 @@ class Vars extends AbstractController
 
     public function getCreate(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-        $form = new \Forms\CustomVars([
+        $form = $this->getForm([
             'method' => 'post',
             'action' => $this->container['url']->to('/admin/vars/save'),
         ]);
-        $form->init();
+
         $form->getElement('_token')->setValue($this->container['csrf']->token());
 
         // re-populate submitted data
         $form->setValues($this->container['session']->getStash('input', []));
 
+        $vars['sitename'] = $this->container['mappers.meta']->key('sitename');
         $vars['title'] = 'Creating a new custom variable';
         $vars['form'] = $form;
 
-        return $this->renderTemplate('layouts/default', 'vars/create', $vars);
+        $this->renderTemplate($response, 'layouts/default', 'vars/create', $vars);
+
+        return $response;
     }
 
     public function postSave(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-        $form = new \Forms\CustomVars();
-        $form->init();
+        $form = $this->getForm();
 
         $input = Filters::withDefaults($request->getParsedBody(), $form->getFilters());
         $validator = ValidatorFactory::create($input, $form->getRules());
 
-        $validator->addRule(new \Forms\ValidateToken($this->container['csrf']->token()), '_token');
+        $validator->addRule(new ValidateToken($this->container['csrf']->token()), '_token');
 
-        $key = strtolower($input['key']);
-
-        $key = preg_replace('#\W+#', '_', $key);
-
-        $key = $this->prefix.$key;
+        $key = $this->prefix.$this->container['slugify']->slugify($input['key']);
 
         if ($validator->isValid()) {
-            $exists = $this->container['mappers.meta']
-                ->where('key', '=', $key)
-                ->count();
+            $exists = $this->container['mappers.meta']->key($key);
 
             if ($exists) {
                 $validator->setInvalid('Key already exists');
@@ -78,7 +76,7 @@ class Vars extends AbstractController
             $this->container['messages']->error($validator->getMessages());
             $this->container['session']->putStash('input', $input);
 
-            return $this->redirect($this->container['url']->to('/admin/vars/create'));
+            return $this->redirect($response, $this->container['url']->to('/admin/vars/create'));
         }
 
         $id = $this->container['mappers.meta']->insert([
@@ -88,19 +86,18 @@ class Vars extends AbstractController
 
         $this->container['messages']->success(['Custom variable created']);
 
-        return $this->redirect($this->container['url']->to(sprintf('/admin/vars/%d/edit', $id)));
+        return $this->redirect($response, $this->container['url']->to(sprintf('/admin/vars/%d/edit', $id)));
     }
 
     public function getEdit(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-        $id = $request->getAttribute('id');
-        $meta = $this->container['mappers.meta']->where('id', '=', $id)->fetch();
+        $meta = $this->container['mappers.meta']->fetchByAttribute('id', $args['id']);
 
-        $form = new \Forms\CustomVars([
+        $form = $this->getForm([
             'method' => 'post',
             'action' => $this->container['url']->to(sprintf('/admin/vars/%s/update', $meta->id)),
         ]);
-        $form->init();
+
         $form->getElement('_token')->setValue($this->container['csrf']->token());
 
         // cannot change key
@@ -112,25 +109,26 @@ class Vars extends AbstractController
         // re-populate old input
         $form->setValues($this->container['session']->getStash('input', []));
 
+        $vars['sitename'] = $this->container['mappers.meta']->key('sitename');
         $vars['title'] = sprintf('Editing &ldquo;%s&rdquo;', $meta->key);
         $vars['form'] = $form;
         $vars['meta'] = $meta;
 
-        return $this->renderTemplate('layouts/default', 'vars/edit', $vars);
+        $this->renderTemplate($response, 'layouts/default', 'vars/edit', $vars);
+
+        return $response;
     }
 
     public function postUpdate(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-        $id = $request->getAttribute('id');
-        $meta = $this->container['mappers.meta']->where('id', '=', $id)->fetch();
+        $meta = $this->container['mappers.meta']->fetchByAttribute('id', $args['id']);
 
-        $form = new \Forms\CustomVars();
-        $form->init();
+        $form = $this->getForm();
 
         $input = Filters::withDefaults($request->getParsedBody(), $form->getFilters());
         $validator = ValidatorFactory::create($input, $form->getRules());
 
-        $validator->addRule(new \Forms\ValidateToken($this->container['csrf']->token()), '_token');
+        $validator->addRule(new ValidateToken($this->container['csrf']->token()), '_token');
 
         if (false === $validator->isValid()) {
             $this->container['messages']->error($validator->getMessages());
@@ -139,28 +137,34 @@ class Vars extends AbstractController
             return $this->redirect($this->container['url']->to(sprintf('/admin/vars/%s/edit', $meta->id)));
         }
 
-        $this->container['mappers.meta']->where('id', '=', $meta->id)->update([
+        $this->container['mappers.meta']->update($meta->id, [
             'value' => $input['value'],
         ]);
 
         $this->container['messages']->success(['Custom variable updated']);
 
-        return $this->redirect($this->container['url']->to(sprintf('/admin/vars/%s/edit', $meta->id)));
+        return $this->redirect($response, $this->container['url']->to(sprintf('/admin/vars/%s/edit', $meta->id)));
     }
 
     public function getDelete(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-        $id = $request->getAttribute('id');
-        $meta = $this->container['mappers.meta']->where('id', '=', $id)->fetch();
+        $meta = $this->container['mappers.meta']->fetchByAttribute('id', $args['id']);
 
         if (!$meta) {
             return $this->redirect($this->container['url']->to('/admin/vars'));
         }
 
-        $this->container['mappers.meta']->where('id', '=', $meta->id)->delete();
+        $this->container['mappers.meta']->delete($meta->id);
 
         $this->container['messages']->success(['Global variable deleted']);
 
-        return $this->redirect($this->container['url']->to('/admin/vars'));
+        return $this->redirect($response, $this->container['url']->to('/admin/vars'));
+    }
+
+    protected function getForm(array $params = []): FormInterface
+    {
+        $form = new CustomVars($params);
+        $form->init();
+        return $form;
     }
 }

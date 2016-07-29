@@ -51,7 +51,7 @@ class Pages extends AbstractController
 
         $pages = $this->container['mappers.pages']->fetchAll($query);
 
-        $paging = new Paginator($this->container['url']->to('/admin/pages'), $input['page'], $total, $perpage, $input);
+        $paging = Paginator::create($this->container['url']->to('/admin/pages'), $input['page'], ceil($total / $perpage), $input);
 
         $vars['sitename'] = $this->container['mappers.meta']->key('sitename');
         $vars['title'] = 'Pages';

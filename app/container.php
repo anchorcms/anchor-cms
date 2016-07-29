@@ -42,7 +42,7 @@ return [
         return new Anchorcms\Errors();
     },
     'events' => function () {
-        return new Events\EventManager();
+        return new Symfony\Component\EventDispatcher\EventDispatcher;
     },
     'session' => function ($app) {
         $config = $app['config']->get('session');

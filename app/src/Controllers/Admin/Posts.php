@@ -58,7 +58,7 @@ class Posts extends AbstractController
 
         $posts = $this->container['mappers.posts']->fetchAll($query);
 
-        $paging = new Paginator($this->container['url']->to('/admin/posts'), $input['page'], $total, $perpage, $input);
+        $paging = Paginator::create($this->container['url']->to('/admin/posts'), $input['page'], ceil($total / $perpage), $input);
 
         $vars['sitename'] = $this->container['mappers.meta']->key('sitename');
         $vars['title'] = 'Posts';

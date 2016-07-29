@@ -62,8 +62,8 @@ class Category extends Frontend
         $vars['page'] = $page;
         $vars['category'] = $category;
         $vars['paginator'] = new Paginator(sprintf('/category/%s', $category->slug), $pagenum, $pages);
+        $vars['meta'] = $this->container['mappers.meta']->all();
         $vars['menu'] = $this->container['services.menu']->get();
-        $vars['menu'] = $this->container['mappers.pages']->menu();
         $vars['categories'] = $this->container['services.categories']->allWithPostCounts();
         $vars['posts'] = $posts;
 
