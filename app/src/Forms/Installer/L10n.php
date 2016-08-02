@@ -31,6 +31,7 @@ class L10n extends Form
     public function getFilters(): array
     {
         return [
+            '_token' => FILTER_SANITIZE_STRING,
             'app_lang' => FILTER_SANITIZE_STRING,
             'app_timezone' => FILTER_SANITIZE_STRING,
         ];
@@ -39,6 +40,7 @@ class L10n extends Form
     public function getRules(): array
     {
         return [
+            '_token' => ['label' => 'Token', 'rules' => ['required']],
             'app_lang' => ['label' => 'Language', 'rules' => ['required']],
             'app_timezone' => ['label' => 'Time Zone', 'rules' => ['required']],
         ];

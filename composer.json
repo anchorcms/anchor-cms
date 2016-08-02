@@ -26,22 +26,20 @@
 	],
 	"require": {
 		"php": ">=7",
-
-		"rwarasaurus/router": "dev-master",
-		"rwarasaurus/session": "dev-master",
 		"ircmaxell/tari-php": "dev-master",
-
 		"rwarasaurus/forms": "~0.1",
 		"rwarasaurus/validation": "~0.1",
+		"rwarasaurus/session": "~0.1",
+		"rwarasaurus/router": "~0.1",
 		"pimple/pimple": "~3",
 		"guzzlehttp/psr7": "~1",
 		"doctrine/dbal": "~2",
 		"mustache/mustache": "~2",
 		"league/commonmark": "~0.1",
+		"league/flysystem": "~1",
 		"bjeavons/zxcvbn-php": "~0.1",
 		"symfony/event-dispatcher": "~3",
 		"symfony/console": "~3",
-		"league/flysystem": "~1",
 		"cocur/slugify": "~2"
 	},
 	"require-dev": {

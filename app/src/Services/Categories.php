@@ -3,6 +3,7 @@
 namespace Anchorcms\Services;
 
 use Anchorcms\Mappers\MapperInterface;
+use Anchorcms\Models\Category;
 
 class Categories
 {
@@ -27,7 +28,7 @@ class Categories
 
         $categories = $this->categories->all($postCounts);
 
-        $filtered = array_filter($categories, function ($category) {
+        $filtered = array_filter($categories, function (Category $category) {
             return $category->postCount() > 0;
         });
 

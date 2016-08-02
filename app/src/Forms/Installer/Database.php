@@ -62,6 +62,7 @@ class Database extends Form
     public function getFilters(): array
     {
         return [
+            '_token' => FILTER_SANITIZE_STRING,
             'db_driver' => FILTER_SANITIZE_STRING,
             'db_host' => FILTER_SANITIZE_STRING,
             'db_port' => FILTER_SANITIZE_STRING,
@@ -76,6 +77,7 @@ class Database extends Form
     public function getRules(): array
     {
         return [
+            '_token' => ['label' => 'Token', 'rules' => ['required']],
             'db_driver' => ['required'],
         ];
     }

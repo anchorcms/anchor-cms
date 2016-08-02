@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "c580a3d2f99c6326c4916fbe0407c591",
-    "content-hash": "59a4bc0a5e8ccec62a5a13af66506764",
+    "hash": "2294f1d2623592fbc539ab781bd59dd4",
+    "content-hash": "8f57c28a46033648b214e488bf4794e8",
     "packages": [
         {
             "name": "bjeavons/zxcvbn-php",
@@ -1028,16 +1028,16 @@
         },
         {
             "name": "rwarasaurus/router",
-            "version": "dev-master",
+            "version": "0.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/rwarasaurus/router.git",
-                "reference": "6b95477160d0a391c86a69b3e0647fe80a44850a"
+                "reference": "cc15c11b00e39d558fd6c92f46f7996b22aee2ed"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rwarasaurus/router/zipball/6b95477160d0a391c86a69b3e0647fe80a44850a",
-                "reference": "6b95477160d0a391c86a69b3e0647fe80a44850a",
+                "url": "https://api.github.com/repos/rwarasaurus/router/zipball/cc15c11b00e39d558fd6c92f46f7996b22aee2ed",
+                "reference": "cc15c11b00e39d558fd6c92f46f7996b22aee2ed",
                 "shasum": ""
             },
             "require": {
@@ -1065,23 +1065,23 @@
             ],
             "description": "Uri router library",
             "support": {
-                "source": "https://github.com/rwarasaurus/router/tree/master",
+                "source": "https://github.com/rwarasaurus/router/tree/0.1.0",
                 "issues": "https://github.com/rwarasaurus/router/issues"
             },
-            "time": "2016-02-29 11:11:56"
+            "time": "2016-07-29 08:48:13"
         },
         {
             "name": "rwarasaurus/session",
-            "version": "dev-master",
+            "version": "0.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/rwarasaurus/session.git",
-                "reference": "8617c27910144a21e22f65d0df4447f357c424b3"
+                "reference": "f9563d7f51afe113e8da396d219d4f5ef3f58aa2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rwarasaurus/session/zipball/8617c27910144a21e22f65d0df4447f357c424b3",
-                "reference": "8617c27910144a21e22f65d0df4447f357c424b3",
+                "url": "https://api.github.com/repos/rwarasaurus/session/zipball/f9563d7f51afe113e8da396d219d4f5ef3f58aa2",
+                "reference": "f9563d7f51afe113e8da396d219d4f5ef3f58aa2",
                 "shasum": ""
             },
             "require": {
@@ -1108,10 +1108,10 @@
             ],
             "description": "Session wrapper",
             "support": {
-                "source": "https://github.com/rwarasaurus/session/tree/master",
+                "source": "https://github.com/rwarasaurus/session/tree/0.1.0",
                 "issues": "https://github.com/rwarasaurus/session/issues"
             },
-            "time": "2016-07-13 16:49:03"
+            "time": "2016-07-29 08:42:02"
         },
         {
             "name": "rwarasaurus/validation",
@@ -2148,8 +2148,6 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "rwarasaurus/router": 20,
-        "rwarasaurus/session": 20,
         "ircmaxell/tari-php": 20
     },
     "prefer-stable": false,

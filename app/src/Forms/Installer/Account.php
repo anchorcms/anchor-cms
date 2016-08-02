@@ -32,6 +32,7 @@ class Account extends Form
     public function getFilters(): array
     {
         return [
+            '_token' => FILTER_SANITIZE_STRING,
             'account_username' => FILTER_SANITIZE_STRING,
             'account_email' => FILTER_SANITIZE_STRING,
             'account_password' => FILTER_UNSAFE_RAW,
@@ -41,6 +42,7 @@ class Account extends Form
     public function getRules(): array
     {
         return [
+            '_token' => ['label' => 'Token', 'rules' => ['required']],
             'account_username' => ['label' => 'Username', 'rules' => ['length:3,']],
             'account_email' => ['label' => 'Email Address', 'rules' => ['email']],
             'account_password' => ['label' => 'Password', 'rules' => ['length:8,']],

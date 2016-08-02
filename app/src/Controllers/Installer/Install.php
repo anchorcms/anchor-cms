@@ -7,6 +7,10 @@ use Psr\Http\Message\ResponseInterface;
 use Anchorcms\Controllers\AbstractController;
 use Anchorcms\Filters;
 use Anchorcms\Forms\ValidateToken;
+use Anchorcms\Forms\Installer\L10n as L10nForm;
+use Anchorcms\Forms\Installer\Database as DatabaseForm;
+use Anchorcms\Forms\Installer\Metadata as MetadataForm;
+use Anchorcms\Forms\Installer\Account as AccountForm;
 use Validation\ValidatorFactory;
 
 class Install extends AbstractController
@@ -18,12 +22,14 @@ class Install extends AbstractController
 
     public function getL10n(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-        $form = new \Anchorcms\Forms\Installer\L10n([
+        $form = new L10nForm([
             'method' => 'post',
             'action' => $this->container['url']->to('/l10n'),
             'autocomplete' => 'off',
         ]);
         $form->init();
+
+        $form->getElement('_token')->setValue($this->container['csrf']->token());
 
         // populate from session
         $data = $this->container['session']->get('install', [
@@ -41,7 +47,7 @@ class Install extends AbstractController
 
     public function postL10n(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-        $form = new \Anchorcms\Forms\Installer\L10n();
+        $form = new L10nForm;
 
         $input = Filters::withDefaults($request->getParsedBody(), $form->getFilters());
 
@@ -49,6 +55,7 @@ class Install extends AbstractController
         $this->container['session']->put('install', array_merge($data, $input));
 
         $validator = ValidatorFactory::create($input, $form->getRules());
+        $validator->addRule(new ValidateToken($this->container['csrf']->token()), '_token');
 
         if (false === $validator->isValid()) {
             $this->container['messages']->error($validator->getMessages());
@@ -61,12 +68,14 @@ class Install extends AbstractController
 
     public function getDatabase(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-        $form = new \Anchorcms\Forms\Installer\Database([
+        $form = new DatabaseForm([
             'method' => 'post',
             'action' => $this->container['url']->to('/database'),
             'autocomplete' => 'off',
         ]);
         $form->init();
+
+        $form->getElement('_token')->setValue($this->container['csrf']->token());
 
         // populate from session
         $data = $this->container['session']->get('install', []);
@@ -83,7 +92,7 @@ class Install extends AbstractController
 
     public function postDatabase(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-        $form = new \Anchorcms\Forms\Installer\Database();
+        $form = new DatabaseForm;
 
         $input = Filters::withDefaults($request->getParsedBody(), $form->getFilters());
 
@@ -91,6 +100,7 @@ class Install extends AbstractController
         $this->container['session']->put('install', array_merge($data, $input));
 
         $validator = ValidatorFactory::create($input, $form->getRules());
+        $validator->addRule(new ValidateToken($this->container['csrf']->token()), '_token');
 
         try {
             $this->container['services.installer']->connectDatabase($input);
@@ -109,13 +119,14 @@ class Install extends AbstractController
 
     public function getMetadata(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-        $form = new \Anchorcms\Forms\Installer\Metadata([
+        $form = new MetadataForm([
             'method' => 'post',
             'action' => $this->container['url']->to('/metadata'),
             'autocomplete' => 'off',
         ]);
         $form->init();
 
+        $form->getElement('_token')->setValue($this->container['csrf']->token());
         $form->getElement('site_path')->setValue('/');
 
         // populate from session
@@ -133,7 +144,7 @@ class Install extends AbstractController
 
     public function postMetadata(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-        $form = new \Anchorcms\Forms\Installer\Metadata();
+        $form = new MetadataForm;
 
         $input = Filters::withDefaults($request->getParsedBody(), $form->getFilters());
 
@@ -141,6 +152,7 @@ class Install extends AbstractController
         $this->container['session']->put('install', array_merge($data, $input));
 
         $validator = ValidatorFactory::create($input, $form->getRules());
+        $validator->addRule(new ValidateToken($this->container['csrf']->token()), '_token');
 
         if (false === $validator->isValid()) {
             $this->container['messages']->error($validator->getMessages());
@@ -153,12 +165,14 @@ class Install extends AbstractController
 
     public function getAccount(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-        $form = new \Anchorcms\Forms\Installer\Account([
+        $form = new AccountForm([
             'method' => 'post',
             'action' => $this->container['url']->to('/account'),
             'autocomplete' => 'off',
         ]);
         $form->init();
+
+        $form->getElement('_token')->setValue($this->container['csrf']->token());
 
         // populate from session
         $data = $this->container['session']->get('install', []);
@@ -175,10 +189,11 @@ class Install extends AbstractController
 
     public function postAccount(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-        $form = new \Anchorcms\Forms\Installer\Account();
+        $form = new AccountForm;
 
         $input = Filters::withDefaults($request->getParsedBody(), $form->getFilters());
         $validator = ValidatorFactory::create($input, $form->getRules());
+        $validator->addRule(new ValidateToken($this->container['csrf']->token()), '_token');
 
         $data = $this->container['session']->get('install', []);
         $this->container['session']->put('install', array_merge($data, $input));

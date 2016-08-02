@@ -33,6 +33,7 @@ class Metadata extends Form
     public function getFilters(): array
     {
         return [
+            '_token' => FILTER_SANITIZE_STRING,
             'site_name' => FILTER_SANITIZE_STRING,
             'site_description' => FILTER_SANITIZE_STRING,
             'site_path' => FILTER_SANITIZE_STRING,
@@ -42,6 +43,7 @@ class Metadata extends Form
     public function getRules(): array
     {
         return [
+            '_token' => ['label' => 'Token', 'rules' => ['required']],
             'site_name' => ['label' => 'Site Name', 'rules' => ['required']],
             'site_description' => ['label' => 'Site Description', 'rules' => ['required']],
             'site_path' => ['label' => 'Site Path', 'rules' => ['required']],
