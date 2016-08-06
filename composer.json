@@ -21,6 +21,10 @@
 			"name": "David",
 			"email": "me@daviddarnes.com"
 		}
+		{
+			"name": "Jarod",
+			"email": "thebrenny@brennytizer.com.au"
+		}
 	],
 	"require": {
 		"php": ">=5.3.6",
