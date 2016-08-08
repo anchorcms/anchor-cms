@@ -31,14 +31,21 @@ If you would like to add submit a feature request then please go to our [Feathub
 Please follow the below points:
 - Check if bug is consistent in different environments
 - Check if its been reported and solved in the Anchor forum
-- Check if there is an issue that already covers or relates to it
+- **Check if there is an issue that already covers or relates to it** (including closed issues)
 - Give an accurate and concise title to issue
 - Prefix title of issue with `Bug:` or `Feature:`
 - Explain bug briefly but in detail
 - Give guidance on how to reproduce bug
 - Add screenshots when possible
+- Follow the templates that autofill the editor
 
 > ProTip: Check out [this example issue](https://github.com/anchorcms/anchor-cms/issues/873#issuecomment-151784603) for reference on good bug reporting.
+
+Keep in mind that when you submit an issue, you are the maintainer of that issue. The team or community may ask for more detail on specifics about the issue, so cooperating is always great. However, due to there being a large number of issue reports that suddenly become inactive, we request that you keep checking back.
+
+If the issue remains inactive (or *dormant*) for two to four weeks (depending on the issue), we may close it, assuming that it's been fixed. If you just happen to be late back to the party, simply bump the issue with a comment making sure to include any updates.
+
+***It is important to note that this is for house cleaning purposes, rather than for shrugging off issues. Cooperation is requested.***
 
 ### When writing your code, always follow standards
 If you're familiar with open source software, you probably know how important coding guidelines and standards are. Most common are (in order of appearance) PEAR, Zend(Framework) and [PSR-1](http://www.php-fig.org/psr/psr-1)/[PSR-2](http://www.php-fig.org/psr/psr-2).
