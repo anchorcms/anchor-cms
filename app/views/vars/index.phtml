@@ -14,7 +14,7 @@
 		<ul class="listing">
 			<?php foreach($metadata as $meta): ?>
 			<li>
-				<h3><a href="<?php echo url('/admin/vars/'.$meta->id.'/edit'); ?>"><?php echo $meta->key; ?></a></h3>
+				<h3><a href="/admin/vars/<?php echo $meta->id; ?>/edit"><?php echo $meta->key; ?></a></h3>
 			</li>
 			<?php endforeach; ?>
 		</ul>
