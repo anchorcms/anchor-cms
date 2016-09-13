@@ -45,3 +45,6 @@ vendor/
 
 # Don't want to commit .lock files
 *.lock
+
+# Ignore extension files that get placed in the .vscode folder (these files can contain credentials)
+/.vscode/*
