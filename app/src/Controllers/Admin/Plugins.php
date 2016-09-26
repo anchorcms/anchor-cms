@@ -18,4 +18,11 @@ class Plugins extends AbstractController
 
         return $response;
     }
+
+    public function getActivate(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
+    {
+        $plugin = $this->container['services.plugins']->getPlugin($args['folder']);
+
+        return $response;
+    }
 }

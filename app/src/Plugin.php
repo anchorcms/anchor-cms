@@ -2,7 +2,9 @@
 
 namespace Anchorcms;
 
+use Symfony\Component\EventDispatcher\EventDispatcher;
+
 abstract class Plugin
 {
-    abstract public static function getSubscribedEvents(): array;
+    abstract public function getSubscribedEvents(EventDispatcher $dispatcher);
 }

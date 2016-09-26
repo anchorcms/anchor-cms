@@ -2,6 +2,8 @@
 
 namespace Anchorcms\Services;
 
+use Anchorcms\PluginManifest;
+
 class Plugins
 {
     public function __construct($path)
@@ -13,27 +15,33 @@ class Plugins
     {
         $plugins = [];
 
+        if (! is_dir($this->path)) {
+            mkdir($this->path, 0755, true);
+        }
+
         $fi = new \FilesystemIterator($this->path, \FilesystemIterator::SKIP_DOTS);
 
         foreach ($fi as $file) {
-            if ($file->isDir()) {
-                $key = $file->getBasename();
+            $manifest = $file->getPathname() . '/manifest.json';
 
-                $name = ucwords(str_replace(['-', '_'], ' ', $key));
-
-                $plugins[$key] = $name;
+            if (is_file($manifest)) {
+                $jsonStr = file_get_contents($manifest);
+                $attributes = json_decode($jsonStr, true);
+                $plugins[] = new PluginManifest($file->getBasename(), $attributes);
             }
         }
 
         return $plugins;
     }
 
-    public function init()
+    public function getPlugin($folder)
     {
-        $fi = new \FilesystemIterator($this->path, \FilesystemIterator::SKIP_DOTS);
+        $manifest = $this->path . '/' . $folder . '/manifest.json';
 
-        foreach ($fi as $file) {
-            $this->load($file);
+        if (is_file($manifest)) {
+            $jsonStr = file_get_contents($manifest);
+            $attributes = json_decode($jsonStr, true);
+            return new PluginManifest($folder, $attributes);
         }
     }
 

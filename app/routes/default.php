@@ -63,6 +63,7 @@ return [
     '/admin/themes/activate' => 'controllers\\admin\\themes@activate',
 
     '/admin/plugins' => 'controllers\\admin\\plugins@index',
+    '/admin/plugins/:folder/activate' => 'controllers\\admin\\plugins@activate',
 
     // frontend
     '/' => 'controllers\\page@home',
