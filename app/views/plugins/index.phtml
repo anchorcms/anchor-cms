@@ -1,16 +1,24 @@
-
 <div class="wrap">
-	<header class="heading">
-		<h2>Plugins</h2>
-	</header>
+    <header class="heading">
+        <h2>Plugins</h2>
+    </header>
 
-	<main>
-		<ul class="listing">
-			<?php foreach($plugins as $plugin): ?>
-			<li>
-				<h3><?php echo $plugin; ?></h3>
-			</li>
-			<?php endforeach; ?>
-		</ul>
-	</main>
+    <main>
+        <ul class="listing">
+            <?php foreach ($plugins as $plugin): ?>
+                <li>
+                    <h3><a href="/admin/plugins/<?php echo strtolower($plugin->getName()); ?>"><?php echo $plugin->getName(); ?></a></h3>
+                    <span class="badge--pinned">
+                        <span class="badge">
+                            <?php echo ($plugin->isActive() ? 'enabled' : 'disabled'); ?>
+                        </span>
+                    </span>
+                    <p class="text--quiet"><?php echo $plugin->getDescription(); ?></p>
+                </li>
+            <?php endforeach; ?>
+        </ul>
+
+        <?php echo $paging->links(); ?>
+    </main>
 </div>
+<script src="/js/plugins.js"></script>

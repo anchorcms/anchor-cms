@@ -4,6 +4,8 @@ namespace Anchorcms\Services;
 
 class Plugins
 {
+    protected $path;
+
     public function __construct($path)
     {
         $this->path = $path;
@@ -17,15 +19,46 @@ class Plugins
 
         foreach ($fi as $file) {
             if ($file->isDir()) {
-                $key = $file->getBasename();
+                if (!file_exists($file . DIRECTORY_SEPARATOR . 'manifest.json')) {
+                    continue;
+                }
 
-                $name = ucwords(str_replace(['-', '_'], ' ', $key));
+                $plugin = new Plugins\Plugin($file->getPathname());
 
-                $plugins[$key] = $name;
+                $plugins[$plugin->getName()] = $plugin;
             }
         }
 
-        return $plugins;
+        // sort the plugins by name
+        ksort($plugins);
+
+        return array_values($plugins);
+    }
+
+    public function countPlugins()
+    {
+        $fi = new \FilesystemIterator($this->path, \FilesystemIterator::SKIP_DOTS);
+
+        return iterator_count($fi);
+    }
+
+    public function getPlugin(string $name)
+    {
+        $fi = new \FilesystemIterator($this->path, \FilesystemIterator::SKIP_DOTS);
+
+        foreach ($fi as $file) {
+            if ($file->isDir()) {
+                if (!file_exists($file . DIRECTORY_SEPARATOR . 'manifest.json')) {
+                    continue;
+                }
+
+                $plugin = new Plugins\Plugin($file->getPathname());
+
+                if (strtolower($plugin->getName()) === $name) {
+                    return $plugin;
+                }
+            }
+        }
     }
 
     public function init()

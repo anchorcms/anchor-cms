@@ -40,7 +40,8 @@
 		"bjeavons/zxcvbn-php": "~0.1",
 		"symfony/event-dispatcher": "~3",
 		"symfony/console": "~3",
-		"cocur/slugify": "~2"
+		"cocur/slugify": "~2",
+		"guzzlehttp/guzzle": "^6.2"
 	},
 	"require-dev": {
 		"phpspec/phpspec": "~2"
