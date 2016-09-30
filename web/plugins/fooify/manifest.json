@@ -1,0 +1,11 @@
+{
+  "name":        "Fooify",
+  "description": "Replace the content of your pages with \"foo\"! Awesome!",
+  "version":     "0.0.5",
+  "author":      "Radiergummi",
+  "url":         "https://github.com/Radiergummi/anchor-plugin-fooify",
+  "hooks":       [
+    "pages:after_render",
+    "posts:after_render"
+  ]
+}

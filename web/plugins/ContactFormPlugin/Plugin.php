@@ -1,12 +1,12 @@
 <?php
 
-namespace Anchorcms\Plugins;
+namespace Anchorcms\Plugins\ContactFormPlugin;
 
-use Anchorcms\Plugin;
+use Anchorcms\Plugin as AnchorPlugin;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\Event;
 
-class ContentFormPlugin extends Plugin
+class Plugin extends AnchorPlugin
 {
     public function getSubscribedEvents(EventDispatcher $dispatcher)
     {

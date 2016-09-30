@@ -8,6 +8,7 @@
 		<title><?php echo $this->e($title); ?> &mdash; <?php echo $this->e($sitename); ?></title>
 		<link rel="icon" type="image/svg+xml" href="/assets/img/logo.svg">
 		<link rel="stylesheet" href="/assets/css/main.css">
+		<?php echo $styles; ?>
 	</head>
 	<body>
 		<nav class="nav-header">
@@ -25,6 +26,7 @@
 		</footer>
 
 		<script src="/assets/js/global.js"></script>
+		<?php echo $scripts; ?>
 
 		<debug></debug>
 	</body>

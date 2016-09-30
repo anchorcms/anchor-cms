@@ -1,19 +1,37 @@
-
 <div class="wrap">
-	<header class="heading">
-		<h2>Plugins</h2>
-	</header>
+    <header class="heading">
+        <h2><?php echo $title; ?></h2>
 
-	<main>
-		<ul class="listing">
-			<?php foreach($plugins as $plugin): ?>
-			<li>
-				<h3><?php echo $plugin->getName(); ?></h3>
-				<p><?php echo $plugin->getSummary(); ?></p>
-				<span class="badge badge--pinned"><?php echo $plugin->getVersion(); ?></span>
-				<p><a href="/admin/plugins/<?php echo $plugin->getFolder(); ?>/activate" class="button button--small">Activate</a></p>
-			</li>
-			<?php endforeach; ?>
-		</ul>
-	</main>
+        <div class="button-group">
+            <form class="form--inline" method="get" action="/admin/plugins">
+                <p><input placeholder="Search plugins&hellip;" name="search">
+                    <button class="button" type="submit">Search</button>
+                    <a class="button button--primary" href="/admin/plugins/install">Install a new plugin</a></p>
+            </form>
+        </div>
+    </header>
+
+    <?php echo $messages; ?>
+
+    <main>
+        <ul class="listing">
+            <?php foreach ($plugins as $plugin): ?>
+                <li>
+                    <h3>
+                        <a href="/admin/plugins/<?php echo strtolower($plugin->getName()); ?>"><?php echo $plugin->getName(); ?></a>
+                    </h3>
+                    <span class="badge--pinned">
+                        <?php if (!$plugin->isActive()): ?>
+                            <span class="badge">disabled</span>
+                        <?php endif; ?>
+                        <span class="badge"><?php echo $plugin->getVersion(); ?></span>
+                    </span>
+                    <p class="text--quiet"><?php echo $plugin->getDescription(); ?></p>
+                </li>
+            <?php endforeach; ?>
+        </ul>
+
+        <?php echo $paging->links(); ?>
+    </main>
 </div>
+<script src="/js/plugins.js"></script>

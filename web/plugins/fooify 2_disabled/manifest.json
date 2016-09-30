@@ -1,0 +1,11 @@
+{
+  "name":        "Fooify 2",
+  "description": "Improved version of the original Fooify extension.",
+  "version":     "0.0.1",
+  "author":      "Radiergummi",
+  "url":         "https://github.com/Radiergummi/anchor-plugin-fooify",
+  "hooks":       [
+    "pages:after_render",
+    "posts:after_render"
+  ]
+}

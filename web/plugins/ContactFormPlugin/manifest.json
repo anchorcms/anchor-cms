@@ -1,0 +1,8 @@
+{
+	"name": "Contact Forms",
+	"description": "Just a basic contact form",
+	"author": "rwarasaurus",
+	"version": "0.1.0",
+	"classname": "Anchorcms\\Plugins\\ContactFormPlugin",
+	"settingsClassname": "\\Anchorcms\\Plugins\\ContactFormPlugin\\Settings"
+}

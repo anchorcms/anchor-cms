@@ -63,7 +63,13 @@ return [
     '/admin/themes/activate' => 'controllers\\admin\\themes@activate',
 
     '/admin/plugins' => 'controllers\\admin\\plugins@index',
-    '/admin/plugins/:folder/activate' => 'controllers\\admin\\plugins@activate',
+    '/admin/plugins/install' => 'controllers\\admin\\plugins@install',
+    '/admin/plugins/install/upload' => 'controllers\\admin\\plugins@upload',
+    '/admin/plugins/install/:name' => 'controllers\\admin\\plugins@download',
+    '/admin/plugins/:name' => 'controllers\\admin\\plugins@settings',
+    '/admin/plugins/:name/disable' => 'controllers\\admin\\plugins@disable',
+    '/admin/plugins/:name/enable' => 'controllers\\admin\\plugins@enable',
+    '/admin/plugins/:name/versionCheck' => 'controllers\\admin\\plugins@versionCheck',
 
     // frontend
     '/' => 'controllers\\page@home',

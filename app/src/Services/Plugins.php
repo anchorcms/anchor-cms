@@ -2,10 +2,15 @@
 
 namespace Anchorcms\Services;
 
-use Anchorcms\PluginManifest;
+use RuntimeException;
+use ZipArchive;
+use Psr\Http\Message\UploadedFileInterface;
+use GuzzleHttp\Psr7\StreamWrapper;
 
 class Plugins
 {
+    protected $path;
+
     public function __construct($path)
     {
         $this->path = $path;
@@ -15,33 +20,108 @@ class Plugins
     {
         $plugins = [];
 
-        if (! is_dir($this->path)) {
-            mkdir($this->path, 0755, true);
-        }
-
         $fi = new \FilesystemIterator($this->path, \FilesystemIterator::SKIP_DOTS);
 
         foreach ($fi as $file) {
-            $manifest = $file->getPathname() . '/manifest.json';
+            if ($file->isDir()) {
+                if (!file_exists($file . DIRECTORY_SEPARATOR . 'manifest.json')) {
+                    continue;
+                }
 
-            if (is_file($manifest)) {
-                $jsonStr = file_get_contents($manifest);
-                $attributes = json_decode($jsonStr, true);
-                $plugins[] = new PluginManifest($file->getBasename(), $attributes);
+                $plugin = new Plugins\Plugin($file->getPathname());
+
+                $plugins[$plugin->getName()] = $plugin;
             }
         }
 
-        return $plugins;
+        // sort the plugins by name
+        ksort($plugins);
+
+        return array_values($plugins);
     }
 
-    public function getPlugin($folder)
+    public function countPlugins()
     {
-        $manifest = $this->path . '/' . $folder . '/manifest.json';
+        $fi = new \FilesystemIterator($this->path, \FilesystemIterator::SKIP_DOTS);
 
-        if (is_file($manifest)) {
-            $jsonStr = file_get_contents($manifest);
-            $attributes = json_decode($jsonStr, true);
-            return new PluginManifest($folder, $attributes);
+        return iterator_count($fi);
+    }
+
+    public function getPlugin(string $name)
+    {
+        $fi = new \FilesystemIterator($this->path, \FilesystemIterator::SKIP_DOTS);
+
+        foreach ($fi as $file) {
+            if ($file->isDir()) {
+                if (!file_exists($file . DIRECTORY_SEPARATOR . 'manifest.json')) {
+                    continue;
+                }
+
+                $plugin = new Plugins\Plugin($file->getPathname());
+
+                if (strtolower($plugin->getName()) === $name) {
+                    return $plugin;
+                }
+            }
+        }
+    }
+
+    public function upload(UploadedFileInterface $file)
+    {
+        switch ($file->getError()) {
+            case UPLOAD_ERR_OK:
+                break;
+            case UPLOAD_ERR_NO_FILE:
+                throw new RuntimeException('No file sent.');
+            case UPLOAD_ERR_INI_SIZE:
+            case UPLOAD_ERR_FORM_SIZE:
+                throw new RuntimeException('Exceeded filesize limit.');
+            default:
+                throw new RuntimeException('Unknown errors.');
+        }
+
+        $accepted = [
+            'zip' => 'application/zip'
+        ];
+
+        $mimetypeParts = explode(';', $file->getClientMediaType());
+        $mimetype = $mimetypeParts[0];
+
+        $extension = array_search($mimetype, $accepted);
+
+        if (!$extension) {
+            throw new RuntimeException('Unaccepted file format.');
+        }
+
+        // get the plugin name (zip filename minus extension)
+        $pluginName = substr($file->getClientFilename(), 0, -strlen('.' . $extension));
+
+        // put the zip temporarily in the plugin path
+        file_put_contents($this->path . '/' . $file->getClientFilename(), $file->getStream());
+
+        // extract the zip file
+        $zip = new ZipArchive;
+        $res = $zip->open($this->path . '/' . $file->getClientFilename());
+
+        if ($res === true) {
+            $zip->extractTo($this->path . '/' . $pluginName);
+            $zip->close();
+        } else {
+            throw new RuntimeException('the uploaded file could not be extracted: ' . json_encode($zip->getStatusString()));
+        }
+
+        // remove the temporary file
+        unlink($this->path . '/' . $file->getClientFilename());
+
+        return $pluginName;
+    }
+
+    public function init()
+    {
+        $fi = new \FilesystemIterator($this->path, \FilesystemIterator::SKIP_DOTS);
+
+        foreach ($fi as $file) {
+            $this->load($file);
         }
     }
 

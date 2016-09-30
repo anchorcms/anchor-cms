@@ -1,0 +1,29 @@
+<div class="wrap">
+    <header class="heading">
+        <h2><?php echo $title; ?></h2>
+
+    </header>
+
+    <?php echo $messages; ?>
+
+    <main>
+        <p>
+            Here, you can upload a plugin manually instead of downloading it from the repository.<br>
+            Provide your plugin as a zip file.
+        </p>
+
+        <?php echo $form->open(); ?>
+        <?php echo $form->getElement('_token')->getHtml(); ?>
+
+        <div class="wrap">
+            <?php echo $this->render('partials/form-elements', [
+                'elements' => $form->getElementsExcluding(['submit', '_token'])
+            ]); ?>
+
+            <p><?php echo $form->getElement('submit')->withValue('Upload')->withAttributes(['class' => 'button button--primary'])->getHtml(); ?></p>
+        </div>
+
+        <?php echo $form->close(); ?>
+
+    </main>
+</div>
