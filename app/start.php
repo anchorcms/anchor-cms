@@ -47,11 +47,15 @@ $app['errors']->handler(function (Throwable $exception) {
 // Register Error handler
 $app['errors']->register();
 
-// Set a default Timezone if theres nothing set
+// initialize plugins
+$app['services.plugins']->init($app);
+
+// Set a default timezone if there's nothing set
 if (!ini_get('date.timezone')) {
     date_default_timezone_set('UTC');
 }
-// Set Timezone from the config or use the default
+
+// Set timezone from the config or use the default
 date_default_timezone_set($app['config']->get('app.timezone', date_default_timezone_get()));
 
 // check install
@@ -66,6 +70,7 @@ if (false === $app['services.installer']->isInstalled()) {
         return $frame->next($request);
     });
 }
+
 // middlewares to include when installed
 else {
     $app['http.server']->append(

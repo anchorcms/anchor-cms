@@ -143,6 +143,12 @@ class Plugin
         return (substr($this->path, -9) !== '_disabled');
     }
 
+    public function load()
+    {
+        $classname = 'Anchorcms\\Plugins\\' . basename($this->path) . '\\' . $this->manifest->classname;
+        return (new $classname());
+    }
+
     public function hasSettings()
     {
         return !!(isset($this->manifest->settingsClassname));

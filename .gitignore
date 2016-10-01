@@ -5,6 +5,7 @@
 *.esproj
 
 .idea
+.idea/*
 
 .htaccess
 .vagrant

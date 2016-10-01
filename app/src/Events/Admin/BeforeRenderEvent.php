@@ -62,7 +62,19 @@ class BeforeRenderEvent extends Event
     }
 
     /**
-     * returns all vars
+     * returns a variable
+     *
+     * @access public
+     * @param $var
+     * @return mixed
+     */
+    public function getVar($var)
+    {
+        return $this->vars[$var];
+    }
+
+    /**
+     * returns all variables
      *
      * @access public
      * @return array
@@ -73,7 +85,22 @@ class BeforeRenderEvent extends Event
     }
 
     /**
-     * replaces all vars
+     * sets a single variable
+     *
+     * @access public
+     *
+     * @param string $key   the variable name
+     * @param mixed  $value the variable value
+     *
+     * @return void
+     */
+    public function setVar($key, $value)
+    {
+        $this->vars[$key] = $value;
+    }
+
+    /**
+     * replaces all variables
      *
      * @access public
      * @param array $vars the new variables
@@ -85,26 +112,7 @@ class BeforeRenderEvent extends Event
     }
 
     /**
-     * adds a single var
-     *
-     * @access public
-     *
-     * @param string $key   the variable name
-     * @param mixed  $value the variable value
-     *
-     * @return void
-     */
-    public function addVar(string $key, $value)
-    {
-        if (!isset($this->vars[$key])) {
-            $this->vars[$key] = $value;
-        }
-
-        // TODO: Throw exception here, maybe?
-    }
-
-    /**
-     * adds multiple vars
+     * adds multiple variables
      *
      * @access public
      * @param array $vars the variables to add

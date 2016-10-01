@@ -2,20 +2,43 @@
 
 namespace Anchorcms\Services;
 
+use Anchorcms\Services\Plugins\Plugin;
+use Pimple\Container;
 use RuntimeException;
+use Symfony\Component\Finder\SplFileInfo;
 use ZipArchive;
 use Psr\Http\Message\UploadedFileInterface;
 use GuzzleHttp\Psr7\StreamWrapper;
 
 class Plugins
 {
+    /**
+     * the plugin base path
+     *
+     * @access protected
+     * @var
+     */
     protected $path;
 
-    public function __construct($path)
+    /**
+     * the loaded plugins.
+     *
+     * @access protected
+     * @var array
+     */
+    protected $plugins = [];
+
+    public function __construct(string $path)
     {
         $this->path = $path;
     }
 
+    /**
+     * retrieves all plugins as an array sorted by name
+     *
+     * @access public
+     * @return array
+     */
     public function getPlugins()
     {
         $plugins = [];
@@ -40,6 +63,12 @@ class Plugins
         return array_values($plugins);
     }
 
+    /**
+     * retrieves the number of installed plugins
+     *
+     * @access public
+     * @return int
+     */
     public function countPlugins()
     {
         $fi = new \FilesystemIterator($this->path, \FilesystemIterator::SKIP_DOTS);
@@ -47,6 +76,13 @@ class Plugins
         return iterator_count($fi);
     }
 
+    /**
+     * retrieves a specific plugin by name
+     *
+     * @access public
+     * @param string $name
+     * @return Plugin|bool
+     */
     public function getPlugin(string $name)
     {
         $fi = new \FilesystemIterator($this->path, \FilesystemIterator::SKIP_DOTS);
@@ -64,8 +100,17 @@ class Plugins
                 }
             }
         }
+
+        return false;
     }
 
+    /**
+     * uploads a new plugin as zip file
+     *
+     * @access public
+     * @param UploadedFileInterface $file
+     * @return string
+     */
     public function upload(UploadedFileInterface $file)
     {
         switch ($file->getError()) {
@@ -116,17 +161,50 @@ class Plugins
         return $pluginName;
     }
 
-    public function init()
+    /**
+     * loads all plugin instances
+     * @access public
+     * @param Container $app
+     * @return void
+     */
+    public function init(Container $app)
     {
         $fi = new \FilesystemIterator($this->path, \FilesystemIterator::SKIP_DOTS);
 
         foreach ($fi as $file) {
-            $this->load($file);
+            if ($file->isDir()) {
+                if (!file_exists($file . DIRECTORY_SEPARATOR . 'manifest.json')) {
+                    continue;
+                }
+
+                $pluginInstance =  $this->load($file);
+
+                if ($pluginInstance) {
+                    $pluginInstance->getSubscribedEvents($app['events']);
+
+                    array_push($this->plugins, $pluginInstance);
+                }
+            }
         }
     }
 
-    public function load($file)
+    /**
+     * load a plugin
+     *
+     * @access public
+     *
+     * @param \SplFileInfo $file
+     *
+     * @return Plugin|bool
+     */
+    public function load(\SplFileInfo $file)
     {
-        // todo
+        $plugin = new Plugins\Plugin($file->getPathname());
+
+        if ($plugin->isActive()) {
+            return $plugin->load();
+        }
+
+        return false;
     }
 }
