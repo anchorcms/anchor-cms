@@ -108,7 +108,12 @@ return [
         return GuzzleHttp\Psr7\ServerRequest::fromGlobals();
     },
     'http.routes' => function ($app) {
-        return new Routing\RouteCollection(require __DIR__.'/routes/default.php');
+        $routes =  new Routing\RouteCollection(require __DIR__.'/routes/default.php');
+
+        // let plugins append routes
+        $routingEvent = new Anchorcms\Events\RoutingEvent($routes);
+        $app['events']->dispatch('routing', $routingEvent);
+        return $routingEvent->getRoutes();
     },
     'http.router' => function ($app) {
         return new Routing\UriMatcher($app['http.routes']);

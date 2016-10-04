@@ -1,0 +1,30 @@
+<div class="wrap">
+    <header class="heading">
+        <h2><?php echo $title; ?></h2>
+
+        <div class="button-group">
+            <p><a class="button button--primary" href="/admin/forms/create">Create new form</a></p>
+
+        </div>
+    </header>
+    <main>
+        <?php if ($contactForms): ?>
+            <ul class="listing">
+                <?php foreach ($contactForms as $contactForm): ?>
+                    <li>
+                        <h3>
+                            <a href="/admin/forms/<?php echo $contactForm->getId(); ?>"><?php echo $contactForm->getName(); ?></a>
+                        </h3>
+                        <span class="badge--pinned">
+                        <?php if (!$contactForm->isActive()): ?>
+                            <span class="badge">disabled</span>
+                        <?php endif; ?>
+                    </span>
+                    </li>
+                <?php endforeach; ?>
+            </ul>
+        <?php else: ?>
+            <span>No contact forms created yet.</span>
+        <?php endif; ?>
+    </main>
+</div>

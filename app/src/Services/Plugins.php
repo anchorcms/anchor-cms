@@ -187,7 +187,7 @@ class Plugins
                      * check to see if the plugin uses the database
                      */
                     if (in_array('Anchorcms\PluginUsingDatabaseInterface', class_implements($pluginInstance))) {
-                        $pluginInstance->setupPluginMapper();
+                        $pluginInstance->setupPluginMappers($app['db'], $app['config']->get('db.table_prefix'));
                     }
 
                     array_push($this->plugins, $pluginInstance);
