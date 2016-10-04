@@ -4,5 +4,5 @@
 	"author": "rwarasaurus",
 	"version": "0.1.0",
 	"classname": "Plugin",
-	"settingsClassname": "\\Anchorcms\\Plugins\\ContactFormPlugin\\Settings"
+	"settingsClassname": "Settings"
 }

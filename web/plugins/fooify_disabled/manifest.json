@@ -4,9 +4,5 @@
   "version":     "0.0.5",
   "author":      "Radiergummi",
   "url":         "https://github.com/Radiergummi/anchor-plugin-fooify",
-  "classname": "Fooify",
-  "hooks":       [
-    "pages:after_render",
-    "posts:after_render"
-  ]
+  "classname":   "Fooify"
 }

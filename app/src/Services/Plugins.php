@@ -2,6 +2,7 @@
 
 namespace Anchorcms\Services;
 
+use Anchorcms\PluginUsingDatabaseInterface;
 use Anchorcms\Services\Plugins\Plugin;
 use Pimple\Container;
 use RuntimeException;
@@ -181,6 +182,13 @@ class Plugins
 
                 if ($pluginInstance) {
                     $pluginInstance->getSubscribedEvents($app['events']);
+
+                    /**
+                     * check to see if the plugin uses the database
+                     */
+                    if (in_array('Anchorcms\PluginUsingDatabaseInterface', class_implements($pluginInstance))) {
+                        $pluginInstance->setupPluginMapper();
+                    }
 
                     array_push($this->plugins, $pluginInstance);
                 }

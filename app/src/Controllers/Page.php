@@ -66,8 +66,10 @@ class Page extends Frontend
     /**
      * Render a page.
      *
-     * @param object PageModel
-     * @return object ResponseInterface
+     * @param ServerRequestInterface $request
+     * @param ResponseInterface $response
+     * @param PageModel $page
+     * @return ResponseInterface
      */
     protected function showPage(ServerRequestInterface $request, ResponseInterface $response, PageModel $page): ResponseInterface
     {

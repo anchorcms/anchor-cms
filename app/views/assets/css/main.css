@@ -543,6 +543,9 @@ select[readonly],
 textarea {
   resize: vertical;
 }
+select {
+  -webkit-appearance: none;
+}
 .form--inline input:not([type="radio"]):not([type="checkbox"]):not([type="range"]),
 .form--inline textarea,
 .form--inline select {

@@ -148,15 +148,9 @@ class Plugins extends AbstractController
         $vars = [];
 
         $plugin = $this->container['services.plugins']->getPlugin(urldecode($args['name']));
+        $pluginSettings = $plugin->buildSettings();
 
-        if ($plugin->hasSettings()) {
-            $pluginSettings = $plugin->buildSettings();
-
-            $vars['pluginSettings'] = $pluginSettings;
-        } else {
-            $vars['pluginSettings'] = 'not set';
-        }
-
+        $vars['pluginSettings'] = $pluginSettings;
         $vars['plugin'] = $plugin;
 
         $vars['sitename'] = $this->container['mappers.meta']->key('sitename');

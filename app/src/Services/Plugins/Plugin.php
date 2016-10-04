@@ -157,11 +157,12 @@ class Plugin
     public function buildSettings()
     {
         if (!$this->hasSettings()) {
-            return 'no class in manifest';
+            return 'this plugin has no settings available.';
         }
 
         try {
-           return (new $this->manifest->settingsClassname($this->path))->renderSettings();
+            $classname = 'Anchorcms\\Plugins\\' . basename($this->path) . '\\' . $this->manifest->settingsClassname;
+            return (new $classname($this->path))->renderSettings();
         } catch (\Throwable $throwable) {
 
             return $throwable->getMessage();

@@ -34,6 +34,6 @@ class Settings implements PluginSettingsInterface
      */
     public function renderSettings(): string
     {
-        return $this->view->render('views/settings', []);
+        return $this->view->render('Views/settings', []);
     }
 }

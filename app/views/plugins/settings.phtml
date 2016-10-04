@@ -1,6 +1,7 @@
 <div class="wrap">
     <header class="heading">
         <h2><?php echo $title; ?></h2>
+        <span><?php echo $plugin->getDescription(); ?></span>
     </header>
 
     <?php echo $messages; ?>
@@ -29,10 +30,6 @@
 
             <h3>Plugin meta</h3>
             <ul class="listing">
-                <li>
-                    <h4>Description</h4>
-                    <span><?php echo $plugin->getDescription(); ?></span>
-                </li>
                 <li>
                     <h4>Version</h4>
                     <span><?php echo $plugin->getVersion(); ?></span>
