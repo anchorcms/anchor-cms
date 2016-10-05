@@ -2,10 +2,10 @@
 
 namespace Anchorcms\Plugins\ContactFormPlugin;
 
+use Anchorcms\Events\Admin\BeforeRenderEvent;
 use Anchorcms\Plugin as AnchorPlugin;
 use Anchorcms\PluginUsingDatabaseInterface;
-use Anchorcms\Events\RoutingEvent;
-use Symfony\Component\EventDispatcher\EventDispatcher;
+^use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\Event;
 use \Doctrine\DBAL\Connection;
 
@@ -22,6 +22,7 @@ class Plugin extends AnchorPlugin implements PluginUsingDatabaseInterface
     public function getSubscribedEvents(EventDispatcher $dispatcher)
     {
         $dispatcher->addListener('routing', [$this, 'onRoutes']);
+        $dispatcher->addListener('admin:beforeLayoutRender', [$this, 'addMenuItem']);
     }
 
     public function onRoutes(RoutingEvent $routes)
@@ -31,6 +32,13 @@ class Plugin extends AnchorPlugin implements PluginUsingDatabaseInterface
             '/admin/forms/create' => 'plugins\\contactFormPlugin\\controllers\\forms@create',
             '/admin/forms/:id' => 'plugins\\contactFormPlugin\\controllers\\forms@edit',
         ]);
+    }
+
+    public function addMenuItem(BeforeRenderEvent $event)
+    {
+        $menuItems = $event->getVar('additionalMenuItems');
+        $menuItems['Contact Forms'] = '/admin/forms';
+        $event->setVar('additionalMenuItems', $menuItems);
     }
 
     public function setupPluginMappers(Connection $database, string $prefix)

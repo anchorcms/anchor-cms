@@ -36,6 +36,8 @@ abstract class AbstractController implements ControllerInterface
         $vars['scripts'] = $buildScripts->getScripts();
         $vars['styles'] = $buildStyles->getStyles();
 
+        $vars['additionalMenuItems'] = [];
+
         $beforeLayoutRender = new BeforeRenderEvent($layout, $vars);
         $this->container['events']->dispatch('admin:beforeLayoutRender', $beforeLayoutRender);
         $layout = $this->container['view']->render($beforeLayoutRender->getTemplate(), $beforeLayoutRender->getVars());

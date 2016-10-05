@@ -18,6 +18,9 @@
 			<li class="nav-sub-item"><a class="nav-sub-link" href="/admin/meta">Settings</a></li>
 			<li class="nav-sub-item"><a class="nav-sub-link" href="/admin/themes">Themes</a></li>
 			<li class="nav-sub-item"><a class="nav-sub-link" href="/admin/plugins">Plugins</a></li>
+			<?php foreach ($additionalMenuItems as $name => $link): ?>
+				<li class="nav-sub-item"><a class="nav-sub-link" href="<?php echo $link; ?>"><?php echo $name; ?></a></li>
+			<?php endforeach; ?>
 		</ul>
 	</li>
 	<li class="nav-item nav-item--right"><a class="nav-link nav-link--darken" href="/admin/auth/logout">Logout</a></li>

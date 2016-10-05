@@ -90,12 +90,7 @@ $middlewareEvent = new Anchorcms\Events\MiddlewareEvent($app);
 $app['events']->dispatch('middleware', $middlewareEvent);
 
 $middlewareEvent->addMiddlewares($app['http.server']);
-/*
-// append debug output
-if ($app['config']->get('app.debug')) {
-    $app['http.server']->prepend(new Anchorcms\Middleware\Debug($app));
-}
-*/
+
 $response = $app['http.server']->run($app['http.request'], $app['http.default']);
 
 $app['http.kernel']->outputResponse($response);

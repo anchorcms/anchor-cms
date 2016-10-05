@@ -1,33 +1,34 @@
 <!doctype html>
 <html>
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<meta name="robots" content="noindex,nofollow">
-		<title><?php echo $this->e($title); ?> &mdash; <?php echo $this->e($sitename); ?></title>
-		<link rel="icon" type="image/svg+xml" href="/assets/img/logo.svg">
-		<link rel="stylesheet" href="/assets/css/main.css">
-		<?php echo $styles; ?>
-	</head>
-	<body>
-		<nav class="nav-header">
-			<div class="wrap">
-				<?php echo $this->render('partials/menu'); ?>
-			</div>
-		</nav>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="robots" content="noindex,nofollow">
+    <title><?php echo $this->e($title); ?> &mdash; <?php echo $this->e($sitename); ?></title>
+    <link rel="icon" type="image/svg+xml" href="/assets/img/logo.svg">
+    <link rel="stylesheet" href="/assets/css/main.css">
+    <?php echo $styles; ?>
+</head>
+<body>
+<nav class="nav-header">
+    <div class="wrap">
+        <?php echo $this->render('partials/menu', [ 'additionalMenuItems' => $additionalMenuItems ]); ?>
+    </div>
+</nav>
 
-		<?php echo $body; ?>
+<?php echo $body; ?>
 
-		<footer>
-			<div class="wrap">
-				<p class="text--quiet text--small">Powered by Anchor, version 1.0 <span class="pull-right">Make blogging beautiful</span></p>
-			</div>
-		</footer>
+<footer>
+    <div class="wrap">
+        <p class="text--quiet text--small">Powered by Anchor, version 1.0 <span class="pull-right">Make blogging beautiful</span>
+        </p>
+    </div>
+</footer>
 
-		<script src="/assets/js/global.js"></script>
-		<?php echo $scripts; ?>
+<script src="/assets/js/global.js"></script>
+<?php echo $scripts; ?>
 
-		<debug></debug>
-	</body>
+<debug></debug>
+</body>
 </html>
