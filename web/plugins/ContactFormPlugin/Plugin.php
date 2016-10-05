@@ -5,7 +5,7 @@ namespace Anchorcms\Plugins\ContactFormPlugin;
 use Anchorcms\Events\Admin\BeforeRenderEvent;
 use Anchorcms\Plugin as AnchorPlugin;
 use Anchorcms\PluginUsingDatabaseInterface;
-^use Symfony\Component\EventDispatcher\EventDispatcher;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\Event;
 use \Doctrine\DBAL\Connection;
 
