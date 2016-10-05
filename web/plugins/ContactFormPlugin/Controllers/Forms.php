@@ -5,8 +5,25 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
 use Anchorcms\Controllers\AbstractController;
 
+/**
+ * Class Forms.
+ * Provides all controllers for the contact forms plugin
+ *
+ * @package Anchorcms\Plugins\ContactFormPlugin\Controllers
+ */
 class Forms extends AbstractController
 {
+    /**
+     * get a list of contact forms
+     *
+     * @access public
+     *
+     * @param Request  $request
+     * @param Response $response
+     * @param array    $args
+     *
+     * @return Response
+     */
     public function getIndex(Request $request, Response $response, array $args): Response
     {
         $vars = [];
@@ -44,7 +61,16 @@ class Forms extends AbstractController
         return $response;
     }
 
-
+    /**
+     * get the contact form creation page
+     * @access public
+     *
+     * @param Request  $request
+     * @param Response $response
+     * @param array    $args
+     *
+     * @return Response
+     */
     public function getCreate(Request $request, Response $response, array $args): Response
     {
         $vars = [];
@@ -58,7 +84,16 @@ class Forms extends AbstractController
         return $response;
     }
 
-
+    /**
+     * get the contact form edit page
+     * @access public
+     *
+     * @param Request  $request
+     * @param Response $response
+     * @param array    $args
+     *
+     * @return Response
+     */
     public function getEdit(Request $request, Response $response, array $args): Response
     {
         $vars = [];

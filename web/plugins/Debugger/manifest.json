@@ -1,0 +1,7 @@
+{
+  "name":        "Debugger",
+  "description": "The standard AnchorCMS debugger",
+  "author":      "rwarasaurus",
+  "version":     "0.0.1",
+  "classname":   "Plugin"
+}

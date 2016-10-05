@@ -86,11 +86,16 @@ $app['http.server']->append(new Anchorcms\Middleware\RedirectTrailingSlash);
 $app['http.server']->append(new Anchorcms\Middleware\Session($app['session']));
 $app['http.server']->append(new Anchorcms\Middleware\Kernel($app));
 
+$middlewareEvent = new Anchorcms\Events\MiddlewareEvent($app);
+$app['events']->dispatch('middleware', $middlewareEvent);
+
+$middlewareEvent->addMiddlewares($app['http.server']);
+/*
 // append debug output
 if ($app['config']->get('app.debug')) {
     $app['http.server']->prepend(new Anchorcms\Middleware\Debug($app));
 }
-
+*/
 $response = $app['http.server']->run($app['http.request'], $app['http.default']);
 
 $app['http.kernel']->outputResponse($response);
