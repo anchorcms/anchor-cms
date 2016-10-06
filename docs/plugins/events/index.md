@@ -19,6 +19,15 @@ The event passes a `MiddlewareEvent` object that has three methods available for
 ## Admin events
 
 ### `admin:beforeBodyRender`
-### `admin:beforeLayout`
+The beforeBodyRender event lets plugins modify the template and variables used before the page body is rendered.
+
+### `admin:beforeLayoutRender`
+The beforeLayoutRender event lets plugins modify the template and variables used before the page layout is rendered.
+
+
 ### `admin:buildScripts`
+The buildScripts event lets plugins append scripts to the admin interface.
+
 ### `admin:buildStyles`
+The buildStyles event lets plugins append stylesheets to the admin interface.
+
