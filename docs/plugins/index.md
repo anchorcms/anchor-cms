@@ -20,4 +20,4 @@ When a plugin is installed, it is being disabled by default (in case it requires
 
 ## Creating a plugin
 Plugins in anchor have access to the `events` object, which is actually a Symfony Event dispatcher. It holds several events that plugins can listen to and provide callbacks for.  
-You'll find documentation on events [here](events/index.md).
+You'll find documentation on events [here](events/index.md).    
