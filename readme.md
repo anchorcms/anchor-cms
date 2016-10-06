@@ -21,3 +21,10 @@ Anchor is a super-simple, lightweight blog system, made to let you just write. [
 
     php composer.phar update --dev
     php vendor/bin/phpspec run
+
+### Development notes
+
+**Todo list**
+- Should anchor's core plugins be unremovable, or maybe just marked as core?
+- Should there be a special plugin middleware to parse the body? Think translators etc.
+- Should we use shortcodes like WP does to introduce custom plugin elements (like contact forms, videos etc.)

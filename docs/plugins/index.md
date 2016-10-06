@@ -19,4 +19,5 @@ To check whether there is a newer version of this plugin available, click on *ch
 When a plugin is installed, it is being disabled by default (in case it requires configuration before use). After you enable it, the plugin will start to work immediately. If it provides additional menu entries, you will find them within the *extend* dropdown menu.
 
 ## Creating a plugin
-Plugins in anchor have access to the `events` object, which is a Symfony Event dispatcher. It holds several events that plugins can listen to and provide callbacks for.  
+Plugins in anchor have access to the `events` object, which is actually a Symfony Event dispatcher. It holds several events that plugins can listen to and provide callbacks for.  
+You'll find documentation on events [here](events/index.md).
