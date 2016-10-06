@@ -6,7 +6,7 @@ use Anchorcms\Events\Admin\BeforeRenderEvent;
 use Anchorcms\Plugin as AnchorPlugin;
 use Anchorcms\PluginUsingDatabaseInterface;
 use Symfony\Component\EventDispatcher\EventDispatcher;
-use Symfony\Component\EventDispatcher\Event;
+use Anchorcms\Events\RoutingEvent;
 use \Doctrine\DBAL\Connection;
 
 class Plugin extends AnchorPlugin implements PluginUsingDatabaseInterface
