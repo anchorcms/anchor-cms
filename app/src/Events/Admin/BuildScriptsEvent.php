@@ -5,12 +5,58 @@ use Symfony\Component\EventDispatcher\Event;
 
 class BuildScriptsEvent extends Event
 {
+    /**
+     * an array of scripts to use.
+     *
+     * @access protected
+     * @var array
+     */
+    protected $scripts = [];
+
     public function __construct()
     {
     }
 
-    public function getScripts()
+    /**
+     * build the scripts list
+     *
+     * @access public
+     * @return string
+     */
+    public function getScripts(): string
     {
-        return '<script src="foo"></script>';
+        $scripts = '';
+
+        foreach ($this->scripts as $script) {
+            $scripts .= '<script src="' . $script . '">' . '</script>' . PHP_EOL;
+        }
+
+        return $scripts;
+    }
+
+    /**
+     * adds a new script
+     *
+     * @access public
+     * @param string $path
+     * @return void
+     */
+    public function addScript(string $path): void
+    {
+        array_push($this->scripts, $path);
+    }
+
+    /**
+     * adds multiple new scripts
+     *
+     * @access public
+     * @param array $paths
+     * @return void
+     */
+    public function addScripts(array $paths): void
+    {
+        foreach ($paths as $path) {
+            $this->addScript($path);
+        }
     }
 }
