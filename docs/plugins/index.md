@@ -42,4 +42,13 @@ public function getSubscribedEvents(EventDispatcher $dispatcher)
 ````
 
 ### Database access
-In case your plugin requires database access, it needs to implement method `getDatabaseConnection`. It receives a `Doctrine\DBAL` Connection and the table prefix to work with, so you can work with the database as you wish to, though we recommend to create mappers and models as seen with Anchor's core.
+In case your plugin requires database access, it needs to implement the method `getDatabaseConnection`. It receives a `Doctrine\DBAL` Connection and the table prefix to work with, so you can work with the database as you wish to, though we recommend to create mappers and models as seen with Anchor's core.  
+An example implementation may look like this:
+
+````php
+public function getDatabaseConnection(Connection $db, string $prefix)
+{
+    $this->mappers['foo'] = new Mappers/Foo($db, $prefix);
+    $this->mappers['bar'] = new Mappers/Bar($db, $prefix);
+}
+````
