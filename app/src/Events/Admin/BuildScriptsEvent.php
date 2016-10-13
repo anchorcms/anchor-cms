@@ -41,7 +41,7 @@ class BuildScriptsEvent extends Event
      * @param string $path
      * @return void
      */
-    public function addScript(string $path): void
+    public function addScript(string $path)
     {
         array_push($this->scripts, $path);
     }
@@ -53,7 +53,7 @@ class BuildScriptsEvent extends Event
      * @param array $paths
      * @return void
      */
-    public function addScripts(array $paths): void
+    public function addScripts(array $paths)
     {
         foreach ($paths as $path) {
             $this->addScript($path);

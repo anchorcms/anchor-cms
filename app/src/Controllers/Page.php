@@ -2,6 +2,7 @@
 
 namespace Anchorcms\Controllers;
 
+use Anchorcms\Events\FilterEvent;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Anchorcms\Models\Page as PageModel;
@@ -76,8 +77,15 @@ class Page extends Frontend
         // name of template files to check for
         $names = [];
 
+        $filters = new FilterEvent($request);
+        $this->container['events']->dispatch('filters', $filters);
+
+        // apply page filters
+        $pageHtml = $filters->applyFilters($page);
+
         // set globals
-        $vars['page'] = $page;
+        $vars['content'] = $pageHtml;
+
         $vars['meta'] = $this->container['mappers.meta']->all();
         $vars['menu'] = $this->container['services.menu']->get();
         $vars['categories'] = $this->container['services.categories']->allWithPostCounts();

@@ -4,12 +4,12 @@ namespace Anchorcms\Plugins\ContactFormPlugin;
 
 use Anchorcms\Events\Admin\BeforeRenderEvent;
 use Anchorcms\Plugin as AnchorPlugin;
-use Anchorcms\PluginUsingDatabaseInterface;
+use Anchorcms\PluginDatabaseInterface;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Anchorcms\Events\RoutingEvent;
 use \Doctrine\DBAL\Connection;
 
-class Plugin extends AnchorPlugin implements PluginUsingDatabaseInterface
+class Plugin extends AnchorPlugin implements PluginDatabaseInterface
 {
     /**
      * the plugins database mappers
@@ -41,7 +41,7 @@ class Plugin extends AnchorPlugin implements PluginUsingDatabaseInterface
         $event->setVar('additionalMenuItems', $menuItems);
     }
 
-    public function setupPluginMappers(Connection $database, string $prefix)
+    public function getDatabaseConnection(Connection $database, string $prefix)
     {
         $this->mappers['settings'] = new Mappers\Mapper($database, new Models\Settings);
         $this->mappers['settings']->setTablePrefix($prefix);

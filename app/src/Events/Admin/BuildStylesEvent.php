@@ -41,7 +41,7 @@ class BuildStylesEvent extends Event
      * @param string $path
      * @return void
      */
-    public function addStyle(string $path): void
+    public function addStyle(string $path)
     {
         array_push($this->styles, $path);
     }
@@ -53,7 +53,7 @@ class BuildStylesEvent extends Event
      * @param array $paths
      * @return void
      */
-    public function addStyles(array $paths): void
+    public function addStyles(array $paths)
     {
         foreach ($paths as $path) {
             $this->addStyle($path);
