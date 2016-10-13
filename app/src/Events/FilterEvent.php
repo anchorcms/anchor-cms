@@ -63,36 +63,40 @@ class FilterEvent extends Event
         $request = $this->request;
 
         $this->filters[$this->createFilterRegex($filterName)] = function(&$matches) use ($request, $filter) {
-            $variablePairs = explode(' ', $matches[1]);
-            $variables = [];
+            $attributePairs = explode(' ', $matches[1]);
+            $attributes = [];
 
-            foreach ($variablePairs as $variablePair) {
+            foreach ($attributePairs as $attributePair) {
 
                 // explode the key-value pair
-                $pair = explode(':', $variablePair);
+                $pair = explode(':', $attributePair);
 
+                // if there are no attributes
                 if (!$pair) {
                     continue;
                 }
 
+                // if this attribute has no value assigned
                 if (count($pair) < 2) {
-                    $variables[$pair[0]] = true;
+                    $attributes[$pair[0]] = true;
                     continue;
                 }
 
                 // set key and value, remove quotes if present
-                $variables[$pair[ 0 ]] = trim($pair[1], '"');
+                $attributes[$pair[ 0 ]] = trim($pair[1], '"');
             }
 
-            // call the filter with all given variables
+            // call the filter with all given attributes
             return call_user_func_array($filter, [
                 'request' => $request,
-                'variables' => $variables
+                'attributes' => $attributes
             ]);
         };
     }
 
     /**
+     * replaces all filter occurrences in a page with the filter callback result
+     *
      * @access public
      * @param PageModel $page
      * @return string
@@ -104,7 +108,7 @@ class FilterEvent extends Event
     }
 
     /**
-     * returns all filters
+     * assembles the filter regex
      *
      * @access protected
      * @param string $filterName
