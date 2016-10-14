@@ -3,7 +3,6 @@ namespace Anchorcms\Events;
 
 use Psr\Http\Message\ServerRequestInterface;
 use Symfony\Component\EventDispatcher\Event;
-use \Anchorcms\Models\Page as PageModel;
 
 class FilterEvent extends Event
 {
@@ -98,13 +97,13 @@ class FilterEvent extends Event
      * replaces all filter occurrences in a page with the filter callback result
      *
      * @access public
-     * @param PageModel $page
+     * @param string $article
      * @return string
      */
-    public function applyFilters(PageModel $page): string
+    public function applyFilters(string $article): string
     {
         // replace each filter occurrence
-        return preg_replace_callback_array($this->filters, $page->html) ?? $page->html;
+        return preg_replace_callback_array($this->filters, $article) ?? $article;
     }
 
     /**

@@ -15,6 +15,17 @@ The event passes a `MiddlewareEvent` object that has three methods available for
  - `append($middleware)`: append a middleware to the stack
  - `getContainer()`: get the app object
 
+### `filters`
+The filters event lets plugins add filters (or short codes).
+
+The event passes a `FilterEvent` object that has one method available for plugins:
+
+`addFilter($filterName, $callback)`: add a filter to the stack
+
+#### Filter usage
+To create a new filter, you need to provide two things:  
+**the filter name**, which is the string users insert into their post without the surrounding braces. To let users enter `{{contactForm}}`, for example, filter name has to be `contactForm`.
+**the filter callback**, which is the callback triggered when there is an instance of your filter name found within the post content. The callback receives two arguments: The `request` object and eventual `attributes` passed. To add an attribute to your filter, users may attach these to the filter name like this: `{{contactForm foo:"bar" id:10}}`. `foo` and `id` will be available as `$attributes[ 'foo' => 'bar', id: '10' ]`.
 
 ## Admin events
 

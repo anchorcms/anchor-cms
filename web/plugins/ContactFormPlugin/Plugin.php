@@ -23,6 +23,7 @@ class Plugin extends AnchorPlugin implements PluginDatabaseInterface
     {
         $dispatcher->addListener('routing', [$this, 'onRoutes']);
         $dispatcher->addListener('admin:beforeLayoutRender', [$this, 'addMenuItem']);
+        $dispatcher->addListener('filters', [$this, 'insertContactForm']);
     }
 
     public function onRoutes(RoutingEvent $routes)
@@ -45,5 +46,22 @@ class Plugin extends AnchorPlugin implements PluginDatabaseInterface
     {
         $this->mappers['settings'] = new Mappers\Mapper($database, new Models\Settings);
         $this->mappers['settings']->setTablePrefix($prefix);
+    }
+
+
+    public function insertContactForm(FilterEvent $filters)
+    {
+        $filters->addFilter('contactForm', [$this, 'createContactForm']);
+    }
+
+    public function createContactForm($request, $variables)
+    {
+        if (!key_exists('id', $variables)) return '';
+
+        $contactForm = '<form id="contact-form-' . $variables['id'] . '">';
+        $contactForm .= '<h3>Contact Form ' . $variables['id'] . '</h3>';
+        $contactForm .= '</form>';
+
+        return $contactForm;
     }
 }

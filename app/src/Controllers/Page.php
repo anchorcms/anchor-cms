@@ -80,11 +80,8 @@ class Page extends Frontend
         $filters = new FilterEvent($request);
         $this->container['events']->dispatch('filters', $filters);
 
-        // apply page filters
-        $pageHtml = $filters->applyFilters($page);
-
         // set globals
-        $vars['content'] = $pageHtml;
+        $vars['content'] = $filters->applyFilters($page->html);
 
         $vars['meta'] = $this->container['mappers.meta']->all();
         $vars['menu'] = $this->container['services.menu']->get();

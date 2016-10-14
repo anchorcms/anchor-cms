@@ -2,6 +2,7 @@
 
 namespace Anchorcms\Controllers;
 
+use Anchorcms\Events\FilterEvent;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Anchorcms\Models\Page as PageModel;
@@ -11,9 +12,12 @@ class Posts extends Frontend
     /**
      * view a single post.
      *
-     * @param [type] $request [description]
+     * @access public
+     * @param ServerRequestInterface $request
+     * @param ResponseInterface      $response
+     * @param array                  $args
      *
-     * @return [type] [description]
+     * @return ResponseInterface
      */
     public function getIndex(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
@@ -46,7 +50,10 @@ class Posts extends Frontend
         ]);
 
         $vars['page'] = $page;
-        $vars['post'] = $article;
+
+        $filters = new FilterEvent($request);
+        $this->container['events']->dispatch('filters', $filters);
+        $vars['post'] = $filters->applyFilters($article);
 
         // set globals
         $vars['meta'] = $this->container['mappers.meta']->all();

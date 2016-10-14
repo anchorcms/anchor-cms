@@ -13,7 +13,7 @@ class Meta extends AbstractMapper
     public function all(): array
     {
         foreach ($this->db->fetchAll($this->query()) as $row) {
-            $this->map[$row['key']] = $row['value'];
+            $this->map[$row['`key`']] = $row['value'];
         }
 
         return $this->map;
@@ -27,7 +27,7 @@ class Meta extends AbstractMapper
         }
 
         $query = $this->query()->select('value')
-            ->where('key = :key')
+            ->where('`key` = :key')
             ->setParameter('key', $key);
 
         $value = $this->db->fetchColumn($query->getSQL(), $query->getParameters());
