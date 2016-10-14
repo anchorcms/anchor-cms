@@ -3,6 +3,7 @@
 namespace Anchorcms\Plugins\ContactFormPlugin;
 
 use Anchorcms\Events\Admin\BeforeRenderEvent;
+use Anchorcms\Events\FilterEvent;
 use Anchorcms\Plugin as AnchorPlugin;
 use Anchorcms\PluginDatabaseInterface;
 use Symfony\Component\EventDispatcher\EventDispatcher;
@@ -48,14 +49,31 @@ class Plugin extends AnchorPlugin implements PluginDatabaseInterface
         $this->mappers['settings']->setTablePrefix($prefix);
     }
 
-
+    /**
+     * add the contact form filter
+     *
+     * @access public
+     * @param FilterEvent $filters
+     *
+     * @return void
+     */
     public function insertContactForm(FilterEvent $filters)
     {
         $filters->addFilter('contactForm', [$this, 'createContactForm']);
     }
 
+    /**
+     * creates the HTML for a contact form
+     *
+     * @access public
+     * @param $request
+     * @param $variables
+     *
+     * @return string
+     */
     public function createContactForm($request, $variables)
     {
+        // if we have no ID, we cannot insert a contact form
         if (!key_exists('id', $variables)) return '';
 
         $contactForm = '<form id="contact-form-' . $variables['id'] . '">';

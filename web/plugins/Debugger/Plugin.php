@@ -1,7 +1,6 @@
 <?php
 namespace Anchorcms\Plugins\Debugger;
 
-use Anchorcms\Events\FilterEvent;
 use Anchorcms\Events\MiddlewareEvent;
 use Anchorcms\Plugin as AnchorPlugin;
 use Symfony\Component\EventDispatcher\EventDispatcher;
