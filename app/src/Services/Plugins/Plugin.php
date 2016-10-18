@@ -107,6 +107,10 @@ class Plugin
      */
     public function setActive()
     {
+        if ($this->isActive()) {
+            return;
+        }
+
         $newPath = str_replace('_disabled', '', $this->path);
         rename($this->path, $newPath);
         $this->path = $newPath;
@@ -121,6 +125,10 @@ class Plugin
      */
     public function setInactive()
     {
+        if (!$this->isActive()) {
+            return;
+        }
+
         $newPath = $this->path . '_disabled';
         rename($this->path, $newPath);
         $this->path = $newPath;
@@ -143,11 +151,20 @@ class Plugin
      *
      * @access public
      * @return \Anchorcms\Plugin
+     * @throws \Error
      */
     public function load()
     {
         $classname = 'Anchorcms\\Plugins\\' . basename($this->path) . '\\' . $this->manifest->classname;
-        return (new $classname());
+
+        try {
+            $instance = new $classname();
+        } catch (\Error $error) {
+            $this->setInactive();
+            throw new \Error('Plugin could not be instantiated. It has been disabled.');
+        }
+
+        return $instance;
     }
 
     /**

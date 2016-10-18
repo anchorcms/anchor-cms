@@ -2,14 +2,12 @@
 
 namespace Anchorcms\Services;
 
-use Anchorcms\PluginUsingDatabaseInterface;
+use Anchorcms\PluginDatabaseInterface;
 use Anchorcms\Services\Plugins\Plugin;
 use Pimple\Container;
 use RuntimeException;
-use Symfony\Component\Finder\SplFileInfo;
 use ZipArchive;
 use Psr\Http\Message\UploadedFileInterface;
-use GuzzleHttp\Psr7\StreamWrapper;
 
 class Plugins
 {
@@ -140,7 +138,7 @@ class Plugins
         }
 
         // get the plugin name (zip filename minus extension)
-        $pluginName = substr($file->getClientFilename(), 0, -strlen('.' . $extension));
+        // $pluginName = substr($file->getClientFilename(), 0, -strlen('.' . $extension));
 
         // put the zip temporarily in the plugin path
         file_put_contents($this->path . '/' . $file->getClientFilename(), $file->getStream());
@@ -150,6 +148,19 @@ class Plugins
         $res = $zip->open($this->path . '/' . $file->getClientFilename());
 
         if ($res === true) {
+
+            /**
+             * use the plugin name as the file name
+             * TODO: Sort out whether this makes sense. If the name contains spaces, the namespace resolution won't work so we'd need to restrict plugin names. Or add another "Display Name" property to the manifest?y
+             */
+            try {
+                $pluginManifest = json_decode(file_get_contents('zip://' . $this->path . '/' . $file->getClientFilename() . '#manifest.json'));
+
+                $pluginName = $pluginManifest->name;
+            } catch (\Exception $exception) {
+                throw new RuntimeException('the uploaded plugin has no valid manifest file');
+            }
+
             $zip->extractTo($this->path . '/' . $pluginName);
             $zip->close();
         } else {
@@ -164,6 +175,7 @@ class Plugins
 
     /**
      * loads all plugin instances
+     *
      * @access public
      * @param Container $app
      * @return void
@@ -178,19 +190,23 @@ class Plugins
                     continue;
                 }
 
-                $pluginInstance =  $this->load($file);
+                try {
+                    $pluginInstance = $this->load($file);
 
-                if ($pluginInstance) {
-                    $pluginInstance->getSubscribedEvents($app['events']);
+                    if ($pluginInstance) {
+                        $pluginInstance->getSubscribedEvents($app['events']);
 
-                    /**
-                     * check to see if the plugin uses the database
-                     */
-                    if (in_array('Anchorcms\PluginDatabaseInterface', class_implements($pluginInstance))) {
-                        $pluginInstance->getDatabaseConnection($app['db'], $app['config']->get('db.table_prefix'));
+                        /**
+                         * check to see if the plugin uses the database
+                         */
+                        if (in_array('Anchorcms\PluginDatabaseInterface', class_implements($pluginInstance))) {
+                            $pluginInstance->getDatabaseConnection($app['db'], $app['config']->get('db.table_prefix'));
+                        }
+
+                        array_push($this->plugins, $pluginInstance);
                     }
-
-                    array_push($this->plugins, $pluginInstance);
+                } catch (\Error $error) {
+                    $app['messages']->error([$error->getMessage()]);
                 }
             }
         }
@@ -200,10 +216,9 @@ class Plugins
      * load a plugin
      *
      * @access public
-     *
      * @param \SplFileInfo $file
-     *
-     * @return Plugin|bool
+     * @return \Anchorcms\Plugin|bool
+     * @throws \Error
      */
     public function load(\SplFileInfo $file)
     {

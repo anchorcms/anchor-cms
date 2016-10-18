@@ -42,10 +42,10 @@ class Theme
     protected $ext = '.mustache';
 
     /**
-     * The theme constructorrr.
+     * The theme constructor.
      *
-     * @param object Mustache_Engine
-     * @param string Theme path
+     * @param \Mustache_Engine $mustache
+     * @param string $path
      */
     public function __construct(\Mustache_Engine $mustache, string $path)
     {

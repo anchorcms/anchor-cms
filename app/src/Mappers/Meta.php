@@ -13,7 +13,7 @@ class Meta extends AbstractMapper
     public function all(): array
     {
         foreach ($this->db->fetchAll($this->query()) as $row) {
-            $this->map[$row['`key`']] = $row['value'];
+            $this->map[$row['key']] = $row['value'];
         }
 
         return $this->map;
