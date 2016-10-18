@@ -9,6 +9,17 @@ namespace Anchorcms\Services\Plugins;
 class Plugin
 {
     /**
+     * a set of protected core plugins
+     *
+     * @static
+     * @access protected
+     * @var array
+     */
+    protected static $corePlugins = [
+        'Debugger'
+    ];
+
+    /**
      * Folder where the plugin lives.
      *
      * @access protected
@@ -72,7 +83,7 @@ class Plugin
      * @access public
      * @return string
      */
-    public function getManifestFilepath()
+    public function getManifestFilepath(): string
     {
         return $this->path . '/manifest.json';
     }
@@ -83,7 +94,7 @@ class Plugin
      * @access public
      * @return bool
      */
-    public function hasManifest()
+    public function hasManifest(): bool
     {
         return is_file($this->getManifestFilepath());
     }
@@ -94,7 +105,7 @@ class Plugin
      * @access public
      * @return object
      */
-    public function getManifest()
+    public function getManifest(): object
     {
         return $this->manifest;
     }
@@ -105,7 +116,7 @@ class Plugin
      * @access public
      * @return void
      */
-    public function setActive()
+    public function enable()
     {
         if ($this->isActive()) {
             return;
@@ -123,7 +134,7 @@ class Plugin
      * @access public
      * @return void
      */
-    public function setInactive()
+    public function disable()
     {
         if (!$this->isActive()) {
             return;
@@ -141,7 +152,7 @@ class Plugin
      * @access public
      * @return bool
      */
-    public function isActive()
+    public function isActive(): bool
     {
         return (substr($this->path, -9) !== '_disabled');
     }
@@ -153,14 +164,14 @@ class Plugin
      * @return \Anchorcms\Plugin
      * @throws \Error
      */
-    public function load()
+    public function load(): Plugin
     {
         $classname = 'Anchorcms\\Plugins\\' . basename($this->path) . '\\' . $this->manifest->classname;
 
         try {
             $instance = new $classname();
         } catch (\Error $error) {
-            $this->setInactive();
+            $this->disable();
             throw new \Error('Plugin could not be instantiated. It has been disabled.');
         }
 
@@ -173,7 +184,7 @@ class Plugin
      * @access public
      * @return bool
      */
-    public function hasSettings()
+    public function hasSettings(): bool
     {
         return !!(isset($this->manifest->settingsClassname));
     }
@@ -184,7 +195,7 @@ class Plugin
      * @access public
      * @return string
      */
-    public function buildSettings()
+    public function buildSettings(): string
     {
         if (!$this->hasSettings()) {
             return 'this plugin has no settings available.';
@@ -205,7 +216,7 @@ class Plugin
      * @access public
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->manifest->name ?? 'No name';
     }
@@ -216,7 +227,7 @@ class Plugin
      * @access public
      * @return string
      */
-    public function getDescription()
+    public function getDescription(): string
     {
         return $this->manifest->description ?? 'No description';
     }
@@ -227,7 +238,7 @@ class Plugin
      * @access public
      * @return string
      */
-    public function getVersion()
+    public function getVersion(): string
     {
         return $this->manifest->version ?? 'No version';
     }
@@ -238,7 +249,7 @@ class Plugin
      * @access public
      * @return string
      */
-    public function getUrl()
+    public function getUrl(): string
     {
         return $this->manifest->url ?? '#no-url';
     }
@@ -249,8 +260,19 @@ class Plugin
      * @access public
      * @return string
      */
-    public function getAuthor()
+    public function getAuthor(): string
     {
         return $this->manifest->author ?? 'No author';
+    }
+
+    /**
+     * checks if the plugin is a core plugin
+     *
+     * @access public
+     * @return bool
+     */
+    public function isCorePlugin(): bool
+    {
+        return (in_array($this->getName(), static::$corePlugins));
     }
 }

@@ -208,7 +208,7 @@ class Plugins extends AbstractController
     {
         $plugin = $this->container['services.plugins']->getPlugin(urldecode($args['name']));
 
-        $plugin->setInactive();
+        $plugin->disable();
 
         $this->container['messages']->success(['Plugin disabled']);
         return $this->redirect($response, $this->container['url']
@@ -231,7 +231,7 @@ class Plugins extends AbstractController
     {
         $plugin = $this->container['services.plugins']->getPlugin(urldecode($args['name']));
 
-        $plugin->setActive();
+        $plugin->enable();
 
         $this->container['messages']->success(['Plugin enabled']);
         return $this->redirect($response, $this->container['url']

@@ -2,7 +2,6 @@
 
 namespace Anchorcms\Services;
 
-use Anchorcms\PluginDatabaseInterface;
 use Anchorcms\Services\Plugins\Plugin;
 use Pimple\Container;
 use RuntimeException;
@@ -137,9 +136,6 @@ class Plugins
             throw new RuntimeException('Unaccepted file format.');
         }
 
-        // get the plugin name (zip filename minus extension)
-        // $pluginName = substr($file->getClientFilename(), 0, -strlen('.' . $extension));
-
         // put the zip temporarily in the plugin path
         file_put_contents($this->path . '/' . $file->getClientFilename(), $file->getStream());
 
@@ -151,7 +147,7 @@ class Plugins
 
             /**
              * use the plugin name as the file name
-             * TODO: Sort out whether this makes sense. If the name contains spaces, the namespace resolution won't work so we'd need to restrict plugin names. Or add another "Display Name" property to the manifest?y
+             * TODO: Sort out whether this makes sense. If the name contains spaces, the namespace resolution won't work so we'd need to restrict plugin names. Or add another "Display Name" property to the manifest?
              */
             try {
                 $pluginManifest = json_decode(file_get_contents('zip://' . $this->path . '/' . $file->getClientFilename() . '#manifest.json'));
