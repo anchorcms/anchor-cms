@@ -37,7 +37,7 @@ class Plugins
      * @access public
      * @return array
      */
-    public function getPlugins()
+    public function getPlugins(): array
     {
         $plugins = [];
 
@@ -67,7 +67,7 @@ class Plugins
      * @access public
      * @return int
      */
-    public function countPlugins()
+    public function countPlugins(): int
     {
         $fi = new \FilesystemIterator($this->path, \FilesystemIterator::SKIP_DOTS);
 
@@ -102,6 +102,34 @@ class Plugins
         return false;
     }
 
+    public function find(string $pluginSearchQuery)
+    {
+        $plugins = [];
+
+        $fi = new \FilesystemIterator($this->path, \FilesystemIterator::SKIP_DOTS);
+
+        foreach ($fi as $file) {
+            if ($file->isDir()) {
+                if (!file_exists($file . DIRECTORY_SEPARATOR . 'manifest.json')) {
+                    continue;
+                }
+
+                $plugin = new Plugins\Plugin($file->getPathname());
+
+                // try partial matches with the query
+                if (preg_match('/' . preg_quote($pluginSearchQuery) . '/i', $plugin->getName())) {
+                    $plugins[$plugin->getName()] = $plugin;
+                } else {
+                }
+            }
+        }
+
+        // sort the plugins by name
+        ksort($plugins);
+
+        return array_values($plugins);
+    }
+
     /**
      * uploads a new plugin as zip file
      *
@@ -109,7 +137,7 @@ class Plugins
      * @param UploadedFileInterface $file
      * @return string
      */
-    public function upload(UploadedFileInterface $file)
+    public function upload(UploadedFileInterface $file): string
     {
         switch ($file->getError()) {
             case UPLOAD_ERR_OK:

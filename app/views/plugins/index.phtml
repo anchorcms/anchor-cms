@@ -21,6 +21,9 @@
                         <a href="/admin/plugins/<?php echo strtolower($plugin->getName()); ?>"><?php echo $plugin->getName(); ?></a>
                     </h3>
                     <span class="badge--pinned">
+                        <?php if ($plugin->isCorePlugin()): ?>
+                            <span class="badge">core</span>
+                        <?php endif; ?>
                         <?php if (!$plugin->isActive()): ?>
                             <span class="badge">disabled</span>
                         <?php endif; ?>

@@ -164,7 +164,7 @@ class Plugin
      * @return \Anchorcms\Plugin
      * @throws \Error
      */
-    public function load(): Plugin
+    public function load()
     {
         $classname = 'Anchorcms\\Plugins\\' . basename($this->path) . '\\' . $this->manifest->classname;
 
@@ -179,32 +179,34 @@ class Plugin
     }
 
     /**
-     * whether the plugin defined a settings class
+     * whether the plugin defined an options class
      *
      * @access public
      * @return bool
      */
-    public function hasSettings(): bool
+    public function hasOptions(): bool
     {
-        return !!(isset($this->manifest->settingsClassname));
+        return !!(isset($this->manifest->optionsClassname));
     }
 
     /**
-     * build the plugin settings page
+     * build the plugin options page
      *
      * @access public
      * @return string
      */
-    public function buildSettings(): string
+    public function buildOptions(): string
     {
-        if (!$this->hasSettings()) {
-            return 'this plugin has no settings available.';
+        if (!$this->hasOptions()) {
+            return 'this plugin has no options available.';
         }
 
         // try to instantiate the plugin settings class and retrieve the rendered settings
         try {
-            $classname = 'Anchorcms\\Plugins\\' . basename($this->path) . '\\' . $this->manifest->settingsClassname;
-            return (new $classname($this->path))->renderSettings();
+            $classname = 'Anchorcms\\Plugins\\' . basename($this->path) . '\\' . $this->manifest->optionsClassname;
+            $pluginOptions = new $classname();
+            $pluginOptions->addOptions();
+            return var_export($pluginOptions->getOptions());
         } catch (\Throwable $throwable) {
             return $throwable->getMessage();
         }

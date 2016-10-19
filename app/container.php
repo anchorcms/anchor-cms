@@ -80,7 +80,6 @@ return [
             $cache = new Mustache_Cache_FilesystemCache($app['paths']['storage'].'/cache/mustache');
             $engine->setCache($cache);
         }
-
         return $engine;
     },
     'view' => function ($app) {

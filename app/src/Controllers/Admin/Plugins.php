@@ -41,13 +41,19 @@ class Plugins extends AbstractController
                     'min_range' => 1,
                 ],
             ],
+            'status' => FILTER_SANITIZE_STRING,
+            'search' => FILTER_SANITIZE_STRING
         ]);
 
         $total = $this->container['services.plugins']->countPlugins();
         $perpage = $this->container['mappers.meta']->key('admin_posts_per_page', 10);
         $offset = ($input['page'] - 1) * $perpage;
 
-        $plugins = $this->container['services.plugins']->getPlugins();
+        if (! $input['search'] || $input['search'] === '*') {
+            $plugins = $this->container['services.plugins']->getPlugins();
+        } else {
+            $plugins = $this->container['services.plugins']->find($input['search']);
+        }
 
         $paging = Paginator::create($this->container['url']->to('/admin/plugins'), $input['page'], ceil($total / $perpage));
 
@@ -148,7 +154,7 @@ class Plugins extends AbstractController
         $vars = [];
 
         $plugin = $this->container['services.plugins']->getPlugin(urldecode($args['name']));
-        $pluginSettings = $plugin->buildSettings();
+        $pluginSettings = $plugin->buildOptions();
 
         $vars['pluginSettings'] = $pluginSettings;
         $vars['plugin'] = $plugin;

@@ -1,48 +1,56 @@
 <div class="wrap">
     <header class="heading">
         <h2><?php echo $title; ?></h2>
-        <span><?php echo $plugin->getDescription(); ?></span>
+        <div class="button-group">
+            <?php if ($plugin->isActive()): ?>
+                <form class="form--inline" action="/admin/plugins/<?php echo strtolower($plugin->getName()); ?>/disable"
+                      method="post">
+                    <p>
+                        <button class="button button--danger">Disable</button>
+                        <button type="button" class="button button--primary check-plugin-version"
+                                data-plugin-name="<?php echo strtolower($plugin->getName()); ?>"
+                                data-plugin-version="<?php echo $plugin->getVersion(); ?>">Check for updates
+                        </button>
+                    </p>
+                </form>
+            <?php else: ?>
+                <form class="form--inline" action="/admin/plugins/<?php echo strtolower($plugin->getName()); ?>/enable"
+                      method="post">
+                    <p>
+                        <button class="button button--primary">Enable</button>
+                    </p>
+                </form>
+            <?php endif; ?>
+        </div>
+        <p><?php echo $plugin->getDescription(); ?></p>
     </header>
 
     <?php echo $messages; ?>
 
     <main>
-        <h3>Actions</h3>
-        <?php if ($plugin->isActive()): ?>
-            <form action="/admin/plugins/<?php echo strtolower($plugin->getName()); ?>/disable" method="post"
-                  class="plugin-actions">
-                <button class="button button--danger">Disable</button>
-                <button type="button" class="button button--primary check-plugin-version"
-                        data-plugin-name="<?php echo strtolower($plugin->getName()); ?>"
-                        data-plugin-version="<?php echo $plugin->getVersion(); ?>">Check for updates
-                </button>
-            </form>
-        <?php else: ?>
-        <form action="/admin/plugins/<?php echo strtolower($plugin->getName()); ?>/enable" method="post"
-              class="plugin-actions">
-            <button class="button button--primary">Enable</button>
-            <?php endif; ?>
+        <h3>Plugin settings</h3>
+        <section class="settings">
+            <?php echo $pluginSettings; ?>
+        </section>
 
-            <h3>Plugin settings</h3>
-            <section class="settings">
-                <?php echo $pluginSettings; ?>
-            </section>
-
-            <h3>Plugin meta</h3>
-            <ul class="listing">
-                <li>
-                    <h4>Version</h4>
-                    <span><?php echo $plugin->getVersion(); ?></span>
-                </li>
-                <li>
-                    <h4>Homepage</h4>
-                    <span><a href="<?php echo $plugin->getUrl(); ?>"><?php echo $plugin->getUrl(); ?></a></span>
-                </li>
-                <li>
-                    <h4>Author</h4>
-                    <span><?php echo $plugin->getAuthor(); ?></span>
-                </li>
-            </ul>
+        <h3>Plugin meta</h3>
+        <?php if ($plugin->isCorePlugin()): ?>
+            <span>This is a core plugin. It cannot be removed.</span>
+        <?php endif; ?>
+        <ul class="listing">
+            <li>
+                <h4>Version</h4>
+                <span><?php echo $plugin->getVersion(); ?></span>
+            </li>
+            <li>
+                <h4>Homepage</h4>
+                <span><a href="<?php echo $plugin->getUrl(); ?>"><?php echo $plugin->getUrl(); ?></a></span>
+            </li>
+            <li>
+                <h4>Author</h4>
+                <span><?php echo $plugin->getAuthor(); ?></span>
+            </li>
+        </ul>
     </main>
 </div>
 <script src="/assets/js/plugins.js"></script>
