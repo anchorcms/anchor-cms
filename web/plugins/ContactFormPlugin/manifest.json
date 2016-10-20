@@ -3,6 +3,5 @@
 	"description": "Just a basic contact form",
 	"author": "rwarasaurus",
 	"version": "0.1.0",
-	"classname": "Plugin",
-	"optionsClassname": "Options"
+	"classname": "Plugin"
 }

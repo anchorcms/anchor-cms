@@ -1,5 +1,6 @@
 <?php
 namespace Anchorcms\Services\Plugins;
+use Forms\Form;
 
 /**
  * Plugin service
@@ -190,12 +191,14 @@ class Plugin
     }
 
     /**
-     * build the plugin options page
+     * build the plugin options form
      *
      * @access public
-     * @return string
+     * @param array $attributes
+     * @return Form|string
+     * @@throws \Throwable
      */
-    public function buildOptions(): string
+    public function getOptionsForm(array $attributes = []): Form
     {
         if (!$this->hasOptions()) {
             return 'this plugin has no options available.';
@@ -204,9 +207,9 @@ class Plugin
         // try to instantiate the plugin settings class and retrieve the rendered settings
         try {
             $classname = 'Anchorcms\\Plugins\\' . basename($this->path) . '\\' . $this->manifest->optionsClassname;
-            $pluginOptions = new $classname();
-            $pluginOptions->addOptions();
-            return var_export($pluginOptions->getOptions());
+            $pluginOptions = new $classname($attributes);
+            $pluginOptions->init();
+            return $pluginOptions;
         } catch (\Throwable $throwable) {
             return $throwable->getMessage();
         }

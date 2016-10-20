@@ -30,7 +30,7 @@
     <main>
         <h3>Plugin settings</h3>
         <section class="settings">
-            <?php echo $pluginSettings; ?>
+            <?php echo $this->render('partials/form', ['form' => $options]); ?>
         </section>
 
         <h3>Plugin meta</h3>

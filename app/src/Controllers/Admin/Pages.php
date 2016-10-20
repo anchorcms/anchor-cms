@@ -12,6 +12,7 @@ use Anchorcms\Forms\ValidateToken;
 use Validation\ValidatorFactory;
 use Validation\Validator;
 use Forms\Form;
+use Validation\ValidatorInterface;
 
 class Pages extends AbstractController
 {
@@ -236,7 +237,7 @@ class Pages extends AbstractController
         return $this->redirect($response, $this->container['url']->to('/admin/pages'));
     }
 
-    protected function getValidator(array $input, Form $form): Validator
+    protected function getValidator(array $input, Form $form): ValidatorInterface
     {
         $validator = ValidatorFactory::create($input, $form->getRules());
         $validator->addRule(new ValidateToken($this->container['csrf']->token()), '_token');

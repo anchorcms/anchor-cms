@@ -154,10 +154,17 @@ class Plugins extends AbstractController
         $vars = [];
 
         $plugin = $this->container['services.plugins']->getPlugin(urldecode($args['name']));
-        $pluginSettings = $plugin->buildOptions();
+        $form = $plugin->getOptionsForm([
+            'method' => 'post',
+            'action' => $this->container['url']->to(sprintf('/admin/plugins/%s/save', $plugin->getName()))
+        ]);
 
-        $vars['pluginSettings'] = $pluginSettings;
+        $form->getElement('_token')->setValue($this->container['csrf']->token());
+
+        $form->populate();
+
         $vars['plugin'] = $plugin;
+        $vars['options'] = $form;
 
         $vars['sitename'] = $this->container['mappers.meta']->key('sitename');
         $vars['title'] = 'Plugin ' . $plugin->getName();

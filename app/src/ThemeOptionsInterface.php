@@ -6,7 +6,7 @@ namespace Anchorcms;
  *
  * @package Anchorcms
  */
-interface PluginOptionsInterface
+interface ThemeOptionsInterface
 {
     public function init();
 
