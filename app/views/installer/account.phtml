@@ -12,9 +12,9 @@
 	<?php endif; ?>
 	<?php echo $element->getHtml(); ?>
 
-    <?php if ($element->getName() == 'account_password'): ?>
-        <progress value="0" max="4"></progress>
-    <?php endif; ?>
+	<?php if ($element->getName() == 'account_password'): ?>
+	<progress value="0" max="4"></progress>
+	<?php endif; ?>
 </p>
 <?php endforeach; ?>
 
@@ -26,22 +26,22 @@
 
 <script>
 
-    (function() {
+	(function() {
 
-        var timer;
-        var password = document.querySelector('[name="account_password"]');
-        var progress = document.querySelector('progress');
-        var submit = document.querySelector('[type="submit"]');
+		var timer;
+		var password = document.querySelector('[name="account_password"]');
+		var progress = document.querySelector('progress');
+		var submit = document.querySelector('[type="submit"]');
 
-        password.addEventListener('keyup', function(event) {
-            clearTimeout(timer);
-            timer = setTimeout(function() {
-                var result = zxcvbn(password.value);
-                progress.value = result.score;
-                submit.disabled = progress.value < 1;
-            }, 500);
-        });
+		password.addEventListener('keyup', function(event) {
+			clearTimeout(timer);
+			timer = setTimeout(function() {
+				var result = zxcvbn(password.value);
+				progress.value = result.score;
+				submit.disabled = progress.value < 1;
+			}, 500);
+		});
 
-    })();
+	})();
 
 </script>
