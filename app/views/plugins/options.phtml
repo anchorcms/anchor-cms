@@ -28,9 +28,13 @@
     <?php echo $messages; ?>
 
     <main>
-        <h3>Plugin settings</h3>
-        <section class="settings">
-            <?php echo $this->render('partials/form', ['form' => $options]); ?>
+        <h3>Plugin options</h3>
+        <section class="options">
+            <?php if ($options): ?>
+                <?php echo $this->render('partials/form', ['form' => $options]); ?>
+            <?php else: ?>
+                <span>This plugin has no options available.</span>
+            <?php endif; ?>
         </section>
 
         <h3>Plugin meta</h3>

@@ -93,7 +93,7 @@ class Plugins
 
                 $plugin = new Plugins\Plugin($file->getPathname());
 
-                if (strtolower($plugin->getName()) === $name) {
+                if (strtolower($plugin->getName()) === strtolower($name)) {
                     return $plugin;
                 }
             }

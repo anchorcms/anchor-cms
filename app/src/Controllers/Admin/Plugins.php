@@ -2,20 +2,21 @@
 
 namespace Anchorcms\Controllers\Admin;
 
-use Anchorcms\Forms\Plugin;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Client as HttpClient;
 use GuzzleHttp\Exception\TransferException;
 use Anchorcms\Controllers\AbstractController;
-use Anchorcms\Paginator;
 use Anchorcms\Filters;
 use Anchorcms\Forms\Plugin as PluginForm;
 use Anchorcms\Forms\ValidateToken;
+use Anchorcms\Paginator;
+use Anchorcms\Services\Plugins\Plugin;
 use Validation\ValidatorFactory;
 use Validation\Validator;
 use Forms\Form;
+use Validation\ValidatorInterface;
 
 class Plugins extends AbstractController
 {
@@ -23,11 +24,9 @@ class Plugins extends AbstractController
      * handle plugin list requests
      *
      * @access public
-     *
      * @param ServerRequestInterface $request
      * @param ResponseInterface      $response
      * @param array                  $args
-     *
      * @return ResponseInterface
      */
     public function getIndex(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
@@ -49,7 +48,7 @@ class Plugins extends AbstractController
         $perpage = $this->container['mappers.meta']->key('admin_posts_per_page', 10);
         $offset = ($input['page'] - 1) * $perpage;
 
-        if (! $input['search'] || $input['search'] === '*') {
+        if (!$input['search'] || $input['search'] === '*') {
             $plugins = $this->container['services.plugins']->getPlugins();
         } else {
             $plugins = $this->container['services.plugins']->find($input['search']);
@@ -84,7 +83,7 @@ class Plugins extends AbstractController
         $vars['sitename'] = $this->container['mappers.meta']->key('sitename');
         $vars['title'] = 'Upload plugin';
 
-        $form = $this->getForm([
+        $form = $this->getUploadForm([
             'method' => 'post',
             'action' => $this->container['url']->to('/admin/plugins/install/upload'),
             'enctype' => 'multipart/form-data'
@@ -101,7 +100,7 @@ class Plugins extends AbstractController
 
     public function postUpload(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-        $form = $this->getForm();
+        $form = $this->getUploadForm();
 
         $input = Filters::withDefaults($request->getParsedBody(), $form->getFilters());
         $validator = ValidatorFactory::create($input, $form->getRules());
@@ -142,47 +141,76 @@ class Plugins extends AbstractController
      * handle plugin details and settings requests
      *
      * @access public
-     *
      * @param ServerRequestInterface $request
      * @param ResponseInterface      $response
      * @param array                  $args
-     *
      * @return ResponseInterface
      */
-    public function getSettings(ServerRequestInterface $request, ResponseInterface $response, array $args)
+    public function getOptions(ServerRequestInterface $request, ResponseInterface $response, array $args)
     {
         $vars = [];
 
         $plugin = $this->container['services.plugins']->getPlugin(urldecode($args['name']));
-        $form = $plugin->getOptionsForm([
-            'method' => 'post',
-            'action' => $this->container['url']->to(sprintf('/admin/plugins/%s/save', $plugin->getName()))
-        ]);
 
-        $form->getElement('_token')->setValue($this->container['csrf']->token());
+        if ($plugin->hasOptions()) {
+            $form = $this->getOptionsForm($plugin, [
+                'method' => 'post',
+                'action' => $this->container['url']->to(sprintf('/admin/plugins/%s/save', $plugin->getName()))
+            ]);
 
-        $form->populate();
+            $form->getElement('_token')->setValue($this->container['csrf']->token());
+
+            $form->populate();
+
+            $vars['options'] = $form;
+        }
 
         $vars['plugin'] = $plugin;
-        $vars['options'] = $form;
 
         $vars['sitename'] = $this->container['mappers.meta']->key('sitename');
         $vars['title'] = 'Plugin ' . $plugin->getName();
 
-        $this->renderTemplate($response, 'layouts/default', 'plugins/settings', $vars);
+        $this->renderTemplate($response, 'layouts/default', 'plugins/options', $vars);
 
         return $response;
+    }
+
+    public function postSave(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
+    {
+        $plugin = $this->container['services.plugins']->getPlugin(urldecode($args['name']));
+
+        $form = $this->getOptionsForm($plugin);
+        $input = Filters::withDefaults($request->getParsedBody(), $form->getFilters());
+        $validator = $this->getOptionsValidator($input, $form);
+
+        if (! $validator->isValid()) {
+            $this->container['messages']->error($validator->getMessages());
+            $this->container['session']->putStash('input', $input);
+
+            return $this->redirect($response, $this->container['url']->to(sprintf('/admin/plugins/%s', $plugin->getName())));
+        }
+
+        // TODO: Update Plugin database table
+        //       Therefore, we should either a) define a common plugin_options table in which plugins
+        //       may keep their options as "{plugin_name}_option_{option_name} or b) load/delegate to
+        //       the plugin options mapper here. Both is non-trivial, database access has still to be
+        //       outlined.
+
+        $this->container['messages']->success(['Options updated']);
+
+        return $this->redirect(
+            $response,
+            $this->container['url']->to(sprintf('/admin/plugins/%s',$plugin->getName()))
+        );
     }
 
     /**
      * redirect failed requests to the plugin page
      *
      * @access public
-     *
      * @param ServerRequestInterface $request
      * @param ResponseInterface      $response
      * @param array                  $args
-     *
      * @return ResponseInterface
      */
     public function getDisable(ServerRequestInterface $request, ResponseInterface $response, array $args)
@@ -194,11 +222,9 @@ class Plugins extends AbstractController
      * redirect failed requests to the plugin page
      *
      * @access public
-     *
      * @param ServerRequestInterface $request
      * @param ResponseInterface      $response
      * @param array                  $args
-     *
      * @return ResponseInterface
      */
     public function getEnable(ServerRequestInterface $request, ResponseInterface $response, array $args)
@@ -210,11 +236,9 @@ class Plugins extends AbstractController
      * handle plugin disable requests
      *
      * @access public
-     *
      * @param ServerRequestInterface $request
      * @param ResponseInterface      $response
      * @param array                  $args
-     *
      * @return ResponseInterface
      */
     public function postDisable(ServerRequestInterface $request, ResponseInterface $response, array $args)
@@ -233,11 +257,9 @@ class Plugins extends AbstractController
      * handle plugin enable requests
      *
      * @access public
-     *
      * @param ServerRequestInterface $request
      * @param ResponseInterface      $response
      * @param array                  $args
-     *
      * @return ResponseInterface
      */
     public function postEnable(ServerRequestInterface $request, ResponseInterface $response, array $args)
@@ -305,17 +327,35 @@ class Plugins extends AbstractController
         ]);
     }
 
-    protected function getValidator(array $input, Form $form): Validator
+    protected function getUploadValidator(array $input, Form $form): Validator
     {
         $validator = ValidatorFactory::create($input, $form->getRules());
         $validator->addRule(new ValidateToken($this->container['csrf']->token()), '_token');
         return $validator;
     }
 
-    protected function getForm(array $attributes = []): Form
+    protected function getUploadForm(array $attributes = []): Form
     {
         $form = new PluginForm($attributes);
         $form->init();
+        return $form;
+    }
+
+
+    protected function getOptionsValidator(array $input, Form $form): ValidatorInterface
+    {
+        var_dump($input);
+        $validator = ValidatorFactory::create($input, $form->getRules());
+        $validator->addRule(new ValidateToken($this->container['csrf']->token()), '_token');
+        return $validator;
+    }
+
+    protected function getOptionsForm(Plugin $plugin, array $attributes = []): Form
+    {
+        $optionsFormClass = $plugin->getOptionsForm();
+        $form = new $optionsFormClass($attributes);
+        $form->init();
+
         return $form;
     }
 }

@@ -43,8 +43,7 @@ class Options extends Form implements ValidatableInterface, PluginOptionsInterfa
     public function getRules(): array
     {
         return [
-            '_token' => ['required'],
-            'backend-only' => ['label' => 'Admin only'],
+            '_token' => ['required']
         ];
     }
 }
