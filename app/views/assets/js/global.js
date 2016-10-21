@@ -5,7 +5,7 @@
 		// confirm has expired
 		this.classList.remove('confirm');
 
-		// retsore html
+		// restore html
 		this.innerHTML = this.getAttribute('data-html');
 	};
 

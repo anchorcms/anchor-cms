@@ -571,9 +571,7 @@ select {
 .form-element-input select,
 .form-element-input .form-element-input-checkbox {
   border: none;
-  border-radius: 0;
-  border-top-right-radius: 0.3rem;
-  border-bottom-right-radius: 0.3rem;
+  border-radius: 0 0.3rem 0.3rem 0;
 }
 .form-element-input textarea {
   border-bottom-left-radius: 0.3rem;
@@ -582,17 +580,27 @@ select {
   width: 3.2rem;
   cursor: pointer;
 }
-.form-element-input-checkbox:after {
-  display: inlin-block;
+.form-element-input-checkbox::after {
+  content: '\00a0';
+}
+.form-element-input input[type=checkbox] {
+  display: none;
+}
+.form-element-input input[type=checkbox] + .custom-checkbox {
+  position: absolute;
+  float: left;
+  width: 3.2rem;
+  padding: 0.5rem 0.8rem;
+  pointer-events: none;
+}
+.form-element-input input[type=checkbox] + .custom-checkbox::after {
+  display: inline-block;
   padding: 0 .4rem;
   content: '✘';
   color: #DA513D;
   border-radius: 0.3rem;
 }
-.form-element-input input[type=checkbox] {
-  display: none;
-}
-input[type=checkbox]:checked + .form-element-input-checkbox:after {
+.form-element-input input[type=checkbox]:checked + .custom-checkbox::after {
   content: '✔';
   color: #4AAD71;
 }
@@ -604,9 +612,7 @@ input[type=checkbox]:checked + .form-element-input-checkbox:after {
   width: 12rem;
   padding: 0.5rem 0.8rem;
   vertical-align: middle;
-  border-radius: 0;
-  border-top-left-radius: 0.3rem;
-  border-bottom-left-radius: 0.3rem;
+  border-radius: 0.3rem 0 0 0.3rem;
 }
 .nav {
   list-style-type: none;

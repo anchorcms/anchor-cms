@@ -55,9 +55,7 @@ select {
 
 		input:not([type="radio"]):not([type="checkbox"]):not([type="range"]), textarea, select, .form-element-input-checkbox {
 			border: none;
-			border-radius: 0;
-			border-top-right-radius: @form-input-border-radius;
-			border-bottom-right-radius: @form-input-border-radius;
+			border-radius: 0 @form-input-border-radius @form-input-border-radius 0;
 		}
 
 		textarea {
@@ -68,22 +66,36 @@ select {
 			width: 3.2rem;
 			cursor: pointer;
 
-			&:after {
-				display: inlin-block;
-				padding: 0 .4rem;
-				content: '✘';
-				color: @red;
-				border-radius: @form-input-border-radius;
+			&::after {
+				content: '\00a0'
 			}
 		}
 
 		input[type=checkbox] {
 			display: none;
+
+			& + .custom-checkbox {
+				position: absolute;
+				float: left;
+				width: 3.2rem;
+				padding: 0.5rem 0.8rem;
+				pointer-events: none;
+
+				&::after {
+					display: inline-block;
+					padding: 0 .4rem;
+					content: '✘';
+					color: @red;
+					border-radius: @form-input-border-radius;
+				}
+			}
 		}
 
-		input[type=checkbox]:checked + &-checkbox:after {
-			content: '✔';
-			color: @green;
+		input[type=checkbox]:checked + .custom-checkbox {
+			&::after {
+				content: '✔';
+				color: @green;
+			}
 		}
 	}
 
@@ -95,9 +107,7 @@ select {
 		width: @form-label-width;
 		padding: @form-input-padding;
 		vertical-align: middle;
-		border-radius: 0;
-		border-top-left-radius: @form-input-border-radius;
-		border-bottom-left-radius: @form-input-border-radius;
+		border-radius: @form-input-border-radius 0 0 @form-input-border-radius;
 	}
 
 }
