@@ -6,6 +6,7 @@ use Tari\ServerMiddlewareInterface;
 use Tari\ServerFrameInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
+use Routing\RouteNotFoundException;
 
 class Kernel implements ServerMiddlewareInterface
 {
@@ -29,6 +30,18 @@ class Kernel implements ServerMiddlewareInterface
     {
         $response = $frame->next($request);
 
-        return $this->container['http.kernel']->getResponse($request, $response, [$this, 'resolveController']);
+        try {
+            return $this->container['http.kernel']->getResponse($request, $response, [$this, 'resolveController']);
+        }
+        catch(RouteNotFoundException $exception) {
+            $vars['title'] = 'Resource Not Found';
+            $vars['sitename'] = '';
+            $this->container['view']->setExt('html');
+            $vars['body'] = $this->container['view']->render('errors/404');
+            $this->container['view']->setExt('phtml');
+            $html = $this->container['view']->render('layouts/minimal', $vars);
+            $stream = $frame->factory()->createStream($html);
+            return $frame->factory()->createResponse(404, [], $stream);
+        }
     }
 }
