@@ -24,9 +24,6 @@
         </div>
         <p><?php echo $plugin->getDescription(); ?></p>
     </header>
-
-    <?php echo $messages; ?>
-
     <main>
         <h3>Plugin options</h3>
         <section class="options">
@@ -57,4 +54,5 @@
         </ul>
     </main>
 </div>
+<?php echo $this->render('partials/messages-float', ['messages' => $messages]); ?>
 <script src="/assets/js/plugins.js"></script>

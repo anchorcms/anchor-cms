@@ -80,6 +80,19 @@ class Plugin
     }
 
     /**
+     * dumps the manifest to the file
+     * @access public
+     * @return void
+     */
+    public function dumpManifest()
+    {
+        if ($this->hasManifest()) {
+            $json = json_encode($this->manifest);
+            file_put_contents($this->getManifestFilepath(), $json);
+        }
+    }
+
+    /**
      * retrieves the plugin manifest path
      *
      * @access public
@@ -124,9 +137,8 @@ class Plugin
             return;
         }
 
-        $newPath = str_replace('_disabled', '', $this->path);
-        rename($this->path, $newPath);
-        $this->path = $newPath;
+        $this->manifest->active = true;
+        $this->dumpManifest();
         $this->active = true;
     }
 
@@ -141,10 +153,8 @@ class Plugin
         if (!$this->isActive()) {
             return;
         }
-
-        $newPath = $this->path . '_disabled';
-        rename($this->path, $newPath);
-        $this->path = $newPath;
+        $this->manifest->active = false;
+        $this->dumpManifest();
         $this->active = false;
     }
 
@@ -156,7 +166,7 @@ class Plugin
      */
     public function isActive(): bool
     {
-        return (substr($this->path, -9) !== '_disabled');
+        return (property_exists($this->manifest, 'active') ? $this->manifest->active : false);
     }
 
     /**

@@ -344,7 +344,6 @@ class Plugins extends AbstractController
 
     protected function getOptionsValidator(array $input, Form $form): ValidatorInterface
     {
-        var_dump($input);
         $validator = ValidatorFactory::create($input, $form->getRules());
         $validator->addRule(new ValidateToken($this->container['csrf']->token()), '_token');
         return $validator;

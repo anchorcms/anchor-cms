@@ -10,9 +10,6 @@
             </form>
         </div>
     </header>
-
-    <?php echo $messages; ?>
-
     <main>
         <ul class="listing">
             <?php foreach ($plugins as $plugin): ?>
@@ -37,4 +34,5 @@
         <?php echo $paging->links(); ?>
     </main>
 </div>
+<?php echo $this->render('partials/messages-float', ['messages' => $messages]); ?>
 <script src="/js/plugins.js"></script>
