@@ -32,8 +32,7 @@ class Kernel implements ServerMiddlewareInterface
 
         try {
             return $this->container['http.kernel']->getResponse($request, $response, [$this, 'resolveController']);
-        }
-        catch(RouteNotFoundException $exception) {
+        } catch (RouteNotFoundException $exception) {
             $vars['title'] = 'Resource Not Found';
             $vars['sitename'] = '';
             $this->container['view']->setExt('html');
