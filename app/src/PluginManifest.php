@@ -29,16 +29,19 @@ class PluginManifest
         return $this->attributes['version'] ?? 'No Version';
     }
 
-    public function getClassName() {
+    public function getClassName()
+    {
         return $this->attributes['classname'];
     }
 
-    public function getInstance() {
+    public function getInstance()
+    {
         $className = $this->getClassName();
         return new $className;
     }
 
-    public function getFolder() {
+    public function getFolder()
+    {
         return $this->folder;
     }
 }
