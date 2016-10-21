@@ -163,6 +163,8 @@ class Plugins extends AbstractController
             $form->populate();
 
             $vars['options'] = $form;
+        } else {
+            $vars['options'] = false;
         }
 
         $vars['plugin'] = $plugin;
