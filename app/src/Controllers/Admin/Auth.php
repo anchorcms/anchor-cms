@@ -129,7 +129,10 @@ class Auth extends AbstractController
     public function postAmnesia(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
         $form = new Amnesia();
-        $input = $form->getFilters();
+        $input = filter_var_array($request->getParsedBody(), $form->getFilters());
+
+        // always return the same message
+        $message = 'If your account exists you will recieve a email with password reset instructions';
 
         // validate input
         $validator = ValidatorFactory::create($input, $form->getRules());
@@ -137,40 +140,32 @@ class Auth extends AbstractController
         // check token
         $validator->addRule(new ValidateToken($this->container['csrf']->token()), '_token');
 
+        // check username
+        $user = $this->container['mappers.users']->fetchByEmail($input['email']);
+
+        if (false === $user) {
+            $validator->setInvalid($message);
+        }
+        // is active
+        elseif (false === $user->isActive()) {
+            $validator->setInvalid($message);
+        }
+
         if ($validator->isValid()) {
-            // check username
-            $user = $this->container['mappers.users']->fetchByEmail($input['email']);
+            $to = [$user->email => $user->name];
+            $from = $this->container['config']->get('mail.from');
+            $subject = sprintf('[%s] Password Reset', $this->container['mappers.meta']->key('sitename'));
 
-            if (false === $user) {
-                $validator->setInvalid('Sorry, we don&apos;t reconise those details');
-            }
-            // is active
-            elseif (false === $user->isActive()) {
-                $validator->setInvalid('Your account have not active');
-            }
+            $token = $this->container['services.auth']->resetToken($user, $this->container['usertokens'], new \DateTime('now +1 day'));
+
+            $link = $this->container['url']->to('/admin/auth/reset?token='.$token);
+            $body = $this->renderTemplate('layouts/email', 'users/reset-password-email', ['link' => $link, 'user' => $user]);
+
+            $this->container['services.postman']->deliver($to, $from, $subject, $body);
         }
 
-        if (false === $validator->isValid()) {
-            $this->container['messages']->error($validator->getMessages());
-            $this->container['session']->putStash('input', ['email' => $input['email']]);
-
-            return $this->redirect($response, $this->container['url']->to('/admin/auth/amnesia'));
-        }
-
-        $to = [$user->email => $user->name];
-        $from = $this->container['config']->get('mail.from');
-        $subject = sprintf('[%s] Password Reset', $this->container['mappers.meta']->key('sitename'));
-
-        $token = $this->container['services.auth']->resetToken($user);
-
-        $link = $this->container['url']->to('/admin/auth/reset?token='.$token);
-        $body = $this->renderTemplate('layouts/email', 'users/reset-password-email', ['link' => $link, 'user' => $user]);
-
-        $this->container['services.postman']->deliver($to, $from, $subject, $body);
-
-        $this->container['messages']->success(['We have sent a email with further instructions']);
-
-        return $this->redirect($response, '/admin/auth/login');
+        $this->container['messages']->success([$message]);
+        return $this->redirect($response, '/admin/auth/amnesia');
     }
 
     public function getReset(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
@@ -189,7 +184,7 @@ class Auth extends AbstractController
 
         $form = new Reset([
             'method' => 'post',
-            'action' => $this->container['url']->to('/admin/auth/reset?token='.$token),
+            'action' => $request->getUri(),
         ]);
         $form->init();
         $form->getElement('_token')->setValue($this->container['csrf']->token());
@@ -224,8 +219,7 @@ class Auth extends AbstractController
 
         if (false === $validator->isValid()) {
             $this->container['messages']->error($validator->getMessages());
-
-            return $this->redirect($response, $this->container['url']->to('/admin/auth/reset?token='.$token));
+            return $this->redirect($response, $request->getUri());
         }
 
         $this->container['services.auth']->changePassword($user, $input['password']);

@@ -108,4 +108,9 @@ abstract class AbstractMapper implements MapperInterface
     {
         return $this->db->delete($this->getTableName(), [$this->primary => $id]);
     }
+
+    public function massDelete(array $params): bool
+    {
+        return $this->db->delete($this->getTableName(), $params);
+    }
 }

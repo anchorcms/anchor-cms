@@ -20,29 +20,7 @@ require __DIR__.'/../vendor/autoload.php';
 $app = new Pimple\Container(require __DIR__.'/container.php');
 
 // Setup Error handling
-$app['errors']->handler(function (Throwable $exception) {
-    if (false === headers_sent()) {
-        http_response_code(500);
-    }
-    echo sprintf('<html>
-			<head>
-				<title>Whoops</title>
-				<style>html,body { color: #333; padding: 2rem; font: 1rem/1.5rem sans-serif; }</style>
-			</head>
-			<body>
-				<h1>%s</h1>
-				<p>%s in %s:%d</p>
-				<h3>Stack Trace</h3>
-				<pre>%s</pre>
-			</body>
-		</html>',
-        get_class($exception),
-        $exception->getMessage(),
-        $exception->getFile(),
-        $exception->getLine(),
-        $exception->getTraceAsString()
-    );
-});
+$app['errors']->handler($app['error.handler']);
 
 // Register Error handler
 $app['errors']->register();
@@ -51,6 +29,7 @@ $app['errors']->register();
 if (!ini_get('date.timezone')) {
     date_default_timezone_set('UTC');
 }
+
 // Set Timezone from the config or use the default
 date_default_timezone_set($app['config']->get('app.timezone', date_default_timezone_get()));
 

@@ -1069,7 +1069,7 @@
             ],
             "description": "Form builder",
             "support": {
-                "source": "https://github.com/rwarasaurus/forms/tree/0.1.4",
+                "source": "https://github.com/rwarasaurus/forms/tree/master",
                 "issues": "https://github.com/rwarasaurus/forms/issues"
             },
             "time": "2016-06-27 17:23:59"

@@ -41,6 +41,31 @@ return [
     'errors' => function () {
         return new Anchorcms\Errors();
     },
+    'error.handler' => function () {
+        return function (Throwable $exception) {
+            if (false === headers_sent()) {
+                http_response_code(500);
+            }
+            echo sprintf('<html>
+        			<head>
+        				<title>Whoops</title>
+        				<style>html,body { color: #333; padding: 2rem; font: 1rem/1.5rem sans-serif; }</style>
+        			</head>
+        			<body>
+        				<h1>%s</h1>
+        				<p>%s in %s:%d</p>
+        				<h3>Stack Trace</h3>
+        				<pre>%s</pre>
+        			</body>
+        		</html>',
+                get_class($exception),
+                $exception->getMessage(),
+                $exception->getFile(),
+                $exception->getLine(),
+                $exception->getTraceAsString()
+            );
+        };
+    },
     'events' => function () {
         return new Symfony\Component\EventDispatcher\EventDispatcher;
     },

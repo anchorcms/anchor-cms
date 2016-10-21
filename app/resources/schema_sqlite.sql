@@ -71,7 +71,7 @@ CREATE INDEX "{prefix}post_meta_post" ON "{prefix}post_meta" ("post");
 CREATE TABLE "{prefix}posts" (
 	"id" INTEGER NOT NULL PRIMARY KEY,
 	"title" TEXT NOT NULL,
-	"slug" TEXT NOT NULL,
+	"slug" TEXT NOT NULL UNIQUE,
 	"content" TEXT NOT NULL,
 	"html" TEXT NOT NULL,
 	"created" NUMERIC NOT NULL,
@@ -82,7 +82,6 @@ CREATE TABLE "{prefix}posts" (
 	"status" TEXT NOT NULL
 );
 
-CREATE INDEX "{prefix}posts_slug" ON "{prefix}posts" ("slug");
 CREATE INDEX "{prefix}posts_status" ON "{prefix}posts" ("status");
 CREATE INDEX "{prefix}posts_published" ON "{prefix}posts" ("published");
 CREATE INDEX "{prefix}posts_author" ON "{prefix}posts" ("author");
@@ -90,9 +89,9 @@ CREATE INDEX "{prefix}posts_category" ON "{prefix}posts" ("category");
 
 CREATE TABLE "{prefix}users" (
 	"id" INTEGER NOT NULL PRIMARY KEY,
-	"username" TEXT NOT NULL,
+	"username" TEXT NOT NULL UNIQUE,
 	"password" TEXT NOT NULL,
-	"email" TEXT NOT NULL,
+	"email" TEXT NOT NULL UNIQUE,
 	"name" TEXT NOT NULL,
 	"bio" TEXT NOT NULL,
 	"status" TEXT NOT NULL,
@@ -100,16 +99,14 @@ CREATE TABLE "{prefix}users" (
 );
 
 CREATE INDEX "{prefix}users_status" ON "{prefix}users" ("status");
-CREATE INDEX "{prefix}users_username" ON "{prefix}users" ("username");
-CREATE INDEX "{prefix}users_email" ON "{prefix}users" ("email");
 
 CREATE TABLE "{prefix}user_tokens" (
 	"id" INTEGER NOT NULL PRIMARY KEY,
 	"user" INTEGER NOT NULL,
-	"expires" NUMERIC NOT NULL,
-	"token" TEXT NOT NULL
+	"expires" TEXT NOT NULL,
+	"token" TEXT NOT NULL UNIQUE,
+	"signature" TEXT NOT NULL UNIQUE,
 );
 
 CREATE INDEX "{prefix}user_tokens_user" ON "{prefix}user_tokens" ("user");
 CREATE INDEX "{prefix}user_tokens_token" ON "{prefix}user_tokens" ("token");
-CREATE INDEX "{prefix}user_tokens_expires" ON "{prefix}user_tokens" ("expires");
