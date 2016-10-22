@@ -47,6 +47,11 @@ if (false === $app['services.installer']->isInstalled()) {
 }
 // middlewares to include when installed
 else {
+    // load plugins
+    $active = $app['plugins']->getActivePlugins($app['mappers.meta']);
+    $app['plugins']->init($active);
+
+    // append acl middleware
     $app['http.server']->append(
         new Anchorcms\Middleware\ACL(
             $app['session'],

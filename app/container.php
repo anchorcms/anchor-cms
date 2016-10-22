@@ -125,6 +125,9 @@ return [
     'zxcvbn' => function () {
         return new ZxcvbnPhp\Zxcvbn;
     },
+    'plugins' => function ($app) {
+        return new Anchorcms\Plugins\Plugins($app['paths']['plugins'], $app['events']);
+    },
 
     /*
      * Middleware
@@ -218,9 +221,6 @@ return [
         $current = $app['mappers.meta']->key('theme');
 
         return new Anchorcms\Services\Themes($app['paths']['themes'], $app['mustache'], $current);
-    },
-    'services.plugins' => function ($app) {
-        return new Anchorcms\Services\Plugins($app['paths']['plugins']);
     },
     'services.rss' => function ($app) {
         $name = $app['mappers.meta']->key('sitename');

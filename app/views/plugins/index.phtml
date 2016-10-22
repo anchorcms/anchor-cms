@@ -11,7 +11,11 @@
 				<h3><?php echo $plugin->getName(); ?></h3>
 				<p><?php echo $plugin->getSummary(); ?></p>
 				<span class="badge badge--pinned"><?php echo $plugin->getVersion(); ?></span>
-				<p><a href="/admin/plugins/<?php echo $plugin->getFolder(); ?>/activate" class="button button--small">Activate</a></p>
+				<?php if(in_array($plugin->getFolder(), $active)): ?>
+				<p><a href="/admin/plugins/<?php echo $plugin->getFolder(); ?>/deactate" class="button button--small">Activate</a></p>
+				<?php else: ?>
+				<p><a href="/admin/plugins/<?php echo $plugin->getFolder(); ?>/deactivate" class="button button--small">Deactivate</a></p>
+				<?php endif; ?>
 			</li>
 			<?php endforeach; ?>
 		</ul>

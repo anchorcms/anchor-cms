@@ -34,4 +34,22 @@ class Meta extends AbstractMapper
 
         return false === $value ? $default : $this->map[$key] = $value;
     }
+
+    public function put(string $key, string $value): bool {
+        $this->map[$key] = $value;
+
+        $query = $this->query()->select('value')
+            ->where('key = :key')
+            ->setParameter('key', $key);
+
+        if($this->count($query)) {
+            return $this->db->insert($this->getTableName(), [
+                'key' => $key,
+                'value' => $value,
+            ]);
+        }
+        else {
+            return $this->db->update($this->getTableName(), ['value' => $value], ['key' => $key]);
+        }
+    }
 }
