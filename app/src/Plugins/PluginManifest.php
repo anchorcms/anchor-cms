@@ -1,6 +1,6 @@
 <?php
 
-namespace Anchorcms;
+namespace Anchorcms\Plugins;
 
 class PluginManifest
 {
@@ -31,13 +31,17 @@ class PluginManifest
 
     public function getClassName()
     {
+        return $this->getNamespace() . $this->attributes['classname'];
+    }
+
+    public function getNamespace()
+    {
         return $this->attributes['classname'];
     }
 
     public function getInstance()
     {
-        $className = $this->getClassName();
-        return new $className;
+        return new $this->getClassName();
     }
 
     public function getFolder()

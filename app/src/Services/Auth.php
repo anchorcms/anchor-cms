@@ -56,24 +56,26 @@ class Auth
         ]);
     }
 
-    protected function purgeTokens(MapperInterface $tokens) {
+    protected function purgeTokens(MapperInterface $tokens)
+    {
         $now = new \DateTime;
 
-		$query = $tokens->andWhere('expires < :expires')
+        $query = $tokens->andWhere('expires < :expires')
             ->setParameter('expires', $now->format('Y-m-d H:i:s'))
         ;
 
-        foreach($tokens->fetchAll($query) as $token) {
+        foreach ($tokens->fetchAll($query) as $token) {
             $tokens->delete($token->id);
         }
-	}
+    }
 
-    protected function splitToken(string $token): array {
-		return [
-			substr($token, 0, 32),
-			hash('sha256', substr($token, 32)),
-		];
-	}
+    protected function splitToken(string $token): array
+    {
+        return [
+            substr($token, 0, 32),
+            hash('sha256', substr($token, 32)),
+        ];
+    }
 
     public function resetToken(ModelInterface $user, MapperInterface $tokens, \DateTimeInterface $expires): string
     {
@@ -103,7 +105,7 @@ class Auth
 
         list($partToken, $signedToken) = $this->splitToken($token);
 
-		$now = new \DateTime;
+        $now = new \DateTime;
 
         $query = $tokens->andWhere('token = :token')
             ->setParameter('token', $partToken)
@@ -116,9 +118,9 @@ class Auth
         $result = $tokens->fetch($query);
 
         // not found
-		if( ! $result) {
-			return 0;
-		}
+        if (! $result) {
+            return 0;
+        }
 
         // purge from db
         $tokens->delete($result->id);

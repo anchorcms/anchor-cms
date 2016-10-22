@@ -1,12 +1,12 @@
 <?php
 
-namespace Anchorcms\Plugins;
+namespace RockyRoad;
 
-use Anchorcms\Plugin;
+use Anchorcms\Plugins\AbstractPlugin;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\Event;
 
-class ContentFormPlugin extends Plugin
+class ContentFormPlugin extends AbstractPlugin
 {
     public function getSubscribedEvents(EventDispatcher $dispatcher)
     {
