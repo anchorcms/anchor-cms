@@ -11,10 +11,10 @@
 				<h3><?php echo $plugin->getName(); ?></h3>
 				<p><?php echo $plugin->getSummary(); ?></p>
 				<span class="badge badge--pinned"><?php echo $plugin->getVersion(); ?></span>
-				<?php if(in_array($plugin->getFolder(), $active)): ?>
-				<p><a href="/admin/plugins/<?php echo $plugin->getFolder(); ?>/deactate" class="button button--small">Activate</a></p>
-				<?php else: ?>
+				<?php if(array_reduce($active, function($carry, $item) use($plugin) { return $plugin->getFolder() == $item->getFolder() ? true : $carry; }, false)): ?>
 				<p><a href="/admin/plugins/<?php echo $plugin->getFolder(); ?>/deactivate" class="button button--small">Deactivate</a></p>
+				<?php else: ?>
+				<p><a href="/admin/plugins/<?php echo $plugin->getFolder(); ?>/activate" class="button button--small">Activate</a></p>
 				<?php endif; ?>
 			</li>
 			<?php endforeach; ?>

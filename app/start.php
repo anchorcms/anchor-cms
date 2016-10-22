@@ -14,7 +14,7 @@ if (!is_file(__DIR__.'/../vendor/autoload.php')) {
     return 0;
 }
 
-require __DIR__.'/../vendor/autoload.php';
+$composer = require __DIR__.'/../vendor/autoload.php';
 
 // create the container
 $app = new Pimple\Container(require __DIR__.'/container.php');
@@ -49,7 +49,7 @@ if (false === $app['services.installer']->isInstalled()) {
 else {
     // load plugins
     $active = $app['plugins']->getActivePlugins($app['mappers.meta']);
-    $app['plugins']->init($active);
+    $app['plugins']->init($active, $composer);
 
     // append acl middleware
     $app['http.server']->append(

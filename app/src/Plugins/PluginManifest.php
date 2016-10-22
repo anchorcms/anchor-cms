@@ -31,17 +31,19 @@ class PluginManifest
 
     public function getClassName()
     {
-        return $this->getNamespace() . $this->attributes['classname'];
+        return $this->attributes['classname'];
     }
 
     public function getNamespace()
     {
-        return $this->attributes['classname'];
+        return $this->attributes['namespace'];
     }
 
     public function getInstance()
     {
-        return new $this->getClassName();
+        $className = $this->getNamespace() . $this->getClassName();
+
+        return new $className;
     }
 
     public function getFolder()

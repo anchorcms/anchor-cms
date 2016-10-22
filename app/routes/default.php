@@ -64,6 +64,7 @@ return [
 
     '/admin/plugins' => 'controllers\\admin\\plugins@index',
     '/admin/plugins/:folder/activate' => 'controllers\\admin\\plugins@activate',
+    '/admin/plugins/:folder/deactivate' => 'controllers\\admin\\plugins@deactivate',
 
     // frontend
     '/' => 'controllers\\page@home',

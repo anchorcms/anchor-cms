@@ -26,28 +26,14 @@ class Plugins extends AbstractController
 
     public function getActivate(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-        $plugin = $this->container['plugins']->getPluginByFolder($args['folder']);
-
-        $jsonStr = $this->container['mappers.meta']->key('plugins', '[]');
-        $active = json_decode($jsonStr, true);
-
-        $active[] = $plugin->getFolder();
-
-        $this->container['mappers.meta']->put('plugins', json_encode($active));
+        $this->container['plugins']->activatePlugin($args['folder'], $this->container['mappers.meta']);
 
         return $this->redirect($response, '/admin/plugins');
     }
 
     public function getDeactivate(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-        $jsonStr = $this->container['mappers.meta']->key('plugins', '[]');
-        $active = json_decode($jsonStr, true);
-
-        if(false !== ($index = array_search($args['folder']))) {
-            unset($active[$index]);
-        }
-
-        $this->container['mappers.meta']->put('plugins', json_encode($active));
+        $this->container['plugins']->deactivatePlugin($args['folder'], $this->container['mappers.meta']);
 
         return $this->redirect($response, '/admin/plugins');
     }

@@ -3,6 +3,7 @@
 namespace Anchorcms\Plugins;
 
 use Anchorcms\Mappers\MapperInterface;
+use Composer\Autoload\ClassLoader;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 
 class Plugins
@@ -22,7 +23,8 @@ class Plugins
      */
     protected $events;
 
-    public function __construct(string $path, EventDispatcher $events) {
+    public function __construct(string $path, EventDispatcher $events)
+    {
         $this->path = $path;
         $this->events = $events;
     }
@@ -72,6 +74,36 @@ class Plugins
     }
 
     /**
+     * Append plugin folder name to the list of active plugins
+     *
+     * @param string folder name
+     * @param object meta table mapper
+     */
+    public function activatePlugin(string $folder, MapperInterface $meta)
+    {
+        $jsonStr = $meta->key('plugins', '[]');
+        $active = json_decode($jsonStr, true);
+        $active[] = $folder;
+        $meta->put('plugins', json_encode($active));
+    }
+
+    /**
+     * Unset plugin folder name from the list of active plugins
+     *
+     * @param string folder name
+     * @param object meta table mapper
+     */
+    public function deactivatePlugin(string $folder, MapperInterface $meta)
+    {
+        $jsonStr = $meta->key('plugins', '[]');
+        $active = json_decode($jsonStr, true);
+        if (false !== ($index = array_search($folder, $active))) {
+            unset($active[$index]);
+        }
+        $meta->put('plugins', json_encode($active));
+    }
+
+    /**
      * Fetch a plugin manifest object by directory
      *
      * @param string full path to plugin folder name
@@ -101,19 +133,16 @@ class Plugins
      * @param array of active plugins
      * @param object symfony event dispatcher
      */
-    public function init(array $plugins)
+    public function init(array $plugins, ClassLoader $loader)
     {
         foreach ($plugins as $pluginManifest) {
-            // @todo: add namespace to loader
-            // $composer->addPsr4($pluginManifest->getNamespace(), $pluginManifest->getFolder(), true);
-            //
+            // add namespace to loader
+            $loader->addPsr4($pluginManifest->getNamespace(), sprintf('%s/%s/src', $this->path, $pluginManifest->getFolder()), true);
+
+            // get instance of plugin
             $this->loaded[$pluginManifest->getFolder()] = $pluginManifest->getInstance();
 
-            // todo: set the database connection on the plugin
-            // if($pluginInstance instanceof PluginDatabaseInterface) {
-            //     $pluginInstance->getDatabaseConnection($database, $prefix);
-            // }
-
+            // register events
             $this->loaded[$pluginManifest->getFolder()]->getSubscribedEvents($this->events);
         }
     }
