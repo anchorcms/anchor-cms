@@ -3,6 +3,7 @@
 *.sqlite
 *.codekit
 *.esproj
+*.lock
 
 .htaccess
 .vagrant

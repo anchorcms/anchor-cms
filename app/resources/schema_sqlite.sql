@@ -2,11 +2,9 @@
 CREATE TABLE "{prefix}categories" (
 	"id" INTEGER NOT NULL PRIMARY KEY,
 	"title" TEXT NOT NULL,
-	"slug" TEXT NOT NULL,
+	"slug" TEXT NOT NULL UNIQUE,
 	"description" TEXT NOT NULL
 );
-
-CREATE INDEX "{prefix}categories_slug" ON "{prefix}categories" ("slug");
 
 CREATE TABLE "{prefix}custom_fields" (
 	"id" INTEGER NOT NULL PRIMARY KEY,
@@ -41,7 +39,7 @@ CREATE INDEX "{prefix}page_meta_page" ON "{prefix}page_meta" ("page");
 CREATE TABLE "{prefix}pages" (
 	"id" INTEGER NOT NULL PRIMARY KEY,
 	"parent" INTEGER NOT NULL,
-	"slug" TEXT NOT NULL,
+	"slug" TEXT NOT NULL UNIQUE,
 	"name" TEXT NOT NULL,
 	"title" TEXT NOT NULL,
 	"content" TEXT NOT NULL,
@@ -53,7 +51,6 @@ CREATE TABLE "{prefix}pages" (
 );
 
 CREATE INDEX "{prefix}pages_parent" ON "{prefix}pages" ("parent");
-CREATE INDEX "{prefix}pages_slug" ON "{prefix}pages" ("slug");
 CREATE INDEX "{prefix}pages_status" ON "{prefix}pages" ("status");
 CREATE INDEX "{prefix}pages_show_in_menu" ON "{prefix}pages" ("show_in_menu");
 CREATE INDEX "{prefix}pages_menu_order" ON "{prefix}pages" ("menu_order");
@@ -99,6 +96,7 @@ CREATE TABLE "{prefix}users" (
 );
 
 CREATE INDEX "{prefix}users_status" ON "{prefix}users" ("status");
+CREATE INDEX "{prefix}users_role" ON "{prefix}users" ("role");
 
 CREATE TABLE "{prefix}user_tokens" (
 	"id" INTEGER NOT NULL PRIMARY KEY,
@@ -109,4 +107,4 @@ CREATE TABLE "{prefix}user_tokens" (
 );
 
 CREATE INDEX "{prefix}user_tokens_user" ON "{prefix}user_tokens" ("user");
-CREATE INDEX "{prefix}user_tokens_token" ON "{prefix}user_tokens" ("token");
+CREATE INDEX "{prefix}user_tokens_expires" ON "{prefix}user_tokens" ("expires");

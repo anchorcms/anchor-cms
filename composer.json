@@ -18,19 +18,69 @@
 		}
 	],
 	"repositories": [
-		{"type": "vcs", "url": "git@github.com:rwarasaurus/forms.git"},
-		{"type": "vcs", "url": "git@github.com:rwarasaurus/validation.git"},
-		{"type": "vcs", "url": "git@github.com:rwarasaurus/router.git"},
-		{"type": "vcs", "url": "git@github.com:rwarasaurus/session.git"},
-		{"type": "vcs", "url": "git@github.com:ircmaxell/tari-php"}
+		{
+            "type": "package",
+            "package": {
+                "name": "rwarasaurus/forms",
+                "version": "dev-master",
+                "dist": {
+                    "url": "https://github.com/rwarasaurus/forms/archive/master.zip",
+                    "type": "zip"
+                }
+            }
+        },
+		{
+            "type": "package",
+            "package": {
+                "name": "rwarasaurus/router",
+                "version": "dev-master",
+                "dist": {
+                    "url": "https://github.com/rwarasaurus/router/archive/master.zip",
+                    "type": "zip"
+                }
+            }
+        },
+		{
+            "type": "package",
+            "package": {
+                "name": "rwarasaurus/session",
+                "version": "dev-master",
+                "dist": {
+                    "url": "https://github.com/rwarasaurus/session/archive/master.zip",
+                    "type": "zip"
+                }
+            }
+        },
+		{
+            "type": "package",
+            "package": {
+                "name": "rwarasaurus/validation",
+                "version": "dev-master",
+                "dist": {
+                    "url": "https://github.com/rwarasaurus/validation/archive/master.zip",
+                    "type": "zip"
+                }
+            }
+        },
+		{
+            "type": "package",
+            "package": {
+                "name": "ircmaxell/tari-php",
+                "version": "dev-master",
+                "dist": {
+                    "url": "https://github.com/ircmaxell/tari-php/archive/master.zip",
+                    "type": "zip"
+                }
+            }
+        }
 	],
 	"require": {
 		"php": ">=7",
 		"ircmaxell/tari-php": "dev-master",
-		"rwarasaurus/forms": "~0.1",
-		"rwarasaurus/validation": "~0.1",
-		"rwarasaurus/session": "~0.1",
-		"rwarasaurus/router": "~0.1",
+		"rwarasaurus/forms": "dev-master",
+		"rwarasaurus/validation": "dev-master",
+		"rwarasaurus/session": "dev-master",
+		"rwarasaurus/router": "dev-master",
 		"pimple/pimple": "~3",
 		"guzzlehttp/psr7": "~1",
 		"doctrine/dbal": "~2",
@@ -43,7 +93,8 @@
 		"cocur/slugify": "~2"
 	},
 	"require-dev": {
-		"phpspec/phpspec": "~2"
+		"phpspec/phpspec": "~2",
+		"friendsofphp/php-cs-fixer": "~1"
 	},
 	"config": {
 		"bin-dir": "bin"

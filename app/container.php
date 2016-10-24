@@ -82,7 +82,20 @@ return [
             mkdir($app['paths']['sessions'], 0700, true);
         }
 
-        return new Session\FileStorage($app['paths']['sessions']);
+        $expire = $app['config']->get('session.expire');
+
+        if( ! $expire) {
+            $expire = 60 * 60 * 24 * 365;
+        }
+
+        $storage = new Session\FileStorage($app['paths']['sessions'], $expire);
+
+        // since we are using files we need to remove expired sessions
+        if(rand(1, 100) > 90) {
+            $storage->purge();
+        }
+
+        return $storage;
     },
     'csrf' => function ($app) {
         return new Anchorcms\Csrf($app['session']);

@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "2294f1d2623592fbc539ab781bd59dd4",
-    "content-hash": "8f57c28a46033648b214e488bf4794e8",
+    "hash": "975003ec88e114eccbfc12cb5416115c",
+    "content-hash": "2901ca2ad8c0ad750c8646b214f1648a",
     "packages": [
         {
             "name": "bjeavons/zxcvbn-php",
@@ -118,35 +118,35 @@
         },
         {
             "name": "doctrine/annotations",
-            "version": "v1.2.7",
+            "version": "v1.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/annotations.git",
-                "reference": "f25c8aab83e0c3e976fd7d19875f198ccf2f7535"
+                "reference": "30e07cf03edc3cd3ef579d0dd4dd8c58250799a5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/annotations/zipball/f25c8aab83e0c3e976fd7d19875f198ccf2f7535",
-                "reference": "f25c8aab83e0c3e976fd7d19875f198ccf2f7535",
+                "url": "https://api.github.com/repos/doctrine/annotations/zipball/30e07cf03edc3cd3ef579d0dd4dd8c58250799a5",
+                "reference": "30e07cf03edc3cd3ef579d0dd4dd8c58250799a5",
                 "shasum": ""
             },
             "require": {
                 "doctrine/lexer": "1.*",
-                "php": ">=5.3.2"
+                "php": "^5.6 || ^7.0"
             },
             "require-dev": {
                 "doctrine/cache": "1.*",
-                "phpunit/phpunit": "4.*"
+                "phpunit/phpunit": "^5.6.1"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.3.x-dev"
+                    "dev-master": "1.4.x-dev"
                 }
             },
             "autoload": {
-                "psr-0": {
-                    "Doctrine\\Common\\Annotations\\": "lib/"
+                "psr-4": {
+                    "Doctrine\\Common\\Annotations\\": "lib/Doctrine/Common/Annotations"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -182,7 +182,7 @@
                 "docblock",
                 "parser"
             ],
-            "time": "2015-08-31 12:32:49"
+            "time": "2016-10-24 11:45:47"
         },
         {
             "name": "doctrine/cache",
@@ -646,49 +646,13 @@
         {
             "name": "ircmaxell/tari-php",
             "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/ircmaxell/Tari-PHP.git",
-                "reference": "9d9512c767db557febc2a264f8390daf6b3c6517"
-            },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ircmaxell/Tari-PHP/zipball/9d9512c767db557febc2a264f8390daf6b3c6517",
-                "reference": "9d9512c767db557febc2a264f8390daf6b3c6517",
-                "shasum": ""
+                "url": "https://github.com/ircmaxell/tari-php/archive/master.zip",
+                "reference": null,
+                "shasum": null
             },
-            "require": {
-                "php": "^7",
-                "psr/http-message": "^1.0"
-            },
-            "require-dev": {
-                "guzzlehttp/psr7": "^1.3",
-                "phpunit/phpunit": "^5.3"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Tari\\": [
-                        "lib/",
-                        "spec/"
-                    ]
-                }
-            },
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Anthony Ferrara",
-                    "email": "ircmaxell@gmail.com"
-                }
-            ],
-            "description": "A Middleware Proof-Of-Concept Library For PHP",
-            "support": {
-                "source": "https://github.com/ircmaxell/Tari-PHP/tree/master",
-                "issues": "https://github.com/ircmaxell/Tari-PHP/issues"
-            },
-            "time": "2016-05-21 13:21:07"
+            "type": "library"
         },
         {
             "name": "league/commonmark",
@@ -1033,177 +997,47 @@
         },
         {
             "name": "rwarasaurus/forms",
-            "version": "0.1.4",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/rwarasaurus/forms.git",
-                "reference": "4114cc1229167901810a7d3e1ed6fe99d4ac37a6"
-            },
+            "version": "dev-master",
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rwarasaurus/forms/zipball/4114cc1229167901810a7d3e1ed6fe99d4ac37a6",
-                "reference": "4114cc1229167901810a7d3e1ed6fe99d4ac37a6",
-                "shasum": ""
+                "url": "https://github.com/rwarasaurus/forms/archive/master.zip",
+                "reference": null,
+                "shasum": null
             },
-            "require": {
-                "php": ">=7"
-            },
-            "require-dev": {
-                "phpspec/phpspec": "~2"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Forms\\": "src/"
-                }
-            },
-            "license": [
-                "GPL-3.0"
-            ],
-            "authors": [
-                {
-                    "name": "Kieron",
-                    "homepage": "http://madebykieron.co.uk",
-                    "role": "Developer"
-                }
-            ],
-            "description": "Form builder",
-            "support": {
-                "source": "https://github.com/rwarasaurus/forms/tree/master",
-                "issues": "https://github.com/rwarasaurus/forms/issues"
-            },
-            "time": "2016-06-27 17:23:59"
+            "type": "library"
         },
         {
             "name": "rwarasaurus/router",
-            "version": "0.1.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/rwarasaurus/router.git",
-                "reference": "cc15c11b00e39d558fd6c92f46f7996b22aee2ed"
-            },
+            "version": "dev-master",
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rwarasaurus/router/zipball/cc15c11b00e39d558fd6c92f46f7996b22aee2ed",
-                "reference": "cc15c11b00e39d558fd6c92f46f7996b22aee2ed",
-                "shasum": ""
+                "url": "https://github.com/rwarasaurus/router/archive/master.zip",
+                "reference": null,
+                "shasum": null
             },
-            "require": {
-                "php": ">=5.5"
-            },
-            "require-dev": {
-                "phpspec/phpspec": "2.2.x"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "": "src/"
-                }
-            },
-            "license": [
-                "GPL-3.0"
-            ],
-            "authors": [
-                {
-                    "name": "Kieron",
-                    "email": "hello@madebykieron.co.uk",
-                    "homepage": "http://madebykieron.co.uk",
-                    "role": "Developer"
-                }
-            ],
-            "description": "Uri router library",
-            "support": {
-                "source": "https://github.com/rwarasaurus/router/tree/0.1.0",
-                "issues": "https://github.com/rwarasaurus/router/issues"
-            },
-            "time": "2016-07-29 08:48:13"
+            "type": "library"
         },
         {
             "name": "rwarasaurus/session",
-            "version": "0.1.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/rwarasaurus/session.git",
-                "reference": "f9563d7f51afe113e8da396d219d4f5ef3f58aa2"
-            },
+            "version": "dev-master",
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rwarasaurus/session/zipball/f9563d7f51afe113e8da396d219d4f5ef3f58aa2",
-                "reference": "f9563d7f51afe113e8da396d219d4f5ef3f58aa2",
-                "shasum": ""
+                "url": "https://github.com/rwarasaurus/session/archive/master.zip",
+                "reference": null,
+                "shasum": null
             },
-            "require": {
-                "php": "^7"
-            },
-            "require-dev": {
-                "phpspec/phpspec": "~2"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Session\\": "src/"
-                }
-            },
-            "license": [
-                "GPL-3.0"
-            ],
-            "authors": [
-                {
-                    "name": "Kieron",
-                    "homepage": "http://madebykieron.co.uk",
-                    "role": "Developer"
-                }
-            ],
-            "description": "Session wrapper",
-            "support": {
-                "source": "https://github.com/rwarasaurus/session/tree/0.1.0",
-                "issues": "https://github.com/rwarasaurus/session/issues"
-            },
-            "time": "2016-07-29 08:42:02"
+            "type": "library"
         },
         {
             "name": "rwarasaurus/validation",
-            "version": "0.1.4",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/rwarasaurus/validation.git",
-                "reference": "a591d007f42485387c7c9b82d41c138881f996ac"
-            },
+            "version": "dev-master",
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rwarasaurus/validation/zipball/a591d007f42485387c7c9b82d41c138881f996ac",
-                "reference": "a591d007f42485387c7c9b82d41c138881f996ac",
-                "shasum": ""
+                "url": "https://github.com/rwarasaurus/validation/archive/master.zip",
+                "reference": null,
+                "shasum": null
             },
-            "require": {
-                "php": ">=7"
-            },
-            "require-dev": {
-                "phpspec/phpspec": "~2"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Validation\\": "src/"
-                }
-            },
-            "license": [
-                "GPL-3.0"
-            ],
-            "authors": [
-                {
-                    "name": "Kieron",
-                    "email": "hello@madebykieron.co.uk",
-                    "homepage": "http://madebykieron.co.uk",
-                    "role": "Developer"
-                }
-            ],
-            "description": "Input validator",
-            "support": {
-                "source": "https://github.com/rwarasaurus/validation/tree/0.1.4",
-                "issues": "https://github.com/rwarasaurus/validation/issues"
-            },
-            "time": "2016-09-23 14:48:14"
+            "type": "library"
         },
         {
             "name": "symfony/console",
@@ -1497,6 +1331,64 @@
                 "instantiate"
             ],
             "time": "2015-06-14 21:17:01"
+        },
+        {
+            "name": "friendsofphp/php-cs-fixer",
+            "version": "v1.12.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/FriendsOfPHP/PHP-CS-Fixer.git",
+                "reference": "baa7112bef3b86c65fcfaae9a7a50436e3902b41"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/FriendsOfPHP/PHP-CS-Fixer/zipball/baa7112bef3b86c65fcfaae9a7a50436e3902b41",
+                "reference": "baa7112bef3b86c65fcfaae9a7a50436e3902b41",
+                "shasum": ""
+            },
+            "require": {
+                "ext-tokenizer": "*",
+                "php": "^5.3.6 || >=7.0 <7.2",
+                "sebastian/diff": "^1.1",
+                "symfony/console": "^2.3 || ^3.0",
+                "symfony/event-dispatcher": "^2.1 || ^3.0",
+                "symfony/filesystem": "^2.1 || ^3.0",
+                "symfony/finder": "^2.1 || ^3.0",
+                "symfony/process": "^2.3 || ^3.0",
+                "symfony/stopwatch": "^2.5 || ^3.0"
+            },
+            "conflict": {
+                "hhvm": "<3.9"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^4.5|^5",
+                "satooshi/php-coveralls": "^1.0"
+            },
+            "bin": [
+                "php-cs-fixer"
+            ],
+            "type": "application",
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\CS\\": "Symfony/CS/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Dariusz Rumiński",
+                    "email": "dariusz.ruminski@gmail.com"
+                },
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                }
+            ],
+            "description": "A tool to automatically fix PHP code style",
+            "time": "2016-09-27 07:57:59"
         },
         {
             "name": "phpdocumentor/reflection-common",
@@ -2055,6 +1947,55 @@
             "time": "2015-11-11 19:50:13"
         },
         {
+            "name": "symfony/filesystem",
+            "version": "v3.1.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/filesystem.git",
+                "reference": "682fd8fdb3135fdf05fc496a01579ccf6c85c0e5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/filesystem/zipball/682fd8fdb3135fdf05fc496a01579ccf6c85c0e5",
+                "reference": "682fd8fdb3135fdf05fc496a01579ccf6c85c0e5",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.5.9"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.1-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\Filesystem\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony Filesystem Component",
+            "homepage": "https://symfony.com",
+            "time": "2016-09-14 00:18:46"
+        },
+        {
             "name": "symfony/finder",
             "version": "v3.1.5",
             "source": {
@@ -2151,6 +2092,55 @@
             "description": "Symfony Process Component",
             "homepage": "https://symfony.com",
             "time": "2016-09-29 14:13:09"
+        },
+        {
+            "name": "symfony/stopwatch",
+            "version": "v3.1.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/stopwatch.git",
+                "reference": "bb42806b12c5f89db4ebf64af6741afe6d8457e1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/stopwatch/zipball/bb42806b12c5f89db4ebf64af6741afe6d8457e1",
+                "reference": "bb42806b12c5f89db4ebf64af6741afe6d8457e1",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.5.9"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.1-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\Stopwatch\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony Stopwatch Component",
+            "homepage": "https://symfony.com",
+            "time": "2016-06-29 05:41:56"
         },
         {
             "name": "symfony/yaml",
@@ -2255,7 +2245,11 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "ircmaxell/tari-php": 20
+        "ircmaxell/tari-php": 20,
+        "rwarasaurus/forms": 20,
+        "rwarasaurus/validation": 20,
+        "rwarasaurus/session": 20,
+        "rwarasaurus/router": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
