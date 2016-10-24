@@ -68,7 +68,7 @@ class Plugins
         $active = json_decode($jsonStr, true);
 
         // filter inactive plugins by folder name
-        return array_filter($this->getPlugins(), function ($pluginManifest) use ($active) {
+        return array_filter($this->getPlugins(), function (PluginManifest $pluginManifest) use ($active) {
             return in_array($pluginManifest->getFolder(), $active);
         });
     }
