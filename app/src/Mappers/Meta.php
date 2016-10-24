@@ -13,7 +13,7 @@ class Meta extends AbstractMapper
     public function all(): array
     {
         foreach ($this->db->fetchAll($this->query()) as $row) {
-            $this->map[$row['key']] = $row['value'];
+            $this->map[$row['meta_key']] = $row['meta_value'];
         }
 
         return $this->map;
@@ -26,8 +26,8 @@ class Meta extends AbstractMapper
             return $this->map[$key];
         }
 
-        $query = $this->query()->select('value')
-            ->where('key = :key')
+        $query = $this->query()->select('meta_value')
+            ->where('meta_key = :key')
             ->setParameter('key', $key);
 
         $value = $this->db->fetchColumn($query->getSQL(), $query->getParameters());
@@ -40,15 +40,15 @@ class Meta extends AbstractMapper
         $this->map[$key] = $value;
 
         $query = $this->query()->select('value')
-            ->where('key = :key')
+            ->where('meta_key = :key')
             ->setParameter('key', $key);
 
         if ($this->count($query)) {
-            return $this->db->update($this->getTableName(), ['value' => $value], ['key' => $key]);
+            return $this->db->update($this->getTableName(), ['meta_value' => $value], ['meta_key' => $key]);
         } else {
             return $this->db->insert($this->getTableName(), [
-                'key' => $key,
-                'value' => $value,
+                'meta_key' => $key,
+                'meta_value' => $value,
             ]);
         }
     }

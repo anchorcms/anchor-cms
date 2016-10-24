@@ -32,12 +32,12 @@ class ACL implements ServerMiddlewareInterface
     {
         return $this->session->has('user') ?
             $this->users->fetchById($this->session->get('user')) :
-            new User(['role' => 'guest']);
+            new User(['user_role' => 'guest']);
     }
 
     private function fetchRules(User $user): array
     {
-        return $this->acl['rules'][$user->role] ?? [];
+        return $this->acl['rules'][$user->user_role] ?? [];
     }
 
     public function handle(ServerRequestInterface $request, ServerFrameInterface $frame): ResponseInterface

@@ -13,7 +13,7 @@
 			<?php foreach($fields as $field): ?>
 			<li>
 				<h3><a href="/admin/fields/<?php echo $field->id; ?>/edit"><?php echo $field->label; ?></a></h3>
-				<span class="badge badge--pinned"><?php echo $field->type; ?> <?php echo $field->field; ?></span>
+				<span class="badge badge--pinned"><?php echo $field->content_type; ?> <?php echo $field->input_type; ?></span>
 			</li>
 			<?php endforeach; ?>
 		</ul>

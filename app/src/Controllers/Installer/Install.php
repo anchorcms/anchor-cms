@@ -103,8 +103,8 @@ class Install extends AbstractController
         $validator->addRule(new ValidateToken($this->container['csrf']->token()), '_token');
 
         try {
-            $this->container['services.installer']->connectDatabase($input);
-        } catch (\PDOException $e) {
+            $this->container['services.installer']->getDatabaseConnection($input);
+        } catch (\Throwable $e) {
             $validator->setInvalid($e->getMessage());
         }
 

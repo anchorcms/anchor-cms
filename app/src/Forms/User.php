@@ -38,7 +38,7 @@ class User extends Form
             ],
         ]));
 
-        $this->addElement(new \Forms\Elements\Select('role', [
+        $this->addElement(new \Forms\Elements\Select('user_role', [
             'label' => 'Role',
             'options' => [
                 'admin' => 'Admin',

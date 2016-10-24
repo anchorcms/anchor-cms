@@ -10,7 +10,7 @@ class CustomField extends Form
     {
         $this->addElement(new \Forms\Elements\Hidden('_token'));
 
-        $this->addElement(new \Forms\Elements\Select('type', [
+        $this->addElement(new \Forms\Elements\Select('content_type', [
             'label' => 'Content Type',
             'options' => [
                 'post' => 'Post',
@@ -18,7 +18,7 @@ class CustomField extends Form
             ],
         ]));
 
-        $this->addElement(new \Forms\Elements\Select('field', [
+        $this->addElement(new \Forms\Elements\Select('input_type', [
             'label' => 'Input Type',
             'options' => [
                 'text' => 'Text',
@@ -28,7 +28,7 @@ class CustomField extends Form
             ],
         ]));
 
-        $this->addElement(new \Forms\Elements\Input('key', [
+        $this->addElement(new \Forms\Elements\Input('field_key', [
             'label' => 'Key',
         ]));
 
@@ -46,9 +46,9 @@ class CustomField extends Form
     {
         return [
             '_token' => FILTER_SANITIZE_STRING,
-            'type' => FILTER_SANITIZE_STRING,
-            'field' => FILTER_SANITIZE_STRING,
-            'key' => FILTER_SANITIZE_STRING,
+            'content_type' => FILTER_SANITIZE_STRING,
+            'input_type' => FILTER_SANITIZE_STRING,
+            'field_key' => FILTER_SANITIZE_STRING,
             'label' => FILTER_SANITIZE_STRING,
         ];
     }
@@ -56,9 +56,9 @@ class CustomField extends Form
     public function getRules(): array
     {
         return [
-            'type' => ['label' => 'Content Type', 'rules' => ['required']],
-            'field' => ['label' => 'Input Type', 'rules' => ['required']],
-            'key' => ['label' => 'Key', 'rules' => ['required']],
+            'content_type' => ['label' => 'Content Type', 'rules' => ['required']],
+            'input_type' => ['label' => 'Input Type', 'rules' => ['required']],
+            'field_key' => ['label' => 'Key', 'rules' => ['required']],
             'label' => ['label' => 'Label', 'rules' => ['required']],
         ];
     }

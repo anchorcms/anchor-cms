@@ -6,28 +6,27 @@ CREATE TABLE `{prefix}categories` (
 	`description` TEXT NOT NULL,
 	PRIMARY KEY (`id`),
 	UNIQUE INDEX `slug` (`slug`)
-);
+) ROW_FORMAT=DYNAMIC DEFAULT CHARACTER SET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE `{prefix}custom_fields` (
 	`id` INT NOT NULL AUTO_INCREMENT,
-	`type` VARCHAR(255) NOT NULL,
-	`field` VARCHAR(255) NOT NULL,
-	`key` VARCHAR(255) NOT NULL,
+	`content_type` VARCHAR(255) NOT NULL,
+	`input_type` VARCHAR(255) NOT NULL,
+	`field_key` VARCHAR(255) NOT NULL,
 	`label` TEXT NOT NULL,
 	`attributes` TEXT NOT NULL,
 	PRIMARY KEY (`id`),
-	INDEX `type` (`type`),
-	INDEX `field` (`field`),
-	INDEX `key` (`key`)
-);
+	INDEX `content_type` (`content_type`),
+	INDEX `input_type` (`input_type`)
+) ROW_FORMAT=DYNAMIC DEFAULT CHARACTER SET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE `{prefix}meta` (
 	`id` INT NOT NULL AUTO_INCREMENT,
-	`key` VARCHAR(255) NOT NULL,
-	`value` TEXT NOT NULL,
+	`meta_key` VARCHAR(255) NOT NULL,
+	`meta_value` TEXT NOT NULL,
 	PRIMARY KEY (`id`),
-	UNIQUE INDEX `key` (`key`)
-);
+	UNIQUE INDEX `meta_key` (`meta_key`)
+) ROW_FORMAT=DYNAMIC DEFAULT CHARACTER SET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE `{prefix}page_meta` (
 	`id` INT NOT NULL AUTO_INCREMENT,
@@ -37,7 +36,7 @@ CREATE TABLE `{prefix}page_meta` (
 	PRIMARY KEY (`id`),
 	INDEX `page` (`page`),
 	INDEX `custom_field` (`custom_field`)
-);
+) ROW_FORMAT=DYNAMIC DEFAULT CHARACTER SET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE `{prefix}pages` (
 	`id` INT NOT NULL AUTO_INCREMENT,
@@ -57,7 +56,7 @@ CREATE TABLE `{prefix}pages` (
 	INDEX `status` (`status`),
 	INDEX `show_in_menu` (`show_in_menu`),
 	INDEX `menu_order` (`menu_order`)
-);
+) ROW_FORMAT=DYNAMIC DEFAULT CHARACTER SET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE `{prefix}post_meta` (
 	`id` INT NOT NULL AUTO_INCREMENT,
@@ -67,7 +66,7 @@ CREATE TABLE `{prefix}post_meta` (
 	PRIMARY KEY (`id`),
 	INDEX `post` (`post`),
 	INDEX `custom_field` (`custom_field`)
-);
+) ROW_FORMAT=DYNAMIC DEFAULT CHARACTER SET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE `{prefix}posts` (
 	`id` INT NOT NULL AUTO_INCREMENT,
@@ -87,7 +86,7 @@ CREATE TABLE `{prefix}posts` (
 	INDEX `author` (`author`),
 	INDEX `category` (`category`),
 	INDEX `status` (`status`)
-);
+) ROW_FORMAT=DYNAMIC DEFAULT CHARACTER SET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE `{prefix}users` (
 	`id` INT NOT NULL AUTO_INCREMENT,
@@ -97,13 +96,13 @@ CREATE TABLE `{prefix}users` (
 	`name` TEXT NOT NULL,
 	`bio` TEXT NOT NULL,
 	`status` VARCHAR(255) NOT NULL,
-	`role` VARCHAR(255) NOT NULL,
+	`user_role` VARCHAR(255) NOT NULL,
 	PRIMARY KEY (`id`),
 	UNIQUE INDEX `username` (`username`),
 	UNIQUE INDEX `email` (`email`),
 	INDEX `status` (`status`),
-	INDEX `role` (`role`)
-);
+	INDEX `user_role` (`user_role`)
+) ROW_FORMAT=DYNAMIC DEFAULT CHARACTER SET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE `{prefix}user_tokens` (
 	`id` INT NOT NULL AUTO_INCREMENT,
@@ -116,4 +115,4 @@ CREATE TABLE `{prefix}user_tokens` (
 	INDEX `expires` (`expires`),
 	INDEX `token` (`token`),
 	INDEX `signature` (`signature`)
-);
+) ROW_FORMAT=DYNAMIC DEFAULT CHARACTER SET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

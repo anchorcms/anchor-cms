@@ -109,7 +109,7 @@ class Users extends AbstractController
             'name' => $input['name'],
             'bio' => $input['bio'],
             'status' => $input['status'],
-            'role' => $input['role'],
+            'user_role' => $input['user_role'],
         ]);
 
         $this->container['messages']->success(['User created']);
@@ -183,7 +183,7 @@ class Users extends AbstractController
             'name' => $input['name'],
             'bio' => $input['bio'],
             'status' => $input['status'],
-            'role' => $input['role'],
+            'user_role' => $input['user_role'],
         ];
 
         // password set, hash it and add it to update array

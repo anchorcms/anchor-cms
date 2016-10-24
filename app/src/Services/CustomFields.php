@@ -30,7 +30,7 @@ class CustomFields
     protected function getFields(string $type): array
     {
         $query = $this->fields->query();
-        $query->where('type = :type')
+        $query->where('content_type = :type')
             ->setParameter('type', $type);
 
         return $this->fields->fetchAll($query);
@@ -53,7 +53,7 @@ class CustomFields
             $meta = $this->$table->fetch($query);
 
             if ($meta) {
-                $values[$field->key] = json_decode($meta->data, true);
+                $values[$field->field_key] = json_decode($meta->data, true);
             }
         }
 
@@ -72,12 +72,12 @@ class CustomFields
                 continue;
             }
 
-            if (null === $input[$field->key] && array_key_exists($field->key, $files)) {
+            if (null === $input[$field->field_key] && array_key_exists($field->field_key, $files)) {
                 $result = $this->media->upload($files[$field->key]);
 
                 $value = json_encode($result);
             } else {
-                $value = json_encode($input[$field->key]);
+                $value = json_encode($input[$field->field_key]);
             }
 
             $query = $this->$table->query()
@@ -104,7 +104,7 @@ class CustomFields
 
     protected function appendTextField(Form $form, ModelInterface $field, array $attributes)
     {
-        $input = new FormInput($field->key, [
+        $input = new FormInput($field->field_key, [
             'label' => $field->label,
             'attributes' => $attributes,
         ]);
@@ -114,7 +114,7 @@ class CustomFields
 
     protected function appendHtmlField(Form $form, ModelInterface $field, array $attributes)
     {
-        $input = new FormTextarea($field->key, [
+        $input = new FormTextarea($field->field_key, [
             'label' => $field->label,
             'attributes' => $attributes,
         ]);
@@ -124,7 +124,7 @@ class CustomFields
 
     protected function appendImageField(Form $form, ModelInterface $field, array $attributes)
     {
-        $input = new FormFile($field->key, [
+        $input = new FormFile($field->field_key, [
             'label' => $field->label,
             'attributes' => $attributes,
         ]);
@@ -134,7 +134,7 @@ class CustomFields
 
     protected function appendFileField(Form $form, ModelInterface $field, array $attributes)
     {
-        $input = new FormFile($field->key, [
+        $input = new FormFile($field->field_key, [
             'label' => $field->label,
             'attributes' => $attributes,
         ]);
@@ -148,9 +148,9 @@ class CustomFields
 
         foreach ($fields as $field) {
             $attributes = json_decode($field->attributes, true) ?: [];
-            $method = sprintf('append%sField', ucfirst($field->field));
+            $method = sprintf('append%sField', ucfirst($field->input_type));
             $this->{$method}($form, $field, $attributes);
-            $form->pushFilter($field->key, FILTER_UNSAFE_RAW);
+            $form->pushFilter($field->field_key, FILTER_UNSAFE_RAW);
         }
     }
 }

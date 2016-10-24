@@ -2,9 +2,16 @@
 
 namespace Anchorcms\Services;
 
-use PDO;
-use Doctrine\DBAL\Configuration;
-use Doctrine\DBAL\DriverManager;
+use Doctrine\DBAL\{
+    Configuration,
+    Connection,
+    DriverManager,
+    DBALException
+};
+use Doctrine\DBAL\Logging\{
+    DebugStack,
+    SQLLogger
+};
 
 class Installer
 {
@@ -12,10 +19,13 @@ class Installer
 
     protected $session;
 
-    public function __construct(array $paths, $session)
+    protected $logger;
+
+    public function __construct(array $paths, $session, SQLLogger $logger = null)
     {
         $this->paths = $paths;
         $this->session = $session;
+        $this->logger = null === $logger ? new DebugStack : $logger;
     }
 
     public function isInstalled(): bool
@@ -23,28 +33,22 @@ class Installer
         return is_dir($this->paths['config']);
     }
 
-    public function buildDns(array $params)
-    {
-        $parts = [];
+    public function getDatabaseConnection(array $params): Connection {
+        $config = new Configuration;
+        $config->setSQLLogger($this->logger);
 
-        if ($params['db_driver'] == 'pdo_sqlite') {
-            $parts[] = $this->paths['storage'].'/'.$params['db_path'];
-        }
-
-        if ($params['db_driver'] == 'pdo_mysql') {
-            $parts[] = sprintf('host=%s', $params['db_host']);
-            $parts[] = sprintf('port=%s', $params['db_port']);
-            $parts[] = sprintf('dbname=%s', $params['db_dbname']);
-        }
-
-        return sprintf('%s:%s', substr($params['db_driver'], 4), implode(';', $parts));
+        return DriverManager::getConnection([
+            'user' => $params['db_user'],
+            'password' => $params['db_password'],
+            'host' => $params['db_host'],
+            'port' => $params['db_port'],
+            'dbname' => $params['db_dbname'],
+            'driver' => $params['db_driver'],
+        ], $config);
     }
 
-    public function connectDatabase(array $params)
-    {
-        $dns = $this->buildDns($params);
-
-        return new PDO($dns, $params['db_user'], $params['db_password']);
+    protected function getLastQuery(): array {
+        return end($this->logger->queries);
     }
 
     public function run(array $input, Auth $auth)
@@ -53,11 +57,40 @@ class Installer
 
         $this->copySampleConfig($input);
 
-        $pdo = $this->connectDatabase($input);
+        $conn = $this->getDatabaseConnection($input);
 
-        $this->runSchema($pdo, $input);
+        try {
+            $this->runSchema($conn, $input);
+            $this->setupDatabase($conn, $input, $auth);
+        }
+        catch(DBALException $exception) {
+            $this->tearDown($conn, $input['db_table_prefix']);
 
-        $this->setupDatabase($pdo, $input, $auth);
+            throw $exception;
+        }
+    }
+
+    protected function tearDown(Connection $conn, string $prefix) {
+        $path = $this->paths['config'];
+
+        $pattern = sprintf('%s/*.json', $path);
+
+        foreach (glob($pattern) as $src) {
+            unlink($src);
+        }
+
+        rmdir($path);
+
+        foreach([
+            'categories',
+            'custom_fields',
+            'meta',
+            'page_meta', 'pages',
+            'post_meta', 'posts',
+            'users', 'user_tokens',
+        ] as $table) {
+            $conn->query('DROP TABLE IF EXISTS ' . $conn->quoteIdentifier($prefix.$table));
+        }
     }
 
     protected function copySampleConfig(array $input)
@@ -91,7 +124,7 @@ class Installer
         }
     }
 
-    protected function runSchema(PDO $pdo, array $input)
+    protected function runSchema(Connection $conn, array $input)
     {
         $path = $this->paths['resources'].'/schema_'.substr($input['db_driver'], 4).'.sql';
         $schema = file_get_contents($path);
@@ -99,16 +132,16 @@ class Installer
         // replace table prefix
         $schema = str_replace('{prefix}', $input['db_table_prefix'], $schema);
 
-        foreach (explode(';', $schema) as $sql) {
-            $pdo->exec($sql);
+        // split into statements
+        $statements = array_filter(array_map('trim', explode(';', $schema)));
+
+        foreach ($statements as $sql) {
+            $conn->query($sql);
         }
     }
 
-    protected function setupDatabase(PDO $pdo, array $input, Auth $auth)
+    protected function setupDatabase(Connection $conn, array $input, Auth $auth)
     {
-        $config = new Configuration();
-        $conn = DriverManager::getConnection(['pdo' => $pdo], $config);
-
         $conn->insert($input['db_table_prefix'].'categories', [
             'title' => 'Uncategorised',
             'slug' => 'uncategorised',
@@ -124,7 +157,7 @@ class Installer
             'name' => $input['account_username'],
             'bio' => 'The bouse',
             'status' => 'active',
-            'role' => 'admin',
+            'user_role' => 'admin',
         ]);
 
         $user = $conn->lastInsertId();
@@ -185,8 +218,8 @@ class Installer
 
         foreach ($meta as $key => $value) {
             $conn->insert($input['db_table_prefix'].'meta', [
-                'key' => $key,
-                'value' => $value,
+                'meta_key' => $key,
+                'meta_value' => $value,
             ]);
         }
     }

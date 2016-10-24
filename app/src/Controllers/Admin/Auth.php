@@ -67,7 +67,7 @@ class Auth extends AbstractController
             if (false === $user) {
                 $validator->setInvalid('Sorry, we don&apos;t reconise those details');
             } elseif (false === $user->isActive()) {
-                $validator->setInvalid('Your account have not active');
+                $validator->setInvalid('Your account is not active');
             }
         }
 

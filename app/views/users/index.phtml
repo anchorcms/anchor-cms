@@ -15,7 +15,7 @@
 				<h3><a href="/admin/users/<?php echo $user->id; ?>/edit"><?php echo $user->name; ?></a></h3>
 				<span class="badge--pinned">
 					<span class="badge">
-						<?php echo $user->role; ?>
+						<?php echo $user->user_role; ?>
 					</span>
 					<?php if( ! $user->isActive()): ?>
 					<span class="badge">

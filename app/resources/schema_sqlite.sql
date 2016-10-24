@@ -8,15 +8,15 @@ CREATE TABLE "{prefix}categories" (
 
 CREATE TABLE "{prefix}custom_fields" (
 	"id" INTEGER NOT NULL PRIMARY KEY,
-	"type" TEXT NOT NULL,
-	"field" TEXT NOT NULL,
-	"key" TEXT NOT NULL,
+	"content_type" TEXT NOT NULL,
+	"input_type" TEXT NOT NULL,
+	"field_key" TEXT NOT NULL,
 	"label" TEXT NOT NULL,
 	"attributes" TEXT NOT NULL
 );
 
-CREATE INDEX "{prefix}custom_fields_type" ON "{prefix}custom_fields" ("type");
-CREATE INDEX "{prefix}custom_fields_field" ON "{prefix}custom_fields" ("field");
+CREATE INDEX "{prefix}custom_fields_content_type" ON "{prefix}custom_fields" ("content_type");
+CREATE INDEX "{prefix}custom_fields_input_type" ON "{prefix}custom_fields" ("input_type");
 
 CREATE TABLE "{prefix}meta" (
 	"id" INTEGER NOT NULL PRIMARY KEY,
@@ -92,11 +92,11 @@ CREATE TABLE "{prefix}users" (
 	"name" TEXT NOT NULL,
 	"bio" TEXT NOT NULL,
 	"status" TEXT NOT NULL,
-	"role" TEXT NOT NULL
+	"user_role" TEXT NOT NULL
 );
 
 CREATE INDEX "{prefix}users_status" ON "{prefix}users" ("status");
-CREATE INDEX "{prefix}users_role" ON "{prefix}users" ("role");
+CREATE INDEX "{prefix}users_user_role" ON "{prefix}users" ("user_role");
 
 CREATE TABLE "{prefix}user_tokens" (
 	"id" INTEGER NOT NULL PRIMARY KEY,

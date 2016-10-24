@@ -63,9 +63,9 @@ class Fields extends AbstractController
         }
 
         $id = $this->container['mappers.customFields']->insert([
-            'type' => $input['type'],
-            'field' => $input['field'],
-            'key' => $input['key'],
+            'content_type' => $input['content_type'],
+            'input_type' => $input['input_type'],
+            'field_key' => $input['field_key'],
             'label' => $input['label'],
             'attributes' => '{}',
         ]);
@@ -117,9 +117,9 @@ class Fields extends AbstractController
         }
 
         $this->container['mappers.customFields']->update($field->id, [
-            'type' => $input['type'],
-            'field' => $input['field'],
-            'key' => $input['key'],
+            'content_type' => $input['content_type'],
+            'input_type' => $input['input_type'],
+            'field_key' => $input['field_key'],
             'label' => $input['label'],
         ]);
 
