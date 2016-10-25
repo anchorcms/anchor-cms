@@ -21,6 +21,12 @@
                     </p>
                 </form>
             <?php endif; ?>
+            <form class="form--inline" action="/admin/plugins/<?php echo strtolower($plugin->getName()); ?>/remove"
+                  method="post">
+                <p>
+                    <button class="button button--danger">Remove</button>
+                </p>
+            </form>
         </div>
         <p><?php echo $plugin->getDescription(); ?></p>
     </header>

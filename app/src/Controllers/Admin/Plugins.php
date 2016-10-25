@@ -276,6 +276,29 @@ class Plugins extends AbstractController
         );
     }
 
+    /**
+     * this method should, probably, be handled with care.
+     * // TODO: Maybe implement some kind of "are you sure you wan't to fuck things up?"
+     *
+     * @access public
+     * @param ServerRequestInterface $request
+     * @param ResponseInterface      $response
+     * @param array                  $args
+     *
+     * @return ResponseInterface
+     */
+    public function postRemove(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
+    {
+        $plugin = $this->container['services.plugins']->getPlugin(urldecode($args['name']));
+
+        $plugin->remove();
+
+        $this->container['messages']->success(['Plugin removed']);
+        return $this->redirect($response, $this->container['url']
+            ->to('/admin/plugins')
+        );
+    }
+
     public function getVersionCheck(ServerRequestInterface $request, ResponseInterface $response, array $args)
     {
         // resolve plugin name to prevent XSS attacks

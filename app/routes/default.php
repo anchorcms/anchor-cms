@@ -70,6 +70,7 @@ return [
     '/admin/plugins/:name/save' => 'controllers\\admin\\plugins@save',
     '/admin/plugins/:name/disable' => 'controllers\\admin\\plugins@disable',
     '/admin/plugins/:name/enable' => 'controllers\\admin\\plugins@enable',
+    '/admin/plugins/:name/remove' => 'controllers\\admin\\plugins@remove',
     '/admin/plugins/:name/versionCheck' => 'controllers\\admin\\plugins@versionCheck',
 
     // frontend

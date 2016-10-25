@@ -2,6 +2,7 @@
 namespace Anchorcms\Services\Plugins;
 
 use Forms\Form;
+use Symfony\Component\Finder\SplFileInfo;
 
 /**
  * Plugin service
@@ -167,6 +168,30 @@ class Plugin
     public function isActive(): bool
     {
         return (property_exists($this->manifest, 'active') ? $this->manifest->active : false);
+    }
+
+    /**
+     * removes the plugin by recursively deleting all files and folders
+     *
+     * @access public
+     * @param null|SplFileInfo $directory
+     *
+     * @return void
+     */
+    public function remove(SplFileInfo $directory = null)
+    {
+        $path = (isset($directory) ? $directory : $this->path);
+        $files = [];
+
+        $fi = new \FilesystemIterator($path, \FilesystemIterator::SKIP_DOTS);
+
+        foreach ($fi as $file) {
+            if ($file->isDir()) {
+                $this->remove($file);
+            } else {
+                unlink($file->getRealPath());
+            }
+        }
     }
 
     /**
