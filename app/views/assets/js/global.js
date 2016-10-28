@@ -48,3 +48,12 @@
 		title.innerHTML = message;
 	}, false);
 })();
+
+(function(){
+	var delay=10000, intensity=10, timer;
+	function resetTimer(){clearTimeout(timer); timer = setTimeout(blur, delay);}
+	function activity(){document.documentElement.setAttribute('style',''); resetTimer();}
+	function blur(){document.documentElement.setAttribute('style', 'filter:url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\'><filter id=\'blur\'><feGaussianBlur stdDeviation=\''+intensity+'\' /></filter></svg>#blur");-webkit-filter:blur('+intensity+'px);filter:blur('+intensity+'px);');}
+	['mousemove', 'keypress', 'scroll'].forEach(function(e){document.addEventListener(e, activity, false);});
+	resetTimer();
+})();
