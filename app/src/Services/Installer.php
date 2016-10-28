@@ -208,8 +208,6 @@ class Installer
             'posts_page' => $page,
             'posts_per_page' => 6,
             'admin_posts_per_page' => 10,
-            'comment_notifications' => 0,
-            'comment_moderation_keys' => '',
             'sitename' => $input['site_name'],
             'description' => $input['site_description'],
             'theme' => 'default',

@@ -70,7 +70,7 @@ class Meta extends AbstractController
             return $this->redirect($response, $this->container['url']->to('/admin/meta'));
         }
 
-        unset($input['token']);
+        unset($input['_token']);
 
         foreach ($input as $key => $value) {
             $this->container['mappers.meta']->put($key, $value);
