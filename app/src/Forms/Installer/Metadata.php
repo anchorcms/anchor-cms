@@ -17,7 +17,7 @@ class Metadata extends Form
 
         $this->addElement(new \Forms\Elements\Input('site_description', [
             'label' => 'Site Description',
-            'value' => 'It&rsquo;s not just any blog. It&rsquo;s an Anchor blog.',
+            'value' => 'It’s not just any blog. It’s an Anchor blog.',
         ]));
 
         $this->addElement(new \Forms\Elements\Input('site_path', [

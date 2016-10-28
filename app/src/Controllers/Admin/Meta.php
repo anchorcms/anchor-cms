@@ -17,9 +17,9 @@ class Meta extends AbstractController
     public function getIndex(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
         $query = $this->container['mappers.meta']->query()
-            ->where('key NOT LIKE :key')
+            ->where('meta_key NOT LIKE :key')
             ->setParameter('key', $this->prefix.'%')
-            ->orderBy('key', 'asc');
+            ->orderBy('meta_key', 'asc');
         $meta = $this->container['mappers.meta']->fetchAll($query);
 
         $form = new MetaForm([
@@ -39,7 +39,7 @@ class Meta extends AbstractController
         $values = [];
 
         foreach ($meta as $row) {
-            $values[$row->key] = $row->value;
+            $values[$row->meta_key] = $row->meta_value;
         }
 
         $form->setValues($this->container['session']->getStash('input', $values));
@@ -73,9 +73,7 @@ class Meta extends AbstractController
         unset($input['token']);
 
         foreach ($input as $key => $value) {
-            $this->container['mappers.meta']->update($key, [
-                'value' => $value,
-            ]);
+            $this->container['mappers.meta']->put($key, $value);
         }
 
         $this->container['messages']->success(['Metadata updated']);
