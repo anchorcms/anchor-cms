@@ -1,0 +1,14 @@
+<div class="wrap">
+    <header class="heading">
+        <h2><?php echo $plugin->getName(); ?></h2>
+    </header>
+
+    <main>
+        <?php if ($plugin->hasOptions()): ?>
+            <?php echo $this->render('partials/form', ['form' => $options]); ?>
+        <?php else: ?>
+            <span>This plugin has no options available.</span>
+        <?php endif; ?>
+    </main>
+</div>
+<?php echo $this->render('partials/messages-float', ['messages' => $messages]); ?>

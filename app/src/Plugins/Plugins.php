@@ -23,6 +23,12 @@ class Plugins
      */
     protected $events;
 
+    /**
+     * Plugins constructor.
+     *
+     * @param string          $path
+     * @param EventDispatcher $events
+     */
     public function __construct(string $path, EventDispatcher $events)
     {
         $this->path = $path;
@@ -31,12 +37,13 @@ class Plugins
 
     /**
      * Scan plugin directory for plugin manifest files
+     * @return array
      */
     public function getPlugins(): array
     {
         $plugins = [];
 
-        if (! is_dir($this->path)) {
+        if (!is_dir($this->path)) {
             mkdir($this->path, 0755, true);
         }
 
@@ -58,8 +65,7 @@ class Plugins
     /**
      * Get array of active plugins set in the meta table
      *
-     * @param string path to plugins directory
-     * @param object mapper of meta table
+     * @param MapperInterface $meta mapper of meta table
      * @return array
      */
     public function getActivePlugins(MapperInterface $meta): array
@@ -76,8 +82,9 @@ class Plugins
     /**
      * Append plugin folder name to the list of active plugins
      *
-     * @param string folder name
-     * @param object meta table mapper
+     * @param string $folder folder name
+     * @param MapperInterface $meta meta table mapper
+     * @return void
      */
     public function activatePlugin(string $folder, MapperInterface $meta)
     {
@@ -90,8 +97,9 @@ class Plugins
     /**
      * Unset plugin folder name from the list of active plugins
      *
-     * @param string folder name
-     * @param object meta table mapper
+     * @param string $folder folder name
+     * @param MapperInterface $meta meta table mapper
+     * @return void
      */
     public function deactivatePlugin(string $folder, MapperInterface $meta)
     {
@@ -106,13 +114,14 @@ class Plugins
     /**
      * Fetch a plugin manifest object by directory
      *
-     * @param string full path to plugin folder name
+     * @param string $folder full path to plugin folder name
+     * @return PluginManifest
      */
     public function getPluginByFolder(string $folder): PluginManifest
     {
         $manifest = $this->path . '/' . $folder . '/manifest.json';
 
-        if (! is_file($manifest)) {
+        if (!is_file($manifest)) {
             throw new \RuntimeException(sprintf('manifest file not found for %s', $folder));
         }
 
@@ -127,11 +136,10 @@ class Plugins
     }
 
     /**
-     * Init active plugins
-     *
-     * @param string path to plugins directory
-     * @param array of active plugins
-     * @param object symfony event dispatcher
+     * @access public
+     * @param array       $plugins active plugins
+     * @param ClassLoader $loader
+     * @return void
      */
     public function init(array $plugins, ClassLoader $loader)
     {
@@ -150,8 +158,8 @@ class Plugins
     /**
      * Get a active plugin by folder name
      *
-     * @param string folder name
-     * @return object AbstractPlugin
+     * @param string $folder folder name
+     * @return AbstractPlugin
      */
     public function getActivePlugin(string $folder): AbstractPlugin
     {

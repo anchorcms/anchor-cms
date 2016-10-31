@@ -63,6 +63,8 @@ return [
     '/admin/themes/activate' => 'controllers\\admin\\themes@activate',
 
     '/admin/plugins' => 'controllers\\admin\\plugins@index',
+    '/admin/plugins/:folder' => 'controllers\\admin\\plugins@options',
+    '/admin/plugins/:folder/save' => 'controllers\\admin\\plugins@saveOptions',
     '/admin/plugins/:folder/activate' => 'controllers\\admin\\plugins@activate',
     '/admin/plugins/:folder/deactivate' => 'controllers\\admin\\plugins@deactivate',
 

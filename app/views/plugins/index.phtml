@@ -1,23 +1,29 @@
-
 <div class="wrap">
-	<header class="heading">
-		<h2>Plugins</h2>
-	</header>
+    <header class="heading">
+        <h2>Plugins</h2>
+    </header>
 
-	<main>
-		<ul class="listing">
-			<?php foreach($plugins as $plugin): ?>
-			<li>
-				<h3><?php echo $plugin->getName(); ?></h3>
-				<p><?php echo $plugin->getSummary(); ?></p>
-				<span class="badge badge--pinned"><?php echo $plugin->getVersion(); ?></span>
-				<?php if(array_reduce($active, function($carry, $item) use($plugin) { return $plugin->getFolder() == $item->getFolder() ? true : $carry; }, false)): ?>
-				<p><a href="/admin/plugins/<?php echo $plugin->getFolder(); ?>/deactivate" class="button button--small">Deactivate</a></p>
-				<?php else: ?>
-				<p><a href="/admin/plugins/<?php echo $plugin->getFolder(); ?>/activate" class="button button--small">Activate</a></p>
-				<?php endif; ?>
-			</li>
-			<?php endforeach; ?>
-		</ul>
-	</main>
+    <main>
+        <ul class="listing">
+            <?php foreach ($plugins as $plugin): ?>
+                <li>
+                    <h3><?php echo $plugin->getName(); ?></h3>
+                    <p><?php echo $plugin->getSummary(); ?></p>
+                    <span class="badge badge--pinned"><?php echo $plugin->getVersion(); ?></span>
+                    <p>
+                        <?php if (array_reduce($active, function ($carry, $item) use ($plugin) {
+                            return $plugin->getFolder() == $item->getFolder() ? true : $carry;
+                        }, false)): ?>
+                            <a href="/admin/plugins/<?php echo $plugin->getFolder(); ?>/deactivate" class="button button--small">Deactivate</a>
+                        <?php else: ?>
+                            <a href="/admin/plugins/<?php echo $plugin->getFolder(); ?>/activate" class="button button--small">Activate</a>
+                        <?php endif; ?>
+                        <?php if ($plugin->hasOptions()): ?>
+                            <a href="/admin/plugins/<?php echo $plugin->getFolder(); ?>" class="button button--small">Options</a>
+                        <?php endif; ?>
+                    </p>
+                </li>
+            <?php endforeach; ?>
+        </ul>
+    </main>
 </div>
