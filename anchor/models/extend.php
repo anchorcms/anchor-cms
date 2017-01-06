@@ -103,22 +103,27 @@ class extend extends Base
             case 'file':
                 $value = isset($item->value->filename) ? $item->value->filename : '';
 
-                $html = '<span class="current-file">';
+		$html = '<span class="current-file">';
 
-                if ($value) {
-                    $html .= '<a href="' . asset('content/' . $value) . '" target="_blank">' . $value . '</a>';
-                }
+		if($value) {
+			$html .= '<a href="' . asset('content/' . $value) . '" target="_blank">' . $value . '</a>';
+		}
 
-                $html .= '</span>
-					<span class="file">
-					<input id="extend_' . $item->key . '" name="extend[' . $item->key . ']" type="file">
-					</span>';
+		$html .= '</span>
+			<span class="file">
+			<input id="extend_' . $item->key . '" name="extend[' . $item->key . ']" type="file">';
 
-                if ($value) {
-                    $html .= '</p><p>
-					<label>' . __('global.delete') . ' ' . $item->label . ':</label>
-					<input type="checkbox" name="extend_remove[' . $item->key . ']" value="1">';
-                }
+		if($value) {
+			$html .= '<input type="hidden" name="extend[' . $item->key . ']" value="' . asset('content/' . $value) . '">';
+		}	
+
+		$html .= '</span>';
+
+		if($value) {
+			$html .= '</p><p>
+			<label>' . __('global.delete') . ' ' . $item->label . ':</label>
+			<input type="checkbox" name="extend_remove[' . $item->key . ']" value="1">';
+		}
 
                 break;
 
