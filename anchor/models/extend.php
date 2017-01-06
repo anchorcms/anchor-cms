@@ -105,7 +105,7 @@ class extend extends Base
 
 		$html = '<span class="current-file">';
 
-		if($value) {
+		if ($value) {
 			$html .= '<a href="' . asset('content/' . $value) . '" target="_blank">' . $value . '</a>';
 		}
 
@@ -113,13 +113,13 @@ class extend extends Base
 			<span class="file">
 			<input id="extend_' . $item->key . '" name="extend[' . $item->key . ']" type="file">';
 
-		if($value) {
+		if ($value) {
 			$html .= '<input type="hidden" name="extend[' . $item->key . ']" value="' . asset('content/' . $value) . '">';
 		}	
 
 		$html .= '</span>';
 
-		if($value) {
+		if ($value) {
 			$html .= '</p><p>
 			<label>' . __('global.delete') . ' ' . $item->label . ':</label>
 			<input type="checkbox" name="extend_remove[' . $item->key . ']" value="1">';
