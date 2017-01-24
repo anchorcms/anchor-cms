@@ -112,6 +112,7 @@ class extend extends Base
                 $html .= '</span>
 					<span class="file">
 					<input id="extend_' . $item->key . '" name="extend[' . $item->key . ']" type="file">
+					<input type="hidden" name="extend[' . $item->key . ']" value="' . asset('content/' . $value) . '">
 					</span>';
 
                 if ($value) {
