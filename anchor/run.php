@@ -43,10 +43,10 @@ try {
     if (ini_get('display_errors') != "1") {
         echo "<h1>Something went wrong, please notify the owner of the site</h1>";
     } else {
-        Error::exception($e);
+        Errors::exception($e);
     }
 
-    Error::log($e);
+    Errors::log($e);
     die();
 }
 
