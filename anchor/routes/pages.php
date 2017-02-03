@@ -13,7 +13,7 @@ Route::collection(array('before' => 'auth,csrf,install_exists'), function () {
 
         $pagination = new Paginator($pages, $total, $page, $perpage, $url);
 
-        
+
         $vars['pages'] = $pagination;
         $vars['status'] = 'all';
 
@@ -38,7 +38,7 @@ Route::collection(array('before' => 'auth,csrf,install_exists'), function () {
 
         $pagination = new Paginator($pages, $total, $page, $perpage, $url);
 
-        
+
         $vars['pages'] = $pagination;
         $vars['status'] = $status;
 
@@ -51,9 +51,9 @@ Route::collection(array('before' => 'auth,csrf,install_exists'), function () {
         Edit Page
     */
     Route::get('admin/pages/edit/(:num)', function ($id) {
-        
+
         $vars['token'] = Csrf::token();
-        $vars['deletable'] = (Page::count() > 1) && (Page::home()->id != $id) && (Page::posts()->id != $id);
+        $vars['deletable'] = (Page::count() > 1) && (Page::home()->id != $id) && (Page::posts()->id != $id) && (count(Page::find($id)->children()) == 0);
         $vars['page'] = Page::find($id);
         $vars['pages'] = Page::dropdown(array('exclude' => array($id), 'show_empty_option' => true));
 
@@ -84,17 +84,17 @@ Route::collection(array('before' => 'auth,csrf,install_exists'), function () {
 
         // convert to ascii
         $input['slug'] = slug($input['slug']);
-        
+
         // an array of items that we shouldn't encode - they're no XSS threat
         $dont_encode = array('markdown');
-        
+
         foreach ($input as $key => &$value) {
             if (in_array($key, $dont_encode)) {
                 continue;
             }
             $value = eq($value);
         }
-        
+
         $validator = new Validator($input);
 
         $validator->add('duplicate', function ($str) use ($id) {
@@ -152,7 +152,7 @@ Route::collection(array('before' => 'auth,csrf,install_exists'), function () {
         Add Page
     */
     Route::get('admin/pages/add', function () {
-        
+
         $vars['token'] = Csrf::token();
         $vars['pages'] = Page::dropdown(array('exclude' => array(), 'show_empty_option' => true));
 
@@ -183,17 +183,17 @@ Route::collection(array('before' => 'auth,csrf,install_exists'), function () {
 
         // convert to ascii
         $input['slug'] = slug($input['slug']);
-        
+
         // an array of items that we shouldn't encode - they're no XSS threat
         $dont_encode = array('markdown');
-        
+
         foreach ($input as $key => &$value) {
             if (in_array($key, $dont_encode)) {
                 continue;
             }
             $value = eq($value);
         }
-        
+
         $validator = new Validator($input);
 
         $validator->add('duplicate', function ($str) {
@@ -251,12 +251,12 @@ Route::collection(array('before' => 'auth,csrf,install_exists'), function () {
         Delete Page
     */
     Route::get('admin/pages/delete/(:num)', function ($id) {
-        if (Page::count() > 1) {
+        if ((Page::count() > 1) && (Page::home()->id != $id) && (Page::posts()->id != $id) && (count(Page::find($id)->children()) == 0)) {
             Page::find($id)->delete();
             Query::table(Base::table('page_meta'))->where('page', '=', $id)->delete();
             Notify::success(__('pages.deleted'));
         } else {
-            Notify::error('Unable to delete page, you must have at least 1 page.');
+            Notify::error('Unable to delete page. The target must not be a parent, home or posts page, or you must have at least 1 page.');
         }
 
         return Response::redirect('admin/pages');
