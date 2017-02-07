@@ -106,7 +106,16 @@
 				wrap('*', '*');
 			},
 			code: function() {
-				wrap('`', '`');
+				var wrapping = '`';
+				var element = textarea[0];
+				var start = element.selectionStart, end = element.selectionEnd;
+				var value = element.value;
+
+				var selection = value.substring(start, end);
+				if(/\n+.*/gm.test(selection)) {
+					wrapping = '\n```\n';
+				}
+				wrap(wrapping, wrapping);
 			},
 			link: function() {
 				var element = textarea[0];

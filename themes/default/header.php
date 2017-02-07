@@ -24,7 +24,7 @@
 	    <meta name="viewport" content="width=device-width">
 	    <meta name="generator" content="Anchor CMS">
 
-	    <meta property="og:title" content="<?php echo page_name(); ?>">
+	    <meta property="og:title" content="<?php echo page_title(); ?>">
 	    <meta property="og:type" content="website">
 	    <meta property="og:url" content="<?php echo e(current_url()); ?>">
 	    <meta property="og:image" content="<?php echo theme_url('img/og_image.gif'); ?>">

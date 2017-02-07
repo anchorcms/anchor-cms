@@ -6,7 +6,7 @@ return array(
     'Config' => 'System\\Config',
     'Cookie' => 'System\\Cookie',
     'DB' => 'System\\Database',
-    'Error' => 'System\\Error',
+    'Errors' => 'System\\Error',
     'Input' => 'System\\Input',
     'Query' => 'System\\Database\\Query',
     'Record' => 'System\\Database\\Record',
