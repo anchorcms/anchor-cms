@@ -16,7 +16,8 @@ class extend extends Base
         'text' => 'text',
         'html' => 'html',
         'image' => 'image',
-        'file' => 'file'
+        'file' => 'file',
+        'toggle' => 'toggle'
     );
 
     public static function field($type, $key, $id = -1)
@@ -50,6 +51,12 @@ class extend extends Base
             case 'html':
                 if (! empty($extend->value->html)) {
                     $value = parse($extend->value->html);
+                }
+                break;
+
+            case 'toggle':
+                if (! empty($extend->value->toggle)) {
+                    $value = $extend->value->toggle;
                 }
                 break;
 
@@ -95,6 +102,11 @@ class extend extends Base
             case 'html':
                 $value = isset($item->value->html) ? $item->value->html : '';
                 $html = '<textarea id="extend_' . $item->key . '" name="extend[' . $item->key . ']" type="text">' . $value . '</textarea>';
+                break;
+
+            case 'toggle':
+                $value = isset($item->value->toggle) ? $item->value->toggle : 0;
+                $html = Form::checkbox('extend[' . $item->key . ']', 1, $value, array('id' => 'extend_' . $item->key));
                 break;
 
             case 'image':
@@ -241,6 +253,13 @@ class extend extends Base
         $html = Input::get('extend.' . $extend->key);
 
         return Json::encode(compact('html'));
+    }
+
+    public static function process_toggle($extend)
+    {
+        $toggle = Input::get('extend.' . $extend->key);
+
+        return Json::encode(array('toggle' => (int)$toggle));
     }
 
     /*
