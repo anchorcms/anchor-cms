@@ -9,7 +9,8 @@ function __($line)
 
 function is_admin()
 {
-    return strpos(Uri::current(), 'admin') === 0;
+    // Exact URI or trailing slash after 'admin'.
+	return Uri::current() === 'admin' || strpos(Uri::current(), 'admin/') === 0;
 }
 
 function is_installed()
