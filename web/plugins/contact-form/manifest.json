@@ -3,5 +3,6 @@
 	"summary": "Just a basic contact form",
 	"version": "0.1.0",
 	"namespace": "RockyRoad\\",
-	"classname": "ContentFormPlugin"
+	"classname": "ContentFormPlugin",
+	"optionsClassname": "ContentFormPluginOptions"
 }
