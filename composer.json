@@ -46,6 +46,9 @@
         "phpspec/phpspec": "~2",
         "friendsofphp/php-cs-fixer": "~1"
     },
+    "bin": [
+        "app/console"
+    ],
     "config": {
         "bin-dir": "bin"
     },
