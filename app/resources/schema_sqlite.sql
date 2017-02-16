@@ -20,11 +20,11 @@ CREATE INDEX "{prefix}custom_fields_input_type" ON "{prefix}custom_fields" ("inp
 
 CREATE TABLE "{prefix}meta" (
 	"id" INTEGER NOT NULL PRIMARY KEY,
-	"key" TEXT NOT NULL,
-	"value" TEXT NOT NULL
+	"meta_key" TEXT NOT NULL,
+	"meta_value" TEXT NOT NULL
 );
 
-CREATE INDEX "{prefix}meta_key" ON "{prefix}meta" ("key");
+CREATE INDEX "{prefix}meta_key" ON "{prefix}meta" ("meta_key");
 
 CREATE TABLE "{prefix}page_meta" (
 	"id" INTEGER NOT NULL PRIMARY KEY,
@@ -103,7 +103,7 @@ CREATE TABLE "{prefix}user_tokens" (
 	"user" INTEGER NOT NULL,
 	"expires" TEXT NOT NULL,
 	"token" TEXT NOT NULL UNIQUE,
-	"signature" TEXT NOT NULL UNIQUE,
+	"signature" TEXT NOT NULL UNIQUE
 );
 
 CREATE INDEX "{prefix}user_tokens_user" ON "{prefix}user_tokens" ("user");
