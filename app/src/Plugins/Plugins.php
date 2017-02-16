@@ -19,10 +19,17 @@ class Plugins
     protected $path;
 
     /**
-     * @var object symfony event dispatcher
+     * @var EventDispatcher symfony event dispatcher
      */
     protected $events;
 
+    /**
+     * Construct the anchor plugins system, pass in the
+     * path to the plugins and inject our EventDispatcher.
+     *
+     * @param string          $path
+     * @param EventDispatcher $events
+     */
     public function __construct(string $path, EventDispatcher $events)
     {
         $this->path = $path;
@@ -31,6 +38,8 @@ class Plugins
 
     /**
      * Scan plugin directory for plugin manifest files
+     *
+     * @return  array
      */
     public function getPlugins(): array
     {
@@ -58,8 +67,7 @@ class Plugins
     /**
      * Get array of active plugins set in the meta table
      *
-     * @param string path to plugins directory
-     * @param object mapper of meta table
+     * @param MapperInterface mapper of meta table
      * @return array
      */
     public function getActivePlugins(MapperInterface $meta): array
@@ -77,7 +85,7 @@ class Plugins
      * Append plugin folder name to the list of active plugins
      *
      * @param string folder name
-     * @param object meta table mapper
+     * @param MapperInterface meta table mapper
      */
     public function activatePlugin(string $folder, MapperInterface $meta)
     {
@@ -91,7 +99,7 @@ class Plugins
      * Unset plugin folder name from the list of active plugins
      *
      * @param string folder name
-     * @param object meta table mapper
+     * @param MapperInterface meta table mapper
      */
     public function deactivatePlugin(string $folder, MapperInterface $meta)
     {
@@ -106,7 +114,8 @@ class Plugins
     /**
      * Fetch a plugin manifest object by directory
      *
-     * @param string full path to plugin folder name
+     * @param  string full path to plugin folder name
+     * @return PluginManifest
      */
     public function getPluginByFolder(string $folder): PluginManifest
     {
@@ -129,9 +138,8 @@ class Plugins
     /**
      * Init active plugins
      *
-     * @param string path to plugins directory
      * @param array of active plugins
-     * @param object symfony event dispatcher
+     * @param ClassLoader class loader.
      */
     public function init(array $plugins, ClassLoader $loader)
     {
@@ -151,7 +159,7 @@ class Plugins
      * Get a active plugin by folder name
      *
      * @param string folder name
-     * @return object AbstractPlugin
+     * @return AbstractPlugin
      */
     public function getActivePlugin(string $folder): AbstractPlugin
     {
