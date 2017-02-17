@@ -13,3 +13,6 @@
 /app/config
 /vendor
 /bin
+
+Dockerfile
+docker-compose.yml
