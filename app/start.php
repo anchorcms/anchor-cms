@@ -45,6 +45,12 @@ if (false === $app['services.installer']->isInstalled()) {
         return $frame->next($request);
     });
 }
+// Can't connect to the database.
+elseif (false == $app['db']->isConnected()) {
+    http_response_code(500);
+    echo file_get_contents(__DIR__.'/views/errors/db-not-connected.html');
+    return 0;
+}
 // middlewares to include when installed
 else {
     // load plugins

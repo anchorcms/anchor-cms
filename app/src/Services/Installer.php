@@ -21,6 +21,8 @@ class Installer
 
     protected $logger;
 
+    protected $connection;
+
     public function __construct(array $paths, $session, SQLLogger $logger = null)
     {
         $this->paths = $paths;
@@ -34,17 +36,21 @@ class Installer
     }
 
     public function getDatabaseConnection(array $params): Connection {
-        $config = new Configuration;
-        $config->setSQLLogger($this->logger);
+        if (!($this->connection instanceof Connection)) {
+            $config = new Configuration;
+            $config->setSQLLogger($this->logger);
 
-        return DriverManager::getConnection([
-            'user' => $params['db_user'],
-            'password' => $params['db_password'],
-            'host' => $params['db_host'],
-            'port' => $params['db_port'],
-            'dbname' => $params['db_dbname'],
-            'driver' => $params['db_driver'],
-        ], $config);
+            $this->connection = DriverManager::getConnection([
+                'user' => $params['db_user'],
+                'password' => $params['db_password'],
+                'host' => $params['db_host'],
+                'port' => $params['db_port'],
+                'dbname' => $params['db_dbname'],
+                'driver' => $params['db_driver'],
+            ], $config);
+        }
+
+        return $this->connection;
     }
 
     protected function getLastQuery(): array {
@@ -58,6 +64,10 @@ class Installer
         $this->copySampleConfig($input);
 
         $conn = $this->getDatabaseConnection($input);
+
+        if (!$conn->isConnected()) {
+            throw new \Exception('Unable to connect to database using details provided');
+        }
 
         try {
             $this->runSchema($conn, $input);

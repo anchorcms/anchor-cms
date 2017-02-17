@@ -15,6 +15,12 @@
             "email": "hello@madebykieron.co.uk",
             "homepage": "http://madebykieron.co.uk",
             "role": "Developer"
+        },
+        {
+            "name": "Craig",
+            "email": "childscraig17@gmail.com",
+            "homepage": "http://craigchilds.me",
+            "role": "Developer"
         }
     ],
     "repositories": [
