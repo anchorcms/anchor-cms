@@ -33,7 +33,10 @@ return [
             $config->setSQLLogger($app['db.logger']);
         }
 
-        return Doctrine\DBAL\DriverManager::getConnection($params, $config);
+        $connection = Doctrine\DBAL\DriverManager::getConnection($params, $config);
+        $connection->connect();
+
+        return $connection;
     },
     'db.logger' => function () {
         return new \Doctrine\DBAL\Logging\DebugStack();
