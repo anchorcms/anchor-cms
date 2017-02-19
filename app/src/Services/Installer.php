@@ -21,7 +21,7 @@ class Installer
 
     protected $logger;
 
-    protected $connection;
+    protected $supported = ['pdo_sqlite', 'pdo_mysql'];
 
     public function __construct(array $paths, $session, SQLLogger $logger = null)
     {
@@ -35,25 +35,46 @@ class Installer
         return is_dir($this->paths['config']);
     }
 
-    public function getDatabaseConnection(array $params): Connection {
-        if (!($this->connection instanceof Connection)) {
-            $config = new Configuration;
-            $config->setSQLLogger($this->logger);
+    public function getDatabaseConnection(array $params): Connection
+    {
+        if( ! in_array($params['db_driver'], $this->supported)) {
+            throw new \InvalidArgumentException('Unsupported database driver: '.$params['db_driver']);
+        }
 
-            $this->connection = DriverManager::getConnection([
-                'user' => $params['db_user'],
-                'password' => $params['db_password'],
-                'host' => $params['db_host'],
-                'port' => $params['db_port'],
-                'dbname' => $params['db_dbname'],
+        $config = new Configuration;
+        $config->setSQLLogger($this->logger);
+
+        if('pdo_sqlite' == $params['db_driver']) {
+            $filepath = $this->paths['storage'] . '/' . $params['db_path'];
+
+            if( ! is_file($filepath)) {
+                touch($filepath);
+            }
+
+            $connection = DriverManager::getConnection([
                 'driver' => $params['db_driver'],
+                'path' => $filepath,
             ], $config);
         }
 
-        return $this->connection;
+        if('pdo_mysql' == $params['db_driver']) {
+            $connection = DriverManager::getConnection([
+                'driver' => $params['db_driver'],
+                'host' => $params['db_host'],
+                'port' => $params['db_port'],
+                'dbname' => $params['db_dbname'],
+                'user' => $params['db_user'],
+                'password' => $params['db_password'],
+            ], $config);
+        }
+
+        $connection->connect();
+
+        return $connection;
     }
 
-    protected function getLastQuery(): array {
+    protected function getLastQuery(): array
+    {
         return end($this->logger->queries);
     }
 
@@ -61,13 +82,13 @@ class Installer
     {
         $input['app_secret'] = bin2hex(random_bytes(32));
 
-        $this->copySampleConfig($input);
-
         $conn = $this->getDatabaseConnection($input);
 
         if (!$conn->isConnected()) {
             throw new \Exception('Unable to connect to database using details provided');
         }
+
+        $this->copySampleConfig($input);
 
         try {
             $this->runSchema($conn, $input);
@@ -80,7 +101,8 @@ class Installer
         }
     }
 
-    protected function tearDown(Connection $conn, string $prefix) {
+    protected function tearDown(Connection $conn, string $prefix)
+    {
         $path = $this->paths['config'];
 
         $pattern = sprintf('%s/*.json', $path);
