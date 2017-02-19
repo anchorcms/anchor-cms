@@ -5,7 +5,7 @@
 */
 Route::action('check', function () {
     /* Check if you have installed credit to Striker */
-    if(file_exists(APP . 'install.lock')) {
+    if (file_exists(APP . 'install.lock')) {
         return Layout::create('installed', array(
             'installed' => true
         ));
@@ -132,7 +132,7 @@ Route::get('metadata', array('before' => 'check', 'main' => function () {
     }
 
     // windows users may return a \ so we replace it with a /
-    $vars['site_path'] = str_replace('\\','/', dirname(dirname($_SERVER['SCRIPT_NAME'])));
+    $vars['site_path'] = str_replace('\\', '/', dirname(dirname($_SERVER['SCRIPT_NAME'])));
 
     $vars['themes'] = Themes::all();
 
