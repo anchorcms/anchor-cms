@@ -18,9 +18,9 @@ class Vars extends AbstractController
     public function getIndex(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
         $query = $this->container['mappers.meta']->query()
-            ->where('key LIKE :key')
-            ->setParameter('key', $this->prefix.'%')
-            ->orderBy('key', 'asc');
+            ->where('meta_key LIKE :meta_key')
+            ->setParameter('meta_key', $this->prefix.'%')
+            ->orderBy('meta_key', 'asc');
         $meta = $this->container['mappers.meta']->fetchAll($query);
 
         $vars['sitename'] = $this->container['mappers.meta']->key('sitename');
@@ -62,7 +62,7 @@ class Vars extends AbstractController
 
         $validator->addRule(new ValidateToken($this->container['csrf']->token()), '_token');
 
-        $key = $this->prefix.$this->container['slugify']->slugify($input['key']);
+        $key = $this->prefix.$this->container['slugify']->slugify($input['meta_key']);
 
         if ($validator->isValid()) {
             $exists = $this->container['mappers.meta']->key($key);
@@ -80,8 +80,8 @@ class Vars extends AbstractController
         }
 
         $id = $this->container['mappers.meta']->insert([
-            'key' => $key,
-            'value' => $input['value'],
+            'meta_key'   => $key,
+            'meta_value' => $input['meta_value'],
         ]);
 
         $this->container['messages']->success(['Custom variable created']);
@@ -101,7 +101,7 @@ class Vars extends AbstractController
         $form->getElement('_token')->setValue($this->container['csrf']->token());
 
         // cannot change key
-        $form->getElement('key')->setAttribute('readonly', 'readonly');
+        $form->getElement('meta_key')->setAttribute('readonly', 'readonly');
 
         // set default values from post
         $form->setValues($meta->toArray());
@@ -110,7 +110,7 @@ class Vars extends AbstractController
         $form->setValues($this->container['session']->getStash('input', []));
 
         $vars['sitename'] = $this->container['mappers.meta']->key('sitename');
-        $vars['title'] = sprintf('Editing &ldquo;%s&rdquo;', $meta->key);
+        $vars['title'] = sprintf('Editing &ldquo;%s&rdquo;', $meta->meta_key);
         $vars['form'] = $form;
         $vars['meta'] = $meta;
 
@@ -138,7 +138,7 @@ class Vars extends AbstractController
         }
 
         $this->container['mappers.meta']->update($meta->id, [
-            'value' => $input['value'],
+            'meta_value' => $input['meta_value'],
         ]);
 
         $this->container['messages']->success(['Custom variable updated']);

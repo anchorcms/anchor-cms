@@ -10,16 +10,16 @@ class CustomVars extends Form
     {
         $this->addElement(new \Forms\Elements\Hidden('_token'));
 
-        $this->addElement(new \Forms\Elements\Input('key', [
+        $this->addElement(new \Forms\Elements\Input('meta_key', [
             'label' => 'Key',
         ]));
 
-        $this->addElement(new \Forms\Elements\Textarea('value', [
+        $this->addElement(new \Forms\Elements\Textarea('meta_value', [
             'label' => 'Value',
         ]));
 
         $this->addElement(new \Forms\Elements\Submit('submit', [
-            'value' => 'Save changes',
+            'value'      => 'Save changes',
             'attributes' => ['class' => 'button'],
         ]));
     }
@@ -27,16 +27,16 @@ class CustomVars extends Form
     public function getFilters(): array
     {
         return [
-            '_token' => FILTER_SANITIZE_STRING,
-            'key' => FILTER_SANITIZE_STRING,
-            'value' => FILTER_UNSAFE_RAW,
+            '_token'     => FILTER_SANITIZE_STRING,
+            'meta_key'   => FILTER_SANITIZE_STRING,
+            'meta_value' => FILTER_UNSAFE_RAW,
         ];
     }
 
     public function getRules(): array
     {
         return [
-            'key' => ['label' => 'Key', 'rules' => ['required']],
+            'meta_key' => ['label' => 'Key', 'rules' => ['required']],
         ];
     }
 }

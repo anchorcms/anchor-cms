@@ -27,8 +27,8 @@ class Meta extends AbstractMapper
         }
 
         $query = $this->query()->select('meta_value')
-            ->where('meta_key = :key')
-            ->setParameter('key', $key);
+            ->where('meta_key = :meta_key')
+            ->setParameter('meta_key', $key);
 
         $value = $this->db->fetchColumn($query->getSQL(), $query->getParameters());
 
@@ -39,9 +39,9 @@ class Meta extends AbstractMapper
     {
         $this->map[$key] = $value;
 
-        $query = $this->query()->select('value')
-            ->where('meta_key = :key')
-            ->setParameter('key', $key);
+        $query = $this->query()->select('meta_value')
+            ->where('meta_key = :meta_key')
+            ->setParameter('meta_key', $key);
 
         if ($this->count($query)) {
             return $this->db->update($this->getTableName(), ['meta_value' => $value], ['meta_key' => $key]);
