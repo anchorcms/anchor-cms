@@ -186,6 +186,7 @@ class extend extends Base
         // not as files.
         $image_upload = Input::get('extend.' . $extend->key);
         if ($image_upload) {
+            $image_upload = str_replace( "\\", '/', $image_upload);
             $filename = basename($image_upload);
             $name = $filename;
         }
