@@ -544,7 +544,7 @@ body.login {
 	transition: all .3s;
 }
 	.redirect.show {
-		top: 0px;
+		top: 0;
 		height: 37px;
 		opacity: 0.99;
 	}
