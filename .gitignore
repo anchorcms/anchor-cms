@@ -45,3 +45,6 @@ vendor/
 
 # Don't want to commit .lock files
 *.lock
+
+# Ignore .idea
+.idea/*
