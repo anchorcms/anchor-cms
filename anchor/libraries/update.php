@@ -84,6 +84,8 @@ class update
                 copy($output_folder . "index.php", PATH . "index.php");
                 $result = true;
             } else throw new Exception("Cannot open the downloaded archive - you may need to extract the contents manually! See https://anchorcms.com/docs/getting-started/upgrading.");
+
+            delTree($output_folder);
         } catch(Exception $e) {
             Error::log("Unable to update... Exception:\n$e");
         }
