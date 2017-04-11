@@ -56,13 +56,7 @@ class input
             return static::get_array($key, $fallback);
         }
 
-        $data = Arr::get(static::$array, $key, $fallback);
-
-        if (is_string($data)) {
-            return e($data);
-        }
-
-        return $data;
+        return Arr::get(static::$array, $key, $fallback);
     }
 
     /**

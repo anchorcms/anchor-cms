@@ -5,7 +5,7 @@
 */
 Route::action('check', function () {
     /* Check if you have installed credit to Striker */
-    if(file_exists(APP . 'install.lock')) {
+    if (file_exists(APP . 'install.lock')) {
         return Layout::create('installed', array(
             'installed' => true
         ));
@@ -64,27 +64,27 @@ Route::get('database', array('before' => 'check', 'main' => function () {
 
 
     $vars['collations'] = array(
-        'utf8_bin' => 'Unicode (multilingual), Binary',
-        'utf8_czech_ci' => 'Czech, case-insensitive',
-        'utf8_danish_ci' => 'Danish, case-insensitive',
-        'utf8_esperanto_ci' => 'Esperanto, case-insensitive',
-        'utf8_estonian_ci' => 'Estonian, case-insensitive',
-        'utf8_general_ci' => 'Unicode (multilingual), case-insensitive',
-        'utf8_hungarian_ci' => 'Hungarian, case-insensitive',
-        'utf8_icelandic_ci' => 'Icelandic, case-insensitive',
-        'utf8_latvian_ci' => 'Latvian, case-insensitive',
+        'utf8_bin'           => 'Unicode (multilingual), Binary',
+        'utf8_czech_ci'      => 'Czech, case-insensitive',
+        'utf8_danish_ci'     => 'Danish, case-insensitive',
+        'utf8_esperanto_ci'  => 'Esperanto, case-insensitive',
+        'utf8_estonian_ci'   => 'Estonian, case-insensitive',
+        'utf8_general_ci'    => 'Unicode (multilingual), case-insensitive',
+        'utf8_hungarian_ci'  => 'Hungarian, case-insensitive',
+        'utf8_icelandic_ci'  => 'Icelandic, case-insensitive',
+        'utf8_latvian_ci'    => 'Latvian, case-insensitive',
         'utf8_lithuanian_ci' => 'Lithuanian, case-insensitive',
-        'utf8_persian_ci' => 'Persian, case-insensitive',
-        'utf8_polish_ci' => 'Polish, case-insensitive',
-        'utf8_roman_ci' => 'West European, case-insensitive',
-        'utf8_romanian_ci' => 'Romanian, case-insensitive',
-        'utf8_slovak_ci' => 'Slovak, case-insensitive',
-        'utf8_slovenian_ci' => 'Slovenian, case-insensitive',
-        'utf8_spanish2_ci' => 'Traditional Spanish, case-insensitive',
-        'utf8_spanish_ci' => 'Spanish, case-insensitive',
-        'utf8_swedish_ci' => 'Swedish, case-insensitive',
-        'utf8_turkish_ci' => 'Turkish, case-insensitive',
-        'utf8_unicode_ci' => 'Unicode (multilingual), case-insensitive'
+        'utf8_persian_ci'    => 'Persian, case-insensitive',
+        'utf8_polish_ci'     => 'Polish, case-insensitive',
+        'utf8_roman_ci'      => 'West European, case-insensitive',
+        'utf8_romanian_ci'   => 'Romanian, case-insensitive',
+        'utf8_slovak_ci'     => 'Slovak, case-insensitive',
+        'utf8_slovenian_ci'  => 'Slovenian, case-insensitive',
+        'utf8_spanish2_ci'   => 'Traditional Spanish, case-insensitive',
+        'utf8_spanish_ci'    => 'Spanish, case-insensitive',
+        'utf8_swedish_ci'    => 'Swedish, case-insensitive',
+        'utf8_turkish_ci'    => 'Turkish, case-insensitive',
+        'utf8_unicode_ci'    => 'Unicode (multilingual), case-insensitive'
     );
 
     return Layout::create('database', $vars);
@@ -132,7 +132,7 @@ Route::get('metadata', array('before' => 'check', 'main' => function () {
     }
 
     // windows users may return a \ so we replace it with a /
-    $vars['site_path'] = str_replace('\\','/', dirname(dirname($_SERVER['SCRIPT_NAME'])));
+    $vars['site_path'] = str_replace('\\', '/', dirname(dirname($_SERVER['SCRIPT_NAME'])));
 
     $vars['themes'] = Themes::all();
 
@@ -145,10 +145,10 @@ Route::post('metadata', array('before' => 'check', 'main' => function () {
     $validator = new Validator($metadata);
 
     $validator->check('site_name')
-        ->is_max(4, 'Please enter a site name');
+        ->is_max(4, 'Please enter a site name (Minimum 4 characters)');
 
     $validator->check('site_description')
-        ->is_max(4, 'Please enter a site description');
+        ->is_max(4, 'Please enter a site description (Minimum 4 characters)');
 
     $validator->check('site_path')
         ->is_max(1, 'Please enter a site path');
@@ -191,13 +191,13 @@ Route::post('account', array('before' => 'check', 'main' => function () {
     $validator = new Validator($account);
 
     $validator->check('username')
-        ->is_max(3, 'Please enter a username');
+        ->is_max(3, 'Please enter a username (Minimum 3 characters)');
 
     $validator->check('email')
         ->is_email('Please enter a valid email address');
 
     $validator->check('password')
-        ->is_max(6, 'Please enter a password, at least 6 characters long');
+        ->is_max(6, 'Please enter a password (Minimum 6 characters)');
 
     if ($errors = $validator->errors()) {
         Input::flash();
