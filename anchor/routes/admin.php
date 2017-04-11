@@ -198,7 +198,6 @@ Route::post('admin/reset/(:any)', array('before' => 'csrf', 'main' => function (
     Upgrade
 */
 Route::get('admin/upgrade', function () {
-    
     $vars['token'] = Csrf::token();
 
     $version = Config::meta('update_version');
@@ -206,6 +205,10 @@ Route::get('admin/upgrade', function () {
 
     $vars['version'] = $version;
     $vars['url'] = sprintf($url, $version);
+    
+    // Update programmatically
+    
+    $vars['auto_upgrade'] = Update::upgrade(sprintf($url, $version), $version);
 
     return View::create('upgrade', $vars)
         ->partial('header', 'partials/header')

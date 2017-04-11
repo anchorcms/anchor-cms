@@ -40,15 +40,14 @@ class update
     }
     public static function touch()
     {
-        $url = 'http://anchorcms.com/version';
+        $url = 'https://anchorcms.com/version';
         $result = false;
         
-        $updateable = @fsockopen("http://anchorcms.com/version", 80);
-        if ($updateable) {
-            if (in_array(ini_get('allow_url_fopen'), array('true', '1', 'On'))) {
-                $context = stream_context_create(array('http' => array('timeout' => 2)));
-                $result = file_get_contents($url, false, $context);
-            } elseif (function_exists('curl_init')) {
+        if (in_array(ini_get('allow_url_fopen'), array('true', '1', 'On'))) {
+            $context = stream_context_create(array('http' => array('timeout' => 2)));
+            $result = file_get_contents($url, false, $context);
+        } elseif (function_exists('curl_init')) {
+            try {
                 $session = curl_init();
                 curl_setopt_array($session, array(
                     CURLOPT_URL => $url,
@@ -57,9 +56,38 @@ class update
                 ));
                 $result = curl_exec($session);
                 curl_close($session);
+            } catch(Exception $e) {
+                Error::log("Unable to check for update... Exception:\n$e");
             }
         }
 
+        return $result;
+    }
+    public static function upgrade($url, $version, $unsafe_backup = true) // change unsafe_backup to false before deployment.
+    {
+        $result = false;
+        
+        try {
+            $output_folder = PATH . "anchor_update" . DS;
+            $output_file = $output_folder . "anchor_$version.zip";
+            @mkdir(dirname($output_file));
+            copy($url, $output_file);
+            
+            $zip = new ZipArchive;
+            if($zip->open($output_file) === true) {
+                $zip->extractTo($output_folder);
+                $output_folder .= $zip->getNameIndex(0);
+                $zip->close();
+                
+                recurse_copy($output_folder . "anchor", APP);
+                recurse_copy($output_folder . "system", SYS);
+                copy($output_folder . "index.php", PATH . "index.php");
+                $result = true;
+            } else throw new Exception("Cannot open the downloaded archive - you may need to extract the contents manually! See https://anchorcms.com/docs/getting-started/upgrading.");
+        } catch(Exception $e) {
+            Error::log("Unable to update... Exception:\n$e");
+        }
+        
         return $result;
     }
 }

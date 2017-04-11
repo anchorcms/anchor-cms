@@ -45,9 +45,16 @@
 
 			<h1><?php echo __('global.good_news'); ?></h1>
 			<p><?php echo __('global.new_version_available'); ?></p>
-
-			<a href="<?php echo $url; ?>"><?php echo __('global.download_now'); ?></a>
-			<a href="<?php echo $base; ?>/admin"><?php echo __('global.upgrade_later'); ?></a>
+			<p><small style="color:grey;"><?php echo VERSION; ?></small><span> > <?php echo $version; ?></span></p>
+			<?php
+				if($auto_upgrade) {
+					echo '<br><p>Even better news! Anchor upgraded itself like a dancing robot!</p><img src="https://i.imgur.com/VKKeQX6.gif" width=350>';
+				} else {
+					echo "<p>Oh oh! Seems like Anchor missed the dock while trying to upgrade. Look's like it's gotta be done manually!</p>";
+					echo '<a href="' . $url . '">' . __('global.download_now') . '</a>';
+					echo '<a href="' . $base . '/admin">' . __('global.upgrade_later') . '</a>';
+				}
+			?>
 		</div>
 	</body>
 </html>
