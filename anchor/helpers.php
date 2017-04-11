@@ -68,19 +68,18 @@ function recurse_copy($src,$dst)
 {
     $dir = opendir($src);
     @mkdir($dst);
-    while(false !== ( $file = readdir($dir)) ) {
-        if (( $file != '.' ) && ( $file != '..' )) {
-            if ( is_dir($src . '/' . $file) ) {
-                recurse_copy($src . '/' . $file,$dst . '/' . $file);
-            }
-            else {
-                copy($src . '/' . $file,$dst . '/' . $file);
+    while(false !== ($file = readdir($dir))) {
+        if(($file != '.') && ($file != '..')) {
+            if(is_dir($src . DS . $file)) {
+                recurse_copy($src . DS . $file, $dst . DS . $file);
+            } else {
+                copy($src . DS . $file, $dst . DS . $file);
             }
         }
     }
     closedir($dir);
 }
-public static function delTree($dir)
+function delTree($dir)
 {
     $files = array_diff(scandir($dir), array('.','..'));
     foreach($files as $file) {

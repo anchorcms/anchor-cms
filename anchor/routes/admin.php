@@ -55,6 +55,7 @@ Route::get('admin/login', array('before' => 'guest', 'main' => function () {
     }
     
     $vars['token'] = Csrf::token();
+    if(!array_key_exists('messages', $vars)) $vars['messages'] = "";
 
     return View::create('users/login', $vars)
         ->partial('header', 'partials/header')
