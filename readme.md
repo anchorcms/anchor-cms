@@ -5,6 +5,7 @@ Anchor is a super-simple, lightweight blog system, made to let you just write. [
 ### Feature Requests:
 If you would like to add submit a feature request then please go to our [Feathub page](http://feathub.com/anchorcms/anchor-cms).
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/6c810b451dc6481da8bbdee5bf7dcd44)](https://www.codacy.com/app/craigchilds94/anchor-cms?utm_source=github.com&utm_medium=referral&utm_content=anchorcms/anchor-cms&utm_campaign=badger)
 [![Feature Requests](http://feathub.com/anchorcms/anchor-cms?format=svg)](http://feathub.com/anchorcms/anchor-cms)
 
 ### Requirements
