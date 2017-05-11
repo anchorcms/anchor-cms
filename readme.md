@@ -31,6 +31,13 @@ composer create-project anchorcms/anchor-cms anchor
 6. Navigate your browser to your Anchor installation URL, if you have placed Anchor in a sub directory make sure you append the folder name to the URL: `http://MYDOMAINNAME.com/anchor`
 7. Follow the installer instructions
 8. For security purposes, delete the `install` directory when you are done.
+ 
+## Server configuration templates
+ - CentOS 7: view the [configuration summary](https://manageacloud.com/cookbook/t5an3hm22jphr1eipus3bm67nb), [try this application](https://manageacloud.com/cookbook/t5an3hm22jphr1eipus3bm67nb/deploy#test_deployment) or [deploy an instance](https://manageacloud.com/cookbook/t5an3hm22jphr1eipus3bm67nb/deploy)
+ - Ubuntu 14.04: view the [configuration summary](https://manageacloud.com/cookbook/848chc151i3kbj79q1qtnqng3u), [try this application](https://manageacloud.com/cookbook/848chc151i3kbj79q1qtnqng3u/deploy#test_deployment) or [deploy an instance](https://manageacloud.com/cookbook/848chc151i3kbj79q1qtnqng3u/deploy)
+ - Debian Wheezy: view the [configuration summary](https://manageacloud.com/cookbook/s57arpb6m2sqsho287emeksoql), [try this application](https://manageacloud.com/cookbook/s57arpb6m2sqsho287emeksoql/deploy#test_deployment) or [deploy an instance](https://manageacloud.com/cookbook/s57arpb6m2sqsho287emeksoql/deploy)
+ - Amazon Linux: view the [configuration summary](https://manageacloud.com/cookbook/32tmgkt2rf7alk4tp1or312efp), [try this application](https://manageacloud.com/cookbook/32tmgkt2rf7alk4tp1or312efp/deploy#test_deployment) or [deploy an instance](https://manageacloud.com/cookbook/32tmgkt2rf7alk4tp1or312efp/deploy)
+ 
 
 ### Problems?
 
