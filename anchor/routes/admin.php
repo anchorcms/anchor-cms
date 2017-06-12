@@ -215,12 +215,15 @@ Route::post('admin/upgrade', array('before' => 'auth', 'main' => function() {
 	
 	$version = Config::meta('update_version');
 	$url = 'https://github.com/anchorcms/anchor-cms/archive/%s.zip';
-    $success = Update::upgrade(sprintf($url, $version), $version);
     
-    sleep(5);
+    $success = Update::upgrade(sprintf($url, $version), $version);
+    $error = substr($success, -strlen('error')) == "ERROR";
+    $messages = explode('|-|', $success);
     
     return Response::json(array(
-        'success' => $success
+        'success'  => substr($success, 0, strpos($success, '|-|')) == 'true',
+        'error'    => $error,
+        'messages' => $messages
     ));
 }));
 
