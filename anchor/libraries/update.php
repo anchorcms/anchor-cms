@@ -64,12 +64,35 @@ class update
     {
         $result = false;
         
+        $output_folder = PATH . "anchor_update" . DS;
+        $output_file = $output_folder . "anchor_$version.zip";
+        @mkdir(dirname($output_file));
+        
+        if(false && in_array(ini_get('allow_url_fopen'), array('true', '1', 'On'))) {
+            try {
+                copy($url, $output_file);
+            } catch(Excpetion $e) {
+                // Error::log("Unable to update... Exception:\n$e");
+            }
+        } else {
+            try {
+                $session = curl_init();
+                curl_setopt_array($session, array(
+                    CURLOPT_URL => $url,
+                    CURLOPT_HEADER => false,
+                    CURLOPT_RETURNTRANSFER => true
+                ));
+                $d = curl_exec($session);
+                curl_close($session);
+                $f = fopen($output_file, 'w+');
+                fputs($f, $d);
+                fclose($f);
+            } catch(Excpetion $e) {
+                // Error::log("Unable to update... Exception:\n$e");
+            }
+        }
+        
         try {
-            $output_folder = PATH . "anchor_update" . DS;
-            $output_file = $output_folder . "anchor_$version.zip";
-            @mkdir(dirname($output_file));
-            copy($url, $output_file);
-            
             $zip = new ZipArchive;
             if($zip->open($output_file) === true) {
                 $zip->extractTo($output_folder);
@@ -84,7 +107,7 @@ class update
 
             delTree($output_folder);
         } catch(Exception $e) {
-            Error::log("Unable to update... Exception:\n$e");
+            // Error::log("Unable to update... Exception:\n$e");
         }
         
         return $result;
