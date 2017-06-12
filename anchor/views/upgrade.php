@@ -4,7 +4,6 @@
 	<head>
 		<meta charset="utf-8">
 		<title><?php echo __('global.upgrade'); ?></title>
-
 		<style>
 			body {
 				font: 100% "Helvetica Neue", "Open Sans", "DejaVu Sans", "Arial", sans-serif;
@@ -153,7 +152,7 @@
 					});
 					
 					setActiveDiv("loading");
-				}
+				};
 			}(Zepto));
 		</script>
 	</body>

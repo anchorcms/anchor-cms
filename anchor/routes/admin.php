@@ -214,7 +214,7 @@ Route::post('admin/upgrade', array('before' => 'auth', 'main' => function() {
 	// Update programmatically
 	
 	$version = Config::meta('update_version');
-	$url = 'https://github.com/anchorcms/anchor-cms/archive/%s.zip';
+	$url = 'https://codeload.github.com/anchorcms/anchor-cms/zip/%s';
     
     $success = Update::upgrade(sprintf($url, $version), $version);
     $error = substr($success, -strlen('error')) == "ERROR";

@@ -104,9 +104,10 @@ class update
         }
         
         try {
-            $result .= '|-|Attempting to open zip file.';
+            $result .= '|-|Testing if ZipArchive is a valid PHP class.';
             $zip = new ZipArchive;
-            if($zip->open($output_file) === true) {
+            $result .= '|-|Attempting to open zip file.';
+            if(($zipCode = $zip->open($output_file)) === true) {
                 $result .= '|-|Extracting zip file.';
                 $zip->extractTo($output_folder);
                 $output_folder .= $zip->getNameIndex(0);
@@ -119,7 +120,7 @@ class update
                 copy($output_folder . "index.php", PATH . "index.php");
                 $result .= '|-|Recursive copy complete.';
                 $result = substr_replace($result, 'true', 0, strlen('false'));
-            } else throw new Exception("Cannot open the downloaded archive - you may need to extract the contents manually! See https://anchorcms.com/docs/getting-started/upgrading.");
+            } else throw new Exception("Cannot open the downloaded archive (CODE: $zipCode) - you may need to extract the contents manually! See https://anchorcms.com/docs/getting-started/upgrading.");
             
             $result .= '|-|Deleting temporary upgrade files.';
             delTree($output_folder);
