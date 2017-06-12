@@ -33,6 +33,13 @@ class Theme
      * @var object
      */
     protected $manifest;
+    
+    /**
+     * The theme's activation status.
+     *
+     * @var bool
+     */
+    protected $active;
 
     /**
      * The file extension of the templates.
