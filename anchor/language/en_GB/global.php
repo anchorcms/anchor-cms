@@ -26,6 +26,7 @@ return array(
     'reset' => 'Reset',
     'all' => 'All',
     'cancel' => 'Cancel',
+    'error' => 'Error',
 
     // pagination
     'next' => 'Next',
@@ -48,7 +49,7 @@ return array(
     'administrator' => 'Admin',
     'editor' => 'Editor',
     'user' => 'User',
-
+    
     'log_in' => 'Log in',
     'login' => 'Login',
     'log_out' => 'Log out',
@@ -58,6 +59,8 @@ return array(
     'visit_your_site' => 'Visit your site',
     'powered_by_anchor' => 'Powered by Anchor, version %s',
     'make_blogging_beautiful' => 'Make blogging beautiful',
+    'error_phrase' => 'Oh no! Your Anchor has gotten caught on something...',
+    'error_button' => 'Get me out of here!',
 
     // intro
     'welcome_to_anchor' => 'Welcome to Anchor',
@@ -66,10 +69,16 @@ return array(
 
     // upgrade
     'upgrade' => 'Upgrade',
+    'upgrading' => 'Upgrading...',
     'good_news' => 'Great News!',
     'new_version_available' => 'There\'s a new version of anchor available.',
+    'up_to_date' => 'You\'re up to date. Your Anchor is showing no signs of rust!',
+    'better_version' => 'You must\'ve snapped up a futuristic Anchor! The newest version is below your version number.',
     'download_now' => 'Download Now',
     'upgrade_later' => 'Upgrade Later',
+    'upgrade_good' => 'Anchor successfully upgraded!',
+    'upgrade_bad' => 'Anchor couldn\'t quite get to the latest version...',
+    'upgrade_finished_thanks' => 'Sweet, thanks!',
 
     // debug profiler
     'profile' => 'Profile',

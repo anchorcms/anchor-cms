@@ -198,23 +198,31 @@ Route::post('admin/reset/(:any)', array('before' => 'csrf', 'main' => function (
 /*
     Upgrade
 */
-Route::get('admin/upgrade', function () {
+Route::get('admin/upgrade', array('before' => 'auth', 'main' => function () {
     $vars['token'] = Csrf::token();
 
     $version = Config::meta('update_version');
-    $url = 'https://github.com/anchorcms/anchor-cms/archive/%s.zip';
-
-    $vars['version'] = $version;
-    $vars['url'] = sprintf($url, $version);
     
-    // Update programmatically
+    $vars['version'] = Update::touch();
     
-    $vars['auto_upgrade'] = Update::upgrade(sprintf($url, $version), $version);
-
     return View::create('upgrade', $vars)
         ->partial('header', 'partials/header')
         ->partial('footer', 'partials/footer');
-});
+}));
+
+Route::post('admin/upgrade', array('before' => 'auth', 'main' => function() {
+	// Update programmatically
+	
+	$version = Config::meta('update_version');
+	$url = 'https://github.com/anchorcms/anchor-cms/archive/%s.zip';
+    $success = false; //Update::upgrade(sprintf($url, $version), $version);
+    
+    sleep(5);
+    
+    return Response::json(array(
+        'success' => $success
+    ));
+}));
 
 /*
     List extend

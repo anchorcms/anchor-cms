@@ -7,10 +7,7 @@ class update
         if (! $last = Config::meta('last_update_check')) {
             $last = static::setup();
         }
-        // was update in the last 30 days
-        if (strtotime($last) < time() - (60 * 60 * 24 * 30)) {
-            static::renew();
-        }
+        static::renew();
     }
     public static function setup()
     {
