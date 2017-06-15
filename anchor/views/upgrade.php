@@ -57,6 +57,10 @@
 				transform-origin: 50% 18.2%;
     			animation: spinning 1s infinite linear;
 			}
+			.dancing_robot {
+				width: 100% !important;
+				margin-top: 30px;
+			}
 			@keyframes spinning {
 			  0%   { transform: rotate(0deg); }
 			  100% { transform: rotate(360deg); }
@@ -95,9 +99,9 @@
 		<div id="finished" hidden>
 			<img src="<?php echo $base; ?>/anchor/views/assets/img/logo.png" alt="Anchor logo">
 			<h1 class="fin_h1"></h1>
-			<img class="dancing_robot" src="https://i.imgur.com/VKKeQX6.gif" alt="Gangnam Robot!" />
 			<a class="fin_goBack" href="<?php echo Uri::to('admin/upgrade/'); ?>">Try again</a>
 			<a class="fin_continue" href="<?php echo Uri::to('admin/'); ?>">Nevermind</a>
+			<img class="dancing_robot" src="https://i.imgur.com/VKKeQX6.gif" alt="Gangnam Robot!" />
 		</div>
 		<script type="text/javascript" src="<?php echo $base; ?>/anchor/views/assets/js/zepto.js"></script>
 		<script>
