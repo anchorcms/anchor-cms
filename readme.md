@@ -14,7 +14,7 @@ If you would like to add submit a feature request then please go to our [Feathub
     - mcrypt
     - gd
     - pdo\_mysql or pdo\_sqlite
-- MySQL 5.2+
+- MySQL 5.6+ (MySQL 5.7 recommended)
 
 To determine your PHP version, create a new file with this PHP code: `<?php echo PHP_VERSION; // version.php`. This will print your version number to the screen.
 
