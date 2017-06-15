@@ -7,10 +7,7 @@ class update
         if (! $last = Config::meta('last_update_check')) {
             $last = static::setup();
         }
-        // was update in the last 30 days
-        if (strtotime($last) < time() - (60 * 60 * 24 * 30)) {
-            static::renew();
-        }
+        static::renew();
     }
     public static function setup()
     {
@@ -40,15 +37,14 @@ class update
     }
     public static function touch()
     {
-        $url = 'http://anchorcms.com/version';
+        $url = 'https://anchorcms.com/version';
         $result = false;
         
-        $updateable = @fsockopen("http://anchorcms.com/version", 80);
-        if ($updateable) {
-            if (in_array(ini_get('allow_url_fopen'), array('true', '1', 'On'))) {
-                $context = stream_context_create(array('http' => array('timeout' => 2)));
-                $result = file_get_contents($url, false, $context);
-            } elseif (function_exists('curl_init')) {
+        if (in_array(ini_get('allow_url_fopen'), array('true', '1', 'On'))) {
+            $context = stream_context_create(array('http' => array('timeout' => 2)));
+            $result = file_get_contents($url, false, $context);
+        } elseif (function_exists('curl_init')) {
+            try {
                 $session = curl_init();
                 curl_setopt_array($session, array(
                     CURLOPT_URL => $url,
@@ -57,9 +53,82 @@ class update
                 ));
                 $result = curl_exec($session);
                 curl_close($session);
+            } catch(Exception $e) {
+                Error::log("Unable to check for update... Exception:\n$e");
             }
         }
 
+        return $result;
+    }
+    public static function upgrade($url, $version)
+    {
+        $result = 'false';
+        
+        $result .= '|-|Creating \'anchor_update\' folder.';
+        $output_folder = PATH . "anchor_update" . DS;
+        $output_file = $output_folder . "anchor_$version.zip";
+        @mkdir(dirname($output_file));
+        $result .= '|-|Folder created.';
+        
+        if(in_array(ini_get('allow_url_fopen'), array('true', '1', 'On'))) {
+            $result .= '|-|Using copy() function.';
+            try {
+                $result .= '|-|Starting copy().';
+                copy($url, $output_file);
+                $result .= '|-|Finished copy().';
+            } catch(Excpetion $e) {
+                $result .= '|-|' . $e->getMessage() . '|-|ERROR';
+            }
+        } else {
+            $result .= '|-|Using curl functions.';
+            try {
+                $result .= '|-|Initialising curl.';
+                $session = curl_init();
+                curl_setopt_array($session, array(
+                    CURLOPT_URL => $url,
+                    CURLOPT_HEADER => false,
+                    CURLOPT_RETURNTRANSFER => true
+                ));
+                $result .= '|-|Executing curl.';
+                $d = curl_exec($session);
+                curl_close($session);
+                
+                $result .= '|-|Writing data to file.';
+                $f = fopen($output_file, 'w+');
+                fputs($f, $d);
+                fclose($f);
+                $result .= '|-|Data written and saved.';
+            } catch(Excpetion $e) {
+                $result .= '|-|' . $e->getMessage() . '|-|ERROR';
+            }
+        }
+        
+        try {
+            $result .= '|-|Testing if ZipArchive is a valid PHP class.';
+            $zip = new ZipArchive;
+            $result .= '|-|Attempting to open zip file.';
+            if(($zipCode = $zip->open($output_file)) === true) {
+                $result .= '|-|Extracting zip file.';
+                $zip->extractTo($output_folder);
+                $output_folder .= $zip->getNameIndex(0);
+                $zip->close();
+                $result .= '|-|Zip extracted.';
+                
+                $result .= '|-|Recursive copy of \'/anchor/\', \'/system/\', and \'/index.php\'.';
+                recurse_copy($output_folder . "anchor", APP);
+                recurse_copy($output_folder . "system", SYS);
+                copy($output_folder . "index.php", PATH . "index.php");
+                $result .= '|-|Recursive copy complete.';
+                $result = substr_replace($result, 'true', 0, strlen('false'));
+            } else throw new Exception("Cannot open the downloaded archive (CODE: $zipCode) - you may need to extract the contents manually! See https://anchorcms.com/docs/getting-started/upgrading.");
+            
+            $result .= '|-|Deleting temporary upgrade files.';
+            delTree($output_folder);
+            $result .= '|-|Done.';
+        } catch(Exception $e) {
+            $result .= '|-|' . $e->getMessage() . '|-|ERROR';
+        }
+        
         return $result;
     }
 }

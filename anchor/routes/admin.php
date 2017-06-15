@@ -55,6 +55,7 @@ Route::get('admin/login', array('before' => 'guest', 'main' => function () {
     }
     
     $vars['token'] = Csrf::token();
+    if(!array_key_exists('messages', $vars)) $vars['messages'] = "";
 
     return View::create('users/login', $vars)
         ->partial('header', 'partials/header')
@@ -197,20 +198,34 @@ Route::post('admin/reset/(:any)', array('before' => 'csrf', 'main' => function (
 /*
     Upgrade
 */
-Route::get('admin/upgrade', function () {
-    
+Route::get('admin/upgrade', array('before' => 'auth', 'main' => function () {
     $vars['token'] = Csrf::token();
 
     $version = Config::meta('update_version');
-    $url = 'https://github.com/anchorcms/anchor-cms/archive/%s.zip';
-
-    $vars['version'] = $version;
-    $vars['url'] = sprintf($url, $version);
-
+    
+    $vars['version'] = Update::touch();
+    
     return View::create('upgrade', $vars)
         ->partial('header', 'partials/header')
         ->partial('footer', 'partials/footer');
-});
+}));
+
+Route::post('admin/upgrade', array('before' => 'auth', 'main' => function() {
+	// Update programmatically
+	
+	$version = Config::meta('update_version');
+	$url = 'https://codeload.github.com/anchorcms/anchor-cms/zip/%s';
+    
+    $success = Update::upgrade(sprintf($url, $version), $version);
+    $error = substr($success, -strlen('error')) == "ERROR";
+    $messages = explode('|-|', $success);
+    
+    return Response::json(array(
+        'success'  => substr($success, 0, strpos($success, '|-|')) == 'true',
+        'error'    => $error,
+        'messages' => $messages
+    ));
+}));
 
 /*
     List extend

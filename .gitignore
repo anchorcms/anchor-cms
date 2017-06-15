@@ -45,3 +45,7 @@ vendor/
 
 # Don't want to commit .lock files
 *.lock
+
+# Don't commit the updater files
+/anchor_update/
+/anchor_update/*
