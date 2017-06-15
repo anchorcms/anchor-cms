@@ -95,6 +95,7 @@
 		<div id="finished" hidden>
 			<img src="<?php echo $base; ?>/anchor/views/assets/img/logo.png" alt="Anchor logo">
 			<h1 class="fin_h1"></h1>
+			<img class="dancing_robot" src="https://i.imgur.com/VKKeQX6.gif" alt="Gangnam Robot!" />
 			<a class="fin_goBack" href="<?php echo Uri::to('admin/upgrade/'); ?>">Try again</a>
 			<a class="fin_continue" href="<?php echo Uri::to('admin/'); ?>">Nevermind</a>
 		</div>
@@ -118,6 +119,9 @@
 					if(success) {
 						goBack.parentNode.removeChild(goBack);
 						cont.innerText = "<?php echo __('global.upgrade_finished_thanks')?>";
+					} else {
+						var robot = document.querySelector(".dancing_robot");
+						robot.parentNode.removeChild(robot);
 					}
 					
 					!success && addClass(document.querySelector("body"), "error");
