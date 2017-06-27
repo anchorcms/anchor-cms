@@ -219,7 +219,7 @@ Route::collection(array('before' => 'auth,csrf,install_exists'), function () {
             // Notify::error($errors);
 
             return Response::json(array(
-                'id'     => $id,
+                'id'     => $page->id,
                 'errors' => array_flatten($errors, array())
             ));
         }
