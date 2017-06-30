@@ -3,65 +3,65 @@
 */
 
 body.login {
-	position: absolute;
-	top: 25%;
-	left: 50%;
-	margin-left: -150px;
-	background: #444f5f;
+    position: absolute;
+    top: 25%;
+    left: 50%;
+    margin-left: -150px;
+    background: #444f5f;
 }
 
 .login .content,
 .login .wrap {
-	width: 300px;
+    width: 300px;
 }
 
 .login h1 {
-	padding-bottom: 25px;
-	font-size: 25px;
-	font-weight: lighter;
-	line-height: 60px;
-	color: #fff;
+    padding-bottom: 25px;
+    font-size: 25px;
+    font-weight: lighter;
+    line-height: 60px;
+    color: #fff;
 }
 
 .login label {
-	display: none;
+    display: none;
 }
 
 .login fieldset {
-	border: none;
+    border: none;
 }
 
 .login input {
-	width: 300px;
-	margin-bottom: 20px;
-	padding: 14px 16px;
+    width: 300px;
+    margin-bottom: 20px;
+    padding: 14px 16px;
 }
 
 .login .buttons a {
-	float: right;
-	font-size: 13px;
-	line-height: 38px;
+    float: right;
+    font-size: 13px;
+    line-height: 38px;
 }
 
 .login .buttons button {
-	float: left;
+    float: left;
 }
 
 .login a {
-	color: #8491a5;
+    color: #8491a5;
 }
 
 .login a:hover {
-	color: #fff;
+    color: #fff;
 }
 
 .login button {
-	font-size: 13px;
-	font-weight: 500;
-	color: #96a4bb;
-	background: #2f3744;
+    font-size: 13px;
+    font-weight: 500;
+    color: #96a4bb;
+    background: #2f3744;
 }
 
 .login .notification {
-	width: 300px;
+    width: 300px;
 }
