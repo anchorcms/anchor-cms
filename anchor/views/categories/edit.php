@@ -5,7 +5,7 @@
 </hgroup>
 
 <section class="wrap">
-	<?php echo $messages; ?>
+	
 
 	<form method="post" action="<?php echo Uri::to('admin/categories/edit/' . $category->id); ?>" novalidate>
 
@@ -27,7 +27,7 @@
 				<?php echo Form::textarea('description', Input::previous('description', $category->description), array('id' => 'label-description')); ?>
 				<em><?php echo __('categories.description_explain'); ?></em>
 			</p>
-			<?php foreach($fields as $field): ?>
+			<?php foreach ($fields as $field): ?>
 			<p>
 				<label for="extend_<?php echo $field->key; ?>"><?php echo $field->label; ?>:</label>
 				<?php echo Extend::html($field); ?>
@@ -38,13 +38,16 @@
 		<aside class="buttons">
 			<?php echo Form::button(__('global.save'), array('type' => 'submit', 'class' => 'btn')); ?>
 
+			<?php echo Html::link('admin/categories', __('global.cancel'), array('class' => 'btn cancel blue')); ?>
+
 			<?php echo Html::link('admin/categories/delete/' . $category->id, __('global.delete'), array(
-				'class' => 'btn delete red'
-			)); ?>
+                'class' => 'btn delete red'
+            )); ?>
 		</aside>
 	</form>
 </section>
 
 <script src="<?php echo asset('anchor/views/assets/js/slug.js'); ?>"></script>
+<script src="<?php echo asset('anchor/views/assets/js/upload-fields.js'); ?>"></script>
 
 <?php echo $footer; ?>

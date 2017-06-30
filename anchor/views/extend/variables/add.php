@@ -5,7 +5,7 @@
 </hgroup>
 
 <section class="wrap">
-	<?php echo $messages; ?>
+	
 
 	<form method="post" action="<?php echo Uri::to('admin/extend/variables/add'); ?>" novalidate>
 
@@ -27,6 +27,8 @@
 
 		<aside class="buttons">
 			<?php echo Form::button(__('global.save'), array('class' => 'btn', 'type' => 'submit')); ?>
+
+			<?php echo Html::link('admin/extend/variables', __('global.cancel'), array('class' => 'btn cancel blue')); ?>
 		</aside>
 	</form>
 </section>

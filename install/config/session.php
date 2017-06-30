@@ -1,12 +1,13 @@
 <?php
 
 return array(
-	'driver' => 'cookie',
-	'cookie' => 'anchorcms-install',
-	'table' => 'sessions',
-	'lifetime' => 14400,
-	'expire_on_close' => true,
-	'path' => '/',
-	'domain' => '',
-	'secure' => false
+    'name' => 'anchorcms-install',
+    'gc_probability' => '0',
+    'cookie_lifetime' => 86400,
+    'cookie_path' => '/',
+    'cookie_domain' => '',
+    'cookie_secure' => false,
+    'hash_function' => 'sha256',
+    'use_cookies' => true,
+    'use_only_cookies' => true,
 );

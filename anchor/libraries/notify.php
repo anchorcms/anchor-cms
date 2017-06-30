@@ -1,40 +1,53 @@
 <?php
 
-class Notify {
+class notify
+{
 
-	public static $types = array('error', 'notice', 'success', 'warning');
-	public static $wrap = '<div class="notifications">%s</div>';
-	public static $mwrap = '<p class="%s">%s</p>';
+    public static $types = array('error', 'notice', 'success', 'warning');
+    public static $wrap = '<div class="notifications">%s</div>';
+    public static $mwrap = '<p class="%s">%s</p>';
 
-	public static function add($type, $message) {
-		if(in_array($type, static::$types)) {
-			$messages = array_merge((array) Session::get('messages.' . $type), (array) $message);
+    public static function add($type, $messages)
+    {
+        if (! in_array($type, static::$types)) {
+            return;
+        }
 
-			Session::put('messages.' . $type, $messages);
-		}
-	}
+        if (! is_array($messages)) {
+            $messages = array($messages);
+        }
 
-	public static function read() {
-		$types = Session::get('messages');
+        $key = sprintf('messages.%s', $type);
 
-		// no messages no problem
-		if(is_null($types)) return '';
+        $messages = array_merge(Session::get($key, array()), $messages);
 
-		$html = '';
+        Session::put($key, $messages);
+    }
 
-		foreach($types as $type => $messages) {
-			foreach($messages as $message) {
-				$html .= sprintf(static::$mwrap, $type, implode('<br>', (array) $message));
-			}
-		}
+    public static function read()
+    {
+        $types = Session::get('messages');
 
-		Session::erase('messages');
+        // no messages no problem
+        if (is_null($types)) {
+            return '';
+        }
 
-		return sprintf(static::$wrap, $html);
-	}
+        $html = '';
 
-	public static function __callStatic($method, $paramaters = array()) {
-		static::add($method, array_shift($paramaters));
-	}
+        foreach ($types as $type => $messages) {
+            foreach ($messages as $message) {
+                $html .= sprintf(static::$mwrap, $type, implode('<br>', (array) $message));
+            }
+        }
 
+        Session::erase('messages');
+
+        return sprintf(static::$wrap, $html);
+    }
+
+    public static function __callStatic($method, $paramaters = array())
+    {
+        static::add($method, array_shift($paramaters));
+    }
 }

@@ -5,7 +5,7 @@
 </hgroup>
 
 <section class="wrap">
-	<?php echo $messages; ?>
+	
 
 	<form method="post" action="<?php echo Uri::to('admin/comments/edit/' . $comment->id); ?>" novalidate>
 
@@ -40,9 +40,11 @@
 		<aside class="buttons">
 			<?php echo Form::button(__('global.save'), array('type' => 'submit', 'class' => 'btn')); ?>
 
+			<?php echo Html::link('admin/comments', __('global.cancel'), array('class' => 'btn cancel blue')); ?>
+
 			<?php echo Html::link('admin/comments/delete/' . $comment->id, __('global.delete'), array(
-				'class' => 'btn delete red'
-			)); ?>
+                'class' => 'btn delete red'
+            )); ?>
 		</aside>
 	</form>
 </section>

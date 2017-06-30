@@ -12,14 +12,24 @@
 		{
 			"name": "Kieron",
 			"email": "rwarasaurus@gmail.com"
+		},
+		{
+			"name": "Craig",
+			"email": "childscraig17@gmail.com"
+		},
+		{
+			"name": "David",
+			"email": "me@daviddarnes.com"
+		},
+		{
+			"name": "Jarod",
+			"email": "thebrenny@brennytizer.com.au"
 		}
 	],
 	"require": {
-		"php": ">=5.3.6"
-	},
-	"extra": {
-		"installer-paths": {
-			"anchor/vendor/{$name}": ["vendor/package"]
-		}
+		"php": ">=5.3.6",
+		"ircmaxell/random-lib": "^1.1",
+		"ircmaxell/password-compat": "^1.0",
+		"indigophp/hash-compat": "^1.1"
 	}
 }

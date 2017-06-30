@@ -1,12 +1,13 @@
 # os/app generated files
 Thumbs.db
 .DS_Store
+.htaccess
 *.esproj
 *.log
 *.gz
-
-# env
-/anchor/config/dev
+*.json
+*.txt
+.phpintel/
 
 # generated config
 /anchor/config/app.php
@@ -38,3 +39,13 @@ robots.txt
 
 # User humans.txt [http://humanstxt.org/]
 humans.txt
+
+# Composer vendor
+vendor/
+
+# Don't want to commit .lock files
+*.lock
+
+# Don't commit the updater files
+/anchor_update/
+/anchor_update/*

@@ -1,193 +1,203 @@
 <?php
 
-Route::collection(array('before' => 'auth,csrf'), function() {
+Route::collection(array('before' => 'auth,csrf,install_exists'), function () {
 
-	/*
-		List Fields
-	*/
-	Route::get(array('admin/extend/fields', 'admin/extend/fields/(:num)'), function($page = 1) {
-		$vars['messages'] = Notify::read();
-		$vars['token'] = Csrf::token();
-		$vars['extend'] = Extend::paginate($page, Config::get('meta.posts_per_page'));
+    /*
+        List Fields
+    */
+    Route::get(array('admin/extend/fields', 'admin/extend/fields/(:num)'), function ($page = 1) {
 
-		return View::create('extend/fields/index', $vars)
-			->partial('header', 'partials/header')
-			->partial('footer', 'partials/footer');
-	});
+        $vars['token'] = Csrf::token();
+        $vars['extend'] = Extend::paginate($page, Config::get('admin.posts_per_page'));
 
-	/*
-		Add Field
-	*/
-	Route::get('admin/extend/fields/add', function() {
-		$vars['messages'] = Notify::read();
-		$vars['token'] = Csrf::token();
-		$vars['types'] = Extend::$types;
+        return View::create('extend/fields/index', $vars)
+            ->partial('header', 'partials/header')
+            ->partial('footer', 'partials/footer');
+    });
 
-		$vars['fields'] = Extend::$field_types;
+    /*
+        Add Field
+    */
+    Route::get('admin/extend/fields/add', function () {
 
-		$vars['pagetypes'] = Query::table(Base::table('pagetypes'))->sort('key')->get();
+        $vars['token'] = Csrf::token();
+        $vars['types'] = Extend::$types;
 
-		return View::create('extend/fields/add', $vars)
-			->partial('header', 'partials/header')
-			->partial('footer', 'partials/footer');
-	});
+        $vars['fields'] = Extend::$field_types;
 
-	Route::post('admin/extend/fields/add', function() {
-		$input = Input::get(array('type', 'field', 'key', 'label', 'attributes', 'pagetype'));
+        $vars['pagetypes'] = Query::table(Base::table('pagetypes'))->sort('key')->get();
 
-		if(empty($input['key'])) {
-			$input['key'] = $input['label'];
-		}
+        return View::create('extend/fields/add', $vars)
+            ->partial('header', 'partials/header')
+            ->partial('footer', 'partials/footer');
+    });
 
-		$input['key'] = slug($input['key'], '_');
+    Route::post('admin/extend/fields/add', function () {
+        $input = Input::get(array('type', 'field', 'key', 'label', 'attributes', 'pagetype'));
 
-		$validator = new Validator($input);
+        if (empty($input['key'])) {
+            $input['key'] = $input['label'];
+        }
 
-		$validator->add('valid_key', function($str) use($input) {
-			return Extend::where('key', '=', $str)
-				->where('type', '=', $input['type'])->count() == 0;
-		});
+        $input['key'] = slug($input['key'], '_');
 
-		$validator->check('key')
-			->is_max(1, __('extend.key_missing'))
-			->is_valid_key(__('extend.key_exists'));
+        // an array of items that we shouldn't encode - they're no XSS threat
+        $dont_encode = array('attributes');
 
-		$validator->check('label')
-			->is_max(1, __('extend.label_missing'));
+        foreach ($input as $key => &$value) {
+            if (in_array($key, $dont_encode)) {
+                continue;
+            }
+            $value = eq($value);
+        }
 
-		if($errors = $validator->errors()) {
-			Input::flash();
+        $validator = new Validator($input);
 
-			Notify::error($errors);
+        $validator->add('valid_key', function ($str) use ($input) {
+            return Extend::where('key', '=', $str)
+                ->where('type', '=', $input['type'])->count() == 0;
+        });
 
-			return Response::redirect('admin/extend/fields/add');
-		}
+        $validator->check('key')
+            ->is_max(1, __('extend.key_missing'))
+            ->is_valid_key(__('extend.key_exists'));
 
-		if($input['field'] == 'image') {
-			$attributes = Json::encode($input['attributes']);
-		}
-		else if($input['field'] == 'file') {
-			$attributes = Json::encode(array(
-				'attributes' => array(
-					'type' => $input['attributes']['type']
-				)
-			));
-		}
-		else {
-			$attributes = '';
-		}
+        $validator->check('label')
+            ->is_max(1, __('extend.label_missing'));
 
-		Extend::create(array(
-			'type' => $input['type'],
-			'pagetype' => $input['pagetype'],
-			'field' => $input['field'],
-			'key' => $input['key'],
-			'label' => $input['label'],
-			'attributes' => $attributes
-		));
+        if ($errors = $validator->errors()) {
+            Input::flash();
 
-		Notify::success(__('extend.field_created'));
+            Notify::error($errors);
 
-		return Response::redirect('admin/extend/fields');
-	});
+            return Response::redirect('admin/extend/fields/add');
+        }
 
-	/*
-		Edit Field
-	*/
-	Route::get('admin/extend/fields/edit/(:num)', function($id) {
-		$vars['messages'] = Notify::read();
-		$vars['token'] = Csrf::token();
-		$vars['types'] = Extend::$types;
-		$vars['fields'] = Extend::$field_types;
+        if ($input['field'] == 'image') {
+            $attributes = Json::encode($input['attributes']);
+        } elseif ($input['field'] == 'file') {
+            $attributes = Json::encode(array(
+                'attributes' => array(
+                    'type' => $input['attributes']['type']
+                )
+            ));
+        } else {
+            $attributes = '';
+        }
 
-		$extend = Extend::find($id);
+        Extend::create(array(
+            'type' => $input['type'],
+            'pagetype' => $input['pagetype'],
+            'field' => $input['field'],
+            'key' => $input['key'],
+            'label' => $input['label'],
+            'attributes' => $attributes
+        ));
 
-		if($extend->attributes) {
-			$extend->attributes = Json::decode($extend->attributes);
-		}
+        Notify::success(__('extend.field_created'));
 
-		$vars['field'] = $extend;
+        return Response::redirect('admin/extend/fields');
+    });
 
-		$vars['pagetypes'] = Query::table(Base::table('pagetypes'))->sort('key')->get();
+    /*
+        Edit Field
+    */
+    Route::get('admin/extend/fields/edit/(:num)', function ($id) {
 
-		return View::create('extend/fields/edit', $vars)
-			->partial('header', 'partials/header')
-			->partial('footer', 'partials/footer');
-	});
+        $vars['token'] = Csrf::token();
+        $vars['types'] = Extend::$types;
+        $vars['fields'] = Extend::$field_types;
 
-	Route::post('admin/extend/fields/edit/(:num)', function($id) {
-		$input = Input::get(array('type', 'field', 'key', 'label', 'attributes', 'pagetype'));
+        $extend = Extend::find($id);
 
-		if(empty($input['key'])) {
-			$input['key'] = $input['label'];
-		}
+        if ($extend->attributes) {
+            $extend->attributes = Json::decode($extend->attributes);
+        }
 
-		$input['key'] = slug($input['key'], '_');
+        $vars['field'] = $extend;
 
-		$validator = new Validator($input);
+        $vars['pagetypes'] = Query::table(Base::table('pagetypes'))->sort('key')->get();
 
-		$validator->add('valid_key', function($str) use($id, $input) {
-			return Extend::where('key', '=', $str)
-				->where('type', '=', $input['type'])
-				->where('id', '<>', $id)->count() == 0;
-		});
+        return View::create('extend/fields/edit', $vars)
+            ->partial('header', 'partials/header')
+            ->partial('footer', 'partials/footer');
+    });
 
-		$validator->check('key')
-			->is_max(1, __('extend.key_missing'))
-			->is_valid_key(__('extend.key_exists'));
+    Route::post('admin/extend/fields/edit/(:num)', function ($id) {
+        $input = Input::get(array('type', 'field', 'key', 'label', 'attributes', 'pagetype'));
 
-		$validator->check('label')
-			->is_max(1, __('extend.label_missing'));
+        if (empty($input['key'])) {
+            $input['key'] = $input['label'];
+        }
 
-		if($errors = $validator->errors()) {
-			Input::flash();
+        $input['key'] = slug($input['key'], '_');
 
-			Notify::error($errors);
+        array_walk_recursive($input, function(&$value) {
+            $value = eq($value);
+        });
 
-			return Response::redirect('admin/extend/fields/edit/' . $id);
-		}
+        $validator = new Validator($input);
 
-		if($input['field'] == 'image') {
-			$attributes = Json::encode($input['attributes']);
-		}
-		else if($input['field'] == 'file') {
-			$attributes = Json::encode(array(
-				'attributes' => array(
-					'type' => $input['attributes']['type']
-				)
-			));
-		}
-		else {
-			$attributes = '';
-		}
+        $validator->add('valid_key', function ($str) use ($id, $input) {
+            return Extend::where('key', '=', $str)
+                ->where('type', '=', $input['type'])
+                ->where('id', '<>', $id)->count() == 0;
+        });
 
-		Extend::update($id, array(
-			'type' => $input['type'],
-			'pagetype' => $input['pagetype'],
-			'field' => $input['field'],
-			'key' => $input['key'],
-			'label' => $input['label'],
-			'attributes' => $attributes
-		));
+        $validator->check('key')
+            ->is_max(1, __('extend.key_missing'))
+            ->is_valid_key(__('extend.key_exists'));
 
-		Notify::success(__('extend.field_updated'));
+        $validator->check('label')
+            ->is_max(1, __('extend.label_missing'));
 
-		return Response::redirect('admin/extend/fields/edit/' . $id);
-	});
+        if ($errors = $validator->errors()) {
+            Input::flash();
 
-	/*
-		Delete Field
-	*/
-	Route::get('admin/extend/fields/delete/(:num)', function($id) {
-		$field = Extend::find($id);
+            Notify::error($errors);
 
-		Query::table(Base::table($field->type . '_meta'))->where('extend', '=', $field->id)->delete();
+            return Response::redirect('admin/extend/fields/edit/' . $id);
+        }
 
-		$field->delete();
+        if ($input['field'] == 'image') {
+            $attributes = Json::encode($input['attributes']);
+        } elseif ($input['field'] == 'file') {
+            $attributes = Json::encode(array(
+                'attributes' => array(
+                    'type' => $input['attributes']['type']
+                )
+            ));
+        } else {
+            $attributes = '';
+        }
 
-		Notify::success(__('extend.field_deleted'));
+        Extend::update($id, array(
+            'type' => $input['type'],
+            'pagetype' => $input['pagetype'],
+            'field' => $input['field'],
+            'key' => $input['key'],
+            'label' => $input['label'],
+            'attributes' => $attributes
+        ));
 
-		return Response::redirect('admin/extend/fields');
-	});
+        Notify::success(__('extend.field_updated'));
+
+        return Response::redirect('admin/extend/fields/edit/' . $id);
+    });
+
+    /*
+        Delete Field
+    */
+    Route::get('admin/extend/fields/delete/(:num)', function ($id) {
+        $field = Extend::find($id);
+
+        Query::table(Base::table($field->type . '_meta'))->where('extend', '=', $field->id)->delete();
+
+        $field->delete();
+
+        Notify::success(__('extend.field_deleted'));
+
+        return Response::redirect('admin/extend/fields');
+    });
 
 });

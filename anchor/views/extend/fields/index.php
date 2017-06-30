@@ -9,11 +9,11 @@
 </hgroup>
 
 <section class="wrap">
-	<?php echo $messages; ?>
+	
 
-	<?php if(count($extend->results)): ?>
+	<?php if (count($extend->results)): ?>
 	<ul class="list">
-		<?php foreach($extend->results as $field): ?>
+		<?php foreach ($extend->results as $field): ?>
 		<li>
 			<a href="<?php echo Uri::to('admin/extend/fields/edit/' . $field->id); ?>">
 				<strong><?php echo $field->label; ?></strong>

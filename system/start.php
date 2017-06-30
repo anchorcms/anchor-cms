@@ -11,6 +11,11 @@
  */
 
 /**
+ * Composer
+ */
+require PATH . 'vendor/autoload' . EXT;
+
+/**
  * Boot the environment
  */
 require SYS . 'boot' . EXT;
@@ -26,9 +31,14 @@ require APP . 'run' . EXT;
 Input::detect(Request::method());
 
 /**
+ * Load session config
+ */
+Session::setOptions(Config::get('session', array()));
+
+/**
  * Read session data
  */
-Session::read();
+Session::start();
 
 /**
  * Route the request
@@ -38,7 +48,7 @@ $response = Router::create()->dispatch();
 /**
  * Update session
  */
-Session::write();
+Session::close();
 
 /**
  * Output stuff

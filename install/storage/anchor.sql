@@ -22,7 +22,7 @@ CREATE TABLE `{{prefix}}comments` (
 CREATE TABLE `{{prefix}}extend` (
   `id` int(6) NOT NULL AUTO_INCREMENT,
   `type` enum('post','page','user') NOT NULL,
-  `field` enum('text','html','image','file') NOT NULL,
+  `field` enum('text','html','image','file','toggle') NOT NULL,
   `key` varchar(160) NOT NULL,
   `label` varchar(160) NOT NULL,
   `attributes` text NOT NULL,
@@ -82,7 +82,7 @@ CREATE TABLE `{{prefix}}posts` (
   `author` int(6) NOT NULL,
   `category` int(6) NOT NULL,
   `status` enum('draft','published','archived') NOT NULL,
-  `comments` tinyint(1) NOT NULL,
+  `comments` tinyint(1) DEFAULT 0,
   PRIMARY KEY (`id`),
   KEY `status` (`status`),
   KEY `slug` (`slug`)

@@ -1,125 +1,129 @@
 <?php
 
-Route::collection(array('before' => 'auth,csrf'), function() {
+Route::collection(array('before' => 'auth,csrf,install_exists'), function () {
 
-	/*
-		List Vars
-	*/
-	Route::get('admin/extend/pagetypes', function() {
-		$vars['messages'] = Notify::read();
-		$vars['token'] = Csrf::token();
+    /*
+        List Vars
+    */
+    Route::get('admin/extend/pagetypes', function () {
+        
+        $vars['token'] = Csrf::token();
 
-		$vars['pagetypes'] = Query::table(Base::table('pagetypes'))->sort('key')->get();
+        $vars['pagetypes'] = Query::table(Base::table('pagetypes'))->sort('key')->get();
 
-		return View::create('extend/pagetypes/index', $vars)
-			->partial('header', 'partials/header')
-			->partial('footer', 'partials/footer');
-	});
+        return View::create('extend/pagetypes/index', $vars)
+            ->partial('header', 'partials/header')
+            ->partial('footer', 'partials/footer');
+    });
 
-	/*
-		Add Var
-	*/
-	Route::get('admin/extend/pagetypes/add', function() {
-		$vars['messages'] = Notify::read();
-		$vars['token'] = Csrf::token();
+    /*
+        Add Var
+    */
+    Route::get('admin/extend/pagetypes/add', function () {
+        
+        $vars['token'] = Csrf::token();
 
-		return View::create('extend/pagetypes/add', $vars)
-			->partial('header', 'partials/header')
-			->partial('footer', 'partials/footer');
-	});
+        return View::create('extend/pagetypes/add', $vars)
+            ->partial('header', 'partials/header')
+            ->partial('footer', 'partials/footer');
+    });
 
-	Route::post('admin/extend/pagetypes/add', function() {
-		$input = Input::get(array('key', 'value'));
+    Route::post('admin/extend/pagetypes/add', function () {
+        $input = Input::get(array('key', 'value'));
+        
+        $input['key'] = slug($input['key'], '_');
+        
+        $validator = new Validator($input);
 
-		$input['key'] = slug($input['key'], '_');
+        $validator->add('valid_key', function ($str) {
+            return Query::table(Base::table('pagetypes'))
+            ->where('key', '=', $str)
+            ->count() == 0;
+        });
 
-		$validator = new Validator($input);
+        $validator->check('key')
+            ->is_max(2, __('extend.key_missing'))
+            ->is_valid_key(__('extend.key_exists'));
 
-		$validator->add('valid_key', function($str) {
-			if(strlen($str) > 7) {
-				return Query::table(Base::table('pagetypes'))
-					->where('key', '=', $str)
-					->count() == 0;
-			}
+        $validator->check('value')
+            ->is_max(1, __('extend.name_missing'));
 
-			return true;
-		});
+        if ($errors = $validator->errors()) {
+            Input::flash();
 
-		$validator->check('key')
-			->is_max(2, __('extend.name_missing'))
-			->is_valid_key(__('extend.name_exists'));
+            Notify::error($errors);
 
-		if($errors = $validator->errors()) {
-			Input::flash();
+            return Response::redirect('admin/extend/pagetypes/add');
+        }
 
-			Notify::error($errors);
+        Query::table(Base::table('pagetypes'))->insert($input);
 
-			return Response::redirect('admin/extend/pagetypes/add');
-		}
+        Notify::success(__('extend.pagetype_created'));
 
-		Query::table(Base::table('pagetypes'))->insert($input);
+        return Response::redirect('admin/extend/pagetypes');
+    });
 
-		Notify::success(__('extend.pagetype_created'));
+    /*
+        Edit Var
+    */
+    Route::get('admin/extend/pagetypes/edit/(:any)', function ($key) {
+        
+        $vars['token'] = Csrf::token();
 
-		return Response::redirect('admin/extend/pagetypes');
-	});
+        $vars['pagetype'] = Query::table(Base::table('pagetypes'))->where('key', '=', $key)->fetch();
 
-	/*
-		Edit Var
-	*/
-	Route::get('admin/extend/pagetypes/edit/(:any)', function($key) {
-		$vars['messages'] = Notify::read();
-		$vars['token'] = Csrf::token();
-		$vars['pagetype'] = Query::table(Base::table('pagetypes'))->where('key', '=', $key)->fetch();
+        return View::create('extend/pagetypes/edit', $vars)
+            ->partial('header', 'partials/header')
+            ->partial('footer', 'partials/footer');
+    });
 
-		return View::create('extend/pagetypes/edit', $vars)
-			->partial('header', 'partials/header')
-			->partial('footer', 'partials/footer');
-	});
+    Route::post('admin/extend/pagetypes/edit/(:any)', function ($key) {
+        $input = Input::get(array('key', 'value'));
+        
+        $input['key'] = slug($input['key'], '_');
+        
+        $validator = new Validator($input);
 
-	Route::post('admin/extend/pagetypes/edit/(:any)', function($key) {
-		$input = Input::get(array('key', 'value'));
+        $validator->add('valid_key', function ($str) use ($key) {
+            // no change
+            if ($str == $key) {
+                return true;
+            }
+            // check the new key $str is available
+            return Query::table(Base::table('pagetypes'))->where('key', '=', $str)->count() == 0;
+        });
 
-		$input['key'] = slug($input['key'], '_');
+        $validator->check('key')
+            ->is_max(2, __('extend.key_missing'))
+            ->is_valid_key(__('extend.key_exists'));
 
-		$validator = new Validator($input);
+        $validator->check('value')
+            ->is_max(1, __('extend.name_missing'));
 
-		$validator->add('valid_key', function($str) use($key) {
-			// no change
-			if($str == $key) return true;
+        if ($errors = $validator->errors()) {
+            Input::flash();
 
-			// check the new key $str is available
-			return Query::table(Base::table('pagetypes'))->where('key', '=', $str)->count() == 0;
-		});
+            Notify::error($errors);
 
-		$validator->check('key')
-			->is_max(2, __('extend.name_missing'))
-			->is_valid_key(__('extend.name_exists'));
+            return Response::redirect('admin/extend/pagetypes/edit/' . $key);
+        }
 
-		if($errors = $validator->errors()) {
-			Input::flash();
+        Query::table(Base::table('pagetypes'))->where('key', '=', $key)->update($input);
 
-			Notify::error($errors);
+        Notify::success(__('extend.pagetype_updated'));
 
-			return Response::redirect('admin/extend/pagetypes/edit/' . $key);
-		}
+        return Response::redirect('admin/extend/pagetypes');
+    });
 
-		Query::table(Base::table('pagetypes'))->where('key', '=', $key)->update($input);
+    /*
+        Delete Var
+    */
+    Route::get('admin/extend/pagetypes/delete/(:any)', function ($key) {
+        Query::table(Base::table('pagetypes'))->where('key', '=', $key)->delete();
 
-		Notify::success(__('extend.pagetype_updated'));
+        Notify::success(__('extend.pagetype_deleted'));
 
-		return Response::redirect('admin/extend/pagetypes');
-	});
-
-	/*
-		Delete Var
-	*/
-	Route::get('admin/extend/pagetypes/delete/(:any)', function($key) {
-		Query::table(Base::table('pagetypes'))->where('key', '=', $key)->delete();
-
-		Notify::success(__('extend.pagetype_deleted'));
-
-		return Response::redirect('admin/extend/pagetypes');
-	});
+        return Response::redirect('admin/extend/pagetypes');
+    });
 
 });

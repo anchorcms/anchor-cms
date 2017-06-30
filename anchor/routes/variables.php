@@ -1,136 +1,144 @@
 <?php
 
-Route::collection(array('before' => 'auth,csrf'), function() {
+Route::collection(array('before' => 'auth,csrf,install_exists'), function () {
 
-	/*
-		List Vars
-	*/
-	Route::get('admin/extend/variables', function() {
-		$vars['messages'] = Notify::read();
-		$vars['token'] = Csrf::token();
+    /*
+        List Vars
+    */
+    Route::get('admin/extend/variables', function () {
+        
+        $vars['token'] = Csrf::token();
 
-		$variables = array();
+        $variables = array();
 
-		foreach(Query::table(Base::table('meta'))->sort('key')->get() as $meta) {
-			if(strpos($meta->key, 'custom_') === 0) $variables[] = $meta;
-		}
+        foreach (Query::table(Base::table('meta'))->sort('key')->get() as $meta) {
+            if (strpos($meta->key, 'custom_') === 0) {
+                $variables[] = $meta;
+            }
+        }
 
-		$vars['variables'] = $variables;
+        $vars['variables'] = $variables;
 
-		return View::create('extend/variables/index', $vars)
-			->partial('header', 'partials/header')
-			->partial('footer', 'partials/footer');
-	});
+        return View::create('extend/variables/index', $vars)
+            ->partial('header', 'partials/header')
+            ->partial('footer', 'partials/footer');
+    });
 
-	/*
-		Add Var
-	*/
-	Route::get('admin/extend/variables/add', function() {
-		$vars['messages'] = Notify::read();
-		$vars['token'] = Csrf::token();
+    /*
+        Add Var
+    */
+    Route::get('admin/extend/variables/add', function () {
+        
+        $vars['token'] = Csrf::token();
 
-		return View::create('extend/variables/add', $vars)
-			->partial('header', 'partials/header')
-			->partial('footer', 'partials/footer');
-	});
+        return View::create('extend/variables/add', $vars)
+            ->partial('header', 'partials/header')
+            ->partial('footer', 'partials/footer');
+    });
 
-	Route::post('admin/extend/variables/add', function() {
-		$input = Input::get(array('key', 'value'));
+    Route::post('admin/extend/variables/add', function () {
+        $input = Input::get(array('key', 'value'));
+        
+        $input['key'] = 'custom_' . slug($input['key'], '_');
+        
+        foreach ($input as $key => &$value) {
+            $value = eq($value);
+        }
+        
+        $validator = new Validator($input);
+        
+        $validator->add('valid_key', function ($str) {
+            return Query::table(Base::table('meta'))
+                ->where('key', '=', $str)
+                ->count() == 0;
+        });
 
-		$input['key'] = 'custom_' . slug($input['key'], '_');
+        $validator->check('key')
+            // include prefix length 'custom_'
+            ->is_max(8, __('extend.name_missing'))
+            ->is_valid_key(__('extend.name_exists'));
 
-		$validator = new Validator($input);
+        if ($errors = $validator->errors()) {
+            Input::flash();
 
-		$validator->add('valid_key', function($str) {
-			if(strlen($str) > 7) {
-				return Query::table(Base::table('meta'))
-					->where('key', '=', $str)
-					->count() == 0;
-			}
+            Notify::error($errors);
 
-			return true;
-		});
+            return Response::redirect('admin/extend/variables/add');
+        }
 
-		$validator->check('key')
-			// include prefix length 'custom_'
-			->is_max(7, __('extend.name_missing'))
-			->is_valid_key(__('extend.name_exists'));
+        Query::table(Base::table('meta'))->insert($input);
 
-		if($errors = $validator->errors()) {
-			Input::flash();
+        Notify::success(__('extend.variable_created'));
 
-			Notify::error($errors);
+        return Response::redirect('admin/extend/variables');
+    });
 
-			return Response::redirect('admin/extend/variables/add');
-		}
+    /*
+        Edit Var
+    */
+    Route::get('admin/extend/variables/edit/(:any)', function ($key) {
+        
+        $vars['token'] = Csrf::token();
+        $vars['variable'] = Query::table(Base::table('meta'))->where('key', '=', $key)->fetch();
 
-		Query::table(Base::table('meta'))->insert($input);
+        // remove prefix
+        $vars['variable']->user_key = substr($vars['variable']->key, strlen('custom_'));
 
-		Notify::success(__('extend.variable_created'));
+        return View::create('extend/variables/edit', $vars)
+            ->partial('header', 'partials/header')
+            ->partial('footer', 'partials/footer');
+    });
 
-		return Response::redirect('admin/extend/variables');
-	});
+    Route::post('admin/extend/variables/edit/(:any)', function ($key) {
+        $input = Input::get(array('key', 'value'));
+        
+        $input['key'] = 'custom_' . slug($input['key'], '_');
+        
+        foreach ($input as $key => &$value) {
+            $value = eq($value);
+        }
+        
+        $validator = new Validator($input);
+        
+        $validator->add('valid_key', function ($str) use ($key) {
+            // no change
+            if ($str == $key) {
+                return false;
+            }
 
-	/*
-		Edit Var
-	*/
-	Route::get('admin/extend/variables/edit/(:any)', function($key) {
-		$vars['messages'] = Notify::read();
-		$vars['token'] = Csrf::token();
-		$vars['variable'] = Query::table(Base::table('meta'))->where('key', '=', $key)->fetch();
+            // check the new key $str is available
+            return Query::table(Base::table('meta'))->where('key', '=', $str)->count() != 0;
+        });
 
-		// remove prefix
-		$vars['variable']->user_key = substr($vars['variable']->key, strlen('custom_'));
+        $validator->check('key')
+            // include prefix length 'custom_'
+            ->is_max(8, __('extend.name_missing'))
+            ->is_valid_key(__('extend.name_exists'));
 
-		return View::create('extend/variables/edit', $vars)
-			->partial('header', 'partials/header')
-			->partial('footer', 'partials/footer');
-	});
+        if ($errors = $validator->errors()) {
+            Input::flash();
 
-	Route::post('admin/extend/variables/edit/(:any)', function($key) {
-		$input = Input::get(array('key', 'value'));
+            Notify::error($errors);
 
-		$input['key'] = 'custom_' . slug($input['key'], '_');
+            return Response::redirect('admin/extend/variables/edit/' . $key);
+        }
 
-		$validator = new Validator($input);
+        Query::table(Base::table('meta'))->where('key', '=', $key)->update($input);
 
-		$validator->add('valid_key', function($str) use($key) {
-			// no change
-			if($str == $key) return true;
+        Notify::success(__('extend.variable_updated'));
 
-			// check the new key $str is available
-			return Query::table(Base::table('meta'))->where('key', '=', $str)->count() == 0;
-		});
+        return Response::redirect('admin/extend/variables');
+    });
 
-		$validator->check('key')
-			// include prefix length 'custom_'
-			->is_max(7, __('extend.name_missing'))
-			->is_valid_key(__('extend.name_exists'));
+    /*
+        Delete Var
+    */
+    Route::get('admin/extend/variables/delete/(:any)', function ($key) {
+        Query::table(Base::table('meta'))->where('key', '=', $key)->delete();
 
-		if($errors = $validator->errors()) {
-			Input::flash();
+        Notify::success(__('extend.variable_deleted'));
 
-			Notify::error($errors);
-
-			return Response::redirect('admin/extend/variables/edit/' . $key);
-		}
-
-		Query::table(Base::table('meta'))->where('key', '=', $key)->update($input);
-
-		Notify::success(__('extend.variable_updated'));
-
-		return Response::redirect('admin/extend/variables');
-	});
-
-	/*
-		Delete Var
-	*/
-	Route::get('admin/extend/variables/delete/(:any)', function($key) {
-		Query::table(Base::table('meta'))->where('key', '=', $key)->delete();
-
-		Notify::success(__('extend.variable_deleted'));
-
-		return Response::redirect('admin/extend/variables');
-	});
+        return Response::redirect('admin/extend/variables');
+    });
 
 });

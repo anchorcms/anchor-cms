@@ -1,9 +1,11 @@
 <?php echo $header; ?>
 
+<?php echo Notify::read(); ?>
+
 <section class="content small">
 	<h1>Install complete!</h1>
 
-	<?php if($htaccess): ?>
+	<?php if ($htaccess): ?>
 	<p class="code">We could not write the <code>htaccess</code> file for you, copy
 	the contents below and create a .htaccess in your Anchor root folder.
 	<textarea id="htaccess"><?php echo $htaccess; ?></textarea></p>

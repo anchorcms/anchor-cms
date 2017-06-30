@@ -6,10 +6,12 @@
 		<h1>Your first account</h1>
 
 		<p>Oh, we're so tantalisingly close! All we need now is a username and password to log in to the admin area with.</p>
+
+		<?php echo Notify::read(); ?>
 	</article>
 
 	<form method="post" action="<?php echo uri_to('account'); ?>" autocomplete="off">
-		<?php echo $messages; ?>
+
 
 		<fieldset>
 			<p>

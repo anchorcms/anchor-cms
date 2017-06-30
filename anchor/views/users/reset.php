@@ -1,7 +1,7 @@
 <?php echo $header; ?>
 
 <section class="login content">
-	<?php echo $messages; ?>
+	
 
 	<form method="post" action="<?php echo Uri::to('admin/reset/' . $key); ?>">
 

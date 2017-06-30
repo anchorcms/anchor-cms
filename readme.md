@@ -2,6 +2,9 @@
 
 Anchor is a super-simple, lightweight blog system, made to let you just write. [Check out the site](http://anchorcms.com/).
 
+### Feature Requests:
+If you would like to add submit a feature request then please go to our [Feathub page](http://feathub.com/anchorcms/anchor-cms).
+
 [![Feature Requests](http://feathub.com/anchorcms/anchor-cms?format=svg)](http://feathub.com/anchorcms/anchor-cms)
 
 ### Requirements
@@ -11,14 +14,17 @@ Anchor is a super-simple, lightweight blog system, made to let you just write. [
     - mcrypt
     - gd
     - pdo\_mysql or pdo\_sqlite
-- MySQL 5.2+
+- MySQL 5.6+ (MySQL 5.7 recommended)
 
 To determine your PHP version, create a new file with this PHP code: `<?php echo PHP_VERSION; // version.php`. This will print your version number to the screen.
 
-### Install
+### Installation
 
 1. Ensure that you have the required components.
-2. Download Anchor either from [here](http://anchorcms.com/download) or by cloning this Github repo.
+2. Download Anchor either from [here](http://anchorcms.com/download) or by cloning this Github repo or by running:
+```
+composer create-project anchorcms/anchor-cms anchor
+```
 3. Upload Anchor through FTP/SFTP or whatever upload method you prefer to the public-facing directory of your site.
 4. Ensure that the permissions for the `content` and `anchor/config` folders are set to `0777`.
 5. Create a database for Anchor to install to. You may name it anything you like. The method for database creation varies depending on your webhost but may require using PHPMyAdmin or Sequel Pro. If you are unsure of how to create this, ask your host.

@@ -5,11 +5,11 @@
 </hgroup>
 
 <section class="wrap">
-	<?php echo $messages; ?>
+	
 
-	<?php if(count($pages)): ?>
+	<?php if (count($pages)): ?>
 	<ul class="sortable">
-		<?php foreach($pages as $page): ?>
+		<?php foreach ($pages as $page): ?>
 		<li class="item" draggable="true">
 			<span data-id="<?php echo $page->id; ?>"><?php echo $page->name; ?></span>
 		</li>

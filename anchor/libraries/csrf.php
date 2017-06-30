@@ -1,31 +1,27 @@
 <?php
 
-class Csrf {
+class csrf
+{
 
-	public static function check($token) {
-		$tokens = Session::get('csrf_tokens', array());
+    public static function check($userToken)
+    {
+        if ($sessionToken = Session::get('csrf_token')) {
+            return hash_equals($sessionToken, $userToken);
+        }
 
-		if(($index = array_search($token, $tokens)) !== false) {
-			// unset($tokens[$index]);
+        return false;
+    }
 
-			Session::put('csrf_tokens', $tokens);
+    public static function token()
+    {
+        if ($sessionToken = Session::get('csrf_token')) {
+            return $sessionToken;
+        }
 
-			return $token;
-		}
+        $token = noise(64);
 
-		return false;
-	}
+        Session::put('csrf_token', $token);
 
-	public static function token() {
-		$tokens = Session::get('csrf_tokens', array());
-
-		$token = hash('md5', noise());
-
-		$tokens[] = $token;
-
-		Session::put('csrf_tokens', $tokens);
-
-		return $token;
-	}
-
+        return $token;
+    }
 }

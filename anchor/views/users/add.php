@@ -5,8 +5,8 @@
 </hgroup>
 
 <section class="wrap">
-	<?php echo $messages; ?>
-	<?php if(Auth::admin()) : ?>
+	
+	<?php if (Auth::admin()) : ?>
 
 	<form method="post" action="<?php echo Uri::to('admin/users/add'); ?>" novalidate autocomplete="off" enctype="multipart/form-data">
 
@@ -28,15 +28,17 @@
 				<?php echo Form::select('status', $statuses, Input::previous('status'), array('id' => 'label-status')); ?>
 				<em><?php echo __('users.status_explain'); ?></em>
 			</p>
-			<p>
-				<label for="label-role"><?php echo __('users.role'); ?>:</label>
-				<?php echo Form::select('role', $roles, Input::previous('role'), array('id' => 'label-role')); ?>
-				<em><?php echo __('users.role_explain'); ?></em>
-			</p>
+			<?php if (false) : ?>
+				<p>
+					<label for="label-role"><?php echo __('users.role'); ?>:</label>
+					<?php echo Form::select('role', $roles, Input::previous('role'), array('id' => 'label-role')); ?>
+					<em><?php echo __('users.role_explain'); ?></em>
+				</p>
+			<?php endif; ?>
 		</fieldset>
 
 		<fieldset class="half split">
-			<?php foreach($fields as $field): ?>
+			<?php foreach ($fields as $field): ?>
 			<p>
 				<label for="extend_<?php echo $field->key; ?>"><?php echo $field->label; ?>:</label>
 				<?php echo Extend::html($field); ?>
@@ -45,7 +47,7 @@
 			<p>
 				<label for="label-username"><?php echo __('users.username'); ?>:</label>
 				<?php echo Form::text('username', Input::previous('username'), array('id' => 'label-username')); ?>
-				<em><?php echo __('users.role_explain'); ?></em>
+				<em><?php echo __('users.username_explain'); ?></em>
 			</p>
 			<p>
 				<label for="label-password"><?php echo __('users.password'); ?>:</label>
@@ -61,6 +63,8 @@
 
 		<aside class="buttons">
 			<?php echo Form::button(__('global.create'), array('class' => 'btn', 'type' => 'submit')); ?>
+
+			<?php echo Html::link('admin/users', __('global.cancel'), array('class' => 'btn cancel blue')); ?>
 		</aside>
 	</form>
 	<?php else : ?>

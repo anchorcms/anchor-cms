@@ -1,11 +1,13 @@
 <?php
 
-class Migration_add_category_meta extends Migration {
+class Migration_add_category_meta extends Migration
+{
 
-    public function up() {
+    public function up()
+    {
         $table = Base::table('category_meta');
 
-        if(!$this->has_table($table)) {
+        if (!$this->has_table($table)) {
             $sql = "CREATE TABLE IF NOT EXISTS `" . $table . "` (
                 `id` int(6) NOT NULL AUTO_INCREMENT,
                 `category` int(6) NOT NULL,
@@ -20,6 +22,7 @@ class Migration_add_category_meta extends Migration {
         }
     }
 
-    public function down() {}
-
+    public function down()
+    {
+    }
 }

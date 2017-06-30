@@ -1,24 +1,24 @@
 * {
-	margin: 0;
-	padding: 0;
-	box-sizing: border-box;
-	-webkit-box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
     -webkit-font-smoothing: antialiased;
 }
 
 ::selection {
-	color: #fff;
-	background: #606d80;
+    color: #fff;
+    background: #606d80;
 }
 
 ::-webkit-input-placeholder {
-	color: #bec8d4;
+    color: #bec8d4;
 }
 
 ::-moz-placeholder {
-	color: #bec8d4;
+    color: #bec8d4;
 }
 
 ::placeholder {
-	color: #bec8d4;
+    color: #bec8d4;
 }
