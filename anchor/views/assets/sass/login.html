@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+        <meta name="skype_toolbar" content="skype_toolbar_parser_compatible">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Login | SASS test Anchor CMS</title>
+        <link rel="stylesheet" href="build/core.css">
+        <link rel="stylesheet" href="build/login.css">
+        <link rel="stylesheet" href="build/forms.css">
+    </head>
+    <body class="login cs-CZ">
+        
+        <main class="container-fluid">
+            <form method="post" action="/admin/login">
+                <input name="token" type="hidden" value="">
+                <fieldset>
+                    <legend><h1 class="clearfix"><a class="btn btn-link" href="/admin/login"><span class="sr-only">Přihlášení do Anchor CMS</span></a></h1></legend>
+                    <div class="form-group">
+                        <label for="label-user" class="sr-only">Jméno:</label>
+                        <input id="label-user" class="form-control form-control-lg" autocapitalize="off" autofocus="true" placeholder="Jméno" type="text" name="user">
+                    </div>
+                    <div class="form-group">
+                        <label for="label-pass" class="sr-only">Heslo:</label>
+                        <input id="label-pass" class="form-control form-control-lg" placeholder="Heslo" autocomplete="off" type="password" name="pass">
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary">Přihlásit se</button>
+                        <a href="/admin/amnesia" class="btn btn-link">Zapomenuté heslo?</a>
+                    </div>
+                </fieldset>
+            </form>
+        </main>
+        
+        <div class="notif">
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                Invalid token
+            </div>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,49 @@
+body, html {
+  width: 100%;
+  height: 90%;
+}
+body.login {
+  position: relative;
+  color: #96a4bb;
+  background: #444f5f;
+}
+body.login form {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 300px;
+  max-width: 100%;
+  transform: translate(-50%, -50%);
+}
+body.login h1 {
+  margin: 0 40px 0 1rem;
+  padding: 0.25rem 0;
+}
+body.login h1 a {
+  display: block;
+  float: right;
+  width: 32px;
+  height: 32px;
+  margin-right: -36px;
+  background: rgba(0, 0, 0, 0) url("../../img/logo.png") no-repeat center center;
+}
+body.login .btn {
+  color: #96a4bb;
+}
+body.login .btn:focus, body.login .btn:hover {
+  color: #fff;
+}
+body.login .container-fluid {
+  position: static;
+}
+body.login .btn-primary, body.login .btn-primary:focus, body.login .btn-primary:hover {
+  background: #2f3641;
+  border-color: #2f3641;
+}
+body.login .btn-link {
+  float: right;
+}
+body.login .notif .alert {
+  width: 300px;
+  margin: auto;
+}

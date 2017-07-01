@@ -1,0 +1,63 @@
+// Core variables and mixins
+@import "variables";
+@import "mixins";
+
+
+// Login
+// --------------
+
+$modalWidth: 300px;
+
+body,
+html {
+    width: 100%;
+    height: 90%;
+}
+body.login {
+    position: relative;
+    color: $inverse-color;
+    background: $inverse-bg;
+    form {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: $modalWidth;
+        max-width: 100%;
+        transform: translate(-50%, -50%);
+    }
+    h1 {
+        margin: 0 40px 0 $input-padding-x;
+        padding: $input-padding-y-sm 0;
+        a {
+            display: block;
+            float: right;
+            width: 32px;
+            height: 32px;
+            margin-right: -36px;
+            background: rgba(0, 0, 0, 0) url("../../img/logo.png") no-repeat center center;
+        }
+    }
+    .btn {
+        color: $inverse-color;
+        &:focus,
+        &:hover {
+            color: $white;
+        }
+    }
+    .container-fluid {
+        position: static;
+    }
+    .btn-primary,
+    .btn-primary:focus,
+    .btn-primary:hover {
+        background: darken($inverse-bg, 10);
+        border-color: darken($inverse-bg, 10);
+    }
+    .btn-link {
+        float: right;
+    }
+    .notif .alert {
+        width: $modalWidth;
+        margin: auto;
+    }
+}
