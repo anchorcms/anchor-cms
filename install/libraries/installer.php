@@ -20,19 +20,22 @@ class installer
 
         // check we have not already installed
         if (!static::$connection->instance()->query('SHOW DATABASES LIKE ' . static::$connection->instance()->quote($settings['database']['name']) . ';')->fetchColumn()) {
-            
-         // create the database and use the database
-         static::$connection->instance()->query('CREATE DATABASE ' . substr(static::$connection->instance()->quote($settings['database']['name']),1,-1) . ';');
-         static::$connection->instance()->query('USE ' . substr(static::$connection->instance()->quote($settings['database']['name']),1,-1) . ';');
-            
-         // install tables
-         static::schema($settings);
- 
-         // insert metadata
-         static::metadata($settings);
+            // create the database
+            static::$connection->instance()->query('CREATE DATABASE ' . substr(static::$connection->instance()->quote($settings['database']['name']),1,-1) . ';');
+        }
+         
+        // use the database
+        static::$connection->instance()->query('USE ' . substr(static::$connection->instance()->quote($settings['database']['name']),1,-1) . ';');
 
-         // create user account
-         static::account($settings);
+        if (!static::$connection->instance()->query('SHOW TABLES;')->fetchColumn()) {
+            // install tables
+            static::schema($settings);
+
+            // insert metadata
+            static::metadata($settings);
+
+            // create user account
+            static::account($settings);
         }
 
         // write database config
