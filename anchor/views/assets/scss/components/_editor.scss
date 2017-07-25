@@ -1,0 +1,67 @@
+@import "../variables";
+@import "editor/split";
+@import "editor/half";
+@import "editor/files";
+@import "editor/preview";
+@import "editor/redirect";
+
+.header {
+  position:   relative;
+  background: $color-white;
+
+  input {
+    float:       left;
+    width:       600px;
+    padding:     30px 0;
+    font-size:   29px;
+    line-height: 40px;
+    font-weight: lighter;
+    background:  transparent;
+  }
+
+  .buttons {
+    float:   right;
+    padding: 30px 0;
+
+    .btn {
+      margin-left: 8px;
+    }
+  }
+}
+
+.main {
+  padding: 30px 0;
+
+  textarea {
+    width: 100%;
+
+    &[name=content],
+    &[name=html] {
+      padding:    0;
+      resize:     none;
+      background: transparent;
+    }
+  }
+}
+
+.meta {
+  padding:    30px 0;
+  background: $color-ghost;
+}
+
+#post-data input[type="checkbox"]:checked,
+.split input[type="checkbox"]:checked {
+  background-image: url($icon-check-mark);
+}
+
+#post-data input[type="file"] + em {
+  opacity: 1;
+}
+
+#post-data .media-upload textarea {
+  width:      317px;
+  min-height: 150px;
+  max-height: 700px;
+  resize:     vertical;
+}
+
