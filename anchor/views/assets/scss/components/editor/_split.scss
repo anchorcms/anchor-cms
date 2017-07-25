@@ -1,0 +1,114 @@
+@import "../../variables";
+
+.split {
+  input {
+    &[type="checkbox"] {
+      -webkit-appearance: none;
+      width:              66px;
+      min-width:          66px;
+      cursor:             pointer;
+      background:         $color-white url('../img/cross.gif') no-repeat 50% 50%;
+
+      &:checked {
+        background-image: url('../img/tick.gif');
+      }
+    }
+  }
+
+  input,
+  select {
+    min-width: 300px;
+  }
+
+  textarea {
+    width:         500px;
+    min-width:     500px;
+    min-height:    120px;
+    max-height:    600px;
+    border-radius: 0 $border-radius $border-radius $border-radius !important;
+
+    &[name="css"],
+    &[name="js"] {
+      font-family: $font-family-monospace;
+    }
+  }
+
+  input,
+  textarea,
+  select {
+    &:focus + em {
+      opacity: 1;
+    }
+  }
+
+  p {
+    position:      relative;
+    margin-bottom: 15px;
+    overflow:      hidden;
+    clear:         both;
+  }
+
+  em {
+    display:     inline-block;
+    max-width:   500px;
+    padding:     6px 10px 6px 20px;
+    line-height: 28px;
+    font-style:  normal;
+    opacity:     0;
+    transition:  opacity $transition-speed-base;
+  }
+
+  label {
+    float:         left;
+    display:       inline-block;
+    min-width:     160px;
+    height:        39px;
+    padding:       0 18px;
+    border-radius: $border-radius 0 0 $border-radius;
+    text-align:    center;
+    line-height:   39px;
+    user-select:   none;
+    background:    $color-solitude;
+
+    & + input,
+    & + textarea {
+      float:         left;
+      height:        39px;
+      border-radius: 0 $border-radius $border-radius 0;
+    }
+
+    & + textarea {
+      resize: vertical;
+    }
+  }
+
+  summary {
+    margin-left: 160px;
+  }
+
+  .twitter {
+    position: relative;
+
+    input {
+      padding-left:  32px;
+      border-radius: 0 $border-radius $border-radius 0;
+    }
+
+    .at {
+      position:       absolute;
+      left:           170px;
+      top:            8px;
+      pointer-events: none;
+      z-index:        10;
+      color:          $color-aluminium;
+    }
+  }
+
+  & + .buttons {
+    clear: both;
+
+    button:first-child {
+      margin: 20px 15px 20px 150px;
+    }
+  }
+}
