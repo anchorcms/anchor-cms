@@ -170,14 +170,10 @@ gulp.task('styles', () => gulp.src(path.join(config.scssPath, '**', '*.scss'))
  */
 gulp.task('styles:prod', () => gulp.src(path.join(config.scssPath, '**', '*.scss'))
   .pipe(plumber({
-    errorHandler: error => {
-      console.log(error.message);
-      this.emit('end');
-    }
+    errorHandler: error => console.log(error)
   }))
   .pipe(scss(config.production.scss))
   .pipe(autoprefixer(config.production.autoprefixer))
-  .pipe(gulp.dest(config.cssPath))
   .pipe(rename(config.production.rename))
   .pipe(cleanCss(config.production.cleanCss))
   .pipe(gulp.dest(config.cssPath))
