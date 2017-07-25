@@ -1,0 +1,17 @@
+@import "../variables";
+
+.bottom {
+  padding: 40px 0 30px;
+
+  small {
+    float:     left;
+    font-size: $font-size-small;
+  }
+
+  em {
+    float:      right;
+    font-size:  $font-size-small;
+    font-style: normal;
+    color:      $color-gray-chateau;
+  }
+}
