@@ -1,0 +1,54 @@
+@import "../../variables";
+
+.split {
+  input[type="file"] {
+    padding:  0;
+    overflow: hidden;
+  }
+
+  .file {
+    float:           left;
+    display:         block;
+    width:           50px;
+    height:          39px;
+    border-radius:   0 $border-radius $border-radius 0;
+    background:      $color-athens-gray url($icon-cloud) no-repeat center center;
+    background-size: 32px;
+    overflow:        hidden;
+
+    input {
+      display: block;
+      height:  39px;
+      opacity: 0;
+    }
+  }
+
+  .current-file {
+    float:         left;
+    display:       block;
+    min-width:     250px;
+    height:        39px;
+    padding:       0 16px;
+    border-radius: 0;
+    line-height:   39px;
+    overflow:      hidden;
+    background:    $color-white;
+  }
+
+  .remove-file {
+    display:       block;
+    float:         left;
+    width:         39px;
+    height:        39px;
+    border-radius: 0;
+
+    a {
+      display:     block;
+      width:       39px;
+      height:      39px;
+      text-indent: -1000px;
+      background:  $color-athens-gray url($icon-cross) no-repeat center center;
+      overflow:    hidden;
+    }
+  }
+}
