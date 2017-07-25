@@ -1,0 +1,124 @@
+@import "../variables";
+
+.sidebar {
+  float:      left;
+  width:      150px;
+
+  border-top: 1px solid $color-geyser;
+
+  & + .main {
+    float:       right;
+    width:       760px;
+    padding-top: 0;
+  }
+
+  a {
+    display:       block;
+    padding:       5px 20px;
+    font-size:     $font-size-base;
+    color:         $color-nevada;
+    transition:    none;
+    border-bottom: 1px solid $color-geyser;
+
+    &:hover {
+      background: $color-light-solitude;
+    }
+
+    &.active {
+      background: $color-white;
+    }
+  }
+}
+
+.statuses {
+  .icon {
+    display:      inline-block;
+    width:        16px;
+    height:       16px;
+    margin-right: 2px;
+
+    position:     relative;
+    top:          3px;
+    left:         -7px;
+
+    background:   url('../img/statuses.png');
+  }
+
+  a {
+    &:hover {
+      .icon {
+        background-position: -16px 0;
+      }
+    }
+
+    &.active .icon {
+      background-position: -32px 0;
+    }
+
+    &.pending {
+      .icon {
+        background-position: 0 -16px;
+      }
+
+      &:hover .icon,
+      &.active .icon {
+        background-position: -32px -16px;
+      }
+    }
+
+    &.spam {
+      .icon {
+        background-position: 0 -48px;
+      }
+
+      &:hover .icon {
+        background-position: -16px -48px;
+      }
+
+      &.active .icon {
+        background-position: -32px -48px;
+      }
+    }
+
+    &.approved .icon,
+    &.published .icon {
+      background-position: 0 -32px;
+
+      &:hover {
+        background-position: -16px -32px;
+      }
+
+      &.active {
+        background-position: -32px -32px;
+      }
+    }
+
+    &.archived {
+      .icon {
+        background-position: 0 -64px;
+      }
+
+      &:hover .icon {
+        background-position: -16px -64px;
+      }
+
+      &.active .icon {
+        background-position: -32px -64px;
+      }
+    }
+
+    &.draft {
+      .icon {
+        background-position: 0 -80px;
+      }
+
+      &:hover .icon {
+        background-position: -16px -80px;
+      }
+
+      &.active .icon {
+        background-position: -32px -80px;
+      }
+    }
+  }
+}
