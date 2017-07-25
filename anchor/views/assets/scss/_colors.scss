@@ -1,0 +1,58 @@
+/**
+ * Color definitions:
+ * Enables the usage of named, well-known colors.
+ */
+$color-black: #000;
+$color-sushi: #77b52f;
+$color-olive-drab: #6aad28;
+$color-vida-loca: #4f8c12;
+$color-prairie-sand: #a03621;
+$color-mojo: #c4533d;
+$color-valencia: #d34937;
+$color-cadet-blue: #aab3c0;
+$color-danube: #7599d2;
+$color-havelock-blue: #578cd9;
+$color-san-marino: #5479b2;
+$color-kashmir-blue: #486899;
+$color-bright-gray: #38414f;
+$color-licorice: #2f3744;
+$color-oxford-blue: #394556;
+$color-river-bed: #444f5f;
+$color-trout: #4a525f;
+$color-shuttle-gray: #606b7b;
+$color-nevada: #616a71;
+$color-lynch: #687993;
+$color-slate-gray: #6a788d;
+$color-light-slate-gray: #7d8693;
+$color-bali-hai: #8191ab;
+$color-regent-gray: #848f9f;
+$color-light-regent-gray: #8491a5;
+$color-feather: #95a1b2;
+$color-gray-chateau: #99a3b1;
+$color-gull-gray: #a4adbb;
+$color-hit-gray: #a3acb9;
+$color-rock-blue: #a4b4cb;
+$color-aluminium: #aab1bc;
+$color-heather: #b2bed0;
+$color-silver: #ccc;
+$color-ghost: #ccd2d9;
+$color-mischka: #cdd3db;
+$color-geyser: #dadfe5;
+$color-solitude: #e6e9ed;
+$color-light-solitude: #e7eaee;
+$color-athens-gray: #eceef1;
+$color-alabaster: #f9f9f9;
+$color-white: #fff;
+
+/**
+ * Color name aliases
+ */
+$color-green: $color-olive-drab;
+$color-green-accent: $color-vida-loca;
+$color-blue: $color-danube;
+$color-blue-accent: $color-san-marino;
+$color-red: $color-mojo;
+$color-red-accent: $color-prairie-sand;
+$color-notification-success: $color-olive-drab;
+$color-notification-error: $color-valencia;
+$color-notification-notice: $color-havelock-blue;
