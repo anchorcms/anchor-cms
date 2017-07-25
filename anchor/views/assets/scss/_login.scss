@@ -1,0 +1,75 @@
+@import "variables";
+
+/*
+	Login
+*/
+body.login {
+  position:    absolute;
+  top:         25%;
+  left:        50%;
+  margin-left: -150px;
+  background:  $color-river-bed;
+
+  .wrap,
+  .content {
+    width: 300px;
+  }
+
+  h1 {
+    padding-bottom: 25px;
+    font-size:      25px;
+    line-height:    60px;
+    font-weight:    lighter;
+    color:          $color-white;
+  }
+
+  label {
+    display: none;
+  }
+
+  fieldset {
+    border: none;
+  }
+
+  input {
+    width:         300px;
+    margin-bottom: 20px;
+    padding:       14px 16px;
+  }
+
+  #logo {
+    padding: 0;
+  }
+
+  .buttons {
+    a {
+      float:       right;
+      font-size:   $font-size-base;
+      line-height: 38px;
+      font-weight: $font-weight-bold;
+    }
+
+    button {
+      float: left;
+
+      a {
+        color: $color-regent-gray;
+
+        &:hover {
+          color: $color-white;
+        }
+      }
+    }
+  }
+
+  button {
+    background:  $color-oxford-blue;
+    color:       $color-gull-gray;
+    font-size:   $font-size-base;
+    font-weight: $font-weight-bold;
+  }
+
+  .notification {
+    width: 300px;
+  }
+}
