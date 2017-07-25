@@ -1,0 +1,27 @@
+@import "variables";
+
+.top, .meta, .buttons {
+  transition: opacity $transition-speed-slow;
+  opacity:    1;
+}
+
+.header {
+  transition: background $transition-speed-slow;
+}
+
+.focus {
+  .top, .meta, .buttons {
+    opacity:        0;
+    pointer-events: none;
+  }
+
+  .meta {
+    height:   0;
+    overflow: hidden;
+  }
+
+  .header,
+  .main textarea {
+    background: $color-athens-gray;
+  }
+}
