@@ -1,0 +1,86 @@
+@import "../variables";
+@import "../mixins/breakpoints";
+
+.top {
+  position:   relative;
+  padding:    15px 0;
+  background: $color-river-bed;
+  z-index:    21;
+
+  a {
+    display:     inline-block;
+    padding:     0 18px;
+    font-size:   $font-size-small;
+    font-weight: $font-weight-bold;
+    line-height: 34px;
+  }
+
+  .logo {
+    margin-right: 25px;
+
+    a {
+      padding:     0;
+      background:  transparent url($icon-logo) no-repeat center center;
+      width:       24px;
+      height:      34px;
+      text-indent: -1000px;
+    }
+  }
+
+  nav {
+    float:    none;
+    overflow: hidden;
+
+    @include breakpoint($breakpoint-small) {
+      float: left;
+    }
+
+    li {
+      float:      left;
+      list-style: none;
+
+      a {
+        float: inherit;
+      }
+    }
+
+    img {
+      position: relative;
+      top:      4px;
+    }
+
+    a {
+      margin-right: 15px;
+      color:        $color-bali-hai;
+
+      &:hover {
+        color: $color-rock-blue;
+      }
+    }
+
+    .active a {
+      color:         $color-oxford-blue;
+      background:    $color-lynch;
+      border-radius: $border-radius;
+    }
+  }
+
+  .btn {
+    display:       none;
+    float:         right;
+    padding:       0 16px;
+    margin-left:   18px;
+    border-radius: $border-radius;
+    background:    $color-bright-gray;
+    color:         $color-slate-gray;
+
+    @include breakpoint($breakpoint-small) {
+      display: initial;
+    }
+
+    &:hover {
+      color:      $color-light-regent-gray;
+      background: $color-licorice;
+    }
+  }
+}
