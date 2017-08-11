@@ -16,7 +16,8 @@ class extend extends Base
         'text' => 'text',
         'html' => 'html',
         'image' => 'image',
-        'file' => 'file'
+        'file' => 'file',
+        'toggle' => 'toggle'
     );
 
     public static function field($type, $key, $id = -1)
@@ -49,9 +50,13 @@ class extend extends Base
 
             case 'html':
                 if (! empty($extend->value->html)) {
-                    $md = new Markdown;
+                    $value = parse($extend->value->html);
+                }
+                break;
 
-                    $value = $md->transform($extend->value->html);
+            case 'toggle':
+                if (! empty($extend->value->toggle)) {
+                    $value = $extend->value->toggle;
                 }
                 break;
 
@@ -99,6 +104,11 @@ class extend extends Base
                 $html = '<textarea id="extend_' . $item->key . '" name="extend[' . $item->key . ']" type="text">' . $value . '</textarea>';
                 break;
 
+            case 'toggle':
+                $value = isset($item->value->toggle) ? $item->value->toggle : 0;
+                $html = Form::checkbox('extend[' . $item->key . ']', 1, $value, array('id' => 'extend_' . $item->key));
+                break;
+
             case 'image':
             case 'file':
                 $value = isset($item->value->filename) ? $item->value->filename : '';
@@ -112,6 +122,7 @@ class extend extends Base
                 $html .= '</span>
 					<span class="file">
 					<input id="extend_' . $item->key . '" name="extend[' . $item->key . ']" type="file">
+					<input type="hidden" name="extend[' . $item->key . ']" value="' . asset('content/' . $value) . '">
 					</span>';
 
                 if ($value) {
@@ -186,6 +197,7 @@ class extend extends Base
         // not as files.
         $image_upload = Input::get('extend.' . $extend->key);
         if ($image_upload) {
+            $image_upload = str_replace( "\\", '/', $image_upload);
             $filename = basename($image_upload);
             $name = $filename;
         }
@@ -242,6 +254,13 @@ class extend extends Base
         $html = Input::get('extend.' . $extend->key);
 
         return Json::encode(compact('html'));
+    }
+
+    public static function process_toggle($extend)
+    {
+        $toggle = Input::get('extend.' . $extend->key);
+
+        return Json::encode(array('toggle' => (int)$toggle));
     }
 
     /*

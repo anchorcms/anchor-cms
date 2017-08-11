@@ -9,7 +9,8 @@ function __($line)
 
 function is_admin()
 {
-    return strpos(Uri::current(), 'admin') === 0;
+    // Exact URI or trailing slash after 'admin'.
+	return Uri::current() === 'admin' || strpos(Uri::current(), 'admin/') === 0;
 }
 
 function is_installed()
@@ -47,8 +48,6 @@ function parse($str, $markdown = true)
         $str = str_replace($search, $replace, $str);
     }
 
-    $str = html_entity_decode($str, ENT_NOQUOTES, System\Config::app('encoding'));
-
     //  Parse Markdown as well?
     if ($markdown === true) {
         $md = new Parsedown;
@@ -63,4 +62,28 @@ function readable_size($size)
     $unit = array('b','kb','mb','gb','tb','pb');
 
     return round($size / pow(1024, ($i = floor(log($size, 1024)))), 2) . ' ' . $unit[$i];
+}
+
+function recurse_copy($src,$dst)
+{
+    $dir = opendir($src);
+    @mkdir($dst);
+    while(false !== ($file = readdir($dir))) {
+        if(($file != '.') && ($file != '..')) {
+            if(is_dir($src . DS . $file)) {
+                recurse_copy($src . DS . $file, $dst . DS . $file);
+            } else {
+                copy($src . DS . $file, $dst . DS . $file);
+            }
+        }
+    }
+    closedir($dir);
+}
+function delTree($dir)
+{
+    $files = array_diff(scandir($dir), array('.','..'));
+    foreach($files as $file) {
+      (is_dir("$dir/$file")) ? delTree("$dir/$file") : unlink("$dir/$file");
+    }
+    return rmdir($dir);
 }

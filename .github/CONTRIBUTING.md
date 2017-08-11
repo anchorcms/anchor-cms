@@ -37,7 +37,7 @@ Please follow the below points:
 - Explain bug briefly but in detail
 - Give guidance on how to reproduce bug
 - Add screenshots when possible
-- Follow the templates that autofill the editor
+- Follow the templates that autofill the editor - **failure to follow the template will result in closure of the issue without resolution**
 
 > ProTip: Check out [this example issue](https://github.com/anchorcms/anchor-cms/issues/873#issuecomment-151784603) for reference on good bug reporting.
 
