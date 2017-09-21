@@ -1,4 +1,5 @@
-body, html {
+body,
+html {
 	width: 100%;
 }
 
@@ -15,23 +16,24 @@ body, html {
 	display: none;
 }
 
-.list, .list li {
+.list,
+.list li {
 	width: 100%;
 }
 
-	.list li {
-		float: none;
-		margin-right: 0;
-	}
+.list li {
+	float: none;
+	margin-right: 0;
+}
 
-	.list li p {
-		display: none;
-	}
+.list li p {
+	display: none;
+}
 
 hgroup h1 {
-	line-height: 80px;
-	margin: 0;
 	float: none;
+	margin: 0;
+	line-height: 80px;
 }
 
 hgroup nav {
