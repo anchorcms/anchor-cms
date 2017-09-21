@@ -6,6 +6,10 @@
 /*
 	Admin panel-wide styles
 */
+html {
+	overflow-y: scroll;
+}
+
 body {
 	background: #eceef1;
 	color: #7d8693;
