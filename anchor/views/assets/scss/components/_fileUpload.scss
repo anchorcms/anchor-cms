@@ -1,0 +1,48 @@
+@import "../variables";
+
+#media {
+  display: none;
+}
+
+#upload-file {
+  position:   fixed;
+  left:       0;
+  right:      0;
+  top:        0;
+  bottom:     0;
+  z-index:    -1;
+  opacity:    0;
+  background: rgba($color-heather, 0.75);
+  transition: opacity $transition-speed-base, background $transition-speed-base;
+
+  &.success {
+    background: $color-sushi;
+
+    span {
+      color:            $color-white;
+      background-image: url($icon-check-mark);
+    }
+  }
+
+  .draggy & {
+    opacity: 1;
+    z-index: 10000;
+  }
+
+  span {
+    position:    absolute;
+    left:        50%;
+    top:         50%;
+    width:       250px;
+    height:      30px;
+    margin:      -40px 0 0 -125px;
+    padding-top: 50px;
+    font-weight: bold;
+    font-size:   17px;
+    line-height: 30px;
+    text-align:  center;
+    color:       $color-slate-gray;
+    background:  url($icon-cloud) no-repeat 50% 0;
+    transition:  color $transition-speed-base;
+  }
+}

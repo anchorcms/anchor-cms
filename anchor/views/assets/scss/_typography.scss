@@ -1,0 +1,42 @@
+@import "variables";
+
+* {
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  font:  #{$font-size-base}/#{$line-height-base} $font-family-base;
+  color: $page-color;
+}
+
+b,
+strong {
+  font-weight: 500;
+}
+
+a,
+button,
+input[type="button"],
+input[type="reset"],
+input[type="submit"] {
+  color:           $link-color;
+  text-decoration: $link-decoration;
+  transition:      all $link-transition-speed;
+}
+
+::selection {
+  background: $color-shuttle-gray;
+  color:      $color-white;
+}
+
+::-webkit-input-placeholder {
+  color: $color-heather;
+}
+
+::-moz-placeholder {
+  color: $color-heather;
+}
+
+::placeholder {
+  color: $color-heather;
+}

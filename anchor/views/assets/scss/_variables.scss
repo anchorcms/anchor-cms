@@ -1,0 +1,57 @@
+/**
+ * Basic design variables used throughout the components
+ */
+
+// colors
+@import "colors";
+
+// page
+$page-background: $color-athens-gray;
+$page-color: $color-slate-gray;
+
+// borders
+$border-radius: 5px;
+
+// fonts
+$font-family-serif: serif;
+$font-family-sans-serif: "Helvetica Neue", "Open Sans", "DejaVu Sans", "Arial", sans-serif;
+$font-family-monospace: Monaco, "Courier New", courier, monospace;
+$font-family-base: $font-family-sans-serif;
+
+// font sizes
+$font-size-base: 15px;
+$font-size-small: 13px;
+
+// font weights
+$font-weight-base: 400;
+$font-weight-bold: 600;
+$font-weight-heading: 300;
+
+// line heights
+$line-height-base: 25px;
+
+// transitions
+$transition-speed-base: 0.25s;
+$transition-speed-slow: 0.4s;
+
+// buttons
+$button-background: $color-green;
+$button-background-hover: $color-green-accent;
+$button-color: $color-white;
+
+$button-secondary-background: $color-gull-gray;
+$button-secondary-background-hover: $color-regent-gray;
+
+// links
+$link-color: $color-kashmir-blue;
+$link-decoration: none;
+$link-transition-speed: $transition-speed-base;
+
+// icons
+$icon-logo: '../img/logo.png';
+$icon-cloud: '../img/cloud.png';
+$icon-cross: '../img/cross.gif';
+$icon-check-mark: '../img/tick.png';
+
+// breakpoints
+$breakpoint-small: 981px;

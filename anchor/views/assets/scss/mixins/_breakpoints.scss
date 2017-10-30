@@ -1,0 +1,34 @@
+$breakpoint-defaults: (
+                          'default media': all,
+                          'default feature': min-width,
+                          'default font size': 16px
+                      );
+
+@function em($pixels, $context: map-get($breakpoint-defaults, 'default font size')) {
+  @return #{$pixels/$context}em;
+}
+
+///
+/// creates a breakpoint
+///
+/// @param $measure             - breakpoint size
+/// @param $feature [min-width] - breakpoint feature
+/// @param $medium  [all]       - media type
+///
+@mixin breakpoint(
+  $measure,
+  $feature: map-get($breakpoint-defaults, 'default feature'),
+  $medium: map-get($breakpoint-defaults, 'default media')
+) {
+  $value: $measure;
+
+  @if (unit($measure) == 'px') {
+    $value: em($measure);
+  }
+
+  $queryString: "#{$medium} and (#{$feature}: #{$value})";
+
+  @media #{$queryString} {
+    @content;
+  }
+}

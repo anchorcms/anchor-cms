@@ -1,0 +1,23 @@
+.half {
+  float:        left;
+  width:        48.5%;
+  margin-right: 3%;
+
+  & + .half {
+    margin-right: 0;
+  }
+
+  label {
+    & + input,
+    & + textarea,
+    & + select {
+      width:     auto;
+      min-width: 305px;
+    }
+  }
+
+  em,
+  legend {
+    display: none;
+  }
+}

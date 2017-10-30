@@ -1,0 +1,71 @@
+@import "../variables";
+@import "../mixins/breakpoints";
+
+.list {
+  width:      100%;
+  border-top: 1px solid $color-geyser;
+  list-style: none;
+
+  li {
+    float:        none;
+    width:        inherit;
+    margin-right: 0;
+
+    @include breakpoint($breakpoint-small) {
+      width: auto;
+    }
+
+    a {
+      position:      relative;
+      overflow:      hidden;
+      display:       block;
+      padding:       25px 30px 15px;
+      border-bottom: 1px solid $color-geyser;
+      color:         $color-slate-gray;
+
+      &:hover {
+        background: $color-light-solitude;
+      }
+    }
+
+    strong {
+      position:      relative;
+      overflow:      hidden;
+      display:       block;
+      width:         85%;
+      height:        25px;
+      white-space:   nowrap;
+      text-overflow: ellipsis;
+      font-size:     19px;
+      color:         $color-shuttle-gray;
+
+      .status {
+        position: relative;
+        top:      10px;
+        right:    30px;
+        float:    right;
+        z-index:  10;
+      }
+
+      & + span {
+        display:        block;
+        padding-bottom: 8px;
+        font-size:      13px;
+        color:          $color-hit-gray;
+      }
+    }
+
+    p {
+      display:       none;
+      margin-bottom: 10px;
+
+      @include breakpoint($breakpoint-small) {
+        display: block;
+      }
+    }
+
+    .status {
+      margin-left: 10px;
+    }
+  }
+}

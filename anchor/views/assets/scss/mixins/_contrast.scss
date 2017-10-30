@@ -1,0 +1,22 @@
+@import "brightness";
+
+/**
+ * Returns either the $light or $dark color by deciding which contrasts more with $color.
+ * E.g. This can be used to select the more readable foreground color for a given background color.
+ * $dark defaults to black and $light defaults to white.
+ * When $color is null, this function returns null.
+ *
+ * Taken from Compass:
+ * @link http://compass-style.org/reference/compass/utilities/color/contrast/
+ */
+@function contrast-color($color, $dark: #000, $light: #fff) {
+  @if $color == null {
+    @return null;
+  } @else {
+    $color-brightness: brightness($color);
+    $dark-text-brightness: brightness($dark);
+    $light-text-brightness: brightness($light);
+
+    @return if(abs($color-brightness - $light-text-brightness) > abs($color-brightness - $dark-text-brightness), $light, $dark);
+  }
+}
