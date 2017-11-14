@@ -1,10 +1,10 @@
 ![Anchor Header Image](.github/anchor_gh_bg.png)
 
-## Anchor CMS
+# Anchor CMS
 
 Anchor is a super-simple, lightweight blog system, made to let you just write. [Check out the site](http://anchorcms.com/) or checkout the [documentation here](http://docs.anchorcms.com/).
 
-### Requirements
+## Requirements
 
 - PHP 5.6+
     - curl
@@ -15,7 +15,7 @@ Anchor is a super-simple, lightweight blog system, made to let you just write. [
 
 To determine your PHP version, create a new file with this PHP code: `<?php echo PHP_VERSION; // version.php`. This will print your version number to the screen.
 
-### Installation
+## Installation
 
 1. Ensure that you have the required components.
 2. Download Anchor either from [here](http://anchorcms.com/download), by cloning this Github repo or by running:
@@ -29,15 +29,15 @@ composer create-project anchorcms/anchor-cms anchor
 7. Follow the installer instructions.
 8. For security purposes, delete the `install` directory when you are done.
 
-### Problems?
+## Problems?
 
 If you can't install Anchor, check the [forums](http://forums.anchorcms.com/); there's probably someone there who's had the same problem as you, and the community is always happy to help. Additionally, check out the [documentation](http://anchorcms.com/docs).
 
-### Contributing
+## Contributing
 
 If you'd like to help out and contribute to this project, please take a look at the [contributing guidelines](https://github.com/anchorcms/anchor-cms/blob/master/.github/CONTRIBUTING.md). All information you need to get started should be included in there. If you have any questions then create an issue, make a forum post or message us directly.
 
-### Feature Requests:
+## Feature Requests:
 
 If you would like to add submit a feature request then please go to our [Feathub page](http://feathub.com/anchorcms/anchor-cms).
 
