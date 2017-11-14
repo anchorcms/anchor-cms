@@ -16,7 +16,7 @@ const path         = require('path'),
       /**
        * @TODO JSHint is disabled for now, JS will be refactored later on
        */
-        // jshint       = require('gulp-jshint'),
+      // jshint       = require('gulp-jshint'),
       uglify       = require('gulp-uglify'),
       imageMin     = require('gulp-imagemin'),
       cache        = require('gulp-cache'),
@@ -184,14 +184,14 @@ gulp.task('styles:prod', () => gulp.src(path.join(config.scssPath, '**', '*.scss
  * compiles javascript
  */
 gulp.task('scripts', () => gulp.src(path.join(config.jsPath, '**', '*.js'))
-  .pipe(plumber({
-    errorHandler: error => {
-      console.log(error.message);
-      this.emit('end');
-    }
-  }))
-  .pipe(jshint())
-  .pipe(jshint.reporter('default'))
+  // .pipe(plumber({
+  //   errorHandler: error => {
+  //     console.log(error.message);
+  //     this.emit('end');
+  //   }
+  // }))
+  // .pipe(jshint())
+  // .pipe(jshint.reporter('default'))
   .pipe(concat('main.js'))
   .pipe(babel(config.development.babel))
   .pipe(gulp.dest(config.jsPath))
@@ -211,8 +211,8 @@ gulp.task('scripts:prod', () => gulp.src(path.join(config.jsPath, '**', '*.js'))
       this.emit('end');
     }
   }))
-  .pipe(jshint())
-  .pipe(jshint.reporter('default'))
+  // .pipe(jshint())
+  // .pipe(jshint.reporter('default'))
   .pipe(concat('main.js'))
   .pipe(babel(config.production.babel))
   .pipe(gulp.dest(config.jsPath))
