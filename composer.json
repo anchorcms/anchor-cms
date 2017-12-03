@@ -1,8 +1,8 @@
 {
-	"name": "phpChef/anchor-cms",
+	"name": "anchorcms/anchor-cms",
 	"description": "Anchor is a free, lightweight, faster-than-a-bullet, simple blogging system, made for art–directed posts.",
 	"type": "CMS",
-	"keywords": ["CMS", "anchor", "anchorcms", "phpChef"],
+	"keywords": ["CMS", "anchor", "anchorcms"],
 	"license": "GPL-3.0",
 	"authors": [
 		{
@@ -24,10 +24,6 @@
 		{
 			"name": "Jarod",
 			"email": "thebrenny@brennytizer.com.au"
-		},
-		{
-			"name": "Abdulah",
-			"email": "abdulah@phpchef.com"
 		}
 	],
 	"require": {
