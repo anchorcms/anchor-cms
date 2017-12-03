@@ -258,12 +258,23 @@ Route::post('admin/get_fields', array('before' => 'auth', 'main' => function () 
     Upload an image
 */
 Route::post('admin/upload', array('before' => 'auth', 'main' => function () {
-    $uploader = new Uploader(PATH . 'content', array('png', 'jpg', 'bmp', 'gif', 'pdf'));
-    $filepath = $uploader->upload($_FILES['file']);
+    $extensions = array('png', 'jpg', 'bmp', 'gif', 'pdf');
+    $file = $_FILES['file'];
 
-    $uri = Config::app('url', '/') . '/content/' . basename($filepath);
+    if (Config::aws('s3Uploader')) {
+        $s3 = Config::aws('s3');
+        $s3Client = new s3(Config::aws('accessKey'), Config::aws('secretKey'), Config::aws('region'), Config::aws('version'), $extensions);
+        $filename = $s3Client->new_filename($file);
+        $s3Upload = $s3Client->upload_to_S3($s3['bucket'], $s3['acl'], $file, $filename);
+
+        $uri = $s3Upload['ObjectURL'];
+    } else {
+        $uploader = new Uploader(PATH . 'content', $extensions);
+        $filePath = $uploader->upload($file);
+
+        $uri = Config::app('url', '/') . '/content/' . basename($filePath);
+    }
     $output = array('uri' => $uri);
-
     return Response::json($output);
 }));
 
