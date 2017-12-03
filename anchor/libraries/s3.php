@@ -13,24 +13,16 @@ class s3 extends uploader
      * @var S3Client $s3Client
      */
     protected $s3Client;
-    /**
-     * @var string $bucket
-     */
-    protected $bucket;
-    /**
-     * @var array $key
-     */
-    protected $key;
 
     /**
      * S3 constructor.
      * @param $accessKey
      * @param array $secretKey
      * @param $region
-     * @param array $extensions
      * @param string $version
+     * @param array $extensions
      */
-    public function __construct($accessKey, $secretKey, $region, $extensions = array(), $version = 'latest')
+    public function __construct($accessKey, $secretKey, $region, $version, $extensions = array())
     {
         // Instantiate an Amazon S3 client.
         $this->s3Client = new S3Client(
@@ -47,13 +39,13 @@ class s3 extends uploader
     }
 
     /**
-     * @param $bucket
-     * @param $file
-     * @param $acl
-     * @param null $filename
-     * @return mixed
+     * @param string $bucket
+     * @param string $acl
+     * @param array $file
+     * @param string $filename
+     * @return Aws\Result
      */
-    public function uploadToS3($bucket, $file, $acl, $filename = null)
+    public function upload_to_S3($bucket, $acl, $file, $filename = null)
     {
         // run validation on $_FILES input
         $this->validate($file);
@@ -73,5 +65,16 @@ class s3 extends uploader
         } catch (Aws\S3\Exception\S3Exception $e) {
             echo "There was an error uploading the file.\n";
         }
+    }
+
+    /**
+     * Generate new file to upload into S3
+     * @param array $file
+     * @return string
+     */
+    public function new_filename($file)
+    {
+        $filename = $this->get_filename($file['name']);
+        return \date('YmdHis'). '-' . $filename;
     }
 }
