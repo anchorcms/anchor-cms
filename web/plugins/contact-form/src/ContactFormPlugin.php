@@ -6,7 +6,7 @@ use Anchorcms\Plugins\AbstractPlugin;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\Event;
 
-class ContentFormPlugin extends AbstractPlugin
+class ContactFormPlugin extends AbstractPlugin
 {
     public function getSubscribedEvents(EventDispatcher $dispatcher)
     {

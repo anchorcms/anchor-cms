@@ -105,9 +105,11 @@ class Plugins
     {
         $jsonStr = $meta->key('plugins', '[]');
         $active = json_decode($jsonStr, true);
+
         if (false !== ($index = array_search($folder, $active))) {
             unset($active[$index]);
         }
+
         $meta->put('plugins', json_encode($active));
     }
 
@@ -121,7 +123,7 @@ class Plugins
     {
         $manifest = $this->path . '/' . $folder . '/manifest.json';
 
-        if (! is_file($manifest)) {
+        if (!is_file($manifest)) {
             throw new \RuntimeException(sprintf('manifest file not found for %s', $folder));
         }
 

@@ -24,20 +24,26 @@ class PluginUploader
             default:
                 throw new RuntimeException('Unknown errors.');
         }
+
         $accepted = [
             'zip' => 'application/zip'
         ];
+
         $mimetypeParts = explode(';', $file->getClientMediaType());
         $mimetype = $mimetypeParts[0];
         $extension = array_search($mimetype, $accepted);
+
         if (!$extension) {
             throw new RuntimeException('Unaccepted file format.');
         }
+
         // put the zip temporarily in the plugin path
         file_put_contents($this->path . '/' . $file->getClientFilename(), $file->getStream());
+
         // extract the zip file
         $zip = new \ZipArchive;
         $res = $zip->open($this->path . '/' . $file->getClientFilename());
+
         if ($res === true) {
             /**
              * use the plugin name as the file name
@@ -49,11 +55,13 @@ class PluginUploader
             } catch (\Exception $exception) {
                 throw new \RuntimeException('the uploaded plugin has no valid manifest file');
             }
+
             $zip->extractTo($this->path . '/' . $pluginName);
             $zip->close();
         } else {
             throw new \RuntimeException('the uploaded file could not be extracted: ' . json_encode($zip->getStatusString()));
         }
+
         // remove the temporary file
         unlink($this->path . '/' . $file->getClientFilename());
         return $pluginName;
