@@ -44,15 +44,13 @@ if (false === $app['services.installer']->isInstalled()) {
 
         return $frame->next($request);
     });
-}
-// Can't connect to the database.
-elseif (false == $app['db']->isConnected()) {
+} elseif (false == $app['db']->isConnected()) {
+    // Can't connect to the database.
     http_response_code(500);
     echo file_get_contents(__DIR__.'/views/errors/db-not-connected.html');
     return 0;
-}
-// middlewares to include when installed
-else {
+} else {
+    // middlewares to include when installed
     // load plugins
     $active = $app['plugins']->getActivePlugins($app['mappers.meta']);
     $app['plugins']->init($active, $composer);

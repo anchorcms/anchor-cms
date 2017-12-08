@@ -42,7 +42,7 @@ class Theme
     protected $ext = '.mustache';
 
     /**
-     * The theme constructorrr.
+     * The theme constructor.
      *
      * @param object Mustache_Engine
      * @param string Theme path
@@ -58,8 +58,10 @@ class Theme
         $this->mustache->setLoader($loader);
     }
 
-    /*
+    /**
+     * Load the manifest for this theme
      *
+     * @return  void
      */
     public function loadManifest()
     {
@@ -70,48 +72,61 @@ class Theme
         }
     }
 
-    /*
+    /**
+     * Get the path to the themes manifest file.
      *
+     * @return string
      */
     public function getManifestFilepath()
     {
         return $this->path.'/manifest.json';
     }
 
-    /*
+
+    /**
+     * Does this theme have a manifest file?
      *
+     * @return boolean
      */
     public function hasManifest()
     {
         return is_file($this->getManifestFilepath());
     }
 
-    /*
+    /**
+     * Grab the manifest
      *
+     * @return stdClass
      */
     public function getManifest()
     {
         return $this->manifest;
     }
 
-    /*
+    /**
+     * Set the theme as active
      *
+     * @return void
      */
     public function setActive()
     {
         $this->active = true;
     }
 
-    /*
+    /**
+     * Is this theme active?
      *
+     * @return boolean
      */
     public function isActive()
     {
         return $this->active;
     }
 
-    /*
+    /**
+     * Grab the name of the theme.
      *
+     * @return string
      */
     public function getName()
     {
@@ -148,8 +163,13 @@ class Theme
         return is_file(sprintf('%s/%s%s', $this->path, $name, $this->ext));
     }
 
-    /*
+    /**
+     * Render the theme out.
      *
+     * @param  ResponseInterface $response
+     * @param  array             $templates
+     * @param  array             $vars
+     * @return void
      */
     public function render(ResponseInterface $response, array $templates, array $vars = [])
     {
