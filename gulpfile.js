@@ -140,7 +140,7 @@ gulp.task('bs-reload', () => browserSync.reload());
  * optimizes images
  */
 gulp.task('images', () => gulp.src(path.join(config.imgPath, '**', '*'))
-  .pipe(cache(imageMin(config.module.imageMin)))
+  .pipe(cache(imageMin(config.development.imageMin)))
   .pipe(gulp.dest(config.imgPath))
 );
 
@@ -170,7 +170,11 @@ gulp.task('styles', () => gulp.src(path.join(config.scssPath, '**', '*.scss'))
  */
 gulp.task('styles:prod', () => gulp.src(path.join(config.scssPath, '**', '*.scss'))
   .pipe(plumber({
-    errorHandler: error => console.log(error)
+    errorHandler: error => {
+      console.log("ERROR:");
+      console.error(error.message);
+      // this.emit('end');
+    }
   }))
   .pipe(scss(config.production.scss))
   .pipe(autoprefixer(config.production.autoprefixer))
@@ -184,12 +188,13 @@ gulp.task('styles:prod', () => gulp.src(path.join(config.scssPath, '**', '*.scss
  * compiles javascript
  */
 gulp.task('scripts', () => gulp.src(path.join(config.jsPath, '**', '*.js'))
-  // .pipe(plumber({
-  //   errorHandler: error => {
-  //     console.log(error.message);
-  //     this.emit('end');
-  //   }
-  // }))
+  .pipe(plumber({
+    errorHandler: error => {
+      console.log("ERROR:");
+      console.error(error.message);
+      // this.emit('end');
+    }
+  }))
   // .pipe(jshint())
   // .pipe(jshint.reporter('default'))
   .pipe(concat('main.js'))
@@ -207,8 +212,9 @@ gulp.task('scripts', () => gulp.src(path.join(config.jsPath, '**', '*.js'))
 gulp.task('scripts:prod', () => gulp.src(path.join(config.jsPath, '**', '*.js'))
   .pipe(plumber({
     errorHandler: error => {
-      console.log(error.message);
-      this.emit('end');
+      console.log("ERROR:");
+      console.error(error.message);
+      // this.emit('end');
     }
   }))
   // .pipe(jshint())
