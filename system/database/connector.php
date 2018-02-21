@@ -73,7 +73,7 @@ abstract class connector
      */
     public static function __callStatic($method, $arguments)
     {
-        return call_user_func_array(array($this->instance(), $method), $arguments);
+        return call_user_func_array(array(self::instance(), $method), $arguments);
     }
 
     /**
