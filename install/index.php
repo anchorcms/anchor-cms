@@ -23,7 +23,7 @@
 
 define('DS', DIRECTORY_SEPARATOR);
 define('ENV', getenv('APP_ENV'));
-define('VERSION', '0.12.3');
+define('VERSION', '0.12.6');
 
 define('PATH', dirname(__DIR__) . DS);
 define('APP', PATH . 'install' . DS);
