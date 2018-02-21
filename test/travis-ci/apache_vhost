@@ -1,0 +1,35 @@
+# Configuration file for Apache running on Travis.
+# PHP setup in FCGI mode
+
+<VirtualHost *:80>
+
+  DocumentRoot %TRAVIS_BUILD_DIR%
+
+  LogLevel info
+  ErrorLog "%TRAVIS_BUILD_DIR%/apache_error.log"
+  CustomLog "%TRAVIS_BUILD_DIR%/apache_access.log" combined
+
+  <Directory "%TRAVIS_BUILD_DIR%/">
+    Options FollowSymLinks MultiViews ExecCGI
+    AllowOverride All
+    Require all granted
+
+    # needed for basic auth (PHP_AUTH_USER and PHP_AUTH_PW)
+    # RewriteEngine on
+    # RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+    # RewriteRule .* - [E=REMOTE_USER:%{HTTP:Authorization}]
+  </Directory>
+
+  # Wire up Apache to use Travis CI's php-fpm.
+  <IfModule mod_fastcgi.c>
+    AddHandler php5-fcgi .php
+    Action php5-fcgi /php5-fcgi
+    Alias /php5-fcgi /usr/lib/cgi-bin/php5-fcgi
+    FastCgiExternalServer /usr/lib/cgi-bin/php5-fcgi -host 127.0.0.1:9000 -pass-header Authorization
+    
+    <Directory /usr/lib/cgi-bin>
+        Require all granted
+    </Directory>
+  </IfModule>
+
+</VirtualHost>
