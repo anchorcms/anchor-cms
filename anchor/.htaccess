@@ -1,1 +1,4 @@
+<Files "errors.log">
+Order Allow,Deny
 Deny from all
+</Files> 
