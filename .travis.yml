@@ -43,6 +43,7 @@ before_script:
 
 script:
   - npm test
+  - ./vendor/bin/peridot -c test/peridot.php
 
 after_failure:
   # Save as much info as we can to help developers
