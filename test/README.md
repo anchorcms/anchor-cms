@@ -1,4 +1,4 @@
-AnchorCMS - CI tests
+AnchorCMS - CI tests [![Build Status](https://travis-ci.org/Radiergummi/anchor-cms.svg?branch=master)](https://travis-ci.org/Radiergummi/anchor-cms)
 --------------------
 
 This directory contains tests intended to be carried out in a CI environment, more specifically [Travis-CI](https://travis-ci.org).  
@@ -44,3 +44,4 @@ To run the integration tests with Jest, use th following command in the project 
 ```bash
 npm test
 ```
+
