@@ -30,4 +30,5 @@ define('APP', PATH . 'install' . DS);
 define('SYS', PATH . 'system' . DS);
 define('EXT', '.php');
 
+/** @noinspection PhpIncludeInspection */
 require SYS . 'start' . EXT;

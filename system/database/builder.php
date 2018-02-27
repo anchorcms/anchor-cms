@@ -1,28 +1,132 @@
-<?php namespace System\database;
+<?php
+
+namespace System\database;
 
 /**
  * Nano
- *
  * Just another php framework
  *
- * @package		nano
- * @link		http://madebykieron.co.uk
- * @copyright	http://unlicense.org/
+ * @package    nano
+ * @link       http://madebykieron.co.uk
+ * @copyright  http://unlicense.org/
  */
 
+/**
+ * builder class
+ *
+ * @package System\database
+ */
 abstract class builder
 {
+    /**
+     * bind
+     *
+     * @var
+     */
+    protected $bind;
+
+    /**
+     * table
+     *
+     * @var
+     */
+    protected $table;
+
+    /**
+     * offset
+     *
+     * @var
+     */
+    protected $offset;
+
+    /**
+     * connection
+     *
+     * @var
+     */
+    protected $connection;
+
+    /**
+     * join
+     *
+     * @var
+     */
+    protected $join;
+
+    /**
+     * groupby
+     *
+     * @var
+     */
+    protected $groupby;
+
+    /**
+     * limit
+     *
+     * @var
+     */
+    protected $limit;
+
+    /**
+     * sortby
+     *
+     * @var
+     */
+    protected $sortby;
+
+    /**
+     * where
+     *
+     * @var
+     */
+    protected $where;
+
+    /**
+     * Build table insert
+     *
+     * @param array
+     *
+     * @return string
+     */
+    public function build_insert($row)
+    {
+        $keys       = array_keys($row);
+        $values     = $this->placeholders(count($row));
+        $this->bind = array_values($row);
+
+        return 'INSERT INTO ' . $this->wrap($this->table) . ' (' . $this->wrap($keys) . ') VALUES(' . $values . ')';
+    }
+
+    /**
+     * Build placeholders to replace with values in a query
+     *
+     * @param int    $length
+     * @param string $holder (optional) variable replacement character
+     *
+     * @return string
+     */
+    public function placeholders($length, $holder = '?')
+    {
+        $holders = [];
+
+        for ($i = 0; $i < $length; $i++) {
+            $holders[] = $holder;
+        }
+
+        return implode(', ', $holders);
+    }
 
     /**
      * Wrap database tables and columns names
      *
-     * @param string|array
+     * @param string|array $column
+     *
      * @return string
      */
     public function wrap($column)
     {
         if (is_array($column)) {
-            $columns = array();
+            $columns = [];
 
             foreach ($column as $c) {
                 $columns[] = $this->wrap($c);
@@ -37,13 +141,14 @@ abstract class builder
     /**
      * Enclose value with database connector escape characters
      *
-     * @param string
+     * @param string $value
+     *
      * @return string
      */
     public function enclose($value)
     {
-        $params = array();
-        $alias = '';
+        $params        = [];
+        $alias         = '';
         $alias_keyword = ' as ';
 
         if ($pos = strpos(strtolower($value), $alias_keyword)) {
@@ -75,27 +180,32 @@ abstract class builder
     }
 
     /**
-     * Build placeholders to replace with values in a query
+     * Build table update
      *
-     * @param int
+     * @param array $row
+     *
      * @return string
      */
-    public function placeholders($length, $holder = '?')
+    public function build_update($row)
     {
-        $holders = array();
+        $placeholders = [];
+        $values       = [];
 
-        for ($i = 0; $i < $length; $i++) {
-            $holders[] = $holder;
+        foreach ($row as $key => $value) {
+            $placeholders[] = $this->wrap($key) . ' = ?';
+            $values[]       = $value;
         }
 
-        return implode(', ', $holders);
+        $update     = implode(', ', $placeholders);
+        $this->bind = array_merge($values, $this->bind);
+
+        return 'UPDATE ' . $this->wrap($this->table) . ' SET ' . $update . $this->build();
     }
 
     /**
      * Set a row offset on the query
      *
-     * @param int
-     * @return object
+     * @return string
      */
     public function build()
     {
@@ -129,46 +239,10 @@ abstract class builder
     }
 
     /**
-     * Build table insert
-     *
-     * @param array
-     * @return string
-     */
-    public function build_insert($row)
-    {
-        $keys = array_keys($row);
-        $values = $this->placeholders(count($row));
-        $this->bind = array_values($row);
-
-        return 'INSERT INTO ' . $this->wrap($this->table) . ' (' . $this->wrap($keys) . ') VALUES(' . $values . ')';
-    }
-
-    /**
-     * Build table update
-     *
-     * @param array
-     * @return string
-     */
-    public function build_update($row)
-    {
-        $placeholders = array();
-        $values = array();
-
-        foreach ($row as $key => $value) {
-            $placeholders[] = $this->wrap($key) . ' = ?';
-            $values[] = $value;
-        }
-
-        $update = implode(', ', $placeholders);
-        $this->bind = array_merge($values, $this->bind);
-
-        return 'UPDATE ' . $this->wrap($this->table) . ' SET ' . $update . $this->build();
-    }
-
-    /**
      * Build the select columns of the query
      *
      * @param array
+     *
      * @return string
      */
     public function build_select($columns = null)
@@ -186,6 +260,7 @@ abstract class builder
      * Build a delete query
      *
      * @param array
+     *
      * @return string
      */
     public function build_delete()

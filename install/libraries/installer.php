@@ -1,15 +1,28 @@
 <?php
 
+use System\database as DB;
+use System\database\query;
+use System\session;
+
+/**
+ * installer class
+ */
 class installer
 {
-
-    // database connection
+    /**
+     * database connection
+     *
+     * @var \System\database\connector
+     */
     public static $connection;
 
-    /*
-        Install
-    */
-
+    /**
+     * Run the installer
+     *
+     * @return void
+     * @throws \ErrorException
+     * @throws \Exception
+     */
     public static function run()
     {
         // session data
@@ -19,15 +32,40 @@ class installer
         static::connect($settings);
 
         // check we have not already installed
-        if (!static::$connection->instance()->query('SHOW DATABASES LIKE ' . static::$connection->instance()->quote($settings['database']['name']) . ';')->fetchColumn()) {
-            // create the database
-            static::$connection->instance()->query('CREATE DATABASE ' . substr(static::$connection->instance()->quote($settings['database']['name']),1,-1) . ';');
-        }
-         
-        // use the database
-        static::$connection->instance()->query('USE ' . substr(static::$connection->instance()->quote($settings['database']['name']),1,-1) . ';');
+        if ( ! static::$connection
+            ->instance()
+            ->query(
+                'SHOW DATABASES LIKE ' . static::$connection
+                    ->instance()
+                    ->quote($settings['database']['name']) . ';')
+            ->fetchColumn()) {
 
-        if (!static::$connection->instance()->query('SHOW TABLES;')->fetchColumn()) {
+            // create the database
+            static::$connection->instance()->query(
+                'CREATE DATABASE ' . substr(
+                    static::$connection->instance()
+                                       ->quote($settings['database']['name']),
+                    1,
+                    -1
+                ) . ';'
+            );
+        }
+
+        // use the database
+        static::$connection
+            ->instance()
+            ->query(
+                'USE ' . substr(static::$connection
+                    ->instance()
+                    ->quote($settings['database']['name']),
+                    1, -1) . ';'
+            );
+
+        if ( ! static::$connection
+            ->instance()
+            ->query('SHOW TABLES;')->fetchColumn()
+        ) {
+
             // install tables
             static::schema($settings);
 
@@ -51,119 +89,181 @@ class installer
         static::rewrite($settings);
     }
 
+    /**
+     * connect to the database
+     *
+     * @param array $settings connection configuration data
+     *
+     * @return void
+     * @throws \ErrorException
+     */
     private static function connect($settings)
     {
         $database = $settings['database'];
 
         // we do not specify the database name as it may not exist
-        $config = array(
-            'driver' => 'mysql',
+        $config = [
+            'driver'   => 'mysql',
             'hostname' => $database['host'],
-            'port' => $database['port'],
+            'port'     => $database['port'],
             'username' => $database['user'],
             'password' => $database['pass'],
-            'charset' => 'utf8'
-        );
+            'charset'  => 'utf8'
+        ];
 
         static::$connection = DB::factory($config);
     }
 
+    /**
+     * create the database schema
+     *
+     * @param array $settings
+     *
+     * @return void
+     */
     private static function schema($settings)
     {
         $database = $settings['database'];
 
-        $sql = Braces::compile(APP . 'storage/anchor.sql', array(
-            'now' => gmdate('Y-m-d H:i:s'),
+        $sql = Braces::compile(APP . 'storage/anchor.sql', [
+            'now'     => gmdate('Y-m-d H:i:s'),
             'charset' => 'utf8',
-            'prefix' => $database['prefix']
-        ));
+            'prefix'  => $database['prefix']
+        ]);
 
         static::$connection->instance()->query($sql);
     }
 
+    /**
+     * Create the meta data table
+     *
+     * @param array $settings
+     *
+     * @return void
+     * @throws \ErrorException
+     * @throws \Exception
+     */
     private static function metadata($settings)
     {
         $metadata = $settings['metadata'];
         $database = $settings['database'];
 
-        $config = array(
-            'sitename' => $metadata['site_name'],
+        $config = [
+            'sitename'    => $metadata['site_name'],
             'description' => $metadata['site_description'],
-            'theme' => $metadata['theme']
-        );
+            'theme'       => $metadata['theme']
+        ];
 
         $query = Query::table($database['prefix'] . 'meta', static::$connection);
 
         foreach ($config as $key => $value) {
-            $query->insert(array('key' => $key, 'value' => $value));
+
+            $query->insert(['key' => $key, 'value' => $value]);
         }
     }
 
+    /**
+     * Create the account table
+     *
+     * @param array $settings
+     *
+     * @return void
+     * @throws \ErrorException
+     * @throws \Exception
+     */
     private static function account($settings)
     {
-        $account = $settings['account'];
+        $account  = $settings['account'];
         $database = $settings['database'];
 
         $query = Query::table($database['prefix'] . 'users', static::$connection);
 
-        $query->insert(array(
-            'username' => $account['username'],
-            'password' => Hash::make($account['password']),
-            'email' => $account['email'],
+        $query->insert([
+            'username'  => $account['username'],
+            'password'  => Hash::make($account['password']),
+            'email'     => $account['email'],
             'real_name' => 'Administrator',
-            'bio' => 'The bouse',
-            'status' => 'active',
-            'role' => 'administrator'
-        ));
+            'bio'       => 'The bouse',
+            'status'    => 'active',
+            'role'      => 'administrator'
+        ]);
     }
 
+    /**
+     * Create the database configuration file
+     *
+     * @param array $settings
+     *
+     * @return void
+     */
     private static function database($settings)
     {
         $database = $settings['database'];
 
-        $distro = Braces::compile(APP . 'storage/database.distro.php', array(
+        $distro = Braces::compile(APP . 'storage/database.distro.php', [
             'hostname' => $database['host'],
-            'port' => $database['port'],
+            'port'     => $database['port'],
             'username' => $database['user'],
             'password' => $database['pass'],
             'database' => $database['name'],
-            'prefix' => $database['prefix']
-        ));
+            'prefix'   => $database['prefix']
+        ]);
 
         file_put_contents(PATH . 'anchor/config/db.php', $distro);
     }
 
+    /**
+     * Create the application settings file
+     *
+     * @param array $settings
+     *
+     * @return void
+     */
     private static function application($settings)
     {
-        $distro = Braces::compile(APP . 'storage/application.distro.php', array(
-            'url' => addslashes($settings['metadata']['site_path']),
-            'index' => (mod_rewrite() ? '' : 'index.php'),
-            'key' => noise(),
+        $distro = Braces::compile(APP . 'storage/application.distro.php', [
+            'url'      => addslashes($settings['metadata']['site_path']),
+            'index'    => (mod_rewrite() ? '' : 'index.php'),
+            'key'      => noise(),
             'language' => $settings['i18n']['language'],
             'timezone' => $settings['i18n']['timezone']
-        ));
+        ]);
 
         file_put_contents(PATH . 'anchor/config/app.php', $distro);
     }
 
+    /**
+     * Create the session settings file
+     *
+     * @param array $settings
+     *
+     * @return void
+     */
     private static function session($settings)
     {
         $database = $settings['database'];
 
-        $distro = Braces::compile(APP . 'storage/session.distro.php', array(
+        $distro = Braces::compile(APP . 'storage/session.distro.php', [
             'table' => $database['prefix'] . 'sessions'
-        ));
+        ]);
 
         file_put_contents(PATH . 'anchor/config/session.php', $distro);
     }
 
+    /**
+     * Create the .htaccess file
+     *
+     * @param array $settings
+     *
+     * @return void
+     */
     private static function rewrite($settings)
     {
         if (mod_rewrite() or (is_apache() and $settings['metadata']['rewrite'])) {
-            $htaccess = Braces::compile(APP . 'storage/htaccess.distro', array(
-                'base' => $settings['metadata']['site_path'],
+            $htaccess = Braces::compile(APP . 'storage/htaccess.distro', [
+                'base'  => $settings['metadata']['site_path'],
                 'index' => 'index.php?/$1'
-            ));
+            ]);
 
             if (isset($htaccess) and is_writable($filepath = PATH)) {
                 file_put_contents($filepath . '.htaccess', $htaccess);

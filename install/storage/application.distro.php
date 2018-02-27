@@ -1,10 +1,10 @@
 <?php
 
-return array(
-    'url' => '{{url}}',
-    'index' => '{{index}}',
+return [
+    'url'      => '{{url}}',
+    'index'    => '{{index}}',
     'timezone' => '{{timezone}}',
-    'key' => '{{key}}',
+    'key'      => '{{key}}',
     'language' => '{{language}}',
     'encoding' => 'UTF-8'
-);
+];
