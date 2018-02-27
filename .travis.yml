@@ -27,7 +27,7 @@ before_install:
   - sudo apt-get install -y nodejs
 
 install:
-  - composer self-update && composer install
+  - composer install --ignore-platform-reqs
 
   # Re-enable xdebug for when we need to generate code coverage
   - export COVERAGE_OPTS=""
@@ -43,6 +43,7 @@ before_script:
 
 script:
   - npm test
+  - ./vendor/bin/peridot -c test/peridot.php
 
 after_failure:
   # Save as much info as we can to help developers

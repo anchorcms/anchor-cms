@@ -32,5 +32,9 @@
 		"ircmaxell/random-lib": "^1.1",
 		"ircmaxell/password-compat": "^1.0",
 		"indigophp/hash-compat": "^1.1"
-	}
+	},
+  "require-dev": {
+    "peridot-php/peridot": "^1.19",
+		"peridot-php/leo": "^1.6"
+  }
 }
