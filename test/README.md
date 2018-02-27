@@ -1,4 +1,4 @@
-AnchorCMS - CI tests [![Build Status](https://travis-ci.org/Radiergummi/anchor-cms.svg?branch=master)](https://travis-ci.org/Radiergummi/anchor-cms)
+AnchorCMS - CI tests [![Build Status](https://travis-ci.org/anchorcms/anchor-cms.svg?branch=master)](https://travis-ci.org/anchorcms/anchor-cms)
 --------------------
 
 This directory contains tests intended to be carried out in a CI environment, more specifically [Travis-CI](https://travis-ci.org).  
