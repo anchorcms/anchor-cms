@@ -13,8 +13,7 @@ return [
             'file'    => $e->getFile()
         ];
 
-        // TODO: $write is unnecessary
-        $write = file_put_contents(APP . 'errors.log', json_encode($data) . "\n", FILE_APPEND | LOCK_EX);
+        file_put_contents(APP . 'errors.log', json_encode($data) . "\n", FILE_APPEND | LOCK_EX);
 
         echo '<pre>';
         echo $e->getMessage() . "\n";

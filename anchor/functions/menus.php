@@ -191,13 +191,7 @@ function menu_parent($menu_item = null)
  */
 function menu_has_children($parent = null)
 {
-    // TODO: Should be replaced with "count(get_menus_children($parent)) > 0"
-    // Returns true if there is atleast 1 child
-    foreach (get_menus_children($parent) as $c) {
-        return true;
-    }
-
-    return false;
+    return count(get_menus_children($parent)) > 0;
 }
 
 /**
@@ -268,10 +262,10 @@ function get_menu_item($feature_type, $menu_feature)
 
 /**
  * Renders a menu
- * TODO: What does the index param actually do?
  *
  * @param array $params menu rendering parameters. Available are "parent" (parent menu item ID),
- *                      "class" (additional CSS class for the active menu item) and "index"
+ *                      "class" (additional CSS class for the active menu item) and
+ *                      "index" (Specifying the index at which we start rendering)
  *
  * @return string HTML output
  * @throws \Exception
@@ -300,7 +294,7 @@ function menu_render($params = [])
             $html .= '<li>';
             $html .= Html::link($item->relative_uri(), $item->name, $attr);
             $html .= menu_render(['parent' => $item->id, 'index' => $menu->key()]);
-            $html .= '</li>' . PHP_EOL;
+            $html .= '</li>';
         }
     }
 
@@ -310,13 +304,11 @@ function menu_render($params = [])
 
     while ($index > 1) {
         $menu->next();
-
         $index--;
     }
 
-    // TODO: Should remove all that PHP_EOLs from the code. Nobody looks at the HTML output, it's overhead.
     if ($html) {
-        $html = PHP_EOL . '<ul>' . PHP_EOL . $html . '</ul>' . PHP_EOL;
+        $html = '<ul>' . $html . '</ul>';
     }
 
     return $html;

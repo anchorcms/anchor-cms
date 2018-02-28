@@ -82,8 +82,6 @@ function search_next($text = 'Next', $default = '')
     $per_page    = Config::meta('posts_per_page');
     $page        = Registry::get('page_offset');
 
-    // TODO: Unused variable
-    $offset      = ($page - 1) * $per_page;
     $total       = Registry::get('total_posts');
     $pages       = floor($total / $per_page);
     $search_page = Registry::get('page');
@@ -116,8 +114,6 @@ function search_prev($text = 'Previous', $default = '')
     $offset      = ($page - 1) * $per_page;
     $total       = Registry::get('total_posts');
 
-    // TODO: Unused variable?
-    $pages       = ceil($total / $per_page);
     $search_page = Registry::get('page');
     $prev        = $page - 1;
     $term        = Registry::get('search_term');
@@ -156,13 +152,23 @@ function search_form_input($extra = '')
 }
 
 /**
+ * Get the search item object from the registry.
+ *
+ * @return Object
+ */
+function search_item()
+{
+    return Registry::get('search_item');
+}
+
+/**
  * Retrieves the search item type (post/page/other)
  *
  * @return string
  */
 function search_item_type()
 {
-    $item_class = strtolower(get_class(Registry::get('search_item')));
+    $item_class = strtolower(get_class(search_item()));
     if ($item_class == 'page') {
         return 'page';
     } elseif ($item_class == 'post') {
@@ -179,7 +185,11 @@ function search_item_type()
  */
 function search_item_id()
 {
-    return Registry::prop('search_item', 'id');
+    $item = search_item();
+
+    if ($item) {
+        return $item->id;
+    }
 }
 
 /**
@@ -189,7 +199,11 @@ function search_item_id()
  */
 function search_item_title()
 {
-    return Registry::prop('search_item', 'title');
+    $item = search_item();
+
+    if ($item) {
+        return $item->title;
+    }
 }
 
 /**
@@ -199,7 +213,11 @@ function search_item_title()
  */
 function search_item_name()
 {
-    return Registry::prop('search_item', 'name');
+    $item = search_item();
+
+    if ($item) {
+        return $item->name;
+    }
 }
 
 /**
@@ -209,7 +227,11 @@ function search_item_name()
  */
 function search_item_slug()
 {
-    return Registry::prop('search_item', 'slug');
+    $item = search_item();
+
+    if ($item) {
+        return $item->slug;
+    }
 }
 
 /**
@@ -219,13 +241,14 @@ function search_item_slug()
  */
 function search_item_url()
 {
-    // TODO: Unused variable
-    $item       = Registry::get('search_item');
-    $item_class = search_item_type();
+    $item = search_item();
+    $type = search_item_type();
 
-    if ($item_class == 'page') {
-        return Registry::get('search_item')->uri();
-    } elseif ($item_class == 'post') {
+    if ($type == 'page') {
+        return $item->uri();
+    }
+
+    if ($type == 'post') {
         return base_url(Registry::get('posts_page')->slug) . '/' . search_item_slug();
     }
 }
