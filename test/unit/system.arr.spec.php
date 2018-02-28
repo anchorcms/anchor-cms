@@ -93,6 +93,10 @@ describe('arr', function () {
     it('should shuffle an array', function () {
         $testData = Arr::create($this->testData);
 
+        $arrReflection = new ReflectionObject($testData);
+        $stackProperty = $arrReflection->getProperty('stack');
+        $stackProperty->setAccessible(true);
+
         expect($testData->stack)
             ->to->deep->equal($this->testData);
 
