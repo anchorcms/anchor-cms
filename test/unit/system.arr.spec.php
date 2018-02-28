@@ -93,20 +93,19 @@ describe('arr', function () {
     it('should shuffle an array', function () {
         $testData = Arr::create($this->testData);
 
-        $arrReflection = new ReflectionObject($testData);
-        $stackProperty = $arrReflection->getProperty('stack');
+        $stackProperty = new ReflectionProperty($testData, 'stack');
         $stackProperty->setAccessible(true);
 
-        expect($testData->stack)
+        expect($stackProperty->getValue($testData))
             ->to->deep->equal($this->testData);
 
         $testData->shuffle();
 
-        expect($testData->stack)
+        expect($stackProperty->getValue($testData))
             ->to->not->deep->equal($this->testData);
 
         // retrieve the respective arrays
-        $shuffledKeys = $testData->stack;
+        $shuffledKeys = $stackProperty->getValue($testData);
         $originalKeys = $this->testData;
 
         // sort both arrays to create a common order
