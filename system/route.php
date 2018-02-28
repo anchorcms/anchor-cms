@@ -16,10 +16,11 @@ use Response;
 
 /**
  * route class
+ * @method static error(string | string[] $patterns, \Closure | \Closure[] $callbacks): void
+ * @method static any(string | string[] $patterns, \Closure | \Closure[] $callbacks): void
+ * @method static get(string | string[] $patterns, \Closure | \Closure[] $callbacks): void
+ * @method static post(string | string[] $patterns, \Closure | \Closure[] $callbacks): void
  *
- * @method static any(string|string[] $patterns, \Closure|\Closure[] $callbacks): void
- * @method static get(string|string[] $patterns, \Closure|\Closure[] $callbacks): void
- * @method static post(string|string[] $patterns, \Closure|\Closure[] $callbacks): void
  * @package System
  */
 class route
@@ -49,7 +50,7 @@ class route
      * Create a new instance of the Route class
      *
      * @param \Closure[] $callbacks route callbacks
-     * @param array $args      (optional) route arguments
+     * @param array      $args      (optional) route arguments
      */
     public function __construct($callbacks, $args = [])
     {
@@ -109,7 +110,7 @@ class route
     /**
      * Start a collection of routes with common actions
      *
-     * @param string          $actions     collection name
+     * @param array|string    $actions     collection name
      * @param string|\Closure $definitions collection routes
      *
      * @return void

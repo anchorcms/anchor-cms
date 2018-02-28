@@ -1,23 +1,44 @@
 <?php
 
+/******************************
+ *  Theme functions for search
+ ******************************/
+
+use System\config;
+use System\session;
+
 /**
- * 	Theme functions for search
+ * Checks whether there are any search results
+ *
+ * @return bool
  */
 function has_search_results()
 {
     return Registry::get('total_posts', 0) > 0;
 }
 
+/**
+ * Retrieves the total number of search results
+ *
+ * @return int
+ */
 function total_search_results()
 {
     return Registry::get('total_posts', 0);
 }
 
+/**
+ * Loops through the search results
+ *
+ * @return bool
+ */
 function search_results()
 {
+    /** @var \items $posts */
     $posts = Registry::get('search_results');
 
     if ($result = $posts->valid()) {
+
         // register single post
         Registry::set('search_item', $posts->current());
 
@@ -28,29 +49,47 @@ function search_results()
     return $result;
 }
 
+/**
+ * Retrieves the search term
+ *
+ * @return string
+ */
 function search_term()
 {
     return Registry::get('search_term');
 }
 
+/**
+ * Checks whether the search results are paginated
+ *
+ * @return bool
+ */
 function has_search_pagination()
 {
     return Registry::get('total_posts') > Config::meta('posts_per_page');
 }
 
+/**
+ * Retrieves the next search results page link
+ *
+ * @param string $text    (optional) link text
+ * @param string $default (optional) default if no next link
+ *
+ * @return string
+ */
 function search_next($text = 'Next', $default = '')
 {
-    $per_page = Config::meta('posts_per_page');
-    $page = Registry::get('page_offset');
+    $per_page    = Config::meta('posts_per_page');
+    $page        = Registry::get('page_offset');
 
-    $offset = ($page - 1) * $per_page;
-    $total = Registry::get('total_posts');
-
-    $pages = floor($total / $per_page);
-
+    // TODO: Unused variable
+    $offset      = ($page - 1) * $per_page;
+    $total       = Registry::get('total_posts');
+    $pages       = floor($total / $per_page);
     $search_page = Registry::get('page');
-    $next = $page + 1;
-    $term = Registry::get('search_term');
+    $next        = $page + 1;
+    $term        = Registry::get('search_term');
+
     Session::put(slug($term), $term);
 
     $url = base_url($search_page->slug . '/' . $term . '/' . $next);
@@ -62,19 +101,27 @@ function search_next($text = 'Next', $default = '')
     return $default;
 }
 
+/**
+ * Retrieves the previous search results page link
+ *
+ * @param string $text    (optional) link text
+ * @param string $default (optional) default if no next link
+ *
+ * @return string
+ */
 function search_prev($text = 'Previous', $default = '')
 {
-    $per_page = Config::meta('posts_per_page');
-    $page = Registry::get('page_offset');
+    $per_page    = Config::meta('posts_per_page');
+    $page        = Registry::get('page_offset');
+    $offset      = ($page - 1) * $per_page;
+    $total       = Registry::get('total_posts');
 
-    $offset = ($page - 1) * $per_page;
-    $total = Registry::get('total_posts');
-
-    $pages = ceil($total / $per_page);
-
+    // TODO: Unused variable?
+    $pages       = ceil($total / $per_page);
     $search_page = Registry::get('page');
-    $prev = $page - 1;
-    $term = Registry::get('search_term');
+    $prev        = $page - 1;
+    $term        = Registry::get('search_term');
+
     Session::put(slug($term), $term);
 
     $url = base_url($search_page->slug . '/' . $term . '/' . $prev);
@@ -86,16 +133,33 @@ function search_prev($text = 'Previous', $default = '')
     return $default;
 }
 
+/**
+ * Retrieves the search URL
+ *
+ * @return string
+ */
 function search_url()
 {
     return base_url('search');
 }
 
+/**
+ * Generates the search input field
+ *
+ * @param string $extra (optional) additional HTML attributes for the input tag
+ *
+ * @return string
+ */
 function search_form_input($extra = '')
 {
     return '<input name="term" type="text" ' . $extra . ' value="' . search_term() . '">';
 }
 
+/**
+ * Retrieves the search item type (post/page/other)
+ *
+ * @return string
+ */
 function search_item_type()
 {
     $item_class = strtolower(get_class(Registry::get('search_item')));
@@ -108,31 +172,57 @@ function search_item_type()
     }
 }
 
+/**
+ * Retrieves the current search item ID
+ *
+ * @return int
+ */
 function search_item_id()
 {
     return Registry::prop('search_item', 'id');
 }
 
+/**
+ * Retrieves the current search item title
+ *
+ * @return string
+ */
 function search_item_title()
 {
     return Registry::prop('search_item', 'title');
 }
 
+/**
+ * Retrieves the current search item name
+ *
+ * @return string
+ */
 function search_item_name()
 {
     return Registry::prop('search_item', 'name');
 }
 
+/**
+ * Retrieves the current search item slug
+ *
+ * @return string
+ */
 function search_item_slug()
 {
     return Registry::prop('search_item', 'slug');
 }
 
+/**
+ * Retrieves the current search item URL
+ *
+ * @return string
+ */
 function search_item_url()
 {
-    $item = Registry::get('search_item');
+    // TODO: Unused variable
+    $item       = Registry::get('search_item');
     $item_class = search_item_type();
-    
+
     if ($item_class == 'page') {
         return Registry::get('search_item')->uri();
     } elseif ($item_class == 'post') {

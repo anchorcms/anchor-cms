@@ -34,7 +34,7 @@ Autoloader::directory([
     PATH . 'anchor/libraries'
 ]);
 
-/**
+/*
  * Set the current uri from get
  */
 if ($route = Arr::get($_GET, 'route', '/')) {
@@ -46,6 +46,8 @@ if ($route = Arr::get($_GET, 'route', '/')) {
  */
 
 /**
+ * Retrieves all time zones
+ *
  * @return array
  */
 function timezones()

@@ -5,7 +5,7 @@ use System\input;
 use System\route;
 use System\session;
 
-/*
+/**
  * Filters
  */
 Route::action('check', function () {
@@ -18,7 +18,7 @@ Route::action('check', function () {
     }
 });
 
-/*
+/**
  * Start (Language Select)
  */
 Route::get(['/', 'start'], [
@@ -36,7 +36,10 @@ Route::get(['/', 'start'], [
 Route::post('start', [
     'before' => 'check',
     'main'   => function () {
-        $i18n = Input::get(['language', 'timezone']);
+        $i18n = Input::get([
+            'language',
+            'timezone'
+        ]);
 
         $validator = new Validator($i18n);
 
@@ -48,7 +51,6 @@ Route::post('start', [
 
         if ($errors = $validator->errors()) {
             Input::flash();
-
             Notify::error($errors);
 
             return Response::redirect('start');
@@ -60,12 +62,13 @@ Route::post('start', [
     }
 ]);
 
-/*
+/**
  * MySQL Database
  */
 Route::get('database', [
     'before' => 'check',
     'main'   => function () {
+
         // check we have a selected language
         if ( ! Session::get('install.i18n')) {
             Notify::error('Please select a language');
@@ -104,7 +107,15 @@ Route::get('database', [
 Route::post('database', [
     'before' => 'check',
     'main'   => function () {
-        $database = Input::get(['host', 'port', 'user', 'pass', 'name', 'collation', 'prefix']);
+        $database = Input::get([
+            'host',
+            'port',
+            'user',
+            'pass',
+            'name',
+            'collation',
+            'prefix'
+        ]);
 
         // Escape the password input
         $database['pass'] = addslashes($database['pass']);
@@ -122,7 +133,6 @@ Route::post('database', [
             ]);
         } catch (Exception $e) {
             Input::flash();
-
             Notify::error($e->getMessage());
 
             return Response::redirect('database');
@@ -134,7 +144,7 @@ Route::post('database', [
     }
 ]);
 
-/*
+/**
  * Metadata
  */
 Route::get('metadata', [
@@ -149,8 +159,7 @@ Route::get('metadata', [
 
         // windows users may return a \ so we replace it with a /
         $vars['site_path'] = str_replace('\\', '/', dirname(dirname($_SERVER['SCRIPT_NAME'])));
-
-        $vars['themes'] = Themes::all();
+        $vars['themes']    = Themes::all();
 
         return Layout::create('metadata', $vars);
     }
@@ -189,7 +198,7 @@ Route::post('metadata', [
     }
 ]);
 
-/*
+/**
  * Account
  */
 Route::get('account', [
@@ -249,10 +258,11 @@ Route::post('account', [
     }
 ]);
 
-/*
+/**
  * Complete
  */
 Route::get('complete', function () {
+
     // check we have a database
     if ( ! Session::get('install')) {
         Notify::error('Please select your language');

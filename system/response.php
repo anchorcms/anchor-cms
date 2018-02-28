@@ -112,8 +112,8 @@ class response
     /**
      * Creates a response with the output as JSON
      *
-     * @param string $output response output string to convert to JSON
-     * @param int    $status (optional) HTTP status code
+     * @param mixed $output response output string to convert to JSON
+     * @param int   $status (optional) HTTP status code
      *
      * @return \System\response
      */

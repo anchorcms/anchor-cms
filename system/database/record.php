@@ -13,11 +13,12 @@ namespace System\database;
 
 /**
  * record class
- * @method static query get(string [] | null $columns = null)
+ * @method static query get(string[] | null $columns = null)
  * @method static query where(string $column, string $operator, string $value)
  * @method static query left_join(string | \Closure $table, string $left, string $operator, string $right)
  * @method static query insert_get_id(array $row)
- * @method static query count()
+ * @method static string|int count()
+ * @method static query sort(string $column, string $mode = 'ASC')
  * @method static int insert(array $row)
  *
  * @package System\database
@@ -88,7 +89,7 @@ abstract class record
      *
      * @param int
      *
-     * @return \stdClass Record
+     * @return \stdClass|\System\database\record Record
      * @throws \Exception
      */
     public static function find($id)

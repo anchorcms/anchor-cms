@@ -2,18 +2,19 @@
 
 /**
  * braces class
+ * Provides a basic templating engine for configuration templates
  */
 class braces
 {
     /**
-     * path to the template
+     * Path to the template
      *
      * @var string
      */
     protected $path;
 
     /**
-     * braces constructor
+     * Braces constructor
      *
      * @param string $path path to the template file
      */
@@ -23,7 +24,7 @@ class braces
     }
 
     /**
-     * shorthand to create and render a template
+     * Shorthand to create and render a template
      *
      * @param string $path path to the template file
      * @param array  $vars variables to replace in the template
@@ -38,7 +39,7 @@ class braces
     }
 
     /**
-     * renders a template by replacing all values in braces
+     * Renders a template by replacing all values in braces
      *
      * @param array $vars variables to replace in the template
      *
@@ -55,7 +56,7 @@ class braces
     }
 
     /**
-     * create a braced representation of a variable
+     * Creates a braced representation of a variable
      *
      * @param string $var variable to brace
      *

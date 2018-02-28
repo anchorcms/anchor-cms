@@ -31,5 +31,7 @@ define('APP', PATH . 'anchor' . DS);
 define('SYS', PATH . 'system' . DS);
 define('EXT', '.php');
 
+/** @noinspection PhpIncludeInspection */
 require APP . 'composer_check' . EXT;
+/** @noinspection PhpIncludeInspection */
 require SYS . 'start' . EXT;

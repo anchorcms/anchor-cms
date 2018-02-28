@@ -15,6 +15,7 @@ use ErrorException;
 
 /**
  * database class
+ * @method static array ask(string $sql, array $binds = [])
  *
  * @package System
  */

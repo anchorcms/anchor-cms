@@ -6,18 +6,19 @@ use System\session;
 
 /**
  * installer class
+ * Installs AnchorCMS
  */
 class installer
 {
     /**
-     * database connection
+     * Database connection
      *
      * @var \System\database\connector
      */
     public static $connection;
 
     /**
-     * Run the installer
+     * Runs the installer
      *
      * @return void
      * @throws \ErrorException
@@ -90,7 +91,7 @@ class installer
     }
 
     /**
-     * connect to the database
+     * Connects to the database
      *
      * @param array $settings connection configuration data
      *
@@ -115,7 +116,7 @@ class installer
     }
 
     /**
-     * create the database schema
+     * Creates the database schema
      *
      * @param array $settings
      *
@@ -135,7 +136,7 @@ class installer
     }
 
     /**
-     * Create the meta data table
+     * Creates the meta data table
      *
      * @param array $settings
      *
@@ -163,7 +164,7 @@ class installer
     }
 
     /**
-     * Create the account table
+     * Creates the account table
      *
      * @param array $settings
      *
@@ -190,7 +191,7 @@ class installer
     }
 
     /**
-     * Create the database configuration file
+     * Creates the database configuration file
      *
      * @param array $settings
      *
@@ -213,7 +214,7 @@ class installer
     }
 
     /**
-     * Create the application settings file
+     * Creates the application settings file
      *
      * @param array $settings
      *
@@ -233,7 +234,7 @@ class installer
     }
 
     /**
-     * Create the session settings file
+     * Creates the session settings file
      *
      * @param array $settings
      *
@@ -251,7 +252,7 @@ class installer
     }
 
     /**
-     * Create the .htaccess file
+     * Creates the .htaccess file
      *
      * @param array $settings
      *
