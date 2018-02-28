@@ -24,10 +24,10 @@ class Themes extends AbstractController
     {
         $theme = Filters::withDefault($request->getParsedBody(), 'theme', FILTER_SANITIZE_STRING);
 
-        $this->container['mappers.meta']->where('key', '=', 'theme')->update(['value' => $theme]);
+        $this->container['mappers.meta']->put('theme', $theme);
 
         $this->container['messages']->success(['Theme updated']);
 
-        return $this->redirect($this->container['url']->to('/admin/themes'));
+        return $this->redirect($response, $this->container['url']->to('/admin/themes'));
     }
 }
