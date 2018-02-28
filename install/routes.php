@@ -1,254 +1,291 @@
 <?php
 
-/*
-    Filters
-*/
+use System\database as DB;
+use System\input;
+use System\route;
+use System\session;
+
+/**
+ * Filters
+ */
 Route::action('check', function () {
-    /* Check if you have installed credit to Striker */
+
+    // Check if you have installed credit to Striker
     if (file_exists(APP . 'install.lock')) {
-        return Layout::create('installed', array(
+        return Layout::create('installed', [
             'installed' => true
-        ));
+        ]);
     }
 });
 
-/*
-    Start (Language Select)
-*/
-Route::get(array('/', 'start'), array('before' => 'check', 'main' => function () {
+/**
+ * Start (Language Select)
+ */
+Route::get(['/', 'start'], [
+    'before' => 'check',
+    'main'   => function () {
+        $vars['languages']          = languages();
+        $vars['prefered_languages'] = prefered_languages();
+        $vars['timezones']          = timezones();
+        $vars['current_timezone']   = current_timezone();
 
-
-    $vars['languages'] = languages();
-    $vars['prefered_languages'] = prefered_languages();
-
-    $vars['timezones'] = timezones();
-    $vars['current_timezone'] = current_timezone();
-
-    return Layout::create('start', $vars);
-}));
-
-Route::post('start', array('before' => 'check', 'main' => function () {
-    $i18n = Input::get(array('language', 'timezone'));
-
-    $validator = new Validator($i18n);
-
-    $validator->check('language')
-        ->is_max(2, 'Please select a language');
-
-    $validator->check('timezone')
-        ->is_max(2, 'Please select a timezone');
-
-    if ($errors = $validator->errors()) {
-        Input::flash();
-
-        Notify::error($errors);
-
-        return Response::redirect('start');
+        return Layout::create('start', $vars);
     }
+]);
 
-    Session::put('install.i18n', $i18n);
+Route::post('start', [
+    'before' => 'check',
+    'main'   => function () {
+        $i18n = Input::get([
+            'language',
+            'timezone'
+        ]);
 
-    return Response::redirect('database');
-}));
+        $validator = new Validator($i18n);
 
-/*
-    MySQL Database
-*/
-Route::get('database', array('before' => 'check', 'main' => function () {
-    // check we have a selected language
-    if (! Session::get('install.i18n')) {
-        Notify::error('Please select a language');
+        $validator->check('language')
+                  ->is_max(2, 'Please select a language');
 
-        return Response::redirect('start');
-    }
+        $validator->check('timezone')
+                  ->is_max(2, 'Please select a timezone');
 
+        if ($errors = $validator->errors()) {
+            Input::flash();
+            Notify::error($errors);
 
-    $vars['collations'] = array(
-        'utf8_bin'           => 'Unicode (multilingual), Binary',
-        'utf8_czech_ci'      => 'Czech, case-insensitive',
-        'utf8_danish_ci'     => 'Danish, case-insensitive',
-        'utf8_esperanto_ci'  => 'Esperanto, case-insensitive',
-        'utf8_estonian_ci'   => 'Estonian, case-insensitive',
-        'utf8_general_ci'    => 'Unicode (multilingual), case-insensitive',
-        'utf8_hungarian_ci'  => 'Hungarian, case-insensitive',
-        'utf8_icelandic_ci'  => 'Icelandic, case-insensitive',
-        'utf8_latvian_ci'    => 'Latvian, case-insensitive',
-        'utf8_lithuanian_ci' => 'Lithuanian, case-insensitive',
-        'utf8_persian_ci'    => 'Persian, case-insensitive',
-        'utf8_polish_ci'     => 'Polish, case-insensitive',
-        'utf8_roman_ci'      => 'West European, case-insensitive',
-        'utf8_romanian_ci'   => 'Romanian, case-insensitive',
-        'utf8_slovak_ci'     => 'Slovak, case-insensitive',
-        'utf8_slovenian_ci'  => 'Slovenian, case-insensitive',
-        'utf8_spanish2_ci'   => 'Traditional Spanish, case-insensitive',
-        'utf8_spanish_ci'    => 'Spanish, case-insensitive',
-        'utf8_swedish_ci'    => 'Swedish, case-insensitive',
-        'utf8_turkish_ci'    => 'Turkish, case-insensitive',
-        'utf8_unicode_ci'    => 'Unicode (multilingual), case-insensitive'
-    );
+            return Response::redirect('start');
+        }
 
-    return Layout::create('database', $vars);
-}));
-
-Route::post('database', array('before' => 'check', 'main' => function () {
-    $database = Input::get(array('host', 'port', 'user', 'pass', 'name', 'collation', 'prefix'));
-
-    // Escape the password input
-    $database['pass'] = addslashes($database['pass']);
-
-    // test connection
-    try {
-        $connection = DB::factory(array(
-            'driver' => 'mysql',
-            'hostname' => $database['host'],
-            'port' => $database['port'],
-            'username' => $database['user'],
-            'password' => $database['pass'],
-            'charset' => 'utf8',
-            'prefix' => $database['prefix']
-        ));
-    } catch (Exception $e) {
-        Input::flash();
-
-        Notify::error($e->getMessage());
+        Session::put('install.i18n', $i18n);
 
         return Response::redirect('database');
     }
+]);
 
-    Session::put('install.database', $database);
+/**
+ * MySQL Database
+ */
+Route::get('database', [
+    'before' => 'check',
+    'main'   => function () {
 
-    return Response::redirect('metadata');
-}));
+        // check we have a selected language
+        if ( ! Session::get('install.i18n')) {
+            Notify::error('Please select a language');
 
-/*
-    Metadata
-*/
-Route::get('metadata', array('before' => 'check', 'main' => function () {
-    // check we have a database
-    if (! Session::get('install.database')) {
-        Notify::error('Please enter your database details');
+            return Response::redirect('start');
+        }
 
-        return Response::redirect('database');
+        $vars['collations'] = [
+            'utf8_bin'           => 'Unicode (multilingual), Binary',
+            'utf8_czech_ci'      => 'Czech, case-insensitive',
+            'utf8_danish_ci'     => 'Danish, case-insensitive',
+            'utf8_esperanto_ci'  => 'Esperanto, case-insensitive',
+            'utf8_estonian_ci'   => 'Estonian, case-insensitive',
+            'utf8_general_ci'    => 'Unicode (multilingual), case-insensitive',
+            'utf8_hungarian_ci'  => 'Hungarian, case-insensitive',
+            'utf8_icelandic_ci'  => 'Icelandic, case-insensitive',
+            'utf8_latvian_ci'    => 'Latvian, case-insensitive',
+            'utf8_lithuanian_ci' => 'Lithuanian, case-insensitive',
+            'utf8_persian_ci'    => 'Persian, case-insensitive',
+            'utf8_polish_ci'     => 'Polish, case-insensitive',
+            'utf8_roman_ci'      => 'West European, case-insensitive',
+            'utf8_romanian_ci'   => 'Romanian, case-insensitive',
+            'utf8_slovak_ci'     => 'Slovak, case-insensitive',
+            'utf8_slovenian_ci'  => 'Slovenian, case-insensitive',
+            'utf8_spanish2_ci'   => 'Traditional Spanish, case-insensitive',
+            'utf8_spanish_ci'    => 'Spanish, case-insensitive',
+            'utf8_swedish_ci'    => 'Swedish, case-insensitive',
+            'utf8_turkish_ci'    => 'Turkish, case-insensitive',
+            'utf8_unicode_ci'    => 'Unicode (multilingual), case-insensitive'
+        ];
+
+        return Layout::create('database', $vars);
     }
+]);
 
-    // windows users may return a \ so we replace it with a /
-    $vars['site_path'] = str_replace('\\', '/', dirname(dirname($_SERVER['SCRIPT_NAME'])));
+Route::post('database', [
+    'before' => 'check',
+    'main'   => function () {
+        $database = Input::get([
+            'host',
+            'port',
+            'user',
+            'pass',
+            'name',
+            'collation',
+            'prefix'
+        ]);
 
-    $vars['themes'] = Themes::all();
+        // Escape the password input
+        $database['pass'] = addslashes($database['pass']);
 
-    return Layout::create('metadata', $vars);
-}));
+        // test connection
+        try {
+            DB::factory([
+                'driver'   => 'mysql',
+                'hostname' => $database['host'],
+                'port'     => $database['port'],
+                'username' => $database['user'],
+                'password' => $database['pass'],
+                'charset'  => 'utf8',
+                'prefix'   => $database['prefix']
+            ]);
+        } catch (Exception $e) {
+            Input::flash();
+            Notify::error($e->getMessage());
 
-Route::post('metadata', array('before' => 'check', 'main' => function () {
-    $metadata = Input::get(array('site_name', 'site_description', 'site_path', 'theme', 'rewrite'));
+            return Response::redirect('database');
+        }
 
-    $validator = new Validator($metadata);
-
-    $validator->check('site_name')
-        ->is_max(4, 'Please enter a site name (Minimum 4 characters)');
-
-    $validator->check('site_description')
-        ->is_max(4, 'Please enter a site description (Minimum 4 characters)');
-
-    $validator->check('site_path')
-        ->is_max(1, 'Please enter a site path');
-
-    $validator->check('theme')
-        ->is_max(1, 'Please select a site theme');
-
-    if ($errors = $validator->errors()) {
-        Input::flash();
-
-        Notify::error($errors);
+        Session::put('install.database', $database);
 
         return Response::redirect('metadata');
     }
+]);
 
-    Session::put('install.metadata', $metadata);
+/**
+ * Metadata
+ */
+Route::get('metadata', [
+    'before' => 'check',
+    'main'   => function () {
+        // check we have a database
+        if ( ! Session::get('install.database')) {
+            Notify::error('Please enter your database details');
 
-    return Response::redirect('account');
-}));
+            return Response::redirect('database');
+        }
 
-/*
-    Account
-*/
-Route::get('account', array('before' => 'check', 'main' => function () {
-    // check we have a database
-    if (! Session::get('install.metadata')) {
-        Notify::error('Please enter your site details');
+        // windows users may return a \ so we replace it with a /
+        $vars['site_path'] = str_replace('\\', '/', dirname(dirname($_SERVER['SCRIPT_NAME'])));
+        $vars['themes']    = Themes::all();
 
-        return Response::redirect('metadata');
+        return Layout::create('metadata', $vars);
     }
+]);
 
-    $vars['messages'] = Notify::read();
+Route::post('metadata', [
+    'before' => 'check',
+    'main'   => function () {
+        $metadata = Input::get(['site_name', 'site_description', 'site_path', 'theme', 'rewrite']);
 
-    return Layout::create('account', $vars);
-}));
+        $validator = new Validator($metadata);
 
-Route::post('account', array('before' => 'check', 'main' => function () {
-    $account = Input::get(array('username', 'email', 'password'));
+        $validator->check('site_name')
+                  ->is_max(4, 'Please enter a site name (Minimum 4 characters)');
 
-    $validator = new Validator($account);
+        $validator->check('site_description')
+                  ->is_max(4, 'Please enter a site description (Minimum 4 characters)');
 
-    $validator->check('username')
-        ->is_max(3, 'Please enter a username (Minimum 3 characters)');
+        $validator->check('site_path')
+                  ->is_max(1, 'Please enter a site path');
 
-    $validator->check('email')
-        ->is_email('Please enter a valid email address');
+        $validator->check('theme')
+                  ->is_max(1, 'Please select a site theme');
 
-    $validator->check('password')
-        ->is_max(6, 'Please enter a password (Minimum 6 characters)');
+        if ($errors = $validator->errors()) {
+            Input::flash();
 
-    if ($errors = $validator->errors()) {
-        Input::flash();
+            Notify::error($errors);
 
-        Notify::error($errors);
+            return Response::redirect('metadata');
+        }
+
+        Session::put('install.metadata', $metadata);
 
         return Response::redirect('account');
     }
+]);
 
-    Session::put('install.account', $account);
+/**
+ * Account
+ */
+Route::get('account', [
+    'before' => 'check',
+    'main'   => function () {
+        // check we have a database
+        if ( ! Session::get('install.metadata')) {
+            Notify::error('Please enter your site details');
 
-    // run install process
-    try {
-        Installer::run();
-    } catch (Exception $e) {
-        Input::flash();
+            return Response::redirect('metadata');
+        }
 
-        Notify::error($e->getMessage());
+        $vars['messages'] = Notify::read();
 
-        return Response::redirect('account');
+        return Layout::create('account', $vars);
     }
+]);
 
-    return Response::redirect('complete');
-}));
+Route::post('account', [
+    'before' => 'check',
+    'main'   => function () {
+        $account = Input::get(['username', 'email', 'password']);
 
-/*
-    Complete
-*/
+        $validator = new Validator($account);
+
+        $validator->check('username')
+                  ->is_max(3, 'Please enter a username (Minimum 3 characters)');
+
+        $validator->check('email')
+                  ->is_email('Please enter a valid email address');
+
+        $validator->check('password')
+                  ->is_max(6, 'Please enter a password (Minimum 6 characters)');
+
+        if ($errors = $validator->errors()) {
+            Input::flash();
+
+            Notify::error($errors);
+
+            return Response::redirect('account');
+        }
+
+        Session::put('install.account', $account);
+
+        // run install process
+        try {
+            Installer::run();
+        } catch (Exception $e) {
+            Input::flash();
+
+            Notify::error($e->getMessage());
+
+            return Response::redirect('account');
+        }
+
+        return Response::redirect('complete');
+    }
+]);
+
+/**
+ * Complete
+ */
 Route::get('complete', function () {
+
     // check we have a database
-    if (! Session::get('install')) {
+    if ( ! Session::get('install')) {
         Notify::error('Please select your language');
 
         return Response::redirect('start');
     }
 
-    $settings = Session::get('install');
-    $vars['site_uri'] = $settings['metadata']['site_path'];
+    $settings          = Session::get('install');
+    $vars['site_uri']  = $settings['metadata']['site_path'];
     $vars['admin_uri'] = rtrim($settings['metadata']['site_path'], '/') . '/index.php/admin/login';
-    $vars['htaccess'] = Session::get('htaccess');
+    $vars['htaccess']  = Session::get('htaccess');
 
     // scrub session now we are done
     Session::erase('install');
 
-    file_put_contents(APP.'install.lock', time());
+    file_put_contents(APP . 'install.lock', time());
+
     return Layout::create('complete', $vars);
 });
 
 /*
-    404 catch all
-*/
+ * 404 catch all
+ */
 Route::any(':all', function () {
     return Response::error(404);
 });

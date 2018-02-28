@@ -152,7 +152,7 @@ describe('view', function () {
      		<script>
      			(function(d) {
      				var v = new Date().getTimezoneOffset();
-     				d.cookie = "anchor-install-timezone=" + v + "; path=/";
+     				d.cookie = \'anchor-install-timezone=\' + v + \'; path=/\';
      			}(document));
      		</script>
      	</body>
@@ -191,9 +191,9 @@ describe('view', function () {
                                                         </div>
                 </header>
      
-     <hgroup class="wrap">
+     <header class="wrap">
         <h1></h1>
-     </hgroup>
+     </header>
      
      <section class="wrap">
         <h3></h3>

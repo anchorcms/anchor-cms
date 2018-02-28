@@ -1,29 +1,28 @@
-<?php namespace System\database\connectors;
+<?php
+
+namespace System\database\connectors;
 
 /**
  * Nano
- *
  * Just another php framework
  *
- * @package		nano
- * @link		http://madebykieron.co.uk
- * @copyright	http://unlicense.org/
+ * @package    nano
+ * @link       http://madebykieron.co.uk
+ * @copyright  http://unlicense.org/
  */
 
+use ErrorException;
 use PDO;
 use PDOException;
-use ErrorException;
 use System\Database\Connector;
 
+/**
+ * mysql class
+ *
+ * @package System\database\connectors
+ */
 class mysql extends Connector
 {
-
-    /**
-     * Holds the php pdo instance
-     *
-     * @var object
-     */
-    private $pdo;
 
     /**
      * The mysql left wrapper
@@ -40,16 +39,44 @@ class mysql extends Connector
     public $rwrap = '`';
 
     /**
+     * Holds the php pdo instance
+     *
+     * @var object
+     */
+    private $pdo;
+
+    /**
      * Create a new mysql connector
      *
-     * @param array
+     * @param array $config MySQL connection configuration data
+     *
+     * @throws \ErrorException
      */
     public function __construct($config)
     {
         try {
+            /** @var string $database */
+            /** @var string $hostname */
+            /** @var int $port */
+            /** @var string $charset */
+            /** @var string $username */
+            /** @var string $password */
             extract($config);
 
-            $dns = 'mysql:' . implode(';', isset($database) ? array('dbname=' . $database, 'host=' . $hostname, 'port=' . $port, 'charset=' . $charset) : array('host=' . $hostname, 'port=' . $port, 'charset=' . $charset));
+            $dns = ('mysql:' . implode(';', isset($database)
+                    ? [
+                        'dbname=' . $database,
+                        'host=' . $hostname,
+                        'port=' . $port,
+                        'charset=' . $charset
+                    ]
+                    : [
+                        'host=' . $hostname,
+                        'port=' . $port,
+                        'charset=' . $charset
+                    ]
+                ));
+
             $this->pdo = new PDO($dns, $username, $password);
             $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         } catch (PDOException $e) {
@@ -60,7 +87,7 @@ class mysql extends Connector
     /**
      * Return the pdo instance
      *
-     * @param object PDO Object
+     * @return object|\PDO PDO object
      */
     public function instance()
     {

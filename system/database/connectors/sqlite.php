@@ -1,27 +1,26 @@
-<?php namespace System\database\connectors;
+<?php
+
+namespace System\database\connectors;
 
 /**
  * Nano
- *
  * Just another php framework
  *
- * @package		nano
- * @link		http://madebykieron.co.uk
- * @copyright	http://unlicense.org/
+ * @package    nano
+ * @link       http://madebykieron.co.uk
+ * @copyright  http://unlicense.org/
  */
 
 use PDO;
 use System\Database\Connector;
 
+/**
+ * sqlite class
+ *
+ * @package System\database\connectors
+ */
 class sqlite extends Connector
 {
-
-    /**
-     * Holds the php pdo instance
-     *
-     * @var object
-     */
-    private $pdo;
 
     /**
      * The sqlite left wrapper
@@ -38,15 +37,23 @@ class sqlite extends Connector
     public $rwrap = ']';
 
     /**
+     * Holds the php pdo instance
+     *
+     * @var object
+     */
+    private $pdo;
+
+    /**
      * Create a new sqlite connector
      *
-     * @param array
+     * @param array $config SQLite connection configuration data
      */
     public function __construct($config)
     {
+        /** @var string $database */
         extract($config);
 
-        $dns = 'sqlite:' . $database;
+        $dns       = 'sqlite:' . $database;
         $this->pdo = new PDO($dns);
         $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     }
@@ -54,7 +61,7 @@ class sqlite extends Connector
     /**
      * Return the pdo instance
      *
-     * @param object PDO Object
+     * @return object|\PDO PDO object
      */
     public function instance()
     {

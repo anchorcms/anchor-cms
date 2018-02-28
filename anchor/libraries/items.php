@@ -1,41 +1,91 @@
 <?php
 
+/**
+ * items class
+ * Basic Iterator implementation for AnchorCMS
+ */
 class items implements Iterator
 {
+    /**
+     * Holds the current position
+     *
+     * @var int
+     */
+    private $position = 0;
 
-    private $position = 0, $array = array();
+    /**
+     * Holds the items
+     *
+     * @var array|int
+     */
+    private $array = [];
 
-    public function __construct($items = array())
+    /**
+     * items constructor
+     *
+     * @param array $items (optional) items to iterate on
+     */
+    public function __construct($items = [])
     {
         $this->position = 0;
-        $this->array = $items;
+        $this->array    = $items;
     }
 
-    public function rewind()
-    {
-        $this->position = 0;
-    }
-
+    /**
+     * Retrieves the current item
+     *
+     * @return mixed
+     */
     public function current()
     {
         return $this->array[$this->position];
     }
 
+    /**
+     * Retrieves the current key
+     *
+     * @return int
+     */
     public function key()
     {
         return $this->position;
     }
 
+    /**
+     * Increments the position
+     *
+     * @return void
+     */
     public function next()
     {
         ++$this->position;
     }
 
+    /**
+     * Sets the position to the beginning
+     *
+     * @return void
+     */
+    public function rewind()
+    {
+        $this->position = 0;
+    }
+
+    /**
+     * Checks whether the current offset exists
+     *
+     * @return bool
+     */
     public function valid()
     {
         return isset($this->array[$this->position]);
     }
 
+    /**
+     * Retrieves the length
+     *
+     * @return int
+     */
     public function length()
     {
         return count($this->array);

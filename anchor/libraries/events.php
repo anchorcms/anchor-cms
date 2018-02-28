@@ -1,10 +1,44 @@
 <?php
 
+/**
+ * events class
+ * Basic event listener and responder
+ */
 class events
 {
+    /**
+     * Holds the event stack
+     *
+     * @var array
+     */
+    private static $stack = [];
 
-    private static $stack = array();
+    /**
+     * Binds a callback to the page
+     *
+     * @param string   $page page string to bind the event to
+     * @param \Closure $fn   event handler callback
+     *
+     * @return void
+     */
+    public static function bind($page, $fn)
+    {
+        list($page, $name) = static::parse($page);
 
+        if ( ! isset(static::$stack[$page])) {
+            static::$stack[$page] = [];
+        }
+
+        static::$stack[$page][$name] = $fn;
+    }
+
+    /**
+     * Parses a page
+     *
+     * @param string $page page string to parse
+     *
+     * @return array
+     */
     private static function parse($page)
     {
         $name = 'main';
@@ -13,20 +47,16 @@ class events
             list($page, $name) = explode('.', $page);
         }
 
-        return array($page, $name);
+        return [$page, $name];
     }
 
-    public static function bind($page, $fn)
-    {
-        list($page, $name) = static::parse($page);
-
-        if (!isset(static::$stack[$page])) {
-            static::$stack[$page] = array();
-        }
-
-        static::$stack[$page][$name] = $fn;
-    }
-
+    /**
+     * Calls an event handler
+     *
+     * @param string $name (optional) event to call
+     *
+     * @return string
+     */
     public static function call($name = '')
     {
         $page = Registry::get('page');

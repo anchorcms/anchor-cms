@@ -1,31 +1,57 @@
-<?php namespace System;
+<?php
+
+namespace System;
 
 /**
  * Nano
- *
  * Just another php framework
  *
- * @package		nano
- * @link		http://madebykieron.co.uk
- * @copyright	http://unlicense.org/
+ * @package    nano
+ * @link       http://madebykieron.co.uk
+ * @copyright  http://unlicense.org/
  */
 
+/**
+ * arr class
+ * Provides a convenient Array helper
+ *
+ * @package System
+ */
 class arr
 {
+    /**
+     * Holds the stack instances operate on
+     *
+     * @var array
+     */
+    protected $stack;
+
+    /**
+     * Arr constructor
+     *
+     * @param array $stack (optional) array to create an instance from
+     */
+    public function __construct($stack = [])
+    {
+        $this->stack = $stack;
+    }
 
     /**
      * Return a element from a array
      *
-     * @param array
-     * @param string
-     * @param mixed
+     * @param array      $array    array to retrieve a value from
+     * @param string|int $key      name of the key to retrieve
+     * @param mixed|null $fallback (optional) fallback value to return if the requested key
+     *                             cannot be found
+     *
+     * @return mixed|null key in the array, fallback if not found or null if no fallback given
      */
     public static function get($array, $key, $fallback = null)
     {
         // search the array using the dot character to access nested array values
         foreach ($keys = explode('.', $key) as $key) {
             // when a key is not found or we didnt get an array to search return a fallback value
-            if (! is_array($array) or ! array_key_exists($key, $array)) {
+            if ( ! is_array($array) or ! array_key_exists($key, $array)) {
                 return $fallback;
             }
 
@@ -38,9 +64,11 @@ class arr
     /**
      * Sets a value in a array
      *
-     * @param array
-     * @param string
-     * @param mixed
+     * @param array      $array array to set a value in
+     * @param string|int $key   name of the key to set
+     * @param mixed      $value value to set
+     *
+     * @return void
      */
     public static function set(&$array, $key, $value)
     {
@@ -51,8 +79,8 @@ class arr
             $key = array_shift($keys);
 
             // make sure we have a array to set our new key in
-            if (! array_key_exists($key, $array)) {
-                $array[$key] = array();
+            if ( ! array_key_exists($key, $array)) {
+                $array[$key] = [];
             }
 
             $array =& $array[$key];
@@ -64,8 +92,10 @@ class arr
     /**
      * Remove a value from a array
      *
-     * @param array
-     * @param string
+     * @param array      $array array to remove a value from
+     * @param string|int $key   name of the key to remove
+     *
+     * @return void
      */
     public static function erase(&$array, $key)
     {
@@ -89,27 +119,19 @@ class arr
     /**
      * Create a new instance of the Arr class
      *
-     * @param array
+     * @param array $stack (optional) array to create an instance from
+     *
+     * @return \System\arr
      */
-    public static function create($stack = array())
+    public static function create($stack = [])
     {
         return new static($stack);
     }
 
     /**
-     * Arr constructor
-     *
-     * @param array
-     */
-    public function __construct($stack = array())
-    {
-        $this->stack = $stack;
-    }
-
-    /**
      * Shuffle the array elements in the stack
      *
-     * @return object Returns self for chaining
+     * @return \System\arr self for chaining
      */
     public function shuffle()
     {

@@ -1,17 +1,23 @@
-<?php namespace System\response;
+<?php
+
+namespace System\response;
 
 /**
  * Nano
- *
  * Just another php framework
  *
- * @package		nano
- * @link		http://madebykieron.co.uk
- * @copyright	http://unlicense.org/
+ * @package    nano
+ * @link       http://madebykieron.co.uk
+ * @copyright  http://unlicense.org/
  */
 
 use System\Request;
 
+/**
+ * status class
+ *
+ * @package System\response
+ */
 class status
 {
 
@@ -34,7 +40,7 @@ class status
      *
      * @var array
      */
-    public $messages = array(
+    public $messages = [
         100 => 'Continue',
         101 => 'Switching Protocols',
         200 => 'OK',
@@ -81,13 +87,25 @@ class status
         505 => 'HTTP Version Not Supported',
         507 => 'Insufficient Storage',
         509 => 'Bandwidth Limit Exceeded'
-    );
+    ];
+
+    /**
+     * Create an instance or the Status class
+     *
+     * @param int $status (optional) status code to create an instance for
+     */
+    public function __construct($status = 200)
+    {
+        $this->status   = $status;
+        $this->protocol = Request::protocol();
+    }
 
     /**
      * Create an instance or the Status class for chaining
      *
-     * @param int
-     * @return object
+     * @param int $status (optional) status code to create an instance for
+     *
+     * @return \System\response\status
      */
     public static function create($status = 200)
     {
@@ -95,32 +113,22 @@ class status
     }
 
     /**
-     * Create an instance or the Status class
-     *
-     * @param int
-     */
-    public function __construct($status = 200)
-    {
-        $this->status = $status;
-        $this->protocol = Request::protocol();
-    }
-
-    /**
      * Send the status header
+     *
+     * @return void
      */
     public function header()
     {
         // status message
         $message = $this->messages[$this->status];
 
-        // for fastcgi we have to send a status header like so:
+        // for fastCGI we have to send a status header like so:
         // http://php.net/manual/en/function.header.php
         if (strpos(PHP_SAPI, 'cgi') !== false) {
             header('Status: ' . $this->status . ' ' . $message);
-        }
-        // overwise we just send a normal status header
+        } // otherwise we just send a normal status header
         else {
-            header($this->protocol . ' ' . $this->status .  ' ' . $message);
+            header($this->protocol . ' ' . $this->status . ' ' . $message);
         }
     }
 }

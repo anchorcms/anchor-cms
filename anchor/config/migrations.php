@@ -1,9 +1,9 @@
 <?php
 
-return array(
+return [
     /*
      * Latest migration
-     * overide for testing/development
+     * override for testing/development
      */
     'current' => MIGRATION_NUMBER
-);
+];
