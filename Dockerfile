@@ -17,6 +17,7 @@ RUN sed -i "s|display_errors = Off|display_errors = On|" /etc/php7/php.ini && \
     sed -i 's#^DocumentRoot ".*#DocumentRoot "/var/www/html"#g' /etc/apache2/httpd.conf && \
     echo '<Directory "/var/www/html/">' >> /etc/apache2/httpd.conf && \
     echo 'Require all granted' >> /etc/apache2/httpd.conf && \
+    echo 'AllowOverride FileInfo' >> /etc/apache2/httpd.conf && \
     echo '</Directory>' >> /etc/apache2/httpd.conf && \
     echo 'HttpProtocolOptions "Unsafe"' >> /etc/apache2/httpd.conf && \
     mkdir /run/apache2/ && \
