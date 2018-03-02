@@ -64,7 +64,7 @@ class form
 
         $attributes['action'] = static::action($action);
 
-        if ( ! array_key_exists('accept-charset', $attributes)) {
+        if (! array_key_exists('accept-charset', $attributes)) {
             $attributes['accept-charset'] = Config::app('encoding');
         }
 
@@ -282,11 +282,11 @@ class form
     {
         $attributes['name'] = $name;
 
-        if ( ! isset($attributes['rows'])) {
+        if (! isset($attributes['rows'])) {
             $attributes['rows'] = self::TEXTAREA_ROWS;
         }
 
-        if ( ! isset($attributes['cols'])) {
+        if (! isset($attributes['cols'])) {
             $attributes['cols'] = self::TEXTAREA_COLUMNS;
         }
 
@@ -358,7 +358,7 @@ class form
     {
         $attributes = ['value' => Html::entities($value)];
 
-        if ( ! is_null($selected)) {
+        if (! is_null($selected)) {
             if ((is_array($selected) and in_array($value, $selected)) or ($value == $selected)) {
                 $attributes['selected'] = 'selected';
             }
@@ -458,9 +458,6 @@ class form
      */
     public static function image($url, $name = null, $attributes = [])
     {
-        // TODO: What URL class is this? There isn't one in Anchor
-        $attributes['src'] = URL::to_asset($url);
-
         return static::input('image', $name, null, $attributes);
     }
 
@@ -474,7 +471,7 @@ class form
      */
     public static function button($value = null, $attributes = [])
     {
-        if ( ! isset($attributes['type'])) {
+        if (!isset($attributes['type'])) {
             $attributes['type'] = 'button';
         }
 

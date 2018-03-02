@@ -1,14 +1,11 @@
 @import "../variables";
 
 .notifications {
-  margin-bottom: 10px;
 
   .notice,
   .error,
   .success {
-    margin-bottom: 20px;
     padding:       10px 18px;
-    border-radius: $border-radius;
     line-height:   21px;
     font-size:     $font-size-base;
     font-weight:   $font-weight-bold;
