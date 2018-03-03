@@ -1,0 +1,20 @@
+// Core variables and mixins
+@import "variables";
+@import "mixins";
+
+@import "normalize";
+@import "reboot";
+@import "alert";
+
+.notif {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: $grid-gutter-width-half;
+}
+
+@import "close";
+@import "nav";
+@import "pagination";
+@import "utilities";
