@@ -100,16 +100,30 @@ Route::collection(['before' => 'auth,csrf,install_exists'], function () {
     });
 
     Route::post('admin/extend/variables/edit/(:any)', function ($key) {
-        $input        = Input::get(['key', 'value']);
+        $input = Input::get(['key', 'value']);
 
-        $key = $input['key'] = 'custom_' . slug($input['key'], '_');
-        $value = $input['value'];
+        $original = slug($input['key'], '_');
 
         $validator = new Validator($input);
 
-        // include prefix length 'custom_'
+        $validator->add('valid_key', function ($str) use ($original) {
+
+            // Don't check against the same key
+            if ($str == $original) {
+                return true;
+            }
+
+            return Query::table(Base::table('meta'))
+                        ->where('key', '=', $str)
+                        ->count() == 0;
+        });
+
         $validator->check('key')
-                  ->is_max(8, __('extend.name_missing'));
+                  ->is_max(1, __('extend.name_missing'))
+                  ->is_valid_key(__('extend.name_exists'));
+
+        $key = $input['key'] = 'custom_' . $original;
+        $value = $input['value'];
 
         if ($errors = $validator->errors()) {
             Input::flash();
