@@ -14,6 +14,19 @@
 
     <fieldset>
       <p>
+        <label for="host">Driver</label>
+        <select id="driver" class="chosen-select" name="driver">
+            <?php foreach ($drivers as $driver): ?>
+                <?php $selected = ($driver == Input::previous('driver', 'mysql')) ? ' selected' : ''; ?>
+              <option value="<?php echo $driver; ?>" <?php echo $selected; ?>>
+                  <?php echo $driver; ?>
+              </option>
+            <?php endforeach; ?>
+        </select>
+
+        <i>We support MySQL or SQLite.</i>
+      </p>
+      <p>
         <label for="host">Database Host</label>
         <input id="host" name="host" value="<?php echo Input::previous('host', '127.0.0.1'); ?>">
 

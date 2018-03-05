@@ -67,6 +67,9 @@ class installer
             ->query('SHOW TABLES;')->fetchColumn()
         ) {
 
+            // database charset config
+            static::charset($settings);
+
             // install tables
             static::schema($settings);
 
@@ -104,15 +107,29 @@ class installer
 
         // we do not specify the database name as it may not exist
         $config = [
-            'driver'   => 'mysql',
+            'driver'   => $database['driver'],
             'hostname' => $database['host'],
             'port'     => $database['port'],
             'username' => $database['user'],
             'password' => $database['pass'],
-            'charset'  => 'utf8'
+            'charset'  => DB::DEFAULT_CHARSET,
         ];
 
         static::$connection = DB::factory($config);
+    }
+
+    /**
+     * Setup the database charset
+     *
+     * @param array $settings
+     *
+     * @return void
+     */
+    private static function charset($settings)
+    {
+        // Setup the charset of the database.
+        $charset_query = sprintf("ALTER DATABASE %s CHARACTER SET = %s COLLATE = %s;", $settings['database']['name'], DB::DEFAULT_CHARSET, $settings['database']['collation']);
+        static::$connection->instance()->query($charset_query);
     }
 
     /**
@@ -128,8 +145,8 @@ class installer
 
         $sql = Braces::compile(APP . 'storage/anchor.sql', [
             'now'     => gmdate('Y-m-d H:i:s'),
-            'charset' => 'utf8',
-            'prefix'  => $database['prefix']
+            'charset' => DB::DEFAULT_CHARSET,
+            'prefix'  => isset($database['prefix']) ? $database['prefix'] : '',
         ]);
 
         static::$connection->instance()->query($sql);
@@ -207,7 +224,9 @@ class installer
             'username' => $database['user'],
             'password' => $database['pass'],
             'database' => $database['name'],
-            'prefix'   => $database['prefix']
+            'prefix'   => $database['prefix'],
+            'driver'   => $database['driver'],
+            'charset'  => DB::DEFAULT_CHARSET,
         ]);
 
         file_put_contents(PATH . 'anchor/config/db.php', $distro);

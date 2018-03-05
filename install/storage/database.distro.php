@@ -5,13 +5,13 @@ return [
     'prefix'      => '{{prefix}}',
     'connections' => [
         'mysql' => [
-            'driver'   => 'mysql',
+            'driver'   => '{{driver}}',
             'hostname' => '{{hostname}}',
             'port'     => '{{port}}',
             'username' => '{{username}}',
             'password' => '{{password}}',
             'database' => '{{database}}',
-            'charset'  => 'utf8'
+            'charset'  => '{{charset}}'
         ]
     ]
 ];
