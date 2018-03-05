@@ -27,7 +27,7 @@ Route::get(['/', 'start'], [
         $vars['languages']          = languages();
         $vars['prefered_languages'] = prefered_languages();
         $vars['timezones']          = timezones();
-        $vars['current_timezone']   = current_timezone();
+        $vars['current_timezone']   = date_default_timezone_get();
 
         return Layout::create('start', $vars);
     }
@@ -81,6 +81,7 @@ Route::get('database', [
         ];
 
         $vars['collations'] = [
+            'utf8mb4_unicode_ci'    => 'Unicode (multilingual), case-insensitive',
             'utf8mb4_bin'           => 'Unicode (multilingual), Binary',
             'utf8mb4_czech_ci'      => 'Czech, case-insensitive',
             'utf8mb4_danish_ci'     => 'Danish, case-insensitive',
@@ -101,7 +102,6 @@ Route::get('database', [
             'utf8mb4_spanish_ci'    => 'Spanish, case-insensitive',
             'utf8mb4_swedish_ci'    => 'Swedish, case-insensitive',
             'utf8mb4_turkish_ci'    => 'Turkish, case-insensitive',
-            'utf8mb4_unicode_ci'    => 'Unicode (multilingual), case-insensitive'
         ];
 
         return Layout::create('database', $vars);
@@ -216,9 +216,7 @@ Route::get('account', [
             return Response::redirect('metadata');
         }
 
-        $vars['messages'] = Notify::read();
-
-        return Layout::create('account', $vars);
+        return Layout::create('account', []);
     }
 ]);
 
