@@ -78,14 +78,14 @@
         <label for="collation">Collation</label>
         <select id="collation" class="chosen-select" name="collation">
             <?php foreach ($collations as $code => $collation): ?>
-                <?php $selected = ($code == Input::previous('collation', 'utf8_unicode_ci')) ? ' selected' : ''; ?>
+                <?php $selected = ($code == Input::previous('collation', 'utf8mb4_unicode_ci')) ? ' selected' : ''; ?>
               <option value="<?php echo $code; ?>" <?php echo $selected; ?>>
                   <?php echo $code; ?>
               </option>
             <?php endforeach; ?>
         </select>
 
-        <i>Change if <b>utf8_general_ci</b> doesn’t work.</i>
+        <i>Change if <b>utf8mb4_unicode_ci</b> doesn’t work.</i>
       </p>
     </fieldset>
 
