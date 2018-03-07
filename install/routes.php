@@ -27,7 +27,7 @@ Route::get(['/', 'start'], [
         $vars['languages']          = languages();
         $vars['prefered_languages'] = prefered_languages();
         $vars['timezones']          = timezones();
-        $vars['current_timezone']   = current_timezone();
+        $vars['current_timezone']   = date_default_timezone_get();
 
         return Layout::create('start', $vars);
     }
@@ -76,28 +76,32 @@ Route::get('database', [
             return Response::redirect('start');
         }
 
+        $vars['drivers'] = [
+            'mysql', 'sqlite',
+        ];
+
         $vars['collations'] = [
-            'utf8_bin'           => 'Unicode (multilingual), Binary',
-            'utf8_czech_ci'      => 'Czech, case-insensitive',
-            'utf8_danish_ci'     => 'Danish, case-insensitive',
-            'utf8_esperanto_ci'  => 'Esperanto, case-insensitive',
-            'utf8_estonian_ci'   => 'Estonian, case-insensitive',
-            'utf8_general_ci'    => 'Unicode (multilingual), case-insensitive',
-            'utf8_hungarian_ci'  => 'Hungarian, case-insensitive',
-            'utf8_icelandic_ci'  => 'Icelandic, case-insensitive',
-            'utf8_latvian_ci'    => 'Latvian, case-insensitive',
-            'utf8_lithuanian_ci' => 'Lithuanian, case-insensitive',
-            'utf8_persian_ci'    => 'Persian, case-insensitive',
-            'utf8_polish_ci'     => 'Polish, case-insensitive',
-            'utf8_roman_ci'      => 'West European, case-insensitive',
-            'utf8_romanian_ci'   => 'Romanian, case-insensitive',
-            'utf8_slovak_ci'     => 'Slovak, case-insensitive',
-            'utf8_slovenian_ci'  => 'Slovenian, case-insensitive',
-            'utf8_spanish2_ci'   => 'Traditional Spanish, case-insensitive',
-            'utf8_spanish_ci'    => 'Spanish, case-insensitive',
-            'utf8_swedish_ci'    => 'Swedish, case-insensitive',
-            'utf8_turkish_ci'    => 'Turkish, case-insensitive',
-            'utf8_unicode_ci'    => 'Unicode (multilingual), case-insensitive'
+            'utf8mb4_unicode_ci'    => 'Unicode (multilingual), case-insensitive',
+            'utf8mb4_bin'           => 'Unicode (multilingual), Binary',
+            'utf8mb4_czech_ci'      => 'Czech, case-insensitive',
+            'utf8mb4_danish_ci'     => 'Danish, case-insensitive',
+            'utf8mb4_esperanto_ci'  => 'Esperanto, case-insensitive',
+            'utf8mb4_estonian_ci'   => 'Estonian, case-insensitive',
+            'utf8mb4_general_ci'    => 'Unicode (multilingual), case-insensitive',
+            'utf8mb4_hungarian_ci'  => 'Hungarian, case-insensitive',
+            'utf8mb4_icelandic_ci'  => 'Icelandic, case-insensitive',
+            'utf8mb4_latvian_ci'    => 'Latvian, case-insensitive',
+            'utf8mb4_lithuanian_ci' => 'Lithuanian, case-insensitive',
+            'utf8mb4_persian_ci'    => 'Persian, case-insensitive',
+            'utf8mb4_polish_ci'     => 'Polish, case-insensitive',
+            'utf8mb4_roman_ci'      => 'West European, case-insensitive',
+            'utf8mb4_romanian_ci'   => 'Romanian, case-insensitive',
+            'utf8mb4_slovak_ci'     => 'Slovak, case-insensitive',
+            'utf8mb4_slovenian_ci'  => 'Slovenian, case-insensitive',
+            'utf8mb4_spanish2_ci'   => 'Traditional Spanish, case-insensitive',
+            'utf8mb4_spanish_ci'    => 'Spanish, case-insensitive',
+            'utf8mb4_swedish_ci'    => 'Swedish, case-insensitive',
+            'utf8mb4_turkish_ci'    => 'Turkish, case-insensitive',
         ];
 
         return Layout::create('database', $vars);
@@ -114,7 +118,8 @@ Route::post('database', [
             'pass',
             'name',
             'collation',
-            'prefix'
+            'prefix',
+            'driver',
         ]);
 
         // Escape the password input
@@ -123,12 +128,12 @@ Route::post('database', [
         // test connection
         try {
             DB::factory([
-                'driver'   => 'mysql',
+                'driver'   => $database['driver'],
                 'hostname' => $database['host'],
                 'port'     => $database['port'],
                 'username' => $database['user'],
                 'password' => $database['pass'],
-                'charset'  => 'utf8',
+                'charset'  => DB::DEFAULT_CHARSET,
                 'prefix'   => $database['prefix']
             ]);
         } catch (Exception $e) {
@@ -211,9 +216,7 @@ Route::get('account', [
             return Response::redirect('metadata');
         }
 
-        $vars['messages'] = Notify::read();
-
-        return Layout::create('account', $vars);
+        return Layout::create('account', []);
     }
 ]);
 

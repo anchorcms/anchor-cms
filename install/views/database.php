@@ -14,6 +14,19 @@
 
     <fieldset>
       <p>
+        <label for="host">Driver</label>
+        <select id="driver" class="chosen-select" name="driver">
+            <?php foreach ($drivers as $driver): ?>
+                <?php $selected = ($driver == Input::previous('driver', 'mysql')) ? ' selected' : ''; ?>
+              <option value="<?php echo $driver; ?>" <?php echo $selected; ?>>
+                  <?php echo $driver; ?>
+              </option>
+            <?php endforeach; ?>
+        </select>
+
+        <i>We support MySQL or SQLite.</i>
+      </p>
+      <p>
         <label for="host">Database Host</label>
         <input id="host" name="host" value="<?php echo Input::previous('host', '127.0.0.1'); ?>">
 
@@ -65,14 +78,14 @@
         <label for="collation">Collation</label>
         <select id="collation" class="chosen-select" name="collation">
             <?php foreach ($collations as $code => $collation): ?>
-                <?php $selected = ($code == Input::previous('collation', 'utf8_unicode_ci')) ? ' selected' : ''; ?>
+                <?php $selected = ($code == Input::previous('collation', 'utf8mb4_unicode_ci')) ? ' selected' : ''; ?>
               <option value="<?php echo $code; ?>" <?php echo $selected; ?>>
                   <?php echo $code; ?>
               </option>
             <?php endforeach; ?>
         </select>
 
-        <i>Change if <b>utf8_general_ci</b> doesn’t work.</i>
+        <i>Change if <b>utf8mb4_unicode_ci</b> doesn’t work.</i>
       </p>
     </fieldset>
 

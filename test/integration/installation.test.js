@@ -155,7 +155,7 @@ describe( 'Installation', () => {
         element => element.value
       );
 
-      expect( selectedCollation ).toEqual( 'utf8_unicode_ci' );
+      expect( selectedCollation ).toEqual( 'utf8mb4_unicode_ci' );
     } );
 
     test( 'User can click on next step button to navigate to metadata settings', async () => {

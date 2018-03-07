@@ -23,6 +23,11 @@ class database
 {
 
     /**
+     * The default charset.
+     */
+    const DEFAULT_CHARSET = 'utf8mb4';
+
+    /**
      * The current database driver
      *
      * @var array

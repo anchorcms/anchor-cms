@@ -35,7 +35,7 @@
         <select id="timezone" class="chosen-select" name="timezone">
             <?php $set = false; ?>
             <?php foreach ($timezones as $zone): ?>
-                <?php $selected = ($set === false and $current_timezone == $zone['offset']) ? ' selected' : ''; ?>
+                <?php $selected = ($set === false and $current_timezone == $zone['timezone_id']) ? ' selected' : ''; ?>
               <option value="<?php echo $zone['timezone_id']; ?>"<?php echo $selected; ?>>
                   <?php echo $zone['label']; ?>
               </option>
