@@ -108,13 +108,15 @@ function article_html()
 }
 
 /**
- * Get the markdown for the article
+ * Alias for article_html()
+ * 
+ * DEPRICIATED: previously fetched the markdown of the article
  *
- * @return string article markdown
+ * @return string article HTML
  */
 function article_markdown()
 {
-    return Registry::prop('article', 'markdown');
+    return Registry::prop('article', 'html');
 }
 
 /**
