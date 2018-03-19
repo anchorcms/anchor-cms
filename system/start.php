@@ -2,55 +2,46 @@
 
 /**
  * Nano
- *
  * Just another php framework
  *
- * @package		nano
- * @link		http://madebykieron.co.uk
- * @copyright	http://unlicense.org/
+ * @package    nano
+ * @link       http://madebykieron.co.uk
+ * @copyright  http://unlicense.org/
  */
 
-/**
- * Composer
- */
+use System\config;
+use System\input;
+use System\request;
+use System\router;
+use System\session;
+
+// Composer
+/** @noinspection PhpIncludeInspection */
 require PATH . 'vendor/autoload' . EXT;
 
-/**
- * Boot the environment
- */
+// Boot the environment
+/** @noinspection PhpIncludeInspection */
 require SYS . 'boot' . EXT;
 
-/**
- * Boot the application
- */
+// Boot the application
+/** @noinspection PhpIncludeInspection */
 require APP . 'run' . EXT;
 
-/**
- * Set input
- */
+// Set input
 Input::detect(Request::method());
 
-/**
- * Load session config
- */
-Session::setOptions(Config::get('session', array()));
+// Load session config
+Session::setOptions(Config::get('session', []));
 
-/**
- * Read session data
- */
+// Read session data
 Session::start();
 
-/**
- * Route the request
- */
+// Route the request
+/** @noinspection PhpUnhandledExceptionInspection */
 $response = Router::create()->dispatch();
 
-/**
- * Update session
- */
+// Update session
 Session::close();
 
-/**
- * Output stuff
- */
+// Output stuff
 $response->send();

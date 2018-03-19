@@ -1,0 +1,54 @@
+@import "variables";
+@import "mixins/breakpoints";
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  width: 100%;
+
+  @include breakpoint($breakpoint-small) {
+    width: initial;
+  }
+}
+
+.wrap {
+  width: 90%;
+
+  @include breakpoint($breakpoint-small) {
+    width: initial;
+  }
+}
+
+.wrap,
+.profile {
+  width:    960px;
+  margin:   0 auto;
+  overflow: hidden;
+}
+
+fieldset,
+a,
+img {
+  border: none;
+}
+
+.indent {
+  padding-left: 40px;
+}
+
+p {
+  margin: 0;
+}
+
+fieldset {
+  margin:  0;
+  padding: 0;
+}
+
+ul {
+  margin:  0;
+  padding: 0;
+}

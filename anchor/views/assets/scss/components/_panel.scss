@@ -1,0 +1,131 @@
+@import "../variables";
+@import "../mixins/breakpoints";
+
+body {
+  background: $page-background;
+}
+
+/**
+ * Headings
+ */
+hgroup {
+  overflow: hidden;
+
+  h1 {
+    float:       none;
+    margin:      0;
+    line-height: 80px;
+    font-size:   29px;
+    font-weight: $font-weight-heading;
+    color:       $color-gray-chateau;
+
+    @include breakpoint($breakpoint-small) {
+      float:       left;
+      line-height: 120px;
+      margin:      initial;
+    }
+  }
+
+  nav {
+    float:       none;
+    line-height: 80px;
+
+    @include breakpoint($breakpoint-small) {
+      float:       right;
+      line-height: 120px;
+    }
+  }
+}
+
+/**
+ * Content fragments
+ */
+.highlight,
+.status {
+  position:       absolute;
+  right:          30px;
+  top:            30px;
+  padding:        3px 6px;
+  border-radius:  3px;
+  font-size:      10px;
+  line-height:    14px;
+  color:          $color-regent-gray;
+  font-style:     normal;
+  font-weight:    $font-weight-bold;
+  text-transform: uppercase;
+  background:     $color-athens-gray;
+  background:     rgba($color-bali-hai, 0.2);
+}
+
+.disabled,
+[disabled] {
+  cursor:  not-allowed;
+  opacity: .5;
+}
+
+[draggable] {
+  user-select: none;
+}
+
+.sortable {
+  list-style-type: none;
+
+  li {
+    width:  28%;
+    margin: 10px 0;
+    border: 2px solid transparent;
+
+    &.item {
+      width:         28%;
+      color:         $color-slate-gray;
+      background:    $color-white;
+      border-radius: 5px;
+      border:        2px solid $color-white;
+      cursor:        move;
+
+      margin:        10px 0;
+      padding:       7px 14px;
+    }
+
+    &.over {
+      border: 2px solid $color-silver;
+    }
+
+    &.moving {
+      opacity: 0.7;
+    }
+  }
+}
+
+.empty {
+  text-align:  center;
+  padding:     60px 0;
+  margin-left: 150px;
+
+  .icon {
+    display:    block;
+    width:      52px;
+    height:     54px;
+    margin:     0 auto 15px;
+    background: url('../img/icons.png') no-repeat;
+  }
+
+  &.posts .icon {
+    width:               52px;
+    background-position: -204px 0;
+  }
+
+  &.comments .icon {
+    width:               55px;
+    background-position: -256px 0;
+  }
+
+  &.pages .icon {
+    width:               45px;
+    background-position: -311px 0;
+  }
+
+  a {
+    margin-top: 80px;
+  }
+}

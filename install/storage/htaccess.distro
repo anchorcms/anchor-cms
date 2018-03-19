@@ -1,5 +1,3 @@
-Options -indexes
-
 <IfModule mod_rewrite.c>
 	RewriteEngine On
 	RewriteBase {{base}}
@@ -12,8 +10,9 @@ Options -indexes
 	RewriteRule ^(.*)$ {{index}} [L]
 
 	#Rewrite anchor directories to index.php/URL even though they exist.
-	#Don't rewrite files so that we can still load CSS, etc.
+	#Don't rewrite files so that we can still load CSS, etc (except .log files).
 	RewriteCond %{REQUEST_FILENAME} -f
+	RewriteCond %{REQUEST_URI} !\.log$
 	RewriteRule .* - [S=5]
 
 	RewriteRule ^(system(?:$|\/.*$)) {{index}} [L]

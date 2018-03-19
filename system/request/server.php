@@ -1,18 +1,23 @@
-<?php namespace System\request;
+<?php
+
+namespace System\request;
 
 /**
  * Nano
- *
  * Just another php framework
  *
- * @package		nano
- * @link		http://madebykieron.co.uk
- * @copyright	http://unlicense.org/
+ * @package    nano
+ * @link       http://madebykieron.co.uk
+ * @copyright  http://unlicense.org/
  */
 
+/**
+ * server class
+ *
+ * @package System\request
+ */
 class server
 {
-
     /**
      * Array data from the SERVER global
      *
@@ -33,7 +38,10 @@ class server
     /**
      * Get a server array item
      *
-     * @param string
+     * @param string     $key      key to retrieve from the server data
+     * @param mixed|null $fallback fallback value for missing keys
+     *
+     * @return mixed|null key if found, fallback if given or null
      */
     public function get($key, $fallback = null)
     {
@@ -47,8 +55,10 @@ class server
     /**
      * Set a server array item
      *
-     * @param string
-     * @param string
+     * @param string $key   name of the key to set
+     * @param string $value value to set for the key
+     *
+     * @return void
      */
     public function set($key, $value)
     {
@@ -56,24 +66,28 @@ class server
     }
 
     /**
-     * Check if a server array item exists
-     *
-     * @param string
-     */
-    public function has($key)
-    {
-        return array_key_exists($key, $this->data);
-    }
-
-    /**
      * Remove a server array item
      *
-     * @param string
+     * @param string $key name of the key to erase
+     *
+     * @return void
      */
     public function erase($key)
     {
         if ($this->has($key)) {
             unset($this->data[$key]);
         }
+    }
+
+    /**
+     * Check if a server array item exists
+     *
+     * @param string $key name of the key to check
+     *
+     * @return bool whether the server data item exists
+     */
+    public function has($key)
+    {
+        return array_key_exists($key, $this->data);
     }
 }

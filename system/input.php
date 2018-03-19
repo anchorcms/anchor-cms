@@ -1,18 +1,23 @@
-<?php namespace System;
+<?php
+
+namespace System;
 
 /**
  * Nano
- *
  * Just another php framework
  *
- * @package		nano
- * @link		http://madebykieron.co.uk
- * @copyright	http://unlicense.org/
+ * @package    nano
+ * @link       http://madebykieron.co.uk
+ * @copyright  http://unlicense.org/
  */
 
+/**
+ * input class
+ *
+ * @package System
+ */
 class input
 {
-
     /**
      * Array or request vars
      *
@@ -21,10 +26,12 @@ class input
     public static $array;
 
     /**
-     * Try and collect the request input determinded
-     * by the request method
+     * Try and collect the request input determined by the request method
      *
-     * @param string
+     * @param string $method HTTP method to detect input for.
+     *                       Currently supports GET and POST
+     *
+     * @return void
      */
     public static function detect($method)
     {
@@ -46,8 +53,9 @@ class input
     /**
      * Get a element or array of elements from the input array
      *
-     * @param string|array
-     * @param mixed
+     * @param string|string[] $key      name of a key or an array of keys to retrieve
+     * @param mixed           $fallback (optional)
+     *
      * @return mixed
      */
     public static function get($key, $fallback = null)
@@ -62,13 +70,14 @@ class input
     /**
      * Get a array of elements from the input array
      *
-     * @param array
-     * @param mixed
-     * @return array
+     * @param string[] $array    array of keys to retrieve
+     * @param mixed    $fallback (optional) fallback value
+     *
+     * @return array key-value list
      */
     public static function get_array($array, $fallback = null)
     {
-        $values = array();
+        $values = [];
 
         foreach ($array as $key) {
             $values[$key] = static::get($key, $fallback);
@@ -79,6 +88,8 @@ class input
 
     /**
      * Save the input array for the next request
+     *
+     * @return void
      */
     public static function flash()
     {
@@ -88,8 +99,9 @@ class input
     /**
      * Get a element from the previous request input array
      *
-     * @param string
-     * @param mixed
+     * @param string $key      name of a key from the previous request input
+     * @param mixed  $fallback fallback value
+     *
      * @return mixed
      */
     public static function previous($key, $fallback = null)

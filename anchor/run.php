@@ -1,5 +1,8 @@
 <?php
 
+use System\autoloader;
+use System\config;
+
 /*
  * Set your applications current timezone
  */
@@ -24,14 +27,15 @@ switch (constant('ENV')) {
 /*
  * Set autoload directories to include your app models and libraries
  */
-Autoloader::directory(array(
+Autoloader::directory([
     APP . 'models',
     APP . 'libraries'
-));
+]);
 
 /**
  * Helpers
  */
+/** @noinspection PhpIncludeInspection */
 require APP . 'helpers' . EXT;
 
 /**
@@ -49,7 +53,6 @@ try {
     Errors::log($e);
     die();
 }
-
 
 /**
  * Import defined routes

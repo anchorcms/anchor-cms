@@ -1,29 +1,36 @@
-<?php namespace System;
+<?php
+
+namespace System;
 
 /**
  * Nano
- *
  * Just another php framework
  *
- * @package		nano
- * @link		http://madebykieron.co.uk
- * @copyright	http://unlicense.org/
+ * @package    nano
+ * @link       http://madebykieron.co.uk
+ * @copyright  http://unlicense.org/
  */
 
-use InvalidArgumentException;
-use Response;
-use View;
 use Closure;
+use Response;
 
+/**
+ * route class
+ * @method static error(string | string[] $patterns, \Closure | \Closure[] $callbacks): void
+ * @method static any(string | string[] $patterns, \Closure | \Closure[] $callbacks): void
+ * @method static get(string | string[] $patterns, \Closure | \Closure[] $callbacks): void
+ * @method static post(string | string[] $patterns, \Closure | \Closure[] $callbacks): void
+ *
+ * @package System
+ */
 class route
 {
-
     /**
      * Array of collection actions
      *
      * @var array
      */
-    public static $collection = array();
+    public static $collection = [];
 
     /**
      * Array of callable functions
@@ -37,14 +44,25 @@ class route
      *
      * @var array
      */
-    public $args = array();
+    public $args = [];
 
     /**
-     * Define a route using the method name as
-     * the request method to listen for
+     * Create a new instance of the Route class
      *
-     * @param string
-     * @param array
+     * @param \Closure[] $callbacks route callbacks
+     * @param array      $args      (optional) route arguments
+     */
+    public function __construct($callbacks, $args = [])
+    {
+        $this->callbacks = $callbacks;
+        $this->args      = $args;
+    }
+
+    /**
+     * Define a route using the method name as the request method to listen for
+     *
+     * @param string $method    HTTP request method this route should respond to
+     * @param array  $arguments arguments to call
      */
     public static function __callStatic($method, $arguments)
     {
@@ -54,31 +72,35 @@ class route
     /**
      * Register a route on the router
      *
-     * @param string
-     * @param array|string
-     * @param array|closure
+     * @param string              $method    HTTP request method this route should respond to
+     * @param string|string[]     $patterns  URL patterns this route should respond to
+     * @param \Closure|\Closure[] $arguments callback(s) this route should be handled with
+     *
+     * @return void
      */
     public static function register($method, $patterns, $arguments)
     {
         $method = strtoupper($method);
 
-        if ($arguments instanceof \Closure) {
-            $arguments = array('main' => $arguments);
+        if ($arguments instanceof Closure) {
+            $arguments = ['main' => $arguments];
         }
 
         // add collection actions
         $arguments = array_merge($arguments, static::$collection);
 
-        foreach ((array) $patterns as $pattern) {
+        foreach ((array)$patterns as $pattern) {
             Router::$routes[$method][$pattern] = $arguments;
         }
     }
 
     /**
-     * Register a action on the router
+     * Register an action on the router
      *
-     * @param string
-     * @param string|closure
+     * @param string          $name     action name
+     * @param string|\Closure $callback action handler
+     *
+     * @return void
      */
     public static function action($name, $callback)
     {
@@ -88,8 +110,10 @@ class route
     /**
      * Start a collection of routes with common actions
      *
-     * @param string
-     * @param string|closure
+     * @param array|string    $actions     collection name
+     * @param string|\Closure $definitions collection routes
+     *
+     * @return void
      */
     public static function collection($actions, $definitions)
     {
@@ -100,84 +124,77 @@ class route
         call_user_func($definitions);
 
         // end of collection
-        static::$collection = array();
+        static::$collection = [];
     }
 
     /**
-     * Create a new instance of the Route class
+     * Calls the route actions and returns a response object
      *
-     * @param array
-     * @param array
+     * @return \System\response
      */
-    public function __construct($callbacks, $args = array())
+    public function run()
     {
-        $this->callbacks = $callbacks;
-        $this->args = $args;
+        // call before actions
+        $response = $this->before();
+
+        // if we didn't get a response run the main callback
+        if (is_null($response)) {
+            $response = call_user_func_array($this->callbacks['main'], $this->args);
+        }
+
+        // call any after actions
+        $this->after($response);
+
+        // if the response was a view get the output and create response
+        if ($response instanceof View) {
+            return Response::create($response->render());
+        }
+
+        // if we have a response object return it
+        if ($response instanceof Response) {
+            return $response;
+        }
+
+        return Response::create((string)$response);
     }
 
     /**
      * Calls before actions
      *
-     * @return object
+     * @return \System\response|null
      */
     public function before()
     {
-        if (! isset($this->callbacks['before'])) {
-            return;
+        if ( ! isset($this->callbacks['before'])) {
+            return null;
         }
 
         foreach (explode(',', $this->callbacks['before']) as $action) {
+
             // return the first response object
             if ($response = call_user_func_array(Router::$actions[$action], $this->args)) {
                 return $response;
             }
         }
+
+        return null;
     }
 
     /**
      * Calls after actions
      *
-     * @param string
+     * @param string $response
+     *
+     * @return void
      */
     public function after($response)
     {
-        if (! isset($this->callbacks['after'])) {
+        if ( ! isset($this->callbacks['after'])) {
             return;
         }
 
         foreach (explode(',', $this->callbacks['after']) as $action) {
             call_user_func(Router::$actions[$action], $response);
         }
-    }
-
-    /**
-     * Calls the route actions and returns a response object
-     *
-     * @return object
-     */
-    public function run()
-    {
-        // Call before actions
-        $response = $this->before();
-
-        // If we didn't get a response run the main callback
-        if (is_null($response)) {
-            $response = call_user_func_array($this->callbacks['main'], $this->args);
-        }
-
-        // Call any after actions
-        $this->after($response);
-
-        // If the response was a view get the output and create response
-        if ($response instanceof \System\View) {
-            return Response::create($response->render());
-        }
-
-        // If we have a response object return it
-        if ($response instanceof \System\Response) {
-            return $response;
-        }
-
-        return Response::create((string) $response);
     }
 }

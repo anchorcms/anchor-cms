@@ -1,15 +1,21 @@
-<?php namespace System;
+<?php
+
+namespace System;
 
 /**
  * Nano
- *
  * Just another php framework
  *
- * @package		nano
- * @link		http://madebykieron.co.uk
- * @copyright	http://unlicense.org/
+ * @package    nano
+ * @link       http://madebykieron.co.uk
+ * @copyright  http://unlicense.org/
  */
 
+/**
+ * autoloader class
+ *
+ * @package System
+ */
 class autoloader
 {
 
@@ -18,24 +24,26 @@ class autoloader
      *
      * @var array
      */
-    public static $directories = array();
+    public static $directories = [];
 
     /**
      * Hold an array of class aliases
      *
      * @var array
      */
-    public static $aliases = array();
+    public static $aliases = [];
 
     /**
      * Append a path to the array of directories to search
      *
-     * @param string
+     * @param string[]|string $paths
+     *
+     * @return void
      */
     public static function directory($paths)
     {
-        if (! is_array($paths)) {
-            $paths = array($paths);
+        if ( ! is_array($paths)) {
+            $paths = [$paths];
         }
 
         foreach ($paths as $path) {
@@ -47,11 +55,14 @@ class autoloader
      * Attempts to load a class
      *
      * @link https://github.com/php-fig/fig-standards
-     * @param string
+     *
+     * @param string $class
+     *
+     * @return bool|mixed
      */
     public static function load($class)
     {
-        $file = str_replace(array('\\', '_'), DS, ltrim($class, '\\'));
+        $file  = str_replace(['\\', '_'], DS, ltrim($class, '\\'));
         $lower = strtolower($file);
 
         if (array_key_exists(strtolower($class), array_change_key_case(static::$aliases))) {
@@ -60,8 +71,10 @@ class autoloader
 
         foreach (static::$directories as $directory) {
             if (is_readable($path = $directory . $lower . EXT)) {
+                /** @noinspection PhpIncludeInspection */
                 return require $path;
             } elseif (is_readable($path = $directory . $file . EXT)) {
+                /** @noinspection PhpIncludeInspection */
                 return require $path;
             }
         }

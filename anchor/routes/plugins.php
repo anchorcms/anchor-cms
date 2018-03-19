@@ -1,17 +1,19 @@
 <?php
 
-Route::collection(array('before' => 'auth,csrf,install_exists'), function () {
+use System\route;
+use System\view;
 
-    /*
-        List all plugins
-    */
+Route::collection(['before' => 'auth,csrf,install_exists'], function () {
+
+    /**
+     * List all plugins
+     */
+    // TODO: Unused parameter $page?
     Route::get('admin/extend/plugins', function ($page = 1) {
-        
         $vars['token'] = Csrf::token();
 
         return View::create('extend/plugins/index', $vars)
-            ->partial('header', 'partials/header')
-            ->partial('footer', 'partials/footer');
+                   ->partial('header', 'partials/header')
+                   ->partial('footer', 'partials/footer');
     });
-
 });

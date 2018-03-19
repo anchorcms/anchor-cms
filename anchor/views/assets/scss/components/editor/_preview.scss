@@ -1,0 +1,23 @@
+@import "../../variables";
+
+.prevue {
+  position:       absolute;
+  left:           0;
+  right:          0;
+  top:            -100px;
+  min-height:     250px;
+  padding:        40px 0;
+  pointer-events: none;
+  background:     $color-athens-gray;
+  z-index:        10;
+  transition:     top $transition-speed-base, opacity $transition-speed-slow;
+
+  &.active {
+    top: 164px;
+  }
+
+  & h2 {
+    padding:   0 0 15px;
+    font-size: 25px;
+  }
+}

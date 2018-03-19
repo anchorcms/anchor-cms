@@ -1,0 +1,102 @@
+@import "../variables";
+
+input,
+textarea,
+button {
+  padding:       11px 16px;
+  border:        none;
+  border-radius: $border-radius;
+  font-size:     15px;
+  line-height:   15px;
+  font-family:   inherit;
+  color:         $color-trout;
+  background:    $color-white;
+}
+
+input[type="range"],
+::-webkit-slider-thumb {
+  -webkit-appearance: none;
+}
+
+input[type="range"] {
+  overflow:   hidden;
+  padding:    0 5px 0 0 !important;
+  cursor:     col-resize;
+  background: $color-mischka;
+
+}
+
+::-webkit-slider-thumb {
+  position:      relative;
+  display:       block;
+  width:         15px;
+  height:        29px;
+  border-radius: 3px;
+  background:    $color-feather;
+
+  &::before {
+    content:    '';
+    display:    block;
+    position:   absolute;
+    left:       -300px;
+    right:      10px;
+    top:        0;
+    bottom:     0;
+    background: $color-feather;
+  }
+}
+
+input,
+textarea,
+button,
+select {
+  &:focus {
+    outline: none;
+  }
+}
+
+textarea {
+  line-height: 25px;
+}
+
+button {
+  cursor: pointer;
+}
+
+legend {
+  display:     block;
+  float:       left;
+  margin:      40px 0 30px;
+  font-size:   19px;
+  font-weight: 500;
+
+  & + em {
+    float: right;
+  }
+}
+
+select {
+  -webkit-appearance: none;
+  display:            block;
+  float:              left;
+  min-width:          216px;
+  height:             39px;
+  padding:            9px 0 8px 20px;
+  border:             none;
+  border-radius:      0 $border-radius $border-radius 0;
+  font:               15px/22px "Helvetica Neue", sans-serif;
+  background:         $color-white;
+  color:              $color-regent-gray;
+  cursor:             pointer;
+
+  & + .arrow {
+    position:       absolute;
+    top:            19px;
+    display:        inline-block;
+    margin-left:    -24px;
+    border-top:     4px solid $color-cadet-blue;
+    border-right:   4px solid transparent;
+    border-left:    4px solid transparent;
+    pointer-events: none;
+  }
+}

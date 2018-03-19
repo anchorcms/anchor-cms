@@ -1,30 +1,35 @@
 <?php
 
-Route::collection(array('before' => 'auth,install_exists'), function () {
+use System\input;
+use System\route;
+use System\view;
 
-    /*
-        List Menu Items
-    */
+Route::collection(['before' => 'auth,install_exists'], function () {
+
+    /**
+     * List Menu Items
+     */
     Route::get('admin/menu', function () {
-        
-        $vars['pages'] = Page::where('show_in_menu', '=', 1)->sort('menu_order')->get();
+        $vars['pages'] = Page::where('show_in_menu', '=', 1)
+                             ->sort('menu_order')
+                             ->get();
 
         return View::create('menu/index', $vars)
-            ->partial('header', 'partials/header')
-            ->partial('footer', 'partials/footer');
+                   ->partial('header', 'partials/header')
+                   ->partial('footer', 'partials/footer');
     });
 
-    /*
-        Update order
-    */
+    /**
+     * Update order
+     */
     Route::post('admin/menu/update', function () {
         $sort = Input::get('sort');
 
         foreach ($sort as $index => $id) {
-            Page::where('id', '=', $id)->update(array('menu_order' => $index));
+            Page::where('id', '=', $id)
+                ->update(['menu_order' => $index]);
         }
 
-        return Response::json(array('result' => true));
+        return Response::json(['result' => true]);
     });
-
 });

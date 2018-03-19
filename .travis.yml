@@ -1,0 +1,58 @@
+language: php
+
+php:
+  - 5.6
+  - 7.0
+  - 7.1
+  - 7.2
+
+dist: trusty
+sudo: required
+
+services:
+  - mysql
+
+before_install:
+  # This is mandatory or the 'apt-get install' calls following will fail
+  - sudo apt-get update -qq
+  - sudo apt-get install -y apache2 libapache2-mod-fastcgi
+
+  # Disable xdebug for speed (executing composer), but allow us to re-enable it later
+  - export XDEBUG_INI=`php -i | grep xdebug.ini | grep home/travis | grep -v '=>' | head -1`
+  - export XDEBUG_INI=${XDEBUG_INI/,/}
+  - if [ "$XDEBUG_INI" != "" ]; then mv "$XDEBUG_INI" "$XDEBUG_INI.bak"; fi
+
+  # Get Node.JS ready
+  - sudo rm -rf ~/.nvm - curl -sL https://deb.nodesource.com/setup_9.x | sudo -E bash -
+  - sudo apt-get install -y nodejs
+
+install:
+  - composer install --ignore-platform-reqs
+
+  # Re-enable xdebug for when we need to generate code coverage
+  - export COVERAGE_OPTS=""
+  - if [ "$TRAVIS_PHP_VERSION" = "5.6" -a "$XDEBUG_INI" != "" ]; then mv "$XDEBUG_INI.bak" "$XDEBUG_INI" && export COVERAGE_OPTS="--coverage-clover=coverage.clover"; fi
+
+  # Set up node.js and puppeteer
+  - npm install
+
+before_script:
+  # Set up Apache and Privoxy instances inside the Travis VM and use them for testing against
+  - ./test/travis-ci/setup-php-fpm.sh
+  - ./test/travis-ci/setup-apache.sh
+
+script:
+  - npm test
+  - ./vendor/bin/peridot -c test/peridot.php
+
+after_failure:
+  # Save as much info as we can to help developers
+  - cat apache_error.log
+  - cat apache_access.log
+
+after_script:
+  # Upload code-coverage to Scrutinizer
+  - if [ -f coverage.clover ]; then wget https://scrutinizer-ci.com/ocular.phar; fi
+  - if [ -f coverage.clover ]; then php ocular.phar code-coverage:upload --format=php-clover coverage.clover; fi
+  # Upload code-coverage CodeClimate
+  - if [ -f coverage.clover ]; then CODECLIMATE_REPO_TOKEN=<INSERT TOKEN HERE> ./vendor/bin/test-reporter --coverage-report=coverage.clover; fi

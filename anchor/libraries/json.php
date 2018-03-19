@@ -1,13 +1,34 @@
 <?php
 
+/**
+ * json class
+ * Wrapper for the default JSON methods that handles all errors uniformly
+ */
 class json
 {
 
+    /**
+     * Encodes an object to JSON
+     *
+     * @param \stdClass|array $obj data to encode
+     *
+     * @return string
+     */
     public static function encode($obj)
     {
         return json_encode($obj);
     }
 
+    /**
+     * Decodes a JSON string to a stdClass or array
+     *
+     * @param string $json  input JSON to decode
+     * @param bool   $assoc whether to return a stcClass or an array
+     *
+     * @return array|\stdClass decoded data representation. Object if $assoc = false or null,
+     *                         array otherwise
+     * @throws \ErrorException
+     */
     public static function decode($json, $assoc = false)
     {
         $result = json_decode($json, $assoc);

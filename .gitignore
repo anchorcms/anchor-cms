@@ -7,7 +7,11 @@ Thumbs.db
 *.gz
 *.json
 *.txt
+.sass-cache/
 .phpintel/
+.idea
+*.sublime-project
+*.sublime-workspace
 
 # generated config
 /anchor/config/app.php
@@ -49,3 +53,7 @@ vendor/
 # Don't commit the updater files
 /anchor_update/
 /anchor_update/*
+
+# Assets and packages
+node_modules/
+*.map

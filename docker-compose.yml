@@ -1,0 +1,29 @@
+version: "2"
+
+services:
+
+  # Anchor Apache Stack
+  anchor:
+    build: .
+    container_name: anchor_cms
+    ports:
+      - "80:80"
+    volumes:
+      - .:/var/www/html
+    environment:
+      COMPOSE_PROJECT_NAME: "anchor_cms"
+
+  # Database
+  mysql:
+    image: mariadb
+    container_name: anchor_cms_mysql
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: "password"
+      MYSQL_DATABASE: "anchor_cms"
+      MYSQL_USER: "username"
+      MYSQL_PASSWORD: "password"
+      COMPOSE_PROJECT_NAME: "anchor_cms"
+    logging:
+      driver: none

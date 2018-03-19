@@ -1,51 +1,59 @@
-<?php namespace System;
+<?php
+
+namespace System;
+
+use ErrorException;
 
 /**
  * Nano
- *
  * Just another php framework
  *
- * @package		nano
- * @link		http://madebykieron.co.uk
- * @copyright	http://unlicense.org/
+ * @package    nano
+ * @link       http://madebykieron.co.uk
+ * @copyright  http://unlicense.org/
  */
 
-use ErrorException;
-use Exception;
-
+/**
+ * database class
+ * @method static array ask(string $sql, array $binds = [])
+ *
+ * @package System
+ */
 class database
 {
+
+    /**
+     * The default charset.
+     */
+    const DEFAULT_CHARSET = 'utf8mb4';
 
     /**
      * The current database driver
      *
      * @var array
      */
-    public static $connections = array();
+    public static $connections = [];
 
     /**
-     * Create a new database conncetor from app config
+     * Get a database connection profile
      *
-     * @param array
-     * @return object Database connector
+     * @param string|null $name connection name
+     *
+     * @return array profile data
+     * @throws \ErrorException
      */
-    public static function factory($config)
+    public static function profile($name = null)
     {
-        switch ($config['driver']) {
-            case 'mysql':
-                return new Database\Connectors\Mysql($config);
-            case 'sqlite':
-                return new Database\Connectors\Sqlite($config);
-        }
-
-        throw new ErrorException('Unknown database driver');
+        return static::connection($name)->profile();
     }
 
     /**
-     * Get a database connection by name r return the default
+     * Get a database connection by name or return the default
      *
-     * @param string
-     * @return object
+     * @param string|null $name connector name
+     *
+     * @return \System\Database\Connector
+     * @throws \ErrorException
      */
     public static function connection($name = null)
     {
@@ -60,29 +68,42 @@ class database
         }
 
         // connect and return
-        return (static::$connections[$name] = static::factory(Config::db('connections.' . $name)));
+        return (static::$connections[$name] = static::factory(
+            Config::db('connections.' . $name)
+        ));
     }
 
     /**
-     * Get a database connection profile
+     * Create a new database connector from app config
      *
-     * @param string
-     * @return array
+     * @param array $config database configuration details
+     *
+     * @return \System\Database\Connector Database connector
+     * @throws \ErrorException
      */
-    public static function profile($name = null)
+    public static function factory($config)
     {
-        return static::connection($name)->profile();
+        switch ($config['driver']) {
+            case 'mysql':
+                return new Database\Connectors\Mysql($config);
+            case 'sqlite':
+                return new Database\Connectors\Sqlite($config);
+        }
+
+        throw new ErrorException('Unknown database driver');
     }
 
     /**
      * Magic method for calling database driver methods on the default connection
      *
-     * @param string
-     * @param array
+     * @param string $method
+     * @param array  $arguments
+     *
      * @return mixed
+     * @throws \ErrorException
      */
     public static function __callStatic($method, $arguments)
     {
-        return call_user_func_array(array(static::connection(), $method), $arguments);
+        return call_user_func_array([static::connection(), $method], $arguments);
     }
 }

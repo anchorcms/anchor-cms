@@ -1,34 +1,102 @@
 <?php
 
+/**
+ * image class
+ * Provides tools to manipulate images
+ */
 class image
 {
+    /**
+     * Bloat factor to calculate approximate GD memory usage
+     */
+    const BLOAT_FACTOR = 1.68;
 
-    private $src_image, $src_w, $src_h;
-    private $dst_image;
+    /**
+     * Percentages to control the color palette calculation
+     */
+    const COLOR_PALETTE_RATIOS = [0.2, 0.7, 0.5];
 
-    public function __construct($src_image, $src_w, $src_h)
+    /**
+     * Default output image format
+     */
+    const DEFAULT_FILE_TYPE = 'png';
+
+    /**
+     * Matrix used to sharpen an image
+     */
+    const MATRIX_SHARPEN = [
+        [0.0, -1.0, 0.0],
+        [-1.0, 5.0, -1.0],
+        [0.0, -1.0, 0.0]
+    ];
+
+    /**
+     * Matrix used to blur an image
+     */
+    const MATRIX_BLUR = [
+        [1.0, 2.0, 1.0],
+        [2.0, 4.0, 2.0],
+        [1.0, 2.0, 1.0]
+    ];
+
+    /**
+     * Source image
+     *
+     * @var resource
+     */
+    protected $sourceImage;
+
+    /**
+     * Source image width
+     *
+     * @var int
+     */
+    protected $sourceWidth;
+
+    /**
+     * Source image height
+     *
+     * @var int
+     */
+    protected $sourceHeight;
+
+    /**
+     * Destination image
+     *
+     * @var resource
+     */
+    protected $destinationImage;
+
+    /**
+     * image constructor
+     *
+     * @param resource $sourceImage  source image to work with
+     * @param int      $sourceWidth  source image width in pixels
+     * @param int      $sourceHeight source image height in pixels
+     */
+    public function __construct($sourceImage, $sourceWidth, $sourceHeight)
     {
-        $this->src_image = $src_image;
-        $this->src_w = $src_w;
-        $this->src_h = $src_h;
+        $this->sourceImage  = $sourceImage;
+        $this->sourceWidth  = $sourceWidth;
+        $this->sourceHeight = $sourceHeight;
     }
 
-    public function width()
-    {
-        return $this->src_w;
-    }
-
-    public function height()
-    {
-        return $this->src_h;
-    }
-
+    /**
+     * Opens an image file
+     *
+     * @param string $file path to file
+     *
+     * @return \image|bool false if the image doesn't exist, new image otherwise
+     */
     public static function open($file)
     {
         if (file_exists($file) === false) {
             return false;
         }
 
+        /** @var int $width */
+        /** @var int $height */
+        /** @var int $type */
         list($width, $height, $type) = getimagesize($file);
 
         if ($type === IMAGETYPE_PNG) {
@@ -46,10 +114,42 @@ class image
         return false;
     }
 
+    /**
+     * Retrieves the image width
+     *
+     * @return int
+     */
+    public function width()
+    {
+        return $this->sourceWidth;
+    }
+
+    /**
+     * Retrieves the image height
+     *
+     * @return int
+     */
+    public function height()
+    {
+        return $this->sourceHeight;
+    }
+
+    /**
+     * Checks the available memory
+     *
+     * @param string $file   path to image file
+     * @param int    $dst_w  new image width
+     * @param int    $dst_h  new image height
+     * @param float  $bloat  (optional) bloat factor - basically a safety value accounting
+     *                       for GD's memory overhead to make sure we have enough memory
+     *
+     * @return bool|float false if not enough memory, required memory otherwise
+     * @deprecated Use checkAvailableMemory instead
+     */
     public function check_available_memory($file, $dst_w, $dst_h, $bloat = 1.68)
     {
         // Get maxmemory limit in Mb convert to bytes
-        $max = ((int) ini_get('memory_limit') * 1024) * 1024;
+        $max = ((int)ini_get('memory_limit') * 1024) * 1024;
 
         // get image size
         list($src_w, $src_h) = getimagesize($file);
@@ -69,199 +169,274 @@ class image
         return $src_bytes + $dst_bytes;
     }
 
-    public function sharpen()
+    /**
+     * Checks whether there is enough memory available to perform a GD operation
+     *
+     * @param string $path   path to image file
+     * @param int    $width  new image width
+     * @param int    $height new image height
+     * @param float  $bloat  (optional) bloat factor - basically a safety value accounting
+     *                       for GD's memory overhead to make sure we have enough memory
+     *
+     * @return bool|float false if not enough memory, required memory otherwise
+     */
+    public function checkAvailableMemory($path, $width, $height, $bloat = self::BLOAT_FACTOR)
     {
-        // resource
-        $res = $this->src_image;
+        // Get maximum memory limit in MB, convert it to bytes
+        $availableMemory = ((int)ini_get('memory_limit') * 1024) * 1024;
 
-        if (is_resource($this->dst_image)) {
-            $res = $this->dst_image;
+        // get image size
+        list($originalWidth, $originalHeight) = getimagesize($path);
+
+        // source GD bytes
+        $sourceBytes = ceil((($originalWidth * $originalHeight) * 3) * $bloat);
+
+        // target GD bytes
+        $destinationBytes = ceil((($width * $height) * 3) * $bloat);
+
+        // calculate required memory for loading the source and destination bytes
+        // plus the current memory usage
+        $requiredMemory = $sourceBytes + $destinationBytes + memory_get_usage();
+
+        if ($requiredMemory > $availableMemory) {
+            return false;
         }
 
-        // define matrix
-        $sharpen = array(
-            array(0.0, -1.0, 0.0),
-            array(-1.0, 5.0, -1.0),
-            array(0.0, -1.0, 0.0)
-        );
+        return $sourceBytes + $destinationBytes;
+    }
 
+    /**
+     * Sharpens an image
+     *
+     * @return \image
+     */
+    public function sharpen()
+    {
         // calculate the divisor
-        $divisor = array_sum(array_map('array_sum', $sharpen));
+        $divisor = array_sum(array_map('array_sum', self::MATRIX_SHARPEN));
 
         // apply the matrix
-        imageconvolution($res, $sharpen, $divisor, 0);
+        imageconvolution($this->getImage(), self::MATRIX_SHARPEN, $divisor, 0);
 
         return $this;
     }
 
+    /**
+     * Retrieves the image. Uses the destination image if available
+     *
+     * @return resource
+     */
+    protected function getImage()
+    {
+        return (is_resource($this->destinationImage)
+            ? $this->destinationImage
+            : $this->sourceImage
+        );
+    }
+
+    /**
+     * Blurs an image
+     *
+     * @return \image
+     */
     public function blur()
     {
-        // resource
-        $res = $this->src_image;
-
-        if (is_resource($this->dst_image)) {
-            $res = $this->dst_image;
-        }
-
         // define matrix
-        $gaussian = array(
-            array(1.0, 2.0, 1.0),
-            array(2.0, 4.0, 2.0),
-            array(1.0, 2.0, 1.0)
-        );
+        $gaussian = self::MATRIX_BLUR;
 
         // calculate the divisor
         $divisor = array_sum(array_map('array_sum', $gaussian));
 
         // apply the matrix
-        imageconvolution($res, $gaussian, $divisor, 0);
+        imageconvolution($this->getImage(), $gaussian, $divisor, 0);
 
         return $this;
     }
 
+    /**
+     * Turns an image to grayscale
+     *
+     * @return \image
+     */
     public function grayscale()
     {
-        // resource
-        $res = $this->src_image;
-
-        if (is_resource($this->dst_image)) {
-            $res = $this->dst_image;
-        }
-
-        imagefilter($res, IMG_FILTER_GRAYSCALE);
+        imagefilter($this->getImage(), IMG_FILTER_GRAYSCALE);
 
         return $this;
     }
 
-    public function resize($dst_w, $dst_h)
+    /**
+     * Resizes an image
+     *
+     * @param int $width  new image width
+     * @param int $height new image height
+     *
+     * @return \image
+     */
+    public function resize($width, $height)
     {
+        // TODO: Unused variable
         $ratio = 0;
 
         // landscape
-        if ($this->src_w > $this->src_h) {
-            $ratio = $dst_w / $this->src_w;
-            $dst_h = $this->src_h * $ratio;
+        if ($this->sourceWidth > $this->sourceHeight) {
+            $ratio  = $width / $this->sourceWidth;
+            $height = $this->sourceHeight * $ratio;
         }
+
         // portrait
-        if ($this->src_w < $this->src_h) {
-            $ratio = $dst_h / $this->src_h;
-            $dst_w = $this->src_w * $ratio;
+        if ($this->sourceWidth < $this->sourceHeight) {
+            $ratio = $height / $this->sourceHeight;
+            $width = $this->sourceWidth * $ratio;
         }
-        // square : use smaller value as the match
-        if ($this->src_w == $this->src_h) {
-            if ($dst_w > $dst_h) {
-                $dst_w = $dst_h;
+
+        // square: use smaller value as the match
+        if ($this->sourceWidth == $this->sourceHeight) {
+            if ($width > $height) {
+                $width = $height;
             } else {
-                $dst_h = $dst_w;
+                $height = $width;
             }
         }
 
-        $this->dst_image = imagecreatetruecolor($dst_w, $dst_h);
+        $this->destinationImage = imagecreatetruecolor($width, $height);
 
-        $params = array(
-            'dst_image' => $this->dst_image,
-            'src_image' => $this->src_image,
-            'dst_x' => 0,
-            'dst_y' => 0,
-            'src_x' => 0,
-            'src_y' => 0,
-            'dst_w' => $dst_w,
-            'dst_h' => $dst_h,
-            'src_w' => $this->src_w,
-            'src_h' => $this->src_h
-        );
+        $params = [
+            'dst_image' => $this->destinationImage,
+            'src_image' => $this->sourceImage,
+            'dst_x'     => 0,
+            'dst_y'     => 0,
+            'src_x'     => 0,
+            'src_y'     => 0,
+            'dst_w'     => $width,
+            'dst_h'     => $height,
+            'src_w'     => $this->sourceWidth,
+            'src_h'     => $this->sourceHeight
+        ];
 
         call_user_func_array('imagecopyresampled', array_values($params));
 
         return $this;
     }
 
-    public function crop($dst_w, $dst_h, $src_x, $src_y)
+    /**
+     * Crops an image
+     *
+     * @param int $width            new image width
+     * @param int $height           new image height
+     * @param int $horizontalOffset new image left coordinate
+     * @param int $verticalOffset   new image bottom coordinate
+     *
+     * @return \image
+     */
+    public function crop($width, $height, $horizontalOffset, $verticalOffset)
     {
-
-        // if the source image is square use smaller dest size
-        // @link http://srccd.com/posts/the-move-to-anchor-cms
-        if ($this->src_w == $this->src_h) {
-            if ($dst_w > $dst_h) {
-                $dst_w = $dst_h;
+        // if the source image is square use smaller destination size
+        // @link https://medium.com/@srccd/the-move-to-anchor-cms-1e4e261f15a7
+        if ($this->sourceWidth == $this->sourceHeight) {
+            if ($width > $height) {
+                $width = $height;
             } else {
-                $dst_h = $dst_w;
+                $height = $width;
             }
         }
 
-        $this->dst_image = imagecreatetruecolor($dst_w, $dst_h);
+        $this->destinationImage = imagecreatetruecolor($width, $height);
 
-        $params = array(
-            'dst_image' => $this->dst_image,
-            'src_image' => $this->src_image,
+        $params = [
+            'dst_image' => $this->destinationImage,
+            'src_image' => $this->sourceImage,
 
             'dst_x' => 0,
             'dst_y' => 0,
-            'src_x' => $src_x,
-            'src_y' => $src_y,
+            'src_x' => $horizontalOffset,
+            'src_y' => $verticalOffset,
 
-            'dst_w' => $dst_w,
-            'dst_h' => $dst_h,
-            'src_w' => $dst_w,
-            'src_h' => $dst_h
-        );
+            'dst_w' => $width,
+            'dst_h' => $height,
+            'src_w' => $width,
+            'src_h' => $height
+        ];
 
         call_user_func_array('imagecopyresampled', array_values($params));
 
         return $this;
     }
 
-    public function palette($percentages = array(0.2, 0.7, 0.5))
+    /**
+     * Calculate a color palette from an image
+     * TODO: Currently I don't know exactly what this function does or how the percentages really work.
+     *
+     * @param array $percentages controls the colors picked
+     *
+     * @return array hex color codes
+     */
+    public function palette($percentages = self::COLOR_PALETTE_RATIOS)
     {
+        $rgb = [];
+        $r   = [];
+        $g   = [];
+        $b   = [];
 
         // Now set dimensions on where to pull color values from (based on percentages).
-        $dimensions[] = ($this->src_w - ($this->src_w * $percentages[0]));
-        $dimensions[] = ($this->src_h - ($this->src_h * $percentages[0]));
+        $dimensions[] = ($this->sourceWidth - ($this->sourceWidth * $percentages[0]));
+        $dimensions[] = ($this->sourceHeight - ($this->sourceHeight * $percentages[0]));
 
-        $dimensions[] = ($this->src_w - ($this->src_w * $percentages[0]));
-        $dimensions[] = ($this->src_h - ($this->src_h * $percentages[1]));
+        $dimensions[] = ($this->sourceWidth - ($this->sourceWidth * $percentages[0]));
+        $dimensions[] = ($this->sourceHeight - ($this->sourceHeight * $percentages[1]));
 
-        $dimensions[] = ($this->src_w - ($this->src_w * $percentages[1]));
-        $dimensions[] = ($this->src_h - ($this->src_h * $percentages[1]));
+        $dimensions[] = ($this->sourceWidth - ($this->sourceWidth * $percentages[1]));
+        $dimensions[] = ($this->sourceHeight - ($this->sourceHeight * $percentages[1]));
 
-        $dimensions[] = ($this->src_w - ($this->src_w * $percentages[1]));
-        $dimensions[] = ($this->src_h - ($this->src_h * $percentages[0]));
+        $dimensions[] = ($this->sourceWidth - ($this->sourceWidth * $percentages[1]));
+        $dimensions[] = ($this->sourceHeight - ($this->sourceHeight * $percentages[0]));
 
-        $dimensions[] = ($this->src_w - ($this->src_w * $percentages[2]));
-        $dimensions[] = ($this->src_h - ($this->src_h * $percentages[2]));
+        $dimensions[] = ($this->sourceWidth - ($this->sourceWidth * $percentages[2]));
+        $dimensions[] = ($this->sourceHeight - ($this->sourceHeight * $percentages[2]));
 
-        // Here we'll pull the color values of certain pixels around the image based on our dimensions set above.
+        // Here we'll pull the color values of certain pixels around the image
+        // based on our dimensions set above.
         for ($k = 0; $k < 10; $k++) {
-            $newk = $k + 1;
-            $rgb[] = imagecolorat($this->src_image, $dimensions[$k], $dimensions[$newk]);
+            $newk  = $k + 1;
+            $rgb[] = imagecolorat($this->sourceImage, $dimensions[$k], $dimensions[$newk]);
             $k++;
         }
 
-        // Almost done! Now we need to get the individual r,g,b values for our colors.
-        foreach ($rgb as $colorvalue) {
-            $r[] = dechex(($colorvalue >> 16) & 0xFF);
-            $g[] = dechex(($colorvalue >> 8) & 0xFF);
-            $b[] = dechex($colorvalue & 0xFF);
+        // Almost done! Now we need to get the individual red, green and blue values for our colors.
+        foreach ($rgb as $colorValue) {
+            $r[] = dechex(($colorValue >> 16) & 0xFF);
+            $g[] = dechex(($colorValue >> 8) & 0xFF);
+            $b[] = dechex($colorValue & 0xFF);
         }
 
-        return array(
+        return [
             strtoupper($r[0] . $g[0] . $b[0]),
             strtoupper($r[1] . $g[1] . $b[1]),
             strtoupper($r[2] . $g[2] . $b[2]),
             strtoupper($r[3] . $g[3] . $b[3]),
-            strtoupper($r[4] . $g[4] . $b[4]));
+            strtoupper($r[4] . $g[4] . $b[4])
+        ];
     }
 
-    public function output($type = 'png', $file = null)
+    /**
+     * Output an image
+     * TODO: Why is path nullable? If omitted, image* functions will just output the plain stream...
+     *
+     * @param string      $type (optional) file extension
+     * @param string|null $path (optional) path to file
+     *
+     * @return void
+     */
+    public function output($type = self::DEFAULT_FILE_TYPE, $path = null)
     {
         if ($type == 'png') {
-            imagepng($this->dst_image, $file, 9);
+            imagepng($this->destinationImage, $path, 9);
         } elseif ($type == 'jpeg' or $type == 'jpg') {
-            imagejpeg($this->dst_image, $file, 75);
+            imagejpeg($this->destinationImage, $path, 75);
         } elseif ($type == 'gif') {
-            imagegif($this->dst_image, $file);
+            imagegif($this->destinationImage, $path);
         }
 
-        imagedestroy($this->dst_image);
+        imagedestroy($this->destinationImage);
     }
 }

@@ -1,0 +1,55 @@
+@import "../variables";
+
+.notifications {
+
+  .notice,
+  .error,
+  .success {
+    padding:       10px 18px;
+    line-height:   21px;
+    font-size:     $font-size-base;
+    font-weight:   $font-weight-bold;
+  }
+
+  .notice {
+    color:      $color-white;
+    background: $color-notification-notice;
+  }
+
+  .error {
+    color:      $color-white;
+    background: $color-notification-error;
+  }
+
+  .success {
+    color:      $color-white;
+    background: $color-notification-success;
+  }
+
+  .header & {
+    position: absolute;
+    left:     55%;
+    top:      82px;
+    width:    320px;
+    z-index:  1200;
+
+    div::after {
+      content:       '';
+      position:      absolute;
+      top:           -6px;
+      right:         50px;
+      display:       block;
+      border-bottom: 6px solid $color-notification-success;
+      border-left:   6px solid transparent;
+      border-right:  6px solid transparent;
+    }
+
+    .error::after {
+      border-bottom-color: $color-notification-error;
+    }
+  }
+
+  .header .page & {
+    left: 48%;
+  }
+}

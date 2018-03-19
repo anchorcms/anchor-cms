@@ -1,32 +1,31 @@
 <?php echo $header; ?>
 
-<hgroup class="wrap">
-	<h1><?php echo __('extend.variables'); ?></h1>
+  <header class="wrap">
+    <h1><?php echo __('extend.variables'); ?></h1>
 
-	<nav>
-		<?php echo Html::link('admin/extend/variables/add', __('extend.create_variable'), array('class' => 'btn')); ?>
-	</nav>
-</hgroup>
+    <nav>
+        <?php echo Html::link('admin/extend/variables/add', __('extend.create_variable'), ['class' => 'btn']); ?>
+    </nav>
+  </header>
 
-<section class="wrap">
-	
+  <section class="wrap">
 
-	<?php if (count($variables)): ?>
-	<ul class="list">
-		<?php foreach ($variables as $var): ?>
-		<li>
-			<a href="<?php echo Uri::to('admin/extend/variables/edit/' . $var->key); ?>">
-				<strong><?php echo substr($var->key, strlen('custom_')); ?></strong>
-				<p><?php echo e($var->value); ?></p>
-			</a>
-		</li>
-		<?php endforeach; ?>
-	</ul>
-	<?php else: ?>
-	<p class="empty">
-		<span class="icon"></span> <?php echo __('extend.novars_desc'); ?>
-	</p>
-	<?php endif; ?>
-</section>
+      <?php if (count($variables)): ?>
+        <ul class="list">
+            <?php foreach ($variables as $var): ?>
+              <li>
+                <a href="<?php echo Uri::to('admin/extend/variables/edit/' . $var->key); ?>">
+                  <strong><?php echo substr($var->key, strlen('custom_')); ?></strong>
+                  <p><?php echo e($var->value); ?></p>
+                </a>
+              </li>
+            <?php endforeach; ?>
+        </ul>
+      <?php else: ?>
+        <p class="empty">
+          <span class="icon"></span> <?php echo __('extend.novars_desc'); ?>
+        </p>
+      <?php endif; ?>
+  </section>
 
 <?php echo $footer; ?>

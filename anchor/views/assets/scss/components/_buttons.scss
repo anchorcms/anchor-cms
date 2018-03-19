@@ -1,0 +1,58 @@
+@import "../variables";
+
+.btn {
+  display:       inline-block;
+  padding:       0 22px;
+  border:        none;
+  border-radius: $border-radius;
+  font-size:     $font-size-small;
+  line-height:   38px;
+  font-weight:   bold;
+  color:         $button-color;
+  background:    $button-background;
+
+  /* span.btn */
+  cursor:        pointer;
+
+  &:hover {
+    background: $button-background-hover;
+  }
+
+  &.secondary {
+    background: $button-secondary-background;
+
+    &:hover {
+      background: $button-secondary-background-hover;
+    }
+  }
+
+  &.blue {
+    background: $color-blue;
+
+    &:hover {
+      background: $color-blue-accent;
+    }
+  }
+
+  &.red {
+    background: $color-red;
+
+    &:hover {
+      background: $color-red-accent;
+    }
+  }
+
+  &#exit-focus {
+    position:    fixed;
+    right:       20px;
+    top:         20px;
+    padding:     0 17px;
+    line-height: 32px;
+    background:  $color-mischka;
+    color:       $color-slate-gray;
+
+    &:hover {
+      background: $color-mischka;
+    }
+  }
+}
