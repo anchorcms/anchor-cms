@@ -27,7 +27,7 @@
     </nav>
     <br>
     <nav class="categories">
-      <p>Categories</p>
+      <p><?php echo __('categories.categories'); ?></p>
         <?php foreach ($categories as $cat): ?>
             <?php echo Html::link('admin/posts/category/' . $cat->slug, $cat->title, [
                 'class' => (isset($category) and $category->id == $cat->id) ? 'active' : ''
