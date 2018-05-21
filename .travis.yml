@@ -59,3 +59,8 @@ after_script:
 
 git:
   depth: 5
+
+cache:
+  directories:
+    - "$HOME/.composer/cache/files"
+    - node_modules
