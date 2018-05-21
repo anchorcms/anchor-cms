@@ -7,7 +7,8 @@
     "test": "jest",
     "test:debug": "env DEBUG=\"puppeteer:error,-puppeteer:protocol\" jest",
     "build": "gulp build",
-    "dev": "gulp build && gulp browsersync"
+    "dev": "gulp build && gulp browsersync",
+    "postinstall": "opencollective postinstall"
   },
   "repository": {
     "type": "git",
@@ -45,6 +46,12 @@
     "rimraf": "^2.6.2"
   },
   "dependencies": {
-    "gulp": "^3.9.1"
+    "gulp": "^3.9.1",
+    "opencollective": "^1.0.3"
+  },
+  "collective": {
+    "type": "opencollective",
+    "url": "https://opencollective.com/anchor-cms",
+    "logo": "https://opencollective.com/anchor-cms/logo.txt"
   }
 }
