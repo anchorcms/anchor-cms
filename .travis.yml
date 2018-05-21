@@ -74,3 +74,11 @@ before_deploy:
 
 after_deploy:
 # - ./deploy-gh-pages.sh
+
+git:
+  depth: 5
+
+cache:
+  directories:
+    - "$HOME/.composer/cache/files"
+    - node_modules
