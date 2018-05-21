@@ -56,3 +56,8 @@ after_script:
   - if [ -f coverage.clover ]; then php ocular.phar code-coverage:upload --format=php-clover coverage.clover; fi
   # Upload code-coverage CodeClimate
   - if [ -f coverage.clover ]; then CODECLIMATE_REPO_TOKEN=<INSERT TOKEN HERE> ./vendor/bin/test-reporter --coverage-report=coverage.clover; fi
+
+cache:
+  directories:
+    - "$HOME/.composer/cache/files"
+    - node_modules
