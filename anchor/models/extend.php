@@ -150,7 +150,7 @@ class extend extends Base
                 $html .= '</span>
 					<span class="file">
 					<input id="extend_' . $item->key . '" name="extend[' . $item->key . ']" type="file">
-					<input type="hidden" name="extend[' . $item->key . ']" value="' . (($value) ? asset('content/' . $value) : "") . '">
+					<input type="hidden" name="extend[' . $item->key . ']" value="' . (($value) ? asset('content/' . $value) : '') . '">
 					</span>';
 
                 if ($value) {
@@ -311,10 +311,19 @@ class extend extends Base
 
             if ($filepath = static::upload($file)) {
                 $filename = basename($filepath);
-
                 return Json::encode(compact('name', 'filename'));
             }
         }
+
+        // Handle files which have been uploaded indirectly - or because they went through 'admin/upload'.
+        $file_upload = Input::get('extend.' . $extend->key);
+        if ($file_upload) {
+            $file_upload  = str_replace("\\", '/', $file_upload);
+            $filename     = basename($file_upload);
+            $name         = $filename;
+        }
+        $data = compact('name', 'filename');
+        return Json::encode($data);
     }
 
     /**
@@ -377,7 +386,7 @@ class extend extends Base
             }
 
             $data = call_user_func_array(['Extend', 'process_' . $extend->field], [$extend, $item]);
-
+            
             // save data
             if ( ! is_null($data) and $data != '[]') {
                 $table = static::table($extend->type . '_meta');
@@ -404,7 +413,7 @@ class extend extends Base
                          ->where($extend->type, '=', $item)->delete();
 
                     $resource = PATH . 'content' . DS . $extend->value->filename;
-                    file_exists($resource) and unlink(PATH . 'content' . DS . $extend->value->filename);
+                    file_exists($resource) and unlink($resource);
                 }
             }
         }
