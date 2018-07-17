@@ -31,7 +31,7 @@
             'autocomplete' => 'off',
             'autofocus'    => 'true'
         ]); ?>
-
+        <div class="notifications"></div>
     </div>
   </fieldset>
 

@@ -7,6 +7,7 @@
 
     <script src="<?php echo asset('anchor/views/assets/js/zepto.1.2.min.js'); ?>"></script>
 
+
     <link rel="stylesheet" href="<?php echo asset('anchor/views/assets/css/admin.min.css'); ?>">
 
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
