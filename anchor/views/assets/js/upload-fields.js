@@ -1,7 +1,7 @@
 /**
  * Handle custom field file uploads, need to be ajax, in
  * background and populate form field with path to file, so
- * we can store it in the database. Also handle populating 
+ * we can store it in the database. Also handle populating
  * placeholder in field.
  */
 $(function() {
@@ -69,7 +69,7 @@ $(function() {
                 console.log('Uploaded');
                 var data = JSON.parse(this.responseText);
                 console.log(data);
-                $(field).parent().append('<input type="hidden" name="' + $(field).attr('name') + '" value="' + data.uri + '">');
+                $(field).siblings('input[type=hidden]').attr('value', data.uri);
             }
         };
 
