@@ -5,7 +5,8 @@
     <title><?php echo __('global.manage'); ?><?php echo Config::meta('sitename'); ?></title>
     <link rel="shortcut icon" type="image/png" href="<?php echo asset('anchor/views/assets/img/favicon.png'); ?>"/>
 
-    <script src="<?php echo asset('anchor/views/assets/js/zepto.js'); ?>"></script>
+    <script src="<?php echo asset('anchor/views/assets/js/zepto.1.2.min.js'); ?>"></script>
+
 
     <link rel="stylesheet" href="<?php echo asset('anchor/views/assets/css/admin.min.css'); ?>">
 
