@@ -53,26 +53,34 @@ if ($route = Arr::get($_GET, 'route', '/')) {
 function timezones()
 {
     $timezones = [];
-    $now       = new DateTime('now', new DateTimeZone('UTC'));
+    $original_timezone = date_default_timezone_get();
 
     foreach (DateTimeZone::listIdentifiers() as $timezone) {
-        $now->setTimezone(new DateTimeZone($timezone));
+        date_default_timezone_set($timezone);
+        $now = new DateTime('now');
 
-        $offset  = $now->getOffset();
-        $hours   = intval($offset / 3600);
+        $offset = $now->getOffset();
+        $hours = intval($offset / 3600);
         $minutes = abs(intval($offset % 3600 / 60));
 
-        //Create the label
-        $label = 'GMT';
-
-        if ($offset) {
-            $label .= ($hours < 0 ? '' : '+') . $hours;
-            $label .= $minutes ? '.' . $minutes : '&nbsp;&nbsp;';
+        // If DST, shift back by one hour to display in UTC
+        if (date('I', $now->getTimestamp())) {
+            $hours -= 1;
+            $offset -= 3600;
         }
 
-        $label       .= '&nbsp;' . $timezone;
+        //Create the label
+        if ($timezone === 'UTC') {
+            $label = '(UTC) Coordinated Universal Time';
+        } else {
+            $friendly_timezone = str_replace(['/', '_'], [' &ndash; ', ' '], $timezone);
+            $label = sprintf("(UTC%+03d:%02d) %s", $hours, $minutes, $friendly_timezone);
+        }
+
         $timezones[] = ['offset' => $offset, 'timezone_id' => $timezone, 'label' => $label];
     }
+
+    date_default_timezone_set($original_timezone);
 
     //Sort by offset, and then by timezone_id.
     usort($timezones, function ($a, $b) {
