@@ -81,18 +81,19 @@ function search_next($text = 'Next', $default = '')
 {
     $per_page    = Config::meta('posts_per_page');
     $page        = Registry::get('page_offset');
+    $show_all_pages = Config::meta('show_all_posts');
 
     $total       = Registry::get('total_posts');
-    $pages       = floor($total / $per_page);
+    $pages       = ceil($total / $per_page);
     $search_page = Registry::get('page');
     $next        = $page + 1;
     $term        = Registry::get('search_term');
 
     Session::put(slug($term), $term);
 
-    $url = base_url($search_page->slug . '/' . $term . '/' . $next);
+    $url = base_url($search_page->slug . '/all/' . $term . '/' . $next);
 
-    if (($page - 1) < $pages) {
+    if ($page < $pages && $show_all_pages != 1) {
         return '<a href="' . $url . '">' . $text . '</a>';
     }
 
@@ -120,7 +121,7 @@ function search_prev($text = 'Previous', $default = '')
 
     Session::put(slug($term), $term);
 
-    $url = base_url($search_page->slug . '/' . $term . '/' . $prev);
+    $url = base_url($search_page->slug . '/all/' . $term . '/' . $prev);
 
     if ($offset > 0) {
         return '<a href="' . $url . '">' . $text . '</a>';
