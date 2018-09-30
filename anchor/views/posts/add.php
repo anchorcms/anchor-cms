@@ -1,5 +1,15 @@
 <?php echo $header; ?>
 
+<?php
+    $table = Base::table('meta');
+    $meta  = [];
+
+    // load database metadata
+    foreach (Query::table($table)->get() as $item) {
+        $meta[$item->key] = $item->value;
+    }
+?>
+
 <form method="post" action="<?php echo Uri::to('admin/posts/add'); ?>" enctype="multipart/form-data" novalidate>
     <input name="token" type="hidden" value="<?php echo $token; ?>">
 
@@ -39,6 +49,7 @@
 
     <fieldset class="meta split">
         <div class="wrap">
+            <?php $checked_comments = Input::previous('auto_published_comments', $meta['auto_published_comments']) ? ' checked' : ''; ?>
             <p>
                 <label for="label-slug"><?php echo __('posts.slug'); ?>:</label>
                 <?php echo Form::text('slug', Input::previous('slug'), array('id' => 'label-slug')); ?>
@@ -61,7 +72,7 @@
             </p>
             <p>
                 <label for="label-comments"><?php echo __('posts.allow_comments'); ?>:</label>
-                <?php echo Form::checkbox('comments', 1, Input::previous('comments', 0) == 1, array('id' => 'label-comments')); ?>
+                <?php echo Form::checkbox('comments', 1, $checked_comments, array('id' => 'label-comments')); ?>
                 <em><?php echo __('posts.allow_comments_explain'); ?></em>
             </p>
             <p>
