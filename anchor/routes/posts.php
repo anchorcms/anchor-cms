@@ -220,6 +220,18 @@ Route::collection(['before' => 'auth,csrf,install_exists'], function () {
             'archived'  => __('global.archived')
         ];
 
+        $table = Base::table('meta');
+        $meta  = [];
+
+        // load database metadata
+        foreach (Query::table($table)->get() as $item) {
+            $meta[$item->key] = $item->value;
+        }
+
+        $checked_comments = Input::previous('auto_published_comments', $meta['auto_published_comments']) ? ' checked' : '';
+
+        $vars['checked_comments'] = $checked_comments;
+
         return View::create('posts/add', $vars)
                    ->partial('header', 'partials/header')
                    ->partial('footer', 'partials/footer')
