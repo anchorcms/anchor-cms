@@ -1,691 +1,691 @@
 {
-	"_readme": [
-		"This file locks the dependencies of your project to a known state",
-		"Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
-		"This file is @generated automatically"
-	],
-	"content-hash": "1cf85cb6dab46018f59995f51276ce38",
-	"packages": [
-		{
-			"name": "indigophp/hash-compat",
-			"version": "v1.1.0",
-			"source": {
-				"type": "git",
-				"url": "https://github.com/indigophp/hash-compat.git",
-				"reference": "43a19f42093a0cd2d11874dff9d891027fc42214"
-			},
-			"dist": {
-				"type": "zip",
-				"url": "https://api.github.com/repos/indigophp/hash-compat/zipball/43a19f42093a0cd2d11874dff9d891027fc42214",
-				"reference": "43a19f42093a0cd2d11874dff9d891027fc42214",
-				"shasum": ""
-			},
-			"require": {
-				"php": ">=5.3"
-			},
-			"require-dev": {
-				"phpunit/phpunit": "~4.4"
-			},
-			"type": "library",
-			"extra": {
-				"branch-alias": {
-					"dev-master": "1.2-dev"
-				}
-			},
-			"autoload": {
-				"files": [
-					"src/hash_equals.php",
-					"src/hash_pbkdf2.php"
-				]
-			},
-			"notification-url": "https://packagist.org/downloads/",
-			"license": [
-				"MIT"
-			],
-			"authors": [
-				{
-					"name": "Márk Sági-Kazár",
-					"email": "mark.sagikazar@gmail.com"
-				}
-			],
-			"description": "Backports hash_* functionality to older PHP versions",
-			"homepage": "https://indigophp.com",
-			"keywords": [
-				"hash",
-				"hash_equals",
-				"hash_pbkdf2"
-			],
-			"time": "2015-08-22T07:03:35+00:00"
-		},
-		{
-			"name": "ircmaxell/password-compat",
-			"version": "v1.0.4",
-			"source": {
-				"type": "git",
-				"url": "https://github.com/ircmaxell/password_compat.git",
-				"reference": "5c5cde8822a69545767f7c7f3058cb15ff84614c"
-			},
-			"dist": {
-				"type": "zip",
-				"url": "https://api.github.com/repos/ircmaxell/password_compat/zipball/5c5cde8822a69545767f7c7f3058cb15ff84614c",
-				"reference": "5c5cde8822a69545767f7c7f3058cb15ff84614c",
-				"shasum": ""
-			},
-			"require-dev": {
-				"phpunit/phpunit": "4.*"
-			},
-			"type": "library",
-			"autoload": {
-				"files": [
-					"lib/password.php"
-				]
-			},
-			"notification-url": "https://packagist.org/downloads/",
-			"license": [
-				"MIT"
-			],
-			"authors": [
-				{
-					"name": "Anthony Ferrara",
-					"email": "ircmaxell@php.net",
-					"homepage": "http://blog.ircmaxell.com"
-				}
-			],
-			"description": "A compatibility library for the proposed simplified password hashing algorithm: https://wiki.php.net/rfc/password_hash",
-			"homepage": "https://github.com/ircmaxell/password_compat",
-			"keywords": [
-				"hashing",
-				"password"
-			],
-			"time": "2014-11-20T16:49:30+00:00"
-		},
-		{
-			"name": "ircmaxell/random-lib",
-			"version": "v1.2.0",
-			"source": {
-				"type": "git",
-				"url": "https://github.com/ircmaxell/RandomLib.git",
-				"reference": "e9e0204f40e49fa4419946c677eccd3fa25b8cf4"
-			},
-			"dist": {
-				"type": "zip",
-				"url": "https://api.github.com/repos/ircmaxell/RandomLib/zipball/e9e0204f40e49fa4419946c677eccd3fa25b8cf4",
-				"reference": "e9e0204f40e49fa4419946c677eccd3fa25b8cf4",
-				"shasum": ""
-			},
-			"require": {
-				"ircmaxell/security-lib": "^1.1",
-				"php": ">=5.3.2"
-			},
-			"require-dev": {
-				"friendsofphp/php-cs-fixer": "^1.11",
-				"mikey179/vfsstream": "^1.6",
-				"phpunit/phpunit": "^4.8|^5.0"
-			},
-			"type": "library",
-			"extra": {
-				"branch-alias": {
-					"dev-master": "1.1.x-dev"
-				}
-			},
-			"autoload": {
-				"psr-0": {
-					"RandomLib": "lib"
-				}
-			},
-			"notification-url": "https://packagist.org/downloads/",
-			"license": [
-				"MIT"
-			],
-			"authors": [
-				{
-					"name": "Anthony Ferrara",
-					"email": "ircmaxell@ircmaxell.com",
-					"homepage": "http://blog.ircmaxell.com"
-				}
-			],
-			"description": "A Library For Generating Secure Random Numbers",
-			"homepage": "https://github.com/ircmaxell/RandomLib",
-			"keywords": [
-				"cryptography",
-				"random",
-				"random-numbers",
-				"random-strings"
-			],
-			"time": "2016-09-07T15:52:06+00:00"
-		},
-		{
-			"name": "ircmaxell/security-lib",
-			"version": "v1.1.0",
-			"source": {
-				"type": "git",
-				"url": "https://github.com/ircmaxell/SecurityLib.git",
-				"reference": "f3db6de12c20c9bcd1aa3db4353a1bbe0e44e1b5"
-			},
-			"dist": {
-				"type": "zip",
-				"url": "https://api.github.com/repos/ircmaxell/SecurityLib/zipball/f3db6de12c20c9bcd1aa3db4353a1bbe0e44e1b5",
-				"reference": "f3db6de12c20c9bcd1aa3db4353a1bbe0e44e1b5",
-				"shasum": ""
-			},
-			"require": {
-				"php": ">=5.3.2"
-			},
-			"require-dev": {
-				"mikey179/vfsstream": "1.1.*"
-			},
-			"type": "library",
-			"extra": {
-				"branch-alias": {
-					"dev-master": "1.0.x-dev"
-				}
-			},
-			"autoload": {
-				"psr-0": {
-					"SecurityLib": "lib"
-				}
-			},
-			"notification-url": "https://packagist.org/downloads/",
-			"license": [
-				"MIT"
-			],
-			"authors": [
-				{
-					"name": "Anthony Ferrara",
-					"email": "ircmaxell@ircmaxell.com",
-					"homepage": "http://blog.ircmaxell.com"
-				}
-			],
-			"description": "A Base Security Library",
-			"homepage": "https://github.com/ircmaxell/SecurityLib",
-			"time": "2015-03-20T14:31:23+00:00"
-		}
-	],
-	"packages-dev": [
-		{
-			"name": "evenement/evenement",
-			"version": "v2.1.0",
-			"source": {
-				"type": "git",
-				"url": "https://github.com/igorw/evenement.git",
-				"reference": "6ba9a777870ab49f417e703229d53931ed40fd7a"
-			},
-			"dist": {
-				"type": "zip",
-				"url": "https://api.github.com/repos/igorw/evenement/zipball/6ba9a777870ab49f417e703229d53931ed40fd7a",
-				"reference": "6ba9a777870ab49f417e703229d53931ed40fd7a",
-				"shasum": ""
-			},
-			"require": {
-				"php": ">=5.4.0"
-			},
-			"require-dev": {
-				"phpunit/phpunit": "^6.0||^5.7||^4.8.35"
-			},
-			"type": "library",
-			"extra": {
-				"branch-alias": {
-					"dev-master": "2.0-dev"
-				}
-			},
-			"autoload": {
-				"psr-0": {
-					"Evenement": "src"
-				}
-			},
-			"notification-url": "https://packagist.org/downloads/",
-			"license": [
-				"MIT"
-			],
-			"authors": [
-				{
-					"name": "Igor Wiedler",
-					"email": "igor@wiedler.ch"
-				}
-			],
-			"description": "Événement is a very simple event dispatching library for PHP",
-			"keywords": [
-				"event-dispatcher",
-				"event-emitter"
-			],
-			"time": "2017-07-17T17:39:19+00:00"
-		},
-		{
-			"name": "peridot-php/leo",
-			"version": "1.6.1",
-			"source": {
-				"type": "git",
-				"url": "https://github.com/peridot-php/leo.git",
-				"reference": "2a6f60f237498cd7c3e912d71dcb90424ab66e72"
-			},
-			"dist": {
-				"type": "zip",
-				"url": "https://api.github.com/repos/peridot-php/leo/zipball/2a6f60f237498cd7c3e912d71dcb90424ab66e72",
-				"reference": "2a6f60f237498cd7c3e912d71dcb90424ab66e72",
-				"shasum": ""
-			},
-			"require": {
-				"php": ">=5.4"
-			},
-			"require-dev": {
-				"apigen/apigen": "^4",
-				"friendsofphp/php-cs-fixer": "^1",
-				"peridot-php/peridot-jumpstart": "^1",
-				"peridot-php/peridot-prophecy-plugin": "^1"
-			},
-			"type": "library",
-			"autoload": {
-				"psr-4": {
-					"Peridot\\Leo\\": "src"
-				},
-				"files": [
-					"src/Interfaces/_interface.bdd.php"
-				]
-			},
-			"notification-url": "https://packagist.org/downloads/",
-			"license": [
-				"MIT"
-			],
-			"authors": [
-				{
-					"name": "Brian Scaturro",
-					"email": "scaturrob@gmail.com"
-				}
-			],
-			"description": "Next level assertion and matcher library for PHP",
-			"keywords": [
-				"assert",
-				"expect",
-				"expectation",
-				"matcher",
-				"testing"
-			],
-			"time": "2017-08-16T21:40:18+00:00"
-		},
-		{
-			"name": "peridot-php/peridot",
-			"version": "1.19.0",
-			"source": {
-				"type": "git",
-				"url": "https://github.com/peridot-php/peridot.git",
-				"reference": "1c573868d856cee7fc9ba89f6a82730f79a3685e"
-			},
-			"dist": {
-				"type": "zip",
-				"url": "https://api.github.com/repos/peridot-php/peridot/zipball/1c573868d856cee7fc9ba89f6a82730f79a3685e",
-				"reference": "1c573868d856cee7fc9ba89f6a82730f79a3685e",
-				"shasum": ""
-			},
-			"require": {
-				"evenement/evenement": "^2",
-				"peridot-php/peridot-scope": "^1",
-				"php": ">=5.4",
-				"phpunit/php-timer": "^1",
-				"symfony/console": "^2|^3"
-			},
-			"require-dev": {
-				"consolidation/robo": "^0.4",
-				"phpunit/php-code-coverage": "^2"
-			},
-			"bin": [
-				"bin/peridot"
-			],
-			"type": "library",
-			"autoload": {
-				"psr-4": {
-					"Peridot\\": "src/"
-				}
-			},
-			"notification-url": "https://packagist.org/downloads/",
-			"license": [
-				"MIT"
-			],
-			"authors": [
-				{
-					"name": "Austin Morris",
-					"email": "austin.morris@gmail.com"
-				},
-				{
-					"name": "Brian Scaturro",
-					"email": "scaturrob@gmail.com"
-				}
-			],
-			"description": "Event driven BDD test framework for PHP 5.4+",
-			"keywords": [
-				"BDD",
-				"TDD",
-				"php",
-				"testing"
-			],
-			"time": "2017-01-19T01:11:09+00:00"
-		},
-		{
-			"name": "peridot-php/peridot-scope",
-			"version": "1.3.0",
-			"source": {
-				"type": "git",
-				"url": "https://github.com/peridot-php/peridot-scope.git",
-				"reference": "b5cc7ac35b2116d0f495b326218e7e93a823ab8e"
-			},
-			"dist": {
-				"type": "zip",
-				"url": "https://api.github.com/repos/peridot-php/peridot-scope/zipball/b5cc7ac35b2116d0f495b326218e7e93a823ab8e",
-				"reference": "b5cc7ac35b2116d0f495b326218e7e93a823ab8e",
-				"shasum": ""
-			},
-			"require": {
-				"php": ">=5.4.0"
-			},
-			"require-dev": {
-				"peridot-php/peridot-jumpstart": "~1.0"
-			},
-			"type": "library",
-			"autoload": {
-				"psr-4": {
-					"Peridot\\Scope\\": "src/"
-				}
-			},
-			"notification-url": "https://packagist.org/downloads/",
-			"license": [
-				"MIT"
-			],
-			"authors": [
-				{
-					"name": "Brian Scaturro",
-					"email": "scaturrob@gmail.com"
-				}
-			],
-			"description": "Scopes for function binding and mixins",
-			"time": "2016-02-22T13:27:54+00:00"
-		},
-		{
-			"name": "phpunit/php-timer",
-			"version": "1.0.9",
-			"source": {
-				"type": "git",
-				"url": "https://github.com/sebastianbergmann/php-timer.git",
-				"reference": "3dcf38ca72b158baf0bc245e9184d3fdffa9c46f"
-			},
-			"dist": {
-				"type": "zip",
-				"url": "https://api.github.com/repos/sebastianbergmann/php-timer/zipball/3dcf38ca72b158baf0bc245e9184d3fdffa9c46f",
-				"reference": "3dcf38ca72b158baf0bc245e9184d3fdffa9c46f",
-				"shasum": ""
-			},
-			"require": {
-				"php": "^5.3.3 || ^7.0"
-			},
-			"require-dev": {
-				"phpunit/phpunit": "^4.8.35 || ^5.7 || ^6.0"
-			},
-			"type": "library",
-			"extra": {
-				"branch-alias": {
-					"dev-master": "1.0-dev"
-				}
-			},
-			"autoload": {
-				"classmap": [
-					"src/"
-				]
-			},
-			"notification-url": "https://packagist.org/downloads/",
-			"license": [
-				"BSD-3-Clause"
-			],
-			"authors": [
-				{
-					"name": "Sebastian Bergmann",
-					"email": "sb@sebastian-bergmann.de",
-					"role": "lead"
-				}
-			],
-			"description": "Utility class for timing",
-			"homepage": "https://github.com/sebastianbergmann/php-timer/",
-			"keywords": [
-				"timer"
-			],
-			"time": "2017-02-26T11:10:40+00:00"
-		},
-		{
-			"name": "psr/log",
-			"version": "1.0.2",
-			"source": {
-				"type": "git",
-				"url": "https://github.com/php-fig/log.git",
-				"reference": "4ebe3a8bf773a19edfe0a84b6585ba3d401b724d"
-			},
-			"dist": {
-				"type": "zip",
-				"url": "https://api.github.com/repos/php-fig/log/zipball/4ebe3a8bf773a19edfe0a84b6585ba3d401b724d",
-				"reference": "4ebe3a8bf773a19edfe0a84b6585ba3d401b724d",
-				"shasum": ""
-			},
-			"require": {
-				"php": ">=5.3.0"
-			},
-			"type": "library",
-			"extra": {
-				"branch-alias": {
-					"dev-master": "1.0.x-dev"
-				}
-			},
-			"autoload": {
-				"psr-4": {
-					"Psr\\Log\\": "Psr/Log/"
-				}
-			},
-			"notification-url": "https://packagist.org/downloads/",
-			"license": [
-				"MIT"
-			],
-			"authors": [
-				{
-					"name": "PHP-FIG",
-					"homepage": "http://www.php-fig.org/"
-				}
-			],
-			"description": "Common interface for logging libraries",
-			"homepage": "https://github.com/php-fig/log",
-			"keywords": [
-				"log",
-				"psr",
-				"psr-3"
-			],
-			"time": "2016-10-10T12:19:37+00:00"
-		},
-		{
-			"name": "symfony/console",
-			"version": "v3.4.11",
-			"source": {
-				"type": "git",
-				"url": "https://github.com/symfony/console.git",
-				"reference": "36f83f642443c46f3cf751d4d2ee5d047d757a27"
-			},
-			"dist": {
-				"type": "zip",
-				"url": "https://api.github.com/repos/symfony/console/zipball/36f83f642443c46f3cf751d4d2ee5d047d757a27",
-				"reference": "36f83f642443c46f3cf751d4d2ee5d047d757a27",
-				"shasum": ""
-			},
-			"require": {
-				"php": "^5.5.9|>=7.0.8",
-				"symfony/debug": "~2.8|~3.0|~4.0",
-				"symfony/polyfill-mbstring": "~1.0"
-			},
-			"conflict": {
-				"symfony/dependency-injection": "<3.4",
-				"symfony/process": "<3.3"
-			},
-			"require-dev": {
-				"psr/log": "~1.0",
-				"symfony/config": "~3.3|~4.0",
-				"symfony/dependency-injection": "~3.4|~4.0",
-				"symfony/event-dispatcher": "~2.8|~3.0|~4.0",
-				"symfony/lock": "~3.4|~4.0",
-				"symfony/process": "~3.3|~4.0"
-			},
-			"suggest": {
-				"psr/log-implementation": "For using the console logger",
-				"symfony/event-dispatcher": "",
-				"symfony/lock": "",
-				"symfony/process": ""
-			},
-			"type": "library",
-			"extra": {
-				"branch-alias": {
-					"dev-master": "3.4-dev"
-				}
-			},
-			"autoload": {
-				"psr-4": {
-					"Symfony\\Component\\Console\\": ""
-				},
-				"exclude-from-classmap": [
-					"/Tests/"
-				]
-			},
-			"notification-url": "https://packagist.org/downloads/",
-			"license": [
-				"MIT"
-			],
-			"authors": [
-				{
-					"name": "Fabien Potencier",
-					"email": "fabien@symfony.com"
-				},
-				{
-					"name": "Symfony Community",
-					"homepage": "https://symfony.com/contributors"
-				}
-			],
-			"description": "Symfony Console Component",
-			"homepage": "https://symfony.com",
-			"time": "2018-05-16T08:49:21+00:00"
-		},
-		{
-			"name": "symfony/debug",
-			"version": "v4.1.0",
-			"source": {
-				"type": "git",
-				"url": "https://github.com/symfony/debug.git",
-				"reference": "449f8b00b28ab6e6912c3e6b920406143b27193b"
-			},
-			"dist": {
-				"type": "zip",
-				"url": "https://api.github.com/repos/symfony/debug/zipball/449f8b00b28ab6e6912c3e6b920406143b27193b",
-				"reference": "449f8b00b28ab6e6912c3e6b920406143b27193b",
-				"shasum": ""
-			},
-			"require": {
-				"php": "^7.1.3",
-				"psr/log": "~1.0"
-			},
-			"conflict": {
-				"symfony/http-kernel": "<3.4"
-			},
-			"require-dev": {
-				"symfony/http-kernel": "~3.4|~4.0"
-			},
-			"type": "library",
-			"extra": {
-				"branch-alias": {
-					"dev-master": "4.1-dev"
-				}
-			},
-			"autoload": {
-				"psr-4": {
-					"Symfony\\Component\\Debug\\": ""
-				},
-				"exclude-from-classmap": [
-					"/Tests/"
-				]
-			},
-			"notification-url": "https://packagist.org/downloads/",
-			"license": [
-				"MIT"
-			],
-			"authors": [
-				{
-					"name": "Fabien Potencier",
-					"email": "fabien@symfony.com"
-				},
-				{
-					"name": "Symfony Community",
-					"homepage": "https://symfony.com/contributors"
-				}
-			],
-			"description": "Symfony Debug Component",
-			"homepage": "https://symfony.com",
-			"time": "2018-05-16T14:33:22+00:00"
-		},
-		{
-			"name": "symfony/polyfill-mbstring",
-			"version": "v1.8.0",
-			"source": {
-				"type": "git",
-				"url": "https://github.com/symfony/polyfill-mbstring.git",
-				"reference": "3296adf6a6454a050679cde90f95350ad604b171"
-			},
-			"dist": {
-				"type": "zip",
-				"url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/3296adf6a6454a050679cde90f95350ad604b171",
-				"reference": "3296adf6a6454a050679cde90f95350ad604b171",
-				"shasum": ""
-			},
-			"require": {
-				"php": ">=5.3.3"
-			},
-			"suggest": {
-				"ext-mbstring": "For best performance"
-			},
-			"type": "library",
-			"extra": {
-				"branch-alias": {
-					"dev-master": "1.8-dev"
-				}
-			},
-			"autoload": {
-				"psr-4": {
-					"Symfony\\Polyfill\\Mbstring\\": ""
-				},
-				"files": [
-					"bootstrap.php"
-				]
-			},
-			"notification-url": "https://packagist.org/downloads/",
-			"license": [
-				"MIT"
-			],
-			"authors": [
-				{
-					"name": "Nicolas Grekas",
-					"email": "p@tchwork.com"
-				},
-				{
-					"name": "Symfony Community",
-					"homepage": "https://symfony.com/contributors"
-				}
-			],
-			"description": "Symfony polyfill for the Mbstring extension",
-			"homepage": "https://symfony.com",
-			"keywords": [
-				"compatibility",
-				"mbstring",
-				"polyfill",
-				"portable",
-				"shim"
-			],
-			"time": "2018-04-26T10:06:28+00:00"
-		}
-	],
-	"aliases": [],
-	"minimum-stability": "stable",
-	"stability-flags": [],
-	"prefer-stable": false,
-	"prefer-lowest": false,
-	"platform": {
-		"php": ">=5.6"
-	},
-	"platform-dev": []
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "1cf85cb6dab46018f59995f51276ce38",
+    "packages": [
+        {
+            "name": "indigophp/hash-compat",
+            "version": "v1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/indigophp/hash-compat.git",
+                "reference": "43a19f42093a0cd2d11874dff9d891027fc42214"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/indigophp/hash-compat/zipball/43a19f42093a0cd2d11874dff9d891027fc42214",
+                "reference": "43a19f42093a0cd2d11874dff9d891027fc42214",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.4"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.2-dev"
+                }
+            },
+            "autoload": {
+                "files": [
+                    "src/hash_equals.php",
+                    "src/hash_pbkdf2.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Márk Sági-Kazár",
+                    "email": "mark.sagikazar@gmail.com"
+                }
+            ],
+            "description": "Backports hash_* functionality to older PHP versions",
+            "homepage": "https://indigophp.com",
+            "keywords": [
+                "hash",
+                "hash_equals",
+                "hash_pbkdf2"
+            ],
+            "time": "2015-08-22T07:03:35+00:00"
+        },
+        {
+            "name": "ircmaxell/password-compat",
+            "version": "v1.0.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ircmaxell/password_compat.git",
+                "reference": "5c5cde8822a69545767f7c7f3058cb15ff84614c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ircmaxell/password_compat/zipball/5c5cde8822a69545767f7c7f3058cb15ff84614c",
+                "reference": "5c5cde8822a69545767f7c7f3058cb15ff84614c",
+                "shasum": ""
+            },
+            "require-dev": {
+                "phpunit/phpunit": "4.*"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "lib/password.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Anthony Ferrara",
+                    "email": "ircmaxell@php.net",
+                    "homepage": "http://blog.ircmaxell.com"
+                }
+            ],
+            "description": "A compatibility library for the proposed simplified password hashing algorithm: https://wiki.php.net/rfc/password_hash",
+            "homepage": "https://github.com/ircmaxell/password_compat",
+            "keywords": [
+                "hashing",
+                "password"
+            ],
+            "time": "2014-11-20T16:49:30+00:00"
+        },
+        {
+            "name": "ircmaxell/random-lib",
+            "version": "v1.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ircmaxell/RandomLib.git",
+                "reference": "e9e0204f40e49fa4419946c677eccd3fa25b8cf4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ircmaxell/RandomLib/zipball/e9e0204f40e49fa4419946c677eccd3fa25b8cf4",
+                "reference": "e9e0204f40e49fa4419946c677eccd3fa25b8cf4",
+                "shasum": ""
+            },
+            "require": {
+                "ircmaxell/security-lib": "^1.1",
+                "php": ">=5.3.2"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^1.11",
+                "mikey179/vfsstream": "^1.6",
+                "phpunit/phpunit": "^4.8|^5.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.1.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "RandomLib": "lib"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Anthony Ferrara",
+                    "email": "ircmaxell@ircmaxell.com",
+                    "homepage": "http://blog.ircmaxell.com"
+                }
+            ],
+            "description": "A Library For Generating Secure Random Numbers",
+            "homepage": "https://github.com/ircmaxell/RandomLib",
+            "keywords": [
+                "cryptography",
+                "random",
+                "random-numbers",
+                "random-strings"
+            ],
+            "time": "2016-09-07T15:52:06+00:00"
+        },
+        {
+            "name": "ircmaxell/security-lib",
+            "version": "v1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ircmaxell/SecurityLib.git",
+                "reference": "f3db6de12c20c9bcd1aa3db4353a1bbe0e44e1b5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ircmaxell/SecurityLib/zipball/f3db6de12c20c9bcd1aa3db4353a1bbe0e44e1b5",
+                "reference": "f3db6de12c20c9bcd1aa3db4353a1bbe0e44e1b5",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.2"
+            },
+            "require-dev": {
+                "mikey179/vfsstream": "1.1.*"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "SecurityLib": "lib"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Anthony Ferrara",
+                    "email": "ircmaxell@ircmaxell.com",
+                    "homepage": "http://blog.ircmaxell.com"
+                }
+            ],
+            "description": "A Base Security Library",
+            "homepage": "https://github.com/ircmaxell/SecurityLib",
+            "time": "2015-03-20T14:31:23+00:00"
+        }
+    ],
+    "packages-dev": [
+        {
+            "name": "evenement/evenement",
+            "version": "v2.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/igorw/evenement.git",
+                "reference": "6ba9a777870ab49f417e703229d53931ed40fd7a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/igorw/evenement/zipball/6ba9a777870ab49f417e703229d53931ed40fd7a",
+                "reference": "6ba9a777870ab49f417e703229d53931ed40fd7a",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^6.0||^5.7||^4.8.35"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Evenement": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Igor Wiedler",
+                    "email": "igor@wiedler.ch"
+                }
+            ],
+            "description": "Événement is a very simple event dispatching library for PHP",
+            "keywords": [
+                "event-dispatcher",
+                "event-emitter"
+            ],
+            "time": "2017-07-17T17:39:19+00:00"
+        },
+        {
+            "name": "peridot-php/leo",
+            "version": "1.6.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/peridot-php/leo.git",
+                "reference": "2a6f60f237498cd7c3e912d71dcb90424ab66e72"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/peridot-php/leo/zipball/2a6f60f237498cd7c3e912d71dcb90424ab66e72",
+                "reference": "2a6f60f237498cd7c3e912d71dcb90424ab66e72",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4"
+            },
+            "require-dev": {
+                "apigen/apigen": "^4",
+                "friendsofphp/php-cs-fixer": "^1",
+                "peridot-php/peridot-jumpstart": "^1",
+                "peridot-php/peridot-prophecy-plugin": "^1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Peridot\\Leo\\": "src"
+                },
+                "files": [
+                    "src/Interfaces/_interface.bdd.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Brian Scaturro",
+                    "email": "scaturrob@gmail.com"
+                }
+            ],
+            "description": "Next level assertion and matcher library for PHP",
+            "keywords": [
+                "assert",
+                "expect",
+                "expectation",
+                "matcher",
+                "testing"
+            ],
+            "time": "2017-08-16T21:40:18+00:00"
+        },
+        {
+            "name": "peridot-php/peridot",
+            "version": "1.19.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/peridot-php/peridot.git",
+                "reference": "1c573868d856cee7fc9ba89f6a82730f79a3685e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/peridot-php/peridot/zipball/1c573868d856cee7fc9ba89f6a82730f79a3685e",
+                "reference": "1c573868d856cee7fc9ba89f6a82730f79a3685e",
+                "shasum": ""
+            },
+            "require": {
+                "evenement/evenement": "^2",
+                "peridot-php/peridot-scope": "^1",
+                "php": ">=5.4",
+                "phpunit/php-timer": "^1",
+                "symfony/console": "^2|^3"
+            },
+            "require-dev": {
+                "consolidation/robo": "^0.4",
+                "phpunit/php-code-coverage": "^2"
+            },
+            "bin": [
+                "bin/peridot"
+            ],
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Peridot\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Austin Morris",
+                    "email": "austin.morris@gmail.com"
+                },
+                {
+                    "name": "Brian Scaturro",
+                    "email": "scaturrob@gmail.com"
+                }
+            ],
+            "description": "Event driven BDD test framework for PHP 5.4+",
+            "keywords": [
+                "BDD",
+                "TDD",
+                "php",
+                "testing"
+            ],
+            "time": "2017-01-19T01:11:09+00:00"
+        },
+        {
+            "name": "peridot-php/peridot-scope",
+            "version": "1.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/peridot-php/peridot-scope.git",
+                "reference": "b5cc7ac35b2116d0f495b326218e7e93a823ab8e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/peridot-php/peridot-scope/zipball/b5cc7ac35b2116d0f495b326218e7e93a823ab8e",
+                "reference": "b5cc7ac35b2116d0f495b326218e7e93a823ab8e",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "peridot-php/peridot-jumpstart": "~1.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Peridot\\Scope\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Brian Scaturro",
+                    "email": "scaturrob@gmail.com"
+                }
+            ],
+            "description": "Scopes for function binding and mixins",
+            "time": "2016-02-22T13:27:54+00:00"
+        },
+        {
+            "name": "phpunit/php-timer",
+            "version": "1.0.9",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/sebastianbergmann/php-timer.git",
+                "reference": "3dcf38ca72b158baf0bc245e9184d3fdffa9c46f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-timer/zipball/3dcf38ca72b158baf0bc245e9184d3fdffa9c46f",
+                "reference": "3dcf38ca72b158baf0bc245e9184d3fdffa9c46f",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^5.3.3 || ^7.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^4.8.35 || ^5.7 || ^6.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
+                }
+            },
+            "autoload": {
+                "classmap": [
+                    "src/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Sebastian Bergmann",
+                    "email": "sb@sebastian-bergmann.de",
+                    "role": "lead"
+                }
+            ],
+            "description": "Utility class for timing",
+            "homepage": "https://github.com/sebastianbergmann/php-timer/",
+            "keywords": [
+                "timer"
+            ],
+            "time": "2017-02-26T11:10:40+00:00"
+        },
+        {
+            "name": "psr/log",
+            "version": "1.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-fig/log.git",
+                "reference": "4ebe3a8bf773a19edfe0a84b6585ba3d401b724d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-fig/log/zipball/4ebe3a8bf773a19edfe0a84b6585ba3d401b724d",
+                "reference": "4ebe3a8bf773a19edfe0a84b6585ba3d401b724d",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Psr\\Log\\": "Psr/Log/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "PHP-FIG",
+                    "homepage": "http://www.php-fig.org/"
+                }
+            ],
+            "description": "Common interface for logging libraries",
+            "homepage": "https://github.com/php-fig/log",
+            "keywords": [
+                "log",
+                "psr",
+                "psr-3"
+            ],
+            "time": "2016-10-10T12:19:37+00:00"
+        },
+        {
+            "name": "symfony/console",
+            "version": "v3.4.11",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/console.git",
+                "reference": "36f83f642443c46f3cf751d4d2ee5d047d757a27"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/console/zipball/36f83f642443c46f3cf751d4d2ee5d047d757a27",
+                "reference": "36f83f642443c46f3cf751d4d2ee5d047d757a27",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^5.5.9|>=7.0.8",
+                "symfony/debug": "~2.8|~3.0|~4.0",
+                "symfony/polyfill-mbstring": "~1.0"
+            },
+            "conflict": {
+                "symfony/dependency-injection": "<3.4",
+                "symfony/process": "<3.3"
+            },
+            "require-dev": {
+                "psr/log": "~1.0",
+                "symfony/config": "~3.3|~4.0",
+                "symfony/dependency-injection": "~3.4|~4.0",
+                "symfony/event-dispatcher": "~2.8|~3.0|~4.0",
+                "symfony/lock": "~3.4|~4.0",
+                "symfony/process": "~3.3|~4.0"
+            },
+            "suggest": {
+                "psr/log-implementation": "For using the console logger",
+                "symfony/event-dispatcher": "",
+                "symfony/lock": "",
+                "symfony/process": ""
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.4-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\Console\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony Console Component",
+            "homepage": "https://symfony.com",
+            "time": "2018-05-16T08:49:21+00:00"
+        },
+        {
+            "name": "symfony/debug",
+            "version": "v4.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/debug.git",
+                "reference": "449f8b00b28ab6e6912c3e6b920406143b27193b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/debug/zipball/449f8b00b28ab6e6912c3e6b920406143b27193b",
+                "reference": "449f8b00b28ab6e6912c3e6b920406143b27193b",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.1.3",
+                "psr/log": "~1.0"
+            },
+            "conflict": {
+                "symfony/http-kernel": "<3.4"
+            },
+            "require-dev": {
+                "symfony/http-kernel": "~3.4|~4.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "4.1-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\Debug\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony Debug Component",
+            "homepage": "https://symfony.com",
+            "time": "2018-05-16T14:33:22+00:00"
+        },
+        {
+            "name": "symfony/polyfill-mbstring",
+            "version": "v1.8.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/polyfill-mbstring.git",
+                "reference": "3296adf6a6454a050679cde90f95350ad604b171"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/3296adf6a6454a050679cde90f95350ad604b171",
+                "reference": "3296adf6a6454a050679cde90f95350ad604b171",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "suggest": {
+                "ext-mbstring": "For best performance"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.8-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Polyfill\\Mbstring\\": ""
+                },
+                "files": [
+                    "bootstrap.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Nicolas Grekas",
+                    "email": "p@tchwork.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony polyfill for the Mbstring extension",
+            "homepage": "https://symfony.com",
+            "keywords": [
+                "compatibility",
+                "mbstring",
+                "polyfill",
+                "portable",
+                "shim"
+            ],
+            "time": "2018-04-26T10:06:28+00:00"
+        }
+    ],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": {
+        "php": ">=5.6"
+    },
+    "platform-dev": []
 }
