@@ -290,9 +290,11 @@ Route::collection(['before' => 'auth,csrf,install_exists'], function () {
 
             // Notify::error($errors);
 
-            // TODO: $id is undefined and will throw
+            // $id is undefined and will throw, so we use -1 instead
+            //     because this post still isn't saved.
             return Response::json([
-                'id'     => $id,
+                //'id'   => $id,
+                'id'     => -1,
                 'errors' => array_flatten($errors, [])
             ]);
         }
