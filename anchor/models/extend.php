@@ -204,13 +204,11 @@ class extend extends Base
 
         if ($file and $file['error'] === UPLOAD_ERR_OK) {
             $name = basename($file['name']);
-
-            // TODO: Unused variable. What is it for?
             $ext = pathinfo($file['name'], PATHINFO_EXTENSION);
 
             if ($filepath = static::upload($file)) {
                 $filename = basename($filepath);
-                self::resizeImage($extend, $filepath);
+                self::resizeImage($extend, $filepath, $ext);
             }
         }
 
@@ -272,7 +270,7 @@ class extend extends Base
      *
      * @return void
      */
-    private static function resizeImage($extend, $filepath)
+    private static function resizeImage($extend, $filepath, $ext)
     {
         // resize image
         if (isset($extend->attributes->size->width) and isset($extend->attributes->size->height)) {
@@ -287,8 +285,6 @@ class extend extends Base
                 ($image->width() > $width or $image->height() > $height)
             ) {
                 $image->resize($width, $height);
-
-                // TODO: Missing ext. Might that be the unused variable above?
                 $image->output($ext, $filepath);
             }
         }
@@ -386,7 +382,7 @@ class extend extends Base
             }
 
             $data = call_user_func_array(['Extend', 'process_' . $extend->field], [$extend, $item]);
-            
+
             // save data
             if ( ! is_null($data) and $data != '[]') {
                 $table = static::table($extend->type . '_meta');
