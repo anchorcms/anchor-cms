@@ -56,10 +56,10 @@ class installer
         static::$connection
             ->instance()
             ->query(
-                'USE ' . substr(static::$connection
+                'USE `' . substr(static::$connection
                     ->instance()
                     ->quote($settings['database']['name']),
-                    1, -1) . ';'
+                    1, -1) . '`;'
             );
 
         if ( ! static::$connection
@@ -128,7 +128,7 @@ class installer
     private static function charset($settings)
     {
         // Setup the charset of the database.
-        $charset_query = sprintf("ALTER DATABASE %s CHARACTER SET = %s COLLATE = %s;", $settings['database']['name'], DB::DEFAULT_CHARSET, $settings['database']['collation']);
+        $charset_query = sprintf("ALTER DATABASE `%s` CHARACTER SET = %s COLLATE = %s;", $settings['database']['name'], DB::DEFAULT_CHARSET, $settings['database']['collation']);
         static::$connection->instance()->query($charset_query);
     }
 
