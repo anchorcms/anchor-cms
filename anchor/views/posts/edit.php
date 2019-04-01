@@ -34,10 +34,10 @@
     <fieldset class="main">
         <div class="wrap">
             <?php echo Form::textarea('markdown', Input::previous('markdown', $article->markdown), array(
-                'placeholder' => __('posts.content_explain')
+                'placeholder' => __('posts.content_explain'),
+                'id'        => 'editor'
             )); ?>
 
-            <?php echo $editor; ?>
         </div>
     </fieldset>
 
@@ -97,11 +97,13 @@
 <script src="<?php echo asset('anchor/views/assets/js/dragdrop.js'); ?>"></script>
 <script src="<?php echo asset('anchor/views/assets/js/upload-fields.js'); ?>"></script>
 <script src="<?php echo asset('anchor/views/assets/js/text-resize.js'); ?>"></script>
-<script src="<?php echo asset('anchor/views/assets/js/editor.js'); ?>"></script>
+<script src="<?php echo asset('anchor/views/assets/js/editor.js');?>"></script>
+<script src="<?php echo asset('anchor/views/assets/js/simplemde.js');?>"></script>
 <script src="<?php echo asset('anchor/views/assets/js/change-saver.js'); ?>"></script>
 <script src="<?php echo asset('anchor/views/assets/js/autosave.js'); ?>"></script>
 <script>
-    $('textarea[name=markdown]').editor();
+
+    var smdEditor = new SimpleMDE({element: document.getElementById("editor")});
     $('form').changeSaver('textarea[name=markdown]');
 </script>
 

@@ -53,3 +53,4 @@ vendor/
 # Assets and packages
 node_modules/
 *.map
+anchor/functions/config.php

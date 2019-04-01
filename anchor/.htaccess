@@ -1,1 +1,5 @@
-Deny from all
+<Files ~ "^.*\.(LOG|log|bak|bk|LCK)">
+    Order allow,deny
+    Deny from all
+    Satisfy All
+</Files>

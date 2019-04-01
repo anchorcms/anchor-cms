@@ -6,9 +6,10 @@
 		<link rel="shortcut icon" type="image/png" href="<?php echo asset('anchor/views/assets/img/favicon.png'); ?>" />
 
 		<script src="<?php echo asset('anchor/views/assets/js/zepto.js'); ?>"></script>
+		
 
+		<link rel="stylesheet" href="<?php echo asset('anchor/views/assets/css/simplemde.css');?>">
 		<link rel="stylesheet" href="<?php echo asset('anchor/views/assets/css/admin.min.css'); ?>">
-	
 		<meta http-equiv="X-UA-Compatible" content="chrome=1">
 		<meta name="viewport" content="width=600">
 	</head>
