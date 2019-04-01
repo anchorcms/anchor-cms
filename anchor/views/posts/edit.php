@@ -37,7 +37,6 @@
                 'placeholder' => __('posts.content_explain'),
                 'id'        => 'editor'
             )); ?>
-
         </div>
     </fieldset>
 
