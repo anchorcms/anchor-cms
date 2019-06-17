@@ -50,7 +50,7 @@ class notify
 
         // no messages, no problem <-- Imagine this in a Borat accent
         if (is_null($types)) {
-            return '';
+            return sprintf(static::$wrap, "");
         }
 
         $html = '';
