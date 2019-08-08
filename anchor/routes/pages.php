@@ -258,9 +258,8 @@ Route::collection(['before' => 'auth,csrf,install_exists'], function () {
 
             // Notify::error($errors);
 
-            // TODO: $page is undefined. This will throw!
             return Response::json([
-                'id'     => $page->id,
+                'id'     => 0,
                 'errors' => array_flatten($errors, [])
             ]);
         }
