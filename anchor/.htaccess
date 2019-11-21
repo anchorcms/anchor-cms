@@ -1,0 +1,3 @@
+<Files errors.log>
+	Deny from all 
+</Files>
