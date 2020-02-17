@@ -57,6 +57,24 @@ after_script:
   # Upload code-coverage CodeClimate
   - if [ -f coverage.clover ]; then CODECLIMATE_REPO_TOKEN=<INSERT TOKEN HERE> ./vendor/bin/test-reporter --coverage-report=coverage.clover; fi
 
+# Start the release build script
+after_success: ./test/travis-ci/release.sh
+
+# Deploy to GitHub
+before_deploy: 
+  - provider: releases
+    api_key:
+      secure: "GITHUB ACCESS TOKEN"
+    file: "release.tar.gz"
+    skip_cleanup: true
+    on:
+      repo: anchorcms/anchor-cms
+      branch: master
+      tags: true
+
+after_deploy:
+# - ./deploy-gh-pages.sh
+
 git:
   depth: 5
 
