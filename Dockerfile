@@ -11,7 +11,7 @@ RUN apk add php7-mbstring php7-mcrypt \
     php7-intl php7-opcache php7-session
 
 RUN sed -i "s|display_errors = Off|display_errors = On|" /etc/php7/php.ini && \
-    sed -i "s|variables_order = .*|variabes_order = EGPCS|" /etc/php7/php.ini && \
+    sed -i "s|variables_order = .*|variables_order = EGPCS|" /etc/php7/php.ini && \
     sed -i "s|;cgi.fix_pathinfo=1|cgi.fix_pathinfo=0|" /etc/php7/php.ini && \
     sed -i "s|#LoadModule rewrite_module modules/mod_rewrite.so|LoadModule rewrite_module modules/mod_rewrite.so|" /etc/apache2/httpd.conf && \
     sed -i 's#^DocumentRoot ".*#DocumentRoot "/var/www/html"#g' /etc/apache2/httpd.conf && \
