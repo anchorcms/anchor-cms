@@ -2,7 +2,7 @@
 
 Unfortunately we have been able to maintain this project for sometime. We advise that you consider using alternative platforms and should no longer consider this project production ready.
 
-Thanks for everyones support and conrtibutions over the years.
+Thanks for everyones support and contributions over the years.
 
 ---
 
