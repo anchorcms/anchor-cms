@@ -9,7 +9,7 @@ class Migration_add_updated_fields_to_tables extends Migration
         if ($this->has_table($posts)) {
             if (!$this->has_table_column($posts, 'updated')) {
                 $sql  = 'ALTER TABLE `' . $posts . '` ';
-                $sql .= 'ADD COLUMN `updated` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP AFTER `created`';
+                $sql .= 'ADD COLUMN `updated` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP AFTER `created`';
                 DB::ask($sql);
             }
         }
@@ -19,7 +19,7 @@ class Migration_add_updated_fields_to_tables extends Migration
         if ($this->has_table($pages)) {
             if (!$this->has_table_column($pages, 'updated')) {
                 $sql  = 'ALTER TABLE `' . $pages . '` ';
-                $sql .= 'ADD COLUMN `updated` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP';
+                $sql .= 'ADD COLUMN `updated` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP';
                 DB::ask($sql);
             }
         }
@@ -29,7 +29,7 @@ class Migration_add_updated_fields_to_tables extends Migration
         if ($this->has_table($users)) {
             if (!$this->has_table_column($users, 'updated')) {
                 $sql  = 'ALTER TABLE `' . $users . '` ';
-                $sql .= 'ADD COLUMN `updated` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP';
+                $sql .= 'ADD COLUMN `updated` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP';
                 DB::ask($sql);
             }
         }
